@@ -5,7 +5,7 @@
 extern SDL::Surface* backSurface;
 
 void Graphics::Init() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+    if (SDL_Init((SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC)) == -1) {
         throw std::runtime_error(std::string("Can't initialize SDL") +
                                  SDL_GetError());
     }

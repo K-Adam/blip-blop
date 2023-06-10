@@ -11,6 +11,10 @@
 #include "config.h"
 #include "precache.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #define ISCOM( _cmd) (strcmp( cmd_name, _cmd)==0)
 
 //---------------------------------------------------------------------------
@@ -88,6 +92,10 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 				fini = true;
 				skiped = true;
 			}
+
+#ifdef __EMSCRIPTEN__
+			emscripten_sleep(0);
+#endif
 		}
 	}
 

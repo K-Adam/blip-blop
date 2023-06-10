@@ -10,15 +10,16 @@
 /* ========================================================================================== */
 
 #if defined(PLATFORM_LINUX) || defined(__linux__) || (defined(__GNUC__) && defined(WIN32))
+#define __PS __attribute__((packed)) /* gcc packed */
+#else
+#define __PS /*dummy*/
+#endif
+
 #ifndef _cdecl
 #define _cdecl
 #endif
 #ifndef _stdcall
 #define _stdcall
-#endif
-#define __PS __attribute__((packed)) /* gcc packed */
-#else
-#define __PS /*dummy*/
 #endif
 
 #define F_API _stdcall

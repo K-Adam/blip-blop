@@ -33,6 +33,10 @@
 #include "input.h"
 #include "ben_debug.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 //-----------------------------------------------------------------------------
 //		Déclaration REELLE de l'objet 'in' global
 //-----------------------------------------------------------------------------
@@ -365,6 +369,10 @@ unsigned int Input::waitKey()
 			}
 			//return (js[k].buttons[i] | (0x400));
 		}
+
+#ifdef __EMSCRIPTEN__
+		emscripten_sleep(0);
+#endif
 	}
 	/*unsigned int	i = 0;
 	int				j;
@@ -435,6 +443,10 @@ void Input::waitClean()
 
 		if (!j)
 			return;
+
+#ifdef __EMSCRIPTEN__
+		emscripten_sleep(0);
+#endif
 	}
 	/*unsigned int		i, j = 1;		// Bcoz si j = 0 alors on sort tout de suite!
 

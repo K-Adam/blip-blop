@@ -79,6 +79,10 @@
 #include "precache.h"
 #include "trace.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 Personnage dummyPlayer;
 
 //-----------------------------------------------------------------------------
@@ -163,6 +167,9 @@ void Game::jouePartie(int nbj, int idj) {
         }
 
         i += 1;
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     if (letsgo && !app_killed) {
@@ -457,6 +464,10 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
     while (!joueurs_morts && !niveau_fini && !skipped && !app_killed) {
         gameLoop();
         updateVictoryAndDefeat();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     if (joueurs_morts) debug << "Players died\n";
@@ -1628,6 +1639,10 @@ void Game::updateRPG() {
         drawAll(false);
         continued = rpg.drawScene(backSurface);
         DDFlipV();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     rpg.stopPlay();
@@ -1725,6 +1740,10 @@ void Game::updateMenu() {
 
             DDFlipV();
             // primSurface->Flip(NULL, DDFLIP_WAIT );
+
+#ifdef __EMSCRIPTEN__
+            emscripten_sleep(0);
+#endif
         }
 
         if (r == 2) skipped = true;
@@ -2123,6 +2142,10 @@ void Game::showPE(bool bonus, bool fuckOff) {
         }
 
         DDFlipV();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     if (!app_killed) {
@@ -2485,6 +2508,10 @@ void Game::getName(Joueur* joueur, int ijoueur) {
         fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 
         DDFlipV();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     while (!app_killed && key != DIK_RETURN) {
@@ -2513,6 +2540,10 @@ void Game::getName(Joueur* joueur, int ijoueur) {
         fnt_menu.printC(backSurface, 320, 260, name);
         // primSurface->Flip( NULL, 0);
         DDFlipV();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     while (!app_killed && x < 640) {
@@ -2525,6 +2556,10 @@ void Game::getName(Joueur* joueur, int ijoueur) {
         fnt_menu.printC(backSurface, 320, 260 + x, name);
 
         DDFlipV();  // primSurface->Flip( NULL, 0);
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     hi_scores.add(joueur->getScore(), name);
@@ -2549,6 +2584,10 @@ void Game::showGameOver() {
                         x -= 1;
         */
         DDFlipV();  // primSurface->Flip( NULL, 0);
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
     /*
             if ( !app_killed)
@@ -2600,6 +2639,9 @@ void Game::showHighScores() {
         }
 
         DDFlipV();  // primSurface->Flip( NULL, 0);
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
@@ -2619,6 +2661,9 @@ void Game::showHighScores() {
         }
 
         DDFlipV();  // primSurface->Flip( NULL, 0);
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 
     in.waitClean();
@@ -2711,6 +2756,10 @@ void Game::go() {
 
                 DDFlipV();
             }
+
+#ifdef __EMSCRIPTEN__
+            emscripten_sleep(0);
+#endif
         }
 
         if (r == RET_START_GAME1 || r == RET_START_GAME2) {
@@ -2725,6 +2774,10 @@ void Game::go() {
                 selected = select.update();
                 select.draw();
                 DDFlipV();
+
+#ifdef __EMSCRIPTEN__
+                emscripten_sleep(0);
+#endif
             }
 
             drawLoading();
@@ -2740,6 +2793,10 @@ void Game::go() {
             mbk_interl.play(0);
             diff_start.Reset();
         }
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
 
     } while (r != RET_EXIT && !app_killed);
 
@@ -2787,6 +2844,10 @@ void Game::showMainScreen() {
 
         pbk_inter[1]->PasteTo(backSurface, 0, 0);
         DDFlipV();  // primSurface->Flip(NULL, DDFLIP_WAIT );
+
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 }
 
@@ -3179,6 +3240,9 @@ void Game::showCredits(bool theEnd) {
         }
 
         DDFlip();
+#ifdef __EMSCRIPTEN__
+        emscripten_sleep(0);
+#endif
     }
 }
 

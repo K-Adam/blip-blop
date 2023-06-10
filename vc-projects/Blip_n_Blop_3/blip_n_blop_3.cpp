@@ -26,6 +26,10 @@
 #include "sound_bank_bb.h"
 #include "txt_data.h"
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten_browser_file.h"
+#endif
+
 Game game;
 
 #if _WIN32
@@ -69,7 +73,7 @@ void Bug(const char* txt) {
     MessageBox(
         WinHandle, txt, "Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
 #else
-    std::cerr << txt << "n";
+    std::cerr << txt << "\n";
 #endif
 }
 
@@ -460,34 +464,8 @@ static bool InitApp(int nCmdShow) {
 }
 
 #undef main
-int main(int argc, char** argv) {
-    char lpCmdLine[512] = {0};
-    for (int i = 1; i < argc; i++) {
-        strcat(lpCmdLine, argv[i]);
-        strcat(lpCmdLine, " ");
-    }
-    int nCmdShow = 0;
 
-    //------------------------------------------------------------------
-    //                      Safe mode ?
-    //------------------------------------------------------------------
-
-    analyseCmdLine(lpCmdLine);
-
-    //------------------------------------------------------------------
-    //                      Initialise l'application
-    //------------------------------------------------------------------
-
-    if (!InitApp(nCmdShow)) {
-        return -1;
-    }
-
-    //------------------------------------------------------------------
-    //                      Joue la partie
-    //------------------------------------------------------------------
-
-    game.go();
-
+void cleanup() {
     //------------------------------------------------------------------
     //                      On quitte plus ou moins proprement
     //------------------------------------------------------------------
@@ -512,6 +490,53 @@ int main(int argc, char** argv) {
     // Sauvegarde la configuration
     //
     save_BB3_config(CONFIG_FILE);
+}
+
+int main(int argc, char** argv) {
+    char lpCmdLine[512] = {0};
+    for (int i = 1; i < argc; i++) {
+        strcat(lpCmdLine, argv[i]);
+        strcat(lpCmdLine, " ");
+    }
+    int nCmdShow = 0;
+
+    //------------------------------------------------------------------
+    //                      Safe mode ?
+    //------------------------------------------------------------------
+
+    analyseCmdLine(lpCmdLine);
+
+    //------------------------------------------------------------------
+    //                      Initialise l'application
+    //------------------------------------------------------------------
+
+    try{
+     if (!InitApp(nCmdShow)) {
+        return -1;
+    }
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "Error occurred: " << ex.what() << std::endl;
+        return -1;
+    }
+
+    atexit(cleanup);
+
+    //------------------------------------------------------------------
+    //                      Joue la partie
+    //------------------------------------------------------------------
+    debug << "Game.go" << "\n";
+    
+    game.go();
+
+#ifdef __EMSCRIPTEN__
+    // Export config
+    std::ifstream t("data/bb.cfg");
+    std::string data((std::istreambuf_iterator<char>(t)),
+                    std::istreambuf_iterator<char>());
+    //emscripten_browser_file::download("bb.cfg", "application/octet-stream", data);
+#endif
 
     return 0;
 
