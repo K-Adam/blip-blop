@@ -2936,8 +2936,12 @@ void Game::showCredits(bool theEnd) {
             backSurface, xcred, y1 + ITITRE + ILIGNE * 3, "2019 REVAMP");
         fnt_rpg.printC(
             backSurface, xcred, y1 + ITITRE + ILIGNE * 4, "Guillaume Sanchez");
+        fnt_rpg.printC(
+            backSurface, xcred, y1 + ITITRE + ILIGNE * 6, "Web port");
+        fnt_rpg.printC(
+            backSurface, xcred, y1 + ITITRE + ILIGNE * 7, "Adam Kecskes");
 
-        int y2 = y1 + 2 * ILIGNE + IPARTI + ITITRE;
+        int y2 = y1 + 4 * ILIGNE + IPARTI + ITITRE;
 
         fnt_rpg.printC(backSurface, xcred, y2, "MUSIC AND SOUND");
         fnt_rpg.printC(backSurface, xcred, y2 + ILIGNE, "DESIGN");

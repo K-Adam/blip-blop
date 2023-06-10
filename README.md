@@ -1,5 +1,9 @@
-Linux: ![linux](https://travis-ci.org/Vermeille/blip-blop.svg?branch=master)
-Windows: [![Build status](https://ci.appveyor.com/api/projects/status/n8rv6hstgmlx4j0a/branch/master?svg=true)](https://ci.appveyor.com/project/Vermeille/blip-blop/branch/master)
+# Web port
+
+This repository is a fork of the game Blip'n Blop, with the primary goal of
+making the game playable on the web. While additions to the game's features
+are welcomed, the major goal of this fork is to ensure that people may
+access and enjoy the game directly through web browsers.
 
 # Forker's notes
 
