@@ -61,7 +61,7 @@ class HUD {
     }
 
     void DrawWeapon(int weapon, Location location) {
-        Picture* pic;
+        Picture* pic = nullptr;
 
         switch (weapon) {
             case ID_M16:
@@ -79,6 +79,8 @@ class HUD {
             case ID_LASER:
                 pic = pbk_misc[10];
                 break;
+            default:
+                assert(false);
         }
 
         int x = (location == Location::Left) ? 135 : 510;

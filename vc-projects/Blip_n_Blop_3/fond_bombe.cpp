@@ -37,7 +37,7 @@ void FondBombe::update()
 			if ((tete_turc->x > x - 50) && (tete_turc->x < x + 50) && (tete_turc->y > y - 10) && (tete_turc->y < y + 51)) {
 				game_flag[0] ++;
 				armed = false;
-				Bonus * bonus;
+				Bonus * bonus = nullptr;
 				switch (game_flag[0]) {
 					case 1:
 						bonus = new BonusFusil();
@@ -53,9 +53,12 @@ void FondBombe::update()
 						game_flag[FLAG_GEN_OFF] = 1;
 						break;
 				}
-				bonus->x = x;
-				bonus->y = 0;
-				list_bonus.emplace_back(bonus);
+
+				if (bonus) {
+					bonus->x = x;
+					bonus->y = 0;
+					list_bonus.emplace_back(bonus);
+				}
 
 				sbk_niveau.play(1);
 			}

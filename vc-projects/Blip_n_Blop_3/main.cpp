@@ -70,8 +70,12 @@ void ReleaseAll(void) {
 
 void Bug(const char* txt) {
 #if _WIN32
+    int size = MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0);
+    wchar_t* wideMessage = new wchar_t[size];
+    MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
+
     MessageBox(
-        WinHandle, txt, "Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
+        WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
 #else
     std::cerr << txt << "\n";
 #endif
@@ -79,7 +83,11 @@ void Bug(const char* txt) {
 
 void Warning(const char* txt) {
 #if _WIN32
-    MessageBox(WinHandle, txt, "Blip'n Blop : Warning", MB_OK | MB_ICONWARNING);
+    int size = MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0);
+    wchar_t* wideMessage = new wchar_t[size];
+    MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
+
+    MessageBox(WinHandle, wideMessage, L"Blip'n Blop : Warning", MB_OK | MB_ICONWARNING);
 #else
     std::cerr << txt << "\n";
 #endif

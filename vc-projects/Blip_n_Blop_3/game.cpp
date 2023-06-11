@@ -1814,8 +1814,8 @@ void Game::updateCheat() {
 //-----------------------------------------------------------------------------
 
 void Game::showPE(bool bonus, bool fuckOff) {
-    Fonte* fnt_p1;
-    Fonte* fnt_p2;
+    Fonte* fnt_p1 = nullptr;
+    Fonte* fnt_p2 = nullptr;
     char buffer[20];
     int killed_p1 = 0;    // % d'ennemis tués par le joueur 1
     int c_killed_p1 = 0;  // compteur killed_p1
@@ -2038,6 +2038,8 @@ void Game::showPE(bool bonus, bool fuckOff) {
         //
 
         if (showp1) {
+            assert(fnt_p1 != nullptr);
+
             if (life_up_p1 > 0) {
                 fnt_rpg.printC(backSurface, xbasep1 + 105, 270, "LIFE UP");
                 //				life_up_p1--;
@@ -2091,6 +2093,8 @@ void Game::showPE(bool bonus, bool fuckOff) {
         // Affichage	P2
         //
         if (showp2) {
+            assert(fnt_p2 != nullptr);
+
             if (life_up_p2 > 0) {
                 fnt_rpg.printC(backSurface, xbasep2 + 105, 270, "LIFE UP");
                 //				life_up_p2--;

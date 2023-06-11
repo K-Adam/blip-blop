@@ -5,3 +5,11 @@ CMakeLists.txt
 CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
+.vs
+Builds
+Debug
+Release
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
