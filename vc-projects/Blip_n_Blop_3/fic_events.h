@@ -1,6 +1,4 @@
-
-#ifndef _FICEVENT_
-#define _FICEVENT_
+#pragma once
 
 //--------------------------------------------------------------------------
 //	Constantes d'identification des événements
@@ -65,5 +63,3 @@ struct FICEVENT {
 	char	fic[20];
 
 };
-
-#endif

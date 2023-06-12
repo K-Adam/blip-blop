@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _MorceauTeteRayman_
-#define _MorceauTeteRayman_
+#pragma once
 
 #include "sprite.h"
 
@@ -35,5 +34,3 @@ public:
 	MorceauTeteRayman(int vx, int vy);
 	virtual void update();
 };
-
-#endif

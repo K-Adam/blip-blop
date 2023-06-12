@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfFrileux_
-#define _EnnemiSmurfFrileux_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -61,5 +60,3 @@ public:
 		EnnemiSmurf::onAvance() ;
 	}
 };
-
-#endif

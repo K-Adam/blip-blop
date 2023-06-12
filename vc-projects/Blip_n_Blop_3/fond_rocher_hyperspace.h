@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondRocherhyperspace_
-#define _FondRocherhyperspace_
+#pragma once
 
 #include "sprite.h"
 
@@ -34,5 +32,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

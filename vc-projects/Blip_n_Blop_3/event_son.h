@@ -1,6 +1,4 @@
-
-#ifndef _EventSon_
-#define _EventSon_
+#pragma once
 
 #include "event.h"
 
@@ -16,5 +14,3 @@ public:
 	};
 
 };
-
-#endif

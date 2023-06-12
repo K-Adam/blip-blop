@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiVoiturePacman_
-#define _EnnemiVoiturePacman_
+#pragma once
 
 #include "enemy.h"
 
@@ -40,5 +39,3 @@ public:
 	virtual void affiche();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

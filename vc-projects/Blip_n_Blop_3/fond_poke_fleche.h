@@ -1,6 +1,4 @@
-
-#ifndef _FondPokeFleche_
-#define _FondPokeFleche_
+#pragma once
 
 #include "sprite.h"
 
@@ -23,5 +21,3 @@ public:
 		pic = pbk_niveau[anime(anim_go, 11, 3)];
 	};
 };
-
-#endif

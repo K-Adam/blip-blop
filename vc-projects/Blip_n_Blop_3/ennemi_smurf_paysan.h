@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfPaysan_
-#define _EnnemiSmurfPaysan_
+#pragma once
 
 #define SMURF_PAYSAN_SPEED		4
 //-----------------------------------------------------------------------------
@@ -56,5 +55,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

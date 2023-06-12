@@ -1,6 +1,4 @@
-
-#ifndef _FondWindows_
-#define _FondWindows_
+#pragma once
 
 #include "sprite.h"
 
@@ -35,5 +33,3 @@ public:
 	};
 
 };
-
-#endif

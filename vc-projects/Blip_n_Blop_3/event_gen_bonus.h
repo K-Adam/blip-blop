@@ -13,13 +13,10 @@
 *
 ******************************************************************/
 
-#ifndef _EventGenBonus_
-#define _EventGenBonus_
-
+#pragma once
 
 #include "event.h"
 #include "gen_bonus.h"
-
 
 class EventGenBonus : public Event
 {
@@ -39,5 +36,3 @@ public:
 		list_gen_bonus.emplace_back(gb);
 	};
 };
-
-#endif

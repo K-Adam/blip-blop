@@ -1,6 +1,4 @@
-
-#ifndef _FondStatique_
-#define _FondStatique_
+#pragma once
 
 #include "sprite.h"
 
@@ -14,5 +12,3 @@ public:
 			a_detruire = true;
 	};
 };
-
-#endif

@@ -13,10 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondPokeInterupteur_
-#define _FondPokeInterupteur_
-
-
+#pragma once
 
 class FondPokeInterupteur : public Sprite
 {
@@ -32,5 +29,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _EnnemiRayman_
-#define _EnnemiRayman_
+#pragma once
 
 #include "enemy.h"
 #include "tir_rayman_poing.h"
@@ -58,5 +56,3 @@ public:
 	virtual void onTire();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

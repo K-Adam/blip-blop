@@ -15,9 +15,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _Sound_
-#define _Sound_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -73,4 +71,3 @@ void DSCloseDirectSound();
 	extern IDirectSoundBuffer *	PrimarySBuffer;
 #endif
 */
-#endif

@@ -1,6 +1,4 @@
-
-#ifndef _FondVentilo_
-#define _FondVentilo_
+#pragma once
 
 #include "sprite.h"
 
@@ -23,5 +21,3 @@ public:
 			a_detruire = true;
 	};
 };
-
-#endif

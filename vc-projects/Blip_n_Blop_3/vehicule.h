@@ -1,6 +1,4 @@
-
-#ifndef _Vehicule_
-#define _Vehicule_
+#pragma once
 
 #include "sprite.h"
 #include "couille.h"
@@ -26,5 +24,3 @@ public:
 	virtual void updateNotUsed() = 0;
 
 };
-
-#endif

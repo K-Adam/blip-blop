@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiPacman_
-#define _EnnemiPacman_
+#pragma once
 
 #include "enemy.h"
 
@@ -43,5 +42,3 @@ public:
 		return false;
 	};
 };
-
-#endif

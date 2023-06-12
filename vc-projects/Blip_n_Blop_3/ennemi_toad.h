@@ -14,8 +14,7 @@
 ******************************************************************/
 
 
-#ifndef _EnnemiToad_
-#define _EnnemiToad_
+#pragma once
 
 #include "enemy.h"
 
@@ -48,5 +47,3 @@ public:
 	virtual void onCarbonise();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

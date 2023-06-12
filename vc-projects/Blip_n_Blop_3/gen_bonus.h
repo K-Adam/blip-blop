@@ -12,9 +12,7 @@
 *
 ******************************************************************/
 
-#ifndef _GenBonus_
-#define _GenBonus_
-
+#pragma once
 
 class GenBonus
 {
@@ -34,5 +32,3 @@ public:
 		return a_detruire;
 	};
 };
-
-#endif

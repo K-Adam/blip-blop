@@ -1,6 +1,5 @@
 
-#ifndef _ControlAlias_
-#define _ControlAlias_
+#pragma once
 
 #define	ALIAS_P1_UP		0
 #define ALIAS_P1_DOWN	1
@@ -17,5 +16,3 @@
 #define ALIAS_P2_FIRE	14
 #define ALIAS_P2_JUMP	15
 #define ALIAS_P2_SUPER	16
-
-#endif

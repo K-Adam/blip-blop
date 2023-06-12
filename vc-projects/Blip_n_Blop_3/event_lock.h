@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventLock_
-#define _EventLock_
+#pragma once
 
 #include "event.h"
 
@@ -30,4 +29,3 @@ public:
 	virtual void doEvent();
 };
 
-#endif

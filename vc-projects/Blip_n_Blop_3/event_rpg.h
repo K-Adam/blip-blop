@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventRPG_
-#define _EventRPG_
+#pragma once
 
 #include "event.h"
 
@@ -40,5 +39,3 @@ public:
 		rpg_to_play = num;
 	};
 };
-
-#endif

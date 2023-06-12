@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiTails_
-#define _EnnemiTails_
+#pragma once
 
 #include "enemy.h"
 
@@ -48,5 +47,3 @@ public:
 	virtual void onCarbonise();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

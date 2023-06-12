@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiGuard_
-#define _EnnemiGuard_
+#pragma once
 
 #include "enemy.h"
 #include "ennemi_princesse.h"
@@ -41,5 +40,3 @@ public:
 	virtual void onMeure();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

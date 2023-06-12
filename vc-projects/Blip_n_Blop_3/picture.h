@@ -20,8 +20,7 @@
 *
 ******************************************************************/
 
-#ifndef _Picture_
-#define _Picture_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -100,7 +99,3 @@ public:
 
 int loadPBK(char * fic, Picture * & p, int rgb);
 void closePBK(Picture * & p, int t);
-
-
-
-#endif

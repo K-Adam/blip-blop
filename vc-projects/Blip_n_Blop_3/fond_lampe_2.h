@@ -1,6 +1,4 @@
-
-#ifndef _FondLumiere2_
-#define _FondLumiere2_
+#pragma once
 
 #include "sprite.h"
 
@@ -15,5 +13,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

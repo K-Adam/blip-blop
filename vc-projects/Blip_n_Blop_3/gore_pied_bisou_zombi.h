@@ -1,6 +1,4 @@
-
-#ifndef _GorePiedsBisouZombi_
-#define _GorePiedsBisouZombi_
+#pragma once
 
 #include "sprite.h"
 
@@ -33,5 +31,3 @@ public:
 		}
 	};
 };
-
-#endif

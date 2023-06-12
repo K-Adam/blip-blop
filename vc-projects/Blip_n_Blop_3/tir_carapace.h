@@ -1,5 +1,4 @@
-#ifndef _TirCarapace_
-#define _TirCarapace_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -38,5 +37,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

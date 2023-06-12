@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventSetFlag_
-#define _EventSetFlag_
+#pragma once
 
 #include "event.h"
 
@@ -31,5 +30,3 @@ public:
 		game_flag[flag] = val;
 	};
 };
-
-#endif

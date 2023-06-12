@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _BonusTonneau_
-#define _BonusTonneau_
+#pragma once
 
 #include "bonus.h"
 
@@ -37,5 +36,3 @@ public:
 		Bonus::estPris(c);
 	};
 };
-
-#endif

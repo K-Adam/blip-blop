@@ -12,8 +12,7 @@
 *
 ******************************************************************/
 
-#ifndef _Giclure_
-#define _Giclure_
+#pragma once
 
 #include "personnage.h"
 
@@ -26,5 +25,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

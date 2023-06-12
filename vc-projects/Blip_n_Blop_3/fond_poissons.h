@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondPoissons_
-#define _FondPoissons_
+#pragma once
 
 #define POISSON_SPEED 1
 
@@ -61,5 +60,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

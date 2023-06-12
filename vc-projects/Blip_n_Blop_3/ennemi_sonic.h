@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiSonic_
-#define _EnnemiSonic_
+#pragma once
 
 #include "enemy.h"
 
@@ -64,5 +62,3 @@ public:
 	virtual void onCarbonise();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

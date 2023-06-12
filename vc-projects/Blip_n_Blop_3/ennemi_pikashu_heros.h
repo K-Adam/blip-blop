@@ -13,10 +13,7 @@
 *
 ******************************************************************/
 
-
-
-#ifndef _EnnemiPikachuHeros_
-#define _EnnemiPikachuHeros_
+#pragma once
 
 #include "enemy.h"
 
@@ -33,5 +30,3 @@ public:
 	virtual void onMeure();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

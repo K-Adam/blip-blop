@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondBossventilo_
-#define _FondBossventilo_
+#pragma once
 
 #include "sprite.h"
 
@@ -24,5 +22,3 @@ class FondBossventilo : public Sprite
 public:
 	virtual void update();
 };
-
-#endif

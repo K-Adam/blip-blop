@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _TexteCool_
-#define _TexteCool_
+#pragma once
 
 #ifndef TEXTE_COOL_CPP
 extern bool txt_cool_free[];
@@ -42,7 +41,3 @@ public:
 };
 
 void clearTexteCool();
-
-#endif
-
-

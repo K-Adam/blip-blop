@@ -13,11 +13,9 @@
 *
 ******************************************************************/
 
+#pragma once
+
 #include "sprite.h"
-
-#ifndef _FondBombe_
-#define _FondBombe_
-
 
 class FondBombe : public Sprite
 {
@@ -41,5 +39,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

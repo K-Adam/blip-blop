@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _Joueur_
-#define _Joueur_
+#pragma once
 
 class Joueur
 {
@@ -59,5 +58,3 @@ public:
 		score += p;
 	};
 };
-
-#endif

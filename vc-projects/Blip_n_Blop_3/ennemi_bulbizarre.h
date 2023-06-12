@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBulbizarre_
-#define _EnnemiBulbizarre_
+#pragma once
 
 #include "enemy.h"
 
@@ -14,5 +12,3 @@ public:
 	virtual void onCarbonise();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

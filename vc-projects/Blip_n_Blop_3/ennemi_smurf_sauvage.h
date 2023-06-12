@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfSauvage_
-#define _EnnemiSmurfSauvage_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -134,5 +133,3 @@ public:
 	virtual void onCarbonise();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _TirDebouchechiote_
-#define _TirDebouchechiote_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -37,5 +36,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

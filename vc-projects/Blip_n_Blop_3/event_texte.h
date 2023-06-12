@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventTexte_
-#define _EventTexte_
+#pragma once
 
 #include "event.h"
 #include "texte_cool.h"
@@ -48,5 +47,3 @@ public:
 		list_txt_cool.emplace_back(txt);
 	};
 };
-
-#endif

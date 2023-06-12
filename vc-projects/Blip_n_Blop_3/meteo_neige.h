@@ -1,6 +1,4 @@
-
-#ifndef _MeteoNeige_
-#define _MeteoNeige_
+#pragma once
 
 #include "sprite.h"
 
@@ -13,5 +11,3 @@ public:
 
 	void update();
 };
-
-#endif

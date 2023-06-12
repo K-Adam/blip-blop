@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventHoldFire_
-#define _EventHoldFire_
+#pragma once
 
 #include "event.h"
 
@@ -33,5 +32,3 @@ public:
 		val_hold_fire = val;
 	};
 };
-
-#endif

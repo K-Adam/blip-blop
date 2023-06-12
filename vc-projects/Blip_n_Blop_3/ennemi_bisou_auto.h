@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouAuto_
-#define _EnnemiBisouAuto_
+#pragma once
 
 #include "enemy.h"
 
@@ -18,5 +16,3 @@ public:
 	virtual void onMeure();
 	virtual void update();
 };
-
-#endif

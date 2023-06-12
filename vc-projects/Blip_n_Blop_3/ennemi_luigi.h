@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _EnnemiLuigi_
-#define _EnnemiLuigi_
+#pragma once
 
 #include "enemy.h"
 
@@ -63,5 +61,3 @@ public:
 	virtual void tombe_luigi();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

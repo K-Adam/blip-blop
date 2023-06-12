@@ -1,5 +1,5 @@
-#ifndef _EnnemiYoshi_
-#define _EnnemiYoshi_
+#pragma once
+
 /******************************************************************
 *
 *
@@ -49,5 +49,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

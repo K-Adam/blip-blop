@@ -14,9 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _GenEnnemi_
-#define _GenEnnemi_
-
+#pragma once
 
 class GenEnnemi
 {
@@ -39,5 +37,3 @@ public:
 		return a_detruire;
 	};
 };
-
-#endif

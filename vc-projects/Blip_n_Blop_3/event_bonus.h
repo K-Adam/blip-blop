@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventBonus_
-#define _EventBonus_
-
+#pragma once
 
 #include "event.h"
 
@@ -38,5 +36,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

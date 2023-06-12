@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventScrollSpeed_
-#define _EventScrollSpeed_
+#pragma once
 
 #include "event.h"
 
@@ -30,5 +29,3 @@ public:
 		scroll_speed = speed;
 	};
 };
-
-#endif

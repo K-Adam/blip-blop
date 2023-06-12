@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiMariotapette_
-#define _EnnemiMariotapette_
+#pragma once
 
 #include "enemy.h"
 
@@ -58,5 +57,3 @@ public:
 	virtual void tombe_mario();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

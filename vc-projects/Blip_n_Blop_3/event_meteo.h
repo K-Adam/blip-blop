@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventMeteo_
-#define _EventMeteo_
+#pragma once
 
 #include "event.h"
 #include "ben_debug.h"
@@ -33,5 +32,3 @@ public:
 		type_meteo = type;
 	};
 };
-
-#endif

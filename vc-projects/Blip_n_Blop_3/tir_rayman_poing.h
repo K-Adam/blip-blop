@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirRaymanPoing_
-#define _TirRaymanPoing_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -57,6 +56,3 @@ public:
 	virtual void update();
 
 };
-
-
-#endif

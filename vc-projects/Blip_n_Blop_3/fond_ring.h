@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondRing_
-#define _FondRing_
+#pragma once
 
 class FondRing : public Sprite
 {
@@ -28,5 +27,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

@@ -1,6 +1,4 @@
-
-#ifndef _MeteoPluie_
-#define _MeteoPluie_
+#pragma once
 
 #include "sprite.h"
 
@@ -9,6 +7,3 @@ class MeteoPluie : public Sprite
 public:
 	virtual void update();
 };
-
-
-#endif

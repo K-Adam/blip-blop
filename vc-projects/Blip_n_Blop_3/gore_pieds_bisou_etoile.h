@@ -1,6 +1,4 @@
-
-#ifndef _GorePiedsBisouEtoile_
-#define _GorePiedsBisouEtoile_
+#pragma once
 
 #include "sprite.h"
 
@@ -58,5 +56,3 @@ public:
 		}
 	};
 };
-
-#endif

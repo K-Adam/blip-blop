@@ -1,6 +1,4 @@
-
-#ifndef _FondPokeCiel_
-#define _FondPokeCiel_
+#pragma once
 
 #include "sprite.h"
 
@@ -11,5 +9,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

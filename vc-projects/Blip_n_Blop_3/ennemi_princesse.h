@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _EnnemiPrincesse_
-#define _EnnemiPrincesse_
+#pragma once
 
 #include "enemy.h"
 
@@ -39,5 +37,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

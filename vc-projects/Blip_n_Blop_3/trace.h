@@ -1,5 +1,4 @@
-
-#ifndef TRACE
+#pragma once
 
 #include "globals.h"
 #include "ben_debug.h"
@@ -11,7 +10,5 @@
 #else
 
 #define TRACE ;
-
-#endif
 
 #endif

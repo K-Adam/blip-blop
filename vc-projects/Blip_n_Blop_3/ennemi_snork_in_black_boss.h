@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSnorkInBlackBoss_
-#define _EnnemiSnorkInBlackBoss_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -61,5 +60,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

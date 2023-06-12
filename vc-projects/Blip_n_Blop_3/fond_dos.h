@@ -1,6 +1,4 @@
-
-#ifndef _FondDos_
-#define _FondDos_
+#pragma once
 
 #include "sprite.h"
 
@@ -22,5 +20,3 @@ public:
 	};
 
 };
-
-#endif

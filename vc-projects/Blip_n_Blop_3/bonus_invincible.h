@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _BonusInvincible_
-#define _BonusInvincible_
+#pragma once
 
 #include "bonus.h"
 
@@ -35,7 +34,3 @@ public:
 		Bonus::estPris(c);
 	};
 };
-
-#endif
-
-

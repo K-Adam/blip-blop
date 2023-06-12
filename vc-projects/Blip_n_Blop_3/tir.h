@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _Tir_
-#define _Tir_
+#pragma once
 
 #ifndef SENS
 #define SENS_GAUCHE		0
@@ -77,5 +76,3 @@ public:
 	{
 	};
 };
-
-#endif

@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _Ennemi_
-#define _Ennemi_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -62,6 +61,3 @@ public:
 
 	void tirEnCloche(int xtir, int ytir, int xci, int yci, int & xspeed, int & yspeed) const;
 };
-
-
-#endif

@@ -16,8 +16,7 @@
 *
 ******************************************************************/
 
-#ifndef _Event_
-#define _Event_
+#pragma once
 
 #include "globals.h"
 
@@ -39,4 +38,3 @@ public:
 	virtual void doEvent() = 0;
 };
 
-#endif

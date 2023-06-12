@@ -1,6 +1,4 @@
-
-#ifndef _Explosion_
-#define _Explosion_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -19,5 +17,3 @@ public:
 	Explosion();
 	virtual void update();
 };
-
-#endif

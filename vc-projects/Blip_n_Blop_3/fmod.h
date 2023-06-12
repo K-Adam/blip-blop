@@ -2,8 +2,7 @@
 /* FMOD Main header file. Copyright (c), FireLight Multimedia 1999-2001.                      */
 /* ========================================================================================== */
 
-#ifndef _FMOD_H_
-#define _FMOD_H_
+#pragma once
 
 /* ========================================================================================== */
 /* DEFINITIONS                                                                                */
@@ -983,6 +982,4 @@ DLL_API int				F_API FMUSIC_GetTime(FMUSIC_MODULE *mod);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -1,5 +1,4 @@
-#ifndef _EnnemiMarioHologramme_
-#define _EnnemiMarioHologramme_
+#pragma once
 
 #include "enemy.h"
 /******************************************************************
@@ -59,5 +58,3 @@ public:
 	virtual void affiche();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

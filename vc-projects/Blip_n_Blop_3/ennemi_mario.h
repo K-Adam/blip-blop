@@ -1,5 +1,4 @@
-#ifndef _EnnemiMario_
-#define _EnnemiMario_
+#pragma once
 
 #include "enemy.h"
 /******************************************************************
@@ -89,5 +88,3 @@ public:
 	virtual void affiche();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

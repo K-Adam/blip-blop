@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventPremierPlan_
-#define _EventPremierPlan_
-
+#pragma once
 
 #include "event.h"
 #include "globals.h"
@@ -30,5 +28,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

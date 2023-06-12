@@ -1,5 +1,4 @@
-#ifndef _FMOD_ERRORS_H
-#define _FMOD_ERRORS_H
+#pragma once
 
 const char *FMOD_ErrorString(int errcode)
 {
@@ -49,5 +48,3 @@ const char *FMOD_ErrorString(int errcode)
 			return "Unknown error";
 	};
 };
-
-#endif

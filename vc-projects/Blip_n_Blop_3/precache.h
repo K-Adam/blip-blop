@@ -1,6 +1,4 @@
-
-#ifndef _Precache_
-#define _Precache_
+#pragma once
 
 #include <stdio.h>
 
@@ -22,5 +20,3 @@ inline void Precache(const char * nf)
 	}
 
 }
-
-#endif

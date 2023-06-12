@@ -1,6 +1,6 @@
-#ifndef EMSCRIPTEN_UPLOAD_FILE_H_INCLUDED
-#define EMSCRIPTEN_UPLOAD_FILE_H_INCLUDED
+#pragma once
 
+#ifdef __EMSCRIPTEN__
 #include <string>
 #include <emscripten.h>
 
@@ -95,4 +95,4 @@ EMSCRIPTEN_KEEPALIVE inline int upload_file_return(char const *filename, char co
 
 }
 
-#endif // EMSCRIPTEN_UPLOAD_FILE_H_INCLUDED
+#endif

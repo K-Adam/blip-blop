@@ -1,6 +1,4 @@
-
-#ifndef _TirEtoile_
-#define _TirEtoile
+#pragma once
 
 #include "tir.h"
 
@@ -53,5 +51,3 @@ public:
 		updateADetruire();
 	};
 };
-
-#endif

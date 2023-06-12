@@ -1,5 +1,4 @@
-#ifndef _TirEpine_
-#define _TirEpine_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -37,5 +36,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

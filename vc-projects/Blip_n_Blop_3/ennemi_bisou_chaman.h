@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouChaman_
-#define _EnnemiBisouChaman_
+#pragma once
 
 #include "enemy.h"
 
@@ -25,5 +23,3 @@ public:
 	virtual void affiche();
 	virtual void onTele();
 };
-
-#endif

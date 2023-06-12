@@ -16,9 +16,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventEnnemi_
-#define _EventEnnemi_
-
+#pragma once
 
 #include "event.h"
 #include "globals.h"
@@ -36,4 +34,3 @@ public:
 	virtual void doEvent();
 };
 
-#endif

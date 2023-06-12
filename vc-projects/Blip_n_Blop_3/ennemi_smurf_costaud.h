@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiSmurfCostaud_
-#define _EnnemiSmurfCostaud_
+#pragma once
 
 #include "enemy.h"
 
@@ -24,5 +22,3 @@ public:
 	virtual void onCarbonise();
 	virtual void onMeure();
 };
-
-#endif

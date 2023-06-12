@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondRocher1_
-#define _FondRocher1_
+#pragma once
 
 #include "sprite.h"
 
@@ -28,5 +26,3 @@ public:
 	FondRocher1();
 	virtual void update();
 };
-
-#endif

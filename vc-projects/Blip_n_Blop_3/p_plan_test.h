@@ -1,6 +1,4 @@
-
-#ifndef _PPlanTest_
-#define _PPlanTest_
+#pragma once
 
 #include "sprite.h"
 
@@ -18,5 +16,3 @@ public:
 			a_detruire = true;
 	};
 };
-
-#endif

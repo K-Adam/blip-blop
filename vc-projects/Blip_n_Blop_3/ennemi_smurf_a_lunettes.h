@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfALunettes_
-#define _EnnemiSmurfALunettes_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -55,5 +54,3 @@ public:
 		EnnemiSmurf::update() ;
 	}
 };
-
-#endif

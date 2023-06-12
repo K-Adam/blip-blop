@@ -13,11 +13,9 @@
 *
 ******************************************************************/
 
+#pragma once
+
 #include "sprite.h"
-
-#ifndef _FondEtoile_
-#define _FondEtoile_
-
 
 class FondEtoile : public Sprite
 {
@@ -26,5 +24,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

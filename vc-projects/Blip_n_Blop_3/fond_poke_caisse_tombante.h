@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondPokeCaisseTombante_
-#define _FondPokeCaisseTombante_
+#pragma once
 
 #include "sprite.h"
 
@@ -30,5 +28,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

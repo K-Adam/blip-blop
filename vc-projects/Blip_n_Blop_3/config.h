@@ -15,8 +15,7 @@
 *
 ******************************************************************/
 
-#ifndef _Config_
-#define _Config_
+#pragma once
 
 #include "hi_scores.h"
 
@@ -44,5 +43,3 @@ extern bool		winSet;
 void load_BB3_config(const char * cfg_file);
 void save_BB3_config(const char * cfg_file);
 void set_default_config(bool reset_lang = false);
-
-#endif

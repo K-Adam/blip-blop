@@ -1,7 +1,3 @@
-
-#ifndef _Restore_
-#define _Restore_
+#pragma once
 
 bool RestoreAll();
-
-#endif

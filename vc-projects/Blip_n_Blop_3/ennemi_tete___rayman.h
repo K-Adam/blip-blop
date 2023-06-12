@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiTeteRayman_
-#define _EnnemiTeteRayman_
+#pragma once
 
 #include "enemy.h"
 
@@ -46,5 +45,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

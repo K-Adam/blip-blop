@@ -1,6 +1,4 @@
-
-#ifndef _TirNuage_
-#define _TirNuage_
+#pragma once
 
 #include "tir.h"
 
@@ -21,5 +19,3 @@ public:
 	virtual void onTire();
 	virtual void affiche();
 };
-
-#endif

@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondCube_
-#define _FondCube_
-
+#pragma once
 
 class FondCube : public Sprite
 {
@@ -28,5 +26,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

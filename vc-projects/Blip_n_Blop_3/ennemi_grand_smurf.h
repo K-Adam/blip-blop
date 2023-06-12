@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiGrandSmurf_
-#define _EnnemiGrandSmurf_
+#pragma once
 
 #include "enemy.h"
 
@@ -21,5 +19,3 @@ public:
 	virtual void onAtata();
 //	virtual void onMeure();
 };
-
-#endif

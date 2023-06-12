@@ -1,3 +1,4 @@
+#pragma once
 
 extern int makeb_current_mode;
 

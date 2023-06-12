@@ -1,5 +1,4 @@
-#ifndef _FondDrapeau_
-#define _FondDrapeau_
+#pragma once
 
 #include "sprite.h"
 
@@ -22,5 +21,3 @@ public:
 	}
 
 };
-
-#endif

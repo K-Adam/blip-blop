@@ -13,10 +13,9 @@
 *
 ******************************************************************/
 
-#include "sprite.h"
+#pragma once
 
-#ifndef _FondBattlecruiser_
-#define _FondBattlecruiser_
+#include "sprite.h"
 
 #define TIR_SPEED  2
 
@@ -34,5 +33,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

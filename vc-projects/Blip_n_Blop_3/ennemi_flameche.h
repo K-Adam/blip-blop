@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiFlameche_
-#define _EnnemiFlameche_
+#pragma once
 
 #include "enemy.h"
 
@@ -13,5 +11,3 @@ public:
 	virtual void onMeure();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

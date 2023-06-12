@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirBBLaser_
-#define _TirBBLaser_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -75,5 +74,3 @@ public:
 	virtual bool collision(const Sprite * s) const;
 
 };
-
-#endif

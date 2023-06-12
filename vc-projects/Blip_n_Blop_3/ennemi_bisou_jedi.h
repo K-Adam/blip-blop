@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouJedi_
-#define _EnnemiBisouJedi_
+#pragma once
 
 #include "enemy.h"
 
@@ -57,5 +55,3 @@ public:
 		}
 	}
 };
-
-#endif

@@ -1,6 +1,4 @@
-
-#ifndef _HiScores_
-#define _HiScores_
+#pragma once
 
 #ifndef NULL
 #define NULL	0
@@ -99,5 +97,3 @@ public:
 	*/
 	bool	load(const char * file);
 };
-
-#endif

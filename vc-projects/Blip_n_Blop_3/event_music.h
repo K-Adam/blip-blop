@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventMusic_
-#define _EventMusic_
+#pragma once
 
 #include "event.h"
 
@@ -28,5 +27,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

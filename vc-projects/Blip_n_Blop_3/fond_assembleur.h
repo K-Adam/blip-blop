@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondAssembleur_
-#define _FondAssembleur_
+#pragma once
 
 #include "sprite.h"
 
@@ -25,5 +24,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

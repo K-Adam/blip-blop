@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiYoshiDCA_
-#define _EnnemiYoshiDCA_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -46,5 +45,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

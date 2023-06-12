@@ -13,10 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondPokeCaisse_
-#define _FondPokeCaisse_
-
-
+#pragma once
 
 class FondPokeCaisse : public Sprite
 {
@@ -26,5 +23,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

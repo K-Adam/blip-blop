@@ -18,8 +18,7 @@
 *
 ******************************************************************/
 
-#ifndef _SoundBankBB_
-#define _SoundBankBB_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -42,11 +41,3 @@ public:
 	virtual bool loadSFX(const char * nom_fic);
 
 };
-
-#endif
-
-
-
-
-
-

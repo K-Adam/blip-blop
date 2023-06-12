@@ -1,6 +1,4 @@
-
-#ifndef _TirBisouMortel_
-#define _TirBisouMortel_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -85,5 +83,3 @@ public:
 	};
 
 };
-
-#endif

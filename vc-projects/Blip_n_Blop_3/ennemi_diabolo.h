@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiDiabolo_
-#define _EnnemiDiabolo_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -56,5 +55,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

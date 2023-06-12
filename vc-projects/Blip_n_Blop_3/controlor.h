@@ -16,8 +16,7 @@
 *
 ******************************************************************/
 
-#ifndef _Controlor_
-#define _Controlor_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe Controlor (ABSTRAITE)
@@ -50,7 +49,3 @@ public:
 		inertia_on = i;
 	};
 };
-
-
-#endif
-

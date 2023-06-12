@@ -1,3 +1,5 @@
+#pragma once
+
 #define TXT_RESUME 800
 #define TXT_OPTIONS 801
 #define TXT_VIDEO 801

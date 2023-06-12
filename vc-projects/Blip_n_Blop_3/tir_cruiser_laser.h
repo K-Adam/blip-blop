@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondTircruiserlaser_
-#define _FondTircruiserlaser_
+#pragma once
 
 #include "sprite.h"
 
@@ -28,5 +27,3 @@ public:
 	TirCruiserLaser(int vx, int nb_pic);
 	virtual void update();
 };
-
-#endif

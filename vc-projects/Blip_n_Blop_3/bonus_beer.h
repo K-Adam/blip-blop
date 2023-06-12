@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _BonusBeer_
-#define _BonusBeer_
+#pragma once
 
 #include "bonus.h"
 
@@ -43,5 +42,3 @@ public:
 		Bonus::estPris(c);
 	};
 };
-
-#endif

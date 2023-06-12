@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirSoniceclair_
-#define _TirSoniceclair_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -51,5 +50,3 @@ public:
 	virtual void affiche();
 
 };
-
-#endif

@@ -21,8 +21,7 @@
 *
 ******************************************************************/
 
-#ifndef _LGX_
-#define _LGX_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -122,6 +121,4 @@ public:
 
 #ifndef LGXPACKER_CPP_FILE
 extern LGXpacker	LGXpaker;
-#endif
-
 #endif

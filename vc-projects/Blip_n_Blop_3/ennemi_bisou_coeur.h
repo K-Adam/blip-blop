@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouCoeur_
-#define _EnnemiBisouCoeur_
+#pragma once
 
 #include "enemy.h"
 
@@ -15,5 +13,3 @@ public:
 	virtual void estTouche(Tir * tir);
 	virtual void update();
 };
-
-#endif

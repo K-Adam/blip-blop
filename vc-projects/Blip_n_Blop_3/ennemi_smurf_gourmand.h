@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfGourmand_
-#define _EnnemiSmurfGourmand_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -47,5 +46,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

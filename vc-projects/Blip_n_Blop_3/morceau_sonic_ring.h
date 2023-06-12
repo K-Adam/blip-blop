@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _MorceauSonicRing_
-#define _MorceauSonicRing_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -38,5 +36,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

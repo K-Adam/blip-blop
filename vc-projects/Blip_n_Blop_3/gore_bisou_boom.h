@@ -1,6 +1,4 @@
-
-#ifndef _GoreBisouBoom_
-#define _GoreBisouBoom_
+#pragma once
 
 #include "sprite.h"
 
@@ -112,5 +110,3 @@ public:
 		updateADetruire();
 	};
 };
-
-#endif

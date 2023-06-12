@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirMarioFireballVertical_
-#define _TirMarioFireballVertical
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -57,5 +56,3 @@ public:
 	virtual void fireball_tombe();
 
 };
-
-#endif

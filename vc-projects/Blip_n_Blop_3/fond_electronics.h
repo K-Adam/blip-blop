@@ -13,12 +13,9 @@
 *
 ******************************************************************/
 
+#pragma once
 
 #include "sprite.h"
-
-#ifndef _FondElectronics_
-#define _FondElectronics_
-
 
 class FondElectronic1 : public Sprite
 {
@@ -50,6 +47,3 @@ public:
 
 	virtual void update();
 };
-
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _GoreBisouAuto_
-#define _GoreBisouAuto_
+#pragma once
 
 #include "sprite.h"
 
@@ -59,5 +58,3 @@ public:
 		updateADetruire();
 	};
 };
-
-#endif

@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondPokeCaisseplateforme_
-#define _FondPokeCaisseplateforme_
+#pragma once
 
 #include "sprite.h"
 
@@ -28,5 +27,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

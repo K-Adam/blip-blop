@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiLara_
-#define _EnnemiLara_
+#pragma once
 
 #include "enemy.h"
 
@@ -55,5 +54,3 @@ public:
 	virtual void affiche();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

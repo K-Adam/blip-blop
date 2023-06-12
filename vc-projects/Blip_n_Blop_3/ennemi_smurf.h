@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurf_
-#define _EnnemiSmurf_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -45,5 +44,3 @@ public:
 
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

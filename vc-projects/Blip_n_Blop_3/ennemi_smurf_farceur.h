@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiSmurfFarceur_
-#define _EnnemiSmurfFarceur_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -69,5 +68,3 @@ public:
 	virtual void onPoseCadeau();
 	virtual void onDegaine();
 };
-
-#endif

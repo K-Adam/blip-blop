@@ -1,6 +1,6 @@
+#pragma once
 
-#ifndef _VehiculeTestTourelle_
-#define _VehiculeTestTourelle_
+#include "vehicule.h"
 
 class VehiculeTestTourelle : public Vehicule
 {
@@ -53,5 +53,3 @@ public:
 		}
 	}
 };
-
-#endif

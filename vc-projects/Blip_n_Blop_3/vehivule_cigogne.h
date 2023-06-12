@@ -1,6 +1,4 @@
-
-#ifndef _VehiculeCigogne_
-#define _VehiculeCigogne_
+#pragma once
 
 #include "vehicule.h"
 
@@ -26,5 +24,3 @@ public:
 	virtual void updateNotUsed();
 	virtual void affiche();
 };
-
-#endif

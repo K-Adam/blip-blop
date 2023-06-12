@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondEcranNeige_
-#define _FondEcranNeige_
+#pragma once
 
 #include "sprite.h"
 
@@ -36,5 +35,3 @@ public:
 	};
 
 };
-
-#endif

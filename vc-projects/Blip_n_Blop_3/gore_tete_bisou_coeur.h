@@ -1,6 +1,4 @@
-
-#ifndef _GoreTeteBisouCoeur_
-#define _GoreTeteBisouCoeur_
+#pragma once
 
 #include "sprite.h"
 
@@ -49,5 +47,3 @@ public:
 			pic = pbk_ennemis[454 + etape];
 	};
 };
-
-#endif

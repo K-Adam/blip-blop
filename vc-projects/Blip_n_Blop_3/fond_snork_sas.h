@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondSnorkSas_
-#define _FondSnorkSas_
+#pragma once
 
 #include "sprite.h"
 
@@ -40,5 +38,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

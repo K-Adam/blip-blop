@@ -1,6 +1,4 @@
-
-#ifndef _TirBBLF_
-#define _TirBBLF_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -36,5 +34,3 @@ public:
 
 	virtual void aTouche(int pts);
 };
-
-#endif

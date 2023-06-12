@@ -13,11 +13,9 @@
 *
 ******************************************************************/
 
+#pragma once
+
 #include "sprite.h"
-
-#ifndef _FondCamera_
-#define _FondCamera_
-
 
 class FondEcrancamera : public Sprite
 {
@@ -26,5 +24,3 @@ public:
 	virtual void update();
 	virtual void affiche();
 };
-
-#endif

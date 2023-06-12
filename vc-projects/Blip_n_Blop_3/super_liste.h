@@ -16,9 +16,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _SuperListe_
-#define _SuperListe_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Structure CELLULE pour rendre la liste plus jolie
@@ -134,5 +132,3 @@ public:
 	//
 	void	(trier(int (*fonc)(const void *, const void*)));
 };
-
-#endif

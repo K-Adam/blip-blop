@@ -16,12 +16,9 @@
 *
 ******************************************************************/
 
-#ifndef _EventGenEnnemi_
-#define _EventGenEnnemi_
-
+#pragma once
 
 #include "event.h"
-
 
 class EventGenEnnemi : public Event
 {
@@ -37,5 +34,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondPokeLevel2_
-#define _FondPokeLevel2_
+#pragma once
 
 #include "sprite.h"
 
@@ -40,5 +39,3 @@ public:
 	virtual void affiche();
 
 };
-
-#endif

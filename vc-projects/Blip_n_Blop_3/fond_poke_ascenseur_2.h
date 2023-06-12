@@ -1,6 +1,4 @@
-
-#ifndef _FondPokeAscenceur2_
-#define _FondPokeAscenceur2_
+#pragma once
 
 #include "sprite.h"
 
@@ -10,5 +8,3 @@ public:
 	FondPokeAscenceur2();
 	virtual void update();
 };
-
-#endif

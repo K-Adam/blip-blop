@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouNuage_
-#define _EnnemiBisouNuage_
+#pragma once
 
 #include "enemy.h"
 
@@ -17,5 +15,3 @@ public:
 	virtual void onMeureTombe();
 	virtual void onMeureFin();
 };
-
-#endif

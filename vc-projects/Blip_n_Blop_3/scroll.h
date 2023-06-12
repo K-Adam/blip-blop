@@ -17,6 +17,8 @@
 *
 ******************************************************************/
 
+#pragma once
+
 #define WANTED_VBUFFER_WIDE	840
 
 extern int	vbuffer_wide;

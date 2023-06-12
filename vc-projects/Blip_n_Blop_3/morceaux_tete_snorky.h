@@ -15,8 +15,7 @@
 *
 ******************************************************************/
 
-#ifndef _MorceauxTeteSnorky_
-#define _MorceauxTeteSnorky_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -85,5 +84,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

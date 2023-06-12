@@ -14,8 +14,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventMiFond_
-#define _EventMiFond_
+#pragma once
 
 #include "event.h"
 
@@ -29,5 +28,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

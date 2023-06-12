@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _FondTircruiser_
-#define _FondTircruiser_
+#pragma once
 
 #include "sprite.h"
 
@@ -26,5 +25,3 @@ public:
 	TirCruiser(int vx , int vy, int nb_pic);
 	virtual void update();
 };
-
-#endif

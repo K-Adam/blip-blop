@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiBisouSIB_
-#define _EnnemiBisouSIB_
+#pragma once
 
 #include "enemy.h"
 
@@ -15,5 +13,3 @@ public:
 	virtual void update();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif

@@ -1,6 +1,4 @@
-
-#ifndef _TirArcCiel_
-#define _TirArcCiel
+#pragma once
 
 class TirArcCiel : public Tir
 {
@@ -25,5 +23,3 @@ public:
 		}
 	};
 };
-
-#endif

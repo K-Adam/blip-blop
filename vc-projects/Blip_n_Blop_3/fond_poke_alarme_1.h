@@ -1,6 +1,4 @@
-
-#ifndef _FondPokeAlarme1_
-#define _FondPokeAlarme1_
+#pragma once
 
 #include "sprite.h"
 
@@ -58,5 +56,3 @@ public:
 		updateADetruire();
 	};
 };
-
-#endif

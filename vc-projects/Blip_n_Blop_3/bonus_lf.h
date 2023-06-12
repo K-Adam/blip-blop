@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _BonusLF_
-#define _BonusLF_
+#pragma once
 
 #include "bonus.h"
 
@@ -54,5 +53,3 @@ public:
 		Bonus::estPris(c);
 	};
 };
-
-#endif

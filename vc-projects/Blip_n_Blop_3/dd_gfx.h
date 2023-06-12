@@ -15,8 +15,7 @@
  *
  ******************************************************************/
 
-#ifndef _GFX_UTIL_
-#define _GFX_UTIL_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Constantes pour la création des surfaces
@@ -36,9 +35,7 @@
 //		Objet 'ddraw' global (avec protection pour gfxutil.cpp)
 //-----------------------------------------------------------------------------
 
-#ifndef GFX_CPP_FILE
 extern Graphics* graphicInstance;
-#endif
 
 //-----------------------------------------------------------------------------
 //		Prototypes
@@ -58,5 +55,3 @@ void* DDLoadPalette(char* file);
 bool DDSetColorKey(SDL::Surface* surf, Pixel rgb);
 void DDFlip();
 void DDFlipV();
-
-#endif

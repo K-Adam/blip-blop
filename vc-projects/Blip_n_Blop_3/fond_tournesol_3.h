@@ -1,5 +1,4 @@
-#ifndef _FondTournesol3_
-#define _FondTournesol3_
+#pragma once
 
 #include "sprite.h"
 
@@ -19,5 +18,3 @@ public:
 		pic = pbk_niveau[24 + etape];
 	};
 };
-
-#endif

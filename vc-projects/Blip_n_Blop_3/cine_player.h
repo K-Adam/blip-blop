@@ -1,6 +1,5 @@
 
-#ifndef _CINEPlayer_
-#define _CINEPlayer_
+#pragma once
 
 #include <fstream>
 #include "music_bank.h"
@@ -118,5 +117,3 @@ public:
 	bool playScene(const char * file, SDL::Surface * s1, SDL::Surface * s2);
 
 };
-
-#endif

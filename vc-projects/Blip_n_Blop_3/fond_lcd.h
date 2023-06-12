@@ -13,11 +13,9 @@
 *
 ******************************************************************/
 
+#pragma once
+
 #include "sprite.h"
-
-#ifndef _FondLCD_
-#define _FondLCD_
-
 
 class FondLCD : public Sprite
 {
@@ -26,5 +24,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

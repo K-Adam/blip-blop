@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiSmurfCigogne_
-#define _EnnemiSmurfCigogne_
+#pragma once
 
 #include "enemy.h"
 
@@ -17,5 +15,3 @@ public:
 
 	virtual void update();
 };
-
-#endif

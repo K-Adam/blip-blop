@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirColonneChaman_
-#define _TirColonneChaman_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -53,5 +52,3 @@ public:
 	virtual void deplace();
 
 };
-
-#endif

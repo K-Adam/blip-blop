@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EventVehicule_
-#define _EventVehicule_
+#pragma once
 
 #include "event.h"
 
@@ -29,5 +28,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

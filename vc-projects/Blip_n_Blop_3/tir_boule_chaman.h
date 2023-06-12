@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirBouleChaman_
-#define _TirBouleChaman_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -53,5 +52,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

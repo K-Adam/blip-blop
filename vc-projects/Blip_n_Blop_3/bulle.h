@@ -1,6 +1,5 @@
 
-#ifndef _Bulle_
-#define _Bulle_
+#pragma once
 
 #include "sprite.h"
 
@@ -14,5 +13,3 @@ public:
 	Bulle();
 	virtual void update();
 };
-
-#endif

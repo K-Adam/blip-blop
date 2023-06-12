@@ -1,6 +1,4 @@
-
-#ifndef _FondTest_
-#define _FondTest_
+#pragma once
 
 #include "sprite.h"
 
@@ -18,5 +16,3 @@ public:
 			a_detruire = true;
 	};
 };
-
-#endif

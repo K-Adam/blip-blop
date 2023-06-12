@@ -21,8 +21,7 @@
 *
 ******************************************************************/
 
-#ifndef _BENINPUT_
-#define _BENINPUT_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -227,6 +226,4 @@ public:
 
 #ifndef BENINPUT_CPP_FILE
 extern Input		in;
-#endif
-
 #endif

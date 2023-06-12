@@ -1,6 +1,4 @@
-
-#ifndef _EnnemiCOM_
-#define _EnnemiCOM_
+#pragma once
 
 #include "enemy.h"
 
@@ -12,5 +10,3 @@ public:
 	virtual void onAvance();
 	virtual void onMeure();
 };
-
-#endif

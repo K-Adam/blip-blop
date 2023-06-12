@@ -1,6 +1,4 @@
-
-#ifndef _MenuGame_
-#define _MenuGame_
+#pragma once
 
 #include "graphics.h"
 #include "menus/options_menu.h"
@@ -16,5 +14,3 @@ class MenuGame {
     int Update();  // Retour 0=toujours menu  1=retour jeu  2=quitter
     void Draw(SDL::Surface* surf) { active_->Draw(surf); }
 };
-
-#endif

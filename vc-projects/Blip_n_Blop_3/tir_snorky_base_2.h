@@ -1,5 +1,4 @@
-#ifndef _TirSnorkyBase2_
-#define _TirSnorkyBase2_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -36,5 +35,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

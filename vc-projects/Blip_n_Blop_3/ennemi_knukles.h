@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiKnukles_
-#define _EnnemiKnukles_
+#pragma once
 
 #include "enemy.h"
 
@@ -48,5 +47,3 @@ public:
 	virtual void estTouche(Tir * tir);
 	virtual void tombe();
 };
-
-#endif

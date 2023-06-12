@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _BonusVache_
-#define _BonusVache_
+#pragma once
 
 #include "bonus.h"
 
@@ -37,5 +36,3 @@ public:
 		Bonus::estPris(c);
 	};
 };
-
-#endif

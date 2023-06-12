@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _FondMonolite_
-#define _FondMonolite_
+#pragma once
 
 #include "sprite.h"
 
@@ -28,5 +26,3 @@ public:
 	FondMonolite();
 	virtual void update();
 };
-
-#endif

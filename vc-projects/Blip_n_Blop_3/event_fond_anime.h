@@ -13,13 +13,10 @@
 *
 ******************************************************************/
 
-#ifndef _EventFondAnime_
-#define _EventFondAnime_
-
+#pragma once
 
 #include "event.h"
 #include "globals.h"
-
 
 class EventFondAnime : public Event
 {
@@ -30,5 +27,3 @@ public:
 
 	virtual void doEvent();
 };
-
-#endif

@@ -13,8 +13,7 @@
  *
  ******************************************************************/
 
-#ifndef _Bonus_
-#define _Bonus_
+#pragma once
 
 #include "ben_maths.h"
 #include "couille.h"
@@ -82,5 +81,3 @@ class Bonus : public Sprite {
         y2 += 10;
     };
 };
-
-#endif

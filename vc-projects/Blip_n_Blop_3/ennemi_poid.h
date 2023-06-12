@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _EnnemiPoid_
-#define _EnnemiPoid_
+#pragma once
 
 #include "enemy.h"
 
@@ -41,5 +40,3 @@ public:
 		return false;
 	};
 };
-
-#endif

@@ -1,9 +1,7 @@
+#pragma once
 
 #include <stdio.h>
 #include "sprite.h"
-
-#ifndef _FondEau_
-#define _FondEau_
 
 int water_seed  = 0;
 int water_seed2 = 5;
@@ -72,5 +70,3 @@ public:
 		}
 	};
 };
-
-#endif

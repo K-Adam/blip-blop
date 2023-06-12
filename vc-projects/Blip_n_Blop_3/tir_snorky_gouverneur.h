@@ -13,8 +13,7 @@
 *
 ******************************************************************/
 
-#ifndef _TirSnorkyGouverneur_
-#define _TirSnorkyGouverneur_
+#pragma once
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -62,5 +61,3 @@ public:
 	virtual void update();
 
 };
-
-#endif

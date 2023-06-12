@@ -13,9 +13,7 @@
 *
 ******************************************************************/
 
-
-#ifndef _EnnemiComHeros_
-#define _EnnemiComHeros_
+#pragma once
 
 #include "enemy.h"
 
@@ -32,5 +30,3 @@ public:
 	virtual void onMeure();
 	virtual void estTouche(Tir * tir);
 };
-
-#endif
