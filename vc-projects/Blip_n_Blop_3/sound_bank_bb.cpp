@@ -28,7 +28,7 @@ void SoundBankBB::play(int n, int flags)
 	if (!sound_on)
 		return;
 
-	if (n >= tab_.size()) {
+	if ((size_t)n >= tab_.size()) {
 		debug << "Tentative de jouer son " << n << "\n";
 		return;
 	}

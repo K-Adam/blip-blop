@@ -43,7 +43,7 @@ void MenuList::Draw(SDL::Surface* surf) const {
     ShadeTextBox(surf);
 
     int y = 240 - items_.size() * 15;
-    for (int i = 0; i < items_.size(); ++i) {
+    for (size_t i = 0; i < items_.size(); ++i) {
         if (focused_ == i)
             fnt_menus.printC(surf, 320, y, items_[i].c_str());
         else

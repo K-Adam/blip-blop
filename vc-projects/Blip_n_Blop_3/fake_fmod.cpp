@@ -81,7 +81,7 @@ signed char FSOUND_Init(int mixrate,
                         unsigned int flags) {
     int f = MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG;
     int initted = Mix_Init(f);
-    if (initted & flags != flags) {
+    if ((initted & flags) != flags) {
         printf("Mix_Init: Failed to init required ogg and mod support!\n");
         printf("Mix_Init: %s\n", Mix_GetError());
         return 0;

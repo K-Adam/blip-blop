@@ -33,7 +33,6 @@ void Vehicule::update()
 
 Couille * Vehicule::scanne()
 {
-	Couille *	c;
 	int			ddx;
 	int			ddy;
 

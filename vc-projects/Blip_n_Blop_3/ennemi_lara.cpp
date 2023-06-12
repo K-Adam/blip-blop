@@ -162,7 +162,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x + 20 - x + 60;
 					int dy = tete_turc->y - y + 144;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)(sqrt((dx * dx) + (dy * dy)));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
@@ -186,7 +186,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x + 20 - x + 58;
 					int dy = tete_turc->y - y + 154;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
@@ -210,7 +210,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x + 20 - x + 57;
 					int dy = tete_turc->y - y + 165;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
@@ -235,7 +235,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x + 20 - x + 53;
 					int dy = tete_turc->y - y + 175;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
@@ -262,7 +262,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x + 20 - x + 59;
 					int dy = tete_turc->y - y + 129;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
@@ -288,7 +288,7 @@ void EnnemiLara::onAvance()
 					int dx = tete_turc->x - x + 60;
 					int dy = tete_turc->y - y + 144;
 
-					int dist = sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;

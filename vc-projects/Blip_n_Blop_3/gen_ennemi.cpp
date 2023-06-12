@@ -37,7 +37,6 @@ void GenEnnemi::update()
 	t %= periode;
 
 	if (t == 0) {
-		Sprite *	s;
 		bool		ok = true;
 
 		for (Couille* s : list_joueurs) {

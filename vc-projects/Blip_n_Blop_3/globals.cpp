@@ -342,7 +342,6 @@ bool grave(int x, int y, Picture * pic)
 		return false;
 
 	FondStatique	s;
-	Sprite *		s2;
 
 	s.x		= x;
 	s.y		= y;

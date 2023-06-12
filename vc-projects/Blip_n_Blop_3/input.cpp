@@ -508,8 +508,6 @@ void Input::close()
 
 bool Input::anyKeyPressed()
 {
-	unsigned int	i;
-	unsigned int	k;
 	int key = 0;
 
 	update();
@@ -604,7 +602,7 @@ int Input::scanKey(unsigned int k) const
 
 		return z;
 	}*/
-	if ((k >> 10) & 0xFF > 0)
+	if (((k >> 10) & 0xFF) > 0)
 	{
 		/*
 		REMEMBER

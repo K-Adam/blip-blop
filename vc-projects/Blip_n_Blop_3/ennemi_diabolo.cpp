@@ -130,7 +130,7 @@ void EnnemiDiabolo::onAvance()
 				etat = ETAT_TIRE;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
-				dy =  -8 + dx * 0.25;
+				dy = (int)(-8 + dx * 0.25);
 				//debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
 				onCoupdegenou();
 				return;
@@ -142,7 +142,7 @@ void EnnemiDiabolo::onAvance()
 				etat = ETAT_TIRE;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
-				dy =  -8 + dx * 0.25;
+				dy = (int)(-8 + dx * 0.25);
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
 				onCoupdegenou();
 				return;

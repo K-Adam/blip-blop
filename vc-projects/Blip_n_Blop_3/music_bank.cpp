@@ -57,7 +57,7 @@ bool MusicBank::open(const char* file, bool loop) {
 void MusicBank::play(int n) {
     if (!music_on) return;
 
-    if (n < 0 || n >= musics_.size()) {
+    if (n < 0 || (size_t)n >= musics_.size()) {
         debug << "MusicBank::play() -> Tentative de jouer une musique non "
                  "chargée : "
               << n << "\n";
@@ -70,7 +70,7 @@ void MusicBank::play(int n) {
 void MusicBank::stop(int n) {
     if (!music_on) return;
 
-    if (n < 0 || n >= musics_.size()) {
+    if (n < 0 || (size_t)n >= musics_.size()) {
         debug << "MusicBank::stop() -> Tentative de stoper une musique non "
                  "chargée : "
               << n << "\n";
@@ -81,7 +81,7 @@ void MusicBank::stop(int n) {
 }
 
 void MusicBank::stop() {
-    for (int i = 0; i < musics_.size(); i++) {
+    for (int i = 0; (size_t)i < musics_.size(); i++) {
         stop(i);
     }
 }
@@ -89,7 +89,7 @@ void MusicBank::stop() {
 void MusicBank::setVol(int v) {
     if (!music_on) return;
 
-    for (int i = 0; i < musics_.size(); i++) {
+    for (size_t i = 0; i < musics_.size(); i++) {
         musics_[i]->set_volume(v);
     }
 }

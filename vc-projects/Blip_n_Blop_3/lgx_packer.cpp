@@ -666,7 +666,7 @@ SDL::Surface * LGXpacker::loadLGX(const char * fic, int flags)
 	}
 
         fh.seekg(0, std::ios::end);
-        int size = fh.tellg();
+        size_t size = (size_t)fh.tellg();
         fh.seekg(0, std::ios::beg);
         void * ptr = malloc(size);
 
@@ -690,7 +690,7 @@ int LGXpacker::findColor(Pixel rgb)
 
 //	debug<<red<<" "<<gre<<" "<<ble<<"\n";
 
-	red = ((float(red) * float(rMax)) / float(0xFF));
+	red = (int)((float(red) * float(rMax)) / float(0xFF));
 	gre = (gre * gMax) / 0xFF;
 	ble = (ble * bMax) / 0xFF;
 

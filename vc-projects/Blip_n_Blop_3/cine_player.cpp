@@ -224,7 +224,7 @@ void CINEPlayer::updateState()
 			else {
 				n2 = int_arg[1];
 
-				if (n2 < 0 || n2 >= pbk.getSize())
+				if (n2 < 0 || (size_t)n2 >= pbk.getSize())
 					error("numéro d'image invalide");
 				else {
 					obj[n].id = OBJ_SPRITE;

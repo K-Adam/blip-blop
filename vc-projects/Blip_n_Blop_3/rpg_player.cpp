@@ -75,7 +75,6 @@ bool RPGPlayer::startPlay(int n)
 	cur_joueur		= 0;
         wait_.Reset(0);
 
-	Couille *	c;
 	int			i = 0;
 
         for (Couille* c : list_joueurs) {
@@ -148,15 +147,15 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 
 	// Affiche les têtes de con
 	//
-	if (pic_tab[0] != NULL &&  nimage[0] >= 0 && nimage[0] < (*pic_tab[0]).getSize())
+	if (pic_tab[0] != NULL &&  nimage[0] >= 0 && (size_t)nimage[0] < (*pic_tab[0]).getSize())
 		(*pic_tab[0])[nimage[0]]->PasteTo(surf, 0, 120);
 
 
 	if (vbuffer_wide > 640) {
-		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && nimage[1] < (*pic_tab[1]).getSize())
+		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize())
 			(*pic_tab[1])[nimage[1]]->PasteTo(surf, 540, 300);
 	} else {
-		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && nimage[1] < (*pic_tab[1]).getSize())
+		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize())
 			(*pic_tab[1])[nimage[1]]->PasteTo(surf, 538, 300);
 	}
 

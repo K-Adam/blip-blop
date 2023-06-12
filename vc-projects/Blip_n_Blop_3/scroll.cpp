@@ -116,7 +116,6 @@ void updateScrolling(bool forceOk)
 	} else if (scroll_speed != 0 && forceOk) {
 		offset += scroll_speed;
 	} else if (list_joueurs.size() > 0) {
-		Sprite *	s;
 		int			x_moy = 0;
 
                 for (Couille* s : list_joueurs) {

@@ -63,12 +63,20 @@ void FondBattlecruiser::update()
 			//	for (int i=-2;i<3;i++)
 			//	{
 			pic = pbk_niveau[26 + attack_etape];
-			Sprite * s = new TirCruiser((dif_x * TIR_SPEED) / dif_y, TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y, 8 + attack_etape);
+			Sprite * s = new TirCruiser(
+				(dif_x * TIR_SPEED) / dif_y,
+				(int)(TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y),
+				8 + attack_etape
+			);
 			s->x = x - 8 * attack_etape;
 			s->y = y + 6;
 			list_fonds_animes.emplace_back(s);
 
-			s = new TirCruiser(-(dif_x * TIR_SPEED) / dif_y, -TIR_SPEED + (dif_x * TIR_SPEED * 0.25) / dif_y, 7 - attack_etape);
+			s = new TirCruiser(
+				-(dif_x * TIR_SPEED) / dif_y,
+				(int)(-TIR_SPEED + (dif_x * TIR_SPEED * 0.25) / dif_y),
+				7 - attack_etape
+			);
 			s->x = x_adversaire - 8 * attack_etape;
 			s->y = y_adversaire - 6;
 			list_fonds_animes.emplace_back(s);

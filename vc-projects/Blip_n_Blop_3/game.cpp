@@ -1337,8 +1337,6 @@ void Game::cleanLists() {
 //-----------------------------------------------------------------------------
 
 void Game::updateEvents() {
-    Event* event;
-
     // Les évenements de la liste "endormie" sont mis dans la liste "en attente"
     // quand ils sont sur le point d'être activés
     //
@@ -1377,9 +1375,6 @@ void Game::updateEvents() {
 //-----------------------------------------------------------------------------
 
 void Game::manageCollisions() {
-    Tir* tir;
-    Ennemi* ennemi;
-
     // Collisions TirsBB / Ennemis
     //
     for (Tir* tir : list_tirs_bb) {
@@ -2172,7 +2167,7 @@ void Game::updateMeteo() {
         pl->update();
     }
 
-    while (list_meteo.size() < intensite_meteo) {
+    while (list_meteo.size() < (size_t)intensite_meteo) {
         if (type_meteo == METEO_NEIGE) {
             //			MeteoNeige * flocon = new MeteoNeige();
 
@@ -2307,8 +2302,6 @@ void Game::drawDeformation() {
 //-----------------------------------------------------------------------------
 
 void Game::updateBulles() {
-    Sprite* pl;
-
     // Crée de nouvelles bulles
     //
     for (Couille* pl : list_joueurs) {

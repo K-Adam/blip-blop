@@ -5,6 +5,8 @@
 #include "../txt_data.h"
 #include "txt_defines.h"
 
+#include <cassert>
+
 PauseMenu::PauseMenu() {
     items_.AddEntry(txt_data[TXT_RESUME]);
     items_.AddEntry(txt_data[TXT_OPTIONS]);
@@ -27,4 +29,5 @@ int PauseMenu::ProcessEvent() {
         }
         return MenuType::Main;
     }
+    return -1;
 }
