@@ -34,7 +34,11 @@ const nonTransparent = [
 ];
 
 const input = "input";
-const output = "output";
+const output = "output/gfx";
+
+if (!fs.existsSync(output)) {
+    fs.mkdirSync(output, { recursive: true });
+}
 
 glob.sync(`${input}/*.gfx`).forEach(filePath => {
     const fileName = path.basename(filePath);
