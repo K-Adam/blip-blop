@@ -1,7 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
-const ffmpeg = require('fluent-ffmpeg');
+const saveMp3 = require('./mp3.js').save;
 
 const input = "input";
 const output = "output/sfx";
@@ -33,20 +33,12 @@ glob.sync(`${input}/*.sfx`).forEach(filePath => {
 
         const soundData = buffer.subarray(offset, offset+size);
         offset += size;
-
-        const wavPath = `${outputDir}/${i}.wav`;
+        
         const mp3Name = `${i}.mp3`;
 
         items.push(mp3Name);
 
-        fs.writeFileSync(wavPath, soundData);
-        ffmpeg()
-            .input(wavPath)
-            .save(`${outputDir}/${mp3Name}`)
-            .on('end', () => {
-                fs.unlinkSync(wavPath)
-            })
-            ;
+        saveMp3(soundData, `${outputDir}/${mp3Name}`);
     }
 
     fs.writeFileSync(`${output}/${fileName}.json`, JSON.stringify({items}, null, 2));

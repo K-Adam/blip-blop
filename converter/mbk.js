@@ -1,6 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
+const saveMp3 = require('./mp3.js').save;
 
 const input = "input";
 const output = "output/mbk";
@@ -31,7 +32,7 @@ glob.sync(`${input}/*.mbk`).forEach(filePath => {
             const newName = path.basename(musicPath).replace('.zik', '.mp3')
             const newPath = `${output}/${newName}`;
 
-            fs.copyFileSync(musicPath, newPath);
+            saveMp3(fs.readFileSync(musicPath), newPath);
 
             return newName;
         });
