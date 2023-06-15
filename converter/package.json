@@ -5,6 +5,7 @@
   "scripts": {},
   "author": "Adam Kecskes",
   "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
     "glob": "^10.2.7",
     "sharp": "^0.32.1"
   }
