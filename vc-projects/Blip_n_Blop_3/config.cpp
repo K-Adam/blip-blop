@@ -23,6 +23,9 @@
 #include "control_alias.h"
 #include "fmod.h"
 #include "globals.h"
+#include "json.h"
+
+using json = nlohmann::json;
 
 bool	vSyncOn = true;
 
@@ -45,132 +48,67 @@ bool fullscreen = false; // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
 
 void load_BB3_config(const char * cfg_file)
 {
-	FILE *	fic;
-	int		a;
-
-	fic = fopen(cfg_file, "rb");
-
-	if (fic == NULL) {
-		debug << "Cannot find config file. Will use default config.\n";
+	std::ifstream input(cfg_file);
+	if (!input.good()) {
 		set_default_config(true);
-	} else {
-		debug << "Using " << cfg_file << " as configuration file.\n";
-
-		fread(&vSyncOn, sizeof(vSyncOn), 1, fic);
-		fread(&fullscreen, sizeof(fullscreen), 1, fic);
-		fread(&lang_type, sizeof(lang_type), 1, fic);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_UP, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_DOWN, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_LEFT, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_RIGHT, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_FIRE, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_JUMP, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P1_SUPER, a);
-
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_UP, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_DOWN, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_LEFT, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_RIGHT, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_FIRE, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_JUMP, a);
-
-		fread(&a, sizeof(a), 1, fic);
-		in.setAlias(ALIAS_P2_SUPER, a);
-
-		fclose(fic);
+		return;
 	}
 
+	json data = json::parse(input);
+
+	vSyncOn = data["vsync"];
+	fullscreen = data["fullscreen"];
+	lang_type = data["lang_type"];
+
+	in.setAlias(ALIAS_P1_UP,    data["player1"]["UP"]);
+	in.setAlias(ALIAS_P1_DOWN,  data["player1"]["DOWN"]);
+	in.setAlias(ALIAS_P1_LEFT,  data["player1"]["LEFT"]);
+	in.setAlias(ALIAS_P1_RIGHT, data["player1"]["RIGHT"]);
+	in.setAlias(ALIAS_P1_FIRE,  data["player1"]["FIRE"]);
+	in.setAlias(ALIAS_P1_JUMP,  data["player1"]["JUMP"]);
+	in.setAlias(ALIAS_P1_SUPER, data["player1"]["SUPER"]);
+
+	in.setAlias(ALIAS_P2_UP,    data["player2"]["UP"]);
+	in.setAlias(ALIAS_P2_DOWN,  data["player2"]["DOWN"]);
+	in.setAlias(ALIAS_P2_LEFT,  data["player2"]["LEFT"]);
+	in.setAlias(ALIAS_P2_RIGHT, data["player2"]["RIGHT"]);
+	in.setAlias(ALIAS_P2_FIRE,  data["player2"]["FIRE"]);
+	in.setAlias(ALIAS_P2_JUMP,  data["player2"]["JUMP"]);
+	in.setAlias(ALIAS_P2_SUPER, data["player2"]["SUPER"]);
+
+	// ?
 	lang_type = LANG_UK;
 }
 
 void save_BB3_config(const char * cfg_file)
 {
-	FILE *	fic;
-	int		a;
+	json data;
 
-	fic = fopen(cfg_file, "wb");
+	data["vsync"] = vSyncOn;
+	data["fullscreen"] = fullscreen;
+	data["lang_type"] = lang_type;
 
-	if (fic == NULL) {
-		debug << "Cannot save config file.\n";
-	} else {
-		debug << "Saving " << cfg_file << " as configuration file.\n";
+	data["player1"] = json::object();
+	data["player2"] = json::object();
 
+	data["player1"]["UP"]    = in.getAlias(ALIAS_P1_UP);
+	data["player1"]["DOWN"]  = in.getAlias(ALIAS_P1_DOWN);
+	data["player1"]["LEFT"]  = in.getAlias(ALIAS_P1_LEFT);
+	data["player1"]["RIGHT"] = in.getAlias(ALIAS_P1_RIGHT);
+	data["player1"]["FIRE"]  = in.getAlias(ALIAS_P1_FIRE);
+	data["player1"]["JUMP"]  = in.getAlias(ALIAS_P1_JUMP);
+	data["player1"]["SUPER"] = in.getAlias(ALIAS_P1_SUPER);
+	
+	data["player2"]["UP"]    = in.getAlias(ALIAS_P2_UP);
+	data["player2"]["DOWN"]  = in.getAlias(ALIAS_P2_DOWN);
+	data["player2"]["LEFT"]  = in.getAlias(ALIAS_P2_LEFT);
+	data["player2"]["RIGHT"] = in.getAlias(ALIAS_P2_RIGHT);
+	data["player2"]["FIRE"]  = in.getAlias(ALIAS_P2_FIRE);
+	data["player2"]["JUMP"]  = in.getAlias(ALIAS_P2_JUMP);
+	data["player2"]["SUPER"] = in.getAlias(ALIAS_P2_SUPER);
 
-		fwrite(&vSyncOn, sizeof(vSyncOn), 1, fic);
-		fwrite(&fullscreen, sizeof(fullscreen), 1, fic);
-		fwrite(&lang_type, sizeof(lang_type), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_UP);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_DOWN);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_LEFT);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_RIGHT);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_FIRE);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_JUMP);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P1_SUPER);
-		fwrite(&a, sizeof(a), 1, fic);
-
-
-		a = in.getAlias(ALIAS_P2_UP);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_DOWN);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_LEFT);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_RIGHT);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_FIRE);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_JUMP);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		a = in.getAlias(ALIAS_P2_SUPER);
-		fwrite(&a, sizeof(a), 1, fic);
-
-		fclose(fic);
-	}
+	std::ofstream out(cfg_file);
+	out << data.dump(2);
 }
 
 void set_default_config(bool reset_lang)

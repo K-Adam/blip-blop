@@ -1,5 +1,5 @@
 #define NAME "Blip'n Blop"
-#define CONFIG_FILE "data/bb.cfg"
+#define CONFIG_FILE "config/settings.json"
 #define HISCORES_FILE "config/hiscores.json"
 
 #define WIN32_LEAN_AND_MEAN
@@ -537,14 +537,6 @@ int main(int argc, char** argv) {
     debug << "Game.go" << "\n";
     
     game.go();
-
-#ifdef __EMSCRIPTEN__
-    // Export config
-    std::ifstream t("data/bb.cfg");
-    std::string data((std::istreambuf_iterator<char>(t)),
-                    std::istreambuf_iterator<char>());
-    //emscripten_browser_file::download("bb.cfg", "application/octet-stream", data);
-#endif
 
     return 0;
 

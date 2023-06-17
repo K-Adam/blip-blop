@@ -1,0 +1,23 @@
+{
+  "fullscreen": false,
+  "lang_type": 1,
+  "player1": {
+    "DOWN": 1073741905,
+    "FIRE": 1073742048,
+    "JUMP": 1073741942,
+    "LEFT": 1073741904,
+    "RIGHT": 1073741903,
+    "SUPER": 32,
+    "UP": 1073741906
+  },
+  "player2": {
+    "DOWN": 115,
+    "FIRE": 9,
+    "JUMP": 103,
+    "LEFT": 100,
+    "RIGHT": 102,
+    "SUPER": 104,
+    "UP": 113
+  },
+  "vsync": true
+}
