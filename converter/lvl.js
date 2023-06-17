@@ -30,52 +30,6 @@ if (!fs.existsSync(output)) {
 }
 
 /**
- * 
- * @param {Buffer} buffer 
- */
-function getInts(buffer) {
-    let array = [];
-    for(let i=0; i<buffer.byteLength; i+=4) {
-        array.push(buffer.readUInt32LE(i));
-    }
-    return array;
-}
-
-function pack(array) {
-    let i = 0;
-    let result = [];
-    while(i < array.length) {
-        const value = array[i];
-        let count = 1;
-
-        while((i+count) < array.length && array[i+count] == value) {
-            count++;
-        }
-
-        if (count > 1) {
-            result.push({value, count});
-        } else {
-            if (result.length > 0 && (Array.isArray(result[result.length-1]))) {
-                result[result.length-1].push(value);
-            } else {
-                result.push([value]);
-            }
-        }
-        i+=count;
-    }
-
-    result = result.map(item => {
-        if (!Array.isArray(item) && item.count < 8) {
-            return Array(item.count).fill(item.value);
-        } else {
-            return item;
-        }
-    })
-
-    return result;
-}
-
-/**
  * @param {Buffer} buffer 
  */
 function bufferToString(buffer) {
@@ -123,27 +77,15 @@ glob.sync(`${input}/*.lvl`).forEach(filePath => {
     const vic_val2  = buffer.readUInt32LE(offset); offset += 4;
 
     const NB_MAX_PLAT = 8;
-    const y_plat = [];
-    for (let i = 0; i < NB_MAX_PLAT; i++) {
-        y_plat.push(
-            pack(getInts(buffer.subarray(offset, offset + level_size*4)))
-        );offset += level_size*4;
-    }
+    const y_plat = buffer.subarray(offset, offset + level_size*4*NB_MAX_PLAT).toString("base64");
+    offset += level_size*4*NB_MAX_PLAT;
 
     const level_size_8 = level_size / 8;
-    const murs_opaques = [];
-    for (let i = 0; i < 60; i++) {
-        murs_opaques.push(
-            pack(buffer.subarray(offset, offset + level_size_8))
-        );offset += level_size_8;
-    }
+    const murs_opaques = buffer.subarray(offset, offset + level_size_8*60).toString("base64");
+    offset += level_size_8*60;
 
-    const murs_sanglants = [];
-    for (let i = 0; i < 60; i++) {
-        murs_sanglants.push(
-            pack(buffer.subarray(offset, offset + level_size_8))
-        );offset += level_size_8;
-    }
+    const murs_sanglants = buffer.subarray(offset, offset + level_size_8*60).toString("base64");
+    offset += level_size_8*60;
 
     const events = [];
     const nb_events = buffer.readUInt32LE(offset); offset += 4;
