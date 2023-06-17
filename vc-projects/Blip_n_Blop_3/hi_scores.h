@@ -23,8 +23,6 @@ protected:
 	*/
 
 public:
-	void	crypte();
-
 	HiScores()
 	{
 		for (int i = 0; i < HS_NB_SCORES; i++)

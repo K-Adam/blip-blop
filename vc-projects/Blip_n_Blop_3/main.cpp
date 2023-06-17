@@ -1,6 +1,6 @@
 #define NAME "Blip'n Blop"
 #define CONFIG_FILE "data/bb.cfg"
-#define HISCORES_FILE "data/bb.scr"
+#define HISCORES_FILE "config/hiscores.json"
 
 #define WIN32_LEAN_AND_MEAN
 

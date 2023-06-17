@@ -1,7 +1,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <fstream>
 #include "hi_scores.h"
+#include "json.h"
+
+using json = nlohmann::json;
 
 void HiScores::init()
 {
@@ -36,81 +40,49 @@ void HiScores::add(int scr, const char * name)
 	}
 }
 
-void HiScores::crypte()
-{
-	for (int i = 0; i < HS_NB_SCORES; i++) {
-		scores[i] ^= 0x35674a1f << i;
-
-		int * ptr = (int*) names[i];
-
-		for (int j = 0; j < HS_NAME_LENGTH; j += 4) {
-			*(ptr++) ^= 0x35674a1f << i;
-		}
-	}
-}
-
 bool HiScores::save(const char * file)
 {
-	FILE *	f;
-
-	f = fopen(file, "wb");
-
-	if (f == NULL)
-		return false;
-
-	int som = 0;
-
+	json result;
+	result["items"] = json::array();
 	for (int i = 0; i < HS_NB_SCORES; i++) {
-		som += scores[i];
+		json item;
 
-		for (int j = 0; j < HS_NAME_LENGTH; j++)
-			som += names[i][j];
+		item["name"] = names[i];
+		item["score"] = scores[i];
+
+		result["items"].push_back(item);
 	}
 
-	crypte();
+	std::ofstream out(file);
+	out << result.dump(2);
 
-	for (int i = 0; i < HS_NB_SCORES; i++) {
-		fwrite(&scores[i], 1, sizeof(scores[i]), f);
-		fwrite(names[i], 1, HS_NAME_LENGTH, f);
-	}
-
-	fwrite(&som, 1, sizeof(som), f);
-
-	crypte();
-	fclose(f);
 	return true;
 }
 
 bool HiScores::load(const char * file)
 {
-	FILE *	f;
-	int		som;
-
-	f = fopen(file, "rb");
-
-	if (f == NULL)
+	std::ifstream input(file);
+	if (!input.good()) {
 		return false;
-
-
-	for (int i = 0; i < HS_NB_SCORES; i++) {
-		fread(&scores[i], 1, sizeof(scores[i]), f);
-		fread(names[i], 1, HS_NAME_LENGTH, f);
 	}
 
-	fread(&som, 1, sizeof(som), f);
+	json data = json::parse(input);
 
-	crypte();
+	int index = 0;
+	for (auto item : data["items"]) {
 
-	int crc = 0;
+		std::string name = item["name"];
+		int score = item["score"];
 
-	for (int i = 0; i < HS_NB_SCORES; i++) {
-		crc += scores[i];
+		scores[index] = score;
+		size_t length = std::min(name.length(), (size_t)HS_NAME_LENGTH - 1);
+		std::copy(name.begin(), name.begin() + length, names[index]);
+		names[index][length] = '\0';
 
-		for (int j = 0; j < HS_NAME_LENGTH; j++)
-			crc += names[i][j];
+		if (++index > HS_NB_SCORES) {
+			break;
+		}
 	}
 
-
-	fclose(f);
-	return (som == crc);
+	return true;
 }
