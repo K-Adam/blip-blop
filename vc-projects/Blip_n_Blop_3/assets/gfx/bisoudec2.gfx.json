@@ -1,0 +1,53 @@
+{
+  "items": [
+    {
+      "path": "bisoudec2.gfx/000.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/001.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/002.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/003.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/004.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/005.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "bisoudec2.gfx/006.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    }
+  ]
+}

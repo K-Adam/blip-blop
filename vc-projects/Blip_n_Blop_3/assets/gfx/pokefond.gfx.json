@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "path": "pokefond.gfx/000.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "pokefond.gfx/001.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "pokefond.gfx/002.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    },
+    {
+      "path": "pokefond.gfx/003.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 640,
+      "height": 480
+    }
+  ]
+}
