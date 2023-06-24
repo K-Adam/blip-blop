@@ -182,8 +182,8 @@ void Game::jouePartie(int nbj, int idj) {
         PictureBank pbk;
 
         pbk.loadGFX("theend.gfx");
-        mbk.open("data/credits.mbk");
-        mbk2.open("data/end.mbk", false);
+        mbk.open("credits.mbk");
+        mbk2.open("end.mbk", false);
         cine.loadPBK("end.gfx");
         mbk.play(1);
         cine.playScene("data/end.cin", primSurface, backSurface);
@@ -646,7 +646,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["fichier_mbk"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "mbk/");
         strcat(buffer2, buffer);
         strcpy(current_mbk, buffer2);
 

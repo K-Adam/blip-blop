@@ -423,12 +423,12 @@ static bool InitApp(int nCmdShow) {
         debug << "Successfully loaded interface.\n";
     }
 
-    if (!mbk_inter.open("data/inter.mbk", false)) {
+    if (!mbk_inter.open("inter.mbk", false)) {
         debug << "Cannot load interface musics.\n";
         return false;
     }
 
-    if (!mbk_interl.open("data/interl.mbk", true)) {
+    if (!mbk_interl.open("interl.mbk", true)) {
         debug << "Cannot load interface musics (p2).\n";
         return false;
     }

@@ -9,26 +9,25 @@
 #include "ben_debug.h"
 #include "config.h"
 #include "fmod__errors.h"
+#include "string.h"
+#include "json.h"
 
-#define TYPE_MOD 0
-#define TYPE_MP3 1
+using json = nlohmann::json;
 
 bool MusicBank::open(const char* file, bool loop) {
     if (!music_on) return true;
 
-    std::ifstream f(file, std::ios::in);
-
-    if (f.is_open() == 0) {
-        debug << "MusicBank::load() -> Impossible d'ouvrir le fichier " << file
-              << "\n";
+    auto dir = asset_path_prefix("mbk", file);
+    std::ifstream input(dir + ".json");
+    if (!input.good()) {
+        debug << "MusicBank::load() -> Impossible d'ouvrir le fichier " << dir + ".json" << "\n";
         return false;
     }
 
-    int nb_musics;
-    f >> nb_musics;
+    json data = json::parse(input);
 
+    int nb_musics = data["items"].size();
     if (nb_musics < 1) {
-        f.close();
         debug << "MusicBank::load() -> Fichier " << file << " corrompu ("
               << nb_musics << ")\n";
         return false;
@@ -37,20 +36,10 @@ bool MusicBank::open(const char* file, bool loop) {
     musics_.resize(nb_musics);
 
     for (int i = 0; i < nb_musics; i++) {
-        int type;
-        f >> type;
-        std::string fname;
-        f >> fname;
-        std::replace(fname.begin(), fname.end(), '\\', '/');
-
-        if (type == TYPE_MOD) {
-            musics_[i].reset(new ModMusic(fname));
-        } else {  // TYPE_MP3
-            musics_[i].reset(new Mp3Music(fname, loop));
-        }
+        std::string path = data["items"][i];
+        musics_[i].reset(new Mp3Music(asset_path_prefix("mbk", path.c_str()), loop));
     }
 
-    f.close();
     return true;
 }
 
