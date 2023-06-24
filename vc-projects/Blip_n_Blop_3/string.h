@@ -14,3 +14,9 @@ inline void copyStringToCharArray(const std::string& str, char* charArray)
     // Add a null terminator at the end of the char array
     charArray[MAX_LENGTH - 1] = '\0';
 }
+
+inline std::string asset_path(const char* path)
+{
+    std::string prefix = "assets/";
+    return prefix + path;
+}

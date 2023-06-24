@@ -79,6 +79,7 @@
 #include "trace.h"
 #include "json.h"
 #include "string.h"
+#include "base64.h"
 
 using json = nlohmann::json;
 
@@ -281,8 +282,12 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 
     if (!chargeNiveau(nom_niveau)) return false;
 
-    if (strcmp(nom_niveau, "data/snorkniv.lvl") == 0 ||
-        strcmp(nom_niveau, "data/snorkniv2.lvl") == 0) {
+    if (
+        strcmp(nom_niveau, "data/snorkniv.lvl") == 0 ||
+        strcmp(nom_niveau, "data/snorkniv2.lvl") == 0 ||
+        strcmp(nom_niveau, "lvl/snorkniv.lvl") == 0 ||
+        strcmp(nom_niveau, "lvl/snorkniv2.lvl") == 0
+        ) {
         okLanceFlame = false;
     } else {
         okLanceFlame = true;
@@ -555,15 +560,19 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 //-----------------------------------------------------------------------------
 
 bool Game::chargeNiveau(const char* nom_niveau) {
-    char buffer[20];
-    char buffer2[70];
+    auto dirname = asset_path(nom_niveau);
+    auto json_path = dirname + ".json";
 
-    std::ifstream fic(nom_niveau, std::ios::binary);
-
-    if (!fic.good()) {
-        debug << "Game::chargeNiveau() -> Cannot load <" << nom_niveau << ">\n";
+    std::ifstream input(json_path);
+    if (!input.good()) {
+        debug << "Game::chargeNiveau() -> Cannot load <" << json_path << ">\n";
         return false;
     }
+
+    json data = json::parse(input);
+
+    char buffer[20];
+    char buffer2[70];
 
     debug
         << "---------------------------------------------------------------\n";
@@ -573,7 +582,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // GFX decors
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["gfx_decors"], buffer);
     strcpy(buffer2, "data/");
     strcat(buffer2, buffer);
 
@@ -587,7 +596,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // GFX niveau (fonds animés & co)
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["gfx_niveau"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -603,7 +612,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // GFX ennemis
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["gfx_ennemis"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -619,8 +628,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // SBK ennemis
     //
-    fic.read(buffer, 20);
-
+    copyStringToCharArray<20>(data["sbk_ennemis"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -636,7 +644,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // Fichier MBK
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["fichier_mbk"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -655,7 +663,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // Fichier RPG itself
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["fichier_rpg"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -670,7 +678,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // GFX rpg
     //
-    fic.read(buffer, 20);
+    copyStringToCharArray<20>(data["gfx_rpg"], buffer);
     if (strlen(buffer) != 0) {
         strcpy(buffer2, "data/");
         strcat(buffer2, buffer);
@@ -686,39 +694,39 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
     // Taille du niveau
     //
-    fic.read(reinterpret_cast<char*>(&scr_level_size), sizeof(scr_level_size));
+    scr_level_size = data["num_decor"].size();
     level_size = scr_level_size * 640;
 
     // Numéros des écrans à afficher (comme des tiles)
     //
     num_decor = new int[scr_level_size];
-    for (int i = 0; i < scr_level_size; i++)
-        fic.read(reinterpret_cast<char*>(&num_decor[i]), sizeof(int));
+    for (int i = 0; i < scr_level_size; i++) {
+        num_decor[i] = data["num_decor"][i];
+    }
 
     // Coordonnées de départ des joueurs
     //
-    fic.read(reinterpret_cast<char*>(&xstart1), sizeof(xstart1));
-    fic.read(reinterpret_cast<char*>(&ystart1), sizeof(ystart1));
-    fic.read(reinterpret_cast<char*>(&xstart2), sizeof(xstart2));
-    fic.read(reinterpret_cast<char*>(&ystart2), sizeof(ystart2));
+    xstart1 = data["xstart1"];
+    ystart1 = data["ystart1"];
+    xstart2 = data["xstart2"];
+    ystart2 = data["ystart2"];
 
     // Conditions de victoire
     //
-    fic.read(reinterpret_cast<char*>(&vic_x), sizeof(vic_x));
-    fic.read(reinterpret_cast<char*>(&vic_flag1), sizeof(vic_flag1));
-    fic.read(reinterpret_cast<char*>(&vic_val1), sizeof(vic_val1));
-    fic.read(reinterpret_cast<char*>(&vic_flag2), sizeof(vic_flag2));
-    fic.read(reinterpret_cast<char*>(&vic_val2), sizeof(vic_val2));
+    vic_x = data["vic_x"];
+    vic_flag1 = data["vic_flag1"];
+    vic_val1 = data["vic_val1"];
+    vic_flag2 = data["vic_flag2"];
+    vic_val2 = data["vic_val2"];
 
     //
     // Plateformes
     //
     y_plat = new int*[NB_MAX_PLAT];
-
+    auto plat_str = from_base64(data["y_plat"]);
     for (int i = 0; i < NB_MAX_PLAT; i++) {
         y_plat[i] = new int[level_size];
-        fic.read(reinterpret_cast<char*>(y_plat[i]),
-                 (level_size) * sizeof(int));
+        memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int)], level_size * sizeof(int));
     }
 
     //
@@ -726,44 +734,39 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     int level_size_8 = level_size / 8;
     murs_opaques = new bool*[60];
-
+    auto murs_opaques_str = from_base64(data["murs_opaques"]);
     for (int i = 0; i < 60; i++) {
         murs_opaques[i] = new bool[level_size_8];
-        fic.read(reinterpret_cast<char*>(murs_opaques[i]),
-                 (level_size_8) * sizeof(bool));
+        memcpy(murs_opaques[i], &murs_opaques_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
     }
 
     //
     // Murs sanglants
     //
     murs_sanglants = new bool*[60];
-
+    auto murs_sanglants_str = from_base64(data["murs_sanglants"]);
     for (int i = 0; i < 60; i++) {
         murs_sanglants[i] = new bool[level_size_8];
-        fic.read(reinterpret_cast<char*>(murs_sanglants[i]),
-                 (level_size_8) * sizeof(bool));
+        memcpy(murs_sanglants[i], &murs_sanglants_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
     }
 
     //
     // Charge les évenements
     //
-    FICEVENT ficevent;
-    int nb_events;
-
-    fic.read(reinterpret_cast<char*>(&nb_events), sizeof(nb_events));
-
+    int nb_events = data["events"].size();
     for (int i = 0; i < nb_events; i++) {
-        fic.read(reinterpret_cast<char*>(&ficevent), sizeof(ficevent));
+        auto event = data["events"][i];
 
-        switch (ficevent.event_id) {
+        int event_id = event["event_id"];
+        switch (event_id) {
             case EVENTID_ENNEMI: {
                 auto event_ennemi = std::make_unique<EventEnnemi>();
 
-                event_ennemi->x_activation = ficevent.x_activation;
-                event_ennemi->id_ennemi = ficevent.id;
-                event_ennemi->x = ficevent.x;
-                event_ennemi->y = ficevent.y;
-                event_ennemi->sens = ficevent.sens;
+                event_ennemi->x_activation = event["x_activation"];
+                event_ennemi->id_ennemi = event["id_ennemi"];
+                event_ennemi->x = event["x"];
+                event_ennemi->y = event["y"];
+                event_ennemi->sens = event["sens"];
 
                 list_event_endormis.push_back(std::move(event_ennemi));
                 break;
@@ -772,14 +775,14 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_ENNEMI_GENERATOR: {
                 auto event_gennemi = std::make_unique<EventGenEnnemi>();
 
-                event_gennemi->x_activation = ficevent.x_activation;
-                event_gennemi->id_ennemi = ficevent.id;
-                event_gennemi->x = ficevent.x;
-                event_gennemi->y = ficevent.y;
-                event_gennemi->sens = ficevent.sens;
-                event_gennemi->capacite = ficevent.capacite;
-                event_gennemi->periode = ficevent.periode;
-                event_gennemi->tmp = ficevent.tmp;
+                event_gennemi->x_activation = event["x_activation"];
+                event_gennemi->id_ennemi = event["id_ennemi"];
+                event_gennemi->x = event["x"];
+                event_gennemi->y = event["y"];
+                event_gennemi->sens = event["sens"];
+                event_gennemi->capacite = event["capacite"];
+                event_gennemi->periode = event["periode"];
+                event_gennemi->tmp = event["tmp"];
 
                 list_event_endormis.push_back(std::move(event_gennemi));
                 break;
@@ -788,10 +791,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_LOCK: {
                 auto event_lock = std::make_unique<EventLock>();
 
-                event_lock->x_activation = ficevent.x_activation;
-                event_lock->cond = ficevent.cond;
-                event_lock->flag = ficevent.flag;
-                event_lock->val = ficevent.val;
+                event_lock->x_activation = event["x_activation"];
+                event_lock->cond = event["cond"];
+                event_lock->flag = event["flag"];
+                event_lock->val = event["val"];
 
                 list_event_endormis.push_back(std::move(event_lock));
                 break;
@@ -800,8 +803,8 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_FORCE_SCROLL: {
                 auto event_scroll_speed = std::make_unique<EventScrollSpeed>();
 
-                event_scroll_speed->x_activation = ficevent.x_activation;
-                event_scroll_speed->speed = ficevent.speed;
+                event_scroll_speed->x_activation = event["x_activation"];
+                event_scroll_speed->speed = event["speed"];
 
                 list_event_endormis.push_back(std::move(event_scroll_speed));
                 break;
@@ -810,9 +813,9 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_FLAG: {
                 auto event_set_flag = std::make_unique<EventSetFlag>();
 
-                event_set_flag->x_activation = ficevent.x_activation;
-                event_set_flag->flag = ficevent.flag;
-                event_set_flag->val = ficevent.val;
+                event_set_flag->x_activation = event["x_activation"];
+                event_set_flag->flag = event["flag"];
+                event_set_flag->val = event["val"];
 
                 list_event_endormis.push_back(std::move(event_set_flag));
                 break;
@@ -821,9 +824,9 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_HOLD_FIRE: {
                 auto event_hold_fire = std::make_unique<EventHoldFire>();
 
-                event_hold_fire->x_activation = ficevent.x_activation;
-                event_hold_fire->flag = ficevent.flag;
-                event_hold_fire->val = ficevent.val;
+                event_hold_fire->x_activation = event["x_activation"];
+                event_hold_fire->flag = event["flag"];
+                event_hold_fire->val = event["val"];
 
                 list_event_endormis.push_back(std::move(event_hold_fire));
                 break;
@@ -832,9 +835,9 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_BONUS_GENERATOR: {
                 auto event_gen_bonus = std::make_unique<EventGenBonus>();
 
-                event_gen_bonus->x_activation = ficevent.x_activation;
-                event_gen_bonus->type = ficevent.id;
-                event_gen_bonus->periode = ficevent.periode;
+                event_gen_bonus->x_activation = event["x_activation"];
+                event_gen_bonus->type = event["type"];
+                event_gen_bonus->periode = event["periode"];
 
                 list_event_endormis.push_back(std::move(event_gen_bonus));
                 break;
@@ -843,11 +846,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_TEXT: {
                 auto event_texte = std::make_unique<EventTexte>();
 
-                event_texte->x_activation = ficevent.x_activation;
-                event_texte->ntxt = ficevent.n_txt;
-                event_texte->cond = ficevent.cond;
-                event_texte->flag = ficevent.flag;
-                event_texte->val = ficevent.val;
+                event_texte->x_activation = event["x_activation"];
+                event_texte->ntxt = event["ntxt"];
+                event_texte->cond = event["cond"];
+                event_texte->flag = event["flag"];
+                event_texte->val = event["val"];
 
                 list_event_endormis.push_back(std::move(event_texte));
                 break;
@@ -856,10 +859,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_FOND_ANIME: {
                 auto event_fond_anime = std::make_unique<EventFondAnime>();
 
-                event_fond_anime->x_activation = ficevent.x_activation;
-                event_fond_anime->id_fond = ficevent.id;
-                event_fond_anime->x = ficevent.x;
-                event_fond_anime->y = ficevent.y;
+                event_fond_anime->x_activation = event["x_activation"];
+                event_fond_anime->id_fond = event["id_fond"];
+                event_fond_anime->x = event["x"];
+                event_fond_anime->y = event["y"];
 
                 list_event_endormis.push_back(std::move(event_fond_anime));
                 break;
@@ -868,10 +871,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_MIFOND: {
                 auto event_mi_fond = std::make_unique<EventMiFond>();
 
-                event_mi_fond->x_activation = ficevent.x_activation;
-                event_mi_fond->id = ficevent.id;
-                event_mi_fond->x = ficevent.x;
-                event_mi_fond->y = ficevent.y;
+                event_mi_fond->x_activation = event["x_activation"];
+                event_mi_fond->id = event["id"];
+                event_mi_fond->x = event["x"];
+                event_mi_fond->y = event["y"];
 
                 list_event_endormis.push_back(std::move(event_mi_fond));
                 break;
@@ -880,10 +883,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_PREMIER_PLAN: {
                 auto event_pplan = std::make_unique<EventPremierPlan>();
 
-                event_pplan->id_fond = ficevent.id;
-                event_pplan->x_activation = ficevent.x_activation;
-                event_pplan->x = ficevent.x;
-                event_pplan->y = ficevent.y;
+                event_pplan->id_fond = event["id_fond"];
+                event_pplan->x_activation = event["x_activation"];
+                event_pplan->x = event["x"];
+                event_pplan->y = event["y"];
 
                 list_event_endormis.push_back(std::move(event_pplan));
                 break;
@@ -892,11 +895,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_RPG: {
                 auto event_rpg = std::make_unique<EventRPG>();
 
-                event_rpg->x_activation = ficevent.x_activation;
-                event_rpg->num = ficevent.id;
-                event_rpg->cond = ficevent.cond;
-                event_rpg->flag = ficevent.flag;
-                event_rpg->val = ficevent.val;
+                event_rpg->x_activation = event["x_activation"];
+                event_rpg->num = event["num"];
+                event_rpg->cond = event["cond"];
+                event_rpg->flag = event["flag"];
+                event_rpg->val = event["val"];
 
                 list_event_endormis.push_back(std::move(event_rpg));
                 break;
@@ -905,9 +908,9 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_MUSIC: {
                 auto event_music = std::make_unique<EventMusic>();
 
-                event_music->x_activation = ficevent.x_activation;
-                event_music->id = ficevent.id;
-                event_music->play = ficevent.play;
+                event_music->x_activation = event["x_activation"];
+                event_music->id = event["id"];
+                event_music->play = event["play"];
 
                 list_event_endormis.push_back(std::move(event_music));
                 break;
@@ -916,9 +919,9 @@ bool Game::chargeNiveau(const char* nom_niveau) {
             case EVENTID_METEO: {
                 auto event_meteo = std::make_unique<EventMeteo>();
 
-                event_meteo->x_activation = ficevent.x_activation;
-                event_meteo->intensite = ficevent.intensite;
-                event_meteo->type = ficevent.id;
+                event_meteo->x_activation = event["x_activation"];
+                event_meteo->intensite = event["intensite"];
+                event_meteo->type = event["type"];
 
                 list_event_endormis.push_back(std::move(event_meteo));
                 break;
@@ -926,10 +929,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
             case EVENTID_BONUS: {
                 auto event_bonus = std::make_unique<EventBonus>();
-                event_bonus->x_activation = ficevent.x_activation;
-                event_bonus->type = ficevent.id;
-                event_bonus->x = ficevent.x;
-                event_bonus->y = ficevent.y;
+                event_bonus->x_activation = event["x_activation"];
+                event_bonus->type = event["type"];
+                event_bonus->x = event["x"];
+                event_bonus->y = event["y"];
 
                 list_event_endormis.push_back(std::move(event_bonus));
                 break;
@@ -937,11 +940,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
             case EVENTID_TURRET: {
                 auto event_vehicule = std::make_unique<EventVehicule>();
-                event_vehicule->x_activation = ficevent.x_activation;
-                event_vehicule->id_vehicule = ficevent.id;
-                event_vehicule->x = ficevent.x;
-                event_vehicule->y = ficevent.y;
-                event_vehicule->dir = ficevent.dir;
+                event_vehicule->x_activation = event["x_activation"];
+                event_vehicule->id_vehicule = event["id_vehicule"];
+                event_vehicule->x = event["x"];
+                event_vehicule->y = event["y"];
+                event_vehicule->dir = event["dir"];
 
                 list_event_endormis.push_back(std::move(event_vehicule));
                 break;
@@ -949,8 +952,8 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
             case EVENTID_SON: {
                 auto event_son = std::make_unique<EventSon>();
-                event_son->x_activation = ficevent.x_activation;
-                event_son->nsnd = ficevent.id;
+                event_son->x_activation = event["x_activation"];
+                event_son->nsnd = event["nsnd"];
 
                 list_event_endormis.push_back(std::move(event_son));
                 break;
@@ -2434,8 +2437,11 @@ bool Game::loadList(const char* fic) {
         }
 
         std::string path = item["path"];
-        // TODO: Remove once lvl and gfx are loaded from assets
-        path.replace(path.begin(), path.begin() + 3, "data");
+
+        if (path.substr(0, 3) == "gfx") {
+            // TODO: Remove once gfx are loaded from assets
+            path.replace(path.begin(), path.begin() + 3, "data");
+        }
 
         copyStringToCharArray<200>(path, fic_names[nb_part]);
 

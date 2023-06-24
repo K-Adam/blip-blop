@@ -1,5 +1,7 @@
 #pragma once
 
+// TODO: REMOVE: Replace event types with strings like "ENNEMI" in json
+
 //--------------------------------------------------------------------------
 //	Constantes d'identification des événements
 //--------------------------------------------------------------------------
@@ -23,43 +25,3 @@
 #define EVENTID_BONUS_GENERATOR		16
 #define EVENTID_TURRET				17
 #define EVENTID_BONUS				18
-
-
-struct FICEVENT {
-	int		event_id;		// Identificateur de l'événement
-	int		x_activation;	// Abscisse d'activation
-
-	int		id;
-	int		x;
-
-	union {
-		int		n_pbk;
-		int		n_sbk;
-		int		n_txt;
-	};
-
-	union {
-		int		y;
-		int		cond;
-		int		speed;
-		int		intensite;
-		int		play;
-	};
-
-	union {
-		int		capacite;
-		int		flag;
-		int		duree;
-	};
-
-	union {
-		int		val;
-		int		sens;
-		int		dir;
-	};
-
-	int		periode;
-	bool	tmp;
-	char	fic[20];
-
-};
