@@ -442,7 +442,7 @@ static bool InitApp(int nCmdShow) {
     //                      Chargement de l'interface
     //------------------------------------------------------------------
 
-    if (!pbk_inter.loadGFX("data/inter.gfx", DDSURF_BEST)) {
+    if (!pbk_inter.loadGFX("inter.gfx")) {
         debug << "Cannot load interface.\n";
         return false;
     } else {
@@ -518,14 +518,7 @@ int main(int argc, char** argv) {
     //                      Initialise l'application
     //------------------------------------------------------------------
 
-    try{
-     if (!InitApp(nCmdShow)) {
-        return -1;
-    }
-    }
-    catch (const std::exception& ex)
-    {
-        std::cout << "Error occurred: " << ex.what() << std::endl;
+    if (!InitApp(nCmdShow)) {
         return -1;
     }
 

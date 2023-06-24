@@ -28,14 +28,12 @@ class PictureBank {
    private:
     std::vector<std::unique_ptr<Picture>> tab_;
     std::string filename_;
-    int flag_fic;
-    bool trans_fic;
 
    public:
     inline Picture* operator[](int n) const { return tab_[n].get(); };
     inline size_t getSize() const { return tab_.size(); };
 
     PictureBank();
-    bool loadGFX(const char* file, int flag = DDSURF_BEST, bool trans = true);
+    bool loadGFX(const char* file);
     bool restoreAll();
 };

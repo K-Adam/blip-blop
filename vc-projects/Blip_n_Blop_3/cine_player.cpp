@@ -198,7 +198,7 @@ void CINEPlayer::updateState()
 		if (ISCOM("endscene")) {
 			fini = true;
 		} else if (ISCOM("loadgfx")) {
-			if (!pbk.loadGFX(str_arg[0], DDSURF_BEST))
+			if (!pbk.loadGFX(str_arg[0]))
 				error("ne peut pas charger le fichier GFX");
 		} else if (ISCOM("loadmbk")) {
 			if (!mbk.open(str_arg[0]))

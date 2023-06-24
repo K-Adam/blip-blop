@@ -17,6 +17,17 @@ inline void copyStringToCharArray(const std::string& str, char* charArray)
 
 inline std::string asset_path(const char* path)
 {
-    std::string prefix = "assets/";
-    return prefix + path;
+    std::string root = "assets/";
+    return root + path;
+}
+
+inline std::string asset_path_prefix(const char* prefix, const char* path)
+{
+    std::string root = "assets/";
+    if (strstr(path, prefix) != path) {
+        return root + prefix + "/" + path;
+    }
+    else {
+        return root + path;
+    }
 }

@@ -181,10 +181,10 @@ void Game::jouePartie(int nbj, int idj) {
         MusicBank mbk2;
         PictureBank pbk;
 
-        pbk.loadGFX("data/theend.gfx", DDSURF_BEST, false);
+        pbk.loadGFX("theend.gfx");
         mbk.open("data/credits.mbk");
         mbk2.open("data/end.mbk", false);
-        cine.loadPBK("data/end.gfx");
+        cine.loadPBK("end.gfx");
         mbk.play(1);
         cine.playScene("data/end.cin", primSurface, backSurface);
         mbk.stop();
@@ -222,7 +222,7 @@ void Game::jouePartie(int nbj, int idj) {
     //
     releasePartie();
 
-    pbk_inter.loadGFX("data/inter.gfx", DDSURF_BEST);
+    pbk_inter.loadGFX("inter.gfx");
 
     if (!skipped && !app_killed) {
         if (!letsgo) {
@@ -583,10 +583,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     // GFX decors
     //
     copyStringToCharArray<20>(data["gfx_decors"], buffer);
-    strcpy(buffer2, "data/");
+    strcpy(buffer2, "gfx/");
     strcat(buffer2, buffer);
 
-    if (!pbk_decor.loadGFX(buffer2, DDSURF_SYSTEM)) {
+    if (!pbk_decor.loadGFX(buffer2)) {
         debug << "Game::chargeNiveau() -> Cannot load " << buffer2
               << " as background\n";
         return false;
@@ -598,10 +598,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["gfx_niveau"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "gfx/");
         strcat(buffer2, buffer);
 
-        if (!pbk_niveau.loadGFX(buffer2, mem_flag)) {
+        if (!pbk_niveau.loadGFX(buffer2)) {
             debug << "Game::chargeNiveau() -> Cannot load " << buffer2
                   << " as level stuff\n";
             return false;
@@ -614,10 +614,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["gfx_ennemis"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "gfx/");
         strcat(buffer2, buffer);
 
-        if (!pbk_ennemis.loadGFX(buffer2, mem_flag)) {
+        if (!pbk_ennemis.loadGFX(buffer2)) {
             debug << "Game::chargeNiveau() -> Cannot load " << buffer2
                   << " as ennemies\n";
             return false;
@@ -680,10 +680,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["gfx_rpg"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "gfx/");
         strcat(buffer2, buffer);
 
-        if (!pbk_rpg.loadGFX(buffer2, mem_flag)) {
+        if (!pbk_rpg.loadGFX(buffer2)) {
             debug << "Game::chargeNiveau() -> Cannot load " << buffer2
                   << " as RPG GFX\n";
             return false;
@@ -1229,35 +1229,35 @@ bool Game::chargePartie() {
     debug
         << "---------------------------------------------------------------\n";
 
-    if (!pbk_blip.loadGFX("data/blip.gfx", mem_flag)) return false;
+    if (!pbk_blip.loadGFX("blip.gfx")) return false;
 
     debug << "Successfully loaded <blip.gfx>\n";
 
-    if (!pbk_blop.loadGFX("data/blop.gfx", mem_flag)) return false;
+    if (!pbk_blop.loadGFX("blop.gfx")) return false;
 
     debug << "Successfully loaded <blop.gfx>\n";
 
     // Charge BB
     //
-    if (!pbk_bb.loadGFX("data/bb.gfx", mem_flag)) return false;
+    if (!pbk_bb.loadGFX("bb.gfx")) return false;
 
     debug << "Successfully loaded <bb.gfx>\n";
 
     // Charge Divers
     //
-    if (!pbk_misc.loadGFX("data/misc.gfx", mem_flag)) return false;
+    if (!pbk_misc.loadGFX("misc.gfx")) return false;
 
     debug << "Successfully loaded <misc.gfx>\n";
 
     // Charge gueules BB
     //
-    if (!pbk_rpg_bb.loadGFX("data/rpg_bb.gfx", mem_flag)) return false;
+    if (!pbk_rpg_bb.loadGFX("rpg_bb.gfx")) return false;
 
     debug << "Successfully loaded <rpg_bb.gfx>\n";
 
     // Fonte score blip
     //
-    if (!fnt_score_blip.load("data/scorei.lft", mem_flag)) return false;
+    if (!fnt_score_blip.load("data/scorei.lft")) return false;
 
     debug << "Successfully loaded <scorei.lft>\n";
 
@@ -2436,14 +2436,7 @@ bool Game::loadList(const char* fic) {
             assert(false);
         }
 
-        std::string path = item["path"];
-
-        if (path.substr(0, 3) == "gfx") {
-            // TODO: Remove once gfx are loaded from assets
-            path.replace(path.begin(), path.begin() + 3, "data");
-        }
-
-        copyStringToCharArray<200>(path, fic_names[nb_part]);
+        copyStringToCharArray<200>(item["path"], fic_names[nb_part]);
 
         nb_part++;
     }
@@ -2687,7 +2680,7 @@ void Game::go() {
 
     CINEPlayer cine;
 
-    cine.loadPBK("data/intro.gfx");
+    cine.loadPBK("intro.gfx");
     mbk_interl.play(0);
     cine.playScene("data/intro.cin", primSurface, backSurface);
 
@@ -2728,7 +2721,7 @@ void Game::go() {
 
                     case 3:
                     case 7:
-                        cine.loadPBK("data/intro.gfx");
+                        cine.loadPBK("intro.gfx");
                         cine.playScene(
                             "data/intro.cin", primSurface, backSurface);
                         break;
@@ -2804,7 +2797,7 @@ void Game::go() {
 //-----------------------------------------------------------------------------
 
 void Game::showBriefing(char* fn) {
-    pbk_briefing.loadGFX(fn, DDSURF_SYSTEM, false);
+    pbk_briefing.loadGFX(fn);
 
     briefing = true;
 
@@ -2867,7 +2860,7 @@ void Game::showCredits(bool theEnd) {
 
     if (theEnd) {
         xcred = 510;
-        pbk_cred.loadGFX("data/credits.gfx", DDSURF_BEST, false);
+        pbk_cred.loadGFX("credits.gfx");
     }
 
     update_regulator_.Skip();
