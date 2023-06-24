@@ -7,17 +7,17 @@
     "JUMP": 1073741942,
     "LEFT": 1073741904,
     "RIGHT": 1073741903,
-    "SUPER": 32,
+    "SUPER": 8,
     "UP": 1073741906
   },
   "player2": {
-    "DOWN": 115,
+    "DOWN": 97,
     "FIRE": 9,
-    "JUMP": 103,
-    "LEFT": 100,
-    "RIGHT": 102,
-    "SUPER": 104,
-    "UP": 113
+    "JUMP": 32,
+    "LEFT": 97,
+    "RIGHT": 100,
+    "SUPER": 102,
+    "UP": 119
   },
   "vsync": true
 }

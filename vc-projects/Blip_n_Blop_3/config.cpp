@@ -122,13 +122,13 @@ void set_default_config(bool reset_lang)
 	in.setAlias(ALIAS_P1_RIGHT, DIK_RIGHT);
 	in.setAlias(ALIAS_P1_FIRE, DIK_LCONTROL);
 	in.setAlias(ALIAS_P1_JUMP, DIK_LMENU);
-	in.setAlias(ALIAS_P1_SUPER, DIK_SPACE);
+	in.setAlias(ALIAS_P1_SUPER, DIK_BACKSPACE);
 
-	in.setAlias(ALIAS_P2_UP, DIK_Q);
-	in.setAlias(ALIAS_P2_DOWN, DIK_S);
-	in.setAlias(ALIAS_P2_LEFT, DIK_D);
-	in.setAlias(ALIAS_P2_RIGHT, DIK_F);
+	in.setAlias(ALIAS_P2_UP, DIK_W);
+	in.setAlias(ALIAS_P2_DOWN, DIK_A);
+	in.setAlias(ALIAS_P2_LEFT, DIK_A);
+	in.setAlias(ALIAS_P2_RIGHT, DIK_D);
 	in.setAlias(ALIAS_P2_FIRE, DIK_TAB);
-	in.setAlias(ALIAS_P2_JUMP, DIK_G);
-	in.setAlias(ALIAS_P2_SUPER, DIK_H);
+	in.setAlias(ALIAS_P2_JUMP, DIK_SPACE);
+	in.setAlias(ALIAS_P2_SUPER, DIK_F);
 }
