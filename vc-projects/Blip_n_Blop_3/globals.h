@@ -107,7 +107,7 @@ extern int			level_size;			// taille en pixels du niveau
 extern int *		num_decor;			// Numéro ecran courant -> surface à utiliser
 
 
-extern int	**		y_plat;				// Plateformes (ordonnées)
+extern int32_t **		y_plat;				// Plateformes (ordonnées)
 
 extern bool **		murs_opaques;		// Murs opaques (=true)
 extern bool **		murs_sanglants;		// Murs sanglants (=true)

@@ -722,11 +722,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     // Plateformes
     //
-    y_plat = new int*[NB_MAX_PLAT];
+    y_plat = new int32_t *[NB_MAX_PLAT];
     auto plat_str = from_base64(data["y_plat"]);
     for (int i = 0; i < NB_MAX_PLAT; i++) {
-        y_plat[i] = new int[level_size];
-        memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int)], level_size * sizeof(int));
+        y_plat[i] = new int32_t[level_size];
+        memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
     }
 
     //

@@ -95,7 +95,7 @@ int			level_size;			// taille en pixels du niveau
 int	*		num_decor	= NULL;	// Numéro ecran courant -> surface à utiliser
 
 
-int	**		y_plat		= NULL;	// Plateformes (ordonnées)
+int32_t **		y_plat		= NULL;	// Plateformes (ordonnées)
 
 bool **		murs_opaques;		// Murs opaques (=true)
 bool **		murs_sanglants;		// Murs sanglants (=true)
