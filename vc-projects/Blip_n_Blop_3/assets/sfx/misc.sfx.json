@@ -1,16 +1,16 @@
 {
   "items": [
-    "0.mp3",
-    "1.mp3",
-    "2.mp3",
-    "3.mp3",
-    "4.mp3",
-    "5.mp3",
-    "6.mp3",
-    "7.mp3",
-    "8.mp3",
-    "9.mp3",
-    "10.mp3",
-    "11.mp3"
+    "misc.sfx/00.wav",
+    "misc.sfx/01.wav",
+    "misc.sfx/02.wav",
+    "misc.sfx/03.wav",
+    "misc.sfx/04.wav",
+    "misc.sfx/05.wav",
+    "misc.sfx/06.wav",
+    "misc.sfx/07.wav",
+    "misc.sfx/08.wav",
+    "misc.sfx/09.wav",
+    "misc.sfx/10.wav",
+    "misc.sfx/11.wav"
   ]
 }

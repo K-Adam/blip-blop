@@ -1,7 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
-const saveMp3 = require('./mp3.js').save;
+const saveMusic = require('./music.js').save;
 
 const input = "input";
 const output = "output/sfx";
@@ -34,11 +34,11 @@ glob.sync(`${input}/*.sfx`).forEach(filePath => {
         const soundData = buffer.subarray(offset, offset+size);
         offset += size;
         
-        const mp3Name = `${i}.mp3`;
+        const wavName = `${pad(i)}.wav`;
 
-        items.push(mp3Name);
+        items.push(`${fileName}/${wavName}`);
 
-        saveMp3(soundData, `${outputDir}/${mp3Name}`);
+        saveMusic(soundData, `${outputDir}/${wavName}`);
     }
 
     fs.writeFileSync(`${output}/${fileName}.json`, JSON.stringify({items}, null, 2));

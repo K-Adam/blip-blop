@@ -622,6 +622,7 @@ DLL_API float			F_API FSOUND_GetCPUUsage();
            Use FSOUND_LOADRAW      flag with FSOUND_Sample_Load to treat as as raw pcm data.
 */
 
+DLL_API FSOUND_SAMPLE * F_API FSOUND_Sample_Load_File(const char* path);
 DLL_API FSOUND_SAMPLE *	F_API FSOUND_Sample_Load(int index, const char *name, unsigned int mode, int memlength);
 DLL_API FSOUND_SAMPLE *	F_API FSOUND_Sample_Alloc(int index, int length, unsigned int mode, int deffreq, int defvol, int defpan, int defpri);
 DLL_API void			F_API FSOUND_Sample_Free(FSOUND_SAMPLE *sptr);

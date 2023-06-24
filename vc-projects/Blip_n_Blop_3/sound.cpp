@@ -57,7 +57,7 @@ Sound::~Sound()
 
 bool Sound::load(const char * fic)
 {
-	sample = FSOUND_Sample_Load(FSOUND_FREE, fic, FSOUND_LOOP_OFF, 0);
+	sample = FSOUND_Sample_Load_File(fic);
 
 	if (sample == NULL)
 		return false;

@@ -27,6 +27,10 @@
 #include "ben_debug.h"
 #include "sound.h"
 #include "sound_bank.h"
+#include "string.h"
+#include "json.h"
+
+using json = nlohmann::json;
 
 //-----------------------------------------------------------------------------
 //		Méthodes
@@ -39,20 +43,16 @@ void SoundBank::reload() {
 }
 
 bool SoundBank::loadSFX(const char* nom_fic) {
-    int n_buff;  // Nombre de buffers
-    int taille;  // Taille d'un WAV
-    void* ptr;
-
-    std::ifstream fh(nom_fic, std::ios::binary);
-
-    if (!fh.good()) {
-        debug << "SoundBank::loadSFX() -> Impossible d'ouvrir le fichier "
-              << nom_fic << "\n";
+    auto dir = asset_path_prefix("sfx", nom_fic);
+    std::ifstream input(dir + ".json");
+    if (!input.good()) {
+        debug << "SoundBank::loadSFX() -> Impossible d'ouvrir le fichier " << dir + ".json" << "\n";
         return false;
     }
 
-    int nb_snd;
-    fh.read(reinterpret_cast<char*>(&nb_snd), sizeof(nb_snd));
+    json data = json::parse(input);
+
+    int nb_snd = data["items"].size();
 
     if (nb_snd < 1) {
         debug << "SoundBank::loadSFX() -> Fichier " << nom_fic << " corrompu\n";
@@ -61,25 +61,13 @@ bool SoundBank::loadSFX(const char* nom_fic) {
     tab_.resize(nb_snd);
 
     for (int i = 0; i < nb_snd; i++) {
-        // Nombre de buffers
-        fh.read(reinterpret_cast<char*>(&n_buff), sizeof(n_buff));
-        fh.read(reinterpret_cast<char*>(&taille), sizeof(taille));  // Taille
+        auto item = data["items"][i];
 
-        ptr = malloc(taille);
-
-        if (ptr == NULL) {
-            debug << "SoundBank::loadSFX() -> Pas assez de mémoire\n";
-            return false;
-        }
-
-        // Copie le schnuf en mémoire
-        //
-        fh.read(reinterpret_cast<char*>(ptr), taille);
+        std::string item_path = data["items"][i];
+        auto path = asset_path_prefix("sfx", item_path.c_str());
 
         tab_[i] = std::make_unique<Sound>();
-        tab_[i]->loadFromMem(ptr, taille);
-
-        free(ptr);
+        tab_[i]->load(path.c_str());
     }
 
     filename_ = nom_fic;

@@ -630,7 +630,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["sbk_ennemis"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "sfx/");
         strcat(buffer2, buffer);
 
         if (!sbk_niveau.loadSFX(buffer2)) {
@@ -1281,13 +1281,13 @@ bool Game::chargePartie() {
 
     // Sons globaux
     //
-    if (!sbk_misc.loadSFX("data/misc.sfx")) return false;
+    if (!sbk_misc.loadSFX("misc.sfx")) return false;
 
     debug << "Successfully loaded <misc.sfx>\n";
 
     // Sons BB
     //
-    if (!sbk_bb.loadSFX("data/bb.sfx")) return false;
+    if (!sbk_bb.loadSFX("bb.sfx")) return false;
 
     debug << "Successfully loaded <bb.sfx>\n";
 

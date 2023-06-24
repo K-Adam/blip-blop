@@ -46,7 +46,7 @@ int TitleScreen::update() {
 void TitleScreen::stop() {
     if (sound_on != start_sound_on) {
         if (sound_on) {
-            sbk_bb.loadSFX("data\\bb.sfx");
+            sbk_bb.loadSFX("bb.sfx");
         }
     }
 

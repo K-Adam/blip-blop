@@ -16,6 +16,18 @@ typedef struct FMUSIC_MODULE FMUSIC_MODULE;
 typedef struct FSOUND_STREAM FSOUND_STREAM;
 typedef struct FSOUND_SAMPLE FSOUND_SAMPLE;
 
+FSOUND_SAMPLE* FSOUND_Sample_Load_File(const char* path) {
+    FSOUND_SAMPLE* sample = new FSOUND_SAMPLE;
+
+    sample->loop = 0;
+    sample->chunk = Mix_LoadWAV(path);
+    if (!sample->chunk) {
+        printf("Mix_LoadWAV: %s\n", Mix_GetError());
+    }
+
+    return sample;
+}
+
 FSOUND_SAMPLE* FSOUND_Sample_Load(int index,
                                   const char* buffer,
                                   unsigned int mode,
