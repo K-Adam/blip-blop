@@ -16,12 +16,12 @@
 #include <fstream>
 #include <cstdio>
 #include <cstring>
-#include "lgx_packer.h"
 #include "rpg_player.h"
 #include "globals.h"
 #include "txt_data.h"
 #include "couille.h"
 #include "scroll.h"
+#include "half_tone.h"
 
 
 RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
@@ -133,7 +133,7 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 		r.right = 640;
 		r.bottom = 220;
 
-		LGXpaker.halfTone(surf, &r);
+		halfTone(surf, &r);
 	}
 
 	if (nimage[1] >= 0) {
@@ -142,7 +142,7 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 		r.right	= 540;
 		r.bottom = 400;
 
-		LGXpaker.halfTone(surf, &r);
+		halfTone(surf, &r);
 	}
 
 	// Affiche les têtes de con

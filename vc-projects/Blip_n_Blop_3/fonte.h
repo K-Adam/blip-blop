@@ -36,12 +36,11 @@ private:
 	int			spc;		// Largeur d'un espace
 	int			h;			// Hauteur d'un saut de ligne
         std::string filename_;
-	int			flag_fic;
 
 public:
 	//	Charge un ficher FNT
 	//
-	bool load(const char * f, int flags = DDSURF_BEST);
+	bool load(const char * f);
 
 
 	// Affiche du texte normal

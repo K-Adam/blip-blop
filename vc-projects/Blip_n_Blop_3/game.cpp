@@ -62,7 +62,6 @@
 #include "globals.h"
 #include "input.h"
 #include "key_translator.h"
-#include "lgx_packer.h"
 #include "make_bonus.h"
 #include "menu_game.h"
 #include "menu_main.h"
@@ -80,6 +79,7 @@
 #include "json.h"
 #include "string.h"
 #include "base64.h"
+#include "half_tone.h"
 
 using json = nlohmann::json;
 
@@ -1257,25 +1257,25 @@ bool Game::chargePartie() {
 
     // Fonte score blip
     //
-    if (!fnt_score_blip.load("data/scorei.lft")) return false;
+    if (!fnt_score_blip.load("scorei.lft")) return false;
 
     debug << "Successfully loaded <scorei.lft>\n";
 
     // Fonte score blop
     //
-    if (!fnt_score_blop.load("data/scoreo.lft", mem_flag)) return false;
+    if (!fnt_score_blop.load("scoreo.lft")) return false;
 
     debug << "Successfully loaded <scoreo.lft>\n";
 
     // Fonte munitions
     //
-    if (!fnt_ammo.load("data/ammo1.lft", mem_flag)) return false;
+    if (!fnt_ammo.load("ammo1.lft")) return false;
 
     debug << "Successfully loaded <ammo1.lft>\n";
 
     // Fonte munitions utilisées
     //
-    if (!fnt_ammo_used.load("data/ammo2.lft", mem_flag)) return false;
+    if (!fnt_ammo_used.load("ammo2.lft")) return false;
 
     debug << "Successfully loaded <ammo2.lft>\n";
 
@@ -1858,7 +1858,7 @@ void Game::showPE(bool bonus, bool fuckOff) {
     r.right = 580;
     r.bottom = 400;
 
-    LGXpaker.halfTone(systemSurface, &r);
+    halfTone(systemSurface, &r);
 
     mbk_inter.play(0);
 

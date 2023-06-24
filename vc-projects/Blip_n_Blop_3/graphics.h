@@ -48,6 +48,10 @@ constexpr int RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 /**/
 #define DDBLT_COLORFILL (0x1 << 2)
 
+namespace SDL {
+    class Surface;
+}
+
 class Graphics {
    private:
     struct WindowDeleter {

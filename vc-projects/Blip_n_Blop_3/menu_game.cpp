@@ -6,7 +6,6 @@
 #include "globals.h"
 #include "input.h"
 #include "key_translator.h"
-#include "lgx_packer.h"
 #include "menus/txt_defines.h"
 #include "txt_data.h"
 

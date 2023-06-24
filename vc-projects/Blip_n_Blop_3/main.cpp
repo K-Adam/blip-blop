@@ -18,7 +18,6 @@
 #include "game.h"
 #include "globals.h"
 #include "input.h"
-#include "lgx_packer.h"
 #include "music_bank.h"
 #include "picture.h"
 #include "picture_bank.h"
@@ -43,8 +42,6 @@ static bool safeMode = false;
 
 void ReleaseAll(void) {
     if (graphicInstance != NULL) {
-        LGXpaker.closePaker();
-
         if (videoA != NULL) {
             videoA->Release();
             videoA = NULL;
@@ -355,17 +352,6 @@ static bool InitApp(int nCmdShow) {
     debug << "systemSurface created\n";
 
     //------------------------------------------------------------------
-    //                      LGX paker
-    //------------------------------------------------------------------
-    debug << "Initializing LGXpaker\n";
-    if (!LGXpaker.init(primSurface)) {
-        Bug("Cannot initialise LGX paker. Please get the latest drivers for "
-            "your video card.");
-        return false;
-    }
-    debug << "LGXpaker initialized\n";
-
-    //------------------------------------------------------------------
     //                      Scroll buffers
     //------------------------------------------------------------------
 
@@ -406,38 +392,26 @@ static bool InitApp(int nCmdShow) {
     //                      Chargement des fontes
     //------------------------------------------------------------------
 
-    if (!fnt_menu.load("data/menu.lft", mem_flag)) {
-        Bug("Cannot open the file data/menu.lft");
+    if (!fnt_menu.load("menu.lft")) {
+        Bug("Cannot open the file menu.lft");
         return false;
     }
 
-    if (!fnt_menus.load("data/menus.lft", mem_flag)) {
-        Bug("Cannot open the file data/menus.lft");
+    if (!fnt_menus.load("menus.lft")) {
+        Bug("Cannot open the file menus.lft");
         return false;
     }
 
-    if (!fnt_cool.load("data/cool.lft", mem_flag)) {
-        Bug("Cannot open the file data/cool.lft");
+    if (!fnt_cool.load("cool.lft")) {
+        Bug("Cannot open the file cool.lft");
         return false;
     }
 
-    if (!fnt_rpg.load("data/rpg.lft", mem_flag)) {
-        Bug("Cannot open the file data/rpg.lft");
+    if (!fnt_rpg.load("rpg.lft")) {
+        Bug("Cannot open the file rpg.lft");
         return false;
     }
-    /*
-            if ( !fnt_score_blip.load( "data/scorei.lft", mem_flag))
-            {
-                    Bug("Cannot open the file data/scorei.lft");
-                    return false;
-            }
 
-            if ( !fnt_score_blop.load( "data/scoreo.lft", mem_flag))
-            {
-                    Bug("Cannot open the file data/scoreo.lft");
-                    return false;
-            }
-    */
     //------------------------------------------------------------------
     //                      Chargement de l'interface
     //------------------------------------------------------------------

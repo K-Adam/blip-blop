@@ -3,7 +3,6 @@
 #include "ben_debug.h"
 #include "config.h"
 #include "globals.h"
-#include "lgx_packer.h"
 
 //-----------------------------------------------------------------------------
 //              Objet 'ddraw' global REEL

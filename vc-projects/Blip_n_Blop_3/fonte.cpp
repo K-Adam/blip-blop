@@ -28,62 +28,63 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include "lgx_packer.h"
 #include "ben_debug.h"
 #include "fonte.h"
+#include "json.h"
+#include "string.h"
+
+#include <SDL2/SDL_image.h>
+
+using json = nlohmann::json;
 
 
 //-----------------------------------------------------------------------------
 
-bool Fonte::load(const char * fic, int flags)
+bool Fonte::load(const char * fic)
 {
-        pictab_.clear();
-        std::ifstream fh(fic, std::ios::binary);
-
-	if (!fh.good()) {
-		debug << "Fonte::load->Ne peut pas ouvrir " << fic << "\n";
+	auto font_path = asset_path_prefix("lft", fic);
+	std::ifstream input(font_path + ".json");
+	if (!input.good()) {
+		debug << "Fonte::load->Ne peut pas ouvrir " << font_path + ".json" << "\n";
 		return false;
 	}
 
-        fh.read(reinterpret_cast<char*>(&h), sizeof(h));
-        fh.read(reinterpret_cast<char*>(&spc), sizeof(spc));
+	json data = json::parse(input);
 
+    pictab_.clear();
 
-        pictab_.resize(256);
-        for (int i = 1; i < 256; i++) {
-            int taille;
-            fh.read(reinterpret_cast<char*>(&taille), sizeof(taille));
+	h = data["h"];
+	spc = data["spc"];
 
-            if (taille == 0) {
-                continue;
-            }
+	pictab_.resize(256);
 
-            void* ptr = malloc(taille);
+    for (int i = 1; i < 256; i++) {
 
-            fh.read(reinterpret_cast<char*>(ptr), taille);
+		auto key = std::to_string(i);
+		if (data["items"].find(key) == data["items"].end()) {
+			continue;
+		}
 
-            SDL::Surface* surf = LGXpaker.loadLGX(ptr, flags);
+		auto item = data["items"][key];
 
-            free(ptr);
+		std::string item_path = item["path"];
+		std::string image_path = asset_path_prefix("lft", item_path.c_str());
+		SDL_Surface* surf = IMG_Load(image_path.c_str());
 
-            pictab_[i] = std::make_unique<Picture>();
-            pictab_[i]->SetSurface(surf);
-            pictab_[i]->SetSpot(0, 0);
-            //		pictab[i]->SetColorKey( RGB( 250, 212, 152));
-            pictab_[i]->SetColorKey(RGB( 246, 205, 148));
-            //pictab[i]->SetColorKey(RGB(250, 206, 152));
+		if (surf == NULL) {
+			debug << "Can not load image " << image_path << "\n";
+			return false;
+		}
 
-            /*static int test_i = 1;
-              char buf[128];
-              sprintf(buf, "test/%d.bmp", test_i);
-              SDL_SaveBMP(surf->Get(), buf);
-              test_i++;*/
+        pictab_[i] = std::make_unique<Picture>();
+        pictab_[i]->SetSurface(new SDL::Surface(surf));
+        pictab_[i]->SetSpot(0, 0);
 
-        }
+    }
 
-        filename_ = fic;
-        flag_fic = flags;
-        return true;
+    filename_ = fic;
+
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -261,47 +262,11 @@ int Fonte::width(const char * txt)
 
 bool Fonte::restoreAll()
 {
-	if (filename_.empty())
+	if (filename_.empty()) {
 		return true;
-
-	SDL::Surface *	surf;
-
-	int			taille;
-	void *		ptr;
-
-
-        std::fstream fh(filename_.c_str(), std::ios::binary);
-
-	if (!fh.good()) {
-		debug << "Fonte::restoreAll()->Ne peut pas ouvrir " << filename_ << "\n";
-		return false;
 	}
 
-
-        fh.read(reinterpret_cast<char*>(&h), sizeof(h));
-        fh.read(reinterpret_cast<char*>(&spc), sizeof(spc));
-
-
-	for (int i = 1; i < 256; i++) {
-
-                fh.read(reinterpret_cast<char*>(&taille), sizeof(taille));
-
-		if (taille == 0) {
-			continue;
-		}
-
-		ptr = malloc(taille);
-
-                fh.read(reinterpret_cast<char*>(ptr), taille);
-
-		surf = LGXpaker.loadLGX(ptr, flag_fic);
-
-		free(ptr);
-
-		pictab_[i]->SetSurface(surf);
-		pictab_[i]->SetSpot(0, 0);
-		pictab_[i]->SetColorKey(RGB(250, 206, 152));
-	}
+	assert(false);
 
 	return true;
 }

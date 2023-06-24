@@ -1,7 +1,7 @@
 #include "menu_list.h"
 
 #include "../globals.h"
-#include "../lgx_packer.h"
+#include "../half_tone.h"
 
 int MenuList::ComputeWidth() const {
     int width = 0;
@@ -36,7 +36,7 @@ void MenuList::ShadeTextBox(SDL::Surface* surf) const {
     rec.bottom = 260 + ys;
     rec.right = 320 + width;
 
-    LGXpaker.halfTone(surf, &rec);
+    halfTone(surf, &rec);
 }
 
 void MenuList::Draw(SDL::Surface* surf) const {

@@ -24,7 +24,6 @@
 #include <string.h>
 #include "ben_debug.h"
 #include "dd_gfx.h"
-#include "lgx_packer.h"
 #include "json.h"
 #include "string.h"
 #include <SDL2/SDL_image.h>
