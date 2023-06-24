@@ -75,9 +75,12 @@
 #include "tir_bb_vache.h"
 #include "txt_data.h"
 #include "vehicule.h"
-
 #include "precache.h"
 #include "trace.h"
+#include "json.h"
+#include "string.h"
+
+using json = nlohmann::json;
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -1287,7 +1290,7 @@ bool Game::chargePartie() {
 
     // La liste des niveaux
     //
-    if (!loadList("data/bb.lst")) return false;
+    if (!loadList("assets/bb.lst.json")) return false;
 
     debug << "Successfully loaded <bb.lst>\n";
     debug << "Successfully loaded all needed global game files\n";
@@ -2407,48 +2410,38 @@ void Game::drawTremblements() {
 //-----------------------------------------------------------------------------
 
 bool Game::loadList(const char* fic) {
-    std::ifstream f;
-    int n;
-
-    f.open(fic);
-
-    if (f.is_open() == 0) {
+    std::ifstream input(fic);
+    if (!input.good()) {
         debug << "Cannot open " << fic << "\n";
         return false;
     }
 
+    json data = json::parse(input);
+
     nb_part = 0;
-    f >> n;
+    for (auto item : data["items"]) {
 
-    while (!f.eof()) {
-        if (n < 0 || n > 2) {
-            debug << "File " << fic << " corrupted!\n";
-            f.close();
-            return false;
+        if (item["type"] == "BRIEFING") {
+            type_part[nb_part] = PART_BRIEFING;
+            type_lvl[nb_part] = 0;
+        }
+        else if (item["type"] == "LEVEL") {
+            type_part[nb_part] = PART_LEVEL;
+            type_lvl[nb_part] = item["level"];
+        }
+        else {
+            assert(false);
         }
 
-        type_part[nb_part] = n;
+        std::string path = item["path"];
+        // TODO: Remove once lvl and gfx are loaded from assets
+        path.replace(path.begin(), path.begin() + 3, "data");
 
-        if (n == PART_CINE || n == PART_BRIEFING) {
-            f.getline(fic_names[nb_part], 200, '*');
-            f.getline(fic_names[nb_part], 200);
-        } else {
-            f >> type_lvl[nb_part];
-            f.getline(fic_names[nb_part], 200, '*');
-            f.getline(fic_names[nb_part], 200);
-        }
+        copyStringToCharArray<200>(path, fic_names[nb_part]);
 
-        nb_part += 1;
-        f >> n;
-
-        if (nb_part > MAX_PART) {
-            debug << "File " << fic << " corrupted!\n";
-            f.close();
-            return false;
-        }
+        nb_part++;
     }
 
-    f.close();
     return true;
 }
 
