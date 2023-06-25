@@ -31,3 +31,14 @@ inline std::string asset_path_prefix(const char* prefix, const char* path)
         return root + path;
     }
 }
+
+inline std::string remove_quotes(const std::string& str) {
+    std::string result = str;
+
+    if (!result.empty() && result.front() == '"' && result.back() == '"') {
+        result.erase(result.begin());  // Remove the first character
+        result.pop_back();  // Remove the last character
+    }
+
+    return result;
+}

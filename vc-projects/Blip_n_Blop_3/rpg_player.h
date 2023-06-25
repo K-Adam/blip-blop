@@ -15,7 +15,7 @@
 
 #pragma once
 
-#include <fstream>
+#include <sstream>
 #include <string>
 
 #include "graphics.h"
@@ -28,7 +28,7 @@
 class RPGPlayer
 {
 public:
-        std::ifstream fic_;
+        std::stringstream fic_;
         std::string fic_name_;
         std::string buffer1_;
         std::string buffer2_;

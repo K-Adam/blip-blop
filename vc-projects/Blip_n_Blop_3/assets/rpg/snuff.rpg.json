@@ -36,8 +36,7 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "id",
@@ -52,16 +51,14 @@
           2
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "affiche",
           6000
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "focus",
@@ -88,8 +85,7 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "id",
@@ -108,8 +104,7 @@
           6000
         ],
         [
-          "endif",
-          null
+          "endif"
         ]
       ]
     },
@@ -169,12 +164,10 @@
           2
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "img",
@@ -230,8 +223,7 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "id",
@@ -250,8 +242,7 @@
           5000
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "focus",
@@ -307,8 +298,7 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "id",
@@ -327,12 +317,10 @@
           5000
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "focus",

@@ -42,7 +42,9 @@ glob.sync(`${input}/*.rpg`).forEach(filePath => {
         }
 
         const [key, value] = line.split('=');
-        blocks[blocks.length-1].items.push([key, parse(value)]);
+        blocks[blocks.length-1].items.push(
+            value ? [key, parse(value)] : [key]
+        );
 
     });
 

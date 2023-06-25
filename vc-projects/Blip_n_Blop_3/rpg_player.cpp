@@ -22,6 +22,10 @@
 #include "couille.h"
 #include "scroll.h"
 #include "half_tone.h"
+#include "json.h"
+#include "string.h"
+
+using json = nlohmann::json;
 
 
 RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
@@ -40,18 +44,64 @@ RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
 void RPGPlayer::attachFile(const char * f)
 {
     fic_name_ = f;
+
+	auto dir = asset_path_prefix("rpg", fic_name_.c_str());
+	std::ifstream input(dir + ".json");
+	if (!input.good()) {
+		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json" << "\n";
+		return;
+	}
+
+	json data = json::parse(input);
+
 }
 
 
 bool RPGPlayer::startPlay(int n)
 {
-	fic_.open(fic_name_.c_str());
-
-	if (fic_.is_open() == 0) {
-		debug << "RPGPlayer::startPlay() -> Cannot open " << fic_name_ << "\n";
+	auto dir = asset_path_prefix("rpg", fic_name_.c_str());
+	std::ifstream input(dir + ".json");
+	if (!input.good()) {
+		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json" << "\n";
 		return false;
 	}
 
+	json data = json::parse(input);
+
+	// Reproduce old file format in a string stream
+	fic_ = std::stringstream{};
+
+	auto blocks = data["blocks"];
+	for (auto block_it = blocks.begin(); block_it != blocks.end(); ++block_it) {
+		auto block = *block_it;
+
+		std::string name = block["name"];
+
+		fic_ << ";" << "\n";
+		fic_ << "; " << name << "\n";
+		fic_ << ";" << "\n";
+
+		auto items = block["items"];
+		for (auto item : items) {
+			std::string key = item[0];
+
+			if (item.size() == 2) {
+				std::string value = remove_quotes(item[1].dump());
+				fic_ << key << "=" << value << "\n";
+			}
+			else {
+				fic_ << key << "\n";
+			}
+		}
+
+		fic_ << "stop";
+
+		if ((block_it + 1) != blocks.end()) {
+			fic_ << "\n";
+		}
+	}
+
+	//
         buffer1_ = "rpg=" + std::to_string(n);
         std::getline(fic_, buffer2_);
 
@@ -86,13 +136,13 @@ bool RPGPlayer::startPlay(int n)
 		i += 1;
 	}
 
-	return true;
+ 	return true;
 }
 
 
 void RPGPlayer::stopPlay()
 {
-	fic_.close();
+	fic_ = std::stringstream{};
 }
 
 bool RPGPlayer::drawScene(SDL::Surface * surf)

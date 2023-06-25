@@ -665,7 +665,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     copyStringToCharArray<20>(data["fichier_rpg"], buffer);
     if (strlen(buffer) != 0) {
-        strcpy(buffer2, "data/");
+        strcpy(buffer2, "rpg/");
         strcat(buffer2, buffer);
         rpg.attachFile(buffer2);
 

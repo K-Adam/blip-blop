@@ -89,8 +89,7 @@
           2
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "focus",
@@ -109,8 +108,7 @@
           303
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "affiche",
@@ -121,8 +119,7 @@
           "haut"
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "txt",
@@ -145,16 +142,14 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "img",
           1
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "txt",
@@ -206,8 +201,7 @@
           "bas"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "id",
@@ -226,12 +220,10 @@
           6000
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "ifnbj",
@@ -250,8 +242,7 @@
           6000
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "focus",

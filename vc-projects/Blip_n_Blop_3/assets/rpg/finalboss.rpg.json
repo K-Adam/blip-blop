@@ -28,16 +28,14 @@
           6000
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "img",
           0
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "txt",
@@ -72,16 +70,14 @@
           "haut"
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "img",
           0
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "txt",
@@ -148,8 +144,7 @@
           2
         ],
         [
-          "bbswap",
-          null
+          "bbswap"
         ],
         [
           "img",
@@ -164,8 +159,7 @@
           6000
         ],
         [
-          "endif",
-          null
+          "endif"
         ],
         [
           "flag",
