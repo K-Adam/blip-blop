@@ -206,10 +206,12 @@
         [
           "affiche",
           5000
-        ],
-        [
-          ". Seppuku des gardes.."
-        ],
+        ]
+      ]
+    },
+    {
+      "name": "Seppuku des gardes..",
+      "items": [
         [
           "rpg",
           3
@@ -234,7 +236,8 @@
           "affiche",
           5000
         ]
-      ]
+      ],
+      "flagged": true
     },
     {
       "name": "Devant le temple",

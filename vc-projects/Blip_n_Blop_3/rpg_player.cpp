@@ -68,7 +68,14 @@ bool RPGPlayer::startPlay(int n)
 		std::string name = block["name"];
 
 		fic_ << ";" << "\n";
-		fic_ << "; " << name << "\n";
+
+		if (block.find("flagged") != block.end() &&  block["flagged"]) {
+			fic_ << ". " << name << "\n";
+		}
+		else {
+			fic_ << "; " << name << "\n";
+		}
+
 		fic_ << ";" << "\n";
 
 		auto items = block["items"];

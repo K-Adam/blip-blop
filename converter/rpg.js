@@ -34,10 +34,15 @@ glob.sync(`${input}/*.rpg`).forEach(filePath => {
             return;
         }
 
-        if (line[0] == ";") {
+        if ([";", "."].includes(line[0])) {
             const name = line.substring(2);
 
             blocks.push({name, items: []});
+
+            if (line[0] == '.') {
+                blocks[blocks.length-1].flagged = true;
+            }
+
             return;
         }
 
