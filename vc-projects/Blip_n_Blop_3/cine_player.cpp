@@ -9,7 +9,10 @@
 //#include "alphablend.h"
 #include "globals.h"
 #include "config.h"
-#include "precache.h"
+#include "json.h"
+#include "string.h"
+
+using json = nlohmann::json;
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -61,14 +64,57 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 	/*first_surf = s1;*/
 	back_surf = s2;
 
-	Precache(file);
+	////////////////////////////
 
-	fic_.open(file);
-
-	if (fic_.is_open() == 0) {
-		debug << "CINEPlayer -> Cannot open file " << file << "\n";
+	auto dir = asset_path_prefix("cin", file);
+	std::ifstream input(dir + ".json");
+	if (!input.good()) {
+		debug << "CINEPlayer -> Cannot open file " << dir << ".json" << "\n";
 		return false;
 	}
+
+	json data = json::parse(input);
+
+	// Reproduce old file format in a string stream
+	fic_ = std::stringstream{};
+
+	auto blocks = data["blocks"];
+	for (auto block_it = blocks.begin(); block_it != blocks.end(); ++block_it) {
+		auto block = *block_it;
+
+		std::string name = block["name"];
+
+		fic_ << ";" << "\n";
+		fic_ << "; " << name << "\n";
+		fic_ << ";" << "\n";
+
+		auto items = block["items"];
+		for (auto item_it = items.begin(); item_it != items.end(); ++item_it) {
+			auto item = *item_it;
+
+			std::string name = item["name"];
+			std::stringstream param_stream;
+
+			bool first = false;
+			for (auto param : item["params"]) {
+				if (first) {
+					first = false;
+				}
+				else {
+					param_stream << ",";
+				}
+				param_stream << " " << param;
+			}
+
+			fic_ << name << "(" << param_stream.str() << ")";
+
+			if ((block_it + 1) != blocks.end() || (item_it + 1) != items.end()) {
+				fic_ << "\n";
+			}
+		}
+	}
+
+	/////////////////////////
 
 
 	manageMsg();
@@ -559,7 +605,7 @@ void CINEPlayer::loadPBK(const char * f)
 
 void CINEPlayer::closePlayer()
 {
-	fic_.close();
+	fic_ = std::stringstream{};
 }
 
 //---------------------------------------------------------------------------

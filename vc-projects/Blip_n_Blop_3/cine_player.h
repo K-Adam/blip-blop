@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <fstream>
+#include <sstream>
 #include "music_bank.h"
 #include "picture_bank.h"
 #include "fonte.h"
@@ -63,7 +63,7 @@ protected:
 		SDL::Surface * surf2;
 	*/
 
-        std::ifstream fic_;
+        std::stringstream fic_;
 	char			buffer[BUFFER_SIZE + 1];
 	char			buffer2[BUFFER_SIZE + 1];
 

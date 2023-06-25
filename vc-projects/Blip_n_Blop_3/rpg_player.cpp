@@ -44,16 +44,6 @@ RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
 void RPGPlayer::attachFile(const char * f)
 {
     fic_name_ = f;
-
-	auto dir = asset_path_prefix("rpg", fic_name_.c_str());
-	std::ifstream input(dir + ".json");
-	if (!input.good()) {
-		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json" << "\n";
-		return;
-	}
-
-	json data = json::parse(input);
-
 }
 
 

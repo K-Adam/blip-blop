@@ -74,7 +74,6 @@
 #include "tir_bb_vache.h"
 #include "txt_data.h"
 #include "vehicule.h"
-#include "precache.h"
 #include "trace.h"
 #include "json.h"
 #include "string.h"
@@ -186,7 +185,7 @@ void Game::jouePartie(int nbj, int idj) {
         mbk2.open("end.mbk", false);
         cine.loadPBK("end.gfx");
         mbk.play(1);
-        cine.playScene("data/end.cin", primSurface, backSurface);
+        cine.playScene("end.cin", primSurface, backSurface);
         mbk.stop();
 
         pbk[1]->PasteTo(backSurface, 0, 0);
@@ -671,7 +670,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
         // Precache le fichier RPG
         //
-        Precache(buffer2);
 
         debug << "Successfully loaded <" << buffer2 << "> as RPG file\n";
     }
@@ -2682,7 +2680,7 @@ void Game::go() {
 
     cine.loadPBK("intro.gfx");
     mbk_interl.play(0);
-    cine.playScene("data/intro.cin", primSurface, backSurface);
+    cine.playScene("intro.cin", primSurface, backSurface);
 
     menu.start();
     in.waitClean();
@@ -2723,7 +2721,7 @@ void Game::go() {
                     case 7:
                         cine.loadPBK("intro.gfx");
                         cine.playScene(
-                            "data/intro.cin", primSurface, backSurface);
+                            "intro.cin", primSurface, backSurface);
                         break;
                 }
 
