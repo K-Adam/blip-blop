@@ -35,6 +35,11 @@
 
 #include <SDL2/SDL_image.h>
 
+#ifdef _MSC_VER
+// TODO
+#pragma warning(disable:4996)
+#endif
+
 using json = nlohmann::json;
 
 

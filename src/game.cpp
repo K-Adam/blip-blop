@@ -80,6 +80,11 @@
 #include "base64.h"
 #include "half_tone.h"
 
+#ifdef _MSC_VER
+ // TODO
+#pragma warning(disable:4996)
+#endif
+
 using json = nlohmann::json;
 
 #ifdef __EMSCRIPTEN__

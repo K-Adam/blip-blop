@@ -37,6 +37,11 @@
 #include <emscripten.h>
 #endif
 
+#ifdef _MSC_VER
+// TODO
+#pragma warning(disable:4996)
+#endif
+
 //-----------------------------------------------------------------------------
 //		Déclaration REELLE de l'objet 'in' global
 //-----------------------------------------------------------------------------

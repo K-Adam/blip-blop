@@ -18,6 +18,11 @@ using json = nlohmann::json;
 #include <emscripten.h>
 #endif
 
+#ifdef _MSC_VER
+// TODO
+#pragma warning(disable:4996)
+#endif
+
 #define ISCOM( _cmd) (strcmp( cmd_name, _cmd)==0)
 
 //---------------------------------------------------------------------------

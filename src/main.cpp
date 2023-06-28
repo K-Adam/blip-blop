@@ -25,6 +25,12 @@
 #include "sound_bank_bb.h"
 #include "txt_data.h"
 
+#ifdef _MSC_VER
+// TODO
+#pragma warning(disable:4996)
+#endif
+
+
 Game game;
 
 #if _WIN32
