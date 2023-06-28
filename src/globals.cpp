@@ -90,8 +90,8 @@ bool		no_scroll2;
 //		Données sur le niveau
 //-----------------------------------------------------------------------------
 
-int			scr_level_size;		// taille en écran du niveau
-int			level_size;			// taille en pixels du niveau
+size_t			scr_level_size;		// taille en écran du niveau
+size_t			level_size;			// taille en pixels du niveau
 int	*		num_decor	= NULL;	// Numéro ecran courant -> surface à utiliser
 
 
@@ -237,7 +237,7 @@ void tremblement(int amp)
 
 int	plat(int x, int y)
 {
-	if (x < 0 || x >= level_size || y >= 480)
+	if (x < 0 || x >= (int)level_size || y >= 480)
 		return 0;
 
 	int	tmp;
@@ -257,7 +257,7 @@ int	plat(int x, int y)
 
 int	plat2(int x, int y)
 {
-	if (x < 0 || x >= level_size || y < 0 || y >= 480)
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
 		return -1;
 
 	int	tmp;
@@ -274,7 +274,7 @@ int	plat2(int x, int y)
 
 bool mur_opaque(int x, int y)
 {
-	if (x < 0 || x >= level_size || y < 0 || y >= 480)
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
 		return false;
 
 	return murs_opaques[y / 8][x / 8];
@@ -283,7 +283,7 @@ bool mur_opaque(int x, int y)
 
 bool mur_sanglant(int x, int y)
 {
-	if (x < 0 || x >= level_size || y < 0 || y >= 480)
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
 		return false;
 
 	return murs_sanglants[y / 8][x / 8];

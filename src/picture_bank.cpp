@@ -43,10 +43,10 @@ bool PictureBank::loadGFX(const char* file) {
 
     json data = json::parse(input);
 
-    int nb_pic = data["items"].size();
+    size_t nb_pic = data["items"].size();
     tab_.resize(nb_pic);
 
-    for (int i = 0; i < nb_pic; i++) {
+    for (size_t i = 0; i < nb_pic; i++) {
         auto item = data["items"][i];
 
         int xspot = item["xSpot"];

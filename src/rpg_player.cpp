@@ -234,7 +234,7 @@ bool RPGPlayer::updateScene()
 			// Coupe le schnuff en 2 buffer1:txt1 et buffer2:txt2
 			// tel que dans le fichier il y a "txt1=txt2"
 			//
-			int pos = buffer1_.find('=');
+			size_t pos = buffer1_.find('=');
 			buffer2_ = buffer1_.substr(pos + 1);
                         buffer1_ = buffer1_.substr(0, pos);
 
@@ -283,7 +283,7 @@ bool RPGPlayer::updateScene()
 			} else if (buffer1_ == "flag") {
 				// Flag
 
-				int pos = buffer2_.find('.');
+				size_t pos = buffer2_.find('.');
 				int val = std::stoi(buffer2_.substr(pos + 1));
                                 buffer2_ = buffer2_.substr(0, pos);
 

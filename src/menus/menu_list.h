@@ -12,7 +12,7 @@ class MenuList {
     void MoveUp() {
         focused_ -= 1;
         if (focused_ < 0) {
-            focused_ = items_.size() - 1;
+            focused_ = (int)items_.size() - 1;
         }
     }
 
@@ -28,7 +28,7 @@ class MenuList {
     void AddEntry(const std::string& entry) { items_.push_back(entry); }
     void ChangeEntry(int idx, const std::string& entry) { items_[idx] = entry; }
 
-    int size() const { return items_.size(); }
+    size_t size() const { return items_.size(); }
 
    private:
     int ComputeWidth() const;

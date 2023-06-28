@@ -703,7 +703,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     // Numéros des écrans à afficher (comme des tiles)
     //
     num_decor = new int[scr_level_size];
-    for (int i = 0; i < scr_level_size; i++) {
+    for (size_t i = 0; i < scr_level_size; i++) {
         num_decor[i] = data["num_decor"][i];
     }
 
@@ -735,10 +735,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     // Murs opaques
     //
-    int level_size_8 = level_size / 8;
+    size_t level_size_8 = level_size / 8;
     murs_opaques = new bool*[60];
     auto murs_opaques_str = from_base64(data["murs_opaques"]);
-    for (int i = 0; i < 60; i++) {
+    for (size_t i = 0; i < 60; i++) {
         murs_opaques[i] = new bool[level_size_8];
         memcpy(murs_opaques[i], &murs_opaques_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
     }
@@ -756,8 +756,8 @@ bool Game::chargeNiveau(const char* nom_niveau) {
     //
     // Charge les évenements
     //
-    int nb_events = data["events"].size();
-    for (int i = 0; i < nb_events; i++) {
+    size_t nb_events = data["events"].size();
+    for (size_t i = 0; i < nb_events; i++) {
         auto event = data["events"][i];
 
         int event_id = event["event_id"];
@@ -1686,8 +1686,8 @@ void Game::updateVictoryAndDefeat() {
 //-----------------------------------------------------------------------------
 
 void Game::updateFlags() {
-    game_flag[FLAG_NB_GEN] = list_gen_ennemis.size();
-    game_flag[FLAG_NB_ENN] = list_ennemis.size();
+    game_flag[FLAG_NB_GEN] = (int)list_gen_ennemis.size();
+    game_flag[FLAG_NB_ENN] = (int)list_ennemis.size();
     makeb_current_mode = game_flag[FLAG_BONUS];
 
     // Le TIMER

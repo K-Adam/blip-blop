@@ -25,7 +25,7 @@ int MenuList::ComputeWidth() const {
 }
 
 void MenuList::ShadeTextBox(SDL::Surface* surf) const {
-    int ys = items_.size() * 15;
+    int ys = (int)items_.size() * 15;
     // Compute the size of the "schnuff" (= thing) to darken
     //
     int width = ComputeWidth();
@@ -42,7 +42,7 @@ void MenuList::ShadeTextBox(SDL::Surface* surf) const {
 void MenuList::Draw(SDL::Surface* surf) const {
     ShadeTextBox(surf);
 
-    int y = 240 - items_.size() * 15;
+    int y = 240 - (int)items_.size() * 15;
     for (size_t i = 0; i < items_.size(); ++i) {
         if (focused_ == i)
             fnt_menus.printC(surf, 320, y, items_[i].c_str());

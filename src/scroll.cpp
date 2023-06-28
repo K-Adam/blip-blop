@@ -47,8 +47,8 @@ void drawScrolling()
 	//
 	if (offset < 0)
 		offset = 0;
-	else if (offset > level_size - 640)
-		offset = level_size - 640;
+	else if (offset > (int)level_size - 640)
+		offset = (int)level_size - 640;
 
 	int	x1 = offset % vbuffer_wide;
 	int x2 = (offset + 640) % vbuffer_wide;
@@ -59,7 +59,7 @@ void drawScrolling()
 
 	
 
-	while (n_img < ((offset + vbuffer_wide - 2) / 640) || (n_img < scr_level_size && (next_x != ((x3 + 1) % vbuffer_wide)) && (next_x != ((x3) % vbuffer_wide)))) {
+	while (n_img < ((offset + vbuffer_wide - 2) / 640) || (n_img < (int)scr_level_size && (next_x != ((x3 + 1) % vbuffer_wide)) && (next_x != ((x3) % vbuffer_wide)))) {
 
 		/*static int counter = 0;
 		char buf[128];
@@ -122,7 +122,7 @@ void updateScrolling(bool forceOk)
 			x_moy += s->x;
 		}
 
-		x_moy /= list_joueurs.size();
+		x_moy /= (int)list_joueurs.size();
 		x_moy -= 320;	// Pour centrer (320=640/2)
 
 		if (x_moy > offset) {
@@ -135,6 +135,6 @@ void updateScrolling(bool forceOk)
 
 	if (offset < 0)
 		offset = 0;
-	else if (offset > level_size - 640)
-		offset = level_size - 640;
+	else if (offset > (int)level_size - 640)
+		offset = (int)level_size - 640;
 }

@@ -26,7 +26,7 @@ bool MusicBank::open(const char* file, bool loop) {
 
     json data = json::parse(input);
 
-    int nb_musics = data["items"].size();
+    size_t nb_musics = data["items"].size();
     if (nb_musics < 1) {
         debug << "MusicBank::load() -> Fichier " << file << " corrompu ("
               << nb_musics << ")\n";
@@ -35,7 +35,7 @@ bool MusicBank::open(const char* file, bool loop) {
 
     musics_.resize(nb_musics);
 
-    for (int i = 0; i < nb_musics; i++) {
+    for (size_t i = 0; i < nb_musics; i++) {
         std::string path = data["items"][i];
         musics_[i].reset(new Mp3Music(asset_path_prefix("mbk", path.c_str()), loop));
     }

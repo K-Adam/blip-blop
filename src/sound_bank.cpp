@@ -52,7 +52,7 @@ bool SoundBank::loadSFX(const char* nom_fic) {
 
     json data = json::parse(input);
 
-    int nb_snd = data["items"].size();
+    size_t nb_snd = data["items"].size();
 
     if (nb_snd < 1) {
         debug << "SoundBank::loadSFX() -> Fichier " << nom_fic << " corrompu\n";
@@ -60,7 +60,7 @@ bool SoundBank::loadSFX(const char* nom_fic) {
     }
     tab_.resize(nb_snd);
 
-    for (int i = 0; i < nb_snd; i++) {
+    for (size_t i = 0; i < nb_snd; i++) {
         auto item = data["items"][i];
 
         std::string item_path = data["items"][i];

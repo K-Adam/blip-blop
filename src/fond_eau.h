@@ -38,7 +38,7 @@ public:
 		bool		b = false;
 
 
-		for (int i = 0; i < (((level_size) / pbk_niveau[7]->xSize()) + 1); i++) {
+		for (int i = 0; i < ((((int)level_size) / pbk_niveau[7]->xSize()) + 1); i++) {
 			if (b)
 				ptr = new FondEau1();
 			else

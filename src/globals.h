@@ -102,8 +102,8 @@ extern bool			okLanceFlame;
 //		Données sur le niveau
 //-----------------------------------------------------------------------------
 
-extern int			scr_level_size;		// taille en écran du niveau
-extern int			level_size;			// taille en pixels du niveau
+extern size_t			scr_level_size;		// taille en écran du niveau
+extern size_t			level_size;			// taille en pixels du niveau
 extern int *		num_decor;			// Numéro ecran courant -> surface à utiliser
 
 
