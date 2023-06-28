@@ -1,0 +1,2496 @@
+{
+  "items": [
+    {
+      "path": "snufenn.gfx/000.png",
+      "xSpot": 13,
+      "ySpot": 39,
+      "width": 26,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/001.png",
+      "xSpot": 11,
+      "ySpot": 38,
+      "width": 23,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/002.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 22,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/003.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 22,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/004.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/005.png",
+      "xSpot": 12,
+      "ySpot": 39,
+      "width": 26,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/006.png",
+      "xSpot": 11,
+      "ySpot": 38,
+      "width": 23,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/007.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 22,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/008.png",
+      "xSpot": 11,
+      "ySpot": 38,
+      "width": 22,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/009.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/010.png",
+      "xSpot": 14,
+      "ySpot": 38,
+      "width": 30,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/011.png",
+      "xSpot": 15,
+      "ySpot": 38,
+      "width": 30,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/012.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/013.png",
+      "xSpot": 14,
+      "ySpot": 41,
+      "width": 26,
+      "height": 42
+    },
+    {
+      "path": "snufenn.gfx/014.png",
+      "xSpot": 18,
+      "ySpot": 48,
+      "width": 36,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/015.png",
+      "xSpot": 26,
+      "ySpot": 54,
+      "width": 51,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/016.png",
+      "xSpot": 46,
+      "ySpot": 81,
+      "width": 93,
+      "height": 82
+    },
+    {
+      "path": "snufenn.gfx/017.png",
+      "xSpot": 61,
+      "ySpot": 80,
+      "width": 126,
+      "height": 81
+    },
+    {
+      "path": "snufenn.gfx/018.png",
+      "xSpot": 71,
+      "ySpot": 79,
+      "width": 147,
+      "height": 81
+    },
+    {
+      "path": "snufenn.gfx/019.png",
+      "xSpot": 79,
+      "ySpot": 74,
+      "width": 156,
+      "height": 75
+    },
+    {
+      "path": "snufenn.gfx/020.png",
+      "xSpot": 75,
+      "ySpot": 55,
+      "width": 167,
+      "height": 56
+    },
+    {
+      "path": "snufenn.gfx/021.png",
+      "xSpot": 88,
+      "ySpot": 44,
+      "width": 175,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/022.png",
+      "xSpot": 93,
+      "ySpot": 34,
+      "width": 182,
+      "height": 35
+    },
+    {
+      "path": "snufenn.gfx/023.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/024.png",
+      "xSpot": 11,
+      "ySpot": 41,
+      "width": 26,
+      "height": 42
+    },
+    {
+      "path": "snufenn.gfx/025.png",
+      "xSpot": 17,
+      "ySpot": 48,
+      "width": 36,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/026.png",
+      "xSpot": 24,
+      "ySpot": 54,
+      "width": 51,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/027.png",
+      "xSpot": 46,
+      "ySpot": 81,
+      "width": 93,
+      "height": 82
+    },
+    {
+      "path": "snufenn.gfx/028.png",
+      "xSpot": 62,
+      "ySpot": 80,
+      "width": 126,
+      "height": 81
+    },
+    {
+      "path": "snufenn.gfx/029.png",
+      "xSpot": 75,
+      "ySpot": 79,
+      "width": 147,
+      "height": 81
+    },
+    {
+      "path": "snufenn.gfx/030.png",
+      "xSpot": 76,
+      "ySpot": 73,
+      "width": 156,
+      "height": 75
+    },
+    {
+      "path": "snufenn.gfx/031.png",
+      "xSpot": 92,
+      "ySpot": 55,
+      "width": 167,
+      "height": 56
+    },
+    {
+      "path": "snufenn.gfx/032.png",
+      "xSpot": 86,
+      "ySpot": 44,
+      "width": 175,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/033.png",
+      "xSpot": 88,
+      "ySpot": 34,
+      "width": 182,
+      "height": 35
+    },
+    {
+      "path": "snufenn.gfx/034.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 22,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/035.png",
+      "xSpot": 10,
+      "ySpot": 51,
+      "width": 22,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/036.png",
+      "xSpot": 10,
+      "ySpot": 56,
+      "width": 21,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/037.png",
+      "xSpot": 10,
+      "ySpot": 51,
+      "width": 20,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/038.png",
+      "xSpot": 10,
+      "ySpot": 46,
+      "width": 20,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/039.png",
+      "xSpot": 10,
+      "ySpot": 48,
+      "width": 18,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/040.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 22,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/041.png",
+      "xSpot": 11,
+      "ySpot": 51,
+      "width": 22,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/042.png",
+      "xSpot": 11,
+      "ySpot": 56,
+      "width": 21,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/043.png",
+      "xSpot": 11,
+      "ySpot": 51,
+      "width": 20,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/044.png",
+      "xSpot": 11,
+      "ySpot": 46,
+      "width": 20,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/045.png",
+      "xSpot": 11,
+      "ySpot": 48,
+      "width": 18,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/046.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 27,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/047.png",
+      "xSpot": 11,
+      "ySpot": 37,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/048.png",
+      "xSpot": 10,
+      "ySpot": 37,
+      "width": 24,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/049.png",
+      "xSpot": 10,
+      "ySpot": 37,
+      "width": 24,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/050.png",
+      "xSpot": 11,
+      "ySpot": 37,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/051.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 27,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/052.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/053.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 24,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/054.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 24,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/055.png",
+      "xSpot": 13,
+      "ySpot": 37,
+      "width": 25,
+      "height": 39
+    },
+    {
+      "path": "snufenn.gfx/056.png",
+      "xSpot": 17,
+      "ySpot": 40,
+      "width": 36,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/057.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 40,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/058.png",
+      "xSpot": 10,
+      "ySpot": 46,
+      "width": 54,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/059.png",
+      "xSpot": 10,
+      "ySpot": 46,
+      "width": 55,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/060.png",
+      "xSpot": 10,
+      "ySpot": 48,
+      "width": 56,
+      "height": 50
+    },
+    {
+      "path": "snufenn.gfx/061.png",
+      "xSpot": 10,
+      "ySpot": 49,
+      "width": 52,
+      "height": 51
+    },
+    {
+      "path": "snufenn.gfx/062.png",
+      "xSpot": 29,
+      "ySpot": 38,
+      "width": 40,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/063.png",
+      "xSpot": 43,
+      "ySpot": 46,
+      "width": 54,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/064.png",
+      "xSpot": 44,
+      "ySpot": 46,
+      "width": 55,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/065.png",
+      "xSpot": 45,
+      "ySpot": 48,
+      "width": 56,
+      "height": 50
+    },
+    {
+      "path": "snufenn.gfx/066.png",
+      "xSpot": 41,
+      "ySpot": 49,
+      "width": 52,
+      "height": 51
+    },
+    {
+      "path": "snufenn.gfx/067.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/068.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/069.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/070.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/071.png",
+      "xSpot": 19,
+      "ySpot": 38,
+      "width": 32,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/072.png",
+      "xSpot": 25,
+      "ySpot": 38,
+      "width": 36,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/073.png",
+      "xSpot": 33,
+      "ySpot": 39,
+      "width": 44,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/074.png",
+      "xSpot": 28,
+      "ySpot": 35,
+      "width": 40,
+      "height": 37
+    },
+    {
+      "path": "snufenn.gfx/075.png",
+      "xSpot": 34,
+      "ySpot": 36,
+      "width": 40,
+      "height": 38
+    },
+    {
+      "path": "snufenn.gfx/076.png",
+      "xSpot": 35,
+      "ySpot": 34,
+      "width": 38,
+      "height": 36
+    },
+    {
+      "path": "snufenn.gfx/077.png",
+      "xSpot": 27,
+      "ySpot": 33,
+      "width": 28,
+      "height": 35
+    },
+    {
+      "path": "snufenn.gfx/078.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/079.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/080.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/081.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 23,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/082.png",
+      "xSpot": 12,
+      "ySpot": 38,
+      "width": 32,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/083.png",
+      "xSpot": 10,
+      "ySpot": 38,
+      "width": 36,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/084.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 44,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/085.png",
+      "xSpot": 11,
+      "ySpot": 35,
+      "width": 40,
+      "height": 37
+    },
+    {
+      "path": "snufenn.gfx/086.png",
+      "xSpot": 5,
+      "ySpot": 36,
+      "width": 40,
+      "height": 38
+    },
+    {
+      "path": "snufenn.gfx/087.png",
+      "xSpot": 2,
+      "ySpot": 34,
+      "width": 38,
+      "height": 36
+    },
+    {
+      "path": "snufenn.gfx/088.png",
+      "xSpot": 0,
+      "ySpot": 33,
+      "width": 28,
+      "height": 35
+    },
+    {
+      "path": "snufenn.gfx/089.png",
+      "xSpot": 14,
+      "ySpot": 11,
+      "width": 26,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/090.png",
+      "xSpot": 20,
+      "ySpot": 11,
+      "width": 32,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/091.png",
+      "xSpot": 26,
+      "ySpot": 21,
+      "width": 39,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/092.png",
+      "xSpot": 23,
+      "ySpot": 16,
+      "width": 33,
+      "height": 25
+    },
+    {
+      "path": "snufenn.gfx/093.png",
+      "xSpot": 10,
+      "ySpot": 12,
+      "width": 23,
+      "height": 25
+    },
+    {
+      "path": "snufenn.gfx/094.png",
+      "xSpot": 11,
+      "ySpot": 12,
+      "width": 31,
+      "height": 25
+    },
+    {
+      "path": "snufenn.gfx/095.png",
+      "xSpot": 12,
+      "ySpot": 18,
+      "width": 37,
+      "height": 31
+    },
+    {
+      "path": "snufenn.gfx/096.png",
+      "xSpot": 10,
+      "ySpot": 15,
+      "width": 29,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/097.png",
+      "xSpot": 19,
+      "ySpot": 18,
+      "width": 36,
+      "height": 25
+    },
+    {
+      "path": "snufenn.gfx/098.png",
+      "xSpot": 19,
+      "ySpot": 19,
+      "width": 35,
+      "height": 26
+    },
+    {
+      "path": "snufenn.gfx/099.png",
+      "xSpot": 19,
+      "ySpot": 19,
+      "width": 35,
+      "height": 29
+    },
+    {
+      "path": "snufenn.gfx/100.png",
+      "xSpot": 25,
+      "ySpot": 20,
+      "width": 44,
+      "height": 35
+    },
+    {
+      "path": "snufenn.gfx/101.png",
+      "xSpot": 20,
+      "ySpot": 19,
+      "width": 41,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/102.png",
+      "xSpot": 36,
+      "ySpot": 34,
+      "width": 69,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/103.png",
+      "xSpot": 45,
+      "ySpot": 66,
+      "width": 91,
+      "height": 77
+    },
+    {
+      "path": "snufenn.gfx/104.png",
+      "xSpot": 46,
+      "ySpot": 75,
+      "width": 96,
+      "height": 86
+    },
+    {
+      "path": "snufenn.gfx/105.png",
+      "xSpot": 47,
+      "ySpot": 54,
+      "width": 96,
+      "height": 60
+    },
+    {
+      "path": "snufenn.gfx/106.png",
+      "xSpot": 45,
+      "ySpot": 81,
+      "width": 93,
+      "height": 89
+    },
+    {
+      "path": "snufenn.gfx/107.png",
+      "xSpot": 46,
+      "ySpot": 83,
+      "width": 91,
+      "height": 90
+    },
+    {
+      "path": "snufenn.gfx/108.png",
+      "xSpot": 46,
+      "ySpot": 84,
+      "width": 92,
+      "height": 91
+    },
+    {
+      "path": "snufenn.gfx/109.png",
+      "xSpot": 44,
+      "ySpot": 84,
+      "width": 90,
+      "height": 91
+    },
+    {
+      "path": "snufenn.gfx/110.png",
+      "xSpot": 45,
+      "ySpot": 81,
+      "width": 91,
+      "height": 88
+    },
+    {
+      "path": "snufenn.gfx/111.png",
+      "xSpot": 46,
+      "ySpot": 78,
+      "width": 90,
+      "height": 81
+    },
+    {
+      "path": "snufenn.gfx/112.png",
+      "xSpot": 42,
+      "ySpot": 76,
+      "width": 88,
+      "height": 80
+    },
+    {
+      "path": "snufenn.gfx/113.png",
+      "xSpot": 41,
+      "ySpot": 67,
+      "width": 89,
+      "height": 72
+    },
+    {
+      "path": "snufenn.gfx/114.png",
+      "xSpot": 40,
+      "ySpot": 64,
+      "width": 89,
+      "height": 70
+    },
+    {
+      "path": "snufenn.gfx/115.png",
+      "xSpot": 42,
+      "ySpot": 65,
+      "width": 91,
+      "height": 74
+    },
+    {
+      "path": "snufenn.gfx/116.png",
+      "xSpot": 44,
+      "ySpot": 63,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/117.png",
+      "xSpot": 1,
+      "ySpot": 2,
+      "width": 6,
+      "height": 74
+    },
+    {
+      "path": "snufenn.gfx/118.png",
+      "xSpot": 11,
+      "ySpot": 2,
+      "width": 22,
+      "height": 73
+    },
+    {
+      "path": "snufenn.gfx/119.png",
+      "xSpot": 10,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/120.png",
+      "xSpot": 10,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/121.png",
+      "xSpot": 10,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/122.png",
+      "xSpot": 10,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/123.png",
+      "xSpot": 7,
+      "ySpot": 2,
+      "width": 22,
+      "height": 73
+    },
+    {
+      "path": "snufenn.gfx/124.png",
+      "xSpot": 9,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/125.png",
+      "xSpot": 9,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/126.png",
+      "xSpot": 9,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/127.png",
+      "xSpot": 9,
+      "ySpot": 2,
+      "width": 23,
+      "height": 76
+    },
+    {
+      "path": "snufenn.gfx/128.png",
+      "xSpot": 3,
+      "ySpot": 5,
+      "width": 11,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/129.png",
+      "xSpot": 3,
+      "ySpot": 5,
+      "width": 11,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/130.png",
+      "xSpot": 7,
+      "ySpot": 5,
+      "width": 11,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/131.png",
+      "xSpot": 7,
+      "ySpot": 5,
+      "width": 11,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/132.png",
+      "xSpot": 4,
+      "ySpot": 5,
+      "width": 24,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/133.png",
+      "xSpot": 5,
+      "ySpot": 5,
+      "width": 26,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/134.png",
+      "xSpot": 19,
+      "ySpot": 5,
+      "width": 24,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/135.png",
+      "xSpot": 20,
+      "ySpot": 5,
+      "width": 26,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/136.png",
+      "xSpot": 5,
+      "ySpot": 5,
+      "width": 35,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/137.png",
+      "xSpot": 5,
+      "ySpot": 5,
+      "width": 38,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/138.png",
+      "xSpot": 29,
+      "ySpot": 5,
+      "width": 35,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/139.png",
+      "xSpot": 32,
+      "ySpot": 5,
+      "width": 38,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/140.png",
+      "xSpot": 14,
+      "ySpot": 0,
+      "width": 24,
+      "height": 60
+    },
+    {
+      "path": "snufenn.gfx/141.png",
+      "xSpot": 13,
+      "ySpot": 0,
+      "width": 24,
+      "height": 59
+    },
+    {
+      "path": "snufenn.gfx/142.png",
+      "xSpot": 6,
+      "ySpot": 0,
+      "width": 24,
+      "height": 60
+    },
+    {
+      "path": "snufenn.gfx/143.png",
+      "xSpot": 7,
+      "ySpot": 0,
+      "width": 24,
+      "height": 59
+    },
+    {
+      "path": "snufenn.gfx/144.png",
+      "xSpot": 3,
+      "ySpot": 2,
+      "width": 6,
+      "height": 6
+    },
+    {
+      "path": "snufenn.gfx/145.png",
+      "xSpot": 4,
+      "ySpot": 5,
+      "width": 16,
+      "height": 8
+    },
+    {
+      "path": "snufenn.gfx/146.png",
+      "xSpot": 11,
+      "ySpot": 5,
+      "width": 16,
+      "height": 8
+    },
+    {
+      "path": "snufenn.gfx/147.png",
+      "xSpot": 4,
+      "ySpot": 4,
+      "width": 14,
+      "height": 16
+    },
+    {
+      "path": "snufenn.gfx/148.png",
+      "xSpot": 9,
+      "ySpot": 4,
+      "width": 14,
+      "height": 16
+    },
+    {
+      "path": "snufenn.gfx/149.png",
+      "xSpot": 7,
+      "ySpot": 2,
+      "width": 16,
+      "height": 6
+    },
+    {
+      "path": "snufenn.gfx/150.png",
+      "xSpot": 8,
+      "ySpot": 2,
+      "width": 16,
+      "height": 6
+    },
+    {
+      "path": "snufenn.gfx/151.png",
+      "xSpot": 3,
+      "ySpot": 3,
+      "width": 7,
+      "height": 7
+    },
+    {
+      "path": "snufenn.gfx/152.png",
+      "xSpot": 5,
+      "ySpot": 4,
+      "width": 10,
+      "height": 9
+    },
+    {
+      "path": "snufenn.gfx/153.png",
+      "xSpot": 12,
+      "ySpot": 10,
+      "width": 25,
+      "height": 20
+    },
+    {
+      "path": "snufenn.gfx/154.png",
+      "xSpot": 12,
+      "ySpot": 10,
+      "width": 25,
+      "height": 20
+    },
+    {
+      "path": "snufenn.gfx/155.png",
+      "xSpot": 11,
+      "ySpot": 16,
+      "width": 25,
+      "height": 19
+    },
+    {
+      "path": "snufenn.gfx/156.png",
+      "xSpot": 13,
+      "ySpot": 42,
+      "width": 55,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/157.png",
+      "xSpot": 13,
+      "ySpot": 41,
+      "width": 55,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/158.png",
+      "xSpot": 13,
+      "ySpot": 43,
+      "width": 55,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/159.png",
+      "xSpot": 15,
+      "ySpot": 42,
+      "width": 57,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/160.png",
+      "xSpot": 41,
+      "ySpot": 42,
+      "width": 55,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/161.png",
+      "xSpot": 41,
+      "ySpot": 41,
+      "width": 55,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/162.png",
+      "xSpot": 41,
+      "ySpot": 43,
+      "width": 55,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/163.png",
+      "xSpot": 41,
+      "ySpot": 42,
+      "width": 57,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/164.png",
+      "xSpot": 14,
+      "ySpot": 23,
+      "width": 26,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/165.png",
+      "xSpot": 22,
+      "ySpot": 17,
+      "width": 30,
+      "height": 18
+    },
+    {
+      "path": "snufenn.gfx/166.png",
+      "xSpot": 34,
+      "ySpot": 23,
+      "width": 41,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/167.png",
+      "xSpot": 40,
+      "ySpot": 29,
+      "width": 43,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/168.png",
+      "xSpot": 57,
+      "ySpot": 32,
+      "width": 58,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/169.png",
+      "xSpot": 11,
+      "ySpot": 23,
+      "width": 26,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/170.png",
+      "xSpot": 7,
+      "ySpot": 17,
+      "width": 30,
+      "height": 18
+    },
+    {
+      "path": "snufenn.gfx/171.png",
+      "xSpot": 6,
+      "ySpot": 23,
+      "width": 41,
+      "height": 24
+    },
+    {
+      "path": "snufenn.gfx/172.png",
+      "xSpot": 2,
+      "ySpot": 29,
+      "width": 43,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/173.png",
+      "xSpot": 0,
+      "ySpot": 32,
+      "width": 58,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/174.png",
+      "xSpot": 13,
+      "ySpot": 42,
+      "width": 55,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/175.png",
+      "xSpot": 13,
+      "ySpot": 41,
+      "width": 55,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/176.png",
+      "xSpot": 13,
+      "ySpot": 43,
+      "width": 55,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/177.png",
+      "xSpot": 15,
+      "ySpot": 42,
+      "width": 57,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/178.png",
+      "xSpot": 41,
+      "ySpot": 42,
+      "width": 55,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/179.png",
+      "xSpot": 41,
+      "ySpot": 41,
+      "width": 55,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/180.png",
+      "xSpot": 41,
+      "ySpot": 43,
+      "width": 55,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/181.png",
+      "xSpot": 41,
+      "ySpot": 42,
+      "width": 57,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/182.png",
+      "xSpot": 32,
+      "ySpot": 42,
+      "width": 45,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/183.png",
+      "xSpot": 22,
+      "ySpot": 42,
+      "width": 36,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/184.png",
+      "xSpot": 12,
+      "ySpot": 43,
+      "width": 27,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/185.png",
+      "xSpot": 12,
+      "ySpot": 43,
+      "width": 28,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/186.png",
+      "xSpot": 12,
+      "ySpot": 43,
+      "width": 34,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/187.png",
+      "xSpot": 12,
+      "ySpot": 41,
+      "width": 27,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/188.png",
+      "xSpot": 12,
+      "ySpot": 42,
+      "width": 45,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/189.png",
+      "xSpot": 13,
+      "ySpot": 42,
+      "width": 36,
+      "height": 44
+    },
+    {
+      "path": "snufenn.gfx/190.png",
+      "xSpot": 14,
+      "ySpot": 43,
+      "width": 27,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/191.png",
+      "xSpot": 15,
+      "ySpot": 43,
+      "width": 28,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/192.png",
+      "xSpot": 21,
+      "ySpot": 43,
+      "width": 34,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/193.png",
+      "xSpot": 14,
+      "ySpot": 41,
+      "width": 27,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/194.png",
+      "xSpot": 9,
+      "ySpot": 15,
+      "width": 19,
+      "height": 25
+    },
+    {
+      "path": "snufenn.gfx/195.png",
+      "xSpot": 19,
+      "ySpot": 43,
+      "width": 36,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/196.png",
+      "xSpot": 38,
+      "ySpot": 44,
+      "width": 54,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/197.png",
+      "xSpot": 52,
+      "ySpot": 44,
+      "width": 70,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/198.png",
+      "xSpot": 32,
+      "ySpot": 46,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/199.png",
+      "xSpot": 25,
+      "ySpot": 45,
+      "width": 39,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/200.png",
+      "xSpot": 22,
+      "ySpot": 44,
+      "width": 35,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/201.png",
+      "xSpot": 20,
+      "ySpot": 41,
+      "width": 36,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/202.png",
+      "xSpot": 24,
+      "ySpot": 39,
+      "width": 44,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/203.png",
+      "xSpot": 24,
+      "ySpot": 38,
+      "width": 44,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/204.png",
+      "xSpot": 25,
+      "ySpot": 30,
+      "width": 47,
+      "height": 32
+    },
+    {
+      "path": "snufenn.gfx/205.png",
+      "xSpot": 25,
+      "ySpot": 24,
+      "width": 49,
+      "height": 26
+    },
+    {
+      "path": "snufenn.gfx/206.png",
+      "xSpot": 27,
+      "ySpot": 18,
+      "width": 53,
+      "height": 22
+    },
+    {
+      "path": "snufenn.gfx/207.png",
+      "xSpot": 16,
+      "ySpot": 43,
+      "width": 36,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/208.png",
+      "xSpot": 15,
+      "ySpot": 44,
+      "width": 54,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/209.png",
+      "xSpot": 17,
+      "ySpot": 45,
+      "width": 70,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/210.png",
+      "xSpot": 17,
+      "ySpot": 47,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/211.png",
+      "xSpot": 15,
+      "ySpot": 46,
+      "width": 39,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/212.png",
+      "xSpot": 15,
+      "ySpot": 44,
+      "width": 35,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/213.png",
+      "xSpot": 16,
+      "ySpot": 41,
+      "width": 36,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/214.png",
+      "xSpot": 20,
+      "ySpot": 39,
+      "width": 44,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/215.png",
+      "xSpot": 20,
+      "ySpot": 38,
+      "width": 44,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/216.png",
+      "xSpot": 22,
+      "ySpot": 30,
+      "width": 47,
+      "height": 32
+    },
+    {
+      "path": "snufenn.gfx/217.png",
+      "xSpot": 25,
+      "ySpot": 24,
+      "width": 49,
+      "height": 26
+    },
+    {
+      "path": "snufenn.gfx/218.png",
+      "xSpot": 25,
+      "ySpot": 18,
+      "width": 53,
+      "height": 22
+    },
+    {
+      "path": "snufenn.gfx/219.png",
+      "xSpot": 30,
+      "ySpot": 15,
+      "width": 56,
+      "height": 29
+    },
+    {
+      "path": "snufenn.gfx/220.png",
+      "xSpot": 22,
+      "ySpot": 17,
+      "width": 43,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/221.png",
+      "xSpot": 23,
+      "ySpot": 15,
+      "width": 56,
+      "height": 29
+    },
+    {
+      "path": "snufenn.gfx/222.png",
+      "xSpot": 21,
+      "ySpot": 16,
+      "width": 43,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/223.png",
+      "xSpot": 22,
+      "ySpot": 52,
+      "width": 43,
+      "height": 53
+    },
+    {
+      "path": "snufenn.gfx/224.png",
+      "xSpot": 24,
+      "ySpot": 54,
+      "width": 49,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/225.png",
+      "xSpot": 23,
+      "ySpot": 61,
+      "width": 42,
+      "height": 62
+    },
+    {
+      "path": "snufenn.gfx/226.png",
+      "xSpot": 24,
+      "ySpot": 61,
+      "width": 41,
+      "height": 90
+    },
+    {
+      "path": "snufenn.gfx/227.png",
+      "xSpot": 25,
+      "ySpot": 62,
+      "width": 41,
+      "height": 66
+    },
+    {
+      "path": "snufenn.gfx/228.png",
+      "xSpot": 19,
+      "ySpot": 56,
+      "width": 34,
+      "height": 59
+    },
+    {
+      "path": "snufenn.gfx/229.png",
+      "xSpot": 20,
+      "ySpot": 56,
+      "width": 41,
+      "height": 60
+    },
+    {
+      "path": "snufenn.gfx/230.png",
+      "xSpot": 20,
+      "ySpot": 52,
+      "width": 43,
+      "height": 53
+    },
+    {
+      "path": "snufenn.gfx/231.png",
+      "xSpot": 24,
+      "ySpot": 54,
+      "width": 49,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/232.png",
+      "xSpot": 18,
+      "ySpot": 61,
+      "width": 42,
+      "height": 62
+    },
+    {
+      "path": "snufenn.gfx/233.png",
+      "xSpot": 15,
+      "ySpot": 61,
+      "width": 41,
+      "height": 90
+    },
+    {
+      "path": "snufenn.gfx/234.png",
+      "xSpot": 15,
+      "ySpot": 61,
+      "width": 41,
+      "height": 66
+    },
+    {
+      "path": "snufenn.gfx/235.png",
+      "xSpot": 14,
+      "ySpot": 55,
+      "width": 34,
+      "height": 59
+    },
+    {
+      "path": "snufenn.gfx/236.png",
+      "xSpot": 19,
+      "ySpot": 56,
+      "width": 41,
+      "height": 60
+    },
+    {
+      "path": "snufenn.gfx/237.png",
+      "xSpot": 15,
+      "ySpot": 51,
+      "width": 34,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/238.png",
+      "xSpot": 15,
+      "ySpot": 50,
+      "width": 34,
+      "height": 51
+    },
+    {
+      "path": "snufenn.gfx/239.png",
+      "xSpot": 16,
+      "ySpot": 48,
+      "width": 37,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/240.png",
+      "xSpot": 23,
+      "ySpot": 48,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/241.png",
+      "xSpot": 23,
+      "ySpot": 48,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/242.png",
+      "xSpot": 17,
+      "ySpot": 51,
+      "width": 34,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/243.png",
+      "xSpot": 17,
+      "ySpot": 50,
+      "width": 34,
+      "height": 51
+    },
+    {
+      "path": "snufenn.gfx/244.png",
+      "xSpot": 19,
+      "ySpot": 48,
+      "width": 37,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/245.png",
+      "xSpot": 25,
+      "ySpot": 48,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/246.png",
+      "xSpot": 25,
+      "ySpot": 48,
+      "width": 50,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/247.png",
+      "xSpot": 20,
+      "ySpot": 50,
+      "width": 40,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/248.png",
+      "xSpot": 11,
+      "ySpot": 50,
+      "width": 31,
+      "height": 52
+    },
+    {
+      "path": "snufenn.gfx/249.png",
+      "xSpot": 23,
+      "ySpot": 50,
+      "width": 46,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/250.png",
+      "xSpot": 15,
+      "ySpot": 50,
+      "width": 34,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/251.png",
+      "xSpot": 13,
+      "ySpot": 50,
+      "width": 39,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/252.png",
+      "xSpot": 22,
+      "ySpot": 50,
+      "width": 41,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/253.png",
+      "xSpot": 14,
+      "ySpot": 53,
+      "width": 29,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/254.png",
+      "xSpot": 13,
+      "ySpot": 65,
+      "width": 28,
+      "height": 69
+    },
+    {
+      "path": "snufenn.gfx/255.png",
+      "xSpot": 13,
+      "ySpot": 69,
+      "width": 28,
+      "height": 73
+    },
+    {
+      "path": "snufenn.gfx/256.png",
+      "xSpot": 11,
+      "ySpot": 68,
+      "width": 25,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/257.png",
+      "xSpot": 13,
+      "ySpot": 58,
+      "width": 26,
+      "height": 61
+    },
+    {
+      "path": "snufenn.gfx/258.png",
+      "xSpot": 13,
+      "ySpot": 51,
+      "width": 26,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/259.png",
+      "xSpot": 14,
+      "ySpot": 51,
+      "width": 29,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/260.png",
+      "xSpot": 14,
+      "ySpot": 65,
+      "width": 28,
+      "height": 69
+    },
+    {
+      "path": "snufenn.gfx/261.png",
+      "xSpot": 14,
+      "ySpot": 69,
+      "width": 28,
+      "height": 73
+    },
+    {
+      "path": "snufenn.gfx/262.png",
+      "xSpot": 13,
+      "ySpot": 67,
+      "width": 25,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/263.png",
+      "xSpot": 13,
+      "ySpot": 57,
+      "width": 26,
+      "height": 61
+    },
+    {
+      "path": "snufenn.gfx/264.png",
+      "xSpot": 13,
+      "ySpot": 50,
+      "width": 26,
+      "height": 54
+    },
+    {
+      "path": "snufenn.gfx/265.png",
+      "xSpot": 16,
+      "ySpot": 53,
+      "width": 32,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/266.png",
+      "xSpot": 15,
+      "ySpot": 53,
+      "width": 29,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/267.png",
+      "xSpot": 12,
+      "ySpot": 54,
+      "width": 23,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/268.png",
+      "xSpot": 12,
+      "ySpot": 54,
+      "width": 25,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/269.png",
+      "xSpot": 15,
+      "ySpot": 53,
+      "width": 32,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/270.png",
+      "xSpot": 13,
+      "ySpot": 53,
+      "width": 29,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/271.png",
+      "xSpot": 10,
+      "ySpot": 54,
+      "width": 23,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/272.png",
+      "xSpot": 12,
+      "ySpot": 54,
+      "width": 25,
+      "height": 57
+    },
+    {
+      "path": "snufenn.gfx/273.png",
+      "xSpot": 15,
+      "ySpot": 52,
+      "width": 29,
+      "height": 53
+    },
+    {
+      "path": "snufenn.gfx/274.png",
+      "xSpot": 17,
+      "ySpot": 45,
+      "width": 31,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/275.png",
+      "xSpot": 18,
+      "ySpot": 44,
+      "width": 32,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/276.png",
+      "xSpot": 18,
+      "ySpot": 44,
+      "width": 32,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/277.png",
+      "xSpot": 21,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/278.png",
+      "xSpot": 18,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/279.png",
+      "xSpot": 18,
+      "ySpot": 44,
+      "width": 38,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/280.png",
+      "xSpot": 18,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/281.png",
+      "xSpot": 18,
+      "ySpot": 43,
+      "width": 39,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/282.png",
+      "xSpot": 18,
+      "ySpot": 45,
+      "width": 46,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/283.png",
+      "xSpot": 18,
+      "ySpot": 42,
+      "width": 52,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/284.png",
+      "xSpot": 18,
+      "ySpot": 34,
+      "width": 55,
+      "height": 36
+    },
+    {
+      "path": "snufenn.gfx/285.png",
+      "xSpot": 18,
+      "ySpot": 28,
+      "width": 55,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/286.png",
+      "xSpot": 18,
+      "ySpot": 18,
+      "width": 61,
+      "height": 23
+    },
+    {
+      "path": "snufenn.gfx/287.png",
+      "xSpot": 13,
+      "ySpot": 52,
+      "width": 29,
+      "height": 53
+    },
+    {
+      "path": "snufenn.gfx/288.png",
+      "xSpot": 13,
+      "ySpot": 45,
+      "width": 31,
+      "height": 49
+    },
+    {
+      "path": "snufenn.gfx/289.png",
+      "xSpot": 13,
+      "ySpot": 44,
+      "width": 32,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/290.png",
+      "xSpot": 13,
+      "ySpot": 44,
+      "width": 32,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/291.png",
+      "xSpot": 14,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/292.png",
+      "xSpot": 17,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/293.png",
+      "xSpot": 19,
+      "ySpot": 44,
+      "width": 38,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/294.png",
+      "xSpot": 17,
+      "ySpot": 44,
+      "width": 36,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/295.png",
+      "xSpot": 20,
+      "ySpot": 43,
+      "width": 39,
+      "height": 45
+    },
+    {
+      "path": "snufenn.gfx/296.png",
+      "xSpot": 27,
+      "ySpot": 45,
+      "width": 46,
+      "height": 47
+    },
+    {
+      "path": "snufenn.gfx/297.png",
+      "xSpot": 33,
+      "ySpot": 42,
+      "width": 52,
+      "height": 46
+    },
+    {
+      "path": "snufenn.gfx/298.png",
+      "xSpot": 36,
+      "ySpot": 34,
+      "width": 55,
+      "height": 36
+    },
+    {
+      "path": "snufenn.gfx/299.png",
+      "xSpot": 36,
+      "ySpot": 28,
+      "width": 55,
+      "height": 30
+    },
+    {
+      "path": "snufenn.gfx/300.png",
+      "xSpot": 42,
+      "ySpot": 18,
+      "width": 61,
+      "height": 23
+    },
+    {
+      "path": "snufenn.gfx/301.png",
+      "xSpot": 15,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/302.png",
+      "xSpot": 15,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/303.png",
+      "xSpot": 16,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/304.png",
+      "xSpot": 16,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/305.png",
+      "xSpot": 16,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/306.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/307.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/308.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/309.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/310.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/311.png",
+      "xSpot": 8,
+      "ySpot": 7,
+      "width": 18,
+      "height": 15
+    },
+    {
+      "path": "snufenn.gfx/312.png",
+      "xSpot": 8,
+      "ySpot": 7,
+      "width": 17,
+      "height": 15
+    },
+    {
+      "path": "snufenn.gfx/313.png",
+      "xSpot": 8,
+      "ySpot": 7,
+      "width": 18,
+      "height": 15
+    },
+    {
+      "path": "snufenn.gfx/314.png",
+      "xSpot": 8,
+      "ySpot": 7,
+      "width": 17,
+      "height": 15
+    },
+    {
+      "path": "snufenn.gfx/315.png",
+      "xSpot": 17,
+      "ySpot": 39,
+      "width": 29,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/316.png",
+      "xSpot": 16,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/317.png",
+      "xSpot": 16,
+      "ySpot": 40,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/318.png",
+      "xSpot": 15,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/319.png",
+      "xSpot": 15,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/320.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 29,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/321.png",
+      "xSpot": 11,
+      "ySpot": 39,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/322.png",
+      "xSpot": 11,
+      "ySpot": 40,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/323.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/324.png",
+      "xSpot": 10,
+      "ySpot": 39,
+      "width": 26,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/325.png",
+      "xSpot": 14,
+      "ySpot": 40,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/326.png",
+      "xSpot": 15,
+      "ySpot": 47,
+      "width": 30,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/327.png",
+      "xSpot": 24,
+      "ySpot": 54,
+      "width": 46,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/328.png",
+      "xSpot": 34,
+      "ySpot": 61,
+      "width": 70,
+      "height": 62
+    },
+    {
+      "path": "snufenn.gfx/329.png",
+      "xSpot": 49,
+      "ySpot": 70,
+      "width": 106,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/330.png",
+      "xSpot": 63,
+      "ySpot": 70,
+      "width": 127,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/331.png",
+      "xSpot": 66,
+      "ySpot": 70,
+      "width": 137,
+      "height": 72
+    },
+    {
+      "path": "snufenn.gfx/332.png",
+      "xSpot": 77,
+      "ySpot": 65,
+      "width": 155,
+      "height": 67
+    },
+    {
+      "path": "snufenn.gfx/333.png",
+      "xSpot": 60,
+      "ySpot": 41,
+      "width": 142,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/334.png",
+      "xSpot": 26,
+      "ySpot": 18,
+      "width": 54,
+      "height": 20
+    },
+    {
+      "path": "snufenn.gfx/335.png",
+      "xSpot": 26,
+      "ySpot": 11,
+      "width": 54,
+      "height": 13
+    },
+    {
+      "path": "snufenn.gfx/336.png",
+      "xSpot": 26,
+      "ySpot": 11,
+      "width": 54,
+      "height": 13
+    },
+    {
+      "path": "snufenn.gfx/337.png",
+      "xSpot": 13,
+      "ySpot": 40,
+      "width": 28,
+      "height": 41
+    },
+    {
+      "path": "snufenn.gfx/338.png",
+      "xSpot": 14,
+      "ySpot": 47,
+      "width": 30,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/339.png",
+      "xSpot": 21,
+      "ySpot": 54,
+      "width": 46,
+      "height": 55
+    },
+    {
+      "path": "snufenn.gfx/340.png",
+      "xSpot": 35,
+      "ySpot": 61,
+      "width": 70,
+      "height": 62
+    },
+    {
+      "path": "snufenn.gfx/341.png",
+      "xSpot": 56,
+      "ySpot": 70,
+      "width": 106,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/342.png",
+      "xSpot": 63,
+      "ySpot": 70,
+      "width": 127,
+      "height": 71
+    },
+    {
+      "path": "snufenn.gfx/343.png",
+      "xSpot": 70,
+      "ySpot": 70,
+      "width": 137,
+      "height": 72
+    },
+    {
+      "path": "snufenn.gfx/344.png",
+      "xSpot": 77,
+      "ySpot": 65,
+      "width": 155,
+      "height": 67
+    },
+    {
+      "path": "snufenn.gfx/345.png",
+      "xSpot": 81,
+      "ySpot": 41,
+      "width": 142,
+      "height": 43
+    },
+    {
+      "path": "snufenn.gfx/346.png",
+      "xSpot": 27,
+      "ySpot": 18,
+      "width": 54,
+      "height": 20
+    },
+    {
+      "path": "snufenn.gfx/347.png",
+      "xSpot": 27,
+      "ySpot": 11,
+      "width": 54,
+      "height": 13
+    },
+    {
+      "path": "snufenn.gfx/348.png",
+      "xSpot": 27,
+      "ySpot": 11,
+      "width": 54,
+      "height": 13
+    },
+    {
+      "path": "snufenn.gfx/349.png",
+      "xSpot": 5,
+      "ySpot": 5,
+      "width": 24,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/350.png",
+      "xSpot": 18,
+      "ySpot": 5,
+      "width": 24,
+      "height": 40
+    },
+    {
+      "path": "snufenn.gfx/351.png",
+      "xSpot": 6,
+      "ySpot": 5,
+      "width": 38,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/352.png",
+      "xSpot": 31,
+      "ySpot": 5,
+      "width": 38,
+      "height": 33
+    },
+    {
+      "path": "snufenn.gfx/353.png",
+      "xSpot": 4,
+      "ySpot": 6,
+      "width": 11,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/354.png",
+      "xSpot": 6,
+      "ySpot": 6,
+      "width": 11,
+      "height": 48
+    },
+    {
+      "path": "snufenn.gfx/355.png",
+      "xSpot": 96,
+      "ySpot": 119,
+      "width": 232,
+      "height": 130
+    }
+  ]
+}

@@ -1,0 +1,1019 @@
+{
+  "items": [
+    {
+      "path": "dorkfonda.gfx/000.png",
+      "xSpot": 59,
+      "ySpot": 0,
+      "width": 120,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/001.png",
+      "xSpot": 58,
+      "ySpot": 0,
+      "width": 111,
+      "height": 76
+    },
+    {
+      "path": "dorkfonda.gfx/002.png",
+      "xSpot": 100,
+      "ySpot": 0,
+      "width": 149,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/003.png",
+      "xSpot": 143,
+      "ySpot": 0,
+      "width": 188,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/004.png",
+      "xSpot": 148,
+      "ySpot": 0,
+      "width": 184,
+      "height": 67
+    },
+    {
+      "path": "dorkfonda.gfx/005.png",
+      "xSpot": 136,
+      "ySpot": 0,
+      "width": 175,
+      "height": 63
+    },
+    {
+      "path": "dorkfonda.gfx/006.png",
+      "xSpot": 109,
+      "ySpot": 0,
+      "width": 159,
+      "height": 74
+    },
+    {
+      "path": "dorkfonda.gfx/007.png",
+      "xSpot": 55,
+      "ySpot": 0,
+      "width": 110,
+      "height": 78
+    },
+    {
+      "path": "dorkfonda.gfx/008.png",
+      "xSpot": 51,
+      "ySpot": 0,
+      "width": 173,
+      "height": 71
+    },
+    {
+      "path": "dorkfonda.gfx/009.png",
+      "xSpot": 43,
+      "ySpot": 0,
+      "width": 195,
+      "height": 66
+    },
+    {
+      "path": "dorkfonda.gfx/010.png",
+      "xSpot": 38,
+      "ySpot": 0,
+      "width": 190,
+      "height": 67
+    },
+    {
+      "path": "dorkfonda.gfx/011.png",
+      "xSpot": 43,
+      "ySpot": 0,
+      "width": 195,
+      "height": 67
+    },
+    {
+      "path": "dorkfonda.gfx/012.png",
+      "xSpot": 51,
+      "ySpot": 0,
+      "width": 159,
+      "height": 71
+    },
+    {
+      "path": "dorkfonda.gfx/013.png",
+      "xSpot": 55,
+      "ySpot": 0,
+      "width": 118,
+      "height": 74
+    },
+    {
+      "path": "dorkfonda.gfx/014.png",
+      "xSpot": 62,
+      "ySpot": 0,
+      "width": 125,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/015.png",
+      "xSpot": 60,
+      "ySpot": 0,
+      "width": 115,
+      "height": 76
+    },
+    {
+      "path": "dorkfonda.gfx/016.png",
+      "xSpot": 103,
+      "ySpot": 0,
+      "width": 151,
+      "height": 74
+    },
+    {
+      "path": "dorkfonda.gfx/017.png",
+      "xSpot": 138,
+      "ySpot": 0,
+      "width": 179,
+      "height": 72
+    },
+    {
+      "path": "dorkfonda.gfx/018.png",
+      "xSpot": 150,
+      "ySpot": 0,
+      "width": 189,
+      "height": 63
+    },
+    {
+      "path": "dorkfonda.gfx/019.png",
+      "xSpot": 130,
+      "ySpot": 0,
+      "width": 174,
+      "height": 71
+    },
+    {
+      "path": "dorkfonda.gfx/020.png",
+      "xSpot": 96,
+      "ySpot": 0,
+      "width": 143,
+      "height": 73
+    },
+    {
+      "path": "dorkfonda.gfx/021.png",
+      "xSpot": 64,
+      "ySpot": 0,
+      "width": 118,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/022.png",
+      "xSpot": 53,
+      "ySpot": 0,
+      "width": 158,
+      "height": 75
+    },
+    {
+      "path": "dorkfonda.gfx/023.png",
+      "xSpot": 48,
+      "ySpot": 0,
+      "width": 179,
+      "height": 72
+    },
+    {
+      "path": "dorkfonda.gfx/024.png",
+      "xSpot": 43,
+      "ySpot": 0,
+      "width": 193,
+      "height": 65
+    },
+    {
+      "path": "dorkfonda.gfx/025.png",
+      "xSpot": 48,
+      "ySpot": 0,
+      "width": 167,
+      "height": 72
+    },
+    {
+      "path": "dorkfonda.gfx/026.png",
+      "xSpot": 50,
+      "ySpot": 0,
+      "width": 148,
+      "height": 74
+    },
+    {
+      "path": "dorkfonda.gfx/027.png",
+      "xSpot": 57,
+      "ySpot": 0,
+      "width": 113,
+      "height": 78
+    },
+    {
+      "path": "dorkfonda.gfx/028.png",
+      "xSpot": 64,
+      "ySpot": 0,
+      "width": 122,
+      "height": 80
+    },
+    {
+      "path": "dorkfonda.gfx/029.png",
+      "xSpot": 62,
+      "ySpot": 0,
+      "width": 113,
+      "height": 76
+    },
+    {
+      "path": "dorkfonda.gfx/030.png",
+      "xSpot": 103,
+      "ySpot": 0,
+      "width": 153,
+      "height": 71
+    },
+    {
+      "path": "dorkfonda.gfx/031.png",
+      "xSpot": 134,
+      "ySpot": 0,
+      "width": 175,
+      "height": 66
+    },
+    {
+      "path": "dorkfonda.gfx/032.png",
+      "xSpot": 150,
+      "ySpot": 0,
+      "width": 194,
+      "height": 66
+    },
+    {
+      "path": "dorkfonda.gfx/033.png",
+      "xSpot": 135,
+      "ySpot": 0,
+      "width": 177,
+      "height": 66
+    },
+    {
+      "path": "dorkfonda.gfx/034.png",
+      "xSpot": 109,
+      "ySpot": 0,
+      "width": 159,
+      "height": 78
+    },
+    {
+      "path": "dorkfonda.gfx/035.png",
+      "xSpot": 62,
+      "ySpot": 0,
+      "width": 117,
+      "height": 79
+    },
+    {
+      "path": "dorkfonda.gfx/036.png",
+      "xSpot": 55,
+      "ySpot": 0,
+      "width": 163,
+      "height": 76
+    },
+    {
+      "path": "dorkfonda.gfx/037.png",
+      "xSpot": 48,
+      "ySpot": 0,
+      "width": 172,
+      "height": 70
+    },
+    {
+      "path": "dorkfonda.gfx/038.png",
+      "xSpot": 41,
+      "ySpot": 0,
+      "width": 191,
+      "height": 67
+    },
+    {
+      "path": "dorkfonda.gfx/039.png",
+      "xSpot": 46,
+      "ySpot": 0,
+      "width": 191,
+      "height": 71
+    },
+    {
+      "path": "dorkfonda.gfx/040.png",
+      "xSpot": 54,
+      "ySpot": 0,
+      "width": 161,
+      "height": 74
+    },
+    {
+      "path": "dorkfonda.gfx/041.png",
+      "xSpot": 59,
+      "ySpot": 0,
+      "width": 113,
+      "height": 79
+    },
+    {
+      "path": "dorkfonda.gfx/042.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/043.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/044.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/045.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/046.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/047.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 142,
+      "height": 50
+    },
+    {
+      "path": "dorkfonda.gfx/048.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 192,
+      "height": 120
+    },
+    {
+      "path": "dorkfonda.gfx/049.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 136,
+      "height": 121
+    },
+    {
+      "path": "dorkfonda.gfx/050.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 576,
+      "height": 70
+    },
+    {
+      "path": "dorkfonda.gfx/051.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 161,
+      "height": 58
+    },
+    {
+      "path": "dorkfonda.gfx/052.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/053.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/054.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/055.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/056.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/057.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/058.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/059.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/060.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/061.png",
+      "xSpot": 33,
+      "ySpot": 31,
+      "width": 61,
+      "height": 32
+    },
+    {
+      "path": "dorkfonda.gfx/062.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/063.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/064.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/065.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/066.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/067.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/068.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/069.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/070.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/071.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/072.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/073.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/074.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/075.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/076.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/077.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/078.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/079.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/080.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 4,
+      "height": 7
+    },
+    {
+      "path": "dorkfonda.gfx/081.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/082.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/083.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/084.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/085.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/086.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 23,
+      "height": 41
+    },
+    {
+      "path": "dorkfonda.gfx/087.png",
+      "xSpot": 97,
+      "ySpot": 267,
+      "width": 247,
+      "height": 421
+    },
+    {
+      "path": "dorkfonda.gfx/088.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/089.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/090.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/091.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/092.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/093.png",
+      "xSpot": 27,
+      "ySpot": 35,
+      "width": 70,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/094.png",
+      "xSpot": 35,
+      "ySpot": 35,
+      "width": 78,
+      "height": 97
+    },
+    {
+      "path": "dorkfonda.gfx/095.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/096.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/097.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/098.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/099.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/100.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/101.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/102.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/103.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/104.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/105.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/106.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/107.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/108.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/109.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/110.png",
+      "xSpot": 34,
+      "ySpot": 0,
+      "width": 57,
+      "height": 9
+    },
+    {
+      "path": "dorkfonda.gfx/111.png",
+      "xSpot": 36,
+      "ySpot": 10,
+      "width": 77,
+      "height": 21
+    },
+    {
+      "path": "dorkfonda.gfx/112.png",
+      "xSpot": 39,
+      "ySpot": 10,
+      "width": 80,
+      "height": 24
+    },
+    {
+      "path": "dorkfonda.gfx/113.png",
+      "xSpot": 42,
+      "ySpot": 8,
+      "width": 78,
+      "height": 25
+    },
+    {
+      "path": "dorkfonda.gfx/114.png",
+      "xSpot": 45,
+      "ySpot": 4,
+      "width": 79,
+      "height": 24
+    },
+    {
+      "path": "dorkfonda.gfx/115.png",
+      "xSpot": 48,
+      "ySpot": 0,
+      "width": 71,
+      "height": 23
+    },
+    {
+      "path": "dorkfonda.gfx/116.png",
+      "xSpot": 35,
+      "ySpot": 157,
+      "width": 110,
+      "height": 230
+    },
+    {
+      "path": "dorkfonda.gfx/117.png",
+      "xSpot": 97,
+      "ySpot": 138,
+      "width": 247,
+      "height": 142
+    },
+    {
+      "path": "dorkfonda.gfx/118.png",
+      "xSpot": 5,
+      "ySpot": 14,
+      "width": 42,
+      "height": 21
+    },
+    {
+      "path": "dorkfonda.gfx/119.png",
+      "xSpot": 5,
+      "ySpot": 14,
+      "width": 42,
+      "height": 21
+    },
+    {
+      "path": "dorkfonda.gfx/120.png",
+      "xSpot": 5,
+      "ySpot": 14,
+      "width": 42,
+      "height": 21
+    },
+    {
+      "path": "dorkfonda.gfx/121.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/122.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/123.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/124.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/125.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/126.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/127.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/128.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/129.png",
+      "xSpot": 35,
+      "ySpot": 50,
+      "width": 81,
+      "height": 52
+    },
+    {
+      "path": "dorkfonda.gfx/130.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    },
+    {
+      "path": "dorkfonda.gfx/131.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    },
+    {
+      "path": "dorkfonda.gfx/132.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    },
+    {
+      "path": "dorkfonda.gfx/133.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 11,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/134.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 11,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/135.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 11,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/136.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 12,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/137.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 12,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/138.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 12,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/139.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 13,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/140.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 13,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/141.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 13,
+      "height": 18
+    },
+    {
+      "path": "dorkfonda.gfx/142.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    },
+    {
+      "path": "dorkfonda.gfx/143.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    },
+    {
+      "path": "dorkfonda.gfx/144.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 58,
+      "height": 46
+    }
+  ]
+}

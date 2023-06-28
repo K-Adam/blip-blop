@@ -1,7 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
-const saveMp3 = require('./mp3.js').save;
+const save = require('./music.js').save;
 
 const input = "input";
 const output = "output/mbk";
@@ -29,10 +29,10 @@ glob.sync(`${input}/*.mbk`).forEach(filePath => {
                 throw new Error(`Non mp3 music in ${fileName}: ${musicPath}`);
             }
 
-            const newName = path.basename(musicPath).replace('.zik', '.mp3')
+            const newName = path.basename(musicPath).replace('.zik', '.ogg')
             const newPath = `${output}/${newName}`;
 
-            saveMp3(fs.readFileSync(musicPath), newPath);
+            save(fs.readFileSync(musicPath), newPath);
 
             return newName;
         });

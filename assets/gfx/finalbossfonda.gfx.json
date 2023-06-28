@@ -1,0 +1,585 @@
+{
+  "items": [
+    {
+      "path": "finalbossfonda.gfx/000.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/001.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/002.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/003.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/004.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/005.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/006.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/007.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/008.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/009.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/010.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 40,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/011.png",
+      "xSpot": 1,
+      "ySpot": 0,
+      "width": 21,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/012.png",
+      "xSpot": 1,
+      "ySpot": 0,
+      "width": 12,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/013.png",
+      "xSpot": 1,
+      "ySpot": 0,
+      "width": 3,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/014.png",
+      "xSpot": 37,
+      "ySpot": 18,
+      "width": 40,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/015.png",
+      "xSpot": 19,
+      "ySpot": 18,
+      "width": 21,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/016.png",
+      "xSpot": 10,
+      "ySpot": 18,
+      "width": 12,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/017.png",
+      "xSpot": 1,
+      "ySpot": 18,
+      "width": 3,
+      "height": 19
+    },
+    {
+      "path": "finalbossfonda.gfx/018.png",
+      "xSpot": 1,
+      "ySpot": 0,
+      "width": 3,
+      "height": 2
+    },
+    {
+      "path": "finalbossfonda.gfx/019.png",
+      "xSpot": 2,
+      "ySpot": 0,
+      "width": 5,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/020.png",
+      "xSpot": 3,
+      "ySpot": 0,
+      "width": 7,
+      "height": 4
+    },
+    {
+      "path": "finalbossfonda.gfx/021.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 2
+    },
+    {
+      "path": "finalbossfonda.gfx/022.png",
+      "xSpot": 2,
+      "ySpot": 2,
+      "width": 5,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/023.png",
+      "xSpot": 3,
+      "ySpot": 3,
+      "width": 7,
+      "height": 4
+    },
+    {
+      "path": "finalbossfonda.gfx/024.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/025.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/026.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/027.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/028.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/029.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/030.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/031.png",
+      "xSpot": 20,
+      "ySpot": 7,
+      "width": 42,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/032.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/033.png",
+      "xSpot": 2,
+      "ySpot": 2,
+      "width": 5,
+      "height": 5
+    },
+    {
+      "path": "finalbossfonda.gfx/034.png",
+      "xSpot": 1,
+      "ySpot": 1,
+      "width": 3,
+      "height": 3
+    },
+    {
+      "path": "finalbossfonda.gfx/035.png",
+      "xSpot": 2,
+      "ySpot": 2,
+      "width": 5,
+      "height": 5
+    },
+    {
+      "path": "finalbossfonda.gfx/036.png",
+      "xSpot": 10,
+      "ySpot": 17,
+      "width": 58,
+      "height": 61
+    },
+    {
+      "path": "finalbossfonda.gfx/037.png",
+      "xSpot": 17,
+      "ySpot": 17,
+      "width": 68,
+      "height": 62
+    },
+    {
+      "path": "finalbossfonda.gfx/038.png",
+      "xSpot": 26,
+      "ySpot": 33,
+      "width": 93,
+      "height": 92
+    },
+    {
+      "path": "finalbossfonda.gfx/039.png",
+      "xSpot": 35,
+      "ySpot": 42,
+      "width": 109,
+      "height": 119
+    },
+    {
+      "path": "finalbossfonda.gfx/040.png",
+      "xSpot": 46,
+      "ySpot": 53,
+      "width": 137,
+      "height": 141
+    },
+    {
+      "path": "finalbossfonda.gfx/041.png",
+      "xSpot": 118,
+      "ySpot": 49,
+      "width": 259,
+      "height": 50
+    },
+    {
+      "path": "finalbossfonda.gfx/042.png",
+      "xSpot": 118,
+      "ySpot": 50,
+      "width": 259,
+      "height": 52
+    },
+    {
+      "path": "finalbossfonda.gfx/043.png",
+      "xSpot": 118,
+      "ySpot": 52,
+      "width": 259,
+      "height": 54
+    },
+    {
+      "path": "finalbossfonda.gfx/044.png",
+      "xSpot": 118,
+      "ySpot": 51,
+      "width": 260,
+      "height": 54
+    },
+    {
+      "path": "finalbossfonda.gfx/045.png",
+      "xSpot": 118,
+      "ySpot": 52,
+      "width": 261,
+      "height": 56
+    },
+    {
+      "path": "finalbossfonda.gfx/046.png",
+      "xSpot": 118,
+      "ySpot": 50,
+      "width": 259,
+      "height": 52
+    },
+    {
+      "path": "finalbossfonda.gfx/047.png",
+      "xSpot": 118,
+      "ySpot": 51,
+      "width": 259,
+      "height": 54
+    },
+    {
+      "path": "finalbossfonda.gfx/048.png",
+      "xSpot": 118,
+      "ySpot": 52,
+      "width": 259,
+      "height": 56
+    },
+    {
+      "path": "finalbossfonda.gfx/049.png",
+      "xSpot": 118,
+      "ySpot": 53,
+      "width": 259,
+      "height": 58
+    },
+    {
+      "path": "finalbossfonda.gfx/050.png",
+      "xSpot": 50,
+      "ySpot": 45,
+      "width": 95,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/051.png",
+      "xSpot": 50,
+      "ySpot": 45,
+      "width": 95,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/052.png",
+      "xSpot": 49,
+      "ySpot": 45,
+      "width": 93,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/053.png",
+      "xSpot": 47,
+      "ySpot": 45,
+      "width": 92,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/054.png",
+      "xSpot": 50,
+      "ySpot": 45,
+      "width": 94,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/055.png",
+      "xSpot": 49,
+      "ySpot": 45,
+      "width": 93,
+      "height": 46
+    },
+    {
+      "path": "finalbossfonda.gfx/056.png",
+      "xSpot": 49,
+      "ySpot": 44,
+      "width": 92,
+      "height": 45
+    },
+    {
+      "path": "finalbossfonda.gfx/057.png",
+      "xSpot": 49,
+      "ySpot": 43,
+      "width": 104,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/058.png",
+      "xSpot": 47,
+      "ySpot": 43,
+      "width": 103,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/059.png",
+      "xSpot": 46,
+      "ySpot": 42,
+      "width": 101,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/060.png",
+      "xSpot": 45,
+      "ySpot": 41,
+      "width": 101,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/061.png",
+      "xSpot": 47,
+      "ySpot": 42,
+      "width": 104,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/062.png",
+      "xSpot": 48,
+      "ySpot": 42,
+      "width": 103,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/063.png",
+      "xSpot": 48,
+      "ySpot": 42,
+      "width": 103,
+      "height": 44
+    },
+    {
+      "path": "finalbossfonda.gfx/064.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 41,
+      "height": 14
+    },
+    {
+      "path": "finalbossfonda.gfx/065.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 41,
+      "height": 14
+    },
+    {
+      "path": "finalbossfonda.gfx/066.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 41,
+      "height": 14
+    },
+    {
+      "path": "finalbossfonda.gfx/067.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 41,
+      "height": 14
+    },
+    {
+      "path": "finalbossfonda.gfx/068.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 34,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/069.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 34,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/070.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 34,
+      "height": 15
+    },
+    {
+      "path": "finalbossfonda.gfx/071.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 64,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/072.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 64,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/073.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 64,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/074.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 68,
+      "height": 26
+    },
+    {
+      "path": "finalbossfonda.gfx/075.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 68,
+      "height": 26
+    },
+    {
+      "path": "finalbossfonda.gfx/076.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 68,
+      "height": 26
+    },
+    {
+      "path": "finalbossfonda.gfx/077.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/078.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/079.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 33
+    },
+    {
+      "path": "finalbossfonda.gfx/080.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 34
+    },
+    {
+      "path": "finalbossfonda.gfx/081.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 34
+    },
+    {
+      "path": "finalbossfonda.gfx/082.png",
+      "xSpot": 0,
+      "ySpot": 0,
+      "width": 79,
+      "height": 34
+    }
+  ]
+}
