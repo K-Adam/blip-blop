@@ -201,13 +201,13 @@ static bool InitApp(int nCmdShow) {
     //------------------------------------------------------------------
 
     if (lang_type == LANG_UK) {
-        if (!loadTxtData("data/uk.dat")) {
-            Bug("Cannot open the file 'data/uk.dat'");
+        if (!loadTxtData("uk.dat")) {
+            Bug("Cannot open the file 'uk.dat'");
             return false;
         }
     } else {
-        if (!loadTxtData("data/fr.dat")) {
-            Bug("Cannot open the file 'data/fr.dat'");
+        if (!loadTxtData("fr.dat")) {
+            Bug("Cannot open the file 'fr.dat'");
             return false;
         }
     }

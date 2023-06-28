@@ -23,31 +23,36 @@
 #include <fstream>
 
 #include "ben_debug.h"
+#include "json.h"
+#include "string.h"
+
+using json = nlohmann::json;
 
 std::vector<std::string> txt_data;
 
 bool loadTxtData(const char* file) {
-    std::ifstream f(file);
-
-    if (!f.is_open()) {
+    auto dir = asset_path(file);
+    std::ifstream input(dir + ".json");
+    if (!input.good()) {
         return false;
     }
 
+    json data = json::parse(input);
+    auto items = data["items"];
+
+    txt_data.resize(1024);
+
     std::string buffer;
-    while (true) {
-        std::getline(f, buffer, '^');
+    for (json::iterator it = items.begin(); it != items.end(); it++) {
+        std::string key = it.key();
 
-        if (f.eof()) {
-            break;
-        }
-
-        int num = std::stoi(buffer);
-        std::getline(f, buffer, '\n');
+        unsigned long num = std::stoul(key);
 
         if (num >= txt_data.size()) {
-            txt_data.resize(num + 1);
+            txt_data.resize(num+1);
         }
-        txt_data[num] = buffer;
+
+        txt_data[num] = it.value();
     }
 
     return true;
