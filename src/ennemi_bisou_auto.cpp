@@ -131,4 +131,3 @@ void EnnemiBisouAuto::onMeure()
 	updateADetruire();
 
 }
-

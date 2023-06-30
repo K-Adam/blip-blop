@@ -123,4 +123,3 @@ void Sprite::noCol()
 {
 	col_on = false;
 }
-

@@ -54,7 +54,7 @@ void FondMonolite::update()
 
 	// Si un joueur est sur la plateforme, on le déplace
 	//
-        for (Couille* joueur : list_joueurs) {
+	for (Couille* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
 		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && plat(xtmp, joueur->y) == y - 20) {
@@ -68,7 +68,7 @@ void FondMonolite::update()
 	}
 
 
-        for (auto& ennemis : list_ennemis) {
+	for (auto& ennemis : list_ennemis) {
 		xtmp = ennemis->x;
 
 		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && plat(xtmp, ennemis->y) == y - 20) {

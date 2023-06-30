@@ -7,15 +7,15 @@
 #include "menu_list.h"
 
 class OptionsPanel : public AbstractMenu {
-   public:
-    OptionsPanel();
-    void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
-    int ProcessEvent();
+	public:
+	OptionsPanel();
+	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
+	int ProcessEvent();
 
-   private:
-    void RefreshVsync();
+	private:
+	void RefreshVsync();
 
-    MenuList items_;
-    std::string vsync_on_txt_;
-    std::string vsync_off_txt_;
+	MenuList items_;
+	std::string vsync_on_txt_;
+	std::string vsync_off_txt_;
 };

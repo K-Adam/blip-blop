@@ -56,14 +56,14 @@ bool Fonte::load(const char * fic)
 
 	json data = json::parse(input);
 
-    pictab_.clear();
+	pictab_.clear();
 
 	h = data["h"];
 	spc = data["spc"];
 
 	pictab_.resize(256);
 
-    for (int i = 1; i < 256; i++) {
+	for (int i = 1; i < 256; i++) {
 
 		auto key = std::to_string(i);
 		if (data["items"].find(key) == data["items"].end()) {
@@ -81,15 +81,15 @@ bool Fonte::load(const char * fic)
 			return false;
 		}
 
-        pictab_[i] = std::make_unique<Picture>();
-        pictab_[i]->SetSurface(new SDL::Surface(surf));
-        pictab_[i]->SetSpot(0, 0);
+		pictab_[i] = std::make_unique<Picture>();
+		pictab_[i]->SetSurface(new SDL::Surface(surf));
+		pictab_[i]->SetSpot(0, 0);
 
-    }
+	}
 
-    filename_ = fic;
+	filename_ = fic;
 
-    return true;
+	return true;
 }
 
 //-----------------------------------------------------------------------------

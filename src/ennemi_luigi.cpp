@@ -859,7 +859,7 @@ void EnnemiLuigi::estTouche(Tir * tir)
 		s->x = x + rand() % 11 - 5;
 		s->y = y - rand() % 30 - 10;
 
-                list_giclures.emplace_back(s);
+	list_giclures.emplace_back(s);
 	}
 
 	if ((tir->dir >= 2) && (tir->dir <= 6)) {

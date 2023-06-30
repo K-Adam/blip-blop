@@ -5,9 +5,9 @@
 #include <math.h>
 
 static const int xtel [] = { 8144,		// Haut droite
-                             8082,		// Droite
-                             7653
-                           };	// Gauche
+	8082,		// Droite
+	7653
+	};	// Gauche
 
 static const int ytel [] = { 296, 130, 188 };
 

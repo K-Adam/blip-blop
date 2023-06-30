@@ -23,9 +23,9 @@ class TitleScreen {
 
    public:
     bool start_sound_on;  // Ces deux booléens permettent de savoir si on a
-                          // changé
+	// changé
     bool start_music_on;  // l'état de sound_on/music_on pour recharger le
-                          // tout à la fin du menu
+	// tout à la fin du menu
 
     TitleScreen() : active_menu_(&first_menu_) {}
     void start();

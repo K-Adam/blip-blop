@@ -99,8 +99,8 @@ bool RPGPlayer::startPlay(int n)
 	}
 
 	//
-        buffer1_ = "rpg=" + std::to_string(n);
-        std::getline(fic_, buffer2_);
+	buffer1_ = "rpg=" + std::to_string(n);
+	std::getline(fic_, buffer2_);
 
 	while (!fic_.eof() && buffer1_ != buffer2_)
 		std::getline(fic_, buffer2_);
@@ -120,11 +120,11 @@ bool RPGPlayer::startPlay(int n)
 	skiped			= false;
 	focus			= 0;
 	cur_joueur		= 0;
-        wait_.Reset(0);
+	wait_.Reset(0);
 
 	int			i = 0;
 
-        for (Couille* c : list_joueurs) {
+	for (Couille* c : list_joueurs) {
 		if (c->id_couille == ID_BLIP)
 			base_joueur[i] = 0;
 		else
@@ -133,7 +133,7 @@ bool RPGPlayer::startPlay(int n)
 		i += 1;
 	}
 
- 	return true;
+	return true;
 }
 
 
@@ -168,7 +168,7 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 
 	if (wait_.is_zero()) {
 		not_finished = updateScene();
-        }
+	}
 
 	// Assombrissement
 	//
@@ -236,7 +236,7 @@ bool RPGPlayer::updateScene()
 			//
 			size_t pos = buffer1_.find('=');
 			buffer2_ = buffer1_.substr(pos + 1);
-                        buffer1_ = buffer1_.substr(0, pos);
+			buffer1_ = buffer1_.substr(0, pos);
 
 			if (buffer1_ == "ifnbj") {
 				if (nbjoueurs != std::stoi(buffer2_)) {
@@ -285,7 +285,7 @@ bool RPGPlayer::updateScene()
 
 				size_t pos = buffer2_.find('.');
 				int val = std::stoi(buffer2_.substr(pos + 1));
-                                buffer2_ = buffer2_.substr(0, pos);
+				buffer2_ = buffer2_.substr(0, pos);
 
 				game_flag[std::stoi(buffer2_)] = val;
 //				debug<<"Flag "<<atoi(buffer2)<<"="<<val<<"\n";
@@ -301,14 +301,14 @@ bool RPGPlayer::updateScene()
 
 bool RPGPlayer::read()
 {
-        std::getline(fic_, buffer1_);
+	std::getline(fic_, buffer1_);
 
 	// Skip les commentaires
 	//
 	while (!fic_.eof() && buffer1_[0] == ';')
 		std::getline(fic_, buffer1_);
 
-        return !fic_.eof();
+	return !fic_.eof();
 }
 
 
@@ -317,12 +317,3 @@ void RPGPlayer::error(const std::string& err_msg)
 {
 	debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n";
 }
-
-
-
-
-
-
-
-
-

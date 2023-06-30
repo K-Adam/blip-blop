@@ -60,8 +60,8 @@
 class Game
 {
 protected:
-        HUD hud_;
-        UpdateRegulator update_regulator_;
+	HUD hud_;
+	UpdateRegulator update_regulator_;
 	PictureBank	pbk_briefing;
 	bool	briefing;
 
@@ -101,8 +101,8 @@ protected:
 
 	RPGPlayer	rpg;
 
-        GoArrow go_;
-        int last_x_go_;
+	GoArrow go_;
+	int last_x_go_;
 
 	bool	show_fps;
 	bool	show_lists;
@@ -162,8 +162,8 @@ public:
 
 	void creeBulle(Sprite * s);
 
-        template <class T>
-        void UpdateCollection(const T& xs);
+	template <class T>
+	void UpdateCollection(const T& xs);
 	void updateFlecheGo();
 	void updateMeteo();
 	void updateEvents();
@@ -181,11 +181,11 @@ public:
 	void updateCheat();
 	void manageCollisions();
 
-        template <class T>
-        void RemoveDestroyed(T& xs);
+	template <class T>
+	void RemoveDestroyed(T& xs);
 
-        template <class T>
-        void DrawCollection(const T& xs);
+	template <class T>
+	void DrawCollection(const T& xs);
 	void drawTremblements();
 	void drawHUB();
 	void drawHUBpv(int x, int y, int pv);

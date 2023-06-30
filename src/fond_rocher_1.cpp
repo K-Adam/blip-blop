@@ -55,7 +55,7 @@ void FondRocher1::update()
 	// Si un joueur est sur la plateforme, on le déplace
 	//
 
-        for (Couille* joueur : list_joueurs) {
+	for (Couille* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
 		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && plat(xtmp, joueur->y) == y - 30) {

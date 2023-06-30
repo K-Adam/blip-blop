@@ -60,4 +60,3 @@ void TirBBVache::update()
 		colFromPic();
 	}
 }
-

@@ -44,7 +44,6 @@ int manageMsg()
 }
 #else
 int manageMsg() {
-    return 0;
+	return 0;
 }
 #endif
-

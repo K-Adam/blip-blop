@@ -10,20 +10,20 @@
 #include "txt_data.h"
 
 int MenuGame::Update() {
-    in.update();
-    MenuType next = MenuType(active_->ProcessEvent());
-    in.waitClean();
+	in.update();
+	MenuType next = MenuType(active_->ProcessEvent());
+	in.waitClean();
 
-    switch (next) {
-        case MenuType::Game_1:
-            return 1;
-        case MenuType::Exit:
-            return 2;
-        case MenuType::Main:
-            active_ = &pause_menu_;
-            break;
-        case MenuType::Options:
-            active_ = &options_menu_;
-    }
-    return 0;
+	switch (next) {
+		case MenuType::Game_1:
+			return 1;
+		case MenuType::Exit:
+			return 2;
+		case MenuType::Main:
+			active_ = &pause_menu_;
+			break;
+		case MenuType::Options:
+			active_ = &options_menu_;
+	}
+	return 0;
 }

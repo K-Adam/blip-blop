@@ -193,7 +193,7 @@ void Picture::BlitTo(SDL::Surface * s, int x, int y) const
 	if (y < 0) y = 0;
 
 	s->BltFast(x, y, surf, &r, DDBLTFAST_SRCCOLORKEY
-	           | DDBLTFAST_WAIT);
+				| DDBLTFAST_WAIT);
 
 	/*static int test_i = 1;
 	char buf[128];
@@ -236,7 +236,7 @@ void Picture::PasteTo(SDL::Surface * s, int x, int y) const
 	if (y < 0) y = 0;
 
 	s->BltFast(x, y, surf, &r, DDBLTFAST_NOCOLORKEY
-	           | DDBLTFAST_WAIT);
+				| DDBLTFAST_WAIT);
 }
 
 
@@ -270,7 +270,7 @@ Picture::~Picture()
 
 int loadPBK(char * fic, Picture * & p, int rgb)
 {
-    std::ifstream f;
+	std::ifstream f;
 	int			nbpic;
 
 	if (p != NULL) {

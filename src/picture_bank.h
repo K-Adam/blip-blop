@@ -25,15 +25,15 @@
 #include "picture.h"
 
 class PictureBank {
-   private:
-    std::vector<std::unique_ptr<Picture>> tab_;
-    std::string filename_;
+	private:
+	std::vector<std::unique_ptr<Picture>> tab_;
+	std::string filename_;
 
-   public:
-    inline Picture* operator[](int n) const { return tab_[n].get(); };
-    inline size_t getSize() const { return tab_.size(); };
+	public:
+	inline Picture* operator[](int n) const { return tab_[n].get(); };
+	inline size_t getSize() const { return tab_.size(); };
 
-    PictureBank();
-    bool loadGFX(const char* file);
-    bool restoreAll();
+	PictureBank();
+	bool loadGFX(const char* file);
+	bool restoreAll();
 };

@@ -36,5 +36,3 @@ void GenBonus::update()
 			a_detruire = true;
 	}
 }
-
-

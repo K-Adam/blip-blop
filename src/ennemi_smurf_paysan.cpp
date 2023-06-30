@@ -128,17 +128,3 @@ void EnnemiSmurfPaysan::estTouche(Tir * tir)
 	if (etat == ETAT_MEURE)
 		sbk_misc.play(8 + rand() % 3);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

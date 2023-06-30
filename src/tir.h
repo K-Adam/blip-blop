@@ -67,7 +67,7 @@ public:
 
 	inline virtual void aTouche(int pts)
 	{
-                (void) pts;
+	(void) pts;
 		a_detruire = true;
 		col_on = false;
 	};

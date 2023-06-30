@@ -41,5 +41,3 @@ void TirRaymanpoing::update()
 
 	colFromPic();
 }
-
-

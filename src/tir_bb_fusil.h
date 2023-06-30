@@ -30,7 +30,7 @@
 class TirBBFusil : public TirBB
 {
 public:
-        TirBBFusil() : etape_dx(0), etape_dy(0) {}
+	TirBBFusil() : etape_dx(0), etape_dy(0) {}
 	int		dx;
 	int		ddx;
 	int		ddy;

@@ -32,10 +32,10 @@
 class /* Poele en */ Fonte
 {
 private:
-        std::vector<std::unique_ptr<Picture>> pictab_;
+	std::vector<std::unique_ptr<Picture>> pictab_;
 	int			spc;		// Largeur d'un espace
 	int			h;			// Hauteur d'un saut de ligne
-        std::string filename_;
+	std::string filename_;
 
 public:
 	//	Charge un ficher FNT

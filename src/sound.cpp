@@ -145,9 +145,3 @@ void Sound::close()
 {
 	FSOUND_Sample_Free(sample);
 }
-
-
-
-
-
-

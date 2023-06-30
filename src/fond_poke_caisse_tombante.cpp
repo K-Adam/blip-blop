@@ -73,7 +73,7 @@ void FondPokeCaisseTombante::update()
 					s3->x = x;
 					s3->y = -150;
 
-                                        list_plateformes_mobiles.emplace_back(s3);
+	list_plateformes_mobiles.emplace_back(s3);
 				}
 			}
 		}

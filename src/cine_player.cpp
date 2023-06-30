@@ -126,14 +126,14 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 
 	while (!fini) {
 		updateState();
-                update_regulator_.Skip();
+				update_regulator_.Skip();
 
 		while (frame_to_draw > 0 && !fini) {
 			manageMsg();
 
-                        if (checkRestore()) {
-                            update_regulator_.Skip();
-                        }
+						if (checkRestore()) {
+							update_regulator_.Skip();
+						}
 
 			in.update();
 
@@ -226,12 +226,12 @@ void CINEPlayer::updateScene()
 
 
 void CINEPlayer::renderLoop() {
-    int n_updates = update_regulator_.Step();
-    for (; n_updates > 0; --n_updates) {
-        updateScene();
-    }
+	int n_updates = update_regulator_.Step();
+	for (; n_updates > 0; --n_updates) {
+		updateScene();
+	}
 
-    drawScene();
+	drawScene();
 }
 
 

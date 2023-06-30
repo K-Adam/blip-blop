@@ -349,7 +349,7 @@ bool grave(int x, int y, Picture * pic)
 
 	s.colFromPic();
 
-        for (auto& s2 : list_fonds_animes) {
+	for (auto& s2 : list_fonds_animes) {
 		if (s.collision(s2.get()))
 			return false;
 	}
@@ -424,17 +424,3 @@ bool checkRestore()
 
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

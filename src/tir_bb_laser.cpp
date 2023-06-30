@@ -308,5 +308,3 @@ bool TirBBLaser::collision(const Sprite * s) const
 
 	return ((y_laser1 > ye1 && y_laser1 < ye2) || (y_laser2 > ye1 && y_laser2 < ye2));
 }
-
-

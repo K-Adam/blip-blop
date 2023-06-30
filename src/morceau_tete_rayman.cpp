@@ -43,4 +43,3 @@ void MorceauTeteRayman::update()
 		a_detruire = true;
 	}
 }
-

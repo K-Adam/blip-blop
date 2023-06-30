@@ -35,66 +35,66 @@
 #include "moving_average.h"
 
 class UpdateRegulator {
-   public:
-    UpdateRegulator(int delay_goal = 11, int margin = 1, int hist_size = 50)
-        : last_frames_spare_time_(hist_size),
-          dtime_(0),
-          delay_goal_(delay_goal),
-          margin_(margin) {}
+	public:
+	UpdateRegulator(int delay_goal = 11, int margin = 1, int hist_size = 50)
+		: last_frames_spare_time_(hist_size),
+		dtime_(0),
+		delay_goal_(delay_goal),
+		margin_(margin) {}
 
-    /**
-     * @brief notify that you're starting a new frame.
-     *
-     * @return how many update steps to perform.
-     */
-    int Step() {
-        int since_last = RegisterFrameTime();
-        dtime_ += since_last;
-        int mean_FST = last_frames_spare_time_.average();
+	/**
+	* @brief notify that you're starting a new frame.
+	*
+	* @return how many update steps to perform.
+	*/
+	int Step() {
+		int since_last = RegisterFrameTime();
+		dtime_ += since_last;
+		int mean_FST = last_frames_spare_time_.average();
 
-        frame_time_.Reset();
+		frame_time_.Reset();
 
-        if (-margin_ <= mean_FST && mean_FST <= margin_) {
-            // game is running exactly as planned, make 1 update
-            dtime_ = 0;
-            return 1;
-        } else {
-            // game is not running exactly as planned (slower or faster), so we
-            // use the accumulated time to count how many updates are needed
-            int cnt = 0;
-            while (dtime_ > delay_goal_) {
-                ++cnt;
-                dtime_ -= delay_goal_;
-            }
-            return cnt;
-        }
-    }
+		if (-margin_ <= mean_FST && mean_FST <= margin_) {
+			// game is running exactly as planned, make 1 update
+			dtime_ = 0;
+			return 1;
+		} else {
+			// game is not running exactly as planned (slower or faster), so we
+			// use the accumulated time to count how many updates are needed
+			int cnt = 0;
+			while (dtime_ > delay_goal_) {
+				++cnt;
+				dtime_ -= delay_goal_;
+			}
+			return cnt;
+		}
+	}
 
-    /**
-     * @brief Call when you want to restart counting the time taken for that
-     * current frame.
-     */
-    void Skip() {
-        frame_time_.Reset();
-    }
+	/**
+	* @brief Call when you want to restart counting the time taken for that
+	* current frame.
+	*/
+	void Skip() {
+		frame_time_.Reset();
+	}
 
-   private:
-    int RegisterFrameTime() {
-        int since_last = frame_time_.elapsed();
-        // adjust for oddities
-        if (since_last <= 0) {
-            last_frames_spare_time_.Add(0);
-        } else if (since_last >= 500) {
-            last_frames_spare_time_.Add(0);
-        } else {
-            last_frames_spare_time_.Add(since_last - delay_goal_);
-        }
-        return since_last;
-    }
+	private:
+	int RegisterFrameTime() {
+		int since_last = frame_time_.elapsed();
+		// adjust for oddities
+		if (since_last <= 0) {
+			last_frames_spare_time_.Add(0);
+		} else if (since_last >= 500) {
+			last_frames_spare_time_.Add(0);
+		} else {
+			last_frames_spare_time_.Add(since_last - delay_goal_);
+		}
+		return since_last;
+	}
 
-    MovingAverage<int> last_frames_spare_time_;
-    Chrono frame_time_;
-    int dtime_;
-    int delay_goal_;
-    int margin_;
+	MovingAverage<int> last_frames_spare_time_;
+	Chrono frame_time_;
+	int dtime_;
+	int delay_goal_;
+	int margin_;
 };

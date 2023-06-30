@@ -32,4 +32,3 @@ void TirBB::setDir(int d)
 	else
 		dir = d;
 }
-
