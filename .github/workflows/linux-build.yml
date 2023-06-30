@@ -1,0 +1,15 @@
+name: "Linux Build"
+on: [push]
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Install dependencies
+          run: sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
+        - name: Configure
+          run: cmake .
+        - run: mkdir -p bin
+        - name: Build
+          run: cmake --build .
