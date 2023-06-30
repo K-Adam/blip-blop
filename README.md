@@ -1,5 +1,7 @@
 # Web port
 
+The game is available at https://k-adam.github.io/blip-blop/
+
 This repository is a fork of the game Blip'n Blop, with the primary goal of
 making the game playable on the web. While additions to the game's features
 are welcomed, the major goal of this fork is to ensure that people may
