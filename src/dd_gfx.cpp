@@ -18,11 +18,11 @@ static int oldRefreshRate = -1;
 //-----------------------------------------------------------------------------
 
 void DDInitDirectDraw() {
-    if (graphicInstance != NULL) {
-        debug << "Graphic engine already initialized!\n";
-    }
-    graphicInstance = new Graphics();
-    graphicInstance->Init();
+	if (graphicInstance != NULL) {
+		debug << "Graphic engine already initialized!\n";
+	}
+	graphicInstance = new Graphics();
+	graphicInstance->Init();
 }
 
 //-----------------------------------------------------------------------------
@@ -38,9 +38,9 @@ void DDCloseDirectDraw() { graphicInstance->~Graphics(); }
 //-----------------------------------------------------------------------------
 
 void DDSetGfxMode(int x, int y, int d, bool fullscreen) {
-    debug << "DDSetGfxMode (" << x << "," << y << ")"
-          << "\n";
-    graphicInstance->SetGfxMode(x, y, d, fullscreen);
+	debug << "DDSetGfxMode (" << x << "," << y << ")"
+		<< "\n";
+	graphicInstance->SetGfxMode(x, y, d, fullscreen);
 }
 
 //-----------------------------------------------------------------------------
@@ -49,9 +49,9 @@ void DDSetGfxMode(int x, int y, int d, bool fullscreen) {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDCreateSurface(int x, int y) {
-    debug << "DDCreateSurface (" << x << "," << y << ")"
-          << "\n";
-    return graphicInstance->CreateSurface(x, y, DDSURF_BEST);
+	debug << "DDCreateSurface (" << x << "," << y << ")"
+		<< "\n";
+	return graphicInstance->CreateSurface(x, y, DDSURF_BEST);
 }
 
 //-----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ SDL::Surface* DDCreateSurface(int x, int y) {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDCreateSurface(int x, int y, int flags) {
-    return graphicInstance->CreateSurface(x, y, flags);
+	return graphicInstance->CreateSurface(x, y, flags);
 }
 
 //-----------------------------------------------------------------------------
@@ -69,9 +69,9 @@ SDL::Surface* DDCreateSurface(int x, int y, int flags) {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDCreatePrimary() {
-    debug << "DDCreatePrimary ()"
-          << "\n";
-    return graphicInstance->CreatePrimary();
+	debug << "DDCreatePrimary ()"
+		<< "\n";
+	return graphicInstance->CreatePrimary();
 }
 
 //-----------------------------------------------------------------------------
@@ -80,9 +80,9 @@ SDL::Surface* DDCreatePrimary() {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDCreatePrimary(SDL::Surface*& back) {
-    debug << "DDCreatePrimary (back)"
-          << "\n";
-    return graphicInstance->CreatePrimary(back);
+	debug << "DDCreatePrimary (back)"
+		<< "\n";
+	return graphicInstance->CreatePrimary(back);
 }
 
 //-----------------------------------------------------------------------------
@@ -91,9 +91,9 @@ SDL::Surface* DDCreatePrimary(SDL::Surface*& back) {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDLoadBMP(char* file) {
-    debug << "DDLoadBMP (" << file << ")"
-          << "\n";
-    return graphicInstance->LoadBMP(file, DDSURF_BEST);
+	debug << "DDLoadBMP (" << file << ")"
+		<< "\n";
+	return graphicInstance->LoadBMP(file, DDSURF_BEST);
 }
 
 //-----------------------------------------------------------------------------
@@ -102,9 +102,9 @@ SDL::Surface* DDLoadBMP(char* file) {
 //-----------------------------------------------------------------------------
 
 SDL::Surface* DDLoadBMP(char* file, int flags) {
-    debug << "DDLoadBMP (" << file << ")"
-          << "\n";
-    return graphicInstance->LoadBMP(file, flags);
+	debug << "DDLoadBMP (" << file << ")"
+		<< "\n";
+	return graphicInstance->LoadBMP(file, flags);
 }
 
 //-----------------------------------------------------------------------------
@@ -113,18 +113,18 @@ SDL::Surface* DDLoadBMP(char* file, int flags) {
 //-----------------------------------------------------------------------------
 
 bool DDSetColorKey(SDL::Surface* surf, Pixel rgb) {
-    // debug << "DDSetColorKey ()" << "\n";
-    return graphicInstance->SetColorKey(surf, rgb);
+	// debug << "DDSetColorKey ()" << "\n";
+	return graphicInstance->SetColorKey(surf, rgb);
 }
 
 void DDFlip() {
-    // debug << "DDFlip ()" << "\n";
-    graphicInstance->Flip();
+	// debug << "DDFlip ()" << "\n";
+	graphicInstance->Flip();
 }
 
 void DDFlipV() {
-    // debug << "DDFlipV ()" << "\n";
-    graphicInstance->FlipV();
+	// debug << "DDFlipV ()" << "\n";
+	graphicInstance->FlipV();
 }
 
 void DDToggleFullscreen() { graphicInstance->ToggleFullscreen(); }

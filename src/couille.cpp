@@ -166,14 +166,14 @@ const int y_recul_fusil [][5] = {
 //-----------------------------------------------------------------------------
 
 Couille::Couille(const PictureBank& pbk) : sauti(0), ctrl(NULL), id_arme(ID_M16),
-        tire(false), etape_recul(0),
+	tire(false), etape_recul(0),
 	dir_arme(0), poid_arme(1), cadence_arme(10), ammo(0), dx_saut(0),
 	latence_arme(3), nb_etape_arme(5), invincible(0), a_mal(0),
 	nb_life(5), nb_cow_bomb(0), time_down(0), wait_cow_bomb(0),
 	dx_glisse(0), latence_glisse(0), perfect(true), next_m16(0),
 	next_pm(0), next_fusil(0), next_laser(0), next_lf(0), locked_fire(false),
 	fire_lf(false), locked_dir(false), etape_cli(0), inv_cow(false), mod_life(0),
-        etape_bouge_arme(0), fire_laser(0), pbk_own(pbk)
+	etape_bouge_arme(0), fire_laser(0), pbk_own(pbk)
 {
 	dir = BBDIR_DROITE;
 	col_on = true;
@@ -259,8 +259,8 @@ void Couille::afficheArme(int xtmp, int ytmp)
 		case ID_M16:
 			if (tire)
 				draw(xtmp + dx_m16[d_arme] + x_recul[d_arme][etape_recul],
-				     ytmp + dy_m16[d_arme] + y_recul[d_arme][etape_recul],
-				     pbk_own[24 + d_arme]);
+					ytmp + dy_m16[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_own[24 + d_arme]);
 			else
 				draw(xtmp + dx_m16[d_arme], ytmp + dy_m16[d_arme], pbk_own[24 + d_arme]);
 			break;
@@ -268,8 +268,8 @@ void Couille::afficheArme(int xtmp, int ytmp)
 		case ID_PM:
 			if (tire)
 				draw(xtmp + dx_pm[d_arme] + x_recul[d_arme][etape_recul],
-				     ytmp + dy_pm[d_arme] + y_recul[d_arme][etape_recul],
-				     pbk_own[64 + d_arme]);
+					ytmp + dy_pm[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_own[64 + d_arme]);
 			else
 				draw(xtmp + dx_pm[d_arme], ytmp + dy_pm[d_arme], pbk_own[64 + d_arme]);
 			break;
@@ -282,19 +282,19 @@ void Couille::afficheArme(int xtmp, int ytmp)
 			if (tire) {
 				if (etape_arme < 5) {	// Le recul
 					draw(xtmp + dx_fusil[d_arme] + x_recul[d_arme][etape_arme] * 2,
-					     ytmp + dy_fusil[d_arme] + y_recul[d_arme][etape_arme] * 2,
-					     pbk_own[44 + d_arme]);
+						ytmp + dy_fusil[d_arme] + y_recul[d_arme][etape_arme] * 2,
+						pbk_own[44 + d_arme]);
 
 					draw(xtmp + dx_main_fusil[d_arme] + x_recul_fusil[d_arme][etape_arme],
-					     ytmp + dy_main_fusil[d_arme] + y_recul_fusil[d_arme][etape_arme],
-					     pbk_own[104 + d_arme2]);
+						ytmp + dy_main_fusil[d_arme] + y_recul_fusil[d_arme][etape_arme],
+						pbk_own[104 + d_arme2]);
 				} else {	// Recharge
 					int ea = (etape_arme - 5) / 2;
 
 					draw(xtmp + dx_fusil[d_arme], ytmp + dy_fusil[d_arme], pbk_own[44 + d_arme]);
 					draw(xtmp + dx_main_fusil[d_arme] + x_recul_fusil[d_arme][ea],
-					     ytmp + dy_main_fusil[d_arme] + y_recul_fusil[d_arme][ea],
-					     pbk_own[104 + d_arme2]);
+						ytmp + dy_main_fusil[d_arme] + y_recul_fusil[d_arme][ea],
+						pbk_own[104 + d_arme2]);
 				}
 			} else {
 				draw(xtmp + dx_fusil[d_arme], ytmp + dy_fusil[d_arme], pbk_own[44 + d_arme]);
@@ -305,15 +305,15 @@ void Couille::afficheArme(int xtmp, int ytmp)
 		case ID_LASER:
 			if (tire) {
 				draw(xtmp + dx_laser[d_arme] + x_recul[d_arme][etape_recul],
-				     ytmp + dy_laser[d_arme] + y_recul[d_arme][etape_recul],
-				     pbk_own[34 + d_arme]);
+					ytmp + dy_laser[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_own[34 + d_arme]);
 				draw(xtmp + dx_truc_laser[d_arme] + x_recul[d_arme][etape_recul],
-				     ytmp + dy_truc_laser[d_arme] + y_recul[d_arme][etape_recul],
-				     pbk_bb[152 + 4 * d_arme + etape_arme]);
+					ytmp + dy_truc_laser[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_bb[152 + 4 * d_arme + etape_arme]);
 			} else {
 				draw(xtmp + dx_laser[d_arme],
-				     ytmp + dy_laser[d_arme],
-				     pbk_own[34 + d_arme]);
+					ytmp + dy_laser[d_arme],
+					pbk_own[34 + d_arme]);
 			}
 			break;
 	}
@@ -331,33 +331,33 @@ void Couille::afficheArme(int xtmp, int ytmp)
 			case ID_M16:
 				if (id_couille == ID_BLIP) {
 					draw(xtmp + dx_m16_deto[d_arme] + x_recul[d_arme][etape_recul],
-					     ytmp + dy_m16_deto[d_arme] + y_recul[d_arme][etape_recul],
-					     pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
+						ytmp + dy_m16_deto[d_arme] + y_recul[d_arme][etape_recul],
+						pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
 				} else {
 					draw(xtmp + dx_m16o_deto[d_arme] + x_recul[d_arme][etape_recul],
-					     ytmp + dy_m16o_deto[d_arme] + y_recul[d_arme][etape_recul],
-					     pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
+						ytmp + dy_m16o_deto[d_arme] + y_recul[d_arme][etape_recul],
+						pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
 				}
 				break;
 
 			case ID_PM:
 				draw(xtmp + dx_pm_deto[d_arme] + x_recul[d_arme][etape_recul],
-				     ytmp + dy_pm_deto[d_arme] + y_recul[d_arme][etape_recul],
-				     pbk_own[74 + d_arme * 3 + anim_pm_deto[etape_arme]]);
+					ytmp + dy_pm_deto[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_own[74 + d_arme * 3 + anim_pm_deto[etape_arme]]);
 				break;
 
 			case ID_FUSIL:
 				if (etape_arme < 5)
 					draw(xtmp + dx_fusil_deto[d_arme] + x_recul_fusil[d_arme][etape_arme],
-					     ytmp + dy_fusil_deto[d_arme] + y_recul_fusil[d_arme][etape_arme],
-					     pbk_bb[42 + d_arme * 3 + anim_fusil_deto[etape_arme]]);
+						ytmp + dy_fusil_deto[d_arme] + y_recul_fusil[d_arme][etape_arme],
+						pbk_bb[42 + d_arme * 3 + anim_fusil_deto[etape_arme]]);
 				break;
 
 			case ID_LASER:
 				if (dir_arme == dir)
 					draw(xtmp + dx_laser_deto[d_arme] + x_recul[d_arme][etape_recul],
-					     ytmp + dy_laser_deto[d_arme] + y_recul[d_arme][etape_recul],
-					     pbk_bb[104 + d_arme2 * 4 + etape_arme]);
+						ytmp + dy_laser_deto[d_arme] + y_recul[d_arme][etape_recul],
+						pbk_bb[104 + d_arme2 * 4 + etape_arme]);
 				break;
 		}
 	}
@@ -807,7 +807,7 @@ void Couille::onAvance()
 
 
 	if ((dx_glisse > 0 && !mur_opaque(destx, y) && destx < offset + 620)
-	        || (dx_glisse < 0 && !mur_opaque(destx, y) && destx > offset + 20))
+		|| (dx_glisse < 0 && !mur_opaque(destx, y) && destx > offset + 20))
 		marche(dx_glisse);
 	else {
 		if (ctrl->droite() && (!mur_opaque(x + 2, y) && x + 2 < offset + 620)) {
@@ -1398,10 +1398,10 @@ void Couille::onSaleto()
 bool Couille::okBonus()
 {
 	return (id_arme == ID_M16 ||
-	        (id_arme == ID_PM && ammo <= 30) ||
-	        (id_arme == ID_FUSIL && ammo <= 4) ||
-	        (id_arme == ID_LF && ammo <= 100) ||
-	        (id_arme == ID_LASER && ammo <= 100));
+		(id_arme == ID_PM && ammo <= 30) ||
+		(id_arme == ID_FUSIL && ammo <= 4) ||
+		(id_arme == ID_LF && ammo <= 100) ||
+		(id_arme == ID_LASER && ammo <= 100));
 }
 
 //-----------------------------------------------------------------------------

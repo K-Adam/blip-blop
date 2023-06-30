@@ -31,29 +31,29 @@ using json = nlohmann::json;
 std::vector<std::string> txt_data;
 
 bool loadTxtData(const char* file) {
-    auto dir = asset_path(file);
-    std::ifstream input(dir + ".json");
-    if (!input.good()) {
-        return false;
-    }
+	auto dir = asset_path(file);
+	std::ifstream input(dir + ".json");
+	if (!input.good()) {
+		return false;
+	}
 
-    json data = json::parse(input);
-    auto items = data["items"];
+	json data = json::parse(input);
+	auto items = data["items"];
 
-    txt_data.resize(1024);
+	txt_data.resize(1024);
 
-    std::string buffer;
-    for (json::iterator it = items.begin(); it != items.end(); it++) {
-        std::string key = it.key();
+	std::string buffer;
+	for (json::iterator it = items.begin(); it != items.end(); it++) {
+		std::string key = it.key();
 
-        unsigned long num = std::stoul(key);
+		unsigned long num = std::stoul(key);
 
-        if (num >= txt_data.size()) {
-            txt_data.resize(num+1);
-        }
+		if (num >= txt_data.size()) {
+			txt_data.resize(num+1);
+		}
 
-        txt_data[num] = it.value();
-    }
+		txt_data[num] = it.value();
+	}
 
-    return true;
+	return true;
 }

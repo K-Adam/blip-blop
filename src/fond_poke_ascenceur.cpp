@@ -24,7 +24,7 @@ void FondPokeAscenceur::update()
 
 		// Si un joueur est sur la plateforme, on le déplace
 		//
-                for (Couille* joueur : list_joueurs) {
+	for (Couille* joueur : list_joueurs) {
 			xtmp = joueur->x;
 
 			if (xtmp > x && xtmp < x + pic->xSize() && plat(xtmp, joueur->y) == y + 20)

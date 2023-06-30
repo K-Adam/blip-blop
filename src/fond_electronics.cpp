@@ -82,5 +82,3 @@ void FondElectronic4::update()
 	}
 	pic = pbk_niveau[27 + etape];
 }
-
-

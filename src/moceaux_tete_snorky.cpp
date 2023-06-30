@@ -226,5 +226,3 @@ void MorceauSnorkyBaseTrompe::update()
 	}
 
 }
-
-

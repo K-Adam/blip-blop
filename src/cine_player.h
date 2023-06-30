@@ -54,7 +54,7 @@ struct OBJECT {
 class CINEPlayer
 {
 protected:
-        UpdateRegulator update_regulator_;
+	UpdateRegulator update_regulator_;
 
 	/*SDL::Surface * first_surf;*/
 	SDL::Surface * back_surf;
@@ -63,7 +63,7 @@ protected:
 		SDL::Surface * surf2;
 	*/
 
-        std::stringstream fic_;
+	std::stringstream fic_;
 	char			buffer[BUFFER_SIZE + 1];
 	char			buffer2[BUFFER_SIZE + 1];
 

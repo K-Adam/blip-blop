@@ -121,8 +121,8 @@ void EnnemiRayman::onAvance()
 				if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
 
 					if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
-					        (((dir == SENS_DROITE) && (x < tete_turc->x)) ||
-					         ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
+					(((dir == SENS_DROITE) && (x < tete_turc->x)) ||
+						((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
 						//attack_etape=0;
 						x_cible = tete_turc->x;
 						dy = 0;
@@ -319,7 +319,7 @@ void EnnemiRayman::onMeure()
 		}
 		tete->x = x;
 		tete->y = y - 60;
-                list_giclures.emplace_back(tete);
+	list_giclures.emplace_back(tete);
 		game_flag[3] = 2;
 	}
 

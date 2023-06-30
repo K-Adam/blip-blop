@@ -51,7 +51,7 @@
 class Couille : public Personnage, public Joueur
 {
 public:
-        const PictureBank&	pbk_own;
+	const PictureBank&	pbk_own;
 	int			id_couille;
 	bool		perfect;
 

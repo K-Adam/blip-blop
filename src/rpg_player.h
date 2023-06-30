@@ -28,10 +28,10 @@
 class RPGPlayer
 {
 public:
-        std::stringstream fic_;
-        std::string fic_name_;
-        std::string buffer1_;
-        std::string buffer2_;
+	std::stringstream fic_;
+	std::string fic_name_;
+	std::string buffer1_;
+	std::string buffer2_;
 
 	PictureBank *	pic_tab[2];
 	int				nimage[2];
@@ -39,8 +39,8 @@ public:
 	int				id[2];
 	int				focus;
 
-        Chrono time_;
-        Countdown wait_;
+	Chrono time_;
+	Countdown wait_;
 	bool			key_released;
 	bool			skiped;
 

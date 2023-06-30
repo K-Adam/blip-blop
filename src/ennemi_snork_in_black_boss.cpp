@@ -863,4 +863,3 @@ void EnnemiSnorkInBlackBoss::affiche()
 		}
 	}
 }
-

@@ -154,8 +154,3 @@ void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int & xspeed, int
 	else if (xspeed > 6)
 		xspeed = 6;
 }
-
-
-
-
-

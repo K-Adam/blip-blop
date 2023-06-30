@@ -35,4 +35,3 @@ void Giclure::update()
 	x = pere->x + deltax;
 	y = pere->y + deltay;
 }
-

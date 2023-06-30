@@ -37,4 +37,3 @@ public:
 
 	virtual void doEvent() = 0;
 };
-

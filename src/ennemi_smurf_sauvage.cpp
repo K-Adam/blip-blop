@@ -251,7 +251,7 @@ void EnnemiSmurfSauvage::onMeure()
 		colFromPic();
 		y1 = 0;
 
-                for (auto& s : list_fonds_statiques) {
+	for (auto& s : list_fonds_statiques) {
 			ok = ok && !collision(s.get());
 		}
 

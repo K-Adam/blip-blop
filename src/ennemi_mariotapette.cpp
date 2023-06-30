@@ -82,8 +82,8 @@ void EnnemiMariotapette::onAvance()
 
 	if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
 		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
-		        (((dir == SENS_DROITE) && (x < tete_turc->x)) ||
-		         ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
+		(((dir == SENS_DROITE) && (x < tete_turc->x)) ||
+			((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
 			etape = 0;
 			ss_etape = 0;
 			attack_etape = 0;
@@ -532,7 +532,7 @@ void EnnemiMariotapette::tombe_mario()
 void EnnemiMariotapette::estTouche(Tir * tir)
 {
 	for (int i = 0; i < 4 ; i++) {
-                GoreGiclure* s;
+	GoreGiclure* s;
 		if ((tir->dir >= 2) && (tir->dir <= 6)) {
 			s = new GoreGiclure(rand() % 6 , -2 - rand() % 6);
 		} else if ((tir->dir >= 10) && (tir->dir <= 14)) {

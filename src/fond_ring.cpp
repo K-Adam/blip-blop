@@ -35,4 +35,3 @@ void FondRing::update()
 	if (x < offset - 100)
 		a_detruire = true;
 };
-

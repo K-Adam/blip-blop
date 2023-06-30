@@ -194,22 +194,3 @@ void EnnemiSmurf::onCarbonise()
 			pic = pbk_ennemis[40 + etape];
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -46,7 +46,7 @@ namespace SDL
 		inline SDL_Surface *Get(){ return surface; };
 		inline void BltFast(int x, int y, SDL::Surface *surf /*This is the Source Surface! Damn, DD!*/, Rect *r, int flags=0)
 		{
-                        (void)flags;
+	(void)flags;
 			/*static int test_i = 1;
 			char buf[128];
 			sprintf(buf, "test/%d.bmp", test_i);
@@ -88,7 +88,7 @@ namespace SDL
 
 		inline void Blt(Rect *src, SDL::Surface *surf, Rect *dest, int flags = 0, DDBLTFX *pad = 0)
 		{
-                        (void)flags;
+	(void)flags;
 			/*
 			TODO: IF flags contains DDBLT_COLORFILL then i must fill the surface with the color of
 			*/
@@ -209,7 +209,7 @@ namespace SDL
 
 		bool Lock(SDL::SurfaceInfo* info, int flags, void*)
 		{
-                        (void)flags;
+	(void)flags;
 			if (SDL_LockSurface(surface) != 0) {
 				return false;
 			}

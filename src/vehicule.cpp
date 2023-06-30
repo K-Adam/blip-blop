@@ -36,13 +36,13 @@ Couille * Vehicule::scanne()
 	int			ddx;
 	int			ddy;
 
-        for (Couille* c: list_joueurs) {
+	for (Couille* c: list_joueurs) {
 		ddx = c->x - x;
 		ddy = c->y - y;
 
 		if (ddx > -20 && ddx < 20 && ddy > -20 && ddy < 20
-		        && c->etat != ETAT_MEURE && c->etat != ETAT_COME_BACK
-		        && !c->a_detruire && c->etat != ETAT_LOCKEDV)
+			&& c->etat != ETAT_MEURE && c->etat != ETAT_COME_BACK
+			&& !c->a_detruire && c->etat != ETAT_LOCKEDV)
 			return c;
 	}
 

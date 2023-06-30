@@ -85,13 +85,13 @@ void FondBattlecruiser::update()
 				s = new TirCruiserLaser(1, 13 - (dif_x / dif_y));
 				s->x = x  + 16;//+8*rand()%5-16;
 				s->y = y;
-                                list_fonds_animes.emplace_back(s);
+	list_fonds_animes.emplace_back(s);
 			}
 			if (attack_etape == 0) {
 				s = new TirCruiserLaser(-1, 17 - (dif_x / dif_y));
 				s->x = x_adversaire - 16;//+8*rand()%5-16;
 				s->y = y_adversaire;
-                                list_fonds_animes.emplace_back(s);
+	list_fonds_animes.emplace_back(s);
 			}
 			//	}
 			//}

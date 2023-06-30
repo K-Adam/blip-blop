@@ -5,12 +5,12 @@
 Bulle::Bulle() : phi(0) {}
 
 void Bulle::update() {
-    phi += dphi;
-    phi %= 360;
+	phi += dphi;
+	phi %= 360;
 
-    y += dy;
+	y += dy;
 
-    x = xbase + cosi(10, phi);
+	x = xbase + cosi(10, phi);
 
-    if (xbase < offset - 10 || y < -10 || mur_opaque(x, y)) a_detruire = true;
+	if (xbase < offset - 10 || y < -10 || mur_opaque(x, y)) a_detruire = true;
 }
