@@ -22,3 +22,21 @@ jobs:
           actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
       - name: Build
         run: bash ./web_build.sh
+      - name: Upload artifact
+        if: github.ref == 'refs/heads/develop'
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./bin
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
