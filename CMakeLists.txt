@@ -4,6 +4,7 @@ project(blipblop)
 
 find_package(SDL2 REQUIRED)
 find_library(SDL2_LIBRARIES SDL2)
+find_library(SDL2IMAGE_LIBRARIES SDL2_image)
 find_library(SDL2MIXER_LIBRARIES SDL2_mixer)
 find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
 
@@ -17,6 +18,7 @@ aux_source_directory(src/menus MENUS_SRC)
 if(WIN32)
     add_executable(blipblop ${SRC} ${MENUS_SRC})
     target_link_libraries(blipblop PUBLIC ${SDL2_LIBRARIES})
+    target_link_libraries(blipblop PUBLIC ${SDL2IMAGE_LIBRARIES})
     target_link_libraries(blipblop PUBLIC ${SDL2MIXER_LIBRARIES})
     target_include_directories(blipblop SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
 
@@ -25,18 +27,20 @@ if(WIN32)
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/"
         DESTINATION .
         FILES_MATCHING PATTERN "*.dll")
+elseif(EMSCRIPTEN)
+    add_executable(blipblop WIN32 ${SRC} ${MENUS_SRC})
+
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 -sSDL2_IMAGE_FORMATS='[\"bmp\",\"png\"]'")
 else()
     add_executable(blipblop WIN32 ${SRC} ${MENUS_SRC})
     target_link_libraries(blipblop SDL2)
+
+    target_link_libraries(blipblop SDL2_image)
     target_link_libraries(blipblop SDL2_mixer)
 endif()
 
 if(EMSCRIPTEN)
-    message("Using emscripten!")
-
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 -sSDL2_IMAGE_FORMATS='[\"bmp\",\"png\"]'")
-
     set(PRELOAD_FILE_OPTION "--preload-file assets --preload-file config")
     set(ADDITIONAL_LINK_FLAGS "-sASYNCIFY -sALLOW_MEMORY_GROWTH")
 
@@ -52,8 +56,6 @@ if(EMSCRIPTEN)
     set_target_properties(blipblop PROPERTIES OUTPUT_NAME "index")
     set_target_properties(blipblop PROPERTIES LINK_FLAGS "${PRELOAD_FILE_OPTION} ${ADDITIONAL_LINK_FLAGS}")
 else()
-    message("Not using emscripten!")
-
     install(DIRECTORY ./assets DESTINATION .)
 endif()
 
