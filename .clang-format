@@ -1,0 +1,8 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+ColumnLimit: 160
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+SortIncludes: false
