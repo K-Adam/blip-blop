@@ -5,7 +5,8 @@
 
 #ifdef _DEBUG
 
-#define TRACE if ( total_debug) debug<<(__FILE__)<<" : "<<(__LINE__)<<"\n";
+#define TRACE \
+	if (total_debug) debug << (__FILE__) << " : " << (__LINE__) << "\n";
 
 #else
 

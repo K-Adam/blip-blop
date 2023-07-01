@@ -5,16 +5,16 @@
 
 CharacterSelection::CharacterSelection()
 	: et_phase_(0),
-	phase_(0),
-	x_back1_(0),
-	x_back2_(640),
-	y_select_(-50),
-	x_name_(1040),
-	y_name_(255),
-	step_(APPAR_BLIP),
-	pic_select_((lang_type == LANG_UK) ? 10 : 11),
-	x_charac_(-300),
-	y_charac_(255) {}
+	  phase_(0),
+	  x_back1_(0),
+	  x_back2_(640),
+	  y_select_(-50),
+	  x_name_(1040),
+	  y_name_(255),
+	  step_(APPAR_BLIP),
+	  pic_select_((lang_type == LANG_UK) ? 10 : 11),
+	  x_charac_(-300),
+	  y_charac_(255) {}
 
 CharacterSelection::Output CharacterSelection::update() {
 	in.update();
@@ -57,8 +57,7 @@ CharacterSelection::Output CharacterSelection::update() {
 			x_name_ -= 20;
 		}
 
-		if (x_charac_ >= 240 &&
-			(in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE))) {
+		if (x_charac_ >= 240 && (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE))) {
 			return Output::Blip;
 		}
 	} else if (step_ == FINI_BLIP) {
@@ -87,8 +86,7 @@ CharacterSelection::Output CharacterSelection::update() {
 			x_name_ += 20;
 		}
 
-		if (x_charac_ <= 310 &&
-			(in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE))) {
+		if (x_charac_ <= 310 && (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE))) {
 			return Output::Blop;
 		}
 	} else {

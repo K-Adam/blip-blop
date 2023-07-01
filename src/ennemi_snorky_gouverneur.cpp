@@ -1,37 +1,32 @@
 /******************************************************************
-*
-*
-*		-----------------------------
-*		  EnnemiSnorkyGouverneur.cpp
-*		-----------------------------
-*
-*		(giclures faites...)
-*
-*		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------------
+ *		  EnnemiSnorkyGouverneur.cpp
+ *		-----------------------------
+ *
+ *		(giclures faites...)
+ *
+ *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_snorky_gouverneur.h"
 #include "tir_snorky_gouverneur.h"
 
+const int anim_gouverneur_marche_droite[] = {183, 184, 185, 186, 185, 184};
+const int anim_gouverneur_marche_gauche[] = {187, 188, 189, 190, 189, 188};
 
-const int anim_gouverneur_marche_droite[] = { 183, 184, 185, 186, 185, 184};
-const int anim_gouverneur_marche_gauche[] = { 187, 188, 189, 190, 189, 188};
-
-EnnemiSnorkyGouverneur::EnnemiSnorkyGouverneur(): wait_for_shoot(0), shoot_delay(50 + rand() % 200)
-{
+EnnemiSnorkyGouverneur::EnnemiSnorkyGouverneur() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	pv = 150;
 	pic = pbk_ennemis[0];
 	dy = 0;
 }
 
-
-void EnnemiSnorkyGouverneur::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiSnorkyGouverneur::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_AVANCE:
@@ -58,12 +53,9 @@ void EnnemiSnorkyGouverneur::update()
 	}
 
 	updateADetruire();
-
 }
 
-void EnnemiSnorkyGouverneur::onAvance()
-{
-
+void EnnemiSnorkyGouverneur::onAvance() {
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -89,44 +81,36 @@ void EnnemiSnorkyGouverneur::onAvance()
 
 		pic = pbk_ennemis[anime(anim_gouverneur_marche_gauche, 6, 4)];
 
-		if (mur_opaque(x - GOUVERNEUR_SPEED, y) || (x - GOUVERNEUR_SPEED < xmin))
-			dir = SENS_DROITE;
+		if (mur_opaque(x - GOUVERNEUR_SPEED, y) || (x - GOUVERNEUR_SPEED < xmin)) dir = SENS_DROITE;
 	} else {
 		marche(GOUVERNEUR_SPEED);
 
 		pic = pbk_ennemis[anime(anim_gouverneur_marche_droite, 6, 4)];
 
-		if (mur_opaque(x + GOUVERNEUR_SPEED, y) || (x + GOUVERNEUR_SPEED > offset + 640))
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x + GOUVERNEUR_SPEED, y) || (x + GOUVERNEUR_SPEED > offset + 640)) dir = SENS_GAUCHE;
 	}
 
 	colFromPic();
 }
 
-void EnnemiSnorkyGouverneur::onTombe()
-{
+void EnnemiSnorkyGouverneur::onTombe() {
 	tombe();
 
-	if (plat(x, y) != 0)
-		etat = ETAT_AVANCE;
+	if (plat(x, y) != 0) etat = ETAT_AVANCE;
 
 	colFromPic();
 }
 
-void EnnemiSnorkyGouverneur::onMeure()
-{
+void EnnemiSnorkyGouverneur::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
-
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 5) {
-		if (plat(x, y) != 0)
-			grave(x, y, pic);
+		if (plat(x, y) != 0) grave(x, y, pic);
 
 		a_detruire = true;
 	}
@@ -138,12 +122,11 @@ void EnnemiSnorkyGouverneur::onMeure()
 	}
 }
 
-void EnnemiSnorkyGouverneur::onTire()
-{
-	ss_etape ++;
+void EnnemiSnorkyGouverneur::onTire() {
+	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 	}
 
 	if (etape == 10) {
@@ -155,11 +138,11 @@ void EnnemiSnorkyGouverneur::onTire()
 	}
 
 	if (etape == 6 && ss_etape == 0) {
-		//if (dir == SENS_DROITE)
+		// if (dir == SENS_DROITE)
 		//{
 
 		if (tete_turc != NULL) {
-			TirSnorkyGouverneur *	tir = new TirSnorkyGouverneur(tete_turc, rand() % 6 - 2 , -5 - rand() % 5);
+			TirSnorkyGouverneur* tir = new TirSnorkyGouverneur(tete_turc, rand() % 6 - 2, -5 - rand() % 5);
 
 			tir->setDir(dir);
 			tir->x = x;
@@ -188,13 +171,11 @@ void EnnemiSnorkyGouverneur::onTire()
 	}
 }
 
-void EnnemiSnorkyGouverneur::onCarbonise()
-{
-	ss_etape ++;
+void EnnemiSnorkyGouverneur::onCarbonise() {
+	ss_etape++;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape == 8)
 		a_detruire = true;
@@ -208,11 +189,9 @@ void EnnemiSnorkyGouverneur::onCarbonise()
 	}
 }
 
-void EnnemiSnorkyGouverneur::estTouche(Tir * tir)
-{
-	static const int dx_giclure_gouverneur [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_gouverneur [] = { -15, -15, -15, -15, -35, -15, -15, -15 };
-
+void EnnemiSnorkyGouverneur::estTouche(Tir* tir) {
+	static const int dx_giclure_gouverneur[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_gouverneur[] = {-15, -15, -15, -15, -35, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_gouverneur, dy_giclure_gouverneur);

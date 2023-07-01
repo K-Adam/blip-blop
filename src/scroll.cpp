@@ -1,22 +1,21 @@
 /******************************************************************
-*
-*
-*		------------------
-*		    Scroll.cpp
-*		------------------
-*
-*
-*		Fonctions pour le scroll. Gère le scrolling
-*		avec le super buffer qui marche bizarrement sur cette
-*		merde de GeForce.
-*
-*
-*		Prosper / LOADED -   V 0.1 - 2 Aout 2000
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		------------------
+ *		    Scroll.cpp
+ *		------------------
+ *
+ *
+ *		Fonctions pour le scroll. Gère le scrolling
+ *		avec le super buffer qui marche bizarrement sur cette
+ *		merde de GeForce.
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 2 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -32,16 +31,15 @@
 #include "couille.h"
 
 int vbuffer_wide = WANTED_VBUFFER_WIDE;
-int	next_x = 0;
-int	xTex = 0;
-int	n_img = 0;
+int next_x = 0;
+int xTex = 0;
+int n_img = 0;
 int n_cache = 0;
 
 //-----------------------------------------------------------------------------
 
-void drawScrolling()
-{
-	Rect		r;
+void drawScrolling() {
+	Rect r;
 
 	// Pour éviter les mauvaises surprises
 	//
@@ -50,17 +48,15 @@ void drawScrolling()
 	else if (offset > (int)level_size - 640)
 		offset = (int)level_size - 640;
 
-	int	x1 = offset % vbuffer_wide;
+	int x1 = offset % vbuffer_wide;
 	int x2 = (offset + 640) % vbuffer_wide;
 	int x3 = (offset + vbuffer_wide - 2) % vbuffer_wide;
 
-	r.top	= 0;
+	r.top = 0;
 	r.bottom = 480;
 
-	
-
-	while (n_img < ((offset + vbuffer_wide - 2) / 640) || (n_img < (int)scr_level_size && (next_x != ((x3 + 1) % vbuffer_wide)) && (next_x != ((x3) % vbuffer_wide)))) {
-
+	while (n_img < ((offset + vbuffer_wide - 2) / 640) ||
+		   (n_img < (int)scr_level_size && (next_x != ((x3 + 1) % vbuffer_wide)) && (next_x != ((x3) % vbuffer_wide)))) {
 		/*static int counter = 0;
 		char buf[128];
 		sprintf(buf, "test/%d.bmp", counter);
@@ -68,7 +64,7 @@ void drawScrolling()
 			SDL_SaveBMP(videoA->Get(), buf);
 		counter++;*/
 
-		r.left	= xTex;
+		r.left = xTex;
 		r.right = xTex + 2;
 
 		videoA->BltFast(next_x, 0, pbk_decor[num_decor[n_img]]->Surf(), &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
@@ -89,17 +85,17 @@ void drawScrolling()
 	}
 
 	if (x1 <= vbuffer_wide - 640) {
-		r.left	= x1;
+		r.left = x1;
 		r.right = x1 + 640;
 
 		backSurface->BltFast(0, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
 	} else {
-		r.left	= x1;
+		r.left = x1;
 		r.right = vbuffer_wide;
 
 		backSurface->BltFast(0, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
 
-		r.left	= 0;
+		r.left = 0;
 		r.right = x2;
 
 		backSurface->BltFast(vbuffer_wide - x1, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
@@ -108,22 +104,20 @@ void drawScrolling()
 
 //-----------------------------------------------------------------------------
 
-void updateScrolling(bool forceOk)
-{
+void updateScrolling(bool forceOk) {
 	if (scroll_locked) {
-		if (offset < x_lock)
-			offset = x_lock;
+		if (offset < x_lock) offset = x_lock;
 	} else if (scroll_speed != 0 && forceOk) {
 		offset += scroll_speed;
 	} else if (list_joueurs.size() > 0) {
-		int			x_moy = 0;
+		int x_moy = 0;
 
-	for (Couille* s : list_joueurs) {
+		for (Couille* s : list_joueurs) {
 			x_moy += s->x;
 		}
 
 		x_moy /= (int)list_joueurs.size();
-		x_moy -= 320;	// Pour centrer (320=640/2)
+		x_moy -= 320;  // Pour centrer (320=640/2)
 
 		if (x_moy > offset) {
 			if ((x_moy - offset) >= 2)

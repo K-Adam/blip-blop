@@ -8,7 +8,7 @@ class GoArrow {
 	static const int kNbSprites = 5;
 	static const int kSpriteDuration = 4;
 
-	public:
+   public:
 	GoArrow() { Reset(); }
 
 	void Reset() {
@@ -51,12 +51,11 @@ class GoArrow {
 
 	void Draw() {
 		if (phase_ != Phase::No) {
-			pbk_misc[81 + anim_step_ / kSpriteDuration]->BlitTo(
-				backSurface, x_, 150);
+			pbk_misc[81 + anim_step_ / kSpriteDuration]->BlitTo(backSurface, x_, 150);
 		}
 	}
 
-	private:
+   private:
 	void update_no() {
 		delay_ += 1;
 		if (delay_ >= 300) {
@@ -94,9 +93,7 @@ class GoArrow {
 		}
 	}
 
-	void update_anim() {
-		anim_step_ = (anim_step_ + 1) % (kNbSprites * kSpriteDuration);
-	}
+	void update_anim() { anim_step_ = (anim_step_ + 1) % (kNbSprites * kSpriteDuration); }
 
 	Phase phase_;
 	int theta_;

@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		----------------------------------
-*		    TirMarioFireballVertical.cpp
-*		----------------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 14 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------------------
+ *		    TirMarioFireballVertical.cpp
+ *		----------------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 14 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -19,17 +19,10 @@
 
 #include "tir_mario_fireball_vertical.h"
 
-TirMarioFireballVertical::TirMarioFireballVertical(int vx, int xc): x_cible(xc), dx(vx)
-{
-	dy = -12;
-}
+TirMarioFireballVertical::TirMarioFireballVertical(int vx, int xc) : x_cible(xc), dx(vx) { dy = -12; }
 
-
-void TirMarioFireballVertical::update()
-{
-
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -250)
-		a_detruire = true;
+void TirMarioFireballVertical::update() {
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -250) a_detruire = true;
 	if (dy > 0) {
 		fireball_tombe();
 	} else {
@@ -41,9 +34,7 @@ void TirMarioFireballVertical::update()
 		dy = 1;
 	}
 
-	if (dy < 0)
-		x += dx;
-
+	if (dy < 0) x += dx;
 
 	ss_etape++;
 	ss_etape %= 4;
@@ -75,22 +66,18 @@ void TirMarioFireballVertical::update()
 	}
 }
 
-
-void TirMarioFireballVertical::fireball_tombe()
-{
+void TirMarioFireballVertical::fireball_tombe() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_FIREBALL;
 
-	if (lat_grav == 0 && dy < GRAVITE_FIREBALL)
-		dy += 1;
+	if (lat_grav == 0 && dy < GRAVITE_FIREBALL) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_FIREBALL;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_FIREBALL;
 
-	//int ny = plat( x, y + dy);
+	// int ny = plat( x, y + dy);
 
-	//if ( ny != 0 && dy > 0 && plat( x, y) == 0)
-	//y = ny;
-	//else
+	// if ( ny != 0 && dy > 0 && plat( x, y) == 0)
+	// y = ny;
+	// else
 	y += dy;
 }

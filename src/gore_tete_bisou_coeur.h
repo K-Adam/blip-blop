@@ -2,21 +2,17 @@
 
 #include "sprite.h"
 
-class GoreTeteBisouCoeur : public Sprite
-{
-public:
+class GoreTeteBisouCoeur : public Sprite {
+   public:
+	int dx;
+	bool joue_son;
 
-	int		dx;
-	bool	joue_son;
-
-	GoreTeteBisouCoeur() : joue_son(false)
-	{
+	GoreTeteBisouCoeur() : joue_son(false) {
 		dy = -1 - rand() % 3;
 		dx = -2 + rand() % 5;
 	};
 
-	virtual void update()
-	{
+	virtual void update() {
 		tombe();
 
 		ss_etape += 1;

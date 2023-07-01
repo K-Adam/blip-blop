@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiLemmings.h
-*		-----------------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiLemmings.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,12 +25,7 @@
 //		Définition de la classe
 //-----------------------------------------------------------------------------
 
-class EnnemiLemmingsVolant : public EnnemiLemmings
-{
-public:
-
-	EnnemiLemmingsVolant()
-	{
-		y = -5;
-	};
+class EnnemiLemmingsVolant : public EnnemiLemmings {
+   public:
+	EnnemiLemmingsVolant() { y = -5; };
 };

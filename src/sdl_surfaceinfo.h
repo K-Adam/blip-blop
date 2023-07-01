@@ -2,14 +2,12 @@
 
 #include <SDL2/SDL.h>
 
-namespace SDL
-{
+namespace SDL {
 
-	// DDSURFACEDESC
-	struct SurfaceInfo
-	{
-		unsigned int lPitch;
-		void* lpSurface;
-	};
-
+// DDSURFACEDESC
+struct SurfaceInfo {
+	unsigned int lPitch;
+	void* lpSurface;
 };
+
+};	// namespace SDL

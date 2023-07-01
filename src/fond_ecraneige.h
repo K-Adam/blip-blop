@@ -1,27 +1,25 @@
 /******************************************************************
-*
-*
-*		---------------------------
-*		    FondEcranneige.h
-*		---------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------
+ *		    FondEcranneige.h
+ *		---------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "sprite.h"
 
-class FondEcranneige : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondEcranneige : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 4;
 
@@ -33,5 +31,4 @@ public:
 		pic = pbk_niveau[45 + etape];
 		updateADetruire();
 	};
-
 };

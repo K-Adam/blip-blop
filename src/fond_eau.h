@@ -3,40 +3,31 @@
 #include <stdio.h>
 #include "sprite.h"
 
-int water_seed  = 0;
+int water_seed = 0;
 int water_seed2 = 5;
 
-class FondEau1 : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondEau1 : public Sprite {
+   public:
+	virtual void update() {
 		pic = pbk_niveau[7 + water_seed];
 
-		if (x < offset - 400)
-			a_detruire = true;
+		if (x < offset - 400) a_detruire = true;
 	};
 };
 
-class FondEau2 : public Sprite
-{
-	virtual void update()
-	{
+class FondEau2 : public Sprite {
+	virtual void update() {
 		pic = pbk_niveau[7 + water_seed2];
 
-		if (x < offset - 400)
-			a_detruire = true;
+		if (x < offset - 400) a_detruire = true;
 	};
 };
 
-class FondEau : public Sprite
-{
-public:
-	FondEau()
-	{
-		Sprite *	ptr;
-		bool		b = false;
-
+class FondEau : public Sprite {
+   public:
+	FondEau() {
+		Sprite* ptr;
+		bool b = false;
 
 		for (int i = 0; i < ((((int)level_size) / pbk_niveau[7]->xSize()) + 1); i++) {
 			if (b)
@@ -50,14 +41,11 @@ public:
 			x += 376;
 			b = !b;
 
-
 			list_fonds_animes.emplace_back(ptr);
 		}
 	};
 
-
-	virtual void update()
-	{
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 7;
 

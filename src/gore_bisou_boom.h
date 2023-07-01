@@ -2,19 +2,16 @@
 
 #include "sprite.h"
 
-class GorePiedBisouBoom : public Sprite
-{
-public:
-	virtual void update()
-	{
+class GorePiedBisouBoom : public Sprite {
+   public:
+	virtual void update() {
 		tombe();
 
 		if (etape < 5) {
 			ss_etape += 1;
 			ss_etape %= 8;
 
-			if (ss_etape == 0)
-				etape += 1;
+			if (ss_etape == 0) etape += 1;
 
 			if (dir == SENS_DROITE)
 				pic = pbk_ennemis[190 + etape];
@@ -22,7 +19,6 @@ public:
 				pic = pbk_ennemis[196 + etape];
 		}
 
-
 		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
 			grave(x, y, pic);
 			a_detruire = true;
@@ -34,24 +30,20 @@ public:
 				x += 2;
 		}
 
-
 		updateADetruire();
 	};
 };
 
-class GoreTeteBisouBoom : public Sprite
-{
-public:
-	virtual void update()
-	{
+class GoreTeteBisouBoom : public Sprite {
+   public:
+	virtual void update() {
 		tombe();
 
 		if (etape < 5) {
 			ss_etape += 1;
 			ss_etape %= 8;
 
-			if (ss_etape == 0)
-				etape += 1;
+			if (ss_etape == 0) etape += 1;
 
 			if (dir == SENS_DROITE)
 				pic = pbk_ennemis[202 + etape];
@@ -59,7 +51,6 @@ public:
 				pic = pbk_ennemis[208 + etape];
 		}
 
-
 		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
 			grave(x, y, pic);
 			a_detruire = true;
@@ -75,26 +66,22 @@ public:
 	};
 };
 
-class GoreBideBisouBoom : public Sprite
-{
-public:
-	virtual void update()
-	{
+class GoreBideBisouBoom : public Sprite {
+   public:
+	virtual void update() {
 		tombe();
 
 		if (etape < 5) {
 			ss_etape += 1;
 			ss_etape %= 8;
 
-			if (ss_etape == 0)
-				etape += 1;
+			if (ss_etape == 0) etape += 1;
 
 			if (dir == SENS_DROITE)
 				pic = pbk_ennemis[214 + etape];
 			else
 				pic = pbk_ennemis[220 + etape];
 		}
-
 
 		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
 			grave(x, y, pic);

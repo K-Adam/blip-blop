@@ -1,42 +1,41 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiMariotapette.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiMariotapette.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "enemy.h"
 
-#define MARIO_SPEED				5
-#define MARIO_CHARGE_SPEED		7
-#define LATENCE_MARIO_GRAVITE	12
-#define NABO_TRANSFORMATION		300
-#define MARIO_ENDURANCE			80
-#define MULTIPLICATEUR_RECUL_SOL		20
-#define MULTIPLACATEUR_VITESSE_AU_SOL	100
-#define MULTIPLICATEUR_RECUL_AERIEN		15
-#define MULTIPLICATEUR_VITESSE_AERIEN	80
+#define MARIO_SPEED 5
+#define MARIO_CHARGE_SPEED 7
+#define LATENCE_MARIO_GRAVITE 12
+#define NABO_TRANSFORMATION 300
+#define MARIO_ENDURANCE 80
+#define MULTIPLICATEUR_RECUL_SOL 20
+#define MULTIPLACATEUR_VITESSE_AU_SOL 100
+#define MULTIPLICATEUR_RECUL_AERIEN 15
+#define MULTIPLICATEUR_VITESSE_AERIEN 80
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiMarioTapette
 //----------------------------------------------------------------------------
 
-class EnnemiMariotapette : public Ennemi
-{
-private:
+class EnnemiMariotapette : public Ennemi {
+   private:
 	int aide_luigi;
-	int speed;    //vitesse courante
-	int etape_speed; //delai d'acceleration
+	int speed;		  // vitesse courante
+	int etape_speed;  // delai d'acceleration
 
 	int attack_delay;
 	int wait_for_attack;
@@ -46,7 +45,7 @@ private:
 	int nabo;
 	int encaissement;
 
-public:
+   public:
 	EnnemiMariotapette();
 	virtual void update();
 	virtual void onAvance();
@@ -55,5 +54,5 @@ public:
 	virtual void onCharge();
 	virtual void onCarbonise();
 	virtual void tombe_mario();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

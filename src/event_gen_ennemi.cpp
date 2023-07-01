@@ -1,28 +1,27 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EventGenEnnemi.cpp
-*		----------------------
-*
-*		Classe Evenement Ennemi
-*
-*		La classe evenement qui crée un ennemi
-*
-*
-*		Prosper / LOADED -   5 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------
+ *		  EventGenEnnemi.cpp
+ *		----------------------
+ *
+ *		Classe Evenement Ennemi
+ *
+ *		La classe evenement qui crée un ennemi
+ *
+ *
+ *		Prosper / LOADED -   5 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "event_gen_ennemi.h"
 #include "gen_ennemi_tmp.h"
 #include "gen_ennemi.h"
 
-void EventGenEnnemi::doEvent()
-{
-	GenEnnemi *	gen;
+void EventGenEnnemi::doEvent() {
+	GenEnnemi* gen;
 
 	if (tmp)
 		gen = new GenEnnemiTMP();

@@ -1,37 +1,31 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		    Ennemi.cpp
-*		-----------------
-*
-*		Classe mère de tous les ennemis
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		-----------------
+ *		    Ennemi.cpp
+ *		-----------------
+ *
+ *		Classe mère de tous les ennemis
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "enemy.h"
 #include "globals.h"
 #include "make_bonus.h"
 #include "giclure.h"
 
-Personnage *	tete_turc;
-int				wait_for_bonus;
-int				num_giclure;
+Personnage* tete_turc;
+int wait_for_bonus;
+int num_giclure;
 
+Ennemi::Ennemi() : xmin(offset), blood(0), tresor(5) {}
 
-Ennemi::Ennemi() : xmin(offset), blood(0), tresor(5)
-{
-}
-
-
-void Ennemi::estTouche(Tir * tir)
-{
+void Ennemi::estTouche(Tir* tir) {
 	int blessure = tir->degats();
 
 	if (blessure < pv) {
@@ -56,9 +50,7 @@ void Ennemi::estTouche(Tir * tir)
 			if (pic != NULL) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
 
-
 				if (mur_sanglant(x, y_trace)) {
-
 					num_giclure += 1;
 					num_giclure %= 14;
 
@@ -66,7 +58,6 @@ void Ennemi::estTouche(Tir * tir)
 				}
 			}
 		}
-
 
 		// Now, ze bonus!
 		if (count()) {
@@ -83,13 +74,10 @@ void Ennemi::estTouche(Tir * tir)
 	}
 }
 
+void Ennemi::gicle(const Tir* tir, const int* dxg, const int* dyg) {
+	if (blood > 0 || tir->enflame()) return;
 
-void Ennemi::gicle(const Tir * tir, const int * dxg, const int * dyg)
-{
-	if (blood > 0 || tir->enflame())
-		return;
-
-	Giclure * gicle = new Giclure();
+	Giclure* gicle = new Giclure();
 
 	gicle->pere = this;
 	int d = gicle->dir = tir->getGiclureDir();
@@ -101,9 +89,7 @@ void Ennemi::gicle(const Tir * tir, const int * dxg, const int * dyg)
 	list_giclures.emplace_back(gicle);
 }
 
-
-void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int & xspeed, int & yspeed) const
-{
+void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const {
 	int netape = 0;
 	int ddx = xci - xtir;
 
@@ -115,8 +101,7 @@ void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int & xspeed, int
 		while (ytir < yci && netape < 40) {
 			ytir += ddy * LATENCE_GRAVITE;
 
-			if (ddy < GRAVITE_MAX)
-				ddy += 1;
+			if (ddy < GRAVITE_MAX) ddy += 1;
 
 			netape += 1;
 		};
@@ -128,15 +113,13 @@ void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int & xspeed, int
 		while (ytir > yci && netape < 40) {
 			ytir += ddy * LATENCE_GRAVITE;
 
-			if (ddy < GRAVITE_MAX)
-				ddy += 1;
+			if (ddy < GRAVITE_MAX) ddy += 1;
 
 			netape += 1;
 		};
 
 		ddx += ddx / 2;
 	}
-
 
 	if (netape == 0)
 		xspeed = 0;

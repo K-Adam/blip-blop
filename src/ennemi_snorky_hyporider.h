@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiSnorkyHyporider.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 18 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiSnorkyHyporider.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 18 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,17 +25,15 @@
 //		Constantes
 //-----------------------------------------------------------------------------
 
-#define HYPORIDER_SPEED		1
-#define HYPORIDER_CHARGE_SPEED   8
+#define HYPORIDER_SPEED 1
+#define HYPORIDER_CHARGE_SPEED 8
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSnorkyBase1
 //-----------------------------------------------------------------------------
 
-class EnnemiSnorkyHyporider : public Ennemi
-{
-public:
-
+class EnnemiSnorkyHyporider : public Ennemi {
+   public:
 	int wait_for_charge;
 	int charge_delay;
 	int nageoire;
@@ -50,5 +48,5 @@ public:
 	virtual void affiche();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

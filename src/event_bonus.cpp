@@ -9,9 +9,8 @@
 #include "bonus_vache.h"
 #include "bonus_lf.h"
 
-void EventBonus::doEvent()
-{
-	Bonus * bonus;
+void EventBonus::doEvent() {
+	Bonus* bonus;
 
 	switch (type) {
 		case BPM:

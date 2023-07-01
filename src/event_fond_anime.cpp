@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EventFondAnime.cpp
-*		----------------------
-*
-*
-*
-*		Prosper / LOADED -   2 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------
+ *		  EventFondAnime.cpp
+ *		----------------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   2 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 // Configuration
 //
@@ -46,7 +46,7 @@
 #include "fond_lampe_2.h"
 #include "fond_eau.h"
 
-//Fonds Jeux Vidéos
+// Fonds Jeux Vidéos
 //
 #include "fond_cube.h"
 #include "fond_piece.h"
@@ -74,65 +74,63 @@
 #include "fond_rocher_2.h"
 #include "fond_rocher_hyperspace.h"
 
-
-#define IDFOND_POKEALARME1	100
-#define IDFOND_POKEALARME2	101
-#define IDFOND_POKEALARME3	102
-#define IDFOND_POKEFLECHE	103
-#define IDFOND_POKECIEL		104
-#define IDFOND_POKEASCENC	105
+#define IDFOND_POKEALARME1 100
+#define IDFOND_POKEALARME2 101
+#define IDFOND_POKEALARME3 102
+#define IDFOND_POKEFLECHE 103
+#define IDFOND_POKECIEL 104
+#define IDFOND_POKEASCENC 105
 #define IDFOND_INTERRUPTEUR 106
 #define IDFOND_CAISSETOMBANTE 107
-#define IDFOND_POKEASCENC2  108
-#define IDFOND_BOMBE        109
-#define IDFOND_LEVEL2       110
-#define IDFOND_LEVEL3		111
+#define IDFOND_POKEASCENC2 108
+#define IDFOND_BOMBE 109
+#define IDFOND_LEVEL2 110
+#define IDFOND_LEVEL3 111
 
-#define IDFOND_SAS1         300
-#define IDFOND_SAS2         301
+#define IDFOND_SAS1 300
+#define IDFOND_SAS2 301
 #define IDFOND_POISSONROUGE 302
-#define IDFOND_POISSONVIOLET			303
-#define IDFOND_POISSONROUGECAMOUFLE		304
-#define IDFOND_POISSONVIOLETCAMOUFLE	305
+#define IDFOND_POISSONVIOLET 303
+#define IDFOND_POISSONROUGECAMOUFLE 304
+#define IDFOND_POISSONVIOLETCAMOUFLE 305
 
-#define IDFOND_VENTILO		400
-#define IDFOND_LUMIERE		401
-#define IDFOND_EAU			402
-#define IDFOND_LUMIERE2		403
+#define IDFOND_VENTILO 400
+#define IDFOND_LUMIERE 401
+#define IDFOND_EAU 402
+#define IDFOND_LUMIERE2 403
 
-#define IDFOND_CUBE         500
-#define IDFOND_PIECE        501
-#define IDFOND_RING         502
-#define IDFOND_TOURNESOL1   503
-#define IDFOND_TOURNESOL2   504
-#define IDFOND_TOURNESOL3   505
-#define IDFOND_TOURNESOL4   506
-#define IDFOND_DRAPEAU		507
+#define IDFOND_CUBE 500
+#define IDFOND_PIECE 501
+#define IDFOND_RING 502
+#define IDFOND_TOURNESOL1 503
+#define IDFOND_TOURNESOL2 504
+#define IDFOND_TOURNESOL3 505
+#define IDFOND_TOURNESOL4 506
+#define IDFOND_DRAPEAU 507
 
-#define IDFOND_LCD          600
-#define IDFOND_WORLDMAP     601
-#define IDFOND_ELECTRONIC1  602
-#define IDFOND_ELECTRONIC2  603
-#define IDFOND_ELECTRONIC3  604
-#define IDFOND_ELECTRONIC4  605
-#define IDFOND_ECRANNEIGE   606
-#define IDFOND_ECRANCAMERA  607
-#define IDFOND_ASSEMBLEUR   608
-#define IDFOND_WINDOWS      609
-#define IDFOND_DOS          610
-#define IDFOND_BOSSVENTILO  611
+#define IDFOND_LCD 600
+#define IDFOND_WORLDMAP 601
+#define IDFOND_ELECTRONIC1 602
+#define IDFOND_ELECTRONIC2 603
+#define IDFOND_ELECTRONIC3 604
+#define IDFOND_ELECTRONIC4 605
+#define IDFOND_ECRANNEIGE 606
+#define IDFOND_ECRANCAMERA 607
+#define IDFOND_ASSEMBLEUR 608
+#define IDFOND_WINDOWS 609
+#define IDFOND_DOS 610
+#define IDFOND_BOSSVENTILO 611
 
 #define IDFOND_BATTLECRUISER 700
 #define IDFOND_ROCHER_HYPERSPACE 701
-#define IDFOND_MONOLITE		 702
-#define IDFOND_ROCHER1		 703
-#define IDFOND_ROCHER2       704
-#define IDFOND_ETOILE		 705
+#define IDFOND_MONOLITE 702
+#define IDFOND_ROCHER1 703
+#define IDFOND_ROCHER2 704
+#define IDFOND_ETOILE 705
 
-void EventFondAnime::doEvent()
-{
-	Sprite * s = NULL;
-	bool	plat_mobile = false;
+void EventFondAnime::doEvent() {
+	Sprite* s = NULL;
+	bool plat_mobile = false;
 
 	switch (id_fond) {
 		case IDFOND_VENTILO:
@@ -320,7 +318,7 @@ void EventFondAnime::doEvent()
 
 		case IDFOND_MONOLITE:
 			s = new FondMonolite();
-			plat_mobile	= true;
+			plat_mobile = true;
 			break;
 
 		case IDFOND_ROCHER1:
@@ -340,7 +338,6 @@ void EventFondAnime::doEvent()
 		case 900:
 			s = new FondBombe();
 			break;
-
 	}
 
 	if (s != NULL) {
@@ -354,5 +351,4 @@ void EventFondAnime::doEvent()
 	} else {
 		debug << "Erreur : identité de fond animé inconnue (" << id_fond << ")\n";
 	}
-
 }

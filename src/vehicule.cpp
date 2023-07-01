@@ -1,16 +1,11 @@
 
 #include "vehicule.h"
 
-Vehicule::Vehicule() : joueur(NULL), ctrl(NULL), can_be_used(true)
-{
-}
+Vehicule::Vehicule() : joueur(NULL), ctrl(NULL), can_be_used(true) {}
 
-
-void Vehicule::update()
-{
+void Vehicule::update() {
 	if (joueur == NULL) {
-		if (can_be_used)
-			joueur = scanne();
+		if (can_be_used) joueur = scanne();
 
 		if (joueur != NULL) {
 			joueur->lockVehicule(canFire(), canChangeDir());
@@ -30,22 +25,18 @@ void Vehicule::update()
 	}
 }
 
+Couille* Vehicule::scanne() {
+	int ddx;
+	int ddy;
 
-Couille * Vehicule::scanne()
-{
-	int			ddx;
-	int			ddy;
-
-	for (Couille* c: list_joueurs) {
+	for (Couille* c : list_joueurs) {
 		ddx = c->x - x;
 		ddy = c->y - y;
 
-		if (ddx > -20 && ddx < 20 && ddy > -20 && ddy < 20
-			&& c->etat != ETAT_MEURE && c->etat != ETAT_COME_BACK
-			&& !c->a_detruire && c->etat != ETAT_LOCKEDV)
+		if (ddx > -20 && ddx < 20 && ddy > -20 && ddy < 20 && c->etat != ETAT_MEURE && c->etat != ETAT_COME_BACK && !c->a_detruire && c->etat != ETAT_LOCKEDV)
 			return c;
 	}
 
-//	debug<<"nothing!\n";
+	//	debug<<"nothing!\n";
 	return NULL;
 }

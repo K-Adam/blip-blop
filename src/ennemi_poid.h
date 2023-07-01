@@ -1,42 +1,37 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiPoid.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 21 Fevrier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiPoid.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 21 Fevrier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "enemy.h"
 
-#define LATENCE_BOUGE		1
+#define LATENCE_BOUGE 1
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiPoid
 //----------------------------------------------------------------------------
 
-class EnnemiPoid : public Ennemi
-{
-
-private:
+class EnnemiPoid : public Ennemi {
+   private:
 	int nb_colision;
 
-public:
+   public:
 	EnnemiPoid();
 	virtual void update();
 	virtual int degats();
 	virtual void onMeure();
-	virtual void estTouche(Tir * tir);
-	virtual bool count()
-	{
-		return false;
-	};
+	virtual void estTouche(Tir* tir);
+	virtual bool count() { return false; };
 };

@@ -1,19 +1,13 @@
 
 #include "tir_colonne_chaman.h"
 
-TirColonneChaman::TirColonneChaman() : etat(0)
-{
-	duree_vie = 250 + rand() % 100;
-}
+TirColonneChaman::TirColonneChaman() : etat(0) { duree_vie = 250 + rand() % 100; }
 
-
-void TirColonneChaman::update()
-{
+void TirColonneChaman::update() {
 	deplace();
 
 	ss_etape += 1;
 	ss_etape %= 6;
-
 
 	switch (etat) {
 		case 0:
@@ -70,16 +64,14 @@ void TirColonneChaman::update()
 	updateADetruire();
 }
 
-
-void TirColonneChaman::deplace()
-{
+void TirColonneChaman::deplace() {
 	static const int SPEED = 4;
 
 	tombe();
 
 	// Marche
 	//
-	if (mur_opaque(x - SPEED, y) || x + SPEED < offset/*|| (plat( x-SPEED, y) == 0 && plat( x-SPEED, y+5) == 0)*/)
+	if (mur_opaque(x - SPEED, y) || x + SPEED < offset /*|| (plat( x-SPEED, y) == 0 && plat( x-SPEED, y+5) == 0)*/)
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 /*|| mur_opaque( x+SPEED, y)  || (plat( x+SPEED, y) == 0 && plat( x+SPEED, y+5) == 0)*/)
 		dir = SENS_GAUCHE;

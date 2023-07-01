@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		------------------
-*		    TirBBVache.h
-*		------------------
-*
-*		The mighty cow bomb!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		------------------
+ *		    TirBBVache.h
+ *		------------------
+ *
+ *		The mighty cow bomb!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -21,8 +21,7 @@
 #include "tir_bb_vache.h"
 #include "gore_giclure.h"
 
-void TirBBVache::update()
-{
+void TirBBVache::update() {
 	y += dy;
 
 	ss_etape += 1;
@@ -43,7 +42,7 @@ void TirBBVache::update()
 		a_detruire = true;
 		tremblement(10);
 
-		GoreGiclure * s;
+		GoreGiclure* s;
 
 		for (int i = 0; i < 15; i++) {
 			s = new GoreGiclure(rand() % 11 - 5, -2 - rand() % 6);

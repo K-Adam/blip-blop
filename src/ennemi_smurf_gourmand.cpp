@@ -1,34 +1,31 @@
 /******************************************************************
-*
-*
-*		--------------------
-*		    EnnemiSmurf.h
-*		--------------------
-*
-*		Le schtroumpf de base!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------------
+ *		    EnnemiSmurf.h
+ *		--------------------
+ *
+ *		Le schtroumpf de base!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_smurf_gourmand.h"
 #include "tir_gateau.h"
 
-#define	ETAT_HOLD		15
+#define ETAT_HOLD 15
 
-EnnemiSmurfGourmand::EnnemiSmurfGourmand() : wait_for_shoot(0)
-{
+EnnemiSmurfGourmand::EnnemiSmurfGourmand() : wait_for_shoot(0) {
 	pv = 150;
 	shoot_delay = 50 + rand() % 100;
 }
 
-void EnnemiSmurfGourmand::update()
-{
-	if (blood != 0)
-		blood -= 1;
+void EnnemiSmurfGourmand::update() {
+	if (blood != 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -52,15 +49,12 @@ void EnnemiSmurfGourmand::update()
 			break;
 	}
 
-	if (x < offset - 20)
-		a_detruire = true;
+	if (x < offset - 20) a_detruire = true;
 
 	updateADetruire();
 }
 
-
-void EnnemiSmurfGourmand::onNormal()
-{
+void EnnemiSmurfGourmand::onNormal() {
 	tombe();
 
 	// Tire de temps en temps
@@ -94,18 +88,14 @@ void EnnemiSmurfGourmand::onNormal()
 	colFromPic();
 }
 
-
-void EnnemiSmurfGourmand::onTire()
-{
-
+void EnnemiSmurfGourmand::onTire() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 5) {
-		TirGateau *	tir = new TirGateau();
+		TirGateau* tir = new TirGateau();
 
 		tir->setDir(dir);
 
@@ -125,7 +115,6 @@ void EnnemiSmurfGourmand::onTire()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[182 + etape];
 	} else {
@@ -133,28 +122,22 @@ void EnnemiSmurfGourmand::onTire()
 	}
 
 	colFromPic();
-
 }
 
-
-void EnnemiSmurfGourmand::onMeure()
-{
+void EnnemiSmurfGourmand::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 11)
-		etape += 1;
+	if (ss_etape == 0 && etape < 11) etape += 1;
 
 	if (dir == SENS_DROITE) {
-		if (!mur_opaque(x - 2, y))
-			x -= 2;
+		if (!mur_opaque(x - 2, y)) x -= 2;
 
 		pic = pbk_ennemis[195 + etape];
 	} else {
-		if (!mur_opaque(x + 2, y))
-			x += 2;
+		if (!mur_opaque(x + 2, y)) x += 2;
 
 		pic = pbk_ennemis[207 + etape];
 	}
@@ -163,13 +146,11 @@ void EnnemiSmurfGourmand::onMeure()
 		a_detruire = true;
 		grave(x, y, pic);
 	}
-
 }
 
-void EnnemiSmurfGourmand::estTouche(Tir * tir)
-{
-	static const int dx_giclure_smurf [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_smurf [] = { -15, -15, -15, -15, -15, -15, -15, -15 };
+void EnnemiSmurfGourmand::estTouche(Tir* tir) {
+	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
@@ -179,12 +160,10 @@ void EnnemiSmurfGourmand::estTouche(Tir * tir)
 	else
 		dir = SENS_DROITE;
 
-	if (etat == ETAT_MEURE)
-		sbk_niveau.play(rand() % 4);
+	if (etat == ETAT_MEURE) sbk_niveau.play(rand() % 4);
 }
 
-void EnnemiSmurfGourmand::onHold()
-{
+void EnnemiSmurfGourmand::onHold() {
 	etape += 1;
 
 	if (etape >= 50) {
@@ -202,14 +181,11 @@ void EnnemiSmurfGourmand::onHold()
 	colFromPic();
 }
 
-
-void EnnemiSmurfGourmand::onCarbonise()
-{
+void EnnemiSmurfGourmand::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 6) {
 		a_detruire = true;

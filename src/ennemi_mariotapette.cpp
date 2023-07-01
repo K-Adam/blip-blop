@@ -4,30 +4,27 @@
 #include "gore_giclure.h"
 #include "event_hold_fire.h"
 
-
-const int anim_mario_marche_droite[] = { 75, 76, 77, 76};
-const int anim_mario_marche_gauche[] = { 78, 79, 80, 79};
+const int anim_mario_marche_droite[] = {75, 76, 77, 76};
+const int anim_mario_marche_gauche[] = {78, 79, 80, 79};
 const int anim_nabo_droite[] = {164, 165};
 const int anim_nabo_gauche[] = {166, 167};
 const int anim_transformation_droite[] = {75, 164};
 const int anim_transformation_gauche[] = {78, 166};
 
-EnnemiMariotapette::EnnemiMariotapette(): speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), aide_luigi(0), nabo(0), nabo_delay(0), encaissement(0)
-{
+EnnemiMariotapette::EnnemiMariotapette()
+	: speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), aide_luigi(0), nabo(0), nabo_delay(0), encaissement(0) {
 	pv = 10000;
-	//pv = 1;
+	// pv = 1;
 	xmin = 1280;
 	pic = pbk_ennemis[78];
 }
 
-void EnnemiMariotapette::update()
-{
+void EnnemiMariotapette::update() {
 	if (game_flag[0] < 1) {
 		return;
 	}
 
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -50,11 +47,10 @@ void EnnemiMariotapette::update()
 			break;
 	}
 
-	//updateADetruire();
+	// updateADetruire();
 }
 
-void EnnemiMariotapette::onAvance()
-{
+void EnnemiMariotapette::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -64,8 +60,7 @@ void EnnemiMariotapette::onAvance()
 		onSaute();
 	}
 
-	//pour marcher
-
+	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -75,15 +70,11 @@ void EnnemiMariotapette::onAvance()
 		speed = 1;
 	}
 
-
-
 	wait_for_attack++;
-
 
 	if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
 		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
-		(((dir == SENS_DROITE) && (x < tete_turc->x)) ||
-			((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
+			(((dir == SENS_DROITE) && (x < tete_turc->x)) || ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
 			etape = 0;
 			ss_etape = 0;
 			attack_etape = 0;
@@ -103,9 +94,9 @@ void EnnemiMariotapette::onAvance()
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * -9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				//debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
+				// debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 				etat = ETAT_SAUTE;
-				lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+				lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 				onSaute();
 				return;
 			} else if ((dir == SENS_GAUCHE) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
@@ -115,9 +106,9 @@ void EnnemiMariotapette::onAvance()
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * 9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				//debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
+				// debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 				etat = ETAT_SAUTE;
-				lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+				lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 				onSaute();
 				return;
 			}
@@ -129,7 +120,7 @@ void EnnemiMariotapette::onAvance()
 		pic = pbk_ennemis[anime(anim_mario_marche_droite, 4, 16 - (3 * speed))];
 
 		if (encaissement < 0) {
-			if (speed > - encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
+			if (speed > -encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
 				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
 			} else {
 				speed = 0;
@@ -239,19 +230,18 @@ void EnnemiMariotapette::onAvance()
 	colFromPic();
 }
 
-void EnnemiMariotapette::onMeure()
-{
+void EnnemiMariotapette::onMeure() {
 	if (!nabo) {
 		tombe();
-		nabo_delay ++;
+		nabo_delay++;
 		if (nabo_delay >= NABO_TRANSFORMATION) {
 			speed = 1;
 			nabo = true;
 		} else {
 			if (dir == SENS_DROITE) {
-				pic = pbk_ennemis[anime(anim_transformation_droite, 2 , 6)];
+				pic = pbk_ennemis[anime(anim_transformation_droite, 2, 6)];
 			} else {
-				pic = pbk_ennemis[anime(anim_transformation_gauche, 2 , 6)];
+				pic = pbk_ennemis[anime(anim_transformation_gauche, 2, 6)];
 			}
 		}
 	} else {
@@ -292,7 +282,7 @@ void EnnemiMariotapette::onMeure()
 		game_flag[3] = 1;
 		aide_luigi = 1;
 		dir = SENS_DROITE;
-		Ennemi * luigi = new EnnemiLuigi();
+		Ennemi* luigi = new EnnemiLuigi();
 
 		nb_ennemis_created++;
 
@@ -310,8 +300,7 @@ void EnnemiMariotapette::onMeure()
 	}
 }
 
-void EnnemiMariotapette::onCharge()
-{
+void EnnemiMariotapette::onCharge() {
 	speed = MARIO_CHARGE_SPEED;
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -367,9 +356,8 @@ void EnnemiMariotapette::onCharge()
 	colFromPic();
 }
 
-void EnnemiMariotapette::onSaute()
-{
-	int		yp;
+void EnnemiMariotapette::onSaute() {
+	int yp;
 
 	if (dy < 0) {
 		tombe_mario();
@@ -377,13 +365,13 @@ void EnnemiMariotapette::onSaute()
 		tombe();
 	}
 
-	//pour pas que le mario se tire en dehors de l'ecran...
-	if (/*(dir==SENS_GAUCHE)&&*/(x - speed < xmin || mur_opaque(x - speed, y))) {
+	// pour pas que le mario se tire en dehors de l'ecran...
+	if (/*(dir==SENS_GAUCHE)&&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
 	}
 
-	else if (/*(dir==SENS_DROITE)&&*/(x + speed > offset + 640 || mur_opaque(x + speed, y))) {
+	else if (/*(dir==SENS_DROITE)&&*/ (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
 		speed = 1;
 	}
@@ -411,14 +399,14 @@ void EnnemiMariotapette::onSaute()
 			}
 
 			if (encaissement != 0) {
-				x += encaissement /  MULTIPLICATEUR_RECUL_AERIEN;
+				x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
 			}
 
 			if (encaissement < 0) {
 				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-					//speed -= encaissement /MULTIPLICATEUR_VITESSE_AERIEN;
+					// speed -= encaissement /MULTIPLICATEUR_VITESSE_AERIEN;
 					if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * MARIO_SPEED) {
-						speed = - 2 * MARIO_SPEED;
+						speed = -2 * MARIO_SPEED;
 					} else {
 						speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
 					}
@@ -454,11 +442,9 @@ void EnnemiMariotapette::onSaute()
 			}
 
 			if (encaissement > 0) {
-
 				if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-
 					if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * MARIO_SPEED) {
-						speed = - 2 * MARIO_SPEED;
+						speed = -2 * MARIO_SPEED;
 					} else {
 						speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
 					}
@@ -481,17 +467,14 @@ void EnnemiMariotapette::onSaute()
 		} else {
 			x -= speed;
 			pic = pbk_ennemis[anime(anim_nabo_gauche, 2, 16 - (3 * speed))];
-
 		}
 	}
 
 	encaissement = 0;
 	colFromPic();
-
 }
 
-void EnnemiMariotapette::onCarbonise()
-{
+void EnnemiMariotapette::onCarbonise() {
 	a_detruire = true;
 	/*ss_etape += 1;
 	ss_etape %= 5;
@@ -510,16 +493,13 @@ void EnnemiMariotapette::onCarbonise()
 	}*/
 }
 
-void EnnemiMariotapette::tombe_mario()
-{
+void EnnemiMariotapette::tombe_mario() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_MARIO_GRAVITE;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX)
-		dy += 1;
+	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
 
 	int ny = plat(x, y + dy);
 
@@ -529,12 +509,11 @@ void EnnemiMariotapette::tombe_mario()
 		y += dy;
 }
 
-void EnnemiMariotapette::estTouche(Tir * tir)
-{
-	for (int i = 0; i < 4 ; i++) {
-	GoreGiclure* s;
+void EnnemiMariotapette::estTouche(Tir* tir) {
+	for (int i = 0; i < 4; i++) {
+		GoreGiclure* s;
 		if ((tir->dir >= 2) && (tir->dir <= 6)) {
-			s = new GoreGiclure(rand() % 6 , -2 - rand() % 6);
+			s = new GoreGiclure(rand() % 6, -2 - rand() % 6);
 		} else if ((tir->dir >= 10) && (tir->dir <= 14)) {
 			s = new GoreGiclure(-rand() % 5 - 1, -2 - rand() % 6);
 		} else {
@@ -552,9 +531,8 @@ void EnnemiMariotapette::estTouche(Tir * tir)
 		encaissement -= tir->degats();
 	}
 
-
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

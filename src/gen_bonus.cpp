@@ -1,29 +1,26 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		  GenBonus.cpp
-*		-----------------
-*
-*
-*
-*		Prosper / LOADED -   5 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		  GenBonus.cpp
+ *		-----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   5 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include <cstdlib>
 #include "globals.h"
 #include "gen_bonus.h"
 #include "make_bonus.h"
 
-GenBonus::GenBonus() : t(0), a_detruire(false)
-{
-}
+GenBonus::GenBonus() : t(0), a_detruire(false) {}
 
-void GenBonus::update()
-{
+void GenBonus::update() {
 	if (list_bonus.size() < 3) {
 		t += 1;
 		t %= periode;
@@ -32,7 +29,6 @@ void GenBonus::update()
 			MakeBonus(offset + 320 - 200 + rand() % 400, -50);
 		}
 
-		if (offset > x + 500)
-			a_detruire = true;
+		if (offset > x + 500) a_detruire = true;
 	}
 }

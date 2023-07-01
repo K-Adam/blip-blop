@@ -1,44 +1,38 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  BonusFusil.h
-*		----------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  BonusFusil.h
+ *		----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "bonus.h"
 
-class BonusFusil : public Bonus
-{
-public:
-
-	BonusFusil()
-	{
+class BonusFusil : public Bonus {
+   public:
+	BonusFusil() {
 		pic = pbk_misc[9];
 		col_on = true;
 	};
 
-	virtual void estPris(Couille * c)
-	{
-		if ((c->id_arme == ID_LF && c->ammo >= 100) || (c->id_arme == ID_LASER && c->ammo >= 100))
-			return;
+	virtual void estPris(Couille* c) {
+		if ((c->id_arme == ID_LF && c->ammo >= 100) || (c->id_arme == ID_LASER && c->ammo >= 100)) return;
 
 		sbk_misc.play(0);
 
 		if (c->id_arme == ID_FUSIL) {
 			c->ammo += 20;
 
-			if (c->ammo > 40)
-				c->ammo = 40;
+			if (c->ammo > 40) c->ammo = 40;
 		} else {
 			c->id_arme = ID_FUSIL;
 			c->ammo = 20;

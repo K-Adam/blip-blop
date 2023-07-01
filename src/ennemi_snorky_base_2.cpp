@@ -1,36 +1,32 @@
 /******************************************************************
-*
-*
-*		-------------------------
-*		  EnnemiSnorkyBase2.cpp
-*		------------------------
-*
-*		(giclures faites...)
-*
-*		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-------------------------
+ *		  EnnemiSnorkyBase2.cpp
+ *		------------------------
+ *
+ *		(giclures faites...)
+ *
+ *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_snorky_base_2.h"
 #include "tir_snorky_base_2.h"
 
-const int anim_snorky_base_marche_droite[] = { 114, 115, 116, 117, 118, 117, 116, 115 };
-const int anim_snorky_base_marche_gauche[] = { 119, 120, 121, 122, 123, 122, 121, 120 };
+const int anim_snorky_base_marche_droite[] = {114, 115, 116, 117, 118, 117, 116, 115};
+const int anim_snorky_base_marche_gauche[] = {119, 120, 121, 122, 123, 122, 121, 120};
 
-EnnemiSnorkyBase2::EnnemiSnorkyBase2(): wait_for_shoot(0), shoot_delay(50 + rand() % 200)
-{
+EnnemiSnorkyBase2::EnnemiSnorkyBase2() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	pv = 150;
 	pic = pbk_ennemis[0];
 	dy = 0;
 }
 
-
-void EnnemiSnorkyBase2::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiSnorkyBase2::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_AVANCE:
@@ -57,12 +53,9 @@ void EnnemiSnorkyBase2::update()
 	}
 
 	updateADetruire();
-
 }
 
-void EnnemiSnorkyBase2::onAvance()
-{
-
+void EnnemiSnorkyBase2::onAvance() {
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -89,39 +82,33 @@ void EnnemiSnorkyBase2::onAvance()
 
 		pic = pbk_ennemis[anime(anim_snorky_base_marche_gauche, 8, 4)];
 
-		if (mur_opaque(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin))
-			dir = SENS_DROITE;
+		if (mur_opaque(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = SENS_DROITE;
 	} else {
 		marche(SNORKY_BASE_SPEED);
 
 		pic = pbk_ennemis[anime(anim_snorky_base_marche_droite, 8, 4)];
 
-		if (mur_opaque(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640))
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640)) dir = SENS_GAUCHE;
 	}
 
 	colFromPic();
 }
 
-void EnnemiSnorkyBase2::onTombe()
-{
+void EnnemiSnorkyBase2::onTombe() {
 	tombe();
 
-	if (plat(x, y) != 0)
-		etat = ETAT_AVANCE;
+	if (plat(x, y) != 0) etat = ETAT_AVANCE;
 
 	colFromPic();
 }
 
-void EnnemiSnorkyBase2::onMeure()
-{
+void EnnemiSnorkyBase2::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if ((etape == 5) && (ss_etape == 0)) {
 		dy = 0;
@@ -132,7 +119,6 @@ void EnnemiSnorkyBase2::onMeure()
 
 		else
 			x -= 10;
-
 	}
 	if (etape >= 5) {
 		tombe();
@@ -142,12 +128,10 @@ void EnnemiSnorkyBase2::onMeure()
 
 		else
 			x -= 1;
-
 	}
 
 	if (etape == 10) {
-		if (plat(x, y) != 0)
-			grave(x, y, pic);
+		if (plat(x, y) != 0) grave(x, y, pic);
 
 		a_detruire = true;
 	}
@@ -159,12 +143,11 @@ void EnnemiSnorkyBase2::onMeure()
 	}
 }
 
-void EnnemiSnorkyBase2::onTire()
-{
-	ss_etape ++;
+void EnnemiSnorkyBase2::onTire() {
+	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 	}
 
 	if (etape == 12) {
@@ -179,13 +162,11 @@ void EnnemiSnorkyBase2::onTire()
 		if (dir == SENS_DROITE) {
 			if ((x_cible > x) && (x_cible - x != 0)) {
 				int vy = ((y_cible - y + 50) * 6) / (x_cible - x);
-				if (vy > 3)
-					vy = 3;
+				if (vy > 3) vy = 3;
 
-				if (vy < -3)
-					vy = -3;
+				if (vy < -3) vy = -3;
 
-				TirSnorkyBase2 *	tir = new TirSnorkyBase2(6, vy);
+				TirSnorkyBase2* tir = new TirSnorkyBase2(6, vy);
 				tir->setDir(dir);
 				tir->x = x + 35;
 				tir->y = y - 42;
@@ -193,7 +174,7 @@ void EnnemiSnorkyBase2::onTire()
 				list_tirs_ennemis.emplace_back(tir);
 
 			} else {
-				TirSnorkyBase2 *	tir = new TirSnorkyBase2(6, 1);
+				TirSnorkyBase2* tir = new TirSnorkyBase2(6, 1);
 				tir->setDir(dir);
 				tir->x = x + 35;
 				tir->y = y - 42;
@@ -204,13 +185,11 @@ void EnnemiSnorkyBase2::onTire()
 		} else {
 			if ((x_cible < x) && (x_cible - x != 0)) {
 				int vy = ((y_cible - y + 50) * 6) / (x_cible - x);
-				if (vy > 3)
-					vy = 3;
+				if (vy > 3) vy = 3;
 
-				if (vy < -3)
-					vy = -3;
+				if (vy < -3) vy = -3;
 
-				TirSnorkyBase2 *	tir = new TirSnorkyBase2(-6, -vy);
+				TirSnorkyBase2* tir = new TirSnorkyBase2(-6, -vy);
 				tir->setDir(dir);
 				tir->x = x - 35;
 				tir->y = y - 42;
@@ -218,7 +197,7 @@ void EnnemiSnorkyBase2::onTire()
 				list_tirs_ennemis.emplace_back(tir);
 
 			} else {
-				TirSnorkyBase2 *	tir = new TirSnorkyBase2(-6, 1);
+				TirSnorkyBase2* tir = new TirSnorkyBase2(-6, 1);
 				tir->setDir(dir);
 				tir->x = x - 35;
 				tir->y = y - 42;
@@ -239,13 +218,11 @@ void EnnemiSnorkyBase2::onTire()
 	colFromPic();
 }
 
-void EnnemiSnorkyBase2::onCarbonise()
-{
-	ss_etape ++;
+void EnnemiSnorkyBase2::onCarbonise() {
+	ss_etape++;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape == 9) {
 		a_detruire = true;
@@ -257,16 +234,14 @@ void EnnemiSnorkyBase2::onCarbonise()
 	}
 }
 
-void EnnemiSnorkyBase2::estTouche(Tir * tir)
-{
-	static const int dx_giclure_snorkbase2 [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_snorkbase2 [] = { -15, -15, -15, -15, -35, -15, -15, -15 };
-
+void EnnemiSnorkyBase2::estTouche(Tir* tir) {
+	static const int dx_giclure_snorkbase2[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_snorkbase2[] = {-15, -15, -15, -15, -35, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_snorkbase2, dy_giclure_snorkbase2);
 
 	if (etat == ETAT_MEURE) {
-		sbk_niveau.play(18/*+rand()%3*/);
+		sbk_niveau.play(18 /*+rand()%3*/);
 	}
 }

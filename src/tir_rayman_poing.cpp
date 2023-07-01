@@ -7,17 +7,11 @@
 #include "tir_rayman_poing.h"
 #include "ben_debug.h"
 
-//implementation de la classe TirRaymanPoing
+// implementation de la classe TirRaymanPoing
 
-TirRaymanpoing::TirRaymanpoing(int dx0, int xc): dx(dx0), x_cible(xc)
-{
-	ss_etape = 1;
-}
+TirRaymanpoing::TirRaymanpoing(int dx0, int xc) : dx(dx0), x_cible(xc) { ss_etape = 1; }
 
-
-void TirRaymanpoing::update()
-{
-
+void TirRaymanpoing::update() {
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[230];
 	} else {
@@ -37,7 +31,6 @@ void TirRaymanpoing::update()
 	}
 
 	x += dx;
-
 
 	colFromPic();
 }

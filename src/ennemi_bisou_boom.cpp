@@ -2,17 +2,10 @@
 #include "ennemi_bisou_boom.h"
 #include "gore_bisou_boom.h"
 
-EnnemiBisouBoom::EnnemiBisouBoom()
-{
-	pv = 200;
-}
+EnnemiBisouBoom::EnnemiBisouBoom() { pv = 200; }
 
-
-void EnnemiBisouBoom::update()
-{
-	if (blood > 0)
-		blood -= 1;
-
+void EnnemiBisouBoom::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -29,8 +22,7 @@ void EnnemiBisouBoom::update()
 	updateADetruire();
 }
 
-void EnnemiBisouBoom::onAvance()
-{
+void EnnemiBisouBoom::onAvance() {
 	static const int SPEED = 3;
 
 	tombe();
@@ -75,16 +67,14 @@ void EnnemiBisouBoom::onAvance()
 	colFromPic();
 }
 
-void EnnemiBisouBoom::onMeure()
-{
+void EnnemiBisouBoom::onMeure() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 7 && ss_etape == 0) {
-		Sprite * s = new GorePiedBisouBoom();
+		Sprite* s = new GorePiedBisouBoom();
 
 		if (dir == SENS_DROITE) {
 			s->x = x - 60;
@@ -116,7 +106,7 @@ void EnnemiBisouBoom::onMeure()
 
 		list_gore.emplace_back(s);
 	} else if (etape == 8 && ss_etape == 0) {
-		Sprite * s = new GoreBideBisouBoom();
+		Sprite* s = new GoreBideBisouBoom();
 
 		if (dir == SENS_DROITE) {
 			s->x = x + 59;
@@ -143,18 +133,14 @@ void EnnemiBisouBoom::onMeure()
 	}
 }
 
+void EnnemiBisouBoom::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-void EnnemiBisouBoom::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 7, 10, 7, 0, -7, -10, -7 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
-
-	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE)
-		return;
+	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE) return;
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE)
-		sbk_misc.play(11);
+	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE) sbk_misc.play(11);
 }

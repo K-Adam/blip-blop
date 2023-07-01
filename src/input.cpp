@@ -1,25 +1,25 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  Input.cpp
-*		----------------
-*
-*		Classe Input
-*
-*
-*		La Classe Input représente toutes les entrées :
-*
-*		 - Clavier
-*		 - Joystick
-*
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  Input.cpp
+ *		----------------
+ *
+ *		Classe Input
+ *
+ *
+ *		La Classe Input représente toutes les entrées :
+ *
+ *		 - Clavier
+ *		 - Joystick
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 #define BENINPUT_CPP_FILE
 
@@ -39,47 +39,38 @@
 
 #ifdef _MSC_VER
 // TODO
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 #endif
 
 //-----------------------------------------------------------------------------
 //		Déclaration REELLE de l'objet 'in' global
 //-----------------------------------------------------------------------------
 
-Input		in;
+Input in;
 
 //-----------------------------------------------------------------------------
 // Nom: Input::Input() - CONSTRUCTEUR -
 // Desc: Met à NULL les valeurs susceptibles de foirer
 //-----------------------------------------------------------------------------
 
-Input::Input() : n_joy(0)
-{
+Input::Input() : n_joy(0) {
 	memset(buffer, 0, 256);
 	memset(specialsbuffer, 0, 0xFFF);
 }
 
-Input::~Input()
-{
-
-}
-
-
+Input::~Input() {}
 
 //-----------------------------------------------------------------------------
 // Nom: Input::open(HWND, HINSTANCE, int, int)
 // Desc: Ouvre BINPUT
 //-----------------------------------------------------------------------------
 
-bool Input::open(int flags)
-{
-
+bool Input::open(int flags) {
 	SDL_JoystickEventState(SDL_TRUE);
 
 	this->n_joy = SDL_NumJoysticks();
 
-	for (int i = 0; i < n_joy; i++)
-	{
+	for (int i = 0; i < n_joy; i++) {
 		js[i].handle = SDL_JoystickOpen(i);
 		strcpy(this->js[i].name, SDL_JoystickName(js[i].handle));
 
@@ -188,87 +179,63 @@ bool Input::open(int flags)
 // Desc: Met à jour les entrées
 //-----------------------------------------------------------------------------
 
-void Input::update()
-{
+void Input::update() {
 	SDL_Event e;
-	while (SDL_PollEvent(&e)){
-
-		if (e.type == SDL_QUIT)
-		{
+	while (SDL_PollEvent(&e)) {
+		if (e.type == SDL_QUIT) {
 			app_killed = true;
-			//exit(0);
-		}	
+			// exit(0);
+		}
 
-		if (e.type == SDL_KEYDOWN)
-		{
-			if (e.key.keysym.sym < 255)
-			{
+		if (e.type == SDL_KEYDOWN) {
+			if (e.key.keysym.sym < 255) {
 				buffer[e.key.keysym.sym] = 1;
-			}
-			else
+			} else
 				specialsbuffer[e.key.keysym.sym & 0xFFF] = 1;
 		}
-		if (e.type == SDL_KEYUP)
-		{
-			if (e.key.keysym.sym < 255)
-			{
+		if (e.type == SDL_KEYUP) {
+			if (e.key.keysym.sym < 255) {
 				buffer[e.key.keysym.sym] = 0;
-			}
-			else
+			} else
 				specialsbuffer[e.key.keysym.sym & 0xFFF] = 0;
 		}
 
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-
+		if (e.type == SDL_MOUSEBUTTONDOWN) {
 		}
 
-		if (e.type == SDL_JOYBUTTONDOWN)
-		{
+		if (e.type == SDL_JOYBUTTONDOWN) {
 			js[e.jbutton.which].buttons[e.jbutton.button] = 1;
 		}
-		if (e.type == SDL_JOYBUTTONUP)
-		{
+		if (e.type == SDL_JOYBUTTONUP) {
 			js[e.jbutton.which].buttons[e.jbutton.button] = 0;
 		}
-		if (e.type == SDL_JOYHATMOTION)
-		{
+		if (e.type == SDL_JOYHATMOTION) {
 			js[e.jhat.which].directions.down = false;
 			js[e.jhat.which].directions.right = false;
 			js[e.jhat.which].directions.left = false;
 			js[e.jhat.which].directions.up = false;
 
-			if (e.jhat.hat & SDL_HAT_UP)
-				js[e.jhat.which].directions.up = true;
-			if (e.jhat.hat & SDL_HAT_LEFT)
-				js[e.jhat.which].directions.left = true;
-			if (e.jhat.hat & SDL_HAT_RIGHT)
-				js[e.jhat.which].directions.right = true;
-			if (e.jhat.hat & SDL_HAT_DOWN)
-				js[e.jhat.which].directions.down = true;
+			if (e.jhat.hat & SDL_HAT_UP) js[e.jhat.which].directions.up = true;
+			if (e.jhat.hat & SDL_HAT_LEFT) js[e.jhat.which].directions.left = true;
+			if (e.jhat.hat & SDL_HAT_RIGHT) js[e.jhat.which].directions.right = true;
+			if (e.jhat.hat & SDL_HAT_DOWN) js[e.jhat.which].directions.down = true;
 		}
 
-		if (e.type == SDL_JOYAXISMOTION)
-		{
-		
+		if (e.type == SDL_JOYAXISMOTION) {
 			/* Horizontal movement */
 
-			if (e.jaxis.axis == 0)
-			{
-				if (e.jaxis.value < -DEAD_ZONE)
-				{
+			if (e.jaxis.axis == 0) {
+				if (e.jaxis.value < -DEAD_ZONE) {
 					js[e.jhat.which].directions.left = 1;
 					js[e.jhat.which].directions.right = 0;
 				}
 
-				else if (e.jaxis.value > DEAD_ZONE)
-				{
+				else if (e.jaxis.value > DEAD_ZONE) {
 					js[e.jhat.which].directions.right = 1;
 					js[e.jhat.which].directions.left = 0;
 				}
 
-				else
-				{
+				else {
 					js[e.jhat.which].directions.left = 0;
 					js[e.jhat.which].directions.right = 0;
 				}
@@ -276,28 +243,23 @@ void Input::update()
 
 			/* Vertical movement */
 
-			if (e.jaxis.axis == 1)
-			{
-				if (e.jaxis.value < -DEAD_ZONE)
-				{
+			if (e.jaxis.axis == 1) {
+				if (e.jaxis.value < -DEAD_ZONE) {
 					js[e.jhat.which].directions.up = 1;
 					js[e.jhat.which].directions.down = 0;
 				}
 
-				else if (e.jaxis.value > DEAD_ZONE)
-				{
+				else if (e.jaxis.value > DEAD_ZONE) {
 					js[e.jhat.which].directions.down = 1;
 					js[e.jhat.which].directions.up = 0;
 				}
 
-				else
-				{
+				else {
 					js[e.jhat.which].directions.up = 0;
 					js[e.jhat.which].directions.down = 0;
 				}
 			}
 		}
-
 	}
 	/*if (dikeyb != NULL)
 		dikeyb->GetDeviceState(sizeof(buffer), (void *)&buffer);
@@ -315,64 +277,50 @@ void Input::update()
 // Desc: Attends que l'utilisateur tape une touche et renvoie sa valeur
 //-----------------------------------------------------------------------------
 
-unsigned int Input::waitKey()
-{
-	unsigned int	key = 0;
+unsigned int Input::waitKey() {
+	unsigned int key = 0;
 
-	while (1)
-	{
+	while (1) {
 		update();
-		for (int i = 0; i < 255; i++)
-		{
-			if (buffer[i] != 0)
-			{
+		for (int i = 0; i < 255; i++) {
+			if (buffer[i] != 0) {
 				return i;
 			}
 		}
-		for (int i = 0; i < 0xFFF; i++)
-		{
-			if (specialsbuffer[i] != 0)
-			{
+		for (int i = 0; i < 0xFFF; i++) {
+			if (specialsbuffer[i] != 0) {
 				return i | 0x40000000;
 			}
 		}
 
-		for (int i = 0; i < 128; i++)
-		{
-			for (int k = 0; k < n_joy; k++)
-			{
-				if (js[k].buttons[i] == 1)
-				{
+		for (int i = 0; i < 128; i++) {
+			for (int k = 0; k < n_joy; k++) {
+				if (js[k].buttons[i] == 1) {
 					int k2 = (k + 1) * (1 << 10) + i;
 					return k2;
 				}
-					//return (js[k].buttons[i] | (0x400));
+				// return (js[k].buttons[i] | (0x400));
 			}
 		}
 
-		for (int k = 0; k < n_joy; k++)
-		{
-			if (js[k].directions.down)
-			{
+		for (int k = 0; k < n_joy; k++) {
+			if (js[k].directions.down) {
 				int k2 = (k + 1) * (1 << 10) + JOY_DOWN;
 				return k2;
 			}
-			if (js[k].directions.left)
-			{
+			if (js[k].directions.left) {
 				int k2 = (k + 1) * (1 << 10) + JOY_LEFT;
 				return k2;
 			}
-			if (js[k].directions.right)
-			{
+			if (js[k].directions.right) {
 				int k2 = (k + 1) * (1 << 10) + JOY_RIGHT;
 				return k2;
 			}
-			if (js[k].directions.up)
-			{
+			if (js[k].directions.up) {
 				int k2 = (k + 1) * (1 << 10) + JOY_UP;
 				return k2;
 			}
-			//return (js[k].buttons[i] | (0x400));
+			// return (js[k].buttons[i] | (0x400));
 		}
 
 #ifdef __EMSCRIPTEN__
@@ -407,47 +355,35 @@ unsigned int Input::waitKey()
 // Desc: Attends qu'aucune touche ne soit enfoncée
 //-----------------------------------------------------------------------------
 
-void Input::waitClean()
-{
-	//Waits for all keys to be released?
-	while (1)
-	{
+void Input::waitClean() {
+	// Waits for all keys to be released?
+	while (1) {
 		bool j = false;
 		update();
-		for (int i = 0; i < 255; i++)
-		{
-			if (buffer[i] != 0)
-			{
+		for (int i = 0; i < 255; i++) {
+			if (buffer[i] != 0) {
 				j = true;
 			}
 		}
-		for (int i = 0; i < 0xFFF; i++)
-		{
-			if (specialsbuffer[i] != 0)
-			{
+		for (int i = 0; i < 0xFFF; i++) {
+			if (specialsbuffer[i] != 0) {
 				j = true;
 			}
 		}
 
-		for (int i = 0; i < 128; i++)
-		{
-			for (int k = 0; k < n_joy; k++)
-			{
-				if (js[k].buttons[i] == 1)
-				{
+		for (int i = 0; i < 128; i++) {
+			for (int k = 0; k < n_joy; k++) {
+				if (js[k].buttons[i] == 1) {
 					j = true;
 				}
 			}
 		}
 
-		for (int k = 0; k < n_joy; k++)
-		{
-			if (js[k].directions.down || js[k].directions.up || js[k].directions.left || js[k].directions.right)
-			j = true;
+		for (int k = 0; k < n_joy; k++) {
+			if (js[k].directions.down || js[k].directions.up || js[k].directions.left || js[k].directions.right) j = true;
 		}
 
-		if (!j)
-			return;
+		if (!j) return;
 
 #ifdef __EMSCRIPTEN__
 		emscripten_sleep(0);
@@ -468,25 +404,20 @@ void Input::waitClean()
 				j |= scanKey(k + l);
 		}
 	}*/
-
 }
 
 //-----------------------------------------------------------------------------
 // Nom: Input::setAlias()
 // Desc: Règle la valeur d'un alias
 //-----------------------------------------------------------------------------
-void Input::setAlias(int a, unsigned int val)
-{
-	aliastab[a] = val;
-}
+void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }
 
 //-----------------------------------------------------------------------------
 // Nom: Input::close()
 // Desc: Ferme toutes les entrées
 //-----------------------------------------------------------------------------
 
-void Input::close()
-{
+void Input::close() {
 	/*if (dikeyb != NULL) {
 		dikeyb->Unacquire();
 		dikeyb->Release();
@@ -508,48 +439,36 @@ void Input::close()
 	n_joy = 0;*/
 }
 
-
 //-----------------------------------------------------------------------------
 
-bool Input::anyKeyPressed()
-{
+bool Input::anyKeyPressed() {
 	int key = 0;
 
 	update();
-	for (int i = 0; i < 255; i++)
-	{
-		if (buffer[i] != 0)
-		{
+	for (int i = 0; i < 255; i++) {
+		if (buffer[i] != 0) {
 			return true;
 		}
 	}
-	for (int i = 0; i < 0xFFF; i++)
-	{
-		if (specialsbuffer[i] != 0)
-		{
+	for (int i = 0; i < 0xFFF; i++) {
+		if (specialsbuffer[i] != 0) {
 			return true;
 		}
 	}
 
-	for (int i = 0; i < 128; i++)
-	{
-		for (int k = 0; k < n_joy; k++)
-		{
-			if (js[k].buttons[i] == 1)
-			{
+	for (int i = 0; i < 128; i++) {
+		for (int k = 0; k < n_joy; k++) {
+			if (js[k].buttons[i] == 1) {
 				return true;
 			}
 		}
 	}
 
-	for (int k = 0; k < n_joy; k++)
-	{
-		if (js[k].directions.down || js[k].directions.up || js[k].directions.left || js[k].directions.right)
-			return true;
+	for (int k = 0; k < n_joy; k++) {
+		if (js[k].directions.down || js[k].directions.up || js[k].directions.left || js[k].directions.right) return true;
 	}
 
 	return false;
-
 
 	/*int j;
 
@@ -568,8 +487,7 @@ bool Input::anyKeyPressed()
 	}*/
 }
 
-int Input::scanKey(unsigned int k) const
-{
+int Input::scanKey(unsigned int k) const {
 	/*int j = (k >> 10);
 
 	if (j == 0)
@@ -607,30 +525,24 @@ int Input::scanKey(unsigned int k) const
 
 		return z;
 	}*/
-	if (((k >> 10) & 0xFF) > 0)
-	{
+	if (((k >> 10) & 0xFF) > 0) {
 		/*
 		REMEMBER
 		That the joystick number starts from 1, but the array starts from 0
 		*/
-		int	j = k >> 10 & 0xFF;
+		int j = k >> 10 & 0xFF;
 		int b = k & 0xFF;
 
-		if (b == JOY_UP)
-			return js[j - 1].directions.up;
-		if (b == JOY_DOWN)
-			return js[j - 1].directions.down;
-		if (b == JOY_RIGHT)
-			return js[j - 1].directions.right;
-		if (b == JOY_LEFT)
-			return js[j - 1].directions.left;
+		if (b == JOY_UP) return js[j - 1].directions.up;
+		if (b == JOY_DOWN) return js[j - 1].directions.down;
+		if (b == JOY_RIGHT) return js[j - 1].directions.right;
+		if (b == JOY_LEFT) return js[j - 1].directions.left;
 
-		int r = js[j-1].buttons[b];
+		int r = js[j - 1].buttons[b];
 		return r;
-	}
-	else if (k<255)
+	} else if (k < 255)
 		return buffer[k];
-	else 
+	else
 		return specialsbuffer[k & 0xFFF];
 
 	return 0;
@@ -641,8 +553,7 @@ int Input::scanKey(unsigned int k) const
 // Desc: Attends que l'utilisateur tape une touche et renvoie sa valeur
 //-----------------------------------------------------------------------------
 
-bool Input::reAcquire()
-{
+bool Input::reAcquire() {
 	/*if (dinput == NULL)
 		return false;
 

@@ -1,14 +1,11 @@
 #include "ennemi_tailsvolant.h"
 
-
-EnnemiTailsvolant::EnnemiTailsvolant(): placer(0), speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false)
-{
+EnnemiTailsvolant::EnnemiTailsvolant() : placer(0), speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
 	tresor = 8;
 	pv = 150;
 }
 
-void EnnemiTailsvolant::update()
-{
+void EnnemiTailsvolant::update() {
 	if (!placer) {
 		y = -20;
 		etat = ETAT_TIRE;
@@ -34,8 +31,7 @@ void EnnemiTailsvolant::update()
 			direction = -1;
 		}
 	}
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -56,7 +52,7 @@ void EnnemiTailsvolant::update()
 			onTombe();
 			break;
 
-		case ETAT_TIRE:  //Tails Volle(ETAT_TIRE)
+		case ETAT_TIRE:	 // Tails Volle(ETAT_TIRE)
 			onVolle();
 			break;
 	}
@@ -69,8 +65,7 @@ void EnnemiTailsvolant::update()
 	updateADetruire();
 }
 
-void EnnemiTailsvolant::onAvance()
-{
+void EnnemiTailsvolant::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -84,7 +79,7 @@ void EnnemiTailsvolant::onAvance()
 		return;
 	}
 
-	//pour marcher
+	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -115,7 +110,6 @@ void EnnemiTailsvolant::onAvance()
 		return;
 	}
 
-
 	ss_etape += 1;
 	ss_etape %= 10 - 2 * speed;
 
@@ -141,8 +135,7 @@ void EnnemiTailsvolant::onAvance()
 	colFromPic();
 }
 
-void EnnemiTailsvolant::onMeure()
-{
+void EnnemiTailsvolant::onMeure() {
 	tombe();
 	if (fly) {
 		int yp;
@@ -153,12 +146,10 @@ void EnnemiTailsvolant::onMeure()
 			etape %= 2;
 		}
 		if (dir == SENS_DROITE) {
-			if (!mur_opaque(x + speed, y))
-				marche(speed);
+			if (!mur_opaque(x + speed, y)) marche(speed);
 			pic = pbk_ennemis[122 + etape];
 		} else {
-			if (!mur_opaque(x - speed, y))
-				marche(-speed);
+			if (!mur_opaque(x - speed, y)) marche(-speed);
 			pic = pbk_ennemis[124 + etape];
 		}
 		if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
@@ -171,11 +162,10 @@ void EnnemiTailsvolant::onMeure()
 		ss_etape += 1;
 		ss_etape %= 6;
 
-		if (ss_etape == 0 && etape < 11)
-			etape += 1;
+		if (ss_etape == 0 && etape < 11) etape += 1;
 
 		if (etape >= 11) {
-			int		yy = plat(x, y);
+			int yy = plat(x, y);
 
 			if (yy != 0 && yy != y_plat[4][x]) {
 				grave(x, y, pic);
@@ -188,12 +178,10 @@ void EnnemiTailsvolant::onMeure()
 			}
 		} else {
 			if (dir == SENS_GAUCHE) {
-				if (!mur_opaque(x - speed, y))
-					marche(-speed);
+				if (!mur_opaque(x - speed, y)) marche(-speed);
 				pic = pbk_ennemis[111 + etape];
 			} else {
-				if (!mur_opaque(x + speed, y))
-					marche(speed);
+				if (!mur_opaque(x + speed, y)) marche(speed);
 				pic = pbk_ennemis[100 + etape];
 			}
 		}
@@ -210,9 +198,8 @@ void EnnemiTailsvolant::onMeure()
 	}*/
 }
 
-void EnnemiTailsvolant::onVolle()
-{
-	if (dir == SENS_GAUCHE && /*attack &&*/(x - speed < xmin || mur_opaque(x - speed, y))) {
+void EnnemiTailsvolant::onVolle() {
+	if (dir == SENS_GAUCHE && /*attack &&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
 		etat = ETAT_AVANCE;
@@ -223,7 +210,7 @@ void EnnemiTailsvolant::onVolle()
 		ss_etape = 0;
 		onAvance();
 		return;
-	} else if (dir == SENS_DROITE && /*attack&&*/(x + speed > offset + 640 || mur_opaque(x + speed, y))) {
+	} else if (dir == SENS_DROITE && /*attack&&*/ (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
 		speed = 1;
 		etat = ETAT_AVANCE;
@@ -245,8 +232,7 @@ void EnnemiTailsvolant::onVolle()
 		pic = pbk_ennemis[etape + 98];
 	}
 
-	{
-	}
+	{}
 
 	if (attack) {
 		if ((y_cible <= y) || (y >= y_plat[0][x])) {
@@ -263,7 +249,7 @@ void EnnemiTailsvolant::onVolle()
 		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
 			y += 1;
 			speed = 4;
-		} else { //if ((y_cible>y)&&(y>=y_cible-20))
+		} else {  // if ((y_cible>y)&&(y>=y_cible-20))
 			y += 1;
 			speed = 5;
 		}
@@ -285,9 +271,8 @@ void EnnemiTailsvolant::onVolle()
 	colFromPic();
 }
 
-void EnnemiTailsvolant::onTombe()
-{
-	int		yp;
+void EnnemiTailsvolant::onTombe() {
+	int yp;
 
 	tombe();
 	ss_etape += 1;
@@ -310,7 +295,6 @@ void EnnemiTailsvolant::onTombe()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
 		x += speed;
 		pic = pbk_ennemis[96 + etape];
@@ -320,17 +304,14 @@ void EnnemiTailsvolant::onTombe()
 	}
 
 	colFromPic();
-
 }
 
-void EnnemiTailsvolant::onCarbonise()
-{
+void EnnemiTailsvolant::onCarbonise() {
 	tombe();
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape >= 11)
 		a_detruire = true;
@@ -342,10 +323,9 @@ void EnnemiTailsvolant::onCarbonise()
 	}
 }
 
-void EnnemiTailsvolant::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiTailsvolant::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

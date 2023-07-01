@@ -1,16 +1,12 @@
 #include "ennemi_knukles.h"
 
-
-EnnemiKnukles::EnnemiKnukles(): speed(1), etape_speed(0), charge_delay(100 + rand() % 150), wait_for_charge(0)
-{
+EnnemiKnukles::EnnemiKnukles() : speed(1), etape_speed(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
 	tresor = 7;
 	pv = 150;
 }
 
-void EnnemiKnukles::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiKnukles::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -34,10 +30,9 @@ void EnnemiKnukles::update()
 			onTombe();
 			break;
 
-		case ETAT_TIRE:  //Knukles Charge(ETAT_TIRE)
+		case ETAT_TIRE:	 // Knukles Charge(ETAT_TIRE)
 			onCharge();
 			break;
-
 	}
 	/*
 		if (y > y_plat[0][x])
@@ -48,8 +43,7 @@ void EnnemiKnukles::update()
 	updateADetruire();
 }
 
-void EnnemiKnukles::onAvance()
-{
+void EnnemiKnukles::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -60,7 +54,7 @@ void EnnemiKnukles::onAvance()
 		return;
 	}
 
-	//pour marcher
+	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -71,9 +65,8 @@ void EnnemiKnukles::onAvance()
 	}
 	wait_for_charge++;
 	if (wait_for_charge >= charge_delay && tete_turc != NULL) {
-		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y))
-		        && (((dir == SENS_DROITE) && (x > (tete_turc->x - 200)) && (tete_turc->x > x))
-		            || ((dir == SENS_GAUCHE) && (x < (tete_turc->x + 200)) && (tete_turc->x < x)))) {
+		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) && (((dir == SENS_DROITE) && (x > (tete_turc->x - 200)) && (tete_turc->x > x)) ||
+																   ((dir == SENS_GAUCHE) && (x < (tete_turc->x + 200)) && (tete_turc->x < x)))) {
 			etat = ETAT_TIRE;
 			sbk_niveau.play(6);
 			speed = KNUKLES_CHARGE_SPEED;
@@ -86,7 +79,7 @@ void EnnemiKnukles::onAvance()
 			speed = 0;
 			etape = 0;
 			ss_etape = 0;
-			lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 			dy = 0;
 			sbk_niveau.play(7);
 			onSaute();
@@ -96,7 +89,6 @@ void EnnemiKnukles::onAvance()
 			charge_delay = 10 + rand() % 10;
 		}
 	}
-
 
 	ss_etape += 1;
 	ss_etape %= 10 - 2 * speed;
@@ -123,8 +115,7 @@ void EnnemiKnukles::onAvance()
 	colFromPic();
 }
 
-void EnnemiKnukles::onMeure()
-{
+void EnnemiKnukles::onMeure() {
 	tombe();
 	/*if (fly)
 	{
@@ -156,16 +147,15 @@ void EnnemiKnukles::onMeure()
 			etape=7;
 		}
 	}*/
-	//else
+	// else
 	{
 		ss_etape += 1;
 		ss_etape %= 6;
 
-		if (ss_etape == 0 && etape < 10)
-			etape += 1;
+		if (ss_etape == 0 && etape < 10) etape += 1;
 
 		if (etape >= 10) {
-			int		yy = plat(x, y);
+			int yy = plat(x, y);
 
 			if (yy != 0 /*&& yy != y_plat[4][x]*/) {
 				grave(x, y, pic);
@@ -178,12 +168,10 @@ void EnnemiKnukles::onMeure()
 			}
 		} else {
 			if (dir == SENS_GAUCHE) {
-				if (!mur_opaque(x - speed, y))
-					x -= speed;
+				if (!mur_opaque(x - speed, y)) x -= speed;
 				pic = pbk_ennemis[514 + etape];
 			} else {
-				if (!mur_opaque(x + speed, y))
-					x += speed;
+				if (!mur_opaque(x + speed, y)) x += speed;
 				pic = pbk_ennemis[504 + etape];
 			}
 		}
@@ -200,23 +188,20 @@ void EnnemiKnukles::onMeure()
 	}*/
 }
 
-void EnnemiKnukles::onSaute()
-{
-
+void EnnemiKnukles::onSaute() {
 	ss_etape++;
 	ss_etape %= 60;
 	if ((ss_etape == 0) && (etape == 0)) {
 		etape++;
-		dy = - KNUKLES_JUMP_SPEED;
+		dy = -KNUKLES_JUMP_SPEED;
 	}
 
 	tombe();
 
-
-	//if ((dy>=0)&&(etape>0)&&(ss_etape>5))
+	// if ((dy>=0)&&(etape>0)&&(ss_etape>5))
 	//{
 
-	int		yp;
+	int yp;
 	// Et si on arrêtait de tomber ?
 	//
 	if ((dy > 0 && (yp = plat(x, y + dy)) != 0) && etape > 0) {
@@ -240,8 +225,7 @@ void EnnemiKnukles::onSaute()
 	colFromPic();
 }
 
-void EnnemiKnukles::onCharge()
-{
+void EnnemiKnukles::onCharge() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 40;
@@ -265,10 +249,10 @@ void EnnemiKnukles::onCharge()
 
 	if (dir == SENS_GAUCHE) {
 		if (!mur_opaque(x - speed, y)) {
-			marche(-speed);//x -= speed;
+			marche(-speed);	 // x -= speed;
 		} else {
 			etat = ETAT_AVANCE;
-			//speed=1;
+			// speed=1;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
 			etape = 0;
@@ -279,10 +263,10 @@ void EnnemiKnukles::onCharge()
 		pic = pbk_ennemis[150 + etape];
 	} else {
 		if (!mur_opaque(x + speed, y)) {
-			marche(speed);//x += speed;
+			marche(speed);	// x += speed;
 		} else {
 			etat = ETAT_AVANCE;
-			//speed=1;
+			// speed=1;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
 			etape = 0;
@@ -295,9 +279,8 @@ void EnnemiKnukles::onCharge()
 	colFromPic();
 }
 
-void EnnemiKnukles::onTombe()
-{
-	int		yp;
+void EnnemiKnukles::onTombe() {
+	int yp;
 
 	tombe();
 
@@ -312,7 +295,6 @@ void EnnemiKnukles::onTombe()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
 		x += speed;
 		pic = pbk_ennemis[152];
@@ -322,17 +304,14 @@ void EnnemiKnukles::onTombe()
 	}
 
 	colFromPic();
-
 }
 
-void EnnemiKnukles::onCarbonise()
-{
+void EnnemiKnukles::onCarbonise() {
 	tombe();
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape >= 10)
 		a_detruire = true;
@@ -344,10 +323,9 @@ void EnnemiKnukles::onCarbonise()
 	}
 }
 
-void EnnemiKnukles::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiKnukles::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
@@ -357,17 +335,13 @@ void EnnemiKnukles::estTouche(Tir * tir)
 	}
 }
 
-
-void EnnemiKnukles::tombe()
-{
+void EnnemiKnukles::tombe() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
 
-	if (lat_grav == 0 && dy < KNUKLES_GRAVITE_MAX)
-		dy += 1;
+	if (lat_grav == 0 && dy < KNUKLES_GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = KNUKLES_GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = KNUKLES_GRAVITE_MAX;
 
 	int ny = plat(x, y + dy);
 

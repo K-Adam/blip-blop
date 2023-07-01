@@ -4,11 +4,11 @@
 #include "menu_list.h"
 
 class StartMenu : public AbstractMenu {
-	public:
+   public:
 	StartMenu();
 	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
 	int ProcessEvent();
 
-	private:
+   private:
 	MenuList items_;
 };

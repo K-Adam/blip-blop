@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   TirCoeurBisou.h
-*		----------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   TirCoeurBisou.h
+ *		----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,30 +25,19 @@
 //		Définition de la classe Tir
 //-----------------------------------------------------------------------------
 
-class TirCoeurBisou : public Tir
-{
-public:
-	int		xbase;
-	int		phi;
-	bool	ok;
+class TirCoeurBisou : public Tir {
+   public:
+	int xbase;
+	int phi;
+	bool ok;
 
 	TirCoeurBisou();
 
-	virtual int degats() const
-	{
-		return 1;
-	};
+	virtual int degats() const { return 1; };
 
-	virtual int enflame() const
-	{
-		return 0;
-	};
+	virtual int enflame() const { return 0; };
 
-	virtual void setDir(int d)
-	{
-		dir = d;
-	};
+	virtual void setDir(int d) { dir = d; };
 
 	virtual void update();
-
 };

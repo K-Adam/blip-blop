@@ -20,9 +20,7 @@ OptionsPanel::OptionsPanel() {
 	RefreshVsync();
 }
 
-void OptionsPanel::RefreshVsync() {
-	items_.ChangeEntry(0, vSyncOn ? vsync_on_txt_ : vsync_off_txt_);
-}
+void OptionsPanel::RefreshVsync() { items_.ChangeEntry(0, vSyncOn ? vsync_on_txt_ : vsync_off_txt_); }
 
 int OptionsPanel::ProcessEvent() {
 	if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
@@ -30,8 +28,7 @@ int OptionsPanel::ProcessEvent() {
 	} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
 		items_.MoveDown();
 	}
-	if (in.scanKey(DIK_RIGHT) || in.scanAlias(ALIAS_P1_RIGHT) ||
-		in.scanKey(DIK_LEFT) || in.scanAlias(ALIAS_P1_LEFT)) {
+	if (in.scanKey(DIK_RIGHT) || in.scanAlias(ALIAS_P1_RIGHT) || in.scanKey(DIK_LEFT) || in.scanAlias(ALIAS_P1_LEFT)) {
 		vSyncOn = !vSyncOn;
 		RefreshVsync();
 	}

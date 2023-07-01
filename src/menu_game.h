@@ -9,7 +9,7 @@ class MenuGame {
 	OptionsMenu options_menu_;
 	AbstractMenu* active_;
 
-	public:
+   public:
 	MenuGame() : active_(&pause_menu_) {}
 	int Update();  // Retour 0=toujours menu  1=retour jeu  2=quitter
 	void Draw(SDL::Surface* surf) { active_->Draw(surf); }

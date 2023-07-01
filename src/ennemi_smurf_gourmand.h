@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		---------------------------
-*		    EnnemiSmurfGourmand.h
-*		---------------------------
-*
-*		Le schtroumpf de base!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------
+ *		    EnnemiSmurfGourmand.h
+ *		---------------------------
+ *
+ *		Le schtroumpf de base!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -22,18 +22,16 @@
 
 #include "enemy.h"
 
-
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSmurf
 //-----------------------------------------------------------------------------
 
-class EnnemiSmurfGourmand : public Ennemi
-{
-public:
-	int		wait_for_shoot;
-	int		shoot_delay;
-	int		xcible;
-	int		ycible;
+class EnnemiSmurfGourmand : public Ennemi {
+   public:
+	int wait_for_shoot;
+	int shoot_delay;
+	int xcible;
+	int ycible;
 
 	EnnemiSmurfGourmand();
 
@@ -44,5 +42,5 @@ public:
 	virtual void onHold();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

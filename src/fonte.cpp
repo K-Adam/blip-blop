@@ -1,20 +1,20 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  Fonte.h
-*		----------------
-*
-*		Classe Fonte
-*
-*		Affiche du joli texte
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  Fonte.h
+ *		----------------
+ *
+ *		Classe Fonte
+ *
+ *		Affiche du joli texte
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -37,20 +37,19 @@
 
 #ifdef _MSC_VER
 // TODO
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 #endif
 
 using json = nlohmann::json;
 
-
 //-----------------------------------------------------------------------------
 
-bool Fonte::load(const char * fic)
-{
+bool Fonte::load(const char* fic) {
 	auto font_path = asset_path_prefix("lft", fic);
 	std::ifstream input(font_path + ".json");
 	if (!input.good()) {
-		debug << "Fonte::load->Ne peut pas ouvrir " << font_path + ".json" << "\n";
+		debug << "Fonte::load->Ne peut pas ouvrir " << font_path + ".json"
+			  << "\n";
 		return false;
 	}
 
@@ -64,7 +63,6 @@ bool Fonte::load(const char * fic)
 	pictab_.resize(256);
 
 	for (int i = 1; i < 256; i++) {
-
 		auto key = std::to_string(i);
 		if (data["items"].find(key) == data["items"].end()) {
 			continue;
@@ -84,7 +82,6 @@ bool Fonte::load(const char * fic)
 		pictab_[i] = std::make_unique<Picture>();
 		pictab_[i]->SetSurface(new SDL::Surface(surf));
 		pictab_[i]->SetSpot(0, 0);
-
 	}
 
 	filename_ = fic;
@@ -94,18 +91,16 @@ bool Fonte::load(const char * fic)
 
 //-----------------------------------------------------------------------------
 
-void Fonte::print(SDL::Surface * surf, int x, int y, const char * txt)
-{
-	if (txt == NULL)
-		return;
+void Fonte::print(SDL::Surface* surf, int x, int y, const char* txt) {
+	if (txt == NULL) return;
 
-	int		curx;	// X courant
-	int		c;
+	int curx;  // X courant
+	int c;
 
 	curx = x;
 
 	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char) txt[i];
+		c = (unsigned char)txt[i];
 		if (c == ' ') {
 			curx += spc;
 		} else if (pictab_[c] != NULL) {
@@ -115,25 +110,21 @@ void Fonte::print(SDL::Surface * surf, int x, int y, const char * txt)
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 
-void Fonte::printM(SDL::Surface * surf, int x, int y, const char * txt, int ym)
-{
-	if (txt == NULL)
-		return;
+void Fonte::printM(SDL::Surface* surf, int x, int y, const char* txt, int ym) {
+	if (txt == NULL) return;
 
-	int		curx;	// X courant
-	int		cury;	// Y courant
-	int		nx;		// Next x (pour ne pas le calculer 2 fois)
-	unsigned int		c;
+	int curx;  // X courant
+	int cury;  // Y courant
+	int nx;	   // Next x (pour ne pas le calculer 2 fois)
+	unsigned int c;
 
 	curx = x;
 	cury = y;
 
-
 	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char) txt[i];
+		c = (unsigned char)txt[i];
 
 		if (c == ' ') {
 			curx += spc;
@@ -146,7 +137,7 @@ void Fonte::printM(SDL::Surface * surf, int x, int y, const char * txt, int ym)
 				cury += h;
 				pictab_[c]->BlitTo(surf, x, cury);
 				curx = x + pictab_[c]->xSize();
-			} else {	// Non, on continue..
+			} else {  // Non, on continue..
 				pictab_[c]->BlitTo(surf, curx, cury);
 				curx = nx;
 			}
@@ -154,19 +145,16 @@ void Fonte::printM(SDL::Surface * surf, int x, int y, const char * txt, int ym)
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 
-void Fonte::printR(SDL::Surface * surf, int x, int y, const char * txt)
-{
-	if (txt == NULL)
-		return;
+void Fonte::printR(SDL::Surface* surf, int x, int y, const char* txt) {
+	if (txt == NULL) return;
 
-	int		l = 0;	// Longueur en pixels de la chaîne
-	int		c;
+	int l = 0;	// Longueur en pixels de la chaîne
+	int c;
 
 	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char) txt[i];
+		c = (unsigned char)txt[i];
 
 		if (c == ' ')
 			l += spc;
@@ -177,19 +165,16 @@ void Fonte::printR(SDL::Surface * surf, int x, int y, const char * txt)
 	print(surf, x - l, y, txt);
 }
 
-
 //-----------------------------------------------------------------------------
 
-void Fonte::printC(SDL::Surface * surf, int xtaille, int y, const char * txt)
-{
-	if (txt == NULL)
-		return;
+void Fonte::printC(SDL::Surface* surf, int xtaille, int y, const char* txt) {
+	if (txt == NULL) return;
 
-	int		l = 0;	// Longueur en pixels de la chaîne
-	int		c;
+	int l = 0;	// Longueur en pixels de la chaîne
+	int c;
 
 	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char) txt[i];
+		c = (unsigned char)txt[i];
 
 		if (c == ' ')
 			l += spc;
@@ -202,22 +187,20 @@ void Fonte::printC(SDL::Surface * surf, int xtaille, int y, const char * txt)
 
 //-----------------------------------------------------------------------------
 
-void Fonte::printMW(SDL::Surface * surf, int x, int y, const char * srctxt, int ym)
-{
-	static const char delim [] = " ";
+void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym) {
+	static const char delim[] = " ";
 
-	if (srctxt == NULL)
-		return;
+	if (srctxt == NULL) return;
 
-	int		curx;	// X courant
-	int		cury;	// Y courant
-	int		nx;		// Next x (pour ne pas le calculer 2 fois)
+	int curx;  // X courant
+	int cury;  // Y courant
+	int nx;	   // Next x (pour ne pas le calculer 2 fois)
 
 	curx = x;
 	cury = y;
 
-	char * txt = new char[strlen(srctxt) + 1];
-	char * token;
+	char* txt = new char[strlen(srctxt) + 1];
+	char* token;
 
 	strcpy(txt, srctxt);
 	token = strtok(txt, delim);
@@ -240,19 +223,16 @@ void Fonte::printMW(SDL::Surface * surf, int x, int y, const char * srctxt, int 
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 
-int Fonte::width(const char * txt)
-{
-	if (txt == NULL)
-		return 0;
+int Fonte::width(const char* txt) {
+	if (txt == NULL) return 0;
 
-	int		l = 0;	// Longueur en pixels de la chaîne
-	int		c;
+	int l = 0;	// Longueur en pixels de la chaîne
+	int c;
 
 	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char) txt[i];
+		c = (unsigned char)txt[i];
 
 		if (c == ' ')
 			l += spc;
@@ -265,8 +245,7 @@ int Fonte::width(const char * txt)
 
 //-----------------------------------------------------------------------------
 
-bool Fonte::restoreAll()
-{
+bool Fonte::restoreAll() {
 	if (filename_.empty()) {
 		return true;
 	}

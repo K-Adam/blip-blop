@@ -1,19 +1,19 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   Globals.cpp
-*		----------------
-*
-*		Liste de tous les trucs globaux et donc accessibles
-*		pour TOUT LE MONDE.
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   Globals.cpp
+ *		----------------
+ *
+ *		Liste de tous les trucs globaux et donc accessibles
+ *		pour TOUT LE MONDE.
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -50,68 +50,67 @@
 
 #include "ben_debug.h"
 
-#define NB_MAX_PLAT	8
+#define NB_MAX_PLAT 8
 
 //-----------------------------------------------------------------------------
 //		Données sur la configuration
 //-----------------------------------------------------------------------------
 
-int			fps_count			= 0;
-int			fps_current_count	= 0;
+int fps_count = 0;
+int fps_current_count = 0;
 
 //-----------------------------------------------------------------------------
 //		Surfaces
 //-----------------------------------------------------------------------------
 
-SDL::Surface	*	primSurface = NULL;		// Surface primaire
-SDL::Surface	*	backSurface = NULL;		// pointeur sur le double buffer supposé
-SDL::Surface *	systemSurface = NULL;		// Pour optimiser les accès SYSTEM/SYSTEM
-SDL::Surface *	videoA			= NULL;		// cache video
+SDL::Surface* primSurface = NULL;	 // Surface primaire
+SDL::Surface* backSurface = NULL;	 // pointeur sur le double buffer supposé
+SDL::Surface* systemSurface = NULL;	 // Pour optimiser les accès SYSTEM/SYSTEM
+SDL::Surface* videoA = NULL;		 // cache video
 
 //-----------------------------------------------------------------------------
 //		Données scroll et positions
 //-----------------------------------------------------------------------------
 
-int			offset;				// offset courant du scroll
-int			scr_offset;			// = offset % 640
+int offset;		 // offset courant du scroll
+int scr_offset;	 // = offset % 640
 
-int			scroll_speed;
+int scroll_speed;
 
-bool		scroll_locked;
-int			x_lock;
-int			cond_end_lock;
-int			flag_end_lock;
-int			val_end_lock;
+bool scroll_locked;
+int x_lock;
+int cond_end_lock;
+int flag_end_lock;
+int val_end_lock;
 
-bool		no_scroll1;
-bool		no_scroll2;
+bool no_scroll1;
+bool no_scroll2;
 
 //-----------------------------------------------------------------------------
 //		Données sur le niveau
 //-----------------------------------------------------------------------------
 
-size_t			scr_level_size;		// taille en écran du niveau
-size_t			level_size;			// taille en pixels du niveau
-int	*		num_decor	= NULL;	// Numéro ecran courant -> surface à utiliser
+size_t scr_level_size;	// taille en écran du niveau
+size_t level_size;		// taille en pixels du niveau
+int* num_decor = NULL;	// Numéro ecran courant -> surface à utiliser
 
+int32_t** y_plat = NULL;  // Plateformes (ordonnées)
 
-int32_t **		y_plat		= NULL;	// Plateformes (ordonnées)
-
-bool **		murs_opaques;		// Murs opaques (=true)
-bool **		murs_sanglants;		// Murs sanglants (=true)
+bool** murs_opaques;	// Murs opaques (=true)
+bool** murs_sanglants;	// Murs sanglants (=true)
 
 //-----------------------------------------------------------------------------
 //		Pour les controles
 //-----------------------------------------------------------------------------
 
-ControlP1	ctrlP1;
-ControlP2	ctrlP2;
+ControlP1 ctrlP1;
+ControlP2 ctrlP2;
 
 //-----------------------------------------------------------------------------
 //		Les listes
 //-----------------------------------------------------------------------------
 
-std::vector<Couille*> list_joueurs; // FIXME: make it owning?
+std::vector<Couille*> list_joueurs;	 // FIXME: make it owning?
 std::list<TirBB*> list_tirs_bb;
 std::list<std::unique_ptr<TirBBVache>> list_cow;
 std::list<std::unique_ptr<Explosion>> list_impacts;
@@ -141,112 +140,104 @@ std::list<std::unique_ptr<Sprite>> list_gore;
 std::list<Sprite*> list_meteo;
 std::list<std::unique_ptr<Bulle>> list_bulles;
 
-
 //-----------------------------------------------------------------------------
 //		Données sur les actions à faire
 //-----------------------------------------------------------------------------
 
-bool			phase;			// Pour les clignotements
-bool			slow_phase;
+bool phase;	 // Pour les clignotements
+bool slow_phase;
 
-int				game_flag[11];
+int game_flag[11];
 
-bool			hold_fire;
-int				flag_hold_fire;
-int				val_hold_fire;
+bool hold_fire;
+int flag_hold_fire;
+int val_hold_fire;
 
-int				rpg_to_play = -1;	// Le numéro de la phase RPG à actionner (-1:aucune)
+int rpg_to_play = -1;  // Le numéro de la phase RPG à actionner (-1:aucune)
 
-int				nb_ennemis_created;
+int nb_ennemis_created;
 
-int				intensite_meteo;
-int				type_meteo;
+int intensite_meteo;
+int type_meteo;
 
-int				dy_tremblement = 0;
-int				etape_tremblement = 0;
-int				amplitude_tremblement = 0;
-int				ddy_tremblement = 0;
+int dy_tremblement = 0;
+int etape_tremblement = 0;
+int amplitude_tremblement = 0;
+int ddy_tremblement = 0;
 
-bool			total_debug = false;
+bool total_debug = false;
 
-bool			okBonus;
-bool			cowBombOn;
-bool			okLanceFlame;
-
+bool okBonus;
+bool cowBombOn;
+bool okLanceFlame;
 
 //-----------------------------------------------------------------------------
 //		Les Picture Banks
 //-----------------------------------------------------------------------------
 
-PictureBank		pbk_decor;	// pbk des décors
-PictureBank		pbk_blip;	// pbk de blip
-PictureBank		pbk_blop;
-PictureBank		pbk_bb;		// pbk commune à blip et blop
-PictureBank		pbk_misc;	// pbk globale du jeu (bonus & co)
-PictureBank		pbk_ennemis;// pbk des ennemis
-PictureBank		pbk_niveau;	// pbk du niveau (fonds animes & co)
-PictureBank		pbk_rpg;	// Gueules des RPGs du niveau
-PictureBank		pbk_rpg_bb; // Les gueules de Blip et Blop
-PictureBank		pbk_inter;	// L'interface
+PictureBank pbk_decor;	// pbk des décors
+PictureBank pbk_blip;	// pbk de blip
+PictureBank pbk_blop;
+PictureBank pbk_bb;		  // pbk commune à blip et blop
+PictureBank pbk_misc;	  // pbk globale du jeu (bonus & co)
+PictureBank pbk_ennemis;  // pbk des ennemis
+PictureBank pbk_niveau;	  // pbk du niveau (fonds animes & co)
+PictureBank pbk_rpg;	  // Gueules des RPGs du niveau
+PictureBank pbk_rpg_bb;	  // Les gueules de Blip et Blop
+PictureBank pbk_inter;	  // L'interface
 
 //-----------------------------------------------------------------------------
 //		Les Sounds Banks
 //-----------------------------------------------------------------------------
 
-SoundBankBB		sbk_bb;		// Sons BB/divers communs à tous les niveaux
-SoundBankBB		sbk_rpg;	// Les musiques des scènes RPG
-SoundBankBB		sbk_misc;
-SoundBankBB		sbk_niveau;
+SoundBankBB sbk_bb;	  // Sons BB/divers communs à tous les niveaux
+SoundBankBB sbk_rpg;  // Les musiques des scènes RPG
+SoundBankBB sbk_misc;
+SoundBankBB sbk_niveau;
 
-MusicBank		mbk_niveau;
-MusicBank		mbk_inter;
-MusicBank		mbk_interl;
+MusicBank mbk_niveau;
+MusicBank mbk_inter;
+MusicBank mbk_interl;
 
-char			current_sbk[200];			// Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char			current_sbk_misc[200];		// Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char			current_sbk_niveau[200];	// Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char			current_mbk[200];			// Nom de la MBK courante pour pouvoir la recharger si on enlève puis remet le son
-int				current_zik;				// Numéro de la zik jouée
+char current_sbk[200];		   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
+char current_sbk_misc[200];	   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
+char current_sbk_niveau[200];  // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
+char current_mbk[200];		   // Nom de la MBK courante pour pouvoir la recharger si on enlève puis remet le son
+int current_zik;			   // Numéro de la zik jouée
 
 //-----------------------------------------------------------------------------
 //		Les Fontes
 //-----------------------------------------------------------------------------
 
-Fonte			fnt_score_blip;
-Fonte			fnt_score_blop;
-Fonte			fnt_ammo;
-Fonte			fnt_ammo_used;
-Fonte			fnt_cool;
-Fonte			fnt_rpg;
-Fonte			fnt_menu;
-Fonte			fnt_menus;
+Fonte fnt_score_blip;
+Fonte fnt_score_blop;
+Fonte fnt_ammo;
+Fonte fnt_ammo_used;
+Fonte fnt_cool;
+Fonte fnt_rpg;
+Fonte fnt_menu;
+Fonte fnt_menus;
 
 //-----------------------------------------------------------------------------
 //		Les fonctions cool
 //-----------------------------------------------------------------------------
 
-
-void tremblement(int amp)
-{
+void tremblement(int amp) {
 	amplitude_tremblement = amp;
 	ddy_tremblement = (amp >> 1) + 1;
 	dy_tremblement = -amp;
 	etape_tremblement = 0;
 }
 
+int plat(int x, int y) {
+	if (x < 0 || x >= (int)level_size || y >= 480) return 0;
 
-int	plat(int x, int y)
-{
-	if (x < 0 || x >= (int)level_size || y >= 480)
-		return 0;
-
-	int	tmp;
+	int tmp;
 
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
 		tmp = y_plat[i][x];
 
-		if (y >= tmp && y <= tmp + 10)
-			return tmp;
+		if (y >= tmp && y <= tmp + 10) return tmp;
 	}
 	/*
 		if ( mur_opaque( x, y))
@@ -255,52 +246,42 @@ int	plat(int x, int y)
 	return 0;
 }
 
-int	plat2(int x, int y)
-{
-	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
-		return -1;
+int plat2(int x, int y) {
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return -1;
 
-	int	tmp;
+	int tmp;
 
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
 		tmp = y_plat[i][x];
 
-		if (y >= tmp && y <= tmp + 10)
-			return i;
+		if (y >= tmp && y <= tmp + 10) return i;
 	}
 
 	return -1;
 }
 
-bool mur_opaque(int x, int y)
-{
-	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
-		return false;
+bool mur_opaque(int x, int y) {
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return false;
 
 	return murs_opaques[y / 8][x / 8];
 }
 
-
-bool mur_sanglant(int x, int y)
-{
-	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480)
-		return false;
+bool mur_sanglant(int x, int y) {
+	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return false;
 
 	return murs_sanglants[y / 8][x / 8];
 }
 
-inline void clipedBlit(SDL::Surface * surf, const Picture * pic, int x, int y, Rect * clip)
-{
-	if (pic == NULL)
-		return;
+inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rect* clip) {
+	if (pic == NULL) return;
 
-	Rect	r;
-	int		x1;
-	int		y1;
-	int		x2;
-	int		y2;
-	int		xs = pic->xSize();
-	int		ys = pic->ySize();
+	Rect r;
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+	int xs = pic->xSize();
+	int ys = pic->ySize();
 
 	x1 = x - pic->xSpot();
 	y1 = y - pic->ySpot();
@@ -308,8 +289,7 @@ inline void clipedBlit(SDL::Surface * surf, const Picture * pic, int x, int y, R
 	x2 = x1 + xs;
 	y2 = y1 + ys;
 
-	if (x2 < clip->left || x1 > clip->right || y1 > clip->bottom || y2 < clip->top)
-		return;
+	if (x2 < clip->left || x1 > clip->right || y1 > clip->bottom || y2 < clip->top) return;
 
 	if (x1 < clip->left) {
 		r.left = clip->left - x1;
@@ -336,35 +316,30 @@ inline void clipedBlit(SDL::Surface * surf, const Picture * pic, int x, int y, R
 	surf->BltFast(x1, y1, pic->Surf(), &r, DDBLTFAST_WAIT | DDBLTFAST_SRCCOLORKEY);
 }
 
-bool grave(int x, int y, Picture * pic)
-{
-	if (pic == NULL || x > (offset + vbuffer_wide - pic->xSize()))
-		return false;
+bool grave(int x, int y, Picture* pic) {
+	if (pic == NULL || x > (offset + vbuffer_wide - pic->xSize())) return false;
 
-	FondStatique	s;
+	FondStatique s;
 
-	s.x		= x;
-	s.y		= y;
-	s.pic	= pic;
+	s.x = x;
+	s.y = y;
+	s.pic = pic;
 
 	s.colFromPic();
 
 	for (auto& s2 : list_fonds_animes) {
-		if (s.collision(s2.get()))
-			return false;
+		if (s.collision(s2.get())) return false;
 	}
 
 	for (auto& s2 : list_plateformes_mobiles) {
-		if (s.collision(s2.get()))
-			return false;
+		if (s.collision(s2.get())) return false;
 	}
 
+	Rect r;
+	int ni = x / /*640;*/ vbuffer_wide;
+	//	int		no = offset / vbuffer_wide;
 
-	Rect	r;
-	int		ni = x / /*640;*/vbuffer_wide;
-//	int		no = offset / vbuffer_wide;
-
-	r.top	= 0;
+	r.top = 0;
 	r.bottom = 480;
 
 	x %= vbuffer_wide;
@@ -398,25 +373,20 @@ bool grave(int x, int y, Picture * pic)
 	return false;
 }
 
-bool checkRestore()
-{
+bool checkRestore() {
 	if (!active) {
 		debug << "Blip'n Blop 3 has been desactivated\n";
 
-		while (!active && !app_killed)
-			manageMsg();
+		while (!active && !app_killed) manageMsg();
 
-
-		for (int i = 0; i < 10; i++)
-			manageMsg();
+		for (int i = 0; i < 10; i++) manageMsg();
 
 		debug << "Blip'n Blop 3 is active again\n";
 
 		if (primSurface->IsLost()) {
 			debug << "Restoring lost surfaces...";
 
-			if (RestoreAll())
-				debug << "ok\n";
+			if (RestoreAll()) debug << "ok\n";
 		}
 
 		return true;

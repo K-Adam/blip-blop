@@ -28,12 +28,8 @@ struct RenderRect {
 
 typedef RenderRect DDBLTFX;
 
-constexpr int RGB(uint8_t r, uint8_t g, uint8_t b) {
-	return r | (g << 8) | (b << 16);
-}
-constexpr int RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-	return r | (g << 8) | (b << 16) | (a << 24);
-}
+constexpr int RGB(uint8_t r, uint8_t g, uint8_t b) { return r | (g << 8) | (b << 16); }
+constexpr int RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return r | (g << 8) | (b << 16) | (a << 24); }
 
 #include "sdl_surface.h"
 #include "sdl_texture.h"
@@ -49,11 +45,11 @@ constexpr int RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 #define DDBLT_COLORFILL (0x1 << 2)
 
 namespace SDL {
-	class Surface;
+class Surface;
 }
 
 class Graphics {
-	private:
+   private:
 	struct WindowDeleter {
 		void operator()(SDL_Window* ptr) { SDL_DestroyWindow(ptr); }
 	};
@@ -68,7 +64,7 @@ class Graphics {
 	int y_;
 	int d_;
 
-	public:
+   public:
 	void Init();
 	void SetGfxMode(int x, int y, int d, bool fullscreen = true);
 	void ToggleFullscreen();

@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   TirBouleChaman.h
-*		----------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   TirBouleChaman.h
+ *		----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,30 +25,19 @@
 //		Définition de la classe Tir
 //-----------------------------------------------------------------------------
 
-class TirBouleChaman : public Tir
-{
-public:
-	int		dx;
-	bool	ok;
-	bool	boom;
+class TirBouleChaman : public Tir {
+   public:
+	int dx;
+	bool ok;
+	bool boom;
 
 	TirBouleChaman();
 
-	virtual int degats() const
-	{
-		return 1;
-	};
+	virtual int degats() const { return 1; };
 
-	virtual int enflame() const
-	{
-		return 0;
-	};
+	virtual int enflame() const { return 0; };
 
-	virtual void setDir(int d)
-	{
-		dir = d;
-	};
+	virtual void setDir(int d) { dir = d; };
 
 	virtual void update();
-
 };

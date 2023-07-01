@@ -1,32 +1,27 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EnnemiComHeros.cpp
-*		----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 14 Janvier 2001
-*
-*
-*
-******************************************************************/
-
-
+ *
+ *
+ *		----------------------
+ *		  EnnemiComHeros.cpp
+ *		----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 14 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_com_heros.h"
 
-
-EnnemiComHeros::EnnemiComHeros(): dorkeball(2)
-{
+EnnemiComHeros::EnnemiComHeros() : dorkeball(2) {
 	pv = 1000;
 	dy = -8;
 	dx = -2;
 }
 
-void EnnemiComHeros::update()
-{
+void EnnemiComHeros::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		tombe();
@@ -40,19 +35,19 @@ void EnnemiComHeros::update()
 			dorkeball = 1;
 			return;
 		} else {
-			ss_etape ++;
+			ss_etape++;
 			ss_etape %= 5;
 			if (ss_etape == 0) {
-				etape ++;
+				etape++;
 				etape %= 4;
 			}
 			pic = pbk_ennemis[272 + etape];
 		}
 	} else if (dorkeball == 1) {
-		ss_etape ++;
+		ss_etape++;
 		ss_etape %= 8;
 		if (ss_etape == 0) {
-			etape ++;
+			etape++;
 			if (etape > 3) {
 				dorkeball = 0;
 				etape = 0;
@@ -63,15 +58,13 @@ void EnnemiComHeros::update()
 		}
 
 	} else {
-		if (blood > 0)
-			blood -= 1;
+		if (blood > 0) blood -= 1;
 
 		switch (etat) {
 			case ETAT_NORMAL:
 			case ETAT_AVANCE:
 				onAvance();
 				break;
-
 
 			case ETAT_MEURE:
 			case ETAT_CARBONISE:
@@ -83,8 +76,7 @@ void EnnemiComHeros::update()
 	}
 }
 
-void EnnemiComHeros::onAvance()
-{
+void EnnemiComHeros::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -113,26 +105,20 @@ void EnnemiComHeros::onAvance()
 	colFromPic();
 }
 
-void EnnemiComHeros::onMeure()
-{
+void EnnemiComHeros::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 4;
 
-	if (ss_etape == 0 && etape < 22)
-		etape += 1;
+	if (ss_etape == 0 && etape < 22) etape += 1;
 
 	if (etape >= 22) {
-		game_flag[1] --;
+		game_flag[1]--;
 		a_detruire = true;
 	} else {
 		pic = pbk_ennemis[358 + etape];
 	}
 }
 
-
-void EnnemiComHeros::estTouche(Tir * tir)
-{
-	Ennemi::estTouche(tir);
-}
+void EnnemiComHeros::estTouche(Tir* tir) { Ennemi::estTouche(tir); }

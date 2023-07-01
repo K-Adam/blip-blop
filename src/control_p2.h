@@ -1,20 +1,20 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  ControlP2.h
-*		----------------
-*
-*		Classe ControlorP2
-*
-*		Sert d'intermédiaire entre Blip/Blop et le joueur 1
-*
-*
-*		Prosper / LOADED -   V 0.1
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  ControlP2.h
+ *		----------------
+ *
+ *		Classe ControlorP2
+ *
+ *		Sert d'intermédiaire entre Blip/Blop et le joueur 1
+ *
+ *
+ *		Prosper / LOADED -   V 0.1
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -30,42 +30,20 @@
 //		Définition de la classe ControlP2
 //-----------------------------------------------------------------------------
 
-class ControlP2 : public Controlor
-{
-protected:
-public:
-	virtual int gauche() const
-	{
-		return in.scanAlias(ALIAS_P2_LEFT);
-	};
+class ControlP2 : public Controlor {
+   protected:
+   public:
+	virtual int gauche() const { return in.scanAlias(ALIAS_P2_LEFT); };
 
-	virtual int haut() const
-	{
-		return in.scanAlias(ALIAS_P2_UP);
-	};
+	virtual int haut() const { return in.scanAlias(ALIAS_P2_UP); };
 
-	virtual int droite() const
-	{
-		return in.scanAlias(ALIAS_P2_RIGHT);
-	};
+	virtual int droite() const { return in.scanAlias(ALIAS_P2_RIGHT); };
 
-	virtual int bas() const
-	{
-		return in.scanAlias(ALIAS_P2_DOWN);
-	};
+	virtual int bas() const { return in.scanAlias(ALIAS_P2_DOWN); };
 
-	virtual int fire() const
-	{
-		return in.scanAlias(ALIAS_P2_FIRE);
-	};
+	virtual int fire() const { return in.scanAlias(ALIAS_P2_FIRE); };
 
-	virtual int saut() const
-	{
-		return in.scanAlias(ALIAS_P2_JUMP);
-	};
+	virtual int saut() const { return in.scanAlias(ALIAS_P2_JUMP); };
 
-	virtual int super() const
-	{
-		return in.scanAlias(ALIAS_P2_SUPER);
-	};
+	virtual int super() const { return in.scanAlias(ALIAS_P2_SUPER); };
 };

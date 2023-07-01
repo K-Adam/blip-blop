@@ -46,7 +46,8 @@ bool SoundBank::loadSFX(const char* nom_fic) {
 	auto dir = asset_path_prefix("sfx", nom_fic);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "SoundBank::loadSFX() -> Impossible d'ouvrir le fichier " << dir + ".json" << "\n";
+		debug << "SoundBank::loadSFX() -> Impossible d'ouvrir le fichier " << dir + ".json"
+			  << "\n";
 		return false;
 	}
 

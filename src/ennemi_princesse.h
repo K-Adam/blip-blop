@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiPrincesse.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.9 - 31 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiPrincesse.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.9 - 31 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -23,17 +23,16 @@
 //		Définition de la classe EnnemiPrincesse
 //----------------------------------------------------------------------------
 
-class EnnemiPrincesse : public Ennemi
-{
-private:
+class EnnemiPrincesse : public Ennemi {
+   private:
 	bool avance;
 	bool aide;
 
-public:
+   public:
 	EnnemiPrincesse();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

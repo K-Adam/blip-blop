@@ -1,26 +1,25 @@
 
 /******************************************************************
-*
-*
-*		-----------------------
-*		   GoreGiclure.cpp
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 01 Mars 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		   GoreGiclure.cpp
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 01 Mars 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "gore_giclure.h"
 
-//implementation de la classe GoreGiclure
+// implementation de la classe GoreGiclure
 
-GoreGiclure::GoreGiclure(int vx, int vy): dx(vx)
-{
-	dy  = vy;
+GoreGiclure::GoreGiclure(int vx, int vy) : dx(vx) {
+	dy = vy;
 
 	if ((dx > -2) && (dx < 0)) {
 		dx = -2;
@@ -51,15 +50,13 @@ GoreGiclure::GoreGiclure(int vx, int vy): dx(vx)
 	}
 }
 
-void GoreGiclure::update()
-{
+void GoreGiclure::update() {
 	int decalage;
 	if (dx < 0) {
 		decalage = 0;
 	} else {
 		decalage = 7;
 	}
-
 
 	if (dy >= 6) {
 		pic = pbk_misc[92 + decalage];

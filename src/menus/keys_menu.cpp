@@ -10,20 +10,12 @@
 KeysMenu::KeysMenu(int nb_player) {
 	player_ = nb_player;
 	if (nb_player == 1) {
-		dat_ = {std::make_tuple(0, TXT_UP, ALIAS_P1_UP),
-				std::make_tuple(1, TXT_DOWN, ALIAS_P1_DOWN),
-				std::make_tuple(2, TXT_LEFT, ALIAS_P1_LEFT),
-				std::make_tuple(3, TXT_RIGHT, ALIAS_P1_RIGHT),
-				std::make_tuple(4, TXT_FIRE, ALIAS_P1_FIRE),
-				std::make_tuple(5, TXT_JUMP, ALIAS_P1_JUMP),
+		dat_ = {std::make_tuple(0, TXT_UP, ALIAS_P1_UP),		std::make_tuple(1, TXT_DOWN, ALIAS_P1_DOWN), std::make_tuple(2, TXT_LEFT, ALIAS_P1_LEFT),
+				std::make_tuple(3, TXT_RIGHT, ALIAS_P1_RIGHT),	std::make_tuple(4, TXT_FIRE, ALIAS_P1_FIRE), std::make_tuple(5, TXT_JUMP, ALIAS_P1_JUMP),
 				std::make_tuple(6, TXT_SPECIAL, ALIAS_P1_SUPER)};
 	} else if (nb_player == 2) {
-		dat_ = {std::make_tuple(0, TXT_UP, ALIAS_P2_UP),
-				std::make_tuple(1, TXT_DOWN, ALIAS_P2_DOWN),
-				std::make_tuple(2, TXT_LEFT, ALIAS_P2_LEFT),
-				std::make_tuple(3, TXT_RIGHT, ALIAS_P2_RIGHT),
-				std::make_tuple(4, TXT_FIRE, ALIAS_P2_FIRE),
-				std::make_tuple(5, TXT_JUMP, ALIAS_P2_JUMP),
+		dat_ = {std::make_tuple(0, TXT_UP, ALIAS_P2_UP),		std::make_tuple(1, TXT_DOWN, ALIAS_P2_DOWN), std::make_tuple(2, TXT_LEFT, ALIAS_P2_LEFT),
+				std::make_tuple(3, TXT_RIGHT, ALIAS_P2_RIGHT),	std::make_tuple(4, TXT_FIRE, ALIAS_P2_FIRE), std::make_tuple(5, TXT_JUMP, ALIAS_P2_JUMP),
 				std::make_tuple(6, TXT_SPECIAL, ALIAS_P2_SUPER)};
 	} else {
 		throw std::invalid_argument("nb_player can be only 1 or 2");
@@ -36,13 +28,10 @@ KeysMenu::KeysMenu(int nb_player) {
 	items_.AddEntry(txt_data[TXT_RETURN]);
 }
 
-std::string KeysMenu::WaitText(int n) const {
-	return txt_data[std::get<1>(dat_[n])] + " = ...";
-}
+std::string KeysMenu::WaitText(int n) const { return txt_data[std::get<1>(dat_[n])] + " = ..."; }
 std::string KeysMenu::KeyText(int n) const {
 	auto& k = dat_[n];
-	return txt_data[std::get<1>(k)] + " = " +
-			DIK_to_string(in.getAlias(std::get<2>(k)));
+	return txt_data[std::get<1>(k)] + " = " + DIK_to_string(in.getAlias(std::get<2>(k)));
 }
 
 void KeysMenu::EditKey() {

@@ -2,13 +2,9 @@
 #include "enemy.h"
 #include "tir_nuage.h"
 
-TirNuage::TirNuage() : etape_shoot(0), etat(0), eclair(0), delta_eclair(0)
-{
-	duree_vie = 600 + rand() % 400;
-}
+TirNuage::TirNuage() : etape_shoot(0), etat(0), eclair(0), delta_eclair(0) { duree_vie = 600 + rand() % 400; }
 
-void TirNuage::update()
-{
+void TirNuage::update() {
 	switch (etat) {
 		case 0:
 			onCreation();
@@ -30,8 +26,7 @@ void TirNuage::update()
 	updateADetruire();
 }
 
-void TirNuage::onCreation()
-{
+void TirNuage::onCreation() {
 	static const int SPEED = 1;
 
 	ss_etape += 1;
@@ -40,13 +35,11 @@ void TirNuage::onCreation()
 	if (dir == SENS_DROITE) {
 		x += SPEED;
 
-		if (x > offset + 600)
-			dir = SENS_GAUCHE;
+		if (x > offset + 600) dir = SENS_GAUCHE;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30)
-			dir = SENS_DROITE;
+		if (x < offset + 30) dir = SENS_DROITE;
 	}
 
 	if (ss_etape == 0) {
@@ -63,8 +56,7 @@ void TirNuage::onCreation()
 	noCol();
 }
 
-void TirNuage::onDestruction()
-{
+void TirNuage::onDestruction() {
 	static const int SPEED = 1;
 
 	ss_etape += 1;
@@ -87,9 +79,8 @@ void TirNuage::onDestruction()
 	noCol();
 }
 
-void TirNuage::onNormal()
-{
-	static const int anim [] = { 253, 254, 255, 254 };
+void TirNuage::onNormal() {
+	static const int anim[] = {253, 254, 255, 254};
 	static const int SPEED = 1;
 
 	duree_vie -= 1;
@@ -99,25 +90,21 @@ void TirNuage::onNormal()
 		etat = 2;
 	}
 
-
 	pic = pbk_ennemis[anime(anim, 4, 9)];
-
 
 	if (dir == SENS_DROITE) {
 		x += SPEED;
 
-		if (x > offset + 600)
-			dir = SENS_GAUCHE;
+		if (x > offset + 600) dir = SENS_GAUCHE;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30)
-			dir = SENS_DROITE;
+		if (x < offset + 30) dir = SENS_DROITE;
 	}
 
 	if (etape_shoot == 0) {
 		if (tete_turc != NULL && tete_turc->y > y) {
-			int	ddx = x - tete_turc->x;
+			int ddx = x - tete_turc->x;
 
 			if (ddx > -10 && ddx < 10) {
 				etape_shoot = 0;
@@ -131,10 +118,8 @@ void TirNuage::onNormal()
 	noCol();
 }
 
-
-void TirNuage::onTire()
-{
-	static const int anim [] = { 253, 254, 255, 254 };
+void TirNuage::onTire() {
+	static const int anim[] = {253, 254, 255, 254};
 	static const int SPEED = 1;
 
 	delta_eclair += 1;
@@ -151,7 +136,6 @@ void TirNuage::onTire()
 		etape = ss_etape = 0;
 		etat = 2;
 	}
-
 
 	pic = pbk_ennemis[anime(anim, 4, 9)];
 
@@ -176,8 +160,7 @@ void TirNuage::onTire()
 	dy = rand() % 20;
 }
 
-void TirNuage::affiche()
-{
+void TirNuage::affiche() {
 	int de = eclair;
 
 	if (etat == 3 && etape_shoot > 50) {

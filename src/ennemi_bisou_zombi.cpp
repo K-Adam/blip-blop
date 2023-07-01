@@ -2,26 +2,22 @@
 #include "ennemi_bisou_zombi.h"
 #include "gore_pied_bisou_zombi.h"
 
-#define ETAT_CARBONISE_HAUT	102
+#define ETAT_CARBONISE_HAUT 102
 
-#define	ETAT_RAMPE	100
-#define ETAT_COUPE	101
+#define ETAT_RAMPE 100
+#define ETAT_COUPE 101
 
-static int etape_moan	= 199;
-static int num_moan		= 0;
+static int etape_moan = 199;
+static int num_moan = 0;
 static bool local_phase;
 
-EnnemiBisouZombi::EnnemiBisouZombi() : etape2(0)
-{
+EnnemiBisouZombi::EnnemiBisouZombi() : etape2(0) {
 	pv = 1000;
 	tresor = 10;
 }
 
-
-void EnnemiBisouZombi::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiBisouZombi::update() {
+	if (blood > 0) blood -= 1;
 
 	if (game_flag[0] == 7 && etat != ETAT_CARBONISE && etat != ETAT_CARBONISE_HAUT) {
 		etape = ss_etape = 0;
@@ -80,8 +76,7 @@ void EnnemiBisouZombi::update()
 	updateADetruire();
 }
 
-void EnnemiBisouZombi::onAvance()
-{
+void EnnemiBisouZombi::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -116,12 +111,11 @@ void EnnemiBisouZombi::onAvance()
 	colFromPic();
 }
 
-void EnnemiBisouZombi::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 7, 10, 7, 0, -7, -10, -7 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiBisouZombi::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	static const int dy_giclure2 [] = { 0, -10, -10, -10, -20, -10, -10, -10 };
+	static const int dy_giclure2[] = {0, -10, -10, -10, -20, -10, -10, -10};
 
 	int back_etat = etat;
 	int back_etape = etape;
@@ -172,21 +166,17 @@ void EnnemiBisouZombi::estTouche(Tir * tir)
 		}
 	}
 
-
 	if (etat == ETAT_RAMPE)
 		gicle(tir, dx_giclure, dy_giclure2);
 	else
 		gicle(tir, dx_giclure, dy_giclure);
 }
 
-
-void EnnemiBisouZombi::onTombe()
-{
+void EnnemiBisouZombi::onTombe() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 3)
-		etape += 1;
+	if (ss_etape == 0 && etape < 3) etape += 1;
 
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[308 + etape];
@@ -206,21 +196,18 @@ void EnnemiBisouZombi::onTombe()
 	}
 }
 
-void EnnemiBisouZombi::onMeure()
-{
+void EnnemiBisouZombi::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 3)
-		etape += 1;
+	if (ss_etape == 0 && etape < 3) etape += 1;
 
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[292 + etape];
 	else
 		pic = pbk_ennemis[296 + etape];
-
 
 	if (etape >= 3) {
 		grave(x, y, pic);
@@ -228,18 +215,16 @@ void EnnemiBisouZombi::onMeure()
 	}
 }
 
-void EnnemiBisouZombi::onCoupe()
-{
+void EnnemiBisouZombi::onCoupe() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 4) {
-		GorePiedsBisouZombi * pieds = new GorePiedsBisouZombi();
+		GorePiedsBisouZombi* pieds = new GorePiedsBisouZombi();
 
 		pieds->x = x;
 		pieds->dir = dir;
@@ -261,10 +246,9 @@ void EnnemiBisouZombi::onCoupe()
 	}
 }
 
-void EnnemiBisouZombi::onRampe()
-{
-	static const int anim_droite [] = { 286, 287, 288, 287 };
-	static const int anim_gauche [] = { 289, 290, 291, 290 };
+void EnnemiBisouZombi::onRampe() {
+	static const int anim_droite[] = {286, 287, 288, 287};
+	static const int anim_gauche[] = {289, 290, 291, 290};
 	static const int SPEED = 1;
 
 	if (pv <= 0) {
@@ -302,8 +286,7 @@ void EnnemiBisouZombi::onRampe()
 		pic = pbk_ennemis[anime(anim_gauche, 4, 16)];
 }
 
-void EnnemiBisouZombi::onCarbonise()
-{
+void EnnemiBisouZombi::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -322,8 +305,7 @@ void EnnemiBisouZombi::onCarbonise()
 		pic = pbk_ennemis[612 + etape];
 }
 
-void EnnemiBisouZombi::onCarboniseHaut()
-{
+void EnnemiBisouZombi::onCarboniseHaut() {
 	ss_etape += 1;
 	ss_etape %= 4;
 

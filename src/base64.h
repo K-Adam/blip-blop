@@ -6,10 +6,11 @@
 #include <string>
 
 inline std::string get_base64_chars() {
-		static std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-																	"abcdefghijklmnopqrstuvwxyz"
-																	"0123456789+/";
-		return base64_chars;
+	static std::string base64_chars =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz"
+		"0123456789+/";
+	return base64_chars;
 }
 
 inline std::string to_base64(std::string const &data) {

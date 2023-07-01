@@ -2,11 +2,9 @@
 
 #include "sprite.h"
 
-class FondTournesol1 : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondTournesol1 : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 10;
 

@@ -1,17 +1,14 @@
 #include "ennemi_pic.h"
 
-
-EnnemiPic::EnnemiPic(): y_origine(0)
-{
+EnnemiPic::EnnemiPic() : y_origine(0) {
 	pv = 1;
 	pic = pbk_ennemis[168];
 }
 
-void EnnemiPic::update()
-{
+void EnnemiPic::update() {
 	if ((game_flag[0] == 3) || (game_flag[0] == 2)) {
 		if (-104 > y_origine) {
-			//les pics sont sortis inutiles de les faire monter plus
+			// les pics sont sortis inutiles de les faire monter plus
 		} else if (-96 > y_origine) {
 			y -= 1;
 			y_origine -= 1;
@@ -55,9 +52,8 @@ void EnnemiPic::update()
 			y += 1;
 			y_origine += 1;
 		} else {
-			//les pics sont rentrés donc on peut les detruires....
-			for (int i = 28; i <= 55; i++)
-				murs_opaques[i][108] = false;
+			// les pics sont rentrés donc on peut les detruires....
+			for (int i = 28; i <= 55; i++) murs_opaques[i][108] = false;
 
 			a_detruire = true;
 		}
@@ -65,42 +61,34 @@ void EnnemiPic::update()
 	}
 }
 
-
-
-void EnnemiPic::affiche()
-{
-	//Sprite::affiche();
-	SDL::Surface *	surf;
-	int						xs;
-	int						ys;
-	Rect					r;
-	//int						largeur;
-
+void EnnemiPic::affiche() {
+	// Sprite::affiche();
+	SDL::Surface* surf;
+	int xs;
+	int ys;
+	Rect r;
+	// int						largeur;
 
 	surf = pbk_ennemis[168]->Surf();
 	xs = pbk_ennemis[168]->xSize();
 	ys = pbk_ennemis[168]->ySize();
 
-	r.top		= 0 ;
-	r.left		= 0;
+	r.top = 0;
+	r.left = 0;
 
+	// largeur = 39;
 
-	//largeur = 39;
+	r.right = 39;
+	r.bottom = -y_origine;
 
-	r.right		= 39;
-	r.bottom	= -y_origine;
-
-	backSurface->BltFast(x - offset , y , surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
+	backSurface->BltFast(x - offset, y, surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
 }
 
-void EnnemiPic::colFromPic()
-{
+void EnnemiPic::colFromPic() {
 	Sprite::colFromPic();
 
 	x2 += 25;
 	x1 += 25;
 }
 
-void EnnemiPic::estTouche(Tir * tir)
-{
-}
+void EnnemiPic::estTouche(Tir* tir) {}

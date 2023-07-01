@@ -1,16 +1,10 @@
 
 #include "ennemi_bulbizarre.h"
 
-EnnemiBulbizarre::EnnemiBulbizarre()
-{
-	pv = 100;
-}
+EnnemiBulbizarre::EnnemiBulbizarre() { pv = 100; }
 
-
-void EnnemiBulbizarre::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiBulbizarre::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -30,9 +24,7 @@ void EnnemiBulbizarre::update()
 	updateADetruire();
 }
 
-
-void EnnemiBulbizarre::onAvance()
-{
+void EnnemiBulbizarre::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -58,26 +50,21 @@ void EnnemiBulbizarre::onAvance()
 		pic = pbk_ennemis[26 + etape];
 	}
 
-
 	colFromPic();
 }
 
-
-void EnnemiBulbizarre::onMeure()
-{
+void EnnemiBulbizarre::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0 && etape < 8)
-		etape += 1;
+	if (ss_etape == 0 && etape < 8) etape += 1;
 
 	if (etape >= 8) {
-		int		yy = plat(x, y);
+		int yy = plat(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x])
-			grave(x, y, pic);
+		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
 
 		a_detruire = true;
 	} else {
@@ -88,13 +75,11 @@ void EnnemiBulbizarre::onMeure()
 	}
 }
 
-void EnnemiBulbizarre::onCarbonise()
-{
+void EnnemiBulbizarre::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 14)
 		a_detruire = true;
@@ -106,10 +91,9 @@ void EnnemiBulbizarre::onCarbonise()
 	}
 }
 
-void EnnemiBulbizarre::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiBulbizarre::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

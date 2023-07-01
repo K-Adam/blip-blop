@@ -5,12 +5,10 @@
 //#include "VehiculeHypo.h"
 #include "vehivule_cigogne.h"
 
-#define IDVEHICULE_CIGO	0
+#define IDVEHICULE_CIGO 0
 
-
-void EventVehicule::doEvent()
-{
-	Vehicule * v = NULL;
+void EventVehicule::doEvent() {
+	Vehicule* v = NULL;
 
 	switch (id_vehicule) {
 		case IDVEHICULE_CIGO:

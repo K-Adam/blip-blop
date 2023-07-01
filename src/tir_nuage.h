@@ -2,11 +2,10 @@
 
 #include "tir.h"
 
-class TirNuage : public Tir
-{
-public:
+class TirNuage : public Tir {
+   public:
 	int etat;
-	int	etape_shoot;
+	int etape_shoot;
 	int delta_eclair;
 	int eclair;
 	int duree_vie;

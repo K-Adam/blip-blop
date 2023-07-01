@@ -49,7 +49,7 @@ bool loadTxtData(const char* file) {
 		unsigned long num = std::stoul(key);
 
 		if (num >= txt_data.size()) {
-			txt_data.resize(num+1);
+			txt_data.resize(num + 1);
 		}
 
 		txt_data[num] = it.value();

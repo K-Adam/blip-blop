@@ -1,25 +1,25 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  Input.h
-*		----------------
-*
-*		Classe Input
-*
-*
-*		La Classe Input représente toutes les entrées :
-*
-*		 - Clavier
-*
-*
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  Input.h
+ *		----------------
+ *
+ *		Classe Input
+ *
+ *
+ *		La Classe Input représente toutes les entrées :
+ *
+ *		 - Clavier
+ *
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -35,7 +35,7 @@
 
 /*SDL KEYS*/
 
-#define DEAD_ZONE 4200  
+#define DEAD_ZONE 4200
 
 #define DIK_ESCAPE SDLK_ESCAPE
 #define DIK_UP SDLK_UP
@@ -45,32 +45,32 @@
 #define DIK_LCONTROL SDLK_LCTRL
 #define DIK_LMENU SDLK_MENU
 #define DIK_SPACE SDLK_SPACE
-#define DIK_Q 	SDLK_q
-#define DIK_W	SDLK_w
-#define DIK_E	SDLK_e
-#define DIK_R	SDLK_r
-#define DIK_T	SDLK_t
-#define DIK_Y	SDLK_y
-#define DIK_U	SDLK_u
-#define DIK_I	SDLK_i
-#define DIK_O	SDLK_o
-#define DIK_P	SDLK_p
-#define DIK_L	SDLK_l
-#define DIK_K	SDLK_k
-#define DIK_J	SDLK_j
-#define DIK_H	SDLK_h
-#define DIK_G	SDLK_g
-#define DIK_F	SDLK_f
-#define DIK_D	SDLK_d
-#define DIK_S	SDLK_s
-#define DIK_A	SDLK_a
-#define DIK_Z	SDLK_z
-#define DIK_X	SDLK_x
-#define DIK_C	SDLK_c
-#define DIK_V	SDLK_v
-#define DIK_B	SDLK_b
-#define DIK_N	SDLK_n
-#define DIK_M	SDLK_m
+#define DIK_Q SDLK_q
+#define DIK_W SDLK_w
+#define DIK_E SDLK_e
+#define DIK_R SDLK_r
+#define DIK_T SDLK_t
+#define DIK_Y SDLK_y
+#define DIK_U SDLK_u
+#define DIK_I SDLK_i
+#define DIK_O SDLK_o
+#define DIK_P SDLK_p
+#define DIK_L SDLK_l
+#define DIK_K SDLK_k
+#define DIK_J SDLK_j
+#define DIK_H SDLK_h
+#define DIK_G SDLK_g
+#define DIK_F SDLK_f
+#define DIK_D SDLK_d
+#define DIK_S SDLK_s
+#define DIK_A SDLK_a
+#define DIK_Z SDLK_z
+#define DIK_X SDLK_x
+#define DIK_C SDLK_c
+#define DIK_V SDLK_v
+#define DIK_B SDLK_b
+#define DIK_N SDLK_n
+#define DIK_M SDLK_m
 
 #define DIK_TAB SDLK_TAB
 #define DIK_F1 SDLK_F1
@@ -153,23 +153,21 @@
 
 /**/
 
-#define	BINPUT_KEYB		1		// On peut utiliser le clavier
-#define BINPUT_JOY		2		// On peut utiliser un joystick
+#define BINPUT_KEYB 1  // On peut utiliser le clavier
+#define BINPUT_JOY 2   // On peut utiliser un joystick
 
-#define MAX_JOY			5		// Nombre maximal de joystick pouvant être gérés
+#define MAX_JOY 5  // Nombre maximal de joystick pouvant être gérés
 
-#define	JOY_UP			100
-#define	JOY_DOWN		101
-#define	JOY_LEFT		102
-#define	JOY_RIGHT		103
+#define JOY_UP 100
+#define JOY_DOWN 101
+#define JOY_LEFT 102
+#define JOY_RIGHT 103
 
-struct DIJOYSTATE
-{
+struct DIJOYSTATE {
 	char name[64];
 	SDL_Joystick *handle;
-	unsigned char buttons[128];	//Joypad with more than 187 buttons? (100/101/102/103 is for directions)
-	struct
-	{
+	unsigned char buttons[128];	 // Joypad with more than 187 buttons? (100/101/102/103 is for directions)
+	struct {
 		unsigned char left, right, up, down;
 	} directions;
 };
@@ -180,44 +178,34 @@ extern bool app_killed;
 //		Définition de la classe Input
 //-----------------------------------------------------------------------------
 
-class Input
-{
-private:
-	int				n_joy;
-	DIJOYSTATE		js[MAX_JOY];
-	char 			buffer[256];
-	char			specialsbuffer[0xFFF];
-	unsigned int	aliastab[256];
+class Input {
+   private:
+	int n_joy;
+	DIJOYSTATE js[MAX_JOY];
+	char buffer[256];
+	char specialsbuffer[0xFFF];
+	unsigned int aliastab[256];
 
-public:
+   public:
 	Input();
 	~Input();
 
 	int scanKey(unsigned int k) const;
 
-	inline int scanAlias(int a) const
-	{
-		return (scanKey(aliastab[a]));
-	};
-	inline unsigned int getAlias(int n) const
-	{
-		return aliastab[n];
-	};
+	inline int scanAlias(int a) const { return (scanKey(aliastab[a])); };
+	inline unsigned int getAlias(int n) const { return aliastab[n]; };
 
-	int		nbJoy() const
-	{
-		return n_joy;
-	};
-	bool	open(int flags = BINPUT_KEYB | BINPUT_JOY);
-	void	setAlias(int a, unsigned int val);
+	int nbJoy() const { return n_joy; };
+	bool open(int flags = BINPUT_KEYB | BINPUT_JOY);
+	void setAlias(int a, unsigned int val);
 
-	unsigned int		waitKey();
+	unsigned int waitKey();
 
-	void	waitClean();
-	void	update();
-	void	close();
-	bool	anyKeyPressed();
-	bool	reAcquire();
+	void waitClean();
+	void update();
+	void close();
+	bool anyKeyPressed();
+	bool reAcquire();
 };
 
 //-----------------------------------------------------------------------------
@@ -225,5 +213,5 @@ public:
 //-----------------------------------------------------------------------------
 
 #ifndef BENINPUT_CPP_FILE
-extern Input		in;
+extern Input in;
 #endif

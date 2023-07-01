@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		   RPGPlayer.h
-*		-----------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		   RPGPlayer.h
+ *		-----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include <fstream>
 #include <cstdio>
@@ -27,9 +27,7 @@
 
 using json = nlohmann::json;
 
-
-RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
-{
+RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false) {
 	pic_tab[0] = NULL;
 	pic_tab[1] = NULL;
 
@@ -40,19 +38,14 @@ RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false)
 	ntxt[1] = 0;
 }
 
+void RPGPlayer::attachFile(const char* f) { fic_name_ = f; }
 
-void RPGPlayer::attachFile(const char * f)
-{
-    fic_name_ = f;
-}
-
-
-bool RPGPlayer::startPlay(int n)
-{
+bool RPGPlayer::startPlay(int n) {
 	auto dir = asset_path_prefix("rpg", fic_name_.c_str());
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json" << "\n";
+		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json"
+			  << "\n";
 		return false;
 	}
 
@@ -67,16 +60,17 @@ bool RPGPlayer::startPlay(int n)
 
 		std::string name = block["name"];
 
-		fic_ << ";" << "\n";
+		fic_ << ";"
+			 << "\n";
 
-		if (block.find("flagged") != block.end() &&  block["flagged"]) {
+		if (block.find("flagged") != block.end() && block["flagged"]) {
 			fic_ << ". " << name << "\n";
-		}
-		else {
+		} else {
 			fic_ << "; " << name << "\n";
 		}
 
-		fic_ << ";" << "\n";
+		fic_ << ";"
+			 << "\n";
 
 		auto items = block["items"];
 		for (auto item : items) {
@@ -85,8 +79,7 @@ bool RPGPlayer::startPlay(int n)
 			if (item.size() == 2) {
 				std::string value = remove_quotes(item[1].dump());
 				fic_ << key << "=" << value << "\n";
-			}
-			else {
+			} else {
 				fic_ << key << "\n";
 			}
 		}
@@ -102,27 +95,26 @@ bool RPGPlayer::startPlay(int n)
 	buffer1_ = "rpg=" + std::to_string(n);
 	std::getline(fic_, buffer2_);
 
-	while (!fic_.eof() && buffer1_ != buffer2_)
-		std::getline(fic_, buffer2_);
+	while (!fic_.eof() && buffer1_ != buffer2_) std::getline(fic_, buffer2_);
 
 	if (fic_.eof()) {
 		debug << "RPGPlayer::startPlay() -> Ne trouve pas la scene " << n << "\n";
 		return false;
 	}
 
-	nimage[0]		= -1;
-	nimage[1]		= -1;
-	ntxt[0]			= -1;
-	ntxt[1]			= -1;
+	nimage[0] = -1;
+	nimage[1] = -1;
+	ntxt[0] = -1;
+	ntxt[1] = -1;
 
-	nbjoueurs		= list_joueurs.size();
-	key_released	= false;
-	skiped			= false;
-	focus			= 0;
-	cur_joueur		= 0;
+	nbjoueurs = list_joueurs.size();
+	key_released = false;
+	skiped = false;
+	focus = 0;
+	cur_joueur = 0;
 	wait_.Reset(0);
 
-	int			i = 0;
+	int i = 0;
 
 	for (Couille* c : list_joueurs) {
 		if (c->id_couille == ID_BLIP)
@@ -136,15 +128,10 @@ bool RPGPlayer::startPlay(int n)
 	return true;
 }
 
+void RPGPlayer::stopPlay() { fic_ = std::stringstream{}; }
 
-void RPGPlayer::stopPlay()
-{
-	fic_ = std::stringstream{};
-}
-
-bool RPGPlayer::drawScene(SDL::Surface * surf)
-{
-	bool	not_finished = true;
+bool RPGPlayer::drawScene(SDL::Surface* surf) {
+	bool not_finished = true;
 
 	in.update();
 
@@ -152,7 +139,8 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 		if (in.scanKey(DIK_ESCAPE)) {
 			in.waitClean();
 
-			while (updateScene());
+			while (updateScene())
+				;
 
 			return false;
 		}
@@ -165,18 +153,17 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 		key_released = true;
 	}
 
-
 	if (wait_.is_zero()) {
 		not_finished = updateScene();
 	}
 
 	// Assombrissement
 	//
-	Rect	r;
+	Rect r;
 
 	if (nimage[0] >= 0) {
-		r.left	= 100;
-		r.top	= 120;
+		r.left = 100;
+		r.top = 120;
 		r.right = 640;
 		r.bottom = 220;
 
@@ -184,9 +171,9 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 	}
 
 	if (nimage[1] >= 0) {
-		r.left	= 0;
-		r.top	= 300;
-		r.right	= 540;
+		r.left = 0;
+		r.top = 300;
+		r.right = 540;
 		r.bottom = 400;
 
 		halfTone(surf, &r);
@@ -194,39 +181,31 @@ bool RPGPlayer::drawScene(SDL::Surface * surf)
 
 	// Affiche les têtes de con
 	//
-	if (pic_tab[0] != NULL &&  nimage[0] >= 0 && (size_t)nimage[0] < (*pic_tab[0]).getSize())
-		(*pic_tab[0])[nimage[0]]->PasteTo(surf, 0, 120);
-
+	if (pic_tab[0] != NULL && nimage[0] >= 0 && (size_t)nimage[0] < (*pic_tab[0]).getSize()) (*pic_tab[0])[nimage[0]]->PasteTo(surf, 0, 120);
 
 	if (vbuffer_wide > 640) {
-		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize())
-			(*pic_tab[1])[nimage[1]]->PasteTo(surf, 540, 300);
+		if (pic_tab[1] != NULL && nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize()) (*pic_tab[1])[nimage[1]]->PasteTo(surf, 540, 300);
 	} else {
-		if (pic_tab[1] != NULL &&  nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize())
-			(*pic_tab[1])[nimage[1]]->PasteTo(surf, 538, 300);
+		if (pic_tab[1] != NULL && nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize()) (*pic_tab[1])[nimage[1]]->PasteTo(surf, 538, 300);
 	}
 
 	// Ecrit le texte
 	//
-	if (ntxt[0] != -1 && txt_data[ntxt[0]].c_str() != NULL)
-		fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]].c_str(), 640);
+	if (ntxt[0] != -1 && txt_data[ntxt[0]].c_str() != NULL) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]].c_str(), 640);
 
-	if (ntxt[1] != -1 && txt_data[ntxt[1]].c_str() != NULL)
-		fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]].c_str(), 535);
+	if (ntxt[1] != -1 && txt_data[ntxt[1]].c_str() != NULL) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]].c_str(), 535);
 
 	return not_finished;
 }
 
-bool RPGPlayer::updateScene()
-{
-	bool	ready_to_draw = false;
+bool RPGPlayer::updateScene() {
+	bool ready_to_draw = false;
 
 	while (!ready_to_draw && read() && buffer1_ != "stop") {
-
 		// D'abord, on analyse les cas ou on n'a pas besoin de couper
 		//
 		if (buffer1_ == "endif") {
-//			debug<<"endif\n";
+			//			debug<<"endif\n";
 		} else if (buffer1_ == "bbswap") {
 			cur_joueur += 1;
 			cur_joueur %= nbjoueurs;
@@ -241,7 +220,8 @@ bool RPGPlayer::updateScene()
 			if (buffer1_ == "ifnbj") {
 				if (nbjoueurs != std::stoi(buffer2_)) {
 					// Si la condition est fausse on skipe le tout
-					while (read() && buffer1_ != "endif");
+					while (read() && buffer1_ != "endif")
+						;
 				}
 			} else if (buffer1_ == "focus") {
 				// Gère le focus
@@ -288,7 +268,7 @@ bool RPGPlayer::updateScene()
 				buffer2_ = buffer2_.substr(0, pos);
 
 				game_flag[std::stoi(buffer2_)] = val;
-//				debug<<"Flag "<<atoi(buffer2)<<"="<<val<<"\n";
+				//				debug<<"Flag "<<atoi(buffer2)<<"="<<val<<"\n";
 			} else {
 				error(buffer1_);
 			}
@@ -298,22 +278,14 @@ bool RPGPlayer::updateScene()
 	return ready_to_draw;
 }
 
-
-bool RPGPlayer::read()
-{
+bool RPGPlayer::read() {
 	std::getline(fic_, buffer1_);
 
 	// Skip les commentaires
 	//
-	while (!fic_.eof() && buffer1_[0] == ';')
-		std::getline(fic_, buffer1_);
+	while (!fic_.eof() && buffer1_[0] == ';') std::getline(fic_, buffer1_);
 
 	return !fic_.eof();
 }
 
-
-
-void RPGPlayer::error(const std::string& err_msg)
-{
-	debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n";
-}
+void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n"; }

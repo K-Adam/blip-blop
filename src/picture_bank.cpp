@@ -37,7 +37,8 @@ bool PictureBank::loadGFX(const char* file) {
 
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "PictureBank::loadGFX() - File not found " << dir + ".json" << "\n";
+		debug << "PictureBank::loadGFX() - File not found " << dir + ".json"
+			  << "\n";
 		return false;
 	}
 
@@ -78,6 +79,6 @@ bool PictureBank::restoreAll() {
 	}
 
 	assert(false);
-    
+
 	return false;
 }

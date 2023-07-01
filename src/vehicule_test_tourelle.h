@@ -2,26 +2,17 @@
 
 #include "vehicule.h"
 
-class VehiculeTestTourelle : public Vehicule
-{
-public:
+class VehiculeTestTourelle : public Vehicule {
+   public:
+	int lat;
 
-	int		lat;
+	VehiculeTestTourelle() : lat(0) { pic = pbk_ennemis[525]; }
 
-	VehiculeTestTourelle() : lat(0)
-	{
-		pic = pbk_ennemis[525];
-	}
+	virtual bool canFire() { return false; };
 
-	virtual bool canFire()
-	{
-		return false;
-	};
+	virtual void updateNotUsed(){};
 
-	virtual void updateNotUsed() {};
-
-	virtual void updateUsed()
-	{
+	virtual void updateUsed() {
 		if (joueur->etat != ETAT_LOCKEDV || joueur->a_detruire) {
 			joueur = NULL;
 			return;

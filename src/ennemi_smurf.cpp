@@ -1,36 +1,33 @@
 /******************************************************************
-*
-*
-*		--------------------
-*		    EnnemiSmurf.h
-*		--------------------
-*
-*		Le schtroumpf de base!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------------
+ *		    EnnemiSmurf.h
+ *		--------------------
+ *
+ *		Le schtroumpf de base!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_smurf.h"
 
-const int anim_smurf_marche_droite[] = { 0, 1, 2, 3, 4, 3, 2, 1 };
-const int anim_smurf_marche_gauche[] = { 5, 6, 7, 8, 9, 8, 7, 6 };
+const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
+const int anim_smurf_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
-EnnemiSmurf::EnnemiSmurf() : wait_for_jump(0)
-{
+EnnemiSmurf::EnnemiSmurf() : wait_for_jump(0) {
 	pv = 100;
 	jump_delay = 50 + rand() % 250;
-	dy_saut = -5 ;
-	speed = 1 ;
+	dy_saut = -5;
+	speed = 1;
 }
 
-void EnnemiSmurf::update()
-{
-	if (blood != 0)
-		blood -= 1;
+void EnnemiSmurf::update() {
+	if (blood != 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_AVANCE:
@@ -55,9 +52,7 @@ void EnnemiSmurf::update()
 	updateADetruire();
 }
 
-
-void EnnemiSmurf::onAvance()
-{
+void EnnemiSmurf::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -73,8 +68,8 @@ void EnnemiSmurf::onAvance()
 
 	if (wait_for_jump > jump_delay) {
 		etat = ETAT_SAUTE;
-		dy = dy_saut ;
-		lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+		dy = dy_saut;
+		lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 		wait_for_jump = 0;
 		jump_delay = 50 + rand() % 250;
 		/*
@@ -104,10 +99,8 @@ void EnnemiSmurf::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiSmurf::onSaute()
-{
-	int		yp;
+void EnnemiSmurf::onSaute() {
+	int yp;
 
 	tombe();
 
@@ -121,29 +114,24 @@ void EnnemiSmurf::onSaute()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
-		x += speed ;
+		x += speed;
 		pic = pbk_ennemis[10];
 	} else {
-		x -= speed ;
+		x -= speed;
 		pic = pbk_ennemis[11];
 	}
 
 	colFromPic();
-
 }
 
-
-void EnnemiSmurf::onMeure()
-{
+void EnnemiSmurf::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 4;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape > 10) {
 		a_detruire = true;
@@ -151,39 +139,31 @@ void EnnemiSmurf::onMeure()
 	}
 
 	if (dir == SENS_GAUCHE) {
-		if (!mur_opaque(x - speed, y) && plat(x, y) == 0)
-			x -= speed;
+		if (!mur_opaque(x - speed, y) && plat(x, y) == 0) x -= speed;
 
 		pic = pbk_ennemis[23 + etape];
 	} else {
-		if (!mur_opaque(x + speed, y) && plat(x, y) == 0)
-			x += speed;
+		if (!mur_opaque(x + speed, y) && plat(x, y) == 0) x += speed;
 
 		pic = pbk_ennemis[12 + etape];
 	}
 }
 
-void EnnemiSmurf::estTouche(Tir * tir)
-{
-	static const int dx_giclure_smurf [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_smurf [] = { -15, -15, -15, -15, -15, -15, -15, -15 };
-
+void EnnemiSmurf::estTouche(Tir* tir) {
+	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
 
-	if (etat == ETAT_MEURE)
-		sbk_niveau.play(4 + rand() % 10);
+	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
 }
 
-
-void EnnemiSmurf::onCarbonise()
-{
+void EnnemiSmurf::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 6) {
 		a_detruire = true;

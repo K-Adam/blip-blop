@@ -1,26 +1,24 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    TirCruiserLaser.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 17 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    TirCruiserLaser.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 17 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "sprite.h"
 
-class TirCruiserLaser : public Sprite
-{
-public:
-
+class TirCruiserLaser : public Sprite {
+   public:
 	int dx;
 	int npic;
 

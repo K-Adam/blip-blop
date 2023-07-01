@@ -1,16 +1,13 @@
 
 #include "vehicule_hypo.h"
 
-void VehiculeHypo::affiche()
-{
+void VehiculeHypo::affiche() {
 	Sprite::affiche();
 
-	if (joueur != NULL)
-		joueur->affiche();
+	if (joueur != NULL) joueur->affiche();
 }
 
-void VehiculeHypo::updateUsed()
-{
+void VehiculeHypo::updateUsed() {
 	static const int SPEED = 3;
 
 	has_been_used = true;
@@ -43,9 +40,6 @@ void VehiculeHypo::updateUsed()
 	}
 }
 
-
-void VehiculeHypo::updateNotUsed()
-{
-	if (has_been_used)
-		x += 10;
+void VehiculeHypo::updateNotUsed() {
+	if (has_been_used) x += 10;
 }

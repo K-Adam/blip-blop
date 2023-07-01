@@ -1,31 +1,27 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiTeteRayman.cpp
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 22 Fevrier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiTeteRayman.cpp
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 22 Fevrier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_tete___rayman.h"
 
-
-EnnemiTeteRayman::EnnemiTeteRayman(): dx(3)
-{
+EnnemiTeteRayman::EnnemiTeteRayman() : dx(3) {
 	pv = 1;
 	pic = pbk_ennemis[171];
 }
 
-void EnnemiTeteRayman::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiTeteRayman::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -42,20 +38,18 @@ void EnnemiTeteRayman::update()
 	}
 }
 
-void EnnemiTeteRayman::onAvance()
-{
+void EnnemiTeteRayman::onAvance() {
 	x += dx;
 	tombe();
 	colFromPic();
 
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 4;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 8;
 		pic = pbk_ennemis[171 + etape];
 	}
-
 
 	// Et si la tete touche le sol? ?
 	//
@@ -66,14 +60,11 @@ void EnnemiTeteRayman::onAvance()
 	}
 }
 
-
-
-void EnnemiTeteRayman::onMeure()
-{
-	ss_etape ++;
+void EnnemiTeteRayman::onMeure() {
+	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		if (etape >= 6) {
 			game_flag[0] = 2;
 			a_detruire = true;
@@ -83,16 +74,11 @@ void EnnemiTeteRayman::onMeure()
 	}
 }
 
+int EnnemiTeteRayman::degats() { return 0; };
 
-int EnnemiTeteRayman::degats()
-{
-	return 0;
-};
-
-void EnnemiTeteRayman::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiTeteRayman::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	tir->aTouche(9999);

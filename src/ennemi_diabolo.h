@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiDiabolo.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiDiabolo.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -21,19 +21,16 @@
 
 #include "enemy.h"
 
-
-#define DIABOLO_KICK_SPEED		8
+#define DIABOLO_KICK_SPEED 8
 #define LATENCE_DIABOLO_GRAVITE 5
-#define DIABOLO_GRAVITE_MAX     8
+#define DIABOLO_GRAVITE_MAX 8
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiDiabolo
 //-----------------------------------------------------------------------------
 
-class EnnemiDiabolo : public Ennemi
-{
-public:
-
+class EnnemiDiabolo : public Ennemi {
+   public:
 	int wait_for_attack;
 	int attack_delay;
 	int dx;
@@ -53,5 +50,5 @@ public:
 	virtual void tombe_diabolo();
 	virtual void colFromPic();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

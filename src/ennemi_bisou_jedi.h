@@ -2,35 +2,28 @@
 
 #include "enemy.h"
 
-class EnnemiBisouJedi : public Ennemi
-{
-public:
-	int		wait_shoot;
-	int		etape_shoot;
-	bool	a_epee;
+class EnnemiBisouJedi : public Ennemi {
+   public:
+	int wait_shoot;
+	int etape_shoot;
+	bool a_epee;
 
 	EnnemiBisouJedi();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 	virtual void update();
 	virtual void onCarbonise();
 	virtual void affiche();
 };
 
-class EnnemiBisouJediHeros : public EnnemiBisouJedi
-{
-public:
+class EnnemiBisouJediHeros : public EnnemiBisouJedi {
+   public:
+	bool intro;
 
-	bool	intro;
+	EnnemiBisouJediHeros() : intro(true) { pv = 6000; };
 
-	EnnemiBisouJediHeros() : intro(true)
-	{
-		pv = 6000;
-	};
-
-	virtual void update()
-	{
+	virtual void update() {
 		if (intro) {
 			if (x > offset + 450) {
 				EnnemiBisouJedi::onAvance();
@@ -45,8 +38,7 @@ public:
 		}
 	};
 
-	virtual void estTouche(Tir * tir)
-	{
+	virtual void estTouche(Tir* tir) {
 		EnnemiBisouJedi::estTouche(tir);
 
 		if (pv <= 0) {

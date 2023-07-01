@@ -2,8 +2,7 @@
 
 #include "sprite.h"
 
-class MeteoPluie : public Sprite
-{
-public:
+class MeteoPluie : public Sprite {
+   public:
 	virtual void update();
 };

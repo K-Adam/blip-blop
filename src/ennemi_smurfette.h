@@ -2,11 +2,9 @@
 
 #include "enemy.h"
 
-class EnnemiSmurfette : public Ennemi
-{
-public:
-
-	int	etape_shoot;
+class EnnemiSmurfette : public Ennemi {
+   public:
+	int etape_shoot;
 	int wait_shoot;
 
 	EnnemiSmurfette();
@@ -14,7 +12,7 @@ public:
 	virtual void update();
 	virtual void onAvance();
 	virtual void onTire();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 	virtual void onCarbonise();
 	virtual void onMeure();
 };

@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiSnorkyGouverneur.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 15 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiSnorkyGouverneur.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 15 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,16 +25,14 @@
 //		Constantes
 //-----------------------------------------------------------------------------
 
-#define GOUVERNEUR_SPEED		1
+#define GOUVERNEUR_SPEED 1
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSnorkyBase1
 //-----------------------------------------------------------------------------
 
-class EnnemiSnorkyGouverneur : public Ennemi
-{
-public:
-
+class EnnemiSnorkyGouverneur : public Ennemi {
+   public:
 	int nb_tir;
 	int wait_for_shoot;
 	int shoot_delay;
@@ -48,5 +46,5 @@ public:
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

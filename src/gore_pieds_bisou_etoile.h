@@ -2,21 +2,16 @@
 
 #include "sprite.h"
 
-class GorePiedsBisouEtoile : public Sprite
-{
-public:
+class GorePiedsBisouEtoile : public Sprite {
+   public:
+	int etat;
+	int nb;
 
-	int		etat;
-	int		nb;
+	GorePiedsBisouEtoile() : etat(0), nb(0) {}
 
-	GorePiedsBisouEtoile() : etat(0), nb(0)
-	{
-	}
-
-	virtual void update()
-	{
-		static const int anim_droite [] = { 97, 98, 99, 98 };
-		static const int anim_gauche [] = { 103, 104, 105, 104 };
+	virtual void update() {
+		static const int anim_droite[] = {97, 98, 99, 98};
+		static const int anim_gauche[] = {103, 104, 105, 104};
 
 		if (etat == 0) {
 			tombe();
@@ -25,8 +20,7 @@ public:
 				ss_etape += 1;
 				ss_etape %= 6;
 
-				if (ss_etape == 0)
-					etape += 1;
+				if (ss_etape == 0) etape += 1;
 			}
 
 			if (dir == SENS_DROITE) {
@@ -45,7 +39,7 @@ public:
 			nb += 1;
 
 			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[ anime(anim_droite, 4, 5)];
+				pic = pbk_ennemis[anime(anim_droite, 4, 5)];
 			else
 				pic = pbk_ennemis[anime(anim_gauche, 4, 5)];
 

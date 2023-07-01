@@ -2,11 +2,10 @@
 
 #include "enemy.h"
 
-class EnnemiBisouNuage : public Ennemi
-{
-public:
-	int		wait_shoot;
-	int		etape_shoot;
+class EnnemiBisouNuage : public Ennemi {
+   public:
+	int wait_shoot;
+	int etape_shoot;
 
 	EnnemiBisouNuage();
 	virtual void onNormal();

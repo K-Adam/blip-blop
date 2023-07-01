@@ -2,11 +2,10 @@
 
 #include "enemy.h"
 
-class EnnemiBisouEtoile : public Ennemi
-{
-public:
-	int		wait_shoot;
-	int		etape_shoot;
+class EnnemiBisouEtoile : public Ennemi {
+   public:
+	int wait_shoot;
+	int etape_shoot;
 
 	EnnemiBisouEtoile();
 	virtual void onAvance();
@@ -15,6 +14,6 @@ public:
 	virtual void onMeureHaut();
 	virtual void onMeureHautFin();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 	virtual void update();
 };

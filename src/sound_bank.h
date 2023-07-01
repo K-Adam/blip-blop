@@ -29,11 +29,11 @@
 //-----------------------------------------------------------------------------
 
 class SoundBank {
-	protected:
+   protected:
 	std::vector<std::unique_ptr<Sound>> tab_;
 	std::string filename_;
 
-	public:
+   public:
 	inline Sound* operator[](int n) const { return tab_[n].get(); };
 	inline size_t getSize() const { return tab_.size(); };
 

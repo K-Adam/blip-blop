@@ -1,20 +1,20 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  Controlor.h
-*		----------------
-*
-*		Classe Controlor
-*
-*		Sert d'intermédiaire entre Blip/Blop et les interfaces
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		  Controlor.h
+ *		----------------
+ *
+ *		Classe Controlor
+ *
+ *		Sert d'intermédiaire entre Blip/Blop et les interfaces
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -22,14 +22,12 @@
 //		Définition de la classe Controlor (ABSTRAITE)
 //-----------------------------------------------------------------------------
 
-class Controlor
-{
-protected:
+class Controlor {
+   protected:
 	bool inertia_on;
 
-public:
-
-	Controlor() : inertia_on(true) {};
+   public:
+	Controlor() : inertia_on(true){};
 
 	virtual int gauche() const = 0;
 	virtual int haut() const = 0;
@@ -39,13 +37,7 @@ public:
 	virtual int saut() const = 0;
 	virtual int super() const = 0;
 
-	virtual bool inertia() const
-	{
-		return inertia_on;
-	};
+	virtual bool inertia() const { return inertia_on; };
 
-	virtual void setInertia(bool i)
-	{
-		inertia_on = i;
-	};
+	virtual void setInertia(bool i) { inertia_on = i; };
 };

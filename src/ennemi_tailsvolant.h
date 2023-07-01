@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiTailsvolant.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 17 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiTailsvolant.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 17 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -24,21 +24,20 @@
 //		Définition de la classe EnnemiTailsvolant
 //----------------------------------------------------------------------------
 
-class EnnemiTailsvolant : public Ennemi
-{
-private:
-	int speed;    //vitesse courante
-	int etape_speed; //delai d'acceleration
+class EnnemiTailsvolant : public Ennemi {
+   private:
+	int speed;		  // vitesse courante
+	int etape_speed;  // delai d'acceleration
 	int fly_delay;
 	int wait_for_fly;
 	int x_cible;
 	int y_cible;
-	bool attack;      //attaque ou se met a la bonne hauteur
+	bool attack;  // attaque ou se met a la bonne hauteur
 	bool fly;
 	int direction;
 	int placer;
 
-public:
+   public:
 	EnnemiTailsvolant();
 	virtual void update();
 	virtual void onAvance();
@@ -46,5 +45,5 @@ public:
 	virtual void onTombe();
 	virtual void onVolle();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

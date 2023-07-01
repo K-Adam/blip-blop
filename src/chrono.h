@@ -6,11 +6,11 @@
 #include <SDL2/SDL.h>
 
 class Chrono {
-	private:
+   private:
 	std::uint32_t start_;
 	std::uint32_t saved_elapsed_;
 
-	public:
+   public:
 	Chrono() : start_(SDL_GetTicks()), saved_elapsed_(0) {}
 
 	std::uint32_t start() const { return start_; }
@@ -24,10 +24,10 @@ class Chrono {
 };
 
 class Countdown {
-	private:
+   private:
 	std::uint32_t end_;
 
-	public:
+   public:
 	Countdown(int duration) : end_(SDL_GetTicks() + duration) {}
 	Countdown() : end_(0) {}
 

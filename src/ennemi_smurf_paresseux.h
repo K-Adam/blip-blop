@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		EnnemiSmurfParesseux.h
-*		-----------------------
-*		Schtroumph de base.
-*		Spécificité : Saute un peu moins haut.
-*
-*		Mortimus / LOADED -   V 0.1 - 26 Octobre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		EnnemiSmurfParesseux.h
+ *		-----------------------
+ *		Schtroumph de base.
+ *		Spécificité : Saute un peu moins haut.
+ *
+ *		Mortimus / LOADED -   V 0.1 - 26 Octobre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,18 +25,12 @@
 //		Définition de la classe
 //-----------------------------------------------------------------------------
 
-class EnnemiSmurfParesseux : public EnnemiSmurf
-{
-public:
+class EnnemiSmurfParesseux : public EnnemiSmurf {
+   public:
+	EnnemiSmurfParesseux() { dy_saut = -4; }
 
-	EnnemiSmurfParesseux()
-	{
-		dy_saut = -4 ;
-	}
-
-	inline virtual void affiche()
-	{
-		EnnemiSmurf::affiche() ;
+	inline virtual void affiche() {
+		EnnemiSmurf::affiche();
 		/*
 				if(etat != ETAT_MEURE && etat != ETAT_CARBONISE)
 				{

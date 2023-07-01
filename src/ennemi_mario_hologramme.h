@@ -2,19 +2,19 @@
 
 #include "enemy.h"
 /******************************************************************
-*
-*
-*		------------------------------
-*		    EnnemiMarioHologramme.h
-*		------------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.2 - 27 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		------------------------------
+ *		    EnnemiMarioHologramme.h
+ *		------------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.2 - 27 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #define MARIO_SPEED 5
 #define LATENCE_MARIO_GRAVITE 12
@@ -24,16 +24,14 @@
 //		Définition de la classe EnnemiMarioHologramme
 //----------------------------------------------------------------------------
 
-class EnnemiMarioHologramme : public Ennemi
-{
-private:
-	int speed;    //vitesse courante
-	int etape_speed; //delai d'acceleration
-	int fireball;     //boule de feu dans les mains ou non
+class EnnemiMarioHologramme : public Ennemi {
+   private:
+	int speed;		  // vitesse courante
+	int etape_speed;  // delai d'acceleration
+	int fireball;	  // boule de feu dans les mains ou non
 	int wait_for_cligno;
 	int cligno_delay;
 	int decalage_cligno;
-
 
 	int attack_delay;
 	int wait_for_attack;
@@ -43,7 +41,7 @@ private:
 	int x_cible;
 	int y_cible;
 
-public:
+   public:
 	EnnemiMarioHologramme();
 	virtual void update();
 	virtual void onAvance();
@@ -56,5 +54,5 @@ public:
 	virtual void tombe_mario();
 	virtual inline void boule_de_feu();
 	virtual void affiche();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

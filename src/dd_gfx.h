@@ -21,9 +21,9 @@
 //		Constantes pour la création des surfaces
 //-----------------------------------------------------------------------------
 
-#define DDSURF_VIDEO 1   // Mettre la surface en mémoire VIDEO
-#define DDSURF_SYSTEM 2  // Mettre la surface en mémoire SYSTEM
-#define DDSURF_BEST 4    // Mettre la surf en VIDEO si possible, SYSTEM sinon
+#define DDSURF_VIDEO 1	 // Mettre la surface en mémoire VIDEO
+#define DDSURF_SYSTEM 2	 // Mettre la surface en mémoire SYSTEM
+#define DDSURF_BEST 4	 // Mettre la surf en VIDEO si possible, SYSTEM sinon
 
 //-----------------------------------------------------------------------------
 //		Headers

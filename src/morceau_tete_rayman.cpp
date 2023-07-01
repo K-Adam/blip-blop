@@ -1,40 +1,36 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    MorceauTeteRayman.cpp
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 23 Fevrier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    MorceauTeteRayman.cpp
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 23 Fevrier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "morceau_tete_rayman.h"
 
-
-MorceauTeteRayman::MorceauTeteRayman(int vx, int vy): dx(vx)
-{
+MorceauTeteRayman::MorceauTeteRayman(int vx, int vy) : dx(vx) {
 	pic = pbk_ennemis[496];
 	dy = vy;
 }
 
-void MorceauTeteRayman::update()
-{
+void MorceauTeteRayman::update() {
 	x += dx;
 	tombe();
 
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 4;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 8;
 		pic = pbk_ennemis[496 + etape];
 	}
-
 
 	// Et si la tete touche le sol? ?
 	//

@@ -1,34 +1,30 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    TirCruiserlaser.cpp
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 17 Decembre 2000
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		-----------------------
+ *		    TirCruiserlaser.cpp
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 17 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "tir_cruiser_laser.h"
 
-TirCruiserLaser::TirCruiserLaser(int vx, int nb_pic): dx(vx)
-{
+TirCruiserLaser::TirCruiserLaser(int vx, int nb_pic) : dx(vx) {
 	pic = pbk_niveau[nb_pic];
 	etape = 0;
 	ss_etape = 2;
 }
 
-void TirCruiserLaser::update()
-{
-	ss_etape ++;
+void TirCruiserLaser::update() {
+	ss_etape++;
 	ss_etape %= 4;
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 	if (etape == 4) {
 		a_detruire = true;
 	} else {
@@ -56,8 +52,7 @@ void TirCruiserLaser::update()
 
 			case 13:
 
-				if ((etape == 1) && (ss_etape == 0))
-					y += 19;
+				if ((etape == 1) && (ss_etape == 0)) y += 19;
 
 				break;
 
@@ -84,8 +79,7 @@ void TirCruiserLaser::update()
 
 			case 17:
 
-				if ((etape == 1) && (ss_etape == 0))
-					y -= 19;
+				if ((etape == 1) && (ss_etape == 0)) y -= 19;
 
 				break;
 		}

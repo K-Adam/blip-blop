@@ -1,29 +1,26 @@
 /******************************************************************
-*
-*
-*		---------------------------
-*		    FondRing.h
-*		---------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------
+ *		    FondRing.h
+ *		---------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
-class FondRing : public Sprite
-{
-private:
+class FondRing : public Sprite {
+   private:
 	static int etape_synchro;
 	static int ss_etape_synchro;
 	static bool synchro;
 
-
-public:
+   public:
 	virtual void update();
-
 };

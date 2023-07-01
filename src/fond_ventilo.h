@@ -2,11 +2,9 @@
 
 #include "sprite.h"
 
-class FondVentilo : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondVentilo : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 3;
 
@@ -17,7 +15,6 @@ public:
 
 		pic = pbk_niveau[3 + etape];
 
-		if (x < offset - 100)
-			a_detruire = true;
+		if (x < offset - 100) a_detruire = true;
 	};
 };

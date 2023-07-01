@@ -20,16 +20,14 @@ using json = nlohmann::json;
 
 #ifdef _MSC_VER
 // TODO
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 #endif
 
-#define ISCOM( _cmd) (strcmp( cmd_name, _cmd)==0)
+#define ISCOM(_cmd) (strcmp(cmd_name, _cmd) == 0)
 
 //---------------------------------------------------------------------------
 
-
-void CINEPlayer::initPlayer()
-{
+void CINEPlayer::initPlayer() {
 	for (int i = 0; i < NB_OBJ; i++) {
 		obj[i].show = false;
 		obj[i].time_mov = 0;
@@ -52,13 +50,10 @@ void CINEPlayer::initPlayer()
 	delta_vol = 0;
 }
 
-
 //---------------------------------------------------------------------------
 
-
-bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * s2)
-{
-	bool	skiped = false;
+bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2) {
+	bool skiped = false;
 	/*
 		debug<<"---------------------------------------------------------------\n";
 		debug<<"Playing cine file "<<file<<"\n";
@@ -74,7 +69,8 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 	auto dir = asset_path_prefix("cin", file);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "CINEPlayer -> Cannot open file " << dir << ".json" << "\n";
+		debug << "CINEPlayer -> Cannot open file " << dir << ".json"
+			  << "\n";
 		return false;
 	}
 
@@ -89,9 +85,11 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 
 		std::string name = block["name"];
 
-		fic_ << ";" << "\n";
+		fic_ << ";"
+			 << "\n";
 		fic_ << "; " << name << "\n";
-		fic_ << ";" << "\n";
+		fic_ << ";"
+			 << "\n";
 
 		auto items = block["items"];
 		for (auto item_it = items.begin(); item_it != items.end(); ++item_it) {
@@ -104,8 +102,7 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 			for (auto param : item["params"]) {
 				if (first) {
 					first = false;
-				}
-				else {
+				} else {
 					param_stream << ",";
 				}
 				param_stream << " " << param;
@@ -121,19 +118,18 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 
 	/////////////////////////
 
-
 	manageMsg();
 
 	while (!fini) {
 		updateState();
-				update_regulator_.Skip();
+		update_regulator_.Skip();
 
 		while (frame_to_draw > 0 && !fini) {
 			manageMsg();
 
-						if (checkRestore()) {
-							update_regulator_.Skip();
-						}
+			if (checkRestore()) {
+				update_regulator_.Skip();
+			}
 
 			in.update();
 
@@ -153,20 +149,16 @@ bool CINEPlayer::playScene(const char * file, SDL::Surface * s1, SDL::Surface * 
 	closePlayer();
 
 	return !skiped;
-
 }
 
 //---------------------------------------------------------------------------
 
-
-void CINEPlayer::updateScene()
-{
+void CINEPlayer::updateScene() {
 	// Gére le volume
 	//
 	int vol = delta_vol;
 
-	if (vol < 0)
-		vol = 0;
+	if (vol < 0) vol = 0;
 
 	// Gére l'alpha blending
 	//
@@ -208,13 +200,11 @@ void CINEPlayer::updateScene()
 			}
 
 			if (obj[i].x_warp) {
-				if (obj[i].x == obj[i].x_warp1)
-					obj[i].x = obj[i].x_warp2;
+				if (obj[i].x == obj[i].x_warp1) obj[i].x = obj[i].x_warp2;
 			}
 
 			if (obj[i].y_warp) {
-				if (obj[i].y == obj[i].y_warp1)
-					obj[i].y = obj[i].y_warp2;
+				if (obj[i].y == obj[i].y_warp1) obj[i].y = obj[i].y_warp2;
 			}
 		}
 	}
@@ -223,7 +213,6 @@ void CINEPlayer::updateScene()
 }
 
 //---------------------------------------------------------------------------
-
 
 void CINEPlayer::renderLoop() {
 	int n_updates = update_regulator_.Step();
@@ -234,26 +223,21 @@ void CINEPlayer::renderLoop() {
 	drawScene();
 }
 
-
 //---------------------------------------------------------------------------
 
-
-void CINEPlayer::updateState()
-{
-	bool	to_draw = false;
-	int		n;
-	int		n2;
-	int		i;
+void CINEPlayer::updateState() {
+	bool to_draw = false;
+	int n;
+	int n2;
+	int i;
 
 	while (!fini && !to_draw && getCommand()) {
 		if (ISCOM("endscene")) {
 			fini = true;
 		} else if (ISCOM("loadgfx")) {
-			if (!pbk.loadGFX(str_arg[0]))
-				error("ne peut pas charger le fichier GFX");
+			if (!pbk.loadGFX(str_arg[0])) error("ne peut pas charger le fichier GFX");
 		} else if (ISCOM("loadmbk")) {
-			if (!mbk.open(str_arg[0]))
-				error("ne peut pas charger la MBK");
+			if (!mbk.open(str_arg[0])) error("ne peut pas charger la MBK");
 		} else if (ISCOM("playmusic")) {
 			mbk.play(int_arg[0]);
 		} else if (ISCOM("stopmusic")) {
@@ -318,7 +302,6 @@ void CINEPlayer::updateState()
 			}
 		} else if (ISCOM("resetall")) {
 			for (i = 0; i < NB_OBJ; i++) {
-
 				obj[i].show = false;
 				obj[i].dx = 0;
 				obj[i].dy = 0;
@@ -357,7 +340,6 @@ void CINEPlayer::updateState()
 				for (i = 3; i < nb_args; i++) {
 					obj[n].anim[i - 3] = int_arg[i];
 				}
-
 			}
 		} else if (ISCOM("setxwarp")) {
 			n = int_arg[0];
@@ -421,22 +403,18 @@ void CINEPlayer::updateState()
 			to_draw = true;
 		} else {
 			error();
-
 		}
 	}
 }
 
 //---------------------------------------------------------------------------
 
-
-void CINEPlayer::drawScene()
-{
+void CINEPlayer::drawScene() {
 	RenderRect ddfx;
 
-	Rect		r;
+	Rect r;
 
 	back_surf->FillRect(0, 0xFF000000);
-
 
 	// Affiche tous les sprites/scrolls
 	//
@@ -454,82 +432,69 @@ void CINEPlayer::drawScene()
 	//
 	ddfx.dwFillColor = clip_color[0];
 
-	r.left	= 0;
+	r.left = 0;
 	r.right = clip_x1;
-	r.top	= 0;
+	r.top = 0;
 	r.bottom = 480;
-	//graphicInstance->Clear(ddfx);
-	back_surf->FillRect(&r,0);
-
-	r.left	= clip_x2;
-	r.right = 640;
-	r.top	= 0;
-	r.bottom = 480;
-	//graphicInstance->Clear(ddfx);
+	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
-	r.left	= 0;
+	r.left = clip_x2;
 	r.right = 640;
-	r.top	= 0;
+	r.top = 0;
+	r.bottom = 480;
+	// graphicInstance->Clear(ddfx);
+	back_surf->FillRect(&r, 0);
+
+	r.left = 0;
+	r.right = 640;
+	r.top = 0;
 	r.bottom = clip_y1;
-	//graphicInstance->Clear(ddfx);
+	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
-	r.left	= 0;
+	r.left = 0;
 	r.right = 640;
-	r.top	= clip_y2;
+	r.top = clip_y2;
 	r.bottom = 480;
-	//graphicInstance->Clear(ddfx);
+	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
 	// Affiche tous les textes
 	//
 	for (int i = 0; i < NB_OBJ; i++) {
-		if (obj[i].show && obj[i].id == OBJ_TEXTE)
-			drawText(i);
+		if (obj[i].show && obj[i].id == OBJ_TEXTE) drawText(i);
 	}
-
 
 	DDFlip();
 }
 
-
 //---------------------------------------------------------------------------
 
-void CINEPlayer::drawSprite(int n)
-{
-	if (n < NB_OBJ)
-		obj[n].pic->BlitTo(back_surf, obj[n].x, obj[n].y);
+void CINEPlayer::drawSprite(int n) {
+	if (n < NB_OBJ) obj[n].pic->BlitTo(back_surf, obj[n].x, obj[n].y);
 }
 
 //---------------------------------------------------------------------------
 
-void CINEPlayer::drawText(int n)
-{
-	if (n < NB_OBJ)
-		fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt].c_str());
+void CINEPlayer::drawText(int n) {
+	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt].c_str());
 }
-
 
 //---------------------------------------------------------------------------
 
+bool CINEPlayer::getCommand() {
+	static const char seps[] = ",)\n";
 
-bool CINEPlayer::getCommand()
-{
-	static const char seps [] = ",)\n";
-
-	int		i = 0;
-	int		j = 0;
-	char	c;
-	char *	arg;
-	char *	pos;
-
+	int i = 0;
+	int j = 0;
+	char c;
+	char* arg;
+	char* pos;
 
 	// Retourne faux si EOF
 	//
-	if (fic_.eof())
-		return false;
-
+	if (fic_.eof()) return false;
 
 	// Esquive les lignes commentées et les lignes vides
 	//
@@ -541,21 +506,19 @@ bool CINEPlayer::getCommand()
 		num_ligne += 1;
 	}
 
-	if (fic_.eof() && strlen(buffer) == 0)
-		return false;
-
+	if (fic_.eof() && strlen(buffer) == 0) return false;
 
 	// Vire les espaces et met tout en minuscule -----------------
 	// Vire aussi les "
 	//
 	do {
-		c = buffer[i++];// Pour éviter 10.000 fois l'indirections
+		c = buffer[i++];  // Pour éviter 10.000 fois l'indirections
 
 		// Si on arrive à la fin de ligne on s'arrête
 		//
 		if (c == ';') {
 			buffer2[j] = '\0';
-		} else if (c != ' ' && c != '\"') {	// Ignore les espaces
+		} else if (c != ' ' && c != '\"') {	 // Ignore les espaces
 			buffer2[j++] = tolower(c);
 		}
 
@@ -563,25 +526,17 @@ bool CINEPlayer::getCommand()
 
 	buffer2[j] = '\0';
 
-
-
 	// Recherche le nom de la commande ---------------------------
 	//
 	pos = strchr(buffer2, '(');
 
-	if (pos == NULL)
-		return error();
-
+	if (pos == NULL) return error();
 
 	pos[0] = '\0';
 	strcpy(cmd_name, buffer2);
 	arg = pos + 1;
 
-
-	if (cmd_name[0] == '\0')
-		return error();
-
-
+	if (cmd_name[0] == '\0') return error();
 
 	// Recherche les arguments de la commande ---------------------
 	//
@@ -597,37 +552,26 @@ bool CINEPlayer::getCommand()
 		nb_args += 1;
 	}
 
-
 	return true;
 }
 
-void CINEPlayer::loadPBK(const char * f)
-{
-	pbk.loadGFX(f);
-}
+void CINEPlayer::loadPBK(const char* f) { pbk.loadGFX(f); }
 
 //---------------------------------------------------------------------------
 
-void CINEPlayer::closePlayer()
-{
-	fic_ = std::stringstream{};
-}
+void CINEPlayer::closePlayer() { fic_ = std::stringstream{}; }
 
 //---------------------------------------------------------------------------
 
-
-bool CINEPlayer::error()
-{
+bool CINEPlayer::error() {
 	debug << "CINEPlayer -> Syntax error line " << num_ligne << "\n";
 	fini = true;
 	return false;
 }
 
-
 //---------------------------------------------------------------------------
 
-bool CINEPlayer::error(const char * er)
-{
+bool CINEPlayer::error(const char* er) {
 	debug << "CINEPlayer -> Error line  " << num_ligne << " : " << er << "\n";
 	fini = true;
 	return false;

@@ -25,11 +25,11 @@
 #include "picture.h"
 
 class PictureBank {
-	private:
+   private:
 	std::vector<std::unique_ptr<Picture>> tab_;
 	std::string filename_;
 
-	public:
+   public:
 	inline Picture* operator[](int n) const { return tab_[n].get(); };
 	inline size_t getSize() const { return tab_.size(); };
 

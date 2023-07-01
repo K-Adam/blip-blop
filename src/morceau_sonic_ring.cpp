@@ -1,30 +1,26 @@
 
 /******************************************************************
-*
-*
-*		-----------------------
-*		   MorceauSonicRing.cpp
-*		-----------------------
-*
-*		Ring de Sonic qui Giclent...
-*
-*		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		   MorceauSonicRing.cpp
+ *		-----------------------
+ *
+ *		Ring de Sonic qui Giclent...
+ *
+ *		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "morceau_sonic_ring.h"
 
-//implementation de la classe MorceauSonicRing
+// implementation de la classe MorceauSonicRing
 
-MorceauSonicRing::MorceauSonicRing(int vx, int vy): dx(vx)
-{
-	dy  = vy;
-}
+MorceauSonicRing::MorceauSonicRing(int vx, int vy) : dx(vx) { dy = vy; }
 
-void MorceauSonicRing::update()
-{
+void MorceauSonicRing::update() {
 	x += dx;
 	tombe2();
 
@@ -36,11 +32,11 @@ void MorceauSonicRing::update()
 		}
 	}
 
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 4;
 
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 4;
 	}
 
