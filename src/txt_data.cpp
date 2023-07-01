@@ -23,7 +23,7 @@
 #include <fstream>
 
 #include "ben_debug.h"
-#include "json.h"
+#include <json.h>
 #include "string.h"
 
 using json = nlohmann::json;

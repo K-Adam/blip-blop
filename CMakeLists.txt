@@ -15,6 +15,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 aux_source_directory(src SRC)
 aux_source_directory(src/menus MENUS_SRC)
 
+include_directories(include)
+
 if(WIN32)
     add_executable(blipblop ${SRC} ${MENUS_SRC})
     target_link_libraries(blipblop PUBLIC ${SDL2_LIBRARIES})

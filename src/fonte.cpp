@@ -30,7 +30,7 @@
 
 #include "ben_debug.h"
 #include "fonte.h"
-#include "json.h"
+#include <json.h>
 #include "string.h"
 
 #include <SDL2/SDL_image.h>

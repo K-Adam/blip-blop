@@ -3,7 +3,7 @@
 #include <string.h>
 #include <fstream>
 #include "hi_scores.h"
-#include "json.h"
+#include <json.h>
 
 #ifdef _MSC_VER
 // TODO

@@ -10,7 +10,7 @@
 #include "config.h"
 #include "fmod__errors.h"
 #include "string.h"
-#include "json.h"
+#include <json.h>
 
 using json = nlohmann::json;
 
