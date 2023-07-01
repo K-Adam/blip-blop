@@ -1,28 +1,25 @@
 
 #include "ennemi_toad.h"
 
-const int anim_toad_marche_droite[] = { 0, 1, 2, 1};
-const int anim_toad_marche_gauche[] = { 4, 5, 6, 5};
+const int anim_toad_marche_droite[] = {0, 1, 2, 1};
+const int anim_toad_marche_gauche[] = {4, 5, 6, 5};
 
-static int	wait_brain_hurts = 1000;
-static bool	local_phase;
-static int	brain_hurts = 9;
+static int wait_brain_hurts = 1000;
+static bool local_phase;
+static int brain_hurts = 9;
 
-EnnemiToad::EnnemiToad(): speed(0), etape_speed(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5)
-{
+EnnemiToad::EnnemiToad() : speed(0), etape_speed(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
 	tresor = 7;
 	pv = 300;
 }
 
-void EnnemiToad::update()
-{
+void EnnemiToad::update() {
 	if (local_phase != phase) {
 		wait_brain_hurts++;
 		local_phase = phase;
 	}
 
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -43,7 +40,7 @@ void EnnemiToad::update()
 			onSaute();
 			break;
 
-		case ETAT_TIRE:  //Toad charge(ETAT_TIRE)
+		case ETAT_TIRE:	 // Toad charge(ETAT_TIRE)
 			onCharge();
 			break;
 	}
@@ -51,8 +48,7 @@ void EnnemiToad::update()
 	updateADetruire();
 }
 
-void EnnemiToad::onAvance()
-{
+void EnnemiToad::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -64,7 +60,7 @@ void EnnemiToad::onAvance()
 		onSaute();
 	}
 
-	//pour marcher
+	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -76,8 +72,7 @@ void EnnemiToad::onAvance()
 	wait_for_charge++;
 	if (wait_for_charge >= charge_delay) {
 		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
-		        (((dir == SENS_DROITE) && (x < tete_turc->x)) ||
-		         ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
+			(((dir == SENS_DROITE) && (x < tete_turc->x)) || ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
 			charge_etape = 0;
 			speed = 0;
 			etape = 0;
@@ -94,7 +89,7 @@ void EnnemiToad::onAvance()
 			ss_etape = 0;
 			etat = ETAT_SAUTE;
 			dy = -7;
-			lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 			onSaute();
 			return;
 		}
@@ -116,8 +111,7 @@ void EnnemiToad::onAvance()
 	colFromPic();
 }
 
-void EnnemiToad::onMeure()
-{
+void EnnemiToad::onMeure() {
 	/*if (dy<-5)
 		dy-=5;
 	if (dy<-2)
@@ -127,8 +121,7 @@ void EnnemiToad::onMeure()
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 10)
-		etape += 1;
+	if (ss_etape == 0 && etape < 10) etape += 1;
 	if ((etape > 4) && (hokuto > 0)) {
 		hokuto--;
 		etape -= 4;
@@ -139,7 +132,7 @@ void EnnemiToad::onMeure()
 	}
 
 	if (etape >= 10) {
-		int		yy = plat(x, y);
+		int yy = plat(x, y);
 
 		if (yy != 0 && yy != y_plat[4][x]) {
 			grave(x, y, pic);
@@ -147,19 +140,16 @@ void EnnemiToad::onMeure()
 		}
 	} else {
 		if (dir == SENS_GAUCHE) {
-			if (!mur_opaque(x - speed, y) && plat(x, y) == 0)
-				x -= speed;
+			if (!mur_opaque(x - speed, y) && plat(x, y) == 0) x -= speed;
 			pic = pbk_ennemis[18 + etape];
 		} else {
-			if (!mur_opaque(x + speed, y) && plat(x, y) == 0)
-				x += speed;
+			if (!mur_opaque(x + speed, y) && plat(x, y) == 0) x += speed;
 			pic = pbk_ennemis[8 + etape];
 		}
 	}
 }
 
-void EnnemiToad::onCharge()
-{
+void EnnemiToad::onCharge() {
 	speed = TOAD_CHARGE_SPEED;
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -185,10 +175,10 @@ void EnnemiToad::onCharge()
 	charge_etape += 1;
 	if (charge_etape < 80) {
 		if (dir == SENS_DROITE) {
-			//marche(speed);
+			// marche(speed);
 			pic = pbk_ennemis[anime(anim_toad_marche_droite, 4, 3)];
 		} else {
-			//marche( -speed);
+			// marche( -speed);
 			pic = pbk_ennemis[anime(anim_toad_marche_gauche, 4, 3)];
 		}
 	} else {
@@ -201,13 +191,11 @@ void EnnemiToad::onCharge()
 		}
 	}
 
-
 	colFromPic();
 }
 
-void EnnemiToad::onSaute()
-{
-	int		yp;
+void EnnemiToad::onSaute() {
+	int yp;
 
 	tombe();
 
@@ -223,7 +211,6 @@ void EnnemiToad::onSaute()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
 		x += speed;
 		pic = pbk_ennemis[3];
@@ -233,17 +220,15 @@ void EnnemiToad::onSaute()
 	}
 
 	colFromPic();
-
 }
 
-void EnnemiToad::onCarbonise()
-{
+void EnnemiToad::onCarbonise() {
 	tombe();
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 5;
 
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 	}
 
 	if (etape >= 13)
@@ -256,10 +241,9 @@ void EnnemiToad::onCarbonise()
 	}
 }
 
-void EnnemiToad::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiToad::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

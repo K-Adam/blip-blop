@@ -1,35 +1,30 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EnnemiSnorkyMage.cpp
-*		----------------------
-*
-*		(giclures faites...)
-*
-*		Mephisto / LOADED -   V 0.3 - 28 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------
+ *		  EnnemiSnorkyMage.cpp
+ *		----------------------
+ *
+ *		(giclures faites...)
+ *
+ *		Mephisto / LOADED -   V 0.3 - 28 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_snorky_mage.h"
 #include "tir_snorky_mage.h"
 
-
 const int snorky_mage_oscilation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-
-EnnemiSnorkyMage::EnnemiSnorkyMage(): wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscilation_etape(0)
-{
+EnnemiSnorkyMage::EnnemiSnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscilation_etape(0) {
 	pv = 200;
 	pic = pbk_ennemis[0];
 	dy = 0;
 }
 
-
-void EnnemiSnorkyMage::update()
-{
+void EnnemiSnorkyMage::update() {
 	switch (etat) {
 		case ETAT_AVANCE:
 		case ETAT_NORMAL:
@@ -55,12 +50,9 @@ void EnnemiSnorkyMage::update()
 	}
 
 	updateADetruire();
-
 }
 
-void EnnemiSnorkyMage::onAvance()
-{
-
+void EnnemiSnorkyMage::onAvance() {
 	oscilation_etape++;
 	oscilation_etape %= 43;
 	if (oscilation_etape >= 22) {
@@ -69,14 +61,12 @@ void EnnemiSnorkyMage::onAvance()
 		y += snorky_mage_oscilation[oscilation_etape];
 	}
 
-
 	wait_for_shoot++;
-	if	((tete_turc != NULL) && (wait_for_shoot > shoot_delay) && ((dir == SENS_DROITE && x > offset + 30) || (dir == SENS_GAUCHE && x < offset + 610)))
+	if ((tete_turc != NULL) && (wait_for_shoot > shoot_delay) && ((dir == SENS_DROITE && x > offset + 30) || (dir == SENS_GAUCHE && x < offset + 610)))
 
 	{
 		int dif_y = tete_turc->y - y;
 		int dif_x = tete_turc->x - x;
-
 
 		if ((dir == SENS_DROITE) && (dif_y > 0) && (dif_x > 0) && (dif_y - dif_x >= -30) && (dif_y - dif_x <= 30)) {
 			etape = 0;
@@ -101,10 +91,10 @@ void EnnemiSnorkyMage::onAvance()
 		}
 	}
 
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 5;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 6;
 	}
 
@@ -113,43 +103,37 @@ void EnnemiSnorkyMage::onAvance()
 	if (dir == SENS_GAUCHE) {
 		x -= SNORKY_MAGE_SPEED;
 
-		if (mur_opaque(x - SNORKY_MAGE_SPEED, y) || (x - SNORKY_MAGE_SPEED < xmin))
-			dir = SENS_DROITE;
+		if (mur_opaque(x - SNORKY_MAGE_SPEED, y) || (x - SNORKY_MAGE_SPEED < xmin)) dir = SENS_DROITE;
 	} else {
 		x += SNORKY_MAGE_SPEED;
 
-		if (mur_opaque(x + SNORKY_MAGE_SPEED, y) || (x + SNORKY_MAGE_SPEED > offset + 640))
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x + SNORKY_MAGE_SPEED, y) || (x + SNORKY_MAGE_SPEED > offset + 640)) dir = SENS_GAUCHE;
 	}
 
 	colFromPic();
 }
 
-void EnnemiSnorkyMage::onTombe()
-{
+void EnnemiSnorkyMage::onTombe() {
 	tombe();
 
-	if (plat(x, y) != 0)
-		etat = ETAT_AVANCE;
+	if (plat(x, y) != 0) etat = ETAT_AVANCE;
 
 	colFromPic();
 }
 
-void EnnemiSnorkyMage::onMeure()
-{
+void EnnemiSnorkyMage::onMeure() {
 	if (etape > 2) {
 		tombe();
 	}
 
-	ss_etape ++;
+	ss_etape++;
 	if (etape < 2) {
 		ss_etape %= 17;
 	} else {
 		ss_etape %= 5;
 	}
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (ss_etape == 0 && etape == 3) {
 		sbk_niveau.play(13);
@@ -163,27 +147,25 @@ void EnnemiSnorkyMage::onMeure()
 	}
 
 	if (etape == 11) {
-		if (plat(x, y) != 0)
-			grave(x, y, pic);
+		if (plat(x, y) != 0) grave(x, y, pic);
 
 		a_detruire = true;
-//		sbk_niveau.play( 11);
+		//		sbk_niveau.play( 11);
 	} else {
 		pic = pbk_ennemis[266 + etape];
 	}
 }
 
-void EnnemiSnorkyMage::onTire()
-{
+void EnnemiSnorkyMage::onTire() {
 	if (concentration < 3) {
-		ss_etape ++;
+		ss_etape++;
 		ss_etape %= 4;
 		if (ss_etape == 0) {
-			etape ++;
+			etape++;
 		}
 
 		if (etape == 6) {
-			concentration ++;
+			concentration++;
 			etape = 0;
 			if (concentration == 3) {
 				etape = 0;
@@ -196,11 +178,11 @@ void EnnemiSnorkyMage::onTire()
 		ss_etape++;
 		ss_etape %= 4;
 		if (ss_etape == 0) {
-			etape ++;
+			etape++;
 		}
 		if ((etape == 2) && (ss_etape == 0)) {
 			if (dir == SENS_DROITE) {
-				TirSnorkyMage *	tir = new TirSnorkyMage();
+				TirSnorkyMage* tir = new TirSnorkyMage();
 
 				tir->setDir(dir);
 				tir->x = x + 35;
@@ -208,7 +190,7 @@ void EnnemiSnorkyMage::onTire()
 
 				list_tirs_ennemis.emplace_back(tir);
 			} else {
-				TirSnorkyMage *	tir = new TirSnorkyMage();
+				TirSnorkyMage* tir = new TirSnorkyMage();
 
 				tir->setDir(dir);
 				tir->x = x - 35;
@@ -228,7 +210,6 @@ void EnnemiSnorkyMage::onTire()
 			return;
 		}
 
-
 		if (etape < 3) {
 			if (dir == SENS_DROITE) {
 				pic = pbk_ennemis[249 + etape];
@@ -239,13 +220,11 @@ void EnnemiSnorkyMage::onTire()
 	}
 }
 
-void EnnemiSnorkyMage::onCarbonise()
-{
-	ss_etape ++;
+void EnnemiSnorkyMage::onCarbonise() {
+	ss_etape++;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape == 7) {
 		a_detruire = true;
@@ -254,11 +233,9 @@ void EnnemiSnorkyMage::onCarbonise()
 	}
 }
 
-void EnnemiSnorkyMage::estTouche(Tir * tir)
-{
-	static const int dx_giclure_mage [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_mage [] = { -35, -45, -45, -45, -55, -45, -45, -45 };
-
+void EnnemiSnorkyMage::estTouche(Tir* tir) {
+	static const int dx_giclure_mage[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_mage[] = {-35, -45, -45, -45, -55, -45, -45, -45};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_mage, dy_giclure_mage);

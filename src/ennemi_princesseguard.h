@@ -1,23 +1,22 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiPrincesseguard.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.9 - 21 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiPrincesseguard.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.9 - 21 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "enemy.h"
 #include "ennemi_princesse.h"
-
 
 #define GUARD_SPEED 1
 
@@ -25,18 +24,16 @@
 //		Définition de la classe EnnemiPrincesseGuard
 //----------------------------------------------------------------------------
 
-class EnnemiPrincesseguard : public Ennemi
-{
-private:
+class EnnemiPrincesseguard : public Ennemi {
+   private:
 	int distance_couverture;
 
-public:
-	EnnemiPrincesse * princesse;
-
+   public:
+	EnnemiPrincesse* princesse;
 
 	EnnemiPrincesseguard(EnnemiPrincesse* Princesse, int distance);
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

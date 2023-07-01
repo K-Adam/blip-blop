@@ -7,12 +7,12 @@
 #include "menu_list.h"
 
 class OptionsPanel : public AbstractMenu {
-	public:
+   public:
 	OptionsPanel();
 	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
 	int ProcessEvent();
 
-	private:
+   private:
 	void RefreshVsync();
 
 	MenuList items_;

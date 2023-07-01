@@ -1,34 +1,29 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EnnemiDiabolo.cpp
-*		----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.4 - 27 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------
+ *		  EnnemiDiabolo.cpp
+ *		----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.4 - 27 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_diabolo.h"
 #include "ben_debug.h"
 #include "tir_tornade.h"
 
-
-
-EnnemiDiabolo::EnnemiDiabolo(): wait_for_attack(0), attack_delay(50 + rand() % 100), attack_type(0)
-{
+EnnemiDiabolo::EnnemiDiabolo() : wait_for_attack(0), attack_delay(50 + rand() % 100), attack_type(0) {
 	pv = 30000;
 	dy = 0;
 	xmin = 80;
 }
 
-
-void EnnemiDiabolo::update()
-{
+void EnnemiDiabolo::update() {
 	switch (etat) {
 		case ETAT_AVANCE:
 		case ETAT_NORMAL:
@@ -65,13 +60,10 @@ void EnnemiDiabolo::update()
 			break;
 	}
 
-	//updateADetruire();
-
+	// updateADetruire();
 }
 
-void EnnemiDiabolo::onAvance()
-{
-
+void EnnemiDiabolo::onAvance() {
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -82,8 +74,7 @@ void EnnemiDiabolo::onAvance()
 
 	wait_for_attack++;
 	if ((wait_for_attack > attack_delay) && (tete_turc != NULL)) {
-		if (((dir == SENS_DROITE) && (tete_turc->x > x))
-		        || ((dir == SENS_GAUCHE) && (tete_turc->x < x))) {
+		if (((dir == SENS_DROITE) && (tete_turc->x > x)) || ((dir == SENS_GAUCHE) && (tete_turc->x < x))) {
 			int dif_y = tete_turc->y - y;
 			int dif_x = tete_turc->x - x;
 
@@ -94,7 +85,7 @@ void EnnemiDiabolo::onAvance()
 				ss_etape = 0;
 				etat = ETAT_TIRE;
 				attack_type = 0;
-				dy =  -3;
+				dy = -3;
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
 				onCoupdelatte();
 				return;
@@ -105,8 +96,8 @@ void EnnemiDiabolo::onAvance()
 				ss_etape = 0;
 				etat = ETAT_TIRE;
 				attack_type = 2;
-				dx =  1;
-				dy =  -8;
+				dx = 1;
+				dy = -8;
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
 				onCoupdegenou();
 				return;
@@ -117,9 +108,9 @@ void EnnemiDiabolo::onAvance()
 				ss_etape = 0;
 				etat = ETAT_TIRE;
 				attack_type = 2;
-				dx =  -1;
-				dy =  -8;
-				//debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
+				dx = -1;
+				dy = -8;
+				// debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
 				onCoupdegenou();
 				return;
 			} else if ((dir == SENS_DROITE) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
@@ -131,7 +122,7 @@ void EnnemiDiabolo::onAvance()
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
 				dy = (int)(-8 + dx * 0.25);
-				//debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
+				// debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
 				onCoupdegenou();
 				return;
 			} else if ((dir == SENS_GAUCHE) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
@@ -186,18 +177,15 @@ void EnnemiDiabolo::onAvance()
 	colFromPic();
 }
 
-void EnnemiDiabolo::onTombe()
-{
+void EnnemiDiabolo::onTombe() {
 	tombe();
 
-	if (plat(x, y) != 0)
-		etat = ETAT_AVANCE;
+	if (plat(x, y) != 0) etat = ETAT_AVANCE;
 
 	colFromPic();
 }
 
-void EnnemiDiabolo::onMeure()
-{
+void EnnemiDiabolo::onMeure() {
 	/*tombe();
 
 	ss_etape += 1;
@@ -241,8 +229,7 @@ void EnnemiDiabolo::onMeure()
 	}*/
 }
 
-void EnnemiDiabolo::onAttack()
-{
+void EnnemiDiabolo::onAttack() {
 	/*	ss_etape ++;
 		ss_etape %= 6;
 		if(ss_etape == 0)
@@ -298,8 +285,7 @@ void EnnemiDiabolo::onAttack()
 		}*/
 }
 
-void EnnemiDiabolo::onCoupdelatte()
-{
+void EnnemiDiabolo::onCoupdelatte() {
 	if (etape == 15) {
 		etape = 0;
 		ss_etape = 0;
@@ -353,13 +339,11 @@ void EnnemiDiabolo::onCoupdelatte()
 	colFromPic();
 }
 
-
-void EnnemiDiabolo::onTornade()
-{
-	ss_etape ++;
+void EnnemiDiabolo::onTornade() {
+	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 	}
 
 	if (etape == 9) {
@@ -368,11 +352,10 @@ void EnnemiDiabolo::onTornade()
 		etat = ETAT_AVANCE;
 		onAvance();
 		return;
-
 	}
 
 	if ((etape == 6) && (ss_etape == 0)) {
-		Tir * tornade;
+		Tir* tornade;
 
 		if (dir == SENS_DROITE) {
 			tornade = new TirTornade(1);
@@ -395,9 +378,8 @@ void EnnemiDiabolo::onTornade()
 	colFromPic();
 }
 
-void EnnemiDiabolo::onCoupdegenou()
-{
-	//tombe();
+void EnnemiDiabolo::onCoupdegenou() {
+	// tombe();
 	if (dx == 0) {
 		if (dy < 0) {
 			dy = 0;
@@ -469,9 +451,7 @@ void EnnemiDiabolo::onCoupdegenou()
 	colFromPic();
 }
 
-
-void EnnemiDiabolo::onCarbonise()
-{
+void EnnemiDiabolo::onCarbonise() {
 	/*ss_etape ++;
 	ss_etape %= 6;
 
@@ -491,8 +471,7 @@ void EnnemiDiabolo::onCarbonise()
 	}*/
 }
 
-void EnnemiDiabolo::colFromPic()
-{
+void EnnemiDiabolo::colFromPic() {
 	Sprite::colFromPic();
 
 	/*if ( etat == ETAT_SALETO)
@@ -518,31 +497,25 @@ void EnnemiDiabolo::colFromPic()
 	}
 }
 
-
-void EnnemiDiabolo::tombe_diabolo()
-{
+void EnnemiDiabolo::tombe_diabolo() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_DIABOLO_GRAVITE;
 
-	if (lat_grav == 0 && dy < DIABOLO_GRAVITE_MAX)
-		dy += 1;
+	if (lat_grav == 0 && dy < DIABOLO_GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
 
 	int ny = plat2(x, y + dy);
 
 	if (ny == 0 && dy > 0)
-		y = plat(x , y + dy);
+		y = plat(x, y + dy);
 	else
 		y += dy;
 }
 
-void EnnemiDiabolo::estTouche(Tir * tir)
-{
-	static const int dx_giclure_lem [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_lem [] = { -15, -15, -15, -15, -15, -15, -15, -15 };
-
+void EnnemiDiabolo::estTouche(Tir* tir) {
+	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_lem, dy_giclure_lem);

@@ -3,19 +3,12 @@
 #include "gore_bisou_auto.h"
 #include "explosion.h"
 
-
-static const int GO_LEFT  = 0;
+static const int GO_LEFT = 0;
 static const int GO_RIGHT = 1;
 
+EnnemiBisouAuto::EnnemiBisouAuto() : cible(tete_turc), dx(0), togo(GO_LEFT), trick(false) { pv = 800; }
 
-EnnemiBisouAuto::EnnemiBisouAuto() : cible(tete_turc), dx(0), togo(GO_LEFT), trick(false)
-{
-	pv = 800;
-}
-
-
-void EnnemiBisouAuto::update()
-{
+void EnnemiBisouAuto::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -31,23 +24,18 @@ void EnnemiBisouAuto::update()
 	updateADetruire();
 }
 
-
-void EnnemiBisouAuto::onAvance()
-{
-	static const int anim_droite [] = { 559, 560, 561, 560 };
-	static const int anim_gauche [] = { 562, 563, 564, 563};
+void EnnemiBisouAuto::onAvance() {
+	static const int anim_droite[] = {559, 560, 561, 560};
+	static const int anim_gauche[] = {562, 563, 564, 563};
 
 	static const int SPEED = 200;
 	static const int ACCELX = 2;
 	static const int ACCELY = 5;
 
-
-
 	if (cible == NULL || cible->a_detruire) {
 		cible = tete_turc;
 
-		if (cible == NULL)
-			return;
+		if (cible == NULL) return;
 	}
 
 	int gox;
@@ -64,11 +52,15 @@ void EnnemiBisouAuto::onAvance()
 
 	int goy = (cible->y - 20);
 
-	if (gox < x && dx > -SPEED) dx -= ACCELX;
-	else if (gox > x && dx < SPEED) dx += ACCELX;
+	if (gox < x && dx > -SPEED)
+		dx -= ACCELX;
+	else if (gox > x && dx < SPEED)
+		dx += ACCELX;
 
-	if (goy < y && dy > -SPEED) dy -= ACCELY;
-	else if (goy > y && dy < SPEED) dy += ACCELY;
+	if (goy < y && dy > -SPEED)
+		dy -= ACCELY;
+	else if (goy > y && dy < SPEED)
+		dy += ACCELY;
 
 	gox = dx / 40;
 	goy = dy / 40;
@@ -84,15 +76,13 @@ void EnnemiBisouAuto::onAvance()
 	colFromPic();
 }
 
-void EnnemiBisouAuto::onMeure()
-{
-	static const int anim_droite [] = { 559, 560, 561, 560 };
-	static const int anim_gauche [] = { 562, 563, 564, 563};
+void EnnemiBisouAuto::onMeure() {
+	static const int anim_droite[] = {559, 560, 561, 560};
+	static const int anim_gauche[] = {562, 563, 564, 563};
 
 	static const int SPEED = 200;
 	static const int ACCELX = 2;
 	static const int ACCELY = 5;
-
 
 	int gox;
 
@@ -101,18 +91,17 @@ void EnnemiBisouAuto::onMeure()
 	else
 		gox = offset + 900;
 
+	if (gox < x && dx > -SPEED)
+		dx -= ACCELX;
+	else if (gox > x && dx < SPEED)
+		dx += ACCELX;
 
-	if (gox < x && dx > -SPEED) dx -= ACCELX;
-	else if (gox > x && dx < SPEED) dx += ACCELX;
-
-	if (dy < SPEED)
-		dy += ACCELY;
+	if (dy < SPEED) dy += ACCELY;
 
 	x += dx / 40;
 	y += dy / 40;
 
-	if (mur_opaque(x, y) || plat(x, y) != 0)
-		dy = -200;
+	if (mur_opaque(x, y) || plat(x, y) != 0) dy = -200;
 
 	if (dx > 0)
 		pic = pbk_ennemis[anime(anim_droite, 4, 8)];
@@ -120,7 +109,7 @@ void EnnemiBisouAuto::onMeure()
 		pic = pbk_ennemis[anime(anim_gauche, 4, 8)];
 
 	if ((ss_etape % 2) == 0) {
-		Explosion * s = new Explosion();
+		Explosion* s = new Explosion();
 
 		s->x = x - 20 + rand() % 40;
 		s->y = y - 20 + rand() % 40;
@@ -129,5 +118,4 @@ void EnnemiBisouAuto::onMeure()
 	}
 
 	updateADetruire();
-
 }

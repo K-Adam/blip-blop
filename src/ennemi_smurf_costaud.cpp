@@ -2,21 +2,17 @@
 #include "ennemi_smurf_costaud.h"
 #include "tir_hadoken.h"
 
-#define ETAT_TIRE_HADOKEN	1000
-#define ETAT_TIRE_DPUNCH	1001
-#define ETAT_TIRE_HKICK		1002
+#define ETAT_TIRE_HADOKEN 1000
+#define ETAT_TIRE_DPUNCH 1001
+#define ETAT_TIRE_HKICK 1002
 
-
-EnnemiSmurfCostaud::EnnemiSmurfCostaud() : etape_shoot(0), dx(0)
-{
+EnnemiSmurfCostaud::EnnemiSmurfCostaud() : etape_shoot(0), dx(0) {
 	wait_shoot = 50 + rand() % 50;
 	pv = 2000;
 }
 
-void EnnemiSmurfCostaud::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiSmurfCostaud::update() {
+	if (blood > 0) blood -= 1;
 
 	if (game_flag[0] != 0) {
 		etape_shoot += 1;
@@ -58,10 +54,9 @@ void EnnemiSmurfCostaud::update()
 	updateADetruire();
 }
 
-void EnnemiSmurfCostaud::onAvance()
-{
-	static const int marche_droite[] = { 265, 266, 267, 268, 267, 266 };
-	static const int marche_gauche[] = { 269, 270, 271, 272, 271, 270 };
+void EnnemiSmurfCostaud::onAvance() {
+	static const int marche_droite[] = {265, 266, 267, 268, 267, 266};
+	static const int marche_gauche[] = {269, 270, 271, 272, 271, 270};
 	static const int SPEED = 1;
 
 	tombe();
@@ -91,10 +86,9 @@ void EnnemiSmurfCostaud::onAvance()
 	colFromPic();
 }
 
-void EnnemiSmurfCostaud::estTouche(Tir * tir)
-{
-	static const int dx_giclure_smurf [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_smurf [] = { -15, -15, -15, -15, -15, -15, -15, -15 };
+void EnnemiSmurfCostaud::estTouche(Tir* tir) {
+	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
@@ -104,13 +98,11 @@ void EnnemiSmurfCostaud::estTouche(Tir * tir)
 	}
 }
 
-void EnnemiSmurfCostaud::onCarbonise()
-{
+void EnnemiSmurfCostaud::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 6) {
 		a_detruire = true;
@@ -122,8 +114,7 @@ void EnnemiSmurfCostaud::onCarbonise()
 	}
 }
 
-void EnnemiSmurfCostaud::onMeure()
-{
+void EnnemiSmurfCostaud::onMeure() {
 	tombe();
 
 	int x2;
@@ -133,15 +124,13 @@ void EnnemiSmurfCostaud::onMeure()
 	else
 		x2 = x;
 
-	if (!mur_opaque(x2, y))
-		x = x2;
+	if (!mur_opaque(x2, y)) x = x2;
 
 	if (etape < 13) {
 		ss_etape += 1;
 		ss_etape %= 3;
 
-		if (ss_etape == 0)
-			etape += 1;
+		if (ss_etape == 0) etape += 1;
 	}
 
 	if (etape >= 14 && plat(x, y) != 0) {
@@ -155,8 +144,7 @@ void EnnemiSmurfCostaud::onMeure()
 	}
 }
 
-void EnnemiSmurfCostaud::onTireHadoken()
-{
+void EnnemiSmurfCostaud::onTireHadoken() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -164,7 +152,7 @@ void EnnemiSmurfCostaud::onTireHadoken()
 		etape += 1;
 
 		if (etape == 4) {
-			TirHadoken * t = new TirHadoken();
+			TirHadoken* t = new TirHadoken();
 
 			t->x = x;
 			t->y = y - 30;
@@ -191,19 +179,17 @@ void EnnemiSmurfCostaud::onTireHadoken()
 	}
 }
 
-void EnnemiSmurfCostaud::onTireDragonPunch()
-{
+void EnnemiSmurfCostaud::onTireDragonPunch() {
 	tombe();
 
-	if (etape <= 2) { // Le départ
+	if (etape <= 2) {  // Le départ
 		ss_etape += 1;
 		ss_etape %= 4;
 
 		if (ss_etape == 0) {
 			etape += 1;
 
-			if (etape > 2)
-				dy = dypunch;
+			if (etape > 2) dy = dypunch;
 		}
 	} else if (dy < 0) {
 		if (dir == SENS_DROITE && x < offset + 640 && !mur_opaque(x + 1, y))
@@ -215,8 +201,7 @@ void EnnemiSmurfCostaud::onTireDragonPunch()
 			ss_etape += 1;
 			ss_etape %= 12;
 
-			if (ss_etape == 0)
-				etape += 1;
+			if (ss_etape == 0) etape += 1;
 		}
 
 		if (plat(x, y) != 0) {
@@ -237,9 +222,7 @@ void EnnemiSmurfCostaud::onTireDragonPunch()
 	colFromPic();
 }
 
-
-void EnnemiSmurfCostaud::onTireHurricanKick()
-{
+void EnnemiSmurfCostaud::onTireHurricanKick() {
 	tombe();
 
 	ss_etape += 1;
@@ -252,8 +235,7 @@ void EnnemiSmurfCostaud::onTireHurricanKick()
 
 	int x2 = x + dx;
 
-	if (!mur_opaque(x2, y) && x2 > xmin && x2 < offset + 740)
-		x = x2;
+	if (!mur_opaque(x2, y) && x2 > xmin && x2 < offset + 740) x = x2;
 
 	if (dy > 0 && plat(x, y) != 0) {
 		ss_etape = etape = 0;
@@ -269,10 +251,8 @@ void EnnemiSmurfCostaud::onTireHurricanKick()
 	colFromPic();
 }
 
-void EnnemiSmurfCostaud::onTire()
-{
-	if (tete_turc == NULL)
-		return;
+void EnnemiSmurfCostaud::onTire() {
+	if (tete_turc == NULL) return;
 
 	etape = ss_etape = 0;
 
@@ -295,8 +275,7 @@ void EnnemiSmurfCostaud::onTire()
 		etat = ETAT_TIRE_DPUNCH;
 		dypunch = ddy / 10;
 
-		if (dypunch < -10)
-			dypunch = -10;
+		if (dypunch < -10) dypunch = -10;
 
 		sbk_niveau.play(20);
 		onTireDragonPunch();

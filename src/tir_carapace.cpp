@@ -6,27 +6,22 @@
 #include "tir_carapace.h"
 #include "ben_debug.h"
 
-TirCarapace::TirCarapace()
-{
+TirCarapace::TirCarapace() {
 	pic = pbk_ennemis[58];
 	rebond = false;
 }
 
-
-void TirCarapace::update()
-{
+void TirCarapace::update() {
 	tombe();
 
 	ss_etape++;
 	ss_etape %= 3;
-
 
 	if (ss_etape == 0) {
 		etape += 1;
 		etape %= 4;
 	}
 	pic = pbk_ennemis[58 + etape];
-
 
 	if (/*x - CARAPACE_SPEED < xmin ||*/ mur_opaque(x - CARAPACE_SPEED, y)) {
 		if (rebond) {
@@ -49,8 +44,7 @@ void TirCarapace::update()
 	} else {
 		x += CARAPACE_SPEED;
 	}
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50)
-		a_detruire = true;
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
 
 	colFromPic();
 }

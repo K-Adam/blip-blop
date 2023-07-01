@@ -1,17 +1,13 @@
 #include "ennemi_yoshi_dca.h"
 #include "tir_carapace.h"
 
-
-EnnemiYoshiDCA::EnnemiYoshiDCA(): attack_delay(50 + rand() % 150), wait_for_attack(0)
-{
+EnnemiYoshiDCA::EnnemiYoshiDCA() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
 	tresor = 12;
 	pv = 400;
 }
 
-void EnnemiYoshiDCA::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiYoshiDCA::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -27,11 +23,11 @@ void EnnemiYoshiDCA::update()
 			onCarbonise();
 			break;
 
-		/*case ETAT_TOMBE:
-			onTombe();
-			break;*/
+			/*case ETAT_TOMBE:
+				onTombe();
+				break;*/
 
-		case ETAT_TIRE:  //YoshiDCA balance des carapaces
+		case ETAT_TIRE:	 // YoshiDCA balance des carapaces
 			onTire();
 			break;
 	}
@@ -39,10 +35,9 @@ void EnnemiYoshiDCA::update()
 	updateADetruire();
 }
 
-void EnnemiYoshiDCA::onAvance()
-{
+void EnnemiYoshiDCA::onAvance() {
 	tombe();
-	//pour attaquer
+	// pour attaquer
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;
@@ -68,22 +63,18 @@ void EnnemiYoshiDCA::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiYoshiDCA::onMeure()
-{
+void EnnemiYoshiDCA::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 9)
-		etape += 1;
+	if (ss_etape == 0 && etape < 9) etape += 1;
 
 	if (etape >= 9) {
-		int		yy = plat(x, y);
+		int yy = plat(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x])
-			grave(x, y, pic);
+		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
 
 		a_detruire = true;
 	} else {
@@ -94,17 +85,14 @@ void EnnemiYoshiDCA::onMeure()
 	}
 }
 
-void EnnemiYoshiDCA::onTire()
-{
-
+void EnnemiYoshiDCA::onTire() {
 	ss_etape += 1;
 	ss_etape %= 15;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 2) {
-		TirCarapace *	tir = new TirCarapace();
+		TirCarapace* tir = new TirCarapace();
 
 		tir->setDir(dir);
 
@@ -115,14 +103,12 @@ void EnnemiYoshiDCA::onTire()
 
 		tir->y = y - 23;
 
-
 		list_tirs_ennemis.emplace_back(tir);
 
 		etape = 0;
 		etat = ETAT_AVANCE;
 		return;
 	}
-
 
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[54 + etape];
@@ -133,14 +119,12 @@ void EnnemiYoshiDCA::onTire()
 	colFromPic();
 }
 
-void EnnemiYoshiDCA::onCarbonise()
-{
+void EnnemiYoshiDCA::onCarbonise() {
 	tombe();
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (etape >= 14)
 		a_detruire = true;
@@ -152,10 +136,9 @@ void EnnemiYoshiDCA::onCarbonise()
 	}
 }
 
-void EnnemiYoshiDCA::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiYoshiDCA::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

@@ -1,30 +1,27 @@
 /******************************************************************
-*
-*
-*		-----------------------------
-*		  EnnemiSnorkyHyporider.cpp
-*		-----------------------------
-*
-*		(giclures faites... sauf peut-etre vers le bas a cause de l'hypo...)
-*
-*		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------------
+ *		  EnnemiSnorkyHyporider.cpp
+ *		-----------------------------
+ *
+ *		(giclures faites... sauf peut-etre vers le bas a cause de l'hypo...)
+ *
+ *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_snorky_hyporider.h"
 #include "morceaux_tete_snorky.h"
 
-EnnemiSnorkyHyporider::EnnemiSnorkyHyporider(): wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_etape(0)
-{
+EnnemiSnorkyHyporider::EnnemiSnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_etape(0) {
 	pv = 350;
 	dy = 0;
 }
 
-
-void EnnemiSnorkyHyporider::update()
-{
+void EnnemiSnorkyHyporider::update() {
 	switch (etat) {
 		case ETAT_TOMBE:
 		case ETAT_SAUTE:
@@ -48,12 +45,10 @@ void EnnemiSnorkyHyporider::update()
 	}
 
 	updateADetruire();
-
 }
 
-void EnnemiSnorkyHyporider::onAvance()
-{
-	wait_for_charge ++;
+void EnnemiSnorkyHyporider::onAvance() {
+	wait_for_charge++;
 	if ((wait_for_charge > charge_delay) && ((dir == SENS_DROITE && x > offset + 80) || (dir == SENS_GAUCHE && x < offset + 560))) {
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 200;
@@ -65,34 +60,30 @@ void EnnemiSnorkyHyporider::onAvance()
 		return;
 	}
 
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 4;
 	}
 
 	if (dir == SENS_GAUCHE) {
-		x -=  HYPORIDER_SPEED;
+		x -= HYPORIDER_SPEED;
 		pic = pbk_ennemis[291];
 
-		if (mur_opaque(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin))
-			dir = SENS_DROITE;
+		if (mur_opaque(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin)) dir = SENS_DROITE;
 	} else {
 		x += HYPORIDER_SPEED;
 
 		pic = pbk_ennemis[286];
 
-		if (mur_opaque(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640))
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) dir = SENS_GAUCHE;
 	}
 
 	colFromPic();
 }
 
-
-void EnnemiSnorkyHyporider::onMeure()
-{
+void EnnemiSnorkyHyporider::onMeure() {
 	ss_etape += 1;
 	if (etape < 7) {
 		ss_etape %= 3;
@@ -100,11 +91,10 @@ void EnnemiSnorkyHyporider::onMeure()
 		ss_etape %= 5;
 	}
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 7 && ss_etape == 0) {
-		Sprite * s;
+		Sprite* s;
 		if (dir == SENS_DROITE) {
 			s = new MorceauSnorkyHyporidercorp(-1);
 		} else {
@@ -140,13 +130,12 @@ void EnnemiSnorkyHyporider::onMeure()
 	}
 }
 
-void EnnemiSnorkyHyporider::onCharge()
-{
-	ss_etape ++;
+void EnnemiSnorkyHyporider::onCharge() {
+	ss_etape++;
 	ss_etape %= 2;
 
 	if (ss_etape == 0) {
-		etape ++;
+		etape++;
 		etape %= 4;
 	}
 
@@ -191,14 +180,12 @@ void EnnemiSnorkyHyporider::onCharge()
 	colFromPic();
 }
 
-void EnnemiSnorkyHyporider::onCarbonise()
-{
+void EnnemiSnorkyHyporider::onCarbonise() {
 	nageoire = 0;
-	ss_etape ++;
+	ss_etape++;
 	ss_etape %= 4;
 
-	if (ss_etape == 0)
-		etape ++;
+	if (ss_etape == 0) etape++;
 
 	if (dir == SENS_DROITE) {
 		x += 6;
@@ -211,11 +198,9 @@ void EnnemiSnorkyHyporider::onCarbonise()
 	if ((x - 6 < xmin) || (x + 6 > offset + 640)) {
 		a_detruire = true;
 	}
-
 }
 
-void EnnemiSnorkyHyporider::affiche()
-{
+void EnnemiSnorkyHyporider::affiche() {
 	Sprite::affiche();
 
 	if ((etat == ETAT_CARBONISE) && (etape < 9)) {
@@ -235,11 +220,9 @@ void EnnemiSnorkyHyporider::affiche()
 	}
 }
 
-void EnnemiSnorkyHyporider::estTouche(Tir * tir)
-{
-	static const int dx_giclure_hyporider [] = { 0, 0, 7, 3, 0, -3, -7, 0 };
-	static const int dy_giclure_hyporider [] = { -15, -15, -15, -25, -25, -25, -15, -15 };
-
+void EnnemiSnorkyHyporider::estTouche(Tir* tir) {
+	static const int dx_giclure_hyporider[] = {0, 0, 7, 3, 0, -3, -7, 0};
+	static const int dy_giclure_hyporider[] = {-15, -15, -15, -25, -25, -25, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_hyporider, dy_giclure_hyporider);

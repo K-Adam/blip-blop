@@ -1,31 +1,27 @@
 /******************************************************************
-*
-*
-*		--------------------------
-*		  EnnemiFlamecheHeros.cpp
-*		--------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 14 Janvier 2001
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		--------------------------
+ *		  EnnemiFlamecheHeros.cpp
+ *		--------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 14 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_flameche_heros.h"
 
-
-EnnemiFlamecheHeros::EnnemiFlamecheHeros(): dorkeball(2)
-{
+EnnemiFlamecheHeros::EnnemiFlamecheHeros() : dorkeball(2) {
 	pv = 1000;
 	dy = -7;
 	dx = -1;
 }
 
-void EnnemiFlamecheHeros::update()
-{
+void EnnemiFlamecheHeros::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		tombe();
@@ -39,19 +35,19 @@ void EnnemiFlamecheHeros::update()
 			dorkeball = 1;
 			return;
 		} else {
-			ss_etape ++;
+			ss_etape++;
 			ss_etape %= 5;
 			if (ss_etape == 0) {
-				etape ++;
+				etape++;
 				etape %= 4;
 			}
 			pic = pbk_ennemis[272 + etape];
 		}
 	} else if (dorkeball == 1) {
-		ss_etape ++;
+		ss_etape++;
 		ss_etape %= 8;
 		if (ss_etape == 0) {
-			etape ++;
+			etape++;
 			if (etape > 3) {
 				dorkeball = 0;
 				etape = 0;
@@ -62,15 +58,13 @@ void EnnemiFlamecheHeros::update()
 		}
 
 	} else {
-		if (blood > 0)
-			blood -= 1;
+		if (blood > 0) blood -= 1;
 
 		switch (etat) {
 			case ETAT_NORMAL:
 			case ETAT_AVANCE:
 				onAvance();
 				break;
-
 
 			case ETAT_MEURE:
 			case ETAT_CARBONISE:
@@ -82,8 +76,7 @@ void EnnemiFlamecheHeros::update()
 	}
 }
 
-void EnnemiFlamecheHeros::onAvance()
-{
+void EnnemiFlamecheHeros::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -111,18 +104,16 @@ void EnnemiFlamecheHeros::onAvance()
 	colFromPic();
 }
 
-void EnnemiFlamecheHeros::onMeure()
-{
+void EnnemiFlamecheHeros::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 4;
 
-	if (ss_etape == 0 && etape < 14)
-		etape += 1;
+	if (ss_etape == 0 && etape < 14) etape += 1;
 
 	if (etape >= 14) {
-		game_flag[1] --;
+		game_flag[1]--;
 		a_detruire = true;
 	} else {
 		if (dir == SENS_GAUCHE)
@@ -132,11 +123,9 @@ void EnnemiFlamecheHeros::onMeure()
 	}
 }
 
-
-void EnnemiFlamecheHeros::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiFlamecheHeros::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (dorkeball == 0) {
 		Ennemi::estTouche(tir);

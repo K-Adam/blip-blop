@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		  GenEnnemi.cpp
-*		-----------------
-*
-*		Classe Générateur ennemi
-*
-*
-*		Prosper / LOADED -   5 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		  GenEnnemi.cpp
+ *		-----------------
+ *
+ *		Classe Générateur ennemi
+ *
+ *
+ *		Prosper / LOADED -   5 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "sprite.h"
 #include "gen_ennemi.h"
@@ -20,31 +20,27 @@
 #include "couille.h"
 
 #ifndef SENS_GAUCHE
-#define SENS_GAUCHE		0
-#define SENS_DROITE		1
+#define SENS_GAUCHE 0
+#define SENS_DROITE 1
 #endif
 
-GenEnnemi::GenEnnemi() : t(0), a_detruire(false)
-{
-}
+GenEnnemi::GenEnnemi() : t(0), a_detruire(false) {}
 
-void GenEnnemi::update()
-{
-	if (game_flag[FLAG_GEN_OFF] != 0)
-		return;
+void GenEnnemi::update() {
+	if (game_flag[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
 	t %= periode;
 
 	if (t == 0) {
-		bool		ok = true;
+		bool ok = true;
 
 		for (Couille* s : list_joueurs) {
 			ok = (s->x < x - 100 || s->x > x + 100 || s->y < y - 100 || s->y > y + 100);
 		}
 
 		if (ok) {
-			EventEnnemi	e;
+			EventEnnemi e;
 
 			e.id_ennemi = id_ennemi;
 			e.sens = sens;
@@ -55,10 +51,8 @@ void GenEnnemi::update()
 
 		capacite -= 1;
 
-		if (capacite <= 0)
-			a_detruire = true;
+		if (capacite <= 0) a_detruire = true;
 	}
 
-	if (x < offset - 100)
-		a_detruire = true;
+	if (x < offset - 100) a_detruire = true;
 }

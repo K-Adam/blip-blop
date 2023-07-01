@@ -1,16 +1,12 @@
 
 #include "ennemi_grand_smurf.h"
 
-#define ATT_ATATA	0
-#define ATT_BOOM	1
+#define ATT_ATATA 0
+#define ATT_BOOM 1
 
-EnnemiGrandSmurf::EnnemiGrandSmurf() : wait_change_cible(0), dx(0), cible(NULL), attak_wanted(ATT_BOOM)
-{
-	pv = 5000;
-}
+EnnemiGrandSmurf::EnnemiGrandSmurf() : wait_change_cible(0), dx(0), cible(NULL), attak_wanted(ATT_BOOM) { pv = 5000; }
 
-void EnnemiGrandSmurf::updateCible()
-{
+void EnnemiGrandSmurf::updateCible() {
 	if (wait_change_cible > 0 && cible != NULL && !cible->a_detruire) {
 		wait_change_cible -= 1;
 	} else {
@@ -23,11 +19,8 @@ void EnnemiGrandSmurf::updateCible()
 	}
 }
 
-
-void EnnemiGrandSmurf::updateChoice()
-{
-	if (cible == NULL)
-		return;
+void EnnemiGrandSmurf::updateChoice() {
+	if (cible == NULL) return;
 
 	int ddx = cible->x - x;
 
@@ -54,19 +47,17 @@ void EnnemiGrandSmurf::updateChoice()
 	}
 }
 
-void EnnemiGrandSmurf::update()
-{
-	if (blood != 0)
-		blood -= 1;
+void EnnemiGrandSmurf::update() {
+	if (blood != 0) blood -= 1;
 
 	updateCible();
 
 	switch (etat) {
-		case ETAT_NORMAL :
-		case ETAT_AVANCE :
+		case ETAT_NORMAL:
+		case ETAT_AVANCE:
 			updateChoice();
-			onAvance() ;
-			break ;
+			onAvance();
+			break;
 
 		case ETAT_TIRE:
 			switch (attak_wanted) {
@@ -76,20 +67,18 @@ void EnnemiGrandSmurf::update()
 			}
 			break;
 
-		case ETAT_CARBONISE :
-		case ETAT_MEURE :
-//			onMeure() ;
-			break ;
+		case ETAT_CARBONISE:
+		case ETAT_MEURE:
+			//			onMeure() ;
+			break;
 	}
 }
 
-void EnnemiGrandSmurf::onAtata()
-{
+void EnnemiGrandSmurf::onAtata() {
 	ss_etape += 1;
 	ss_etape %= 3;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape > 50) {
 		etape = ss_etape = 0;
@@ -106,17 +95,14 @@ void EnnemiGrandSmurf::onAtata()
 
 		int x2 = x + dx;
 
-		if (!mur_opaque(x2, y) && x2 > offset + 50 && x2 < offset + 600)
-			x = x2;
+		if (!mur_opaque(x2, y) && x2 > offset + 50 && x2 < offset + 600) x = x2;
 	}
 }
 
-void EnnemiGrandSmurf::onAvance()
-{
+void EnnemiGrandSmurf::onAvance() {
 	int x2 = x + dx;
 
-	if (!mur_opaque(x2, y) && x2 > offset + 50 && x2 < offset + 600)
-		x = x2;
+	if (!mur_opaque(x2, y) && x2 > offset + 50 && x2 < offset + 600) x = x2;
 
 	if (dx <= 0) {
 		if (dir == SENS_GAUCHE)

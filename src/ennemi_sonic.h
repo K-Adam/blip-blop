@@ -10,26 +10,25 @@
 //----------------------------------------------------------------------------
 
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiSonic.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiSonic.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
-class EnnemiSonic : public Ennemi
-{
-private:
-	int speed;    //vitesse courante
-	int etape_speed; //delai d'acceleration
-	//static int toad_speed;    //vitesse maximum
+class EnnemiSonic : public Ennemi {
+   private:
+	int speed;		  // vitesse courante
+	int etape_speed;  // delai d'acceleration
+	// static int toad_speed;    //vitesse maximum
 	int attack_delay;
 	int wait_for_attack;
 	int attack_phase;
@@ -45,13 +44,13 @@ private:
 	int ring;
 	int wait_sang_tombe;
 
-public:
+   public:
 	EnnemiSonic();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
-	//virtual void onTombe();
+	// virtual void onTombe();
 	virtual void onCharge();
 	virtual void onAttackhorizontal();
 	virtual void onAttackvertical();
@@ -60,5 +59,5 @@ public:
 	virtual void onBalancering();
 	virtual void balance_epines();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

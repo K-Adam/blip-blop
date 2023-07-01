@@ -2,11 +2,9 @@
 #include "event_music.h"
 #include "globals.h"
 
-void EventMusic::doEvent()
-{
+void EventMusic::doEvent() {
 	if (play) {
-		if (current_zik != -1)
-			mbk_niveau.stop(current_zik);
+		if (current_zik != -1) mbk_niveau.stop(current_zik);
 
 		mbk_niveau.play(id);
 		current_zik = id;

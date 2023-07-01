@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiSnorkyBase2.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 14 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiSnorkyBase2.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 14 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,16 +25,14 @@
 //		Constantes
 //-----------------------------------------------------------------------------
 
-#define SNORKY_BASE_SPEED		2
+#define SNORKY_BASE_SPEED 2
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSnorkyBase1
 //-----------------------------------------------------------------------------
 
-class EnnemiSnorkyBase2 : public Ennemi
-{
-public:
-
+class EnnemiSnorkyBase2 : public Ennemi {
+   public:
 	int wait_for_shoot;
 	int shoot_delay;
 	int y_cible;
@@ -49,5 +47,5 @@ public:
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

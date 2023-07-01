@@ -2,15 +2,9 @@
 
 #include "event.h"
 
-class EventSon : public Event
-{
-public:
+class EventSon : public Event {
+   public:
+	int nsnd;
 
-	int		nsnd;
-
-	virtual void doEvent()
-	{
-		sbk_niveau.play(nsnd);
-	};
-
+	virtual void doEvent() { sbk_niveau.play(nsnd); };
 };

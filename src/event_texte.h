@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		  EventTexte.h
-*		-----------------
-*
-*
-*
-*		Prosper / LOADED -   2 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		  EventTexte.h
+ *		-----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   2 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -19,17 +19,14 @@
 #include "texte_cool.h"
 #include "ben_debug.h"
 
-class EventTexte : public Event
-{
-public:
+class EventTexte : public Event {
+   public:
+	int ntxt;
+	int flag;
+	int val;
+	int cond;
 
-	int		ntxt;
-	int		flag;
-	int		val;
-	int		cond;
-
-	inline virtual bool aActiver()
-	{
+	inline virtual bool aActiver() {
 		if (cond == 0)
 			return true;
 		else if (cond == 1)
@@ -38,9 +35,8 @@ public:
 			return (game_flag[flag] >= val);
 	};
 
-	virtual void doEvent()
-	{
-		TexteCool * txt = new TexteCool();
+	virtual void doEvent() {
+		TexteCool* txt = new TexteCool();
 
 		txt->ntxt = ntxt;
 

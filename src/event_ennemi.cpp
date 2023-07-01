@@ -1,20 +1,20 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		  EventEnnemi.h
-*		-----------------
-*
-*		Classe Evenement Ennemi
-*
-*		La classe evenement qui crée un ennemi
-*
-*
-*		Prosper / LOADED -   2 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		  EventEnnemi.h
+ *		-----------------
+ *
+ *		Classe Evenement Ennemi
+ *
+ *		La classe evenement qui crée un ennemi
+ *
+ *
+ *		Prosper / LOADED -   2 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "event_ennemi.h"
 #include "enemy.h"
@@ -81,92 +81,90 @@
 
 #include "ennemi_mario.h"
 
-#define	IDENNEMI_SMURF				0
-#define	IDENNEMI_SMURF_GOURMAND		1
-#define IDENNEMI_SMURF_FARCEUR		2
-#define IDENNEMI_SMURF_SAUVAGE		3
-#define IDENNEMI_SMURF_PAYSAN		4
-#define IDENNEMI_SMURCOSTAUD		5
-#define IDENNEMI_SMURFETTE			6
-#define IDENNEMI_CIGOGNE			7
-#define IDENNEMI_GRANDSMURF			8
+#define IDENNEMI_SMURF 0
+#define IDENNEMI_SMURF_GOURMAND 1
+#define IDENNEMI_SMURF_FARCEUR 2
+#define IDENNEMI_SMURF_SAUVAGE 3
+#define IDENNEMI_SMURF_PAYSAN 4
+#define IDENNEMI_SMURCOSTAUD 5
+#define IDENNEMI_SMURFETTE 6
+#define IDENNEMI_CIGOGNE 7
+#define IDENNEMI_GRANDSMURF 8
 
-#define IDENNEMI_PIKACHU			100
-#define IDENNEMI_BULBIZARRE			101
-#define IDENNEMI_FLAMECHE			102
-#define IDENNEMI_COM				103
-#define IDENNEMI_COM_VOLANT			104
+#define IDENNEMI_PIKACHU 100
+#define IDENNEMI_BULBIZARRE 101
+#define IDENNEMI_FLAMECHE 102
+#define IDENNEMI_COM 103
+#define IDENNEMI_COM_VOLANT 104
 
-#define IDENNEMI_BISOUCIEL			200
-#define IDENNEMI_BISOUETOILE		201
-#define IDENNEMI_BISOUBOOM			202
-#define IDENNEMI_BISOUNUAGE			203
-#define IDENNEMI_BISOUZOMBI			204
-#define IDENNEMI_BISOUCHAMAN		205
-#define IDENNEMI_BISOUCOEUR			206
-#define IDENNEMI_BISOUJEDI			207
-#define IDENNEMI_BISOUJEDIHEROS		208
-#define IDENNEMI_BISOUSIB			209
+#define IDENNEMI_BISOUCIEL 200
+#define IDENNEMI_BISOUETOILE 201
+#define IDENNEMI_BISOUBOOM 202
+#define IDENNEMI_BISOUNUAGE 203
+#define IDENNEMI_BISOUZOMBI 204
+#define IDENNEMI_BISOUCHAMAN 205
+#define IDENNEMI_BISOUCOEUR 206
+#define IDENNEMI_BISOUJEDI 207
+#define IDENNEMI_BISOUJEDIHEROS 208
+#define IDENNEMI_BISOUSIB 209
 
-#define IDENNEMI_LEMMINGS			400
-#define IDENNEMI_LEMMINGS_VOLANT	401
+#define IDENNEMI_LEMMINGS 400
+#define IDENNEMI_LEMMINGS_VOLANT 401
 
-#define IDENNEMI_SNORKY_BASE_1      300
-#define IDENNEMI_SNORKY_BASE_2      301
-#define IDENNEMI_SNORKY_GOUVERNEUR  302
-#define IDENNEMI_SNORKY_MAGE        303
-#define IDENNEMI_SNORKY_RIDER       304
-#define IDENNEMI_SNORK_IN_BLACK		305
-#define IDENNEMI_DIABOLO			306
+#define IDENNEMI_SNORKY_BASE_1 300
+#define IDENNEMI_SNORKY_BASE_2 301
+#define IDENNEMI_SNORKY_GOUVERNEUR 302
+#define IDENNEMI_SNORKY_MAGE 303
+#define IDENNEMI_SNORKY_RIDER 304
+#define IDENNEMI_SNORK_IN_BLACK 305
+#define IDENNEMI_DIABOLO 306
 #define IDENNEMI_SNORK_IN_BLACK_BOSS 307
 
-#define IDENNEMI_TOAD               500
-#define IDENNEMI_YOSHI              501
-#define IDENNEMI_PRINCESSE_GUARD    502
-#define IDENNEMI_PRINCESSE          503
-#define IDENNEMI_TAILS              504
-#define IDENNEMI_YOSHI_DCA          505
-#define IDENNEMI_KNUKLES            506
-#define IDENNEMI_RAYMAN             507
-#define IDENNEMI_TAILSVOLANT        508
+#define IDENNEMI_TOAD 500
+#define IDENNEMI_YOSHI 501
+#define IDENNEMI_PRINCESSE_GUARD 502
+#define IDENNEMI_PRINCESSE 503
+#define IDENNEMI_TAILS 504
+#define IDENNEMI_YOSHI_DCA 505
+#define IDENNEMI_KNUKLES 506
+#define IDENNEMI_RAYMAN 507
+#define IDENNEMI_TAILSVOLANT 508
 
-#define IDENNEMI_LUIGI              600
-#define IDENNEMI_SONIC              601
-#define IDENNEMI_MARIO_TAPETTE      602
-#define IDENNEMI_LARA               603
-#define IDENNEMI_PIC				604
-#define IDENNEMI_POID				605
+#define IDENNEMI_LUIGI 600
+#define IDENNEMI_SONIC 601
+#define IDENNEMI_MARIO_TAPETTE 602
+#define IDENNEMI_LARA 603
+#define IDENNEMI_PIC 604
+#define IDENNEMI_POID 605
 
-#define IDENNEMI_MARIO              700
+#define IDENNEMI_MARIO 700
 
-
-void EventEnnemi::doEvent()
-{
-	Ennemi *	enn = NULL;
+void EventEnnemi::doEvent() {
+	Ennemi* enn = NULL;
 
 	switch (id_ennemi) {
 		case IDENNEMI_SMURF:
 			switch (rand() % 6) {
-				case 0 :
+				case 0:
 					enn = new EnnemiSmurf();
 					break;
-				case 1 :
+				case 1:
 					enn = new EnnemiSmurfALunettes();
 					break;
-				case 2 :
+				case 2:
 					enn = new EnnemiSmurfCoquet();
 					break;
-				case 3 :
+				case 3:
 					enn = new EnnemiSmurfFrileux();
 					break;
-				case 4 :
+				case 4:
 					enn = new EnnemiSmurfParesseux();
 					break;
-				case 5 :
+				case 5:
 					enn = new EnnemiSmurfPeon();
-					break ;
+					break;
 			}
-			break ;
+			break;
 
 		case IDENNEMI_SMURF_GOURMAND:
 			enn = new EnnemiSmurfGourmand();
@@ -325,7 +323,7 @@ void EventEnnemi::doEvent()
 			break;
 
 		case IDENNEMI_RAYMAN:
-			enn  = new EnnemiRayman();
+			enn = new EnnemiRayman();
 			break;
 
 		case IDENNEMI_TAILSVOLANT:
@@ -368,8 +366,7 @@ void EventEnnemi::doEvent()
 
 		list_ennemis.emplace_back(enn);
 
-		if (enn->count())
-			nb_ennemis_created += 1;
+		if (enn->count()) nb_ennemis_created += 1;
 	} else {
 		debug << "Erreur : identité d'ennemi inconnue (" << id_ennemi << ")\n";
 	}

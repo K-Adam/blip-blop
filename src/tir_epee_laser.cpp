@@ -2,20 +2,14 @@
 #include "tir_epee_laser.h"
 #include "ennemi_bisou_jedi.h"
 
-
-TirEpeeLaser::TirEpeeLaser() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1)
-{
+TirEpeeLaser::TirEpeeLaser() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1) {
 	duree_vie = 200 + rand() % 100;
 	sbk_niveau.play(13, SOUND_LOOP);
 }
 
-TirEpeeLaser::~TirEpeeLaser()
-{
-	sbk_niveau.stop(13);
-}
+TirEpeeLaser::~TirEpeeLaser() { sbk_niveau.stop(13); }
 
-void TirEpeeLaser::update()
-{
+void TirEpeeLaser::update() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -26,12 +20,11 @@ void TirEpeeLaser::update()
 
 	pic = pbk_ennemis[525 + etape];
 
-
 	x += dx / 10;
 	y += dy / 10;
 
-	int		xc = offset - 400;
-	int		yc = 240;
+	int xc = offset - 400;
+	int yc = 240;
 
 	if (!isdead) {
 		if (lanceur->a_detruire || ((Ennemi*)lanceur)->etat == ETAT_MEURE) {
@@ -67,14 +60,17 @@ void TirEpeeLaser::update()
 			xc = cible->x;
 			yc = cible->y - 15;
 		}
-
 	}
 
-	if (xc > x && dx < 50) dx += accel;
-	else if (dx > -50) dx -= accel;
+	if (xc > x && dx < 50)
+		dx += accel;
+	else if (dx > -50)
+		dx -= accel;
 
-	if (yc > y && dy < 50) dy += accel;
-	else if (dy > -50) dy -= accel;
+	if (yc > y && dy < 50)
+		dy += accel;
+	else if (dy > -50)
+		dy -= accel;
 
 	colFromPic();
 }

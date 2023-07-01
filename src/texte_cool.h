@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		-----------------
-*		   TexteCool.h
-*		-----------------
-*
-*		Pour les textes "tetra tuerie"
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------
+ *		   TexteCool.h
+ *		-----------------
+ *
+ *		Pour les textes "tetra tuerie"
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -20,24 +20,20 @@
 extern bool txt_cool_free[];
 #endif
 
-class TexteCool
-{
-public:
-	int		y;
-	int		nn;
-	int		ntxt;
-	int		x;
-	int		t;
+class TexteCool {
+   public:
+	int y;
+	int nn;
+	int ntxt;
+	int x;
+	int t;
 
 	TexteCool();
 
 	void update();
 	void affiche();
 
-	bool aDetruire()
-	{
-		return x <= -320;
-	};
+	bool aDetruire() { return x <= -320; };
 };
 
 void clearTexteCool();

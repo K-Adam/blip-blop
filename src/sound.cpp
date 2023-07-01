@@ -1,20 +1,19 @@
 /******************************************************************
-*
-*
-*		----------------
-*		  Sound.cpp
-*		----------------
-*
-*
-*		Classe "Sound" pour gérer les sons
-*
-*
-*		Prosper / LOADED -   V 0.1
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		----------------
+ *		  Sound.cpp
+ *		----------------
+ *
+ *
+ *		Classe "Sound" pour gérer les sons
+ *
+ *
+ *		Prosper / LOADED -   V 0.1
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Protection pour éviter de déclarer 'dsound' 2 fois (1 fois dans le .h)
@@ -30,23 +29,17 @@
 #include "ben_debug.h"
 #include "sound.h"
 
+//-----------------------------------------------------------------------------
+//		Constructeur
+//-----------------------------------------------------------------------------
+
+Sound::Sound() : sample(NULL), channel(-1) {}
 
 //-----------------------------------------------------------------------------
 //		Constructeur
 //-----------------------------------------------------------------------------
 
-Sound::Sound() : sample(NULL), channel(-1)
-{
-}
-
-//-----------------------------------------------------------------------------
-//		Constructeur
-//-----------------------------------------------------------------------------
-
-Sound::~Sound()
-{
-	close();
-}
+Sound::~Sound() { close(); }
 
 //-----------------------------------------------------------------------------
 // Nom: Sound::load(const char * fic, int n)
@@ -55,12 +48,10 @@ Sound::~Sound()
 //		 sa taille en mémoire !!!
 //-----------------------------------------------------------------------------
 
-bool Sound::load(const char * fic)
-{
+bool Sound::load(const char* fic) {
 	sample = FSOUND_Sample_Load_File(fic);
 
-	if (sample == NULL)
-		return false;
+	if (sample == NULL) return false;
 
 	return true;
 }
@@ -71,8 +62,7 @@ bool Sound::load(const char * fic)
 //		 et son contenu copié en mémoire
 //-----------------------------------------------------------------------------
 
-bool Sound::loadFromMem(void * ptr, int taille)
-{
+bool Sound::loadFromMem(void* ptr, int taille) {
 	sample = FSOUND_Sample_Load(FSOUND_FREE, (char*)ptr, FSOUND_LOADMEMORY | FSOUND_LOOP_OFF, taille);
 
 	if (sample == NULL) {
@@ -86,14 +76,12 @@ bool Sound::loadFromMem(void * ptr, int taille)
 	return true;
 }
 
-
 //-----------------------------------------------------------------------------
 // Nom: Sound::play(int flags)
 // Desc: Joue le son avec des drapeaux
 //-----------------------------------------------------------------------------
 
-void Sound::play(int flags)
-{
+void Sound::play(int flags) {
 	if (flags & SOUND_LOOP) {
 		FSOUND_Sample_SetLoopMode(sample, FSOUND_LOOP_NORMAL);
 
@@ -112,17 +100,14 @@ void Sound::play(int flags)
 //		 en 100ième de décibels (conseil : utiliser les constantes)
 //-----------------------------------------------------------------------------
 
-void Sound::setVolume(int v)
-{
-}
+void Sound::setVolume(int v) {}
 
 //-----------------------------------------------------------------------------
 // Nom: Sound::stop()
 // Desc: Arrête le son. Il recommencera alors au début au prochain départ
 //-----------------------------------------------------------------------------
 
-void Sound::stop()
-{
+void Sound::stop() {
 	if (channel != -1) {
 		if (cpt_loop > 0) {
 			if (--cpt_loop == 0) {
@@ -141,7 +126,4 @@ void Sound::stop()
 // Desc: Referme le tout
 //-----------------------------------------------------------------------------
 
-void Sound::close()
-{
-	FSOUND_Sample_Free(sample);
-}
+void Sound::close() { FSOUND_Sample_Free(sample); }

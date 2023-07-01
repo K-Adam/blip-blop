@@ -1,26 +1,20 @@
 
 #include "vehivule_cigogne.h"
 
-
 #include "vehicule_hypo.h"
 
 static bool first;
 
-VehiculeCigogne::VehiculeCigogne()
-{
+VehiculeCigogne::VehiculeCigogne() {
 	pic = pbk_ennemis[66];
 	hasBeenUsed = false;
 	first = true;
 };
 
-void VehiculeCigogne::affiche()
-{
-	Sprite::affiche();
-}
+void VehiculeCigogne::affiche() { Sprite::affiche(); }
 
-void VehiculeCigogne::updateUsed()
-{
-	static const int bas_ailes [] = { 0, 1, 2, 3, 2, 1 };
+void VehiculeCigogne::updateUsed() {
+	static const int bas_ailes[] = {0, 1, 2, 3, 2, 1};
 	static const int SPEED = 8;
 
 	can_be_used = false;
@@ -70,8 +64,4 @@ void VehiculeCigogne::updateUsed()
 	}
 }
 
-
-void VehiculeCigogne::updateNotUsed()
-{
-	x += 8;
-}
+void VehiculeCigogne::updateNotUsed() { x += 8; }

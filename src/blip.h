@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		--------------
-*		    Blip.h
-*		--------------
-*
-*		Let's rock!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------
+ *		    Blip.h
+ *		--------------
+ *
+ *		Let's rock!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -22,22 +22,15 @@
 
 #include "couille.h"
 
-
 //-----------------------------------------------------------------------------
 //		Definition de la classe Blip
 //-----------------------------------------------------------------------------
 
-class Blip : public Couille
-{
+class Blip : public Couille {
+   public:
+	Blip() : Couille(pbk_blip) { id_couille = ID_BLIP; }
 
-public:
-	Blip() : Couille(pbk_blip)
-	{
-		id_couille = ID_BLIP;
-	}
-
-	virtual void rearme()
-	{
+	virtual void rearme() {
 		id_arme = ID_PM;
 		ammo = 100;
 		latence_arme = 3;

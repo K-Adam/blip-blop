@@ -1,18 +1,17 @@
 /******************************************************************
-*
-*
-*		---------------------------------
-*		    TirSnorkyBase.cpp
-*		---------------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 12 Decembre 2000
-*
-*
-*
-******************************************************************/
-
+ *
+ *
+ *		---------------------------------
+ *		    TirSnorkyBase.cpp
+ *		---------------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 12 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -22,20 +21,13 @@
 
 const int tir_snorky_oscilation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-
-
-TirSnorkybase::TirSnorkybase(int vx): speed_etape(0), oscilation_etape(0)
-{
+TirSnorkybase::TirSnorkybase(int vx) : speed_etape(0), oscilation_etape(0) {
 	dy = 0;
 	dx = vx;
 }
 
-
-void TirSnorkybase::update()
-{
-
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50)
-		a_detruire = true;
+void TirSnorkybase::update() {
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
 
 	speed_etape++;
 	speed_etape %= DELAY_ACCELERATION;
@@ -48,7 +40,6 @@ void TirSnorkybase::update()
 	}
 
 	x += dx;
-
 
 	oscilation_etape++;
 	oscilation_etape %= 43;
@@ -70,8 +61,7 @@ void TirSnorkybase::update()
 		pic = pbk_ennemis[35 + etape];
 	}
 
-	if (mur_opaque(x, y) != 0)
-		a_detruire = true;
+	if (mur_opaque(x, y) != 0) a_detruire = true;
 
 	colFromPic();
 }

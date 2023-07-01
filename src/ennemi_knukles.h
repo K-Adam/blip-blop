@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiKnuckles.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.5 - 12 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiKnuckles.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.5 - 12 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -22,20 +22,18 @@
 #define KNUKLES_JUMP_SPEED 12
 #define KNUKLES_GRAVITE_MAX 7
 
-
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiKnukles
 //----------------------------------------------------------------------------
 
-class EnnemiKnukles : public Ennemi
-{
-private:
-	int speed;    //vitesse courante
-	int etape_speed; //delai d'acceleration
+class EnnemiKnukles : public Ennemi {
+   private:
+	int speed;		  // vitesse courante
+	int etape_speed;  // delai d'acceleration
 	int charge_delay;
 	int wait_for_charge;
 
-public:
+   public:
 	EnnemiKnukles();
 	virtual void update();
 	virtual void onAvance();
@@ -44,6 +42,6 @@ public:
 	virtual void onCarbonise();
 	virtual void onCharge();
 	virtual void onSaute();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 	virtual void tombe();
 };

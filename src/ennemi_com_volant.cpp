@@ -1,20 +1,17 @@
 
 #include "ennemi_com_volant.h"
 
-EnnemiCOMVolant::EnnemiCOMVolant(): speed(0), attack(true)
-{
+EnnemiCOMVolant::EnnemiCOMVolant() : speed(0), attack(true) {
 	pv = 100;
 	if (tete_turc != NULL) {
 		y_cible = tete_turc->y;
 	} else {
-		y_cible = 100 + rand() % 200;;
+		y_cible = 100 + rand() % 200;
+		;
 	}
 }
 
-
-void EnnemiCOMVolant::update()
-{
-
+void EnnemiCOMVolant::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -30,9 +27,7 @@ void EnnemiCOMVolant::update()
 	updateADetruire();
 }
 
-
-void EnnemiCOMVolant::onAvance()
-{
+void EnnemiCOMVolant::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 8;
 
@@ -49,7 +44,8 @@ void EnnemiCOMVolant::onAvance()
 		if (tete_turc != NULL) {
 			y_cible = tete_turc->y;
 		} else {
-			y_cible = 100 + rand() % 200;;
+			y_cible = 100 + rand() % 200;
+			;
 		}
 	} else if ((dir == SENS_DROITE) && (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
@@ -57,7 +53,8 @@ void EnnemiCOMVolant::onAvance()
 		if (tete_turc != NULL) {
 			y_cible = tete_turc->y;
 		} else {
-			y_cible = 100 + rand() % 200;;
+			y_cible = 100 + rand() % 200;
+			;
 		}
 	}
 
@@ -76,7 +73,7 @@ void EnnemiCOMVolant::onAvance()
 		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
 			y += 1;
 			speed = 4;
-		} else { //if ((y_cible>y)&&(y>=y_cible-20))
+		} else {  // if ((y_cible>y)&&(y>=y_cible-20))
 			y += 1;
 			speed = 5;
 		}
@@ -100,9 +97,7 @@ void EnnemiCOMVolant::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiCOMVolant::onMeure()
-{
+void EnnemiCOMVolant::onMeure() {
 	if (ss_etape == 0 && etape == 0) {
 		sbk_niveau.play(6);
 	}
@@ -110,8 +105,7 @@ void EnnemiCOMVolant::onMeure()
 	ss_etape += 1;
 	ss_etape %= 3;
 
-	if (ss_etape == 0 && etape < 22)
-		etape += 1;
+	if (ss_etape == 0 && etape < 22) etape += 1;
 
 	if (etape >= 22) {
 		a_detruire = true;

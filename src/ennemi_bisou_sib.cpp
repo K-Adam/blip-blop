@@ -1,16 +1,14 @@
 
 #include "ennemi_bisou_sib.h"
 
+#define ETAT_ATTENDS_MAL 100
+#define ETAT_ATTENDS 101
+#define ETAT_COURS_FOREST 102
+#define ETAT_RENTRE_MAL 103
 
-#define ETAT_ATTENDS_MAL	100
-#define ETAT_ATTENDS		101
-#define ETAT_COURS_FOREST	102
-#define ETAT_RENTRE_MAL		103
+static const int anim_cours[] = {640, 641, 642, 641};
 
-static const int anim_cours [] = { 640, 641, 642, 641 };
-
-EnnemiBisouSIB::EnnemiBisouSIB()
-{
+EnnemiBisouSIB::EnnemiBisouSIB() {
 	if (game_flag[FLAG_USER1] != 0) {
 		etat = ETAT_ATTENDS_MAL;
 		game_flag[FLAG_USER1] = 0;
@@ -22,9 +20,7 @@ EnnemiBisouSIB::EnnemiBisouSIB()
 	encaisse = 0;
 }
 
-
-void EnnemiBisouSIB::update()
-{
+void EnnemiBisouSIB::update() {
 	tombe();
 
 	switch (etat) {
@@ -32,8 +28,7 @@ void EnnemiBisouSIB::update()
 			pic = pbk_ennemis[635];
 			colFromPic();
 
-			if (x < offset + 440 || game_flag[1] == 0)
-				etat = ETAT_RENTRE_MAL;
+			if (x < offset + 440 || game_flag[1] == 0) etat = ETAT_RENTRE_MAL;
 
 			break;
 
@@ -41,8 +36,7 @@ void EnnemiBisouSIB::update()
 			pic = pbk_ennemis[639];
 			colFromPic();
 
-			if (x - tete_turc->x < 200)
-				etat = ETAT_COURS_FOREST;
+			if (x - tete_turc->x < 200) etat = ETAT_COURS_FOREST;
 
 			break;
 
@@ -64,22 +58,17 @@ void EnnemiBisouSIB::update()
 			noCol();
 			break;
 
-
 		case ETAT_COURS_FOREST:
 			pic = pbk_ennemis[anime(anim_cours, 4, 5)];
 			marche(3);
 			noCol();
 			break;
-
 	}
-
 
 	updateADetruire();
 }
 
-
-void EnnemiBisouSIB::estTouche(Tir * tir)
-{
+void EnnemiBisouSIB::estTouche(Tir* tir) {
 	if (++encaisse > 300) {
 		if (etat == ETAT_ATTENDS_MAL)
 			etat = ETAT_RENTRE_MAL;

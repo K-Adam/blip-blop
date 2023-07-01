@@ -1,18 +1,15 @@
 #include "ennemi_voiture_pacman.h"
 #include "ennemi_pacman.h"
 
-
-EnnemiVoiturePacman::EnnemiVoiturePacman(): invoc_pacman(false)
-{
+EnnemiVoiturePacman::EnnemiVoiturePacman() : invoc_pacman(false) {
 	pv = 1000;
 	pic = pbk_ennemis[216];
 	wait_end = 0;
 }
 
-void EnnemiVoiturePacman::update()
-{
+void EnnemiVoiturePacman::update() {
 	if ((game_flag[2] == 1) || (game_flag[2] == 2)) {
-		etape ++;
+		etape++;
 		if (etape > 160) {
 			tombeVoiture();
 			if (x < 1350) {
@@ -81,16 +78,13 @@ void EnnemiVoiturePacman::update()
 	}
 }
 
-void EnnemiVoiturePacman::tombeVoiture()
-{
+void EnnemiVoiturePacman::tombeVoiture() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE_VOITURE;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX_VOITURE)
-		dy += 1;
+	if (lat_grav == 0 && dy < GRAVITE_MAX_VOITURE) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
 
 	int ny = plat(x, y + dy);
 
@@ -100,19 +94,13 @@ void EnnemiVoiturePacman::tombeVoiture()
 		y += dy;
 }
 
-int EnnemiVoiturePacman::degats()
-{
-	return 0;
-};
+int EnnemiVoiturePacman::degats() { return 0; };
 
-void EnnemiVoiturePacman::affiche()
-{
+void EnnemiVoiturePacman::affiche() {
 	if (game_flag[2] >= 4) {
 		draw(x + 48, y - 82, pbk_ennemis[217 + etape]);
 	}
 	Sprite::affiche();
 }
 
-void EnnemiVoiturePacman::estTouche(Tir * tir)
-{
-}
+void EnnemiVoiturePacman::estTouche(Tir* tir) {}

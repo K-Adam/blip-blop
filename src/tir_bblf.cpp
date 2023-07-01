@@ -1,26 +1,22 @@
 
 #include "tir_bblf.h"
 
-
-void TirBBLF::aTouche(int pts)
-{
+void TirBBLF::aTouche(int pts) {
 	if (!a_detruire) {
 		TirBB::aTouche(pts);
 		a_detruire = false;
 	}
 }
 
-void TirBBLF::setDir(int d)
-{
+void TirBBLF::setDir(int d) {
 	TirBB::setDir(d);
 
-	etape	 = 0;
+	etape = 0;
 	ss_etape = 0;
-	latence  = 0;
-	type	 = rand() % 2;
-	fini	 = false;
-	pic		 = NULL;
-
+	latence = 0;
+	type = rand() % 2;
+	fini = false;
+	pic = NULL;
 
 	if (type == 1)
 		speed = 2 + rand() % 2;
@@ -28,7 +24,6 @@ void TirBBLF::setDir(int d)
 		speed = 4 + rand() % 3;
 	else
 		speed = 5 + rand() % 3;
-
 
 	switch (dir) {
 		case 0:
@@ -58,7 +53,7 @@ void TirBBLF::setDir(int d)
 
 		case 5:
 			dx = 3 + rand() % 3;
-			dy = - rand() % 3;
+			dy = -rand() % 3;
 			break;
 
 		case 6:
@@ -77,7 +72,7 @@ void TirBBLF::setDir(int d)
 			break;
 
 		case 9:
-			dx = - rand() % 3;
+			dx = -rand() % 3;
 			dy = -3 - rand() % 3;
 			break;
 
@@ -88,7 +83,7 @@ void TirBBLF::setDir(int d)
 
 		case 11:
 			dx = -3 - rand() % 3;
-			dy = - rand() % 3;
+			dy = -rand() % 3;
 			break;
 
 		case 12:
@@ -113,13 +108,11 @@ void TirBBLF::setDir(int d)
 	}
 }
 
-void TirBBLF::update()
-{
+void TirBBLF::update() {
 	ss_etape += 1;
 	ss_etape %= speed;
 
 	if (ss_etape == 0) {
-
 		if (fini) {
 			etape -= 1;
 
@@ -167,8 +160,7 @@ void TirBBLF::update()
 	latence += 1;
 	latence %= 17;
 
-	if (latence == 0 && dy > -3)
-		dy--;
+	if (latence == 0 && dy > -3) dy--;
 
 	colFromPic();
 	updateADetruire();

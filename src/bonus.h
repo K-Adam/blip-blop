@@ -22,7 +22,7 @@
 #define DIST_BITONIO 25
 
 class Bonus : public Sprite {
-	public:
+   public:
 	int phi;
 	bool local_phase;
 

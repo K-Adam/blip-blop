@@ -39,7 +39,7 @@ void DDCloseDirectDraw() { graphicInstance->~Graphics(); }
 
 void DDSetGfxMode(int x, int y, int d, bool fullscreen) {
 	debug << "DDSetGfxMode (" << x << "," << y << ")"
-		<< "\n";
+		  << "\n";
 	graphicInstance->SetGfxMode(x, y, d, fullscreen);
 }
 
@@ -50,7 +50,7 @@ void DDSetGfxMode(int x, int y, int d, bool fullscreen) {
 
 SDL::Surface* DDCreateSurface(int x, int y) {
 	debug << "DDCreateSurface (" << x << "," << y << ")"
-		<< "\n";
+		  << "\n";
 	return graphicInstance->CreateSurface(x, y, DDSURF_BEST);
 }
 
@@ -59,9 +59,7 @@ SDL::Surface* DDCreateSurface(int x, int y) {
 // Desc: Crée une Surface de taille X*Y en mém VIDEO / SYSTEM (cf DDOpenBMP)
 //-----------------------------------------------------------------------------
 
-SDL::Surface* DDCreateSurface(int x, int y, int flags) {
-	return graphicInstance->CreateSurface(x, y, flags);
-}
+SDL::Surface* DDCreateSurface(int x, int y, int flags) { return graphicInstance->CreateSurface(x, y, flags); }
 
 //-----------------------------------------------------------------------------
 // Nom: DDCreatePrimary
@@ -70,7 +68,7 @@ SDL::Surface* DDCreateSurface(int x, int y, int flags) {
 
 SDL::Surface* DDCreatePrimary() {
 	debug << "DDCreatePrimary ()"
-		<< "\n";
+		  << "\n";
 	return graphicInstance->CreatePrimary();
 }
 
@@ -81,7 +79,7 @@ SDL::Surface* DDCreatePrimary() {
 
 SDL::Surface* DDCreatePrimary(SDL::Surface*& back) {
 	debug << "DDCreatePrimary (back)"
-		<< "\n";
+		  << "\n";
 	return graphicInstance->CreatePrimary(back);
 }
 
@@ -92,7 +90,7 @@ SDL::Surface* DDCreatePrimary(SDL::Surface*& back) {
 
 SDL::Surface* DDLoadBMP(char* file) {
 	debug << "DDLoadBMP (" << file << ")"
-		<< "\n";
+		  << "\n";
 	return graphicInstance->LoadBMP(file, DDSURF_BEST);
 }
 
@@ -103,7 +101,7 @@ SDL::Surface* DDLoadBMP(char* file) {
 
 SDL::Surface* DDLoadBMP(char* file, int flags) {
 	debug << "DDLoadBMP (" << file << ")"
-		<< "\n";
+		  << "\n";
 	return graphicInstance->LoadBMP(file, flags);
 }
 

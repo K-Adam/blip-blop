@@ -4,27 +4,23 @@
 #include "tir_colonne_chaman.h"
 #include <math.h>
 
-static const int xtel [] = { 8144,		// Haut droite
-	8082,		// Droite
-	7653
-	};	// Gauche
+static const int xtel[] = {8144,   // Haut droite
+						   8082,   // Droite
+						   7653};  // Gauche
 
-static const int ytel [] = { 296, 130, 188 };
+static const int ytel[] = {296, 130, 188};
 
-#define ETAT_LEVEBATON		30
-#define ETAT_BAISSEBATON	31
-#define ETAT_TELE			32
+#define ETAT_LEVEBATON 30
+#define ETAT_BAISSEBATON 31
+#define ETAT_TELE 32
 
-EnnemiBisouChaman::EnnemiBisouChaman() : etape_shoot(0), nb_touch(0), n_pos(1)
-{
+EnnemiBisouChaman::EnnemiBisouChaman() : etape_shoot(0), nb_touch(0), n_pos(1) {
 	pv = 11000;
 	wait_shoot = 250 + rand() % 50;
 	tresor = 0;
 }
 
-
-void EnnemiBisouChaman::update()
-{
+void EnnemiBisouChaman::update() {
 	game_flag[2] = 1;
 
 	if (game_flag[0] == 1) {
@@ -33,8 +29,7 @@ void EnnemiBisouChaman::update()
 		game_flag[FLAG_TIMER] = 50;
 	}
 
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	etape_shoot += 1;
 
@@ -69,15 +64,13 @@ void EnnemiBisouChaman::update()
 	updateADetruire();
 }
 
-void EnnemiBisouChaman::onMeure()
-{
+void EnnemiBisouChaman::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape > 12) {
 		grave(x, y, pic);
@@ -90,8 +83,7 @@ void EnnemiBisouChaman::onMeure()
 	}
 }
 
-void EnnemiBisouChaman::onTele()
-{
+void EnnemiBisouChaman::onTele() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -116,7 +108,6 @@ void EnnemiBisouChaman::onTele()
 				n_pos += rand() % 2 + 1;
 				n_pos %= 3;
 			}
-
 
 			x = xtel[n_pos];
 			y = ytel[n_pos];
@@ -160,8 +151,7 @@ void EnnemiBisouChaman::onTele()
 	noCol();
 }
 
-void EnnemiBisouChaman::onLeveBaton()
-{
+void EnnemiBisouChaman::onLeveBaton() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -185,9 +175,7 @@ void EnnemiBisouChaman::onLeveBaton()
 	colFromPic();
 }
 
-
-void EnnemiBisouChaman::onBaisseBaton()
-{
+void EnnemiBisouChaman::onBaisseBaton() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -211,9 +199,7 @@ void EnnemiBisouChaman::onBaisseBaton()
 	colFromPic();
 }
 
-
-void EnnemiBisouChaman::onTire()
-{
+void EnnemiBisouChaman::onTire() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -225,11 +211,11 @@ void EnnemiBisouChaman::onTire()
 			nb_lueurs += 1;
 
 			if (nb_lueurs >= 3) {
-				bool	boule_feu = false;
-				int		xc;
-				int		yc;
-				int		ddx;
-				int		ddy;
+				bool boule_feu = false;
+				int xc;
+				int yc;
+				int ddx;
+				int ddy;
 
 				// Décide de l'attaque à effectuer
 				//
@@ -251,12 +237,11 @@ void EnnemiBisouChaman::onTire()
 					else
 						pente = ddx / ddy;
 
-					if (pente < -1 || pente > 1)
-						boule_feu = true;
+					if (pente < -1 || pente > 1) boule_feu = true;
 				}
 
 				if (boule_feu) {
-					TirBouleChaman * s = new TirBouleChaman();
+					TirBouleChaman* s = new TirBouleChaman();
 
 					s->y = y - 72;
 
@@ -270,7 +255,7 @@ void EnnemiBisouChaman::onTire()
 
 					list_tirs_ennemis.emplace_back(s);
 				} else {
-					TirColonneChaman * s = new TirColonneChaman();
+					TirColonneChaman* s = new TirColonneChaman();
 
 					s->y = y - 72;
 
@@ -284,7 +269,6 @@ void EnnemiBisouChaman::onTire()
 					list_tirs_ennemis.emplace_back(s);
 				}
 
-
 				etape = ss_etape = 0;
 				etat = ETAT_BAISSEBATON;
 			}
@@ -294,9 +278,7 @@ void EnnemiBisouChaman::onTire()
 	colFromPic();
 }
 
-
-void EnnemiBisouChaman::affiche()
-{
+void EnnemiBisouChaman::affiche() {
 	Sprite::affiche();
 
 	if (etat == ETAT_TIRE) {
@@ -307,10 +289,7 @@ void EnnemiBisouChaman::affiche()
 	}
 }
 
-
-
-void EnnemiBisouChaman::onAvance()
-{
+void EnnemiBisouChaman::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -322,7 +301,6 @@ void EnnemiBisouChaman::onAvance()
 		etape += 1;
 		etape %= 8;
 	}
-
 
 	if (x < offset + 320) {
 		pic = pbk_ennemis[316];
@@ -347,9 +325,7 @@ void EnnemiBisouChaman::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiBisouChaman::onCarbonise()
-{
+void EnnemiBisouChaman::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -368,11 +344,9 @@ void EnnemiBisouChaman::onCarbonise()
 		pic = pbk_ennemis[581 + etape];
 }
 
-
-void EnnemiBisouChaman::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 7, 10, 7, 0, -7, -10, -7 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiBisouChaman::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

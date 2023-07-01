@@ -2,11 +2,9 @@
 
 #include "sprite.h"
 
-class FondPokeAlarme1 : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondPokeAlarme1 : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 3;
 
@@ -18,14 +16,11 @@ public:
 		pic = pbk_niveau[etape];
 		updateADetruire();
 	};
-
 };
 
-class FondPokeAlarme2 : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondPokeAlarme2 : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 3;
 
@@ -39,11 +34,9 @@ public:
 	};
 };
 
-class FondPokeAlarme3 : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondPokeAlarme3 : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 3;
 

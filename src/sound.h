@@ -1,19 +1,19 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   Sound.h
-*		----------------
-*
-*
-*		Classe "Sound" pour gérer les sons
-*
-*
-*		Prosper / LOADED -   V 0.1
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   Sound.h
+ *		----------------
+ *
+ *
+ *		Classe "Sound" pour gérer les sons
+ *
+ *
+ *		Prosper / LOADED -   V 0.1
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -23,34 +23,29 @@
 
 #include "fmod.h"
 
-
-#define SOUND_LOOP		1
-
+#define SOUND_LOOP 1
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe Sound
 //-----------------------------------------------------------------------------
 
-class Sound
-{
-protected:
+class Sound {
+   protected:
+	FSOUND_SAMPLE* sample;
 
-	FSOUND_SAMPLE * sample;
+	int channel;
+	int cpt_loop;
 
-	int		channel;
-	int		cpt_loop;
-
-public:
+   public:
 	Sound();
 	~Sound();
 
-	bool load(const char * fic);
-	bool loadFromMem(void * ptr, int taille);
+	bool load(const char* fic);
+	bool loadFromMem(void* ptr, int taille);
 	void play(int flags = 0);
 	void setVolume(int v);
 	void stop();
 	void close();
-
 };
 
 /*

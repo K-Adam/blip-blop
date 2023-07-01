@@ -6,31 +6,26 @@
 #include "ennemi_voiture_pacman.h"
 #include "event_hold_fire.h"
 
-
-const int anim_luigi_marche_droite[] = { 0, 1, 2, 1};
-const int anim_luigi_marche_gauche[] = { 3, 4, 5, 4};
-const int anim_luigi_attaque_droite[] = { 10, 11, 12, 11};
-const int anim_luigi_attaque_gauche[] = { 13, 14, 15, 14};
+const int anim_luigi_marche_droite[] = {0, 1, 2, 1};
+const int anim_luigi_marche_gauche[] = {3, 4, 5, 4};
+const int anim_luigi_attaque_droite[] = {10, 11, 12, 11};
+const int anim_luigi_attaque_gauche[] = {13, 14, 15, 14};
 const int anim_luigi_marche_mort_droite[] = {205, 206, 207, 206};
 const int anim_luigi_marche_mort_gauche[] = {213, 214, 215, 214};
 const int anim_luigi_mort[] = {208, 209, 210, 211, 212, 211, 210, 209};
 
-EnnemiLuigi::EnnemiLuigi(): speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), encaissement(0)
-{
+EnnemiLuigi::EnnemiLuigi() : speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), encaissement(0) {
 	pv = 10000;
-	//pv = 1;
+	// pv = 1;
 	xmin = offset + 20;
 }
 
-void EnnemiLuigi::update()
-{
-	if (game_flag[0] == 7)
-		a_detruire = true;
+void EnnemiLuigi::update() {
+	if (game_flag[0] == 7) a_detruire = true;
 
-	//debug<<"u\n";
+	// debug<<"u\n";
 
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -43,7 +38,6 @@ void EnnemiLuigi::update()
 			onMeure();
 			break;
 
-
 		case ETAT_SAUTE:
 		case ETAT_TOMBE:
 			onSaute();
@@ -52,7 +46,7 @@ void EnnemiLuigi::update()
 		case ETAT_TIRE:
 			switch (attack_type) {
 				case 0:
-					//onCharge();
+					// onCharge();
 					break;
 				case 1:
 					onAttack();
@@ -61,13 +55,12 @@ void EnnemiLuigi::update()
 			break;
 	}
 
-	//updateADetruire();
+	// updateADetruire();
 }
 
-void EnnemiLuigi::onAvance()
-{
-	//debug<<"a\n";
-	// Si plus de plateformes on passe dans l'etat TOMBE
+void EnnemiLuigi::onAvance() {
+	// debug<<"a\n";
+	//  Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -76,7 +69,7 @@ void EnnemiLuigi::onAvance()
 		onSaute();
 	}
 
-	//pour marcher
+	// pour marcher
 
 	if (x - speed < (xmin + 20) || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -93,7 +86,6 @@ void EnnemiLuigi::onAvance()
 	}
 
 	if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
-
 		/*if ((plat2(tete_turc->x,tete_turc->y)==plat2(x,y))&&
 			(((dir == SENS_DROITE)&&(x<tete_turc->x))||
 			((dir == SENS_GAUCHE)&&(x>tete_turc->x))))
@@ -108,7 +100,7 @@ void EnnemiLuigi::onAvance()
 			onCharge();
 			return;
 		}*/
-		//else
+		// else
 		//{
 		int dif_y = tete_turc->y - y;
 		int dif_x = tete_turc->x - x;
@@ -117,7 +109,7 @@ void EnnemiLuigi::onAvance()
 			dif_y = 1;
 		}
 		int coef_direct = dif_x / dif_y;
-		//if (dif_x!=0)
+		// if (dif_x!=0)
 		//	//debug<<"dif_x: "<<dif_x<<" dif_y: "<<dif_y<<" dif: "<<dif_y/dif_x<<"\n";
 		if ((dir == SENS_DROITE) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 			wait_for_attack = 0;
@@ -128,7 +120,7 @@ void EnnemiLuigi::onAvance()
 			ss_etape = 0;
 			////debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 			etat = ETAT_SAUTE;
-			lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 			onSaute();
 			return;
 
@@ -141,7 +133,7 @@ void EnnemiLuigi::onAvance()
 			ss_etape = 0;
 			////debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 			etat = ETAT_SAUTE;
-			lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 			onSaute();
 			return;
 		} else if (pv >= 1000) {
@@ -178,11 +170,11 @@ void EnnemiLuigi::onAvance()
 			}
 		}
 
-		//else
+		// else
 		//{
 		//	wait_for_attack--;
-		//}
-		//}
+		// }
+		// }
 	}
 	if (dir == SENS_DROITE) {
 		if (speed > 6)
@@ -194,7 +186,7 @@ void EnnemiLuigi::onAvance()
 		pic = pbk_ennemis[anime(anim_luigi_marche_droite, 4, 14 - (2 * speed))];
 
 		if (encaissement < 0) {
-			if (speed > - encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
+			if (speed > -encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
 				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
 			} else {
 				speed = 0;
@@ -299,17 +291,16 @@ void EnnemiLuigi::onAvance()
 	//}
 
 	if (speed < LUIGI_SPEED) {
-		etape_speed ++;
+		etape_speed++;
 		if (etape_speed >= 20) {
 			etape_speed = 0;
-			speed ++;
+			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnnemiLuigi::onMeure()
-{
+void EnnemiLuigi::onMeure() {
 	if (game_flag[1] == 0) {
 		tombe();
 		if (x - 3 < xmin || mur_opaque(x - 3, y)) {
@@ -330,7 +321,7 @@ void EnnemiLuigi::onMeure()
 			attack_delay = 0;
 		}
 	} else if (game_flag[1] == 1) {
-		attack_delay ++;
+		attack_delay++;
 		if (attack_delay >= EXPLOSE_DELAY) {
 			game_flag[1] = 2;
 			dir = SENS_DROITE;
@@ -345,9 +336,9 @@ void EnnemiLuigi::onMeure()
 			attack_delay = 0;
 		}
 	} else if (game_flag[1] == 3) {
-		attack_delay ++;
+		attack_delay++;
 		if (attack_delay >= NOMBRE_GICLURES) {
-			Ennemi * sonic = new EnnemiVoiturePacman();
+			Ennemi* sonic = new EnnemiVoiturePacman();
 
 			sonic->x = 1960;
 			sonic->y = y;
@@ -355,7 +346,6 @@ void EnnemiLuigi::onMeure()
 			list_ennemis.emplace_back(sonic);
 
 			nb_ennemis_created++;
-
 
 			sonic = new EnnemiSonic();
 
@@ -367,7 +357,7 @@ void EnnemiLuigi::onMeure()
 
 		} else {
 			int i;
-			for (i = 0; i < 16 ; i++) {
+			for (i = 0; i < 16; i++) {
 				Sprite* s = new GoreGiclure(-rand() % 10 - 2, -1 - rand() % 10);
 				s->x = x + rand() % 20 - 10;
 				s->y = y - rand() % 60 - 10;
@@ -377,9 +367,8 @@ void EnnemiLuigi::onMeure()
 	}
 }
 
-void EnnemiLuigi::onAttack()
-{
-	//debug<<"b\n";
+void EnnemiLuigi::onAttack() {
+	// debug<<"b\n";
 	nb_tir++;
 	if (nb_tir > 275) {
 		etape = 0;
@@ -406,8 +395,8 @@ void EnnemiLuigi::onAttack()
 		if (ss_etape_attack == 0) {
 			etape_attack += 1;
 			etape_attack %= 6;
-			TirDebouchechiote *	tir1;
-			TirDebouchechiote *	tir2;
+			TirDebouchechiote* tir1;
+			TirDebouchechiote* tir2;
 
 			switch (etape_attack) {
 				case 0:
@@ -503,7 +492,7 @@ void EnnemiLuigi::onAttack()
 					break;
 			}
 
-			//recul
+			// recul
 			if (x > offset + 30) {
 				x -= 1;
 			}
@@ -515,8 +504,8 @@ void EnnemiLuigi::onAttack()
 		if (ss_etape_attack == 0) {
 			etape_attack += 1;
 			etape_attack %= 6;
-			TirDebouchechiote *	tir1;
-			TirDebouchechiote *	tir2;
+			TirDebouchechiote* tir1;
+			TirDebouchechiote* tir2;
 
 			switch (etape_attack) {
 				case 0:
@@ -612,7 +601,7 @@ void EnnemiLuigi::onAttack()
 					break;
 			}
 
-			//recul
+			// recul
 			if (x < offset + 610) {
 				x += 1;
 			}
@@ -678,10 +667,9 @@ void EnnemiLuigi::onAttack()
 	colFromPic();
 }*/
 
-void EnnemiLuigi::onSaute()
-{
-	//debug<<"s\n";
-	int		yp;
+void EnnemiLuigi::onSaute() {
+	// debug<<"s\n";
+	int yp;
 
 	if (dy < 0) {
 		tombe_luigi();
@@ -689,13 +677,13 @@ void EnnemiLuigi::onSaute()
 		tombe();
 	}
 
-	//pour pas que le luigi se tire en dehors de l'ecran...
-	if (/*(dir==SENS_GAUCHE)&&*/(x - speed < xmin || mur_opaque(x - speed, y))) {
+	// pour pas que le luigi se tire en dehors de l'ecran...
+	if (/*(dir==SENS_GAUCHE)&&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
 	}
 
-	else if (/*(dir==SENS_DROITE)&&*/(x + speed > offset + 600 || mur_opaque(x + speed, y))) {
+	else if (/*(dir==SENS_DROITE)&&*/ (x + speed > offset + 600 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
 		speed = 1;
 	}
@@ -710,10 +698,8 @@ void EnnemiLuigi::onSaute()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
-		if (x + speed < offset + 620)
-			x += speed;
+		if (x + speed < offset + 620) x += speed;
 
 		if (dy < 0) {
 			pic = pbk_ennemis[6];
@@ -722,14 +708,14 @@ void EnnemiLuigi::onSaute()
 		}
 
 		if (encaissement != 0) {
-			x += encaissement /  MULTIPLICATEUR_RECUL_AERIEN;
+			x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
 		}
 
 		if (encaissement < 0) {
 			if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-				//speed -= encaissement /MULTIPLICATEUR_VITESSE_AERIEN;
+				// speed -= encaissement /MULTIPLICATEUR_VITESSE_AERIEN;
 				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * LUIGI_SPEED) {
-					speed = - 2 * LUIGI_SPEED;
+					speed = -2 * LUIGI_SPEED;
 				} else {
 					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
 				}
@@ -753,8 +739,7 @@ void EnnemiLuigi::onSaute()
 			}
 		}
 	} else {
-		if (x - speed > xmin)
-			x -= speed;
+		if (x - speed > xmin) x -= speed;
 
 		if (dy < 0) {
 			pic = pbk_ennemis[8];
@@ -767,11 +752,9 @@ void EnnemiLuigi::onSaute()
 		}
 
 		if (encaissement > 0) {
-
 			if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-
 				if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * LUIGI_SPEED) {
-					speed = - 2 * LUIGI_SPEED;
+					speed = -2 * LUIGI_SPEED;
 				} else {
 					speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
 				}
@@ -791,11 +774,9 @@ void EnnemiLuigi::onSaute()
 	encaissement = 0;
 
 	colFromPic();
-
 }
 
-void EnnemiLuigi::onCarbonise()
-{
+void EnnemiLuigi::onCarbonise() {
 	a_detruire = true;
 	/*ss_etape += 1;
 	ss_etape %= 5;
@@ -814,18 +795,15 @@ void EnnemiLuigi::onCarbonise()
 	}*/
 }
 
-void EnnemiLuigi::tombe_luigi()
-{
-	//debug<<"tl\n";
+void EnnemiLuigi::tombe_luigi() {
+	// debug<<"tl\n";
 
 	lat_grav += 1;
 	lat_grav %= LATENCE_LUIGI_GRAVITE;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX)
-		dy += 1;
+	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
 
 	int ny = plat(x, y + dy);
 
@@ -844,13 +822,12 @@ void EnnemiLuigi::tombe_luigi()
 	gicle( tir, dx_giclure, dy_giclure);
 }*/
 
-void EnnemiLuigi::estTouche(Tir * tir)
-{
-	Sprite * s;
+void EnnemiLuigi::estTouche(Tir* tir) {
+	Sprite* s;
 
-	for (int i = 0; i < 4 ; i++) {
+	for (int i = 0; i < 4; i++) {
 		if ((tir->dir >= 2) && (tir->dir <= 6)) {
-			s = new GoreGiclure(rand() % 6 , -2 - rand() % 6);
+			s = new GoreGiclure(rand() % 6, -2 - rand() % 6);
 		} else if ((tir->dir >= 10) && (tir->dir <= 14)) {
 			s = new GoreGiclure(-rand() % 5 - 1, -2 - rand() % 6);
 		} else {
@@ -859,7 +836,7 @@ void EnnemiLuigi::estTouche(Tir * tir)
 		s->x = x + rand() % 11 - 5;
 		s->y = y - rand() % 30 - 10;
 
-	list_giclures.emplace_back(s);
+		list_giclures.emplace_back(s);
 	}
 
 	if ((tir->dir >= 2) && (tir->dir <= 6)) {
@@ -868,9 +845,8 @@ void EnnemiLuigi::estTouche(Tir * tir)
 		encaissement -= tir->degats();
 	}
 
-
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

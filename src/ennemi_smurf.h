@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		--------------------
-*		    EnnemiSmurf.h
-*		--------------------
-*
-*		Le schtroumpf de base!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------------
+ *		    EnnemiSmurf.h
+ *		--------------------
+ *
+ *		Le schtroumpf de base!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -26,13 +26,12 @@
 //		Définition de la classe EnnemiSmurf
 //-----------------------------------------------------------------------------
 
-class EnnemiSmurf : public Ennemi
-{
-public:
-	int			wait_for_jump;
-	int			jump_delay;
-	int			dy_saut ;
-	int			speed ;
+class EnnemiSmurf : public Ennemi {
+   public:
+	int wait_for_jump;
+	int jump_delay;
+	int dy_saut;
+	int speed;
 
 	EnnemiSmurf();
 
@@ -42,5 +41,5 @@ public:
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

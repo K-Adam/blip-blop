@@ -3,17 +3,10 @@
 #include "gore_tete_bisou_coeur.h"
 #include "tir_coeur_bisou.h"
 
-EnnemiBisouCoeur::EnnemiBisouCoeur()
-{
-	pv = 300;
-}
+EnnemiBisouCoeur::EnnemiBisouCoeur() { pv = 300; }
 
-
-void EnnemiBisouCoeur::update()
-{
-	if (blood > 0)
-		blood -= 1;
-
+void EnnemiBisouCoeur::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -36,32 +29,28 @@ void EnnemiBisouCoeur::update()
 	updateADetruire();
 }
 
-
-void EnnemiBisouCoeur::onAvance()
-{
+void EnnemiBisouCoeur::onAvance() {
 	static const int SPEED = 2;
 
-	static const int anim_gauche [] = { 431, 432, 433, 434, 433, 432 };
-	static const int anim_droite [] = { 427, 428, 429, 430, 429, 428 };
+	static const int anim_gauche[] = {431, 432, 433, 434, 433, 432};
+	static const int anim_droite[] = {427, 428, 429, 430, 429, 428};
 
 	if (dir == SENS_GAUCHE) {
 		x -= SPEED;
 
-		if (mur_opaque(x, y) || x < xmin)
-			dir = SENS_DROITE;
+		if (mur_opaque(x, y) || x < xmin) dir = SENS_DROITE;
 
 		pic = pbk_ennemis[anime(anim_gauche, 6, 7)];
 	} else {
 		x += SPEED;
 
-		if (mur_opaque(x, y) || x > offset + 600)
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x, y) || x > offset + 600) dir = SENS_GAUCHE;
 
 		pic = pbk_ennemis[anime(anim_droite, 6, 7)];
 	}
 
 	if (etape == 3 && ss_etape == 0) {
-		TirCoeurBisou * tir = new TirCoeurBisou();
+		TirCoeurBisou* tir = new TirCoeurBisou();
 
 		if (dir == SENS_DROITE)
 			tir->xbase = x + 10;
@@ -76,8 +65,7 @@ void EnnemiBisouCoeur::onAvance()
 	colFromPic();
 }
 
-void EnnemiBisouCoeur::onMeure()
-{
+void EnnemiBisouCoeur::onMeure() {
 	static const int SPEED = 2;
 
 	ss_etape += 1;
@@ -92,7 +80,7 @@ void EnnemiBisouCoeur::onMeure()
 		}
 
 		if (etape == 4) {
-			GoreTeteBisouCoeur * tete = new GoreTeteBisouCoeur();
+			GoreTeteBisouCoeur* tete = new GoreTeteBisouCoeur();
 
 			tete->y = y - 20;
 			tete->dir = dir;
@@ -115,10 +103,7 @@ void EnnemiBisouCoeur::onMeure()
 	}
 }
 
-
-
-void EnnemiBisouCoeur::onPart()
-{
+void EnnemiBisouCoeur::onPart() {
 	static const int SPEED = 10;
 
 	if (dir == SENS_DROITE)
@@ -127,15 +112,12 @@ void EnnemiBisouCoeur::onPart()
 		x -= SPEED;
 }
 
-
-void EnnemiBisouCoeur::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 7, 10, 7, 0, -7, -10, -7 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiBisouCoeur::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE)
-		sbk_niveau.play((rand() % 9));
+	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));
 }

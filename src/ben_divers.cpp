@@ -1,19 +1,19 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   BenDivers.cpp
-*		----------------
-*
-*
-*		Fonction très diverses
-*
-*
-*		Prosper / LOADED -   V 0.2
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   BenDivers.cpp
+ *		----------------
+ *
+ *
+ *		Fonction très diverses
+ *
+ *
+ *		Prosper / LOADED -   V 0.2
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -29,13 +29,11 @@ bool want_to_kill_app = false;
 
 #include <windows.h>
 
-int manageMsg()
-{
-	MSG		msg;
+int manageMsg() {
+	MSG msg;
 
 	if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
-		if (!GetMessage(&msg, NULL, 0, 0))
-			return (int)msg.wParam;
+		if (!GetMessage(&msg, NULL, 0, 0)) return (int)msg.wParam;
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -43,7 +41,5 @@ int manageMsg()
 	return 0;
 }
 #else
-int manageMsg() {
-	return 0;
-}
+int manageMsg() { return 0; }
 #endif

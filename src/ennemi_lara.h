@@ -1,33 +1,31 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiLara.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.3 - 15 Fevrier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiLara.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.3 - 15 Fevrier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "enemy.h"
 
-#define LARA_TIR_SPEED  10
-#define ATTACK_DELAY    10
+#define LARA_TIR_SPEED 10
+#define ATTACK_DELAY 10
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiLara
 //----------------------------------------------------------------------------
 
-class EnnemiLara : public Ennemi
-{
-private:
-
+class EnnemiLara : public Ennemi {
+   private:
 	int numero_image_buste;
 	int attack_delay;
 	int wait_for_attack;
@@ -41,16 +39,14 @@ private:
 	int pics;
 	int tete_rayman;
 
-public:
-
-	//methodes "habituelles"
+   public:
+	// methodes "habituelles"
 	EnnemiLara();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTire();
 
-
 	virtual void affiche();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

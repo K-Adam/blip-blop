@@ -1,30 +1,25 @@
 /******************************************************************
-*
-*
-*		---------------------------
-*		    FondPokeCaisse.cpp
-*		---------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 21 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------
+ *		    FondPokeCaisse.cpp
+ *		---------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 21 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "sprite.h"
 #include "fond_poke_caisse.h"
 
-FondPokeCaisse::FondPokeCaisse()
-{
-	pic = pbk_niveau[117];
-}
+FondPokeCaisse::FondPokeCaisse() { pic = pbk_niveau[117]; }
 
-void FondPokeCaisse::update()
-{
-
-	int		yp;
+void FondPokeCaisse::update() {
+	int yp;
 
 	tombe();
 
@@ -36,7 +31,7 @@ void FondPokeCaisse::update()
 
 		int i;
 
-		for (i = x - 90 ; i < x + 140 ; i++) {
+		for (i = x - 90; i < x + 140; i++) {
 			y_plat[4][i] = y - 125;
 		}
 

@@ -1,15 +1,9 @@
 
 #include "ennemi_flameche.h"
 
-EnnemiFlameche::EnnemiFlameche()
-{
-	pv = 100;
-}
+EnnemiFlameche::EnnemiFlameche() { pv = 100; }
 
-
-void EnnemiFlameche::update()
-{
-
+void EnnemiFlameche::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -25,9 +19,7 @@ void EnnemiFlameche::update()
 	updateADetruire();
 }
 
-
-void EnnemiFlameche::onAvance()
-{
+void EnnemiFlameche::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -53,20 +45,16 @@ void EnnemiFlameche::onAvance()
 		pic = pbk_ennemis[46 + etape];
 	}
 
-
 	colFromPic();
 }
 
-
-void EnnemiFlameche::onMeure()
-{
+void EnnemiFlameche::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0 && etape < 14)
-		etape += 1;
+	if (ss_etape == 0 && etape < 14) etape += 1;
 
 	if (etape >= 14) {
 		a_detruire = true;
@@ -78,11 +66,9 @@ void EnnemiFlameche::onMeure()
 	}
 }
 
-
-void EnnemiFlameche::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 10, 10, 0, -10, -10, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiFlameche::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 10, 10, 0, -10, -10, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);

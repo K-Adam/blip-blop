@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    NomPasAJour.h
-*		-----------------------
-*
-*
-*
-*		Prosper / LOADED -   dates à la con ? =)
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    NomPasAJour.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   dates à la con ? =)
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -21,17 +21,14 @@
 
 #include "tir.h"
 
-
 #define DELAY_ACCELERATION 20
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe Tir
 //-----------------------------------------------------------------------------
 
-class TirHadoken : public Tir
-{
-public:
-
+class TirHadoken : public Tir {
+   public:
 	/*
 
 	TODO:Is this method used? where?
@@ -40,23 +37,13 @@ public:
 
 	*/
 
-	virtual int degats() const
-	{
-		return 1;
-	};
+	virtual int degats() const { return 1; };
 
-	virtual int enflame() const
-	{
-		return 0;
-	};
+	virtual int enflame() const { return 0; };
 
-	virtual void setDir(int d)
-	{
-		dir = d;
-	};
+	virtual void setDir(int d) { dir = d; };
 
-	virtual void update()
-	{
+	virtual void update() {
 		static const int SPEED = 8;
 
 		ss_etape += 1;
@@ -79,11 +66,9 @@ public:
 			}
 		}
 
-		if (mur_opaque(x, y))
-			a_detruire = true;
+		if (mur_opaque(x, y)) a_detruire = true;
 
 		updateADetruire();
 		colFromPic();
 	};
-
 };

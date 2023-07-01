@@ -1,33 +1,27 @@
 /******************************************************************
-*
-*
-*		----------------------
-*		  EnnemiLemmings.cpp
-*		----------------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------------
+ *		  EnnemiLemmings.cpp
+ *		----------------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_lemmings.h"
 #include "bonus_vache.h"
 
 static int wait_no = 0;
 
-EnnemiLemmings::EnnemiLemmings() : suicide(false)
-{
-	pv = 100;
-}
+EnnemiLemmings::EnnemiLemmings() : suicide(false) { pv = 100; }
 
-
-void EnnemiLemmings::update()
-{
-	if (blood != 0)
-		blood -= 1;
+void EnnemiLemmings::update() {
+	if (blood != 0) blood -= 1;
 
 	// Si 200+ lemmings tués, ils se suicident et arrêtent les générateurs
 	//
@@ -66,12 +60,9 @@ void EnnemiLemmings::update()
 	}
 
 	updateADetruire();
-
 }
 
-void EnnemiLemmings::onAvance()
-{
-
+void EnnemiLemmings::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -87,8 +78,7 @@ void EnnemiLemmings::onAvance()
 
 		pic = pbk_ennemis[14 + etape];
 
-		if (mur_opaque(x, y) || x < 5)
-			dir = SENS_DROITE;
+		if (mur_opaque(x, y) || x < 5) dir = SENS_DROITE;
 	} else {
 		x += LEM_SPEED;
 
@@ -96,46 +86,39 @@ void EnnemiLemmings::onAvance()
 
 		pic = pbk_ennemis[etape];
 
-		if (mur_opaque(x, y))
-			dir = SENS_GAUCHE;
+		if (mur_opaque(x, y)) dir = SENS_GAUCHE;
 	}
 
 	colFromPic();
 }
 
-void EnnemiLemmings::onTombe()
-{
+void EnnemiLemmings::onTombe() {
 	tombe();
 
-	if (plat(x, y) != 0)
-		etat = ETAT_AVANCE;
+	if (plat(x, y) != 0) etat = ETAT_AVANCE;
 
 	colFromPic();
 }
 
-void EnnemiLemmings::onMeure()
-{
+void EnnemiLemmings::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	// Explosion abrégée si plus de plateforme
 	//
-	if (etape >= 6 && (plat(x - 80, y) == 0 || plat(x + 80, y) == 0))
-		a_detruire = true;
+	if (etape >= 6 && (plat(x - 80, y) == 0 || plat(x + 80, y) == 0)) a_detruire = true;
 
 	if (etape == 10) {
-		if (plat(x, y) != 0 && plat(x - 80, y) != 0 && plat(x + 80, y) != 0)
-			grave(x, y, pic);
+		if (plat(x, y) != 0 && plat(x - 80, y) != 0 && plat(x + 80, y) != 0) grave(x, y, pic);
 
 		a_detruire = true;
 
 		if (suicide && game_flag[0] == 0) {
-			Bonus * bonus = new BonusVache();
+			Bonus* bonus = new BonusVache();
 			bonus->x = 1500;
 			bonus->y = -50;
 
@@ -150,13 +133,11 @@ void EnnemiLemmings::onMeure()
 	}
 }
 
-void EnnemiLemmings::onCarbonise()
-{
+void EnnemiLemmings::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 14) {
 		a_detruire = true;
@@ -168,11 +149,9 @@ void EnnemiLemmings::onCarbonise()
 	}
 }
 
-void EnnemiLemmings::estTouche(Tir * tir)
-{
-	static const int dx_giclure_lem [] = { 0, 0, 4, 0, 0, 0, -4, 0 };
-	static const int dy_giclure_lem [] = { -15, -15, -15, -15, -15, -15, -15, -15 };
-
+void EnnemiLemmings::estTouche(Tir* tir) {
+	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure_lem, dy_giclure_lem);

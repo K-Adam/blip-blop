@@ -2,19 +2,16 @@
 
 #include "sprite.h"
 
-class GorePiedsBisouCiel : public Sprite
-{
-public:
-	virtual void update()
-	{
+class GorePiedsBisouCiel : public Sprite {
+   public:
+	virtual void update() {
 		tombe();
 
 		if (etape < 3) {
 			ss_etape += 1;
 			ss_etape %= 6;
 
-			if (ss_etape == 0)
-				etape += 1;
+			if (ss_etape == 0) etape += 1;
 		}
 
 		if (dir == SENS_DROITE) {

@@ -2,16 +2,13 @@
 #include "ennemi_bisou_nuage.h"
 #include "tir_nuage.h"
 
-EnnemiBisouNuage::EnnemiBisouNuage() : etape_shoot(0)
-{
+EnnemiBisouNuage::EnnemiBisouNuage() : etape_shoot(0) {
 	pv = 250;
 	wait_shoot = 150 + rand() % 150;
 }
 
-void EnnemiBisouNuage::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiBisouNuage::update() {
+	if (blood > 0) blood -= 1;
 
 	etape_shoot += 1;
 
@@ -30,7 +27,6 @@ void EnnemiBisouNuage::update()
 			onMeureTombe();
 			break;
 
-
 		case ETAT_MEURE_4:
 			onMeureFin();
 			break;
@@ -39,20 +35,18 @@ void EnnemiBisouNuage::update()
 	updateADetruire();
 }
 
-void EnnemiBisouNuage::onMeureFin()
-{
+void EnnemiBisouNuage::onMeureFin() {
 	if (etape < 6) {
 		ss_etape += 1;
 		ss_etape %= 3;
 
-		if (ss_etape == 0)
-			etape += 1;
+		if (ss_etape == 0) etape += 1;
 
 		if (dir == SENS_DROITE) {
-//			x += 2;
+			//			x += 2;
 			pic = pbk_ennemis[236 + etape];
 		} else {
-//			x -= 2;
+			//			x -= 2;
 			pic = pbk_ennemis[243 + etape];
 		}
 	} else {
@@ -61,11 +55,7 @@ void EnnemiBisouNuage::onMeureFin()
 	}
 }
 
-
-
-
-void EnnemiBisouNuage::onMeureTombe()
-{
+void EnnemiBisouNuage::onMeureTombe() {
 	tombe();
 
 	ss_etape += 1;
@@ -84,12 +74,11 @@ void EnnemiBisouNuage::onMeureTombe()
 	if (plat(x, y) != 0) {
 		etape = ss_etape = 0;
 		etat = ETAT_MEURE_4;
-//		sbk_niveau.play( 25);
+		//		sbk_niveau.play( 25);
 	}
 }
 
-void EnnemiBisouNuage::onMeureWait()
-{
+void EnnemiBisouNuage::onMeureWait() {
 	etape += 1;
 
 	if (dir == SENS_GAUCHE)
@@ -103,10 +92,9 @@ void EnnemiBisouNuage::onMeureWait()
 	}
 }
 
-void EnnemiBisouNuage::onNormal()
-{
-	static const int anim_gauche [] = { 229, 230, 231, 230 };
-	static const int anim_droite [] = { 226, 227, 228, 227 };
+void EnnemiBisouNuage::onNormal() {
+	static const int anim_gauche[] = {229, 230, 231, 230};
+	static const int anim_droite[] = {226, 227, 228, 227};
 
 	if (x > (offset + 320)) {
 		dir = SENS_GAUCHE;
@@ -117,7 +105,7 @@ void EnnemiBisouNuage::onNormal()
 	}
 
 	if (etape_shoot >= wait_shoot && x <= offset + 640) {
-		TirNuage * s = new TirNuage();
+		TirNuage* s = new TirNuage();
 
 		s->x = x;
 		s->y = y - 17;

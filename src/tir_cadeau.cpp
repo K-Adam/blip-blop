@@ -4,16 +4,13 @@
 
 #include "tir_cadeau.h"
 
-TirCadeau::TirCadeau()
-{
-	pic = pbk_ennemis[56] ;
-	noCol() ;
+TirCadeau::TirCadeau() {
+	pic = pbk_ennemis[56];
+	noCol();
 }
 
-void TirCadeau::update()
-{
-	if (!mur_opaque(x, y))
-		tombe() ;
+void TirCadeau::update() {
+	if (!mur_opaque(x, y)) tombe();
 
 	ss_etape += 1;
 	ss_etape %= 6;
@@ -27,15 +24,13 @@ void TirCadeau::update()
 	}
 
 	if (etape >= 20) {
-		col_on = true ;
-		pic = pbk_ennemis[80 + etape] ;
+		col_on = true;
+		pic = pbk_ennemis[80 + etape];
 	}
 
-	if (etape > 35)
-		a_detruire = true ;
+	if (etape > 35) a_detruire = true;
 
 	colFromPic();
 
-	if (etape >= 30)
-		noCol() ;
+	if (etape >= 30) noCol();
 }

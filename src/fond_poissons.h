@@ -1,62 +1,54 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    FondPoissons.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 18 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    FondPoissons.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 18 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #define POISSON_SPEED 1
 
-class FondPoissonRouge : public Sprite
-{
-private:
+class FondPoissonRouge : public Sprite {
+   private:
 	int dir;
 
-public:
+   public:
 	FondPoissonRouge();
 	virtual void update();
-
 };
 
-class FondPoissonViolet : public Sprite
-{
-private:
+class FondPoissonViolet : public Sprite {
+   private:
 	int dir;
 
-public:
+   public:
 	FondPoissonViolet();
 	virtual void update();
-
 };
 
-class FondPoissonRougeCamoufle : public Sprite
-{
-private:
+class FondPoissonRougeCamoufle : public Sprite {
+   private:
 	int dir;
 
-public:
+   public:
 	FondPoissonRougeCamoufle();
 	virtual void update();
-
 };
 
-class FondPoissonVioletCamoufle : public Sprite
-{
-private:
+class FondPoissonVioletCamoufle : public Sprite {
+   private:
 	int dir;
 
-public:
+   public:
 	FondPoissonVioletCamoufle();
 	virtual void update();
-
 };

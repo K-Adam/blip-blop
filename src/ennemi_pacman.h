@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiPacman.h
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 10 Avril 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiPacman.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 10 Avril 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -21,24 +21,20 @@
 //		Définition de la classe EnnemiPacman
 //----------------------------------------------------------------------------
 
-class EnnemiPacman : public Ennemi
-{
-private:
+class EnnemiPacman : public Ennemi {
+   private:
 	int tir;
 	int etape_tir;
 	int ss_etape_tir;
 
 	int dx;
 
-public:
+   public:
 	EnnemiPacman();
 	virtual void update();
 	virtual int degats();
 	virtual void affiche();
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 
-	virtual bool count()
-	{
-		return false;
-	};
+	virtual bool count() { return false; };
 };

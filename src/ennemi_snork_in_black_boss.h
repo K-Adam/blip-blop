@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------------
-*		    EnnemiSnorkInBlackBoss.h
-*		-----------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 23 Avril 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------------
+ *		    EnnemiSnorkInBlackBoss.h
+ *		-----------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 23 Avril 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -26,15 +26,14 @@
 //-----------------------------------------------------------------------------
 
 //#define SNORK_IN_BLACK_MAX_TIR		6
-#define tolerance		5
+#define tolerance 5
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSnorkyInBlackBoss
 //-----------------------------------------------------------------------------
 
-class EnnemiSnorkInBlackBoss : public Ennemi
-{
-private:
+class EnnemiSnorkInBlackBoss : public Ennemi {
+   private:
 	int nb_tir;
 	int position;
 	int type_attack;
@@ -46,8 +45,7 @@ private:
 	bool shark;
 	bool saut;
 
-public:
-
+   public:
 	EnnemiSnorkInBlackBoss();
 
 	virtual void update();
@@ -57,6 +55,5 @@ public:
 	virtual void onTire();
 	virtual void affiche();
 
-
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

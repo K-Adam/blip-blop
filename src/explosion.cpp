@@ -1,9 +1,7 @@
 
 #include "explosion.h"
 
-
-Explosion::Explosion() : fini(false)
-{
+Explosion::Explosion() : fini(false) {
 	type = rand() % 2;
 
 	if (type == 1)
@@ -12,13 +10,11 @@ Explosion::Explosion() : fini(false)
 		speed = 4 + rand() % 3;
 }
 
-void Explosion::update()
-{
+void Explosion::update() {
 	ss_etape += 1;
 	ss_etape %= speed;
 
 	if (ss_etape == 0) {
-
 		if (fini) {
 			etape -= 1;
 

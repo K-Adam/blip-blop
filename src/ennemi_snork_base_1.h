@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiSnork.h
-*		-----------------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 3 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiSnork.h
+ *		-----------------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,16 +25,15 @@
 //		Constantes
 //-----------------------------------------------------------------------------
 
-#define LEM_SPEED		1
+#define LEM_SPEED 1
 
 //-----------------------------------------------------------------------------
 //		Définition de la classe EnnemiSmurf
 //-----------------------------------------------------------------------------
 
-class EnnemiLemmings : public Ennemi
-{
-public:
-	bool	suicide;
+class EnnemiLemmings : public Ennemi {
+   public:
+	bool suicide;
 
 	EnnemiLemmings();
 
@@ -44,5 +43,5 @@ public:
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir * tir);
+	virtual void estTouche(Tir* tir);
 };

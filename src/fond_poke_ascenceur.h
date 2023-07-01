@@ -2,9 +2,8 @@
 
 #include "sprite.h"
 
-class FondPokeAscenceur : public Sprite
-{
-public:
+class FondPokeAscenceur : public Sprite {
+   public:
 	FondPokeAscenceur();
 	virtual void update();
 };

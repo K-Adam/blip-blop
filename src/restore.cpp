@@ -5,8 +5,7 @@
 #include "scroll.h"
 #include "ben_debug.h"
 
-bool RestoreAll()
-{
+bool RestoreAll() {
 	if (primSurface->Restore() != DD_OK) {
 		debug << "Cannot restore primary surface.\n";
 		return false;
@@ -17,7 +16,7 @@ bool RestoreAll()
 	// Affiche un "LOADING..."
 	//
 	fnt_menu.printC(backSurface, 320, 210, "PLEASE WAIT");
-	//primSurface->Flip(NULL, DDFLIP_WAIT);
+	// primSurface->Flip(NULL, DDFLIP_WAIT);
 	graphicInstance->Flip();
 
 	graphicInstance->RestoreAllSurfaces();

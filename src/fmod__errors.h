@@ -1,7 +1,6 @@
 #pragma once
 
-const char *FMOD_ErrorString(int errcode)
-{
+const char *FMOD_ErrorString(int errcode) {
 	switch (errcode) {
 		case FMOD_ERR_NONE:
 			return "No errors";
@@ -44,7 +43,7 @@ const char *FMOD_ErrorString(int errcode)
 		case FMOD_ERR_MEDIAPLAYER:
 			return "Required Mediaplayer codec is not installed";
 
-		default :
+		default:
 			return "Unknown error";
 	};
 };

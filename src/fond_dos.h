@@ -2,11 +2,9 @@
 
 #include "sprite.h"
 
-class FondDos : public Sprite
-{
-public:
-	virtual void update()
-	{
+class FondDos : public Sprite {
+   public:
+	virtual void update() {
 		ss_etape += 1;
 		ss_etape %= 40;
 
@@ -18,5 +16,4 @@ public:
 		pic = pbk_niveau[58 + etape];
 		updateADetruire();
 	};
-
 };

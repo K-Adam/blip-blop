@@ -35,18 +35,15 @@
 #include "moving_average.h"
 
 class UpdateRegulator {
-	public:
+   public:
 	UpdateRegulator(int delay_goal = 11, int margin = 1, int hist_size = 50)
-		: last_frames_spare_time_(hist_size),
-		dtime_(0),
-		delay_goal_(delay_goal),
-		margin_(margin) {}
+		: last_frames_spare_time_(hist_size), dtime_(0), delay_goal_(delay_goal), margin_(margin) {}
 
 	/**
-	* @brief notify that you're starting a new frame.
-	*
-	* @return how many update steps to perform.
-	*/
+	 * @brief notify that you're starting a new frame.
+	 *
+	 * @return how many update steps to perform.
+	 */
 	int Step() {
 		int since_last = RegisterFrameTime();
 		dtime_ += since_last;
@@ -71,14 +68,12 @@ class UpdateRegulator {
 	}
 
 	/**
-	* @brief Call when you want to restart counting the time taken for that
-	* current frame.
-	*/
-	void Skip() {
-		frame_time_.Reset();
-	}
+	 * @brief Call when you want to restart counting the time taken for that
+	 * current frame.
+	 */
+	void Skip() { frame_time_.Reset(); }
 
-	private:
+   private:
 	int RegisterFrameTime() {
 		int since_last = frame_time_.elapsed();
 		// adjust for oddities

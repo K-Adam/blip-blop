@@ -2,20 +2,15 @@
 
 #include "sprite.h"
 
-class GoreBisouAuto : public Sprite
-{
-public:
+class GoreBisouAuto : public Sprite {
+   public:
+	bool sol;
 
-	bool	sol;
+	GoreBisouAuto() : sol(false) {}
 
-	GoreBisouAuto() : sol(false)
-	{
-	}
-
-	virtual void update()
-	{
-		static const int anim_droite [] = { 589, 590, 591, 592, 591, 590 };
-		static const int anim_gauche [] = { 603, 604, 605, 606, 605, 604 };
+	virtual void update() {
+		static const int anim_droite[] = {589, 590, 591, 592, 591, 590};
+		static const int anim_gauche[] = {603, 604, 605, 606, 605, 604};
 		static const int SPEED = 2;
 
 		tombe();

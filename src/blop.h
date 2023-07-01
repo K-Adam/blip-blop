@@ -1,18 +1,18 @@
 /******************************************************************
-*
-*
-*		--------------
-*		    Blop.h
-*		--------------
-*
-*		Let's rock!
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------
+ *		    Blop.h
+ *		--------------
+ *
+ *		Let's rock!
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -22,22 +22,15 @@
 
 #include "couille.h"
 
-
 //-----------------------------------------------------------------------------
 //		Definition de la classe Blop
 //-----------------------------------------------------------------------------
 
-class Blop : public Couille
-{
+class Blop : public Couille {
+   public:
+	Blop() : Couille(pbk_blop) { id_couille = ID_BLOP; };
 
-public:
-	Blop() : Couille(pbk_blop)
-	{
-		id_couille = ID_BLOP;
-	};
-
-	virtual void rearme()
-	{
+	virtual void rearme() {
 		id_arme = ID_FUSIL;
 		ammo = 10;
 		latence_arme = 3;

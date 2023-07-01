@@ -7,14 +7,13 @@
 
 #ifdef _MSC_VER
 // TODO
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 #endif
 
 using json = nlohmann::json;
 
-void HiScores::init()
-{
-	int	scr = 10000 * HS_NB_SCORES;
+void HiScores::init() {
+	int scr = 10000 * HS_NB_SCORES;
 
 	for (int i = 0; i < HS_NB_SCORES; i++) {
 		scores[i] = scr;
@@ -23,14 +22,12 @@ void HiScores::init()
 	}
 }
 
-void HiScores::add(int scr, const char * name)
-{
-	int		i = 0;
+void HiScores::add(int scr, const char* name) {
+	int i = 0;
 
-	while (i < HS_NB_SCORES && scores[i] > scr)
-		i++;
+	while (i < HS_NB_SCORES && scores[i] > scr) i++;
 
-	int		j = HS_NB_SCORES - 1;
+	int j = HS_NB_SCORES - 1;
 
 	while (j > i) {
 		scores[j] = scores[j - 1];
@@ -45,8 +42,7 @@ void HiScores::add(int scr, const char * name)
 	}
 }
 
-bool HiScores::save(const char * file)
-{
+bool HiScores::save(const char* file) {
 	json result;
 	result["items"] = json::array();
 	for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -64,8 +60,7 @@ bool HiScores::save(const char * file)
 	return true;
 }
 
-bool HiScores::load(const char * file)
-{
+bool HiScores::load(const char* file) {
 	std::ifstream input(file);
 	if (!input.good()) {
 		return false;
@@ -75,7 +70,6 @@ bool HiScores::load(const char * file)
 
 	int index = 0;
 	for (auto item : data["items"]) {
-
 		std::string name = item["name"];
 		int score = item["score"];
 

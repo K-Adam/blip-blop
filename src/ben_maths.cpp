@@ -7,7 +7,7 @@ static int bSin[360] = {0};
 static char bSqr[0xFFFF] = {0};
 
 class MathsInit {
-	public:
+   public:
 	MathsInit() {
 		// Précalcul des cosinus
 		for (int i = 0; i < 360; i++) {

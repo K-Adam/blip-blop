@@ -1,15 +1,9 @@
 
 #include "ennemi_com.h"
 
-EnnemiCOM::EnnemiCOM()
-{
-	pv = 100;
-}
+EnnemiCOM::EnnemiCOM() { pv = 100; }
 
-
-void EnnemiCOM::update()
-{
-
+void EnnemiCOM::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -25,9 +19,7 @@ void EnnemiCOM::update()
 	updateADetruire();
 }
 
-
-void EnnemiCOM::onAvance()
-{
+void EnnemiCOM::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 8;
 
@@ -53,9 +45,7 @@ void EnnemiCOM::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiCOM::onMeure()
-{
+void EnnemiCOM::onMeure() {
 	if (ss_etape == 0 && etape == 0) {
 		sbk_niveau.play(6);
 	}
@@ -63,8 +53,7 @@ void EnnemiCOM::onMeure()
 	ss_etape += 1;
 	ss_etape %= 3;
 
-	if (ss_etape == 0 && etape < 22)
-		etape += 1;
+	if (ss_etape == 0 && etape < 22) etape += 1;
 
 	if (etape >= 22) {
 		a_detruire = true;

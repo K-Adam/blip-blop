@@ -18,7 +18,7 @@ class CharacterSelection {
 	int x_charac_;
 	int y_charac_;
 
-	public:
+   public:
 	enum class Output : int {
 		Blip = 0,
 		Blop = 1,

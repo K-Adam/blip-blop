@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		----------------
-*		   TirGateau.h
-*		----------------
-*
-*
-*
-*		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		----------------
+ *		   TirGateau.h
+ *		----------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
@@ -25,28 +25,17 @@
 //		Définition de la classe Tir
 //-----------------------------------------------------------------------------
 
-class TirGateau : public Tir
-{
-public:
-	int		dx;
+class TirGateau : public Tir {
+   public:
+	int dx;
 
 	TirGateau();
 
-	virtual int degats() const
-	{
-		return 1;
-	};
+	virtual int degats() const { return 1; };
 
-	virtual int enflame() const
-	{
-		return 0;
-	};
+	virtual int enflame() const { return 0; };
 
-	virtual void setDir(int d)
-	{
-		dir = d;
-	};
+	virtual void setDir(int d) { dir = d; };
 
 	virtual void update();
-
 };

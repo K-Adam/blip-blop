@@ -7,12 +7,12 @@
 #include "menu_list.h"
 
 class KeysMenu : public AbstractMenu {
-	public:
+   public:
 	KeysMenu(int num_player);
 	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
 	int ProcessEvent();
 
-	private:
+   private:
 	enum class State { WaitingKey, Browsing };
 	void EditKey();
 	void SetKey(int key);

@@ -1,16 +1,10 @@
 
 #include "ennemi_pikachu.h"
 
+EnnemiPikachu::EnnemiPikachu() { pv = 100; }
 
-EnnemiPikachu::EnnemiPikachu()
-{
-	pv = 100;
-}
-
-void EnnemiPikachu::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiPikachu::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -30,8 +24,7 @@ void EnnemiPikachu::update()
 	updateADetruire();
 }
 
-void EnnemiPikachu::onAvance()
-{
+void EnnemiPikachu::onAvance() {
 	static const int SPEED = 3;
 
 	tombe();
@@ -59,25 +52,21 @@ void EnnemiPikachu::onAvance()
 		pic = pbk_ennemis[2 + etape];
 	}
 
-
 	colFromPic();
 }
 
-void EnnemiPikachu::onMeure()
-{
+void EnnemiPikachu::onMeure() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 4;
 
-	if (ss_etape == 0 && etape < 10)
-		etape += 1;
+	if (ss_etape == 0 && etape < 10) etape += 1;
 
 	if (etape >= 10) {
-		int		yy = plat(x, y);
+		int yy = plat(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x])
-			grave(x, y, pic);
+		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
 
 		a_detruire = true;
 	} else {
@@ -88,13 +77,11 @@ void EnnemiPikachu::onMeure()
 	}
 }
 
-void EnnemiPikachu::onCarbonise()
-{
+void EnnemiPikachu::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 14)
 		a_detruire = true;
@@ -106,16 +93,15 @@ void EnnemiPikachu::onCarbonise()
 	}
 }
 
-void EnnemiPikachu::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiPikachu::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {
-//		sbk_niveau.play( 7/*+rand()%3*/);
+		//		sbk_niveau.play( 7/*+rand()%3*/);
 		sbk_misc.play(8 + rand() % 2);
 	}
 }

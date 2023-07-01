@@ -6,8 +6,7 @@ extern SDL::Surface* backSurface;
 
 void Graphics::Init() {
 	if (SDL_Init((SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC)) == -1) {
-		throw std::runtime_error(std::string("Can't initialize SDL") +
-								SDL_GetError());
+		throw std::runtime_error(std::string("Can't initialize SDL") + SDL_GetError());
 	}
 }
 
@@ -17,32 +16,23 @@ void Graphics::SetGfxMode(int x, int y, int d, bool fullscreen) {
 	y_ = y;
 	d_ = d;
 	fullscreen_ = fullscreen;
-	window_.reset(SDL_ErrWrap(SDL_CreateWindow(
-		"Blip&Blop",
-		x,
-		y,
-		x,
-		y,
-		SDL_WINDOW_SHOWN | (fullscreen * SDL_WINDOW_FULLSCREEN))));
+	window_.reset(SDL_ErrWrap(SDL_CreateWindow("Blip&Blop", x, y, x, y, SDL_WINDOW_SHOWN | (fullscreen * SDL_WINDOW_FULLSCREEN))));
 
-	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(
-		window_.get(),
-		-1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)));
+	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)));
 }
 
 SDL::Surface* Graphics::CreatePrimary() {
 	/**/
 	debug << "CreatePrimary() - Creating a 640 x 480 Surface"
-		<< "\n";
+		  << "\n";
 	return CreateSurface(640, 480, 0);
 	// return 0;
 }
 
 SDL::Surface* Graphics::CreatePrimary(SDL::Surface*& back) {
 	debug << "Graphics::CreatePrimary(SDL::Surface * & back) - Creating a "
-			"640x480 surface"
-		<< "\n";
+			 "640x480 surface"
+		  << "\n";
 	SDL::Surface* tmp = CreateSurface(640, 480);
 	back = CreateSurface(640, 480);
 	tmp->SetBackBuffer(back);
@@ -50,9 +40,7 @@ SDL::Surface* Graphics::CreatePrimary(SDL::Surface*& back) {
 	// return 0;
 }
 
-SDL::Surface* Graphics::CreateSurface(int x, int y) {
-	return CreateSurface(x, y, 0);
-}
+SDL::Surface* Graphics::CreateSurface(int x, int y) { return CreateSurface(x, y, 0); }
 
 SDL::Surface* Graphics::CreateSurface(int x, int y, int flags) {
 	Uint32 rmask, gmask, bmask, amask;
@@ -68,8 +56,7 @@ SDL::Surface* Graphics::CreateSurface(int x, int y, int flags) {
 	bmask = 0x00ff0000;
 	amask = 0xff000000;
 #endif
-	SDL_Surface* surf =
-		SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
+	SDL_Surface* surf = SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
 
 	SDL::Surface* tmp = new SDL::Surface(surf);
 	tmp->FillRect(0, 0xFF000000);
@@ -90,8 +77,7 @@ SDL_Surface* Graphics::CreateSDLSurface(int x, int y) {
 	bmask = 0x00ff0000;
 	amask = 0xff000000;
 #endif
-	SDL_Surface* surf =
-		SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
+	SDL_Surface* surf = SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
 	return (surf);
 }
 
@@ -118,12 +104,7 @@ SDL::Surface* Graphics::LoadBMP(char* file, int flags) {
 }
 
 bool Graphics::SetColorKey(SDL::Surface* surf, Pixel rgb) {
-	SDL_SetColorKey(surf->Get(),
-					SDL_TRUE,
-					SDL_MapRGB(surf->Get()->format,
-								(rgb & 0xFF),
-								((rgb >> 8) & 0xFF),
-								((rgb >> 16) & 0xFF)));
+	SDL_SetColorKey(surf->Get(), SDL_TRUE, SDL_MapRGB(surf->Get()->format, (rgb & 0xFF), ((rgb >> 8) & 0xFF), ((rgb >> 16) & 0xFF)));
 	// TODO: set color key
 	return true;
 }

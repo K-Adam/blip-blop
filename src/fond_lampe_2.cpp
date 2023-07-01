@@ -2,17 +2,16 @@
 #include <stdlib.h>
 #include "fond_lampe_2.h"
 
-#define ETAT_CLIGNOTE	100
+#define ETAT_CLIGNOTE 100
 
-FondLumiere2::FondLumiere2() :  allume(false), wait_for_cligno(0)
-{
+FondLumiere2::FondLumiere2() : allume(false), wait_for_cligno(0) {
 	delai_cligno = 50 + rand() % 200;
 	pic = pbk_niveau[17];
 }
 
-void FondLumiere2::update()
-{
-	static const int anim_cligno [] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
+void FondLumiere2::update() {
+	static const int anim_cligno[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
+									  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
 
 	wait_for_cligno += 1;
 
@@ -32,6 +31,5 @@ void FondLumiere2::update()
 		}
 	}
 
-	if (x < offset - 300)
-		a_detruire = true;
+	if (x < offset - 300) a_detruire = true;
 }

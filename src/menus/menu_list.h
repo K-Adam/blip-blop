@@ -6,7 +6,7 @@
 #include "../graphics.h"
 
 class MenuList {
-	public:
+   public:
 	void Draw(SDL::Surface* surf) const;
 
 	void MoveUp() {
@@ -30,7 +30,7 @@ class MenuList {
 
 	size_t size() const { return items_.size(); }
 
-	private:
+   private:
 	int ComputeWidth() const;
 	void ShadeTextBox(SDL::Surface* surf) const;
 

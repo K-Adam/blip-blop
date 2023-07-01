@@ -3,20 +3,12 @@
 #include "gore_pieds_bisou_ciel.h"
 #include "tir_arc_ciel.h"
 
+EnnemiBisouCiel::EnnemiBisouCiel() : wait_for_pisser(0) { pv = 175; }
 
-EnnemiBisouCiel::EnnemiBisouCiel() : wait_for_pisser(0)
-{
-	pv = 175;
-}
+void EnnemiBisouCiel::update() {
+	if (blood > 0) blood -= 1;
 
-
-void EnnemiBisouCiel::update()
-{
-	if (blood > 0)
-		blood -= 1;
-
-	if (wait_for_pisser > 0)
-		wait_for_pisser -= 1;
+	if (wait_for_pisser > 0) wait_for_pisser -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -48,18 +40,16 @@ void EnnemiBisouCiel::update()
 	updateADetruire();
 }
 
-void EnnemiBisouCiel::onMeureEntier()
-{
+void EnnemiBisouCiel::onMeureEntier() {
 	tombe();
 
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	if (ss_etape == 0)
-		etape += 1;
+	if (ss_etape == 0) etape += 1;
 
 	if (etape == 4) {
-		GorePiedsBisouCiel * pieds = new GorePiedsBisouCiel();
+		GorePiedsBisouCiel* pieds = new GorePiedsBisouCiel();
 
 		pieds->x = x;
 		pieds->dir = dir;
@@ -81,8 +71,7 @@ void EnnemiBisouCiel::onMeureEntier()
 	}
 }
 
-void EnnemiBisouCiel::onTire()
-{
+void EnnemiBisouCiel::onTire() {
 	ss_etape += 1;
 
 	if (ss_etape >= 60) {
@@ -92,13 +81,11 @@ void EnnemiBisouCiel::onTire()
 	}
 }
 
-void EnnemiBisouCiel::onMeureHaut()
-{
+void EnnemiBisouCiel::onMeureHaut() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 3)
-		etape += 1;
+	if (ss_etape == 0 && etape < 3) etape += 1;
 
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[40 + etape];
@@ -117,19 +104,16 @@ void EnnemiBisouCiel::onMeureHaut()
 	}
 }
 
-void EnnemiBisouCiel::onMeureHautFin()
-{
+void EnnemiBisouCiel::onMeureHautFin() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 3)
-		etape += 1;
+	if (ss_etape == 0 && etape < 3) etape += 1;
 
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[24 + etape];
 	else
 		pic = pbk_ennemis[28 + etape];
-
 
 	if (etape >= 3) {
 		grave(x, y, pic);
@@ -137,8 +121,7 @@ void EnnemiBisouCiel::onMeureHautFin()
 	}
 }
 
-void EnnemiBisouCiel::onAvance()
-{
+void EnnemiBisouCiel::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -168,8 +151,8 @@ void EnnemiBisouCiel::onAvance()
 
 	// Regarde s'il peut tirer
 	//
-	if (wait_for_pisser == 0 && etape == 4) { // L'etape 4 est plus jolie
-		if (tete_turc != NULL && plat(x, y) != 0) { // ne tire pas en tombant
+	if (wait_for_pisser == 0 && etape == 4) {		 // L'etape 4 est plus jolie
+		if (tete_turc != NULL && plat(x, y) != 0) {	 // ne tire pas en tombant
 			int ddx = x - tete_turc->x;
 			int ddy = y - tete_turc->y;
 
@@ -190,7 +173,7 @@ void EnnemiBisouCiel::onAvance()
 				} else {
 					if (ddx < 0 && ddx > -90) {
 						sbk_niveau.play(9);
-						TirArcCiel * s = new TirArcCiel();
+						TirArcCiel* s = new TirArcCiel();
 						s->x = x + 15;
 						s->y = y - 25;
 						s->dir = SENS_DROITE;
@@ -208,9 +191,7 @@ void EnnemiBisouCiel::onAvance()
 	colFromPic();
 }
 
-
-void EnnemiBisouCiel::onCarbonise()
-{
+void EnnemiBisouCiel::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -229,15 +210,12 @@ void EnnemiBisouCiel::onCarbonise()
 		pic = pbk_ennemis[566 + etape];
 }
 
-
-void EnnemiBisouCiel::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 7, 10, 7, 0, -7, -10, -7 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiBisouCiel::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Ennemi::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE)
-		sbk_niveau.play((rand() % 9));
+	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));
 }

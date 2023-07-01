@@ -3,20 +3,19 @@
 #include "tir_mario_fireball.h"
 #include "tir_mario_fireball_vertical.h"
 
-const int anim_mario_marche_droite[] = { 0, 1, 2, 1};
-const int anim_mario_marche_gauche[] = { 3, 4, 5, 4};
-const int recul_mario[] = { 4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const int anim_mario_marche_droite[] = {0, 1, 2, 1};
+const int anim_mario_marche_gauche[] = {3, 4, 5, 4};
+const int recul_mario[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-EnnemiMarioHologramme::EnnemiMarioHologramme(): speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_cligno(0), cligno_delay(10 + rand() % 10)
-{
+EnnemiMarioHologramme::EnnemiMarioHologramme()
+	: speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_cligno(0), cligno_delay(10 + rand() % 10) {
 	pv = 1;
 	pic = pbk_ennemis[0];
 }
 
-void EnnemiMarioHologramme::update()
-{
+void EnnemiMarioHologramme::update() {
 	wait_for_cligno++;
-	if	(wait_for_cligno > cligno_delay + NB_CLIGNO) {
+	if (wait_for_cligno > cligno_delay + NB_CLIGNO) {
 		decalage_cligno = 54;
 		wait_for_cligno = 0;
 		cligno_delay = 50 + rand() % 50;
@@ -26,8 +25,7 @@ void EnnemiMarioHologramme::update()
 		decalage_cligno = 0;
 	}
 
-	if (blood > 0)
-		blood -= 1;
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -61,11 +59,10 @@ void EnnemiMarioHologramme::update()
 			break;
 	}
 
-	//updateADetruire();
+	// updateADetruire();
 }
 
-void EnnemiMarioHologramme::onAvance()
-{
+void EnnemiMarioHologramme::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	if (plat(x, y) == 0) {
@@ -75,7 +72,7 @@ void EnnemiMarioHologramme::onAvance()
 		onSaute();
 	}
 
-	//pour marcher
+	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -128,13 +125,9 @@ void EnnemiMarioHologramme::onAvance()
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onMeure()
-{
-	a_detruire = true;
-}
+void EnnemiMarioHologramme::onMeure() { a_detruire = true; }
 
-void EnnemiMarioHologramme::onCharge()
-{
+void EnnemiMarioHologramme::onCharge() {
 	/*speed=MARIO_CHARGE_SPEED;
 	if ( x - speed < xmin || mur_opaque( x-speed, y))
 	{
@@ -188,9 +181,8 @@ void EnnemiMarioHologramme::onCharge()
 	colFromPic();*/
 }
 
-void EnnemiMarioHologramme::onSaute()
-{
-	int		yp;
+void EnnemiMarioHologramme::onSaute() {
+	int yp;
 
 	if (dy < 0) {
 		tombe_mario();
@@ -198,7 +190,7 @@ void EnnemiMarioHologramme::onSaute()
 		tombe();
 	}
 
-	//pour pas que le mario se tire en dehors de l'ecran...
+	// pour pas que le mario se tire en dehors de l'ecran...
 	if ((dir == SENS_GAUCHE) && (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
@@ -219,7 +211,6 @@ void EnnemiMarioHologramme::onSaute()
 		return;
 	}
 
-
 	if (dir == SENS_DROITE) {
 		x += speed;
 		if (dy < 0) {
@@ -239,8 +230,7 @@ void EnnemiMarioHologramme::onSaute()
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onCarbonise()
-{
+void EnnemiMarioHologramme::onCarbonise() {
 	a_detruire = true;
 	/*ss_etape += 1;
 	ss_etape %= 5;
@@ -259,8 +249,7 @@ void EnnemiMarioHologramme::onCarbonise()
 	}*/
 }
 
-void EnnemiMarioHologramme::affiche()
-{
+void EnnemiMarioHologramme::affiche() {
 	Sprite::affiche();
 	if (fireball) {
 		if (dir == SENS_DROITE) {
@@ -268,18 +257,15 @@ void EnnemiMarioHologramme::affiche()
 		} else {
 			draw(x - 29, y - 33, pbk_ennemis[51 + etape]);
 		}
-
 	}
 }
 
-void EnnemiMarioHologramme::onTire()
-{
+void EnnemiMarioHologramme::onTire() {
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[10 + decalage_cligno];
 
 	else
 		pic = pbk_ennemis[11 + decalage_cligno];
-
 
 	if ((y - 25 < y_cible) && (y_cible < 400)) {
 		if (y > y_cible - 60) {
@@ -308,8 +294,7 @@ void EnnemiMarioHologramme::onTire()
 		}
 		y += dy;
 	} else {
-
-		//y+=dy;
+		// y+=dy;
 		ss_etape++;
 		ss_etape %= 4;
 		if (ss_etape == 0) {
@@ -342,14 +327,12 @@ void EnnemiMarioHologramme::onTire()
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onTireverticale()
-{
+void EnnemiMarioHologramme::onTireverticale() {
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[10];
 
 	else
 		pic = pbk_ennemis[11];
-
 
 	ss_etape++;
 	ss_etape %= 4;
@@ -361,7 +344,7 @@ void EnnemiMarioHologramme::onTireverticale()
 	attack_etape++;
 	if (attack_etape == 40) {
 		fireball = 0;
-		TirMarioFireballVertical *	tir = new TirMarioFireballVertical(0, x_cible);
+		TirMarioFireballVertical* tir = new TirMarioFireballVertical(0, x_cible);
 
 		tir->setDir(dir);
 		if (dir == SENS_DROITE) {
@@ -383,10 +366,9 @@ void EnnemiMarioHologramme::onTireverticale()
 	colFromPic();
 }
 
-inline void EnnemiMarioHologramme::boule_de_feu()
-{
+inline void EnnemiMarioHologramme::boule_de_feu() {
 	if (dir == SENS_DROITE) {
-		TirMarioFireball *	tir = new TirMarioFireball(1);
+		TirMarioFireball* tir = new TirMarioFireball(1);
 
 		tir->setDir(dir);
 		tir->x = x + 38;
@@ -394,7 +376,7 @@ inline void EnnemiMarioHologramme::boule_de_feu()
 
 		list_tirs_ennemis.emplace_back(tir);
 	} else {
-		TirMarioFireball *	tir = new TirMarioFireball(-1);
+		TirMarioFireball* tir = new TirMarioFireball(-1);
 
 		tir->setDir(dir);
 		tir->x = x - 38;
@@ -404,16 +386,13 @@ inline void EnnemiMarioHologramme::boule_de_feu()
 	}
 }
 
-void EnnemiMarioHologramme::tombe_mario()
-{
+void EnnemiMarioHologramme::tombe_mario() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_MARIO_GRAVITE;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX)
-		dy += 1;
+	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy))
-		dy = GRAVITE_MAX;
+	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
 
 	int ny = plat(x, y + dy);
 
@@ -423,11 +402,10 @@ void EnnemiMarioHologramme::tombe_mario()
 		y += dy;
 }
 
-void EnnemiMarioHologramme::estTouche(Tir * tir)
-{
-	//static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	//static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiMarioHologramme::estTouche(Tir* tir) {
+	// static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
+	// static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
 
-	//Ennemi::estTouche( tir);
-	//gicle( tir, dx_giclure, dy_giclure);
+	// Ennemi::estTouche( tir);
+	// gicle( tir, dx_giclure, dy_giclure);
 }

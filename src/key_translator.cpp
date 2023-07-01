@@ -51,8 +51,7 @@ std::string DIK_to_string_us(int n) {
 			case JOY_RIGHT:
 				return std::string("JOY") + std::to_string(j) + " RIGHT";
 			default:
-				return std::string("JOY") + std::to_string(j) + " BUTTON" +
-						std::to_string(d);
+				return std::string("JOY") + std::to_string(j) + " BUTTON" + std::to_string(d);
 		}
 	}
 }
@@ -82,8 +81,7 @@ std::string DIK_to_string_fr(int n) {
 			case JOY_RIGHT:
 				return std::string("JOYSTICK") + std::to_string(j) + " DROITE";
 			default:
-				return std::string("JOYSTICK") + std::to_string(j) + " BOUTON" +
-						std::to_string(d + 1);
+				return std::string("JOYSTICK") + std::to_string(j) + " BOUTON" + std::to_string(d + 1);
 		}
 	}
 }

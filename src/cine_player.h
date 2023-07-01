@@ -8,91 +8,86 @@
 #include "chrono.h"
 #include "update_regulator.h"
 
-#define OBJ_SPRITE	0
-#define OBJ_SCROLL	1
-#define OBJ_TEXTE	2
+#define OBJ_SPRITE 0
+#define OBJ_SCROLL 1
+#define OBJ_TEXTE 2
 
-
-#define NB_OBJ		20
-#define NB_ARG		20
-#define STR_LENGTH	40
-#define BUFFER_SIZE	200
-#define CMD_SIZE	20
-
+#define NB_OBJ 20
+#define NB_ARG 20
+#define STR_LENGTH 40
+#define BUFFER_SIZE 200
+#define CMD_SIZE 20
 
 struct OBJECT {
-	int			id;
-	bool		show;
+	int id;
+	bool show;
 
-	Picture *	pic;
-	int			x;
-	int			y;
+	Picture* pic;
+	int x;
+	int y;
 
-	int			dx;
-	int			dy;
-	int			time_mov;
+	int dx;
+	int dy;
+	int time_mov;
 
-	int			nb_anim;
-	int			anim[20];
-	int			speed_anim;
-	int			wait_anim;
-	bool		loop_anim;
-	int			etape;
+	int nb_anim;
+	int anim[20];
+	int speed_anim;
+	int wait_anim;
+	bool loop_anim;
+	int etape;
 
-	bool		x_warp;
-	int			x_warp1;
-	int			x_warp2;
+	bool x_warp;
+	int x_warp1;
+	int x_warp2;
 
-	bool		y_warp;
-	int			y_warp1;
-	int			y_warp2;
+	bool y_warp;
+	int y_warp1;
+	int y_warp2;
 
-	int			txt;
+	int txt;
 };
 
-
-class CINEPlayer
-{
-protected:
+class CINEPlayer {
+   protected:
 	UpdateRegulator update_regulator_;
 
 	/*SDL::Surface * first_surf;*/
-	SDL::Surface * back_surf;
+	SDL::Surface* back_surf;
 	/*
 		SDL::Surface * surf1;
 		SDL::Surface * surf2;
 	*/
 
 	std::stringstream fic_;
-	char			buffer[BUFFER_SIZE + 1];
-	char			buffer2[BUFFER_SIZE + 1];
+	char buffer[BUFFER_SIZE + 1];
+	char buffer2[BUFFER_SIZE + 1];
 
-	PictureBank		pbk;
-	MusicBank		mbk;
+	PictureBank pbk;
+	MusicBank mbk;
 
-	OBJECT			obj[NB_OBJ];
+	OBJECT obj[NB_OBJ];
 
-	char	cmd_name[CMD_SIZE];
-	int		nb_args;
-	int		int_arg[NB_ARG];
-	char	str_arg[NB_ARG][STR_LENGTH];
+	char cmd_name[CMD_SIZE];
+	int nb_args;
+	int int_arg[NB_ARG];
+	char str_arg[NB_ARG][STR_LENGTH];
 
-	int		num_ligne;
-	bool	fini;
-	int		frame_to_draw;
+	int num_ligne;
+	bool fini;
+	int frame_to_draw;
 
-	int		clip_x1;
-	int		clip_x2;
-	int		clip_y1;
-	int		clip_y2;
+	int clip_x1;
+	int clip_x2;
+	int clip_y1;
+	int clip_y2;
 
-	int		alpha;
-	int		delta_alpha;
-	int		color[2];
-	int		clip_color[2];
+	int alpha;
+	int delta_alpha;
+	int color[2];
+	int clip_color[2];
 
-	int		delta_vol;
-
+	int delta_vol;
 
 	// Méthodes
 	//
@@ -100,7 +95,7 @@ protected:
 	void initPlayer();
 	void closePlayer();
 	bool error();
-	bool error(const char * er);
+	bool error(const char* er);
 
 	// Execute toutes les commandes jusqu'à un affichage
 	//
@@ -112,8 +107,7 @@ protected:
 	void renderLoop();
 	void updateScene();
 
-public:
-	void loadPBK(const char * f);
-	bool playScene(const char * file, SDL::Surface * s1, SDL::Surface * s2);
-
+   public:
+	void loadPBK(const char* f);
+	bool playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2);
 };

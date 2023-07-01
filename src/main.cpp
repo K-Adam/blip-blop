@@ -27,9 +27,8 @@
 
 #ifdef _MSC_VER
 // TODO
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 #endif
-
 
 Game game;
 
@@ -73,8 +72,7 @@ void Bug(const char* txt) {
 	wchar_t* wideMessage = new wchar_t[size];
 	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
 
-	MessageBox(
-		WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
+	MessageBox(WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
 #else
 	std::cerr << txt << "\n";
 #endif
@@ -159,11 +157,9 @@ static bool InitApp(int nCmdShow) {
 	//                      Histoire d'avoir un joli fichier log
 	//------------------------------------------------------------------
 
-	debug
-		<< "---------------------------------------------------------------\n";
+	debug << "---------------------------------------------------------------\n";
 	debug << "Blip & Blop - (c) LOADED Studio - " << __DATE__ << "\n";
-	debug
-		<< "---------------------------------------------------------------\n";
+	debug << "---------------------------------------------------------------\n";
 
 	//------------------------------------------------------------------
 	//                      FMOD / Sons
@@ -269,7 +265,7 @@ static bool InitApp(int nCmdShow) {
 
 	// Mode EXCLUSIF (bourrin quoi...)
 
-	active = true;  // Activate the game loop
+	active = true;	// Activate the game loop
 
 	debug << "Exclusive mode set\n";
 
@@ -279,8 +275,7 @@ static bool InitApp(int nCmdShow) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
 		winSet = false;
 
-		DDSetGfxMode(
-			win_size.width, win_size.height, 16, false /* fullscreen */);
+		DDSetGfxMode(win_size.width, win_size.height, 16, false /* fullscreen */);
 	} else {
 		/*DEVMODE dm;
 
@@ -296,8 +291,7 @@ static bool InitApp(int nCmdShow) {
 		DISP_CHANGE_SUCCESSFUL) { debug << "Cannot set 640x480x16 at " <<
 		BEST_RATE << " Hz.\n"; winSet = false;*/
 		debug << "Trying to create window\n";
-		DDSetGfxMode(
-			win_size.width, win_size.height, 16, fullscreen /* fullscreen */);
+		DDSetGfxMode(win_size.width, win_size.height, 16, fullscreen /* fullscreen */);
 		debug << "Window creation done\n";
 		/*debug << "Using default 640x480x16 refresh rate.\n";
 		vSyncOn = true;
@@ -343,8 +337,7 @@ static bool InitApp(int nCmdShow) {
 	//                      Surface système
 	//------------------------------------------------------------------
 	debug << "Creating systemSurface\n";
-	systemSurface =
-		DDCreateSurface(win_size.width, win_size.height, DDSURF_SYSTEM);
+	systemSurface = DDCreateSurface(win_size.width, win_size.height, DDSURF_SYSTEM);
 
 	if (systemSurface == NULL) {
 		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free memory. Try to "
@@ -358,10 +351,8 @@ static bool InitApp(int nCmdShow) {
 	//------------------------------------------------------------------
 
 	for (int width_off = 0; width_off >= 200; width_off += 100) {
-		debug << "Creating video buffer of size "
-			<< (WANTED_VBUFFER_WIDE - width_off) << "...";
-		videoA =
-			DDCreateSurface(WANTED_VBUFFER_WIDE - width_off, 480, DDSURF_VIDEO);
+		debug << "Creating video buffer of size " << (WANTED_VBUFFER_WIDE - width_off) << "...";
+		videoA = DDCreateSurface(WANTED_VBUFFER_WIDE - width_off, 480, DDSURF_VIDEO);
 
 		if (videoA) {
 			debug << "Ok\n";
@@ -384,7 +375,7 @@ static bool InitApp(int nCmdShow) {
 		}
 
 		debug << "Cannot create video buffer. Use system buffer "
-				"instead.\n";
+				 "instead.\n";
 		vbuffer_wide = WANTED_VBUFFER_WIDE;
 		mem_flag = DDSURF_SYSTEM;
 		video_buffer_on = false;
@@ -454,11 +445,9 @@ void cleanup() {
 	//                      On quitte plus ou moins proprement
 	//------------------------------------------------------------------
 
-	debug
-		<< "---------------------------------------------------------------\n";
+	debug << "---------------------------------------------------------------\n";
 	debug << "Releasing Blip & Blop\n";
-	debug
-		<< "---------------------------------------------------------------\n";
+	debug << "---------------------------------------------------------------\n";
 
 	// Désalloue tout ce qu'il faut (en théorie)
 	//
@@ -503,8 +492,9 @@ int main(int argc, char** argv) {
 	//------------------------------------------------------------------
 	//                      Joue la partie
 	//------------------------------------------------------------------
-	debug << "Game.go" << "\n";
-    
+	debug << "Game.go"
+		  << "\n";
+
 	game.go();
 
 	return 0;

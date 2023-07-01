@@ -1,17 +1,17 @@
 /******************************************************************
-*
-*
-*		---------------------------------
-*		   TirTornade.cpp
-*		---------------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.1 - 22 Decembre 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------------
+ *		   TirTornade.cpp
+ *		---------------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.1 - 22 Decembre 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 //-----------------------------------------------------------------------------
 //		Headers
@@ -20,16 +20,9 @@
 #include <cmath>
 #include "tir_tornade.h"
 
+TirTornade::TirTornade(int vx) : dx(vx), etape_speed(0), nb_tour(0) { dy = 0; }
 
-
-TirTornade::TirTornade(int vx): dx(vx), etape_speed(0), nb_tour(0)
-{
-	dy = 0;
-}
-
-
-void TirTornade::update()
-{
+void TirTornade::update() {
 	ss_etape++;
 	ss_etape %= 6;
 
@@ -37,7 +30,7 @@ void TirTornade::update()
 		etape++;
 		if ((etape > 5) && (nb_tour < TOUR_MAX)) {
 			etape = 0;
-			nb_tour ++;
+			nb_tour++;
 		}
 	}
 
@@ -54,23 +47,20 @@ void TirTornade::update()
 
 	y += dy;
 
-
 	if (etape == 10) {
 		a_detruire = true;
 		return;
 	}
 
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50)
-		a_detruire = true;
-
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
 
 	etape_speed++;
 	etape_speed %= TORNADE_ACCELERATION;
 	if ((etape_speed == 0) && (abs(dx) < SPEED_MAX)) {
 		if (dir == SENS_DROITE) {
-			dx ++;
+			dx++;
 		} else {
-			dx --;
+			dx--;
 		}
 	}
 

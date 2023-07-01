@@ -1,41 +1,35 @@
 /******************************************************************
-*
-*
-*		--------------
-*		  EventRPG.h
-*		--------------
-*
-*
-*
-*		Prosper / LOADED -   2 Aout 2000
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		--------------
+ *		  EventRPG.h
+ *		--------------
+ *
+ *
+ *
+ *		Prosper / LOADED -   2 Aout 2000
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "event.h"
 
-class EventRPG : public Event
-{
-public:
+class EventRPG : public Event {
+   public:
+	int num;
+	int flag;
+	int val;
+	int cond;
 
-	int		num;
-	int		flag;
-	int		val;
-	int		cond;
-
-	inline virtual bool aActiver()
-	{
+	inline virtual bool aActiver() {
 		if (cond == 0)
 			return true;
 		else
 			return (game_flag[flag] == val);
 	};
 
-	virtual void doEvent()
-	{
-		rpg_to_play = num;
-	};
+	virtual void doEvent() { rpg_to_play = num; };
 };

@@ -1,26 +1,24 @@
 /******************************************************************
-*
-*
-*		---------------------------
-*		    FondRocherHyperspace.h
-*		---------------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.2 - 18 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		---------------------------
+ *		    FondRocherHyperspace.h
+ *		---------------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.2 - 18 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #pragma once
 
 #include "sprite.h"
 
-class FondRocherHyperspace : public Sprite
-{
-public:
-
+class FondRocherHyperspace : public Sprite {
+   public:
 	int plan_rocher;
 	int placer;
 	int delta;

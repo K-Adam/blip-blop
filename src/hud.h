@@ -7,14 +7,11 @@
 #include "globals.h"
 
 class HUD {
-	public:
+   public:
 	enum class Location : int { Left, Right };
 	enum class Color { Blue, Orange };
 
-	void Draw(Couille* player,
-			Location location,
-			Color color,
-			bool bonus_stage) {
+	void Draw(Couille* player, Location location, Color color, bool bonus_stage) {
 		DrawHealth(player->pv, location);
 		DrawScore(player->getScore(), location, color);
 		if (bonus_stage) {
@@ -34,14 +31,12 @@ class HUD {
 		DrawCowBomb(player->nb_cow_bomb, location);
 	}
 
-	private:
+   private:
 	void DrawCowBomb(int nb, Location location) {
 		if (location == Location::Left) {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23)
-				pbk_misc[49]->BlitTo(backSurface, 90 + dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[49]->BlitTo(backSurface, 90 + dxt, 65);
 		} else {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23)
-				pbk_misc[49]->BlitTo(backSurface, 520 - dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[49]->BlitTo(backSurface, 520 - dxt, 65);
 		}
 	}
 
@@ -127,13 +122,11 @@ class HUD {
 		int y = pos[int(location)][1];
 
 		for (int i = 0; i < health; i++) {
-			pbk_bb[201 - i]->BlitTo(
-				backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb[201 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 
 		for (int i = health; i < 5; i++) {
-			pbk_bb[196 - i]->BlitTo(
-				backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb[196 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 	}
 };

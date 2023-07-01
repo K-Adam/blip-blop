@@ -1,37 +1,31 @@
 /******************************************************************
-*
-*
-*		-----------------------
-*		    EnnemiPrincesse.cpp
-*		-----------------------
-*
-*
-*
-*		Mephisto / LOADED -   V 0.9 - 31 Janvier 2001
-*
-*
-*
-******************************************************************/
+ *
+ *
+ *		-----------------------
+ *		    EnnemiPrincesse.cpp
+ *		-----------------------
+ *
+ *
+ *
+ *		Mephisto / LOADED -   V 0.9 - 31 Janvier 2001
+ *
+ *
+ *
+ ******************************************************************/
 
 #include "ennemi_princesse.h"
 #include "ennemi_princesseguard.h"
 #include "texte_cool.h"
 #include "bonus_vache.h"
 
-
-
-EnnemiPrincesse::EnnemiPrincesse(): avance(false), aide(false)
-{
+EnnemiPrincesse::EnnemiPrincesse() : avance(false), aide(false) {
 	pv = 3700;
 	tresor = 0;
 	pic = pbk_ennemis[128];
-
 }
 
-void EnnemiPrincesse::update()
-{
-	if (blood > 0)
-		blood -= 1;
+void EnnemiPrincesse::update() {
+	if (blood > 0) blood -= 1;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -43,7 +37,6 @@ void EnnemiPrincesse::update()
 		case ETAT_CARBONISE:
 			onMeure();
 			break;
-
 	}
 
 	if (game_flag[1]) {
@@ -51,11 +44,10 @@ void EnnemiPrincesse::update()
 	}
 }
 
-void EnnemiPrincesse::onAvance()
-{
-	//if (game_flag[0])
+void EnnemiPrincesse::onAvance() {
+	// if (game_flag[0])
 	//{
-	// Si plus de plateformes on passe dans l'etat TOMBE
+	//  Si plus de plateformes on passe dans l'etat TOMBE
 	//
 	/*if ( plat( x, y) == 0)
 	{
@@ -65,7 +57,7 @@ void EnnemiPrincesse::onAvance()
 		onSaute();
 	}*/
 
-	//pour marcher
+	// pour marcher
 
 	/*if (x + PRINCESSE_SPEED >offset+640)
 	{
@@ -84,12 +76,12 @@ void EnnemiPrincesse::onAvance()
 	}*/
 
 	if (game_flag[1]) {
-		if (x  > offset + 820) {
-			TexteCool * txt = new TexteCool();
+		if (x > offset + 820) {
+			TexteCool* txt = new TexteCool();
 			txt->ntxt = 517;
 			list_txt_cool.emplace_back(txt);
 
-			a_detruire  = true;
+			a_detruire = true;
 		}
 		if (!aide) {
 			/*
@@ -107,7 +99,6 @@ void EnnemiPrincesse::onAvance()
 				guard->y = y - 20;
 				guard->dir = SENS_GAUCHE;
 				list_ennemis.emplace_back(guard);
-
 			}
 			nb_ennemis_created += 3;
 		}
@@ -137,13 +128,13 @@ void EnnemiPrincesse::onAvance()
 			}
 		} else if (dir == SENS_GAUCHE) {
 			dir = SENS_DROITE;
-			//marche( -PRINCESSE_SPEED);
-			//pic = pbk_ennemis[128+etape];
+			// marche( -PRINCESSE_SPEED);
+			// pic = pbk_ennemis[128+etape];
 		} else {
 			avance = false;
 		}
 	} else {
-		if (/*(x < offset + 680)&&*/(x < 5760)) {
+		if (/*(x < offset + 680)&&*/ (x < 5760)) {
 			ss_etape += 1;
 			ss_etape %= 6;
 			if (ss_etape == 0) {
@@ -162,8 +153,7 @@ void EnnemiPrincesse::onAvance()
 	colFromPic();
 }
 
-void EnnemiPrincesse::onMeure()
-{
+void EnnemiPrincesse::onMeure() {
 	/*if (dy<-5)
 		dy-=5;
 	if (dy<-2)
@@ -173,15 +163,14 @@ void EnnemiPrincesse::onMeure()
 	ss_etape += 1;
 	ss_etape %= 6;
 
-	if (ss_etape == 0 && etape < 6)
-		etape += 1;
+	if (ss_etape == 0 && etape < 6) etape += 1;
 
 	if (etape >= 5) {
-		int		yy = plat(x, y);
+		int yy = plat(x, y);
 
 		if (yy != 0 && yy != y_plat[4][x]) {
 			grave(x, y, pic);
-			TexteCool * txt = new TexteCool();
+			TexteCool* txt = new TexteCool();
 			txt->ntxt = 519;
 			list_txt_cool.emplace_back(txt);
 			a_detruire = true;
@@ -189,29 +178,21 @@ void EnnemiPrincesse::onMeure()
 				game_flag[2] = 1;
 			}
 
-			Bonus * bonus = new BonusVache();
+			Bonus* bonus = new BonusVache();
 			bonus->x = x;
 			bonus->y = y;
 			list_bonus.emplace_back(bonus);
 		}
 	} else {
-		//if ( !mur_opaque( x + speed, y) && plat( x, y) == 0)
+		// if ( !mur_opaque( x + speed, y) && plat( x, y) == 0)
 		//	x += speed;
 		pic = pbk_ennemis[130 + etape];
-
 	}
 }
 
-
-
-
-
-
-
-void EnnemiPrincesse::estTouche(Tir * tir)
-{
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
+void EnnemiPrincesse::estTouche(Tir* tir) {
+	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (game_flag[1]) {
 		Ennemi::estTouche(tir);
