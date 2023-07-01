@@ -23,7 +23,7 @@
 #include "control_alias.h"
 #include "fmod.h"
 #include "globals.h"
-#include "json.h"
+#include <json.h>
 
 using json = nlohmann::json;
 

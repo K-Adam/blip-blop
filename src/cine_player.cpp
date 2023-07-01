@@ -9,7 +9,7 @@
 //#include "alphablend.h"
 #include "globals.h"
 #include "config.h"
-#include "json.h"
+#include <json.h>
 #include "string.h"
 
 using json = nlohmann::json;

@@ -28,7 +28,7 @@
 #include "sound.h"
 #include "sound_bank.h"
 #include "string.h"
-#include "json.h"
+#include <json.h>
 
 using json = nlohmann::json;
 
