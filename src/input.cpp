@@ -66,6 +66,8 @@ Input::~Input() {}
 //-----------------------------------------------------------------------------
 
 bool Input::open(int flags) {
+	SDL_GameControllerAddMappingsFromFile("assets/gamecontrollerdb.txt");
+
 	SDL_JoystickEventState(SDL_TRUE);
 
 	this->n_joy = SDL_NumJoysticks();
