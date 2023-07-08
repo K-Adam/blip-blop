@@ -40,6 +40,11 @@ extern HiScores hi_scores;
 
 extern bool winSet;
 
+#define CONFIG_FILE "config/settings.json"
+#define HISCORES_FILE "config/hiscores.json"
+
+void mount_save_dir();
+void save_settings();
 void load_BB3_config(const char* cfg_file);
 void save_BB3_config(const char* cfg_file);
 void set_default_config(bool reset_lang = false);

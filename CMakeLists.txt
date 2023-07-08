@@ -21,7 +21,7 @@ endif()
 if(EMSCRIPTEN)
     set(SDL_PORTS -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 "-sSDL2_IMAGE_FORMATS=[\"bmp\",\"png\"]")
     target_compile_options(blipblop PRIVATE ${SDL_PORTS} $<$<CONFIG:Debug>:-fexceptions -sNO_DISABLE_EXCEPTION_CATCHING>)
-    target_link_options(blipblop PRIVATE ${SDL_PORTS} -sASYNCIFY -sALLOW_MEMORY_GROWTH
+    target_link_options(blipblop PRIVATE ${SDL_PORTS} -sASYNCIFY -sALLOW_MEMORY_GROWTH -lidbfs.js
         "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/assets@assets" "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/config@config"
         $<$<CONFIG:Debug>:-gsource-map -fexceptions -sNO_DISABLE_EXCEPTION_CATCHING -sEXCEPTION_DEBUG=1>)
     set_target_properties(blipblop PROPERTIES OUTPUT_NAME "index" SUFFIX ".html")

@@ -35,8 +35,6 @@
 
 /*SDL KEYS*/
 
-#define DEAD_ZONE 4200
-
 #define DIK_ESCAPE SDLK_ESCAPE
 #define DIK_UP SDLK_UP
 #define DIK_DOWN SDLK_DOWN
@@ -153,23 +151,24 @@
 
 /**/
 
-#define BINPUT_KEYB 1  // On peut utiliser le clavier
-#define BINPUT_JOY 2   // On peut utiliser un joystick
+#define MAX_JOY 5
 
-#define MAX_JOY 5  // Nombre maximal de joystick pouvant être gérés
+// Pad binding codes are ((slot + 1) << 10) | b, where b is an SDL_GameControllerButton,
+// a trigger (PAD_LT, PAD_RT) or a direction (JOY_*) that combines the D-pad and the left stick
+#define PAD_LT SDL_CONTROLLER_BUTTON_MAX
+#define PAD_RT (SDL_CONTROLLER_BUTTON_MAX + 1)
+#define PAD_BUTTONS (SDL_CONTROLLER_BUTTON_MAX + 2)
 
 #define JOY_UP 100
 #define JOY_DOWN 101
 #define JOY_LEFT 102
 #define JOY_RIGHT 103
 
-struct DIJOYSTATE {
-	char name[64];
-	SDL_Joystick *handle;
-	unsigned char buttons[128];	 // Joypad with more than 187 buttons? (100/101/102/103 is for directions)
-	struct {
-		unsigned char left, right, up, down;
-	} directions;
+struct Pad {
+	SDL_GameController *ctrl = nullptr;
+	SDL_JoystickID id = -1;
+	bool buttons[PAD_BUTTONS] = {};
+	bool left = false, right = false, up = false, down = false;
 };
 
 extern bool app_killed;
@@ -180,23 +179,22 @@ extern bool app_killed;
 
 class Input {
    private:
-	int n_joy;
-	DIJOYSTATE js[MAX_JOY];
-	char buffer[256];
-	char specialsbuffer[0xFFF];
-	unsigned int aliastab[256];
+	Pad pads[MAX_JOY];
+	char buffer[256] = {};
+	char specialsbuffer[0x1000] = {};
+	unsigned int aliastab[256] = {};
+
+	int pressedCode() const;
+	unsigned int padDefault(int a) const;
+	Pad *padById(SDL_JoystickID id);
 
    public:
-	Input();
-	~Input();
-
 	int scanKey(unsigned int k) const;
 
-	inline int scanAlias(int a) const { return (scanKey(aliastab[a])); };
-	inline unsigned int getAlias(int n) const { return aliastab[n]; };
+	int scanAlias(int a) const { return scanKey(aliastab[a]) || scanKey(padDefault(a)); }
+	unsigned int getAlias(int n) const { return aliastab[n]; }
 
-	int nbJoy() const { return n_joy; };
-	bool open(int flags = BINPUT_KEYB | BINPUT_JOY);
+	bool open();
 	void setAlias(int a, unsigned int val);
 
 	unsigned int waitKey();
@@ -205,7 +203,6 @@ class Input {
 	void update();
 	void close();
 	bool anyKeyPressed();
-	bool reAcquire();
 };
 
 //-----------------------------------------------------------------------------

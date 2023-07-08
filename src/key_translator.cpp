@@ -9,6 +9,37 @@
 static std::string DIK_to_string_us(int n);
 static std::string DIK_to_string_fr(int n);
 
+static std::string pad_to_string(int n, bool fr) {
+	int d = n & 0x3FF;
+	std::string name;
+	switch (d) {
+		case JOY_UP:
+			name = fr ? "HAUT" : "UP";
+			break;
+		case JOY_DOWN:
+			name = fr ? "BAS" : "DOWN";
+			break;
+		case JOY_LEFT:
+			name = fr ? "GAUCHE" : "LEFT";
+			break;
+		case JOY_RIGHT:
+			name = fr ? "DROITE" : "RIGHT";
+			break;
+		case PAD_LT:
+			name = "LT";
+			break;
+		case PAD_RT:
+			name = "RT";
+			break;
+		default: {
+			const char* s = d < SDL_CONTROLLER_BUTTON_MAX ? SDL_GameControllerGetStringForButton(SDL_GameControllerButton(d)) : nullptr;
+			name = s ? s : std::to_string(d);
+			for (char& c : name) c = char(toupper(c));
+		}
+	}
+	return std::string(fr ? "MANETTE" : "PAD") + std::to_string(n >> 10 & 0xFF) + " " + name;
+}
+
 std::string DIK_to_string(int n) {
 	if (lang_type == LANG_FR) {
 		return DIK_to_string_fr(n);
@@ -18,70 +49,29 @@ std::string DIK_to_string(int n) {
 }
 
 std::string DIK_to_string_us(int n) {
-	int j = n >> 10 & 0xFF;
+	if (n >> 10 & 0xFF) return pad_to_string(n, false);
 
-	/*
-	Check if is a joystick.
-	Normal keys go from 0x0 to 0xFF
-	Special keys from 0x40000000 to 0x40000FFF
-	Joypad buttons are from 0x0 to 0xFF and joypad number is shifted 10 bytes to
-	the left
-	*/
-
-	if (j == 0) {
-		switch (n) {
+	switch (n) {
 #define X(_num, _val) \
 	case _num:        \
 		return _val;
 #include "keys_us.xmacro"
 #undef X
-			default:
-				return "UNDEFINED";
-		}
-	} else {
-		int d = n & 0x3FF;
-
-		switch (d) {
-			case JOY_UP:
-				return std::string("JOY") + std::to_string(j) + " UP";
-			case JOY_DOWN:
-				return std::string("JOY") + std::to_string(j) + " DOWN";
-			case JOY_LEFT:
-				return std::string("JOY") + std::to_string(j) + " LEFT";
-			case JOY_RIGHT:
-				return std::string("JOY") + std::to_string(j) + " RIGHT";
-			default:
-				return std::string("JOY") + std::to_string(j) + " BUTTON" + std::to_string(d);
-		}
+		default:
+			return "UNDEFINED";
 	}
 }
 
 std::string DIK_to_string_fr(int n) {
-	int j = n >> 10;
+	if (n >> 10 & 0xFF) return pad_to_string(n, true);
 
-	if (j == 0) {
-		switch (n) {
+	switch (n) {
 #define X(_num, _val) \
 	case _num:        \
 		return _val;
 #include "keys_fr.xmacro"
 #undef X
-			default:
-				return "INDEFINIE";
-		}
-	} else {
-		int d = n & 0x3FF;
-		switch (d) {
-			case JOY_UP:
-				return std::string("JOYSTICK") + std::to_string(j) + " HAUT";
-			case JOY_DOWN:
-				return std::string("JOYSTICK") + std::to_string(j) + " BAS";
-			case JOY_LEFT:
-				return std::string("JOYSTICK") + std::to_string(j) + " GAUCHE";
-			case JOY_RIGHT:
-				return std::string("JOYSTICK") + std::to_string(j) + " DROITE";
-			default:
-				return std::string("JOYSTICK") + std::to_string(j) + " BOUTON" + std::to_string(d + 1);
-		}
+		default:
+			return "INDEFINIE";
 	}
 }

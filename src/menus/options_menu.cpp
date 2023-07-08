@@ -1,5 +1,6 @@
 #include "options_menu.h"
 
+#include "../config.h"
 #include "../input.h"
 
 int OptionsMenu::ProcessEvent() {
@@ -9,6 +10,8 @@ int OptionsMenu::ProcessEvent() {
 	in.waitClean();
 	switch (next) {
 		case MenuType::Main:
+			active_menu_ = &options_menu_;
+			save_settings();
 			return MenuType::Main;
 		case MenuType::Options:
 			active_menu_ = &options_menu_;

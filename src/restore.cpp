@@ -46,7 +46,5 @@ bool RestoreAll() {
 	fnt_rpg.restoreAll();
 	fnt_menus.restoreAll();
 
-	in.reAcquire();
-
 	return true;
 }

@@ -1,6 +1,5 @@
 {
   "fullscreen": false,
-  "lang_type": 1,
   "player1": {
     "DOWN": 1073741905,
     "FIRE": 1073742049,
@@ -11,9 +10,9 @@
     "UP": 1073741906
   },
   "player2": {
-    "DOWN": 97,
+    "DOWN": 115,
     "FIRE": 9,
-    "JUMP": 32,
+    "JUMP": 113,
     "LEFT": 97,
     "RIGHT": 100,
     "SUPER": 102,

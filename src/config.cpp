@@ -25,6 +25,10 @@
 #include "globals.h"
 #include <json.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 using json = nlohmann::json;
 
 bool vSyncOn = true;
@@ -45,37 +49,57 @@ HiScores hi_scores;
 bool winSet;
 bool fullscreen = false;  // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
 
-void load_BB3_config(const char* cfg_file) {
-	std::ifstream input(cfg_file);
-	if (!input.good()) {
-		set_default_config(true);
-		return;
+static const char* ALIAS_NAMES[7] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};
+
+#ifdef __EMSCRIPTEN__
+// clang-format off
+// Browser saves live in IndexedDB, the preloaded files are the defaults for a first visit
+EM_ASYNC_JS(void, js_mount_save_dir, (), {
+	const defaults = {};
+	for (const f of FS.readdir('/config')) {
+		if (f !== '.' && f !== '..') defaults[f] = FS.readFile('/config/' + f);
 	}
+	FS.mount(IDBFS, {}, '/config');
+	await new Promise(resolve => FS.syncfs(true, resolve));
+	for (const f in defaults) {
+		if (!FS.analyzePath('/config/' + f).exists) FS.writeFile('/config/' + f, defaults[f]);
+	}
+});
+// clang-format on
+void mount_save_dir() { js_mount_save_dir(); }
+#else
+void mount_save_dir() {}
+#endif
 
-	json data = json::parse(input);
+void save_settings() {
+	if (!hi_scores.save(HISCORES_FILE)) debug << "Cannot save hi-scores\n";
+	save_BB3_config(CONFIG_FILE);
+#ifdef __EMSCRIPTEN__
+	EM_ASM(FS.syncfs(false, function(err){}););
+#endif
+}
 
-	vSyncOn = data["vsync"];
-	fullscreen = data["fullscreen"];
-	lang_type = data["lang_type"];
+void load_BB3_config(const char* cfg_file) {
+	set_default_config(true);
 
-	in.setAlias(ALIAS_P1_UP, data["player1"]["UP"]);
-	in.setAlias(ALIAS_P1_DOWN, data["player1"]["DOWN"]);
-	in.setAlias(ALIAS_P1_LEFT, data["player1"]["LEFT"]);
-	in.setAlias(ALIAS_P1_RIGHT, data["player1"]["RIGHT"]);
-	in.setAlias(ALIAS_P1_FIRE, data["player1"]["FIRE"]);
-	in.setAlias(ALIAS_P1_JUMP, data["player1"]["JUMP"]);
-	in.setAlias(ALIAS_P1_SUPER, data["player1"]["SUPER"]);
+	std::ifstream input(cfg_file);
+	json data = json::parse(input, nullptr, false);
+	if (!data.is_object()) return;
 
-	in.setAlias(ALIAS_P2_UP, data["player2"]["UP"]);
-	in.setAlias(ALIAS_P2_DOWN, data["player2"]["DOWN"]);
-	in.setAlias(ALIAS_P2_LEFT, data["player2"]["LEFT"]);
-	in.setAlias(ALIAS_P2_RIGHT, data["player2"]["RIGHT"]);
-	in.setAlias(ALIAS_P2_FIRE, data["player2"]["FIRE"]);
-	in.setAlias(ALIAS_P2_JUMP, data["player2"]["JUMP"]);
-	in.setAlias(ALIAS_P2_SUPER, data["player2"]["SUPER"]);
+	try {
+		vSyncOn = data.value("vsync", vSyncOn);
+		fullscreen = data.value("fullscreen", fullscreen);
 
-	// ?
-	lang_type = LANG_UK;
+		for (int p = 0; p < 2; p++) {
+			json keys = data.value(p == 0 ? "player1" : "player2", json::object());
+			for (int i = 0; i < 7; i++) {
+				int a = p * 10 + i;
+				in.setAlias(a, keys.value(ALIAS_NAMES[i], in.getAlias(a)));
+			}
+		}
+	} catch (const json::exception&) {
+		set_default_config(true);
+	}
 }
 
 void save_BB3_config(const char* cfg_file) {
@@ -83,26 +107,11 @@ void save_BB3_config(const char* cfg_file) {
 
 	data["vsync"] = vSyncOn;
 	data["fullscreen"] = fullscreen;
-	data["lang_type"] = lang_type;
 
-	data["player1"] = json::object();
-	data["player2"] = json::object();
-
-	data["player1"]["UP"] = in.getAlias(ALIAS_P1_UP);
-	data["player1"]["DOWN"] = in.getAlias(ALIAS_P1_DOWN);
-	data["player1"]["LEFT"] = in.getAlias(ALIAS_P1_LEFT);
-	data["player1"]["RIGHT"] = in.getAlias(ALIAS_P1_RIGHT);
-	data["player1"]["FIRE"] = in.getAlias(ALIAS_P1_FIRE);
-	data["player1"]["JUMP"] = in.getAlias(ALIAS_P1_JUMP);
-	data["player1"]["SUPER"] = in.getAlias(ALIAS_P1_SUPER);
-
-	data["player2"]["UP"] = in.getAlias(ALIAS_P2_UP);
-	data["player2"]["DOWN"] = in.getAlias(ALIAS_P2_DOWN);
-	data["player2"]["LEFT"] = in.getAlias(ALIAS_P2_LEFT);
-	data["player2"]["RIGHT"] = in.getAlias(ALIAS_P2_RIGHT);
-	data["player2"]["FIRE"] = in.getAlias(ALIAS_P2_FIRE);
-	data["player2"]["JUMP"] = in.getAlias(ALIAS_P2_JUMP);
-	data["player2"]["SUPER"] = in.getAlias(ALIAS_P2_SUPER);
+	for (int p = 0; p < 2; p++) {
+		json& keys = data[p == 0 ? "player1" : "player2"];
+		for (int i = 0; i < 7; i++) keys[ALIAS_NAMES[i]] = in.getAlias(p * 10 + i);
+	}
 
 	std::ofstream out(cfg_file);
 	out << data.dump(2);
@@ -115,15 +124,15 @@ void set_default_config(bool reset_lang) {
 	in.setAlias(ALIAS_P1_DOWN, DIK_DOWN);
 	in.setAlias(ALIAS_P1_LEFT, DIK_LEFT);
 	in.setAlias(ALIAS_P1_RIGHT, DIK_RIGHT);
-	in.setAlias(ALIAS_P1_FIRE, DIK_LCONTROL);
-	in.setAlias(ALIAS_P1_JUMP, DIK_LMENU);
+	in.setAlias(ALIAS_P1_FIRE, DIK_LSHIFT);
+	in.setAlias(ALIAS_P1_JUMP, DIK_SPACE);
 	in.setAlias(ALIAS_P1_SUPER, DIK_BACKSPACE);
 
 	in.setAlias(ALIAS_P2_UP, DIK_W);
-	in.setAlias(ALIAS_P2_DOWN, DIK_A);
+	in.setAlias(ALIAS_P2_DOWN, DIK_S);
 	in.setAlias(ALIAS_P2_LEFT, DIK_A);
 	in.setAlias(ALIAS_P2_RIGHT, DIK_D);
 	in.setAlias(ALIAS_P2_FIRE, DIK_TAB);
-	in.setAlias(ALIAS_P2_JUMP, DIK_SPACE);
+	in.setAlias(ALIAS_P2_JUMP, DIK_Q);
 	in.setAlias(ALIAS_P2_SUPER, DIK_F);
 }

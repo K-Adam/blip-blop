@@ -2455,6 +2455,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		in.waitClean();
 		key = in.waitKey();
+		if (in.scanKey(DIK_RETURN)) key = DIK_RETURN;
 
 		std::string key_tmp = DIK_to_string(key);
 
@@ -2498,6 +2499,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 	}
 
 	hi_scores.add(joueur->getScore(), name);
+	save_settings();
 }
 
 //-----------------------------------------------------------------------------
@@ -2711,6 +2713,8 @@ void Game::go() {
 				emscripten_sleep(0);
 #endif
 			}
+			// The confirming pad A is also the default jump
+			in.waitClean();
 
 			drawLoading();
 			DDFlipV();

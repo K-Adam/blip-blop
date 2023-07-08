@@ -48,7 +48,11 @@ void KeysMenu::SetKey(int key) {
 int KeysMenu::ProcessEvent() {
 	if (state_ == State::WaitingKey) {
 		int key = in.waitKey();
-		SetKey(key);
+		if (key) {
+			SetKey(key);
+		} else {
+			state_ = State::Browsing;
+		}
 	} else {
 		if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
 			items_.MoveUp();
@@ -57,7 +61,7 @@ int KeysMenu::ProcessEvent() {
 		}
 		if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
 			if (items_.focused() == items_.size() - 1) {
-				return MenuType::Main;
+				return MenuType::Options;
 			}
 			EditKey();
 		}

@@ -1,6 +1,4 @@
 #define NAME "Blip'n Blop"
-#define CONFIG_FILE "config/settings.json"
-#define HISCORES_FILE "config/hiscores.json"
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -179,6 +177,7 @@ static bool InitApp(int nCmdShow) {
 	//                      Charge la configuration
 	//------------------------------------------------------------------
 
+	mount_save_dir();
 	load_BB3_config(CONFIG_FILE);
 
 	//------------------------------------------------------------------
@@ -433,17 +432,7 @@ void cleanup() {
 	// Désalloue tout ce qu'il faut (en théorie)
 	//
 
-	// Sauvegarde les hi-scores
-	//
-	if (!hi_scores.save(HISCORES_FILE)) {
-		debug << "Cannot save hi-scores\n";
-	} else {
-		debug << "Saving " << HISCORES_FILE << " as hi-scores file.\n";
-	}
-
-	// Sauvegarde la configuration
-	//
-	save_BB3_config(CONFIG_FILE);
+	save_settings();
 }
 
 int main(int argc, char** argv) {
