@@ -72,7 +72,7 @@ void Bug(const char* txt) {
 	wchar_t* wideMessage = new wchar_t[size];
 	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
 
-	MessageBox(WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
+	MessageBoxW(WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
 #else
 	std::cerr << txt << "\n";
 #endif
@@ -84,7 +84,7 @@ void Warning(const char* txt) {
 	wchar_t* wideMessage = new wchar_t[size];
 	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
 
-	MessageBox(WinHandle, wideMessage, L"Blip'n Blop : Warning", MB_OK | MB_ICONWARNING);
+	MessageBoxW(WinHandle, wideMessage, L"Blip'n Blop : Warning", MB_OK | MB_ICONWARNING);
 #else
 	std::cerr << txt << "\n";
 #endif
@@ -350,36 +350,17 @@ static bool InitApp(int nCmdShow) {
 	//                      Scroll buffers
 	//------------------------------------------------------------------
 
-	for (int width_off = 0; width_off >= 200; width_off += 100) {
-		debug << "Creating video buffer of size " << (WANTED_VBUFFER_WIDE - width_off) << "...";
-		videoA = DDCreateSurface(WANTED_VBUFFER_WIDE - width_off, 480, DDSURF_VIDEO);
-
-		if (videoA) {
-			debug << "Ok\n";
-			vbuffer_wide = WANTED_VBUFFER_WIDE - width_off;
-			break;
-		}
-
-		debug << "Failed\n";
-	}
+	videoA = DDCreateSurface(WANTED_VBUFFER_WIDE, 480, DDSURF_SYSTEM);
 
 	if (videoA == NULL) {
-		videoA = DDCreateSurface(WANTED_VBUFFER_WIDE, 480, DDSURF_SYSTEM);
-
-		if (videoA == NULL) {
-			// Laughing in 2019
-			Bug("Not enough memory. Blip'n Blop needs 32 Mo of free "
-				"memory. Try to close all other applications and "
-				"launch Blip'n Blop again.");
-			return false;
-		}
-
-		debug << "Cannot create video buffer. Use system buffer "
-				 "instead.\n";
-		vbuffer_wide = WANTED_VBUFFER_WIDE;
-		mem_flag = DDSURF_SYSTEM;
-		video_buffer_on = false;
+		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free "
+			"memory. Try to close all other applications and "
+			"launch Blip'n Blop again.");
+		return false;
 	}
+
+	mem_flag = DDSURF_SYSTEM;
+	video_buffer_on = false;
 
 	//------------------------------------------------------------------
 	//                      Chargement des fontes

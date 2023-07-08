@@ -310,8 +310,8 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		player2->x = xstart2;
 		player2->y = ystart2;
 		player2->etat = ETAT_NORMAL;
-		player1->etape = 0;
-		player1->ss_etape = 0;
+		player2->etape = 0;
+		player2->ss_etape = 0;
 		player2->dir = BBDIR_DROITE;
 		player2->tire = false;
 
@@ -1800,10 +1800,10 @@ void Game::showPE(bool bonus, bool fuckOff) {
 	int life_up_p2 = 0;
 
 	int delai = 0;
-	int xbasep1;
-	bool showp1;
-	int xbasep2;
-	bool showp2;
+	int xbasep1 = 0;
+	bool showp1 = false;
+	int xbasep2 = 0;
+	bool showp2 = false;
 
 	systemSurface->BltFast(0, 0, backSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
 
@@ -2325,7 +2325,7 @@ void Game::updateTremblements() {
 void Game::drawTremblements() {
 	if (amplitude_tremblement == 0 || dy_tremblement == 0) return;
 
-	int y;
+	int y = 0;
 	Rect r;
 	Rect r2;
 

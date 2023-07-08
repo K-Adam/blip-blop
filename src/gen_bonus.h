@@ -16,6 +16,7 @@
 
 class GenBonus {
    public:
+	virtual ~GenBonus() = default;
 	int x;
 	int periode;
 	int t;

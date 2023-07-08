@@ -41,11 +41,7 @@ FSOUND_SAMPLE* FSOUND_Sample_Load(int index, const char* buffer, unsigned int mo
 }
 int FSOUND_PlaySound(int channel, FSOUND_SAMPLE* sptr) { return Mix_PlayChannel(channel, sptr->chunk, sptr->loop); }
 signed char FSOUND_Sample_SetLoopMode(FSOUND_SAMPLE* sptr, unsigned int loopmode) {
-	if (loopmode = FSOUND_LOOP_NORMAL) {
-		sptr->loop = 0;
-	} else {
-		sptr->loop = 0;
-	}
+	sptr->loop = loopmode == FSOUND_LOOP_NORMAL ? -1 : 0;
 	return true;
 }
 

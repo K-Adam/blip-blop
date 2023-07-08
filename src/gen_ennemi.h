@@ -18,6 +18,7 @@
 
 class GenEnnemi {
    public:
+	virtual ~GenEnnemi() = default;
 	int id_ennemi;
 	int sens;
 	int x;

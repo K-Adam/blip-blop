@@ -22,6 +22,7 @@
 
 class Event {
    public:
+	virtual ~Event() = default;
 	int x_activation;
 
 	inline virtual bool aReveiller() { return (x_activation <= offset); };
