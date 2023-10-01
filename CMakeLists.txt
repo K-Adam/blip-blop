@@ -31,7 +31,7 @@ elseif(WIN32)
     # Plain library lookup because some vcpkg SDL2_image configs demand codecs that were not built
     foreach(lib SDL2_image SDL2_mixer)
         find_library(${lib}_RELEASE ${lib} REQUIRED)
-        find_library(${lib}_DEBUG ${lib}d REQUIRED)
+        find_library(${lib}_DEBUG NAMES ${lib}d ${lib} REQUIRED)
         target_link_libraries(blipblop PRIVATE optimized ${${lib}_RELEASE} debug ${${lib}_DEBUG})
     endforeach()
 else()
