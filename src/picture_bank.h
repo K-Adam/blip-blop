@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <cassert>
+
 #include "picture.h"
 
 class PictureBank {
@@ -30,7 +32,10 @@ class PictureBank {
 	std::string filename_;
 
    public:
-	inline Picture* operator[](int n) const { return tab_[n].get(); };
+	inline Picture* operator[](int n) const {
+		assert(n >= 0 && size_t(n) < tab_.size());
+		return tab_[n].get();
+	};
 	inline size_t getSize() const { return tab_.size(); };
 
 	PictureBank();

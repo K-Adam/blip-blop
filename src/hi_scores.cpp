@@ -66,21 +66,23 @@ bool HiScores::load(const char* file) {
 		return false;
 	}
 
-	json data = json::parse(input);
+	// Checks instead of exceptions, the release web build is compiled without exception support
+	json data = json::parse(input, nullptr, false);
+	if (!data.is_object() || !data.contains("items") || !data["items"].is_array()) return false;
 
 	int index = 0;
-	for (auto item : data["items"]) {
-		std::string name = item["name"];
-		int score = item["score"];
+	for (auto& item : data["items"]) {
+		if (index >= HS_NB_SCORES) break;
+		if (!item.is_object() || !item.contains("name") || !item["name"].is_string() || !item.contains("score") || !item["score"].is_number_integer()) {
+			return false;
+		}
 
-		scores[index] = score;
+		std::string name = item["name"];
+		scores[index] = item["score"];
 		size_t length = std::min(name.length(), (size_t)HS_NAME_LENGTH - 1);
 		std::copy(name.begin(), name.begin() + length, names[index]);
 		names[index][length] = '\0';
-
-		if (++index > HS_NB_SCORES) {
-			break;
-		}
+		index++;
 	}
 
 	return true;

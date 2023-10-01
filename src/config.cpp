@@ -86,19 +86,17 @@ void load_BB3_config(const char* cfg_file) {
 	json data = json::parse(input, nullptr, false);
 	if (!data.is_object()) return;
 
-	try {
-		vSyncOn = data.value("vsync", vSyncOn);
-		fullscreen = data.value("fullscreen", fullscreen);
+	auto flag = [&](const char* key, bool def) { return data.contains(key) && data[key].is_boolean() ? data[key].get<bool>() : def; };
+	vSyncOn = flag("vsync", vSyncOn);
+	fullscreen = flag("fullscreen", fullscreen);
 
-		for (int p = 0; p < 2; p++) {
-			json keys = data.value(p == 0 ? "player1" : "player2", json::object());
-			for (int i = 0; i < 7; i++) {
-				int a = p * 10 + i;
-				in.setAlias(a, keys.value(ALIAS_NAMES[i], in.getAlias(a)));
+	for (int p = 0; p < 2; p++) {
+		json keys = data.value(p == 0 ? "player1" : "player2", json());
+		for (int i = 0; i < 7; i++) {
+			if (keys.is_object() && keys.contains(ALIAS_NAMES[i]) && keys[ALIAS_NAMES[i]].is_number_integer()) {
+				in.setAlias(p * 10 + i, keys[ALIAS_NAMES[i]].get<unsigned int>());
 			}
 		}
-	} catch (const json::exception&) {
-		set_default_config(true);
 	}
 }
 

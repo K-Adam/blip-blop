@@ -199,11 +199,8 @@ void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym
 	curx = x;
 	cury = y;
 
-	char* txt = new char[strlen(srctxt) + 1];
-	char* token;
-
-	strcpy(txt, srctxt);
-	token = strtok(txt, delim);
+	std::string txt(srctxt);
+	char* token = strtok(&txt[0], delim);
 
 	while (token != NULL) {
 		nx = width(token);

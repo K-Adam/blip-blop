@@ -77,13 +77,8 @@ signed char FSOUND_Stream_Close(FSOUND_STREAM* stream) {
 }
 
 signed char FSOUND_Init(int mixrate, int maxsoftwarechannels, unsigned int flags) {
-	int f = MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG;
-	int initted = Mix_Init(f);
-	if ((initted & flags) != flags) {
-		printf("Mix_Init: Failed to init required ogg and mod support!\n");
-		printf("Mix_Init: %s\n", Mix_GetError());
-		return 0;
-	}
+	// Music is ogg only, sound effects still work without it
+	if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) == 0) printf("Mix_Init: %s\n", Mix_GetError());
 
 	if (Mix_OpenAudio(mixrate, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());

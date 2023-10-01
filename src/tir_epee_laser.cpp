@@ -34,10 +34,6 @@ void TirEpeeLaser::update() {
 
 	if (isdead) {
 		updateADetruire();
-
-		if (a_detruire) {
-			sbk_niveau.stop(13);
-		}
 	} else if (retour) {
 		xc = lanceur->x;
 		yc = lanceur->y - 25;
@@ -45,9 +41,8 @@ void TirEpeeLaser::update() {
 		int ddx = xc - x;
 		int ddy = yc - y;
 
-		if (ddx > -10 && ddx < 10 && ddy > -10 && dy < 10) {
+		if (ddx > -10 && ddx < 10 && ddy > -10 && ddy < 10) {
 			a_detruire = true;
-			sbk_niveau.stop(13);
 			((EnnemiBisouJedi*)lanceur)->a_epee = true;
 		}
 	} else {

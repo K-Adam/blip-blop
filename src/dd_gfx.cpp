@@ -30,7 +30,10 @@ void DDInitDirectDraw() {
 // Desc: Ferme Direct Draw
 //-----------------------------------------------------------------------------
 
-void DDCloseDirectDraw() { graphicInstance->~Graphics(); }
+void DDCloseDirectDraw() {
+	delete graphicInstance;
+	graphicInstance = NULL;
+}
 
 //-----------------------------------------------------------------------------
 // Nom: DDSetGfxMode
@@ -126,3 +129,4 @@ void DDFlipV() {
 }
 
 void DDToggleFullscreen() { graphicInstance->ToggleFullscreen(); }
+void DDSetVSync(bool on) { graphicInstance->SetVSync(on); }

@@ -45,6 +45,7 @@ void DDInitDirectDraw();
 void DDSetGfxMode(int x, int y, int d, bool fullscreen = true);
 void DDCloseDirectDraw();
 void DDToggleFullscreen();
+void DDSetVSync(bool on);
 SDL::Surface* DDCreatePrimary();
 SDL::Surface* DDCreatePrimary(SDL::Surface*& back);
 SDL::Surface* DDCreateSurface(int x, int y);

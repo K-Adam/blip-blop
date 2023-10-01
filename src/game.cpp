@@ -676,6 +676,16 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	scr_level_size = data["num_decor"].size();
 	level_size = scr_level_size * 640;
 
+	auto plat_str = from_base64(data["y_plat"]);
+	auto murs_opaques_str = from_base64(data["murs_opaques"]);
+	auto murs_sanglants_str = from_base64(data["murs_sanglants"]);
+	size_t level_size_8 = level_size / 8;
+	if (plat_str.size() < NB_MAX_PLAT * level_size * sizeof(int32_t) || murs_opaques_str.size() < 60 * level_size_8 ||
+		murs_sanglants_str.size() < 60 * level_size_8) {
+		debug << "Game::chargeNiveau() -> Truncated collision data in <" << json_path << ">\n";
+		return false;
+	}
+
 	// Numéros des écrans à afficher (comme des tiles)
 	//
 	num_decor = new int[scr_level_size];
@@ -702,7 +712,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	// Plateformes
 	//
 	y_plat = new int32_t*[NB_MAX_PLAT];
-	auto plat_str = from_base64(data["y_plat"]);
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
 		y_plat[i] = new int32_t[level_size];
 		memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
@@ -711,9 +720,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	//
 	// Murs opaques
 	//
-	size_t level_size_8 = level_size / 8;
 	murs_opaques = new bool*[60];
-	auto murs_opaques_str = from_base64(data["murs_opaques"]);
 	for (size_t i = 0; i < 60; i++) {
 		murs_opaques[i] = new bool[level_size_8];
 		memcpy(murs_opaques[i], &murs_opaques_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
@@ -723,7 +730,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	// Murs sanglants
 	//
 	murs_sanglants = new bool*[60];
-	auto murs_sanglants_str = from_base64(data["murs_sanglants"]);
 	for (int i = 0; i < 60; i++) {
 		murs_sanglants[i] = new bool[level_size_8];
 		memcpy(murs_sanglants[i], &murs_sanglants_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));

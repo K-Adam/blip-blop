@@ -22,21 +22,25 @@ OptionsPanel::OptionsPanel() {
 
 void OptionsPanel::RefreshVsync() { items_.ChangeEntry(0, vSyncOn ? vsync_on_txt_ : vsync_off_txt_); }
 
+void OptionsPanel::ToggleVsync() {
+	vSyncOn = !vSyncOn;
+	DDSetVSync(vSyncOn);
+	RefreshVsync();
+}
+
 int OptionsPanel::ProcessEvent() {
 	if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
 		items_.MoveUp();
 	} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
 		items_.MoveDown();
 	}
-	if (in.scanKey(DIK_RIGHT) || in.scanAlias(ALIAS_P1_RIGHT) || in.scanKey(DIK_LEFT) || in.scanAlias(ALIAS_P1_LEFT)) {
-		vSyncOn = !vSyncOn;
-		RefreshVsync();
+	if (items_.focused() == 0 && (in.scanKey(DIK_RIGHT) || in.scanAlias(ALIAS_P1_RIGHT) || in.scanKey(DIK_LEFT) || in.scanAlias(ALIAS_P1_LEFT))) {
+		ToggleVsync();
 	}
 	if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
 		switch (items_.focused()) {
 			case 0:
-				vSyncOn = !vSyncOn;
-				RefreshVsync();
+				ToggleVsync();
 				break;
 			case 1:
 				fullscreen = !fullscreen;

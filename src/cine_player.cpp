@@ -533,6 +533,7 @@ bool CINEPlayer::getCommand() {
 	if (pos == NULL) return error();
 
 	pos[0] = '\0';
+	if (strlen(buffer2) >= CMD_SIZE) return error();
 	strcpy(cmd_name, buffer2);
 	arg = pos + 1;
 
@@ -544,8 +545,8 @@ bool CINEPlayer::getCommand() {
 
 	arg = strtok(arg, seps);
 
-	while (arg != NULL) {
-		strcpy(str_arg[nb_args], arg);
+	while (arg != NULL && nb_args < NB_ARG) {
+		snprintf(str_arg[nb_args], STR_LENGTH, "%s", arg);
 		int_arg[nb_args] = atoi(arg);
 
 		arg = strtok(NULL, seps);

@@ -14,6 +14,7 @@ class OptionsPanel : public AbstractMenu {
 
    private:
 	void RefreshVsync();
+	void ToggleVsync();
 
 	MenuList items_;
 	std::string vsync_on_txt_;
