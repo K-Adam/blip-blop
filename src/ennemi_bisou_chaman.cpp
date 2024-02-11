@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_chaman.h"
 #include "tir_boule_chaman.h"
 #include "tir_colonne_chaman.h"
@@ -218,7 +217,6 @@ void EnnemiBisouChaman::onTire() {
 				int ddy;
 
 				// Décide de l'attaque à effectuer
-				//
 				if (tete_turc != NULL) {
 					xc = tete_turc->x;
 					yc = tete_turc->y;

@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondBattlecruiser.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "fond_battle_cruiser.h"
 #include "sprite.h"
 #include "fond_tir_cruiser.h"
@@ -33,8 +18,6 @@ void FondBattlecruiser::update() {
 		feu_etape += 1;
 		feu_etape %= 6;
 	}
-	// int nb_tir=0;
-	// if (attack_etape==0)
 	{
 		x += 1;
 		x_adversaire -= 1;
@@ -44,19 +27,10 @@ void FondBattlecruiser::update() {
 		int dif_x = x_adversaire - x;
 
 		if (dif_y != 0 && (dif_x / dif_y < 2) /*&&(dif_x<600)*/ && (dif_x > 0) && (dif_x != 0)) {
-			// speed=((dif_x*-9)/dif_y);
-			// dy=-9+speed*0.25;
-
-			// if (((x_adversaire-30-x)/-36)<3)||((x_adversaire+30+x)/-36)<3))
-			//{
 			attack_etape += 1;
 
 			if (attack_etape == 2) attack_etape = -2;
 
-			// if (attack_etape==0)
-			//{
-			//	for (int i=-2;i<3;i++)
-			//	{
 			pic = pbk_niveau[26 + attack_etape];
 			Sprite* s = new TirCruiser((dif_x * TIR_SPEED) / dif_y, (int)(TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y), 8 + attack_etape);
 			s->x = x - 8 * attack_etape;
@@ -80,16 +54,6 @@ void FondBattlecruiser::update() {
 				s->y = y_adversaire;
 				list_fonds_animes.emplace_back(s);
 			}
-			//	}
-			//}
-			// else if(attack_etape == 1)
-			//{
-			//	pic=pbk_niveau[13];
-			//}
-			// else if(attack_etape == 2)
-			//{
-			//	pic=pbk_niveau[13];
-			//}
 
 		} else {
 			attack_etape = -3;
@@ -101,12 +65,6 @@ void FondBattlecruiser::update() {
 		attack_etape = 1;
 		x_adversaire = 700;
 	}
-	/*else
-	{
-		x-=1;
-		x_adversaire+=1;
-		pic = pbk_niveau[anime(anim_cruiser_gauche, 4, 8)];
-	}*/
 }
 
 void FondBattlecruiser::affiche() {
@@ -114,7 +72,6 @@ void FondBattlecruiser::affiche() {
 	if (attack_etape == -3) {
 		draw(x_adversaire, y_adversaire, pbk_niveau[anim_cruiser_gauche[etape]]);
 	} else {
-		// draw( x_adversaire, y_adversaire, pbk_niveau[anim_cruiser_droite[etape]]);
 		draw(x_adversaire, y_adversaire, pbk_niveau[29 - attack_etape]);
 	}
 

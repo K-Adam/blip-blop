@@ -27,7 +27,6 @@ CharacterSelection::Output CharacterSelection::update() {
 	}
 
 	// Le fond
-	//
 	x_back1_ -= 20;
 	x_back2_ -= 20;
 
@@ -39,13 +38,11 @@ CharacterSelection::Output CharacterSelection::update() {
 	}
 
 	// Gestion du texte
-	//
 	if (y_select_ < 50) {
 		y_select_ += 10;
 	}
 
 	// Le perso + le nom
-	//
 	if (step_ == APPAR_BLIP) {
 		if (x_charac_ < 240) {
 			x_charac_ += 20;
@@ -111,16 +108,13 @@ CharacterSelection::Output CharacterSelection::update() {
 
 void CharacterSelection::draw() {
 	// Le fond
-	//
 	pbk_inter[6]->PasteTo(backSurface, x_back1_, 0);
 	pbk_inter[7]->PasteTo(backSurface, x_back2_, 0);
 
 	// Gestion du texte
-	//
 	pbk_inter[pic_select_]->BlitTo(backSurface, 320, y_select_);
 
 	// Le perso + le nom
-	//
 	if (step_ == APPAR_BLIP) {
 		if (phase_) {
 			pbk_inter[4]->BlitTo(backSurface, 620, 257);

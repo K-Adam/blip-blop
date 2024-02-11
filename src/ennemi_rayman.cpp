@@ -96,7 +96,6 @@ void EnnemiRayman::onAvance() {
 		if (game_flag[0] == 2) {
 			if ((pv > PV_SOUS_CRITIQUE) || ((pv > PV_CRITIQUE) && (poing1) && ((x - offset < 80) || (x - offset > 600)))) {
 				// Si plus de plateformes on passe dans l'etat TOMBE
-				//
 				if (plat(x, y) == 0) {
 					etat = ETAT_TOMBE;
 					dy = 0;
@@ -115,7 +114,6 @@ void EnnemiRayman::onAvance() {
 				if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
 					if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
 						(((dir == SENS_DROITE) && (x < tete_turc->x)) || ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
-						// attack_etape=0;
 						x_cible = tete_turc->x;
 						dy = 0;
 						etat = ETAT_TIRE;
@@ -206,7 +204,6 @@ void EnnemiRayman::onAvance() {
 				}
 
 				// Si plus de plateformes on passe dans l'etat TOMBE
-				//
 				if (plat(x, y) == 0) {
 					etat = ETAT_TOMBE;
 					dy = 0;
@@ -285,7 +282,6 @@ void EnnemiRayman::onAvance() {
 		}
 
 		if (game_flag[3] == 1) {  // x-offset<450)
-			//			game_flag[0]=2;
 			col_on = false;
 		}
 	}
@@ -461,7 +457,6 @@ void EnnemiRayman::onTombe() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -470,23 +465,10 @@ void EnnemiRayman::onTombe() {
 		return;
 	}
 
-	/*if ( dir == SENS_DROITE)
-	{
-		x += speed;
-		pic = pbk_ennemis[3];
-	}
-	else
-	{
-		x -= speed;
-		pic = pbk_ennemis[7];
-	}*/
-
 	colFromPic();
 }
 
 void EnnemiRayman::estTouche(Tir* tir) {
-	// static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	// static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
 	static const int dx_giclure[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 

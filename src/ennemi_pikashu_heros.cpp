@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		  EnnemiPikachuHeros.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 10 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_pikashu_heros.h"
 
 EnnemiPikachuHeros::EnnemiPikachuHeros() : dorkeball(2) {
@@ -90,7 +75,6 @@ void EnnemiPikachuHeros::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - 1 < xmin || mur_opaque(x - 1, y))
 		dir = SENS_DROITE;
 	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))

@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondPokeCaissePlateforme.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 21 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "fond_poke_caisse_plateforme.h"
 
 FondPokeCaissePlateforme::FondPokeCaissePlateforme(int niveau_y) : y_cible(niveau_y) { pic = pbk_niveau[87]; }
@@ -29,11 +14,6 @@ void FondPokeCaissePlateforme::update() {
 	} else if (y < y_cible - 10) {
 		y += 1;
 	}
-	/*else
-	{
-		grave(x ,y ,pic);
-		a_detruire = true;
-	}*/
 
 	int i;
 

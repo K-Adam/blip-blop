@@ -1,28 +1,10 @@
-/******************************************************************
- *
- *
- *		----------------------
- *		  EventFondAnime.cpp
- *		----------------------
- *
- *
- *
- *		Prosper / LOADED -   2 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 // Configuration
-//
 #include "config.h"
 
 // Header classe
-//
 #include "event_fond_anime.h"
 
 // Fonds pokemons
-//
 #include "fond_bombe.h"
 #include "fond_poke_alarme_1.h"
 #include "fond_poke_fleche.h"
@@ -35,19 +17,16 @@
 #include "fond_poke_level_3.h"
 
 // Fonds Snorkys
-//
 #include "fond_snork_sas.h"
 #include "fond_poissons.h"
 
 // Fonds lemmings
-//
 #include "fond_ventilo.h"
 #include "fond_lumiere.h"
 #include "fond_lampe_2.h"
 #include "fond_eau.h"
 
 // Fonds Jeux Vidéos
-//
 #include "fond_cube.h"
 #include "fond_piece.h"
 #include "fond_ring.h"

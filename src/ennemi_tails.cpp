@@ -31,18 +31,11 @@ void EnnemiTails::update() {
 			onVolle();
 			break;
 	}
-	/*
-		if (y > y_plat[0][x])
-		{
-			y = y_plat[0][x];
-		}
-	*/
 	updateADetruire();
 }
 
 void EnnemiTails::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -162,16 +155,6 @@ void EnnemiTails::onMeure() {
 			}
 		}
 	}
-	/*if ( dir == SENS_GAUCHE)
-	{
-		if (!mur_opaque( x-speed, y))
-			x -= speed;
-	}
-	else
-	{
-		if (!mur_opaque( x+speed, y))
-			x += speed;
-	}*/
 }
 
 void EnnemiTails::onVolle() {
@@ -230,10 +213,6 @@ void EnnemiTails::onVolle() {
 			speed = 5;
 		}
 		x += speed * direction;
-		/*else
-		{
-			x+=TAILS_FLY_SPEED;
-		}*/
 	} else {
 		if (y < (y_cible - 110)) {
 			y += 5;
@@ -259,7 +238,6 @@ void EnnemiTails::onTombe() {
 	}
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiTeteRayman.cpp
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 22 Fevrier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_tete___rayman.h"
 
 EnnemiTeteRayman::EnnemiTeteRayman() : dx(3) {
@@ -52,7 +37,6 @@ void EnnemiTeteRayman::onAvance() {
 	}
 
 	// Et si la tete touche le sol? ?
-	//
 	if (dy > 0 && (plat(x, y + dy)) != 0) {
 		grave(x, y, pic);
 		game_flag[0] = 2;

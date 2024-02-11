@@ -27,11 +27,9 @@ void Graphics::SetGfxMode(int x, int y, int d, bool fullscreen) {
 void Graphics::SetVSync(bool on) { SDL_RenderSetVSync(renderer_.get(), on); }
 
 SDL::Surface* Graphics::CreatePrimary() {
-	/**/
 	debug << "CreatePrimary() - Creating a 640 x 480 Surface"
 		  << "\n";
 	return CreateSurface(640, 480, 0);
-	// return 0;
 }
 
 SDL::Surface* Graphics::CreatePrimary(SDL::Surface*& back) {
@@ -42,7 +40,6 @@ SDL::Surface* Graphics::CreatePrimary(SDL::Surface*& back) {
 	back = CreateSurface(640, 480);
 	tmp->SetBackBuffer(back);
 	return tmp;
-	// return 0;
 }
 
 SDL::Surface* Graphics::CreateSurface(int x, int y) { return CreateSurface(x, y, 0); }
@@ -89,16 +86,6 @@ SDL_Surface* Graphics::CreateSDLSurface(int x, int y) {
 SDL::Surface* Graphics::LoadBMP(char* file) { return this->LoadBMP(file, 0); }
 
 SDL::Surface* Graphics::LoadBMP(char* file, int flags) {
-	/*SDL_Surface *bmp = 0;
-	bmp = SDL_LoadBMP(file);
-	if (bmp == 0){
-	std::cout << SDL_GetError() << std::endl;
-	return 0;
-	}
-	SDL_Texture *tex = 0;
-	tex = SDL_CreateTextureFromSurface(ren, bmp);
-	SDL_FreeSurface(bmp);
-	return new SDL::Surface(tex);*/
 	SDL_Surface* bmp = 0;
 	bmp = SDL_LoadBMP(file);
 	if (bmp == 0) {
@@ -122,15 +109,9 @@ void Graphics::Flip() {
 	SDL_RenderPresent(renderer_.get());
 
 	SDL_DestroyTexture(tex);
-	// SDL_Delay(1);
-
-	// SDL_SaveBMP(backSurface->Get(), "test/draw.bmp");
 }
 
-void Graphics::FlipV() {
-	Flip();
-	// SDL_RenderPresent(renderer);
-}
+void Graphics::FlipV() { Flip(); }
 
 void Graphics::Clear(int r, int g, int b) {
 	SDL_SetRenderDrawColor(renderer_.get(), r, g, b, 255);

@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------------
- *		  EnnemiSnorkyGouverneur.cpp
- *		-----------------------------
- *
- *		(giclures faites...)
- *
- *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_snorky_gouverneur.h"
 #include "tir_snorky_gouverneur.h"
 
@@ -138,9 +123,6 @@ void EnnemiSnorkyGouverneur::onTire() {
 	}
 
 	if (etape == 6 && ss_etape == 0) {
-		// if (dir == SENS_DROITE)
-		//{
-
 		if (tete_turc != NULL) {
 			TirSnorkyGouverneur* tir = new TirSnorkyGouverneur(tete_turc, rand() % 6 - 2, -5 - rand() % 5);
 
@@ -155,8 +137,6 @@ void EnnemiSnorkyGouverneur::onTire() {
 		if (nb_tir == 0) {
 			sbk_niveau.play(6);
 		}
-
-		//}
 	}
 	if ((etape == 7) && (nb_tir < 5) && (ss_etape == 0)) {
 		etape -= 4;

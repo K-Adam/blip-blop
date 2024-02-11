@@ -34,18 +34,11 @@ void EnnemiKnukles::update() {
 			onCharge();
 			break;
 	}
-	/*
-		if (y > y_plat[0][x])
-		{
-			y = y_plat[0][x];
-		}
-	*/
 	updateADetruire();
 }
 
 void EnnemiKnukles::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -117,37 +110,6 @@ void EnnemiKnukles::onAvance() {
 
 void EnnemiKnukles::onMeure() {
 	tombe();
-	/*if (fly)
-	{
-		int yp;
-		ss_etape +=1;
-		ss_etape %= 4;
-		if (ss_etape==0)
-		{
-			etape +=1;
-			etape %= 2;
-		}
-		if (dir == SENS_DROITE)
-		{
-			if (!mur_opaque( x + speed, y) )
-				x += speed;
-			pic = pbk_ennemis[122+etape];
-		}
-		else
-		{
-			if ( !mur_opaque( x - speed, y) )
-				x -= speed;
-			pic = pbk_ennemis[124+etape];
-		}
-		if ( dy > 0 && (yp=plat( x, y+dy)) != 0)
-		{
-			dy = 0;
-			y = yp;
-			fly=false;
-			etape=7;
-		}
-	}*/
-	// else
 	{
 		ss_etape += 1;
 		ss_etape %= 6;
@@ -176,16 +138,6 @@ void EnnemiKnukles::onMeure() {
 			}
 		}
 	}
-	/*if ( dir == SENS_GAUCHE)
-	{
-		if (!mur_opaque( x-speed, y))
-			x -= speed;
-	}
-	else
-	{
-		if (!mur_opaque( x+speed, y))
-			x += speed;
-	}*/
 }
 
 void EnnemiKnukles::onSaute() {
@@ -198,12 +150,8 @@ void EnnemiKnukles::onSaute() {
 
 	tombe();
 
-	// if ((dy>=0)&&(etape>0)&&(ss_etape>5))
-	//{
-
 	int yp;
 	// Et si on arrêtait de tomber ?
-	//
 	if ((dy > 0 && (yp = plat(x, y + dy)) != 0) && etape > 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -216,7 +164,6 @@ void EnnemiKnukles::onSaute() {
 		onAvance();
 		return;
 	}
-	//}
 	if (dir == SENS_GAUCHE) {
 		pic = pbk_ennemis[170 + etape];
 	} else {
@@ -252,7 +199,6 @@ void EnnemiKnukles::onCharge() {
 			marche(-speed);	 // x -= speed;
 		} else {
 			etat = ETAT_AVANCE;
-			// speed=1;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
 			etape = 0;
@@ -266,7 +212,6 @@ void EnnemiKnukles::onCharge() {
 			marche(speed);	// x += speed;
 		} else {
 			etat = ETAT_AVANCE;
-			// speed=1;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
 			etape = 0;
@@ -285,7 +230,6 @@ void EnnemiKnukles::onTombe() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

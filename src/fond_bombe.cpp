@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondBombe.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 17 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "globals.h"
 #include "fond_bombe.h"
 #include "enemy.h"
@@ -93,19 +78,6 @@ void FondBombe::update() {
 				etape_warning %= 10;
 			}
 		}
-		/*else if (game_flag[FLAG_TIMER] <40)
-		{
-
-			ss_etape_warning ++;
-			ss_etape_warning %= 5;
-
-
-			if ( ss_etape_warning == 0)
-			{
-				etape_warning ++;
-				etape_warning %= 8;
-			}
-		}*/
 		seconde = game_flag[FLAG_TIMER];
 		centieme = etape_compteur;
 	} else if (game_flag[0] == 3) {
@@ -134,12 +106,7 @@ void FondBombe::affiche() {
 
 		if (game_flag[FLAG_TIMER] < 40) {
 			draw(x, y - 35, pbk_niveau[anim_warning[etape_warning]]);
-		}
-		/*else if (game_flag[FLAG_TIMER] < 40)
-		{
-			draw(x, y -35, pbk_niveau[anim_warning[etape_warning]]);
-		}*/
-		else if (game_flag[FLAG_TIMER] < 60) {
+		} else if (game_flag[FLAG_TIMER] < 60) {
 			draw(x, y - 35, pbk_niveau[118]);
 		}
 	} else {

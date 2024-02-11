@@ -1,19 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------
- *		    Ennemi.cpp
- *		-----------------
- *
- *		Classe mère de tous les ennemis
- *
- *
- *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 #include "enemy.h"
 #include "globals.h"
 #include "make_bonus.h"
@@ -46,7 +30,6 @@ void Ennemi::estTouche(Tir* tir) {
 			tir->aTue();
 
 			// Laisse une trace sur le mur
-			//
 			if (pic != NULL) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
 

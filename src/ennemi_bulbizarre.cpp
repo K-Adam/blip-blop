@@ -1,4 +1,3 @@
-
 #include "ennemi_bulbizarre.h"
 
 EnnemiBulbizarre::EnnemiBulbizarre() { pv = 100; }
@@ -36,7 +35,6 @@ void EnnemiBulbizarre::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - 1 < xmin || mur_opaque(x - 1, y))
 		dir = SENS_DROITE;
 	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))

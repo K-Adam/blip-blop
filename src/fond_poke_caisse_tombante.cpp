@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondPokeCaisseTombante.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 21 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "fond_poke_caisse_tombante.h"
 #include "fond_poke_caisse.h"
 #include "fond_poke_caisse_plateforme.h"
@@ -86,7 +71,6 @@ void FondPokeCaisseTombante::affiche() {
 		draw(x, y + 63, pbk_niveau[111 + etape - UNLOCK_DELAY]);
 	} else if (etape > 0) {
 		draw(x, y, pbk_niveau[anim_lock[etape % 10]]);
-		// draw(x, y, pbk_niveau[88 + etape % 6]);
 		draw(x, y + 63, pbk_niveau[95 + etape % 16]);
 	}
 }

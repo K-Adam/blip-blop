@@ -5,25 +5,6 @@
 #define SONIC_SPEED 7
 #define SONIC_CHARGE_SPEED 8
 
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiToad
-//----------------------------------------------------------------------------
-
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiSonic.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 class EnnemiSonic : public Ennemi {
    private:
 	int speed;		  // vitesse courante
@@ -50,7 +31,6 @@ class EnnemiSonic : public Ennemi {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
-	// virtual void onTombe();
 	virtual void onCharge();
 	virtual void onAttackhorizontal();
 	virtual void onAttackvertical();

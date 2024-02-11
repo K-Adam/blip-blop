@@ -1,25 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------
- *		  Fonte.h
- *		----------------
- *
- *		Classe Fonte
- *
- *		Affiche du joli texte
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include <fstream>
 
 #include "graphics.h"
@@ -36,13 +14,10 @@
 #include <SDL2/SDL_image.h>
 
 #ifdef _MSC_VER
-// TODO
 #pragma warning(disable : 4996)
 #endif
 
 using json = nlohmann::json;
-
-//-----------------------------------------------------------------------------
 
 bool Fonte::load(const char* fic) {
 	auto font_path = asset_path_prefix("lft", fic);
@@ -87,8 +62,6 @@ bool Fonte::load(const char* fic) {
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-
 void Fonte::print(SDL::Surface* surf, int x, int y, const char* txt) {
 	if (txt == NULL) return;
 
@@ -107,8 +80,6 @@ void Fonte::print(SDL::Surface* surf, int x, int y, const char* txt) {
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Fonte::printM(SDL::Surface* surf, int x, int y, const char* txt, int ym) {
 	if (txt == NULL) return;
@@ -143,8 +114,6 @@ void Fonte::printM(SDL::Surface* surf, int x, int y, const char* txt, int ym) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Fonte::printR(SDL::Surface* surf, int x, int y, const char* txt) {
 	if (txt == NULL) return;
 
@@ -163,8 +132,6 @@ void Fonte::printR(SDL::Surface* surf, int x, int y, const char* txt) {
 	print(surf, x - l, y, txt);
 }
 
-//-----------------------------------------------------------------------------
-
 void Fonte::printC(SDL::Surface* surf, int xtaille, int y, const char* txt) {
 	if (txt == NULL) return;
 
@@ -182,8 +149,6 @@ void Fonte::printC(SDL::Surface* surf, int xtaille, int y, const char* txt) {
 
 	print(surf, xtaille - (l >> 1), y, txt);
 }
-
-//-----------------------------------------------------------------------------
 
 void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym) {
 	static const char delim[] = " ";
@@ -217,8 +182,6 @@ void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym
 		token = strtok(NULL, delim);
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 int Fonte::width(const char* txt) {
 	if (txt == NULL) return 0;

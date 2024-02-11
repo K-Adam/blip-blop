@@ -1,4 +1,3 @@
-
 #include "ennemi_mario.h"
 #include "tir_mario_fireball.h"
 #include "tir_mario_fireball_vertical.h"
@@ -107,13 +106,10 @@ void EnnemiMario::update() {
 			}
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiMario::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -130,26 +126,6 @@ void EnnemiMario::onAvance() {
 		dir = SENS_GAUCHE;
 		speed = 1;
 	}
-	/*
-		if ((pv < 12500)&&(hologramme))
-		{
-			EnnemiMarioHologramme * holo = new EnnemiMarioHologramme();
-
-			holo->x = x;
-			holo->y = y;
-			if (dir == SENS_DROITE)
-			{
-				holo->dir = SENS_GAUCHE;
-			}
-			else
-			{
-				holo->dir = SENS_DROITE;
-			}
-			list_ennemis.ajoute( (void*) holo);
-
-			hologramme = 0;
-		}
-	*/
 	wait_for_attack++;
 	if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
 		if (((dir == SENS_DROITE) && (tete_turc->x > x)) || ((dir == SENS_GAUCHE) && (tete_turc->x < x))) {
@@ -178,8 +154,6 @@ void EnnemiMario::onAvance() {
 				attack_type = rand() % 5;
 				attack_delay = 150 + rand() % 50;
 			}
-			// debug<<attack_type<<"\n";
-			// onTire();
 			switch (attack_type) {
 				case 0:
 					fireball = true;
@@ -276,54 +250,6 @@ void EnnemiMario::onAvance() {
 			}
 			return;
 		}
-		/*if ((plat2(tete_turc->x,tete_turc->y)==plat2(x,y))&&
-			(((dir == SENS_DROITE)&&(x<tete_turc->x))||
-			((dir == SENS_GAUCHE)&&(x>tete_turc->x))))
-		{
-			etape=0;
-			ss_etape=0;
-			attack_etape=0;
-			speed=0;
-			dy=0;
-			etat = ETAT_TIRE;
-			onCharge();
-			return;
-		}
-		else
-		{
-			int dif_y=tete_turc->y-y;
-			int dif_x=tete_turc->x-x;
-
-			if ((dir==SENS_DROITE)&&(dif_y<0)&&(dif_x>0)&&(dif_y+dif_x<0))
-			{
-				etape=0;
-				ss_etape=0;
-				wait_for_attack=0;
-				attack_delay = 50 + rand() % 250;
-				speed=((dif_x*-9)/dif_y);
-				dy=-9+speed*0.25;
-				//debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
-				etat = ETAT_SAUTE;
-				lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
-				onSaute();
-				return;
-
-			}
-			else if((dir==SENS_GAUCHE)&&(dif_y<0)&&(dif_x<0)&&(dif_y-dif_x<0))
-			{
-				etape=0;
-				ss_etape=0;
-				wait_for_attack=0;
-				attack_delay = 50 + rand() % 250;
-				speed=((dif_x*9)/dif_y);
-				dy=-9+speed*0.25;
-				//debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
-				etat = ETAT_SAUTE;
-				lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
-				onSaute();
-				return;
-			}
-		}*/
 	}
 	if (dir == SENS_DROITE) {
 		marche(speed);
@@ -344,59 +270,7 @@ void EnnemiMario::onAvance() {
 
 void EnnemiMario::onMeure() { game_flag[0] = 7; }
 
-void EnnemiMario::onCharge() {
-	/*speed=MARIO_CHARGE_SPEED;
-	if ( x - speed < xmin || mur_opaque( x-speed, y))
-	{
-		dir = SENS_DROITE;
-		speed=1;
-		etape=0;
-		ss_etape=0;
-		etat=ETAT_AVANCE;
-		wait_for_attack=0;
-		attack_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	else if ( x + speed > offset + 640 || mur_opaque( x+speed, y))
-	{
-		dir = SENS_GAUCHE;
-		speed=1;
-		etape=0;
-		ss_etape=0;
-		etat=ETAT_AVANCE;
-		wait_for_attack=0;
-		attack_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	attack_etape+=1;
-	if (attack_etape<40)
-	{
-		if ( dir == SENS_DROITE)
-		{
-			pic = pbk_ennemis[anime( anim_mario_marche_droite, 4, 3)];
-		}
-		else
-		{
-			pic = pbk_ennemis[anime( anim_mario_marche_gauche, 4, 3)];
-		}
-	}
-	else
-	{
-		if ( dir == SENS_DROITE)
-		{
-			marche(speed);
-			pic = pbk_ennemis[anime( anim_mario_marche_droite, 4, 2)];
-		}
-		else
-		{
-			marche( -speed);
-			pic = pbk_ennemis[anime( anim_mario_marche_gauche, 4, 2)];
-		}
-	}
-	colFromPic();*/
-}
+void EnnemiMario::onCharge() {}
 
 void EnnemiMario::onSaute() {
 	int yp;
@@ -419,7 +293,6 @@ void EnnemiMario::onSaute() {
 	}
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -447,24 +320,7 @@ void EnnemiMario::onSaute() {
 	colFromPic();
 }
 
-void EnnemiMario::onCarbonise() {
-	a_detruire = true;
-	/*ss_etape += 1;
-	ss_etape %= 5;
-
-	if ( ss_etape == 0)
-		etape += 1;
-
-	if ( etape >= 14)
-		a_detruire = true;
-	else
-	{
-		if ( dir == SENS_DROITE)
-			pic = pbk_ennemis[100+etape];
-		else
-			pic = pbk_ennemis[114+etape];
-	}*/
-}
+void EnnemiMario::onCarbonise() { a_detruire = true; }
 
 void EnnemiMario::affiche() {
 	Sprite::affiche();
@@ -517,7 +373,6 @@ void EnnemiMario::onTirehorizontale() {
 
 		y += dy;
 	} else {
-		// y+=dy;
 		ss_etape++;
 		ss_etape %= 4;
 		if (ss_etape == 0) {
@@ -606,7 +461,6 @@ void EnnemiMario::onTirecross() {
 				attack_etape = 0;
 				attack_ss_etape = 0;
 				fireball = true;
-				// y_cible = y;
 			}
 			break;
 

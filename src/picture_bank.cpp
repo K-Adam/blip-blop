@@ -1,21 +1,3 @@
-/******************************************************************
- *
- *
- *		------------------
- *		  PictureBank.cpp
- *		------------------
- *
- *		Classe PictureBank
- *
- *		Représente un tableau/une banque d'images.
- *
- *
- *		Prosper / LOADED -   V 0.2 - 13 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
 #include "picture_bank.h"
 
 #include <fstream>

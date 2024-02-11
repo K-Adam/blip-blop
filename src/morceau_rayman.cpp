@@ -1,19 +1,3 @@
-
-/******************************************************************
- *
- *
- *		-----------------------
- *		   MorceauRayman.cpp
- *		-----------------------
- *
- *		Poing1 & 2 qui giclent + jambes qui giclent..
- *
- *		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "morceau_rayman.h"
 
 // implementation de la classe MorceauxRayman

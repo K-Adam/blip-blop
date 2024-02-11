@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiKnuckles.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.5 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
@@ -21,10 +6,6 @@
 #define KNUKLES_CHARGE_SPEED 6
 #define KNUKLES_JUMP_SPEED 12
 #define KNUKLES_GRAVITE_MAX 7
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiKnukles
-//----------------------------------------------------------------------------
 
 class EnnemiKnukles : public Ennemi {
    private:

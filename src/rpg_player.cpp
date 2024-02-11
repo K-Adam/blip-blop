@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------
- *		   RPGPlayer.h
- *		-----------------
- *
- *
- *
- *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
 #include <fstream>
 #include <cstdio>
 #include <cstring>
@@ -91,7 +76,6 @@ bool RPGPlayer::startPlay(int n) {
 		}
 	}
 
-	//
 	buffer1_ = "rpg=" + std::to_string(n);
 	std::getline(fic_, buffer2_);
 
@@ -158,7 +142,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	}
 
 	// Assombrissement
-	//
 	Rect r;
 
 	if (nimage[0] >= 0) {
@@ -180,7 +163,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	}
 
 	// Affiche les têtes de con
-	//
 	if (pic_tab[0] != NULL && nimage[0] >= 0 && (size_t)nimage[0] < (*pic_tab[0]).getSize()) (*pic_tab[0])[nimage[0]]->PasteTo(surf, 0, 120);
 
 	if (vbuffer_wide > 640) {
@@ -190,7 +172,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	}
 
 	// Ecrit le texte
-	//
 	if (ntxt[0] != -1 && txt_data[ntxt[0]].c_str() != NULL) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]].c_str(), 640);
 
 	if (ntxt[1] != -1 && txt_data[ntxt[1]].c_str() != NULL) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]].c_str(), 535);
@@ -203,16 +184,13 @@ bool RPGPlayer::updateScene() {
 
 	while (!ready_to_draw && read() && buffer1_ != "stop") {
 		// D'abord, on analyse les cas ou on n'a pas besoin de couper
-		//
 		if (buffer1_ == "endif") {
-			//			debug<<"endif\n";
 		} else if (buffer1_ == "bbswap") {
 			cur_joueur += 1;
 			cur_joueur %= nbjoueurs;
 		} else {
 			// Coupe le schnuff en 2 buffer1:txt1 et buffer2:txt2
 			// tel que dans le fichier il y a "txt1=txt2"
-			//
 			size_t pos = buffer1_.find('=');
 			buffer2_ = buffer1_.substr(pos + 1);
 			buffer1_ = buffer1_.substr(0, pos);
@@ -268,7 +246,6 @@ bool RPGPlayer::updateScene() {
 				buffer2_ = buffer2_.substr(0, pos);
 
 				game_flag[std::stoi(buffer2_)] = val;
-				//				debug<<"Flag "<<atoi(buffer2)<<"="<<val<<"\n";
 			} else {
 				error(buffer1_);
 			}
@@ -282,7 +259,6 @@ bool RPGPlayer::read() {
 	std::getline(fic_, buffer1_);
 
 	// Skip les commentaires
-	//
 	while (!fic_.eof() && buffer1_[0] == ';') std::getline(fic_, buffer1_);
 
 	return !fic_.eof();

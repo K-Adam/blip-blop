@@ -1,4 +1,3 @@
-
 #include "ennemi_smurf_cigogne.h"
 #include "ben_maths.h"
 

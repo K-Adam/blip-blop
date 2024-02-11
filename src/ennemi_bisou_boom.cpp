@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_boom.h"
 #include "gore_bisou_boom.h"
 
@@ -36,7 +35,6 @@ void EnnemiBisouBoom::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -51,7 +49,6 @@ void EnnemiBisouBoom::onAvance() {
 	}
 
 	// Si assez prêt du joueur -> kamikaze!
-	//
 	if (tete_turc != NULL) {
 		int ddx = x - tete_turc->x;
 		int ddy = y - tete_turc->y;

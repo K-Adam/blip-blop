@@ -20,17 +20,13 @@ class Surface {
 	Surface *backBuffer;
 
    public:
-	// Surface();
-
 	Surface(SDL_Surface *surf) {
-		// SDL_SetSurfaceBlendMode(surf, SDL_BLENDMODE_NONE);
 		SDL_SetSurfaceAlphaMod(surf, 0xff);
 		surface = surf;
 		backBuffer = 0;
 	}
 
 	Surface(SDL_Surface *surf, Surface *bb) {
-		// SDL_SetSurfaceBlendMode(surf, SDL_BLENDMODE_NONE);
 		SDL_SetSurfaceAlphaMod(surf, 0xff);
 		surface = surf;
 		backBuffer = bb;
@@ -41,11 +37,6 @@ class Surface {
 	inline SDL_Surface *Get() { return surface; };
 	inline void BltFast(int x, int y, SDL::Surface *surf /*This is the Source Surface! Damn, DD!*/, Rect *r, int flags = 0) {
 		(void)flags;
-		/*static int test_i = 1;
-		char buf[128];
-		sprintf(buf, "test/%d.bmp", test_i);
-		SDL_SaveBMP(surf->Get(), buf);
-		test_i++;*/
 
 		SDL_Rect rect, position;
 		position.x = x;
@@ -66,12 +57,6 @@ class Surface {
 				debug << "Errore SDL_BlitSurface in sdl_surface.h - " << SDL_GetError() << "\n";
 				exit(0);
 			}
-
-			/*static int test_i = 1;
-			char buf[128];
-			sprintf(buf, "test/%d.bmp", test_i);
-			SDL_SaveBMP(surf->Get(), buf);
-			test_i++;*/
 		}
 	}
 
@@ -105,54 +90,7 @@ class Surface {
 		}
 		if (rect) delete rect;
 		if (position) delete position;
-
-		/*else
-		{
-			SDL_BlitSurface(0, rect, surface, position);
-		}*/
-
-		/*if (src!=0&&dest!=0)
-		{
-			SDL_Rect rect, position;
-			rect.x = src->left;
-			rect.y = src->top;
-			rect.w = src->right - src->left;
-			rect.h = src->bottom - src->top;
-			position.x = dest->left;
-			position.y = dest->top;
-			position.w = dest->right - dest->left;
-			position.h = dest->bottom - dest->top;
-			SDL_BlitSurface(surface, &rect, surf->Get(), &position);
-		}
-		else if (src!=0)
-		{
-			SDL_Rect rect, position;
-			position.x = dest->left;
-			position.y = dest->top;
-			position.w = dest->right - dest->left;
-			position.h = dest->bottom - dest->top;
-			SDL_BlitSurface(surface, 0, surf->Get(), &position);
-		}
-		else if (dest != 0)
-		{
-			SDL_Rect rect, position;
-			rect.x = src->left;
-			rect.y = src->top;
-			rect.w = src->right - src->left;
-			rect.h = src->bottom - src->top;
-			SDL_BlitSurface(surf->Get(), &rect, surface, 0);
-		}
-		else
-		{
-			SDL_BlitSurface(surf->Get(), 0, surface, 0);
-		}*/
 	}
-
-	/*inline void Blt(RECT *src, SDL::Surface *surf, RECT *dest, DDBLTFX *pad = 0, int flags = 0)
-	{
-		//Call the original function with the last 2 arguments swapped
-		Blt(src, surf, dest, flags,pad);
-	}*/
 
 	inline void Release() {
 		SDL_FreeSurface(surface);

@@ -1,20 +1,3 @@
-/******************************************************************
- *
- *
- *		--------------
- *		  Config.cpp
- *		--------------
- *
- *		Contient toutes les données sur la config
- *		et quelques fonctions pour la gérer.
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #include <stdio.h>
 #include "dd_gfx.h"
 #include "ben_debug.h"

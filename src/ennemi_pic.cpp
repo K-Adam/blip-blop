@@ -62,12 +62,10 @@ void EnnemiPic::update() {
 }
 
 void EnnemiPic::affiche() {
-	// Sprite::affiche();
 	SDL::Surface* surf;
 	int xs;
 	int ys;
 	Rect r;
-	// int						largeur;
 
 	surf = pbk_ennemis[168]->Surf();
 	xs = pbk_ennemis[168]->xSize();
@@ -75,8 +73,6 @@ void EnnemiPic::affiche() {
 
 	r.top = 0;
 	r.left = 0;
-
-	// largeur = 39;
 
 	r.right = 39;
 	r.bottom = -y_origine;

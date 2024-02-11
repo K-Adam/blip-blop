@@ -1,29 +1,7 @@
-/******************************************************************
- *
- *
- *		----------------
- *		   Globals.cpp
- *		----------------
- *
- *		Liste de tous les trucs globaux et donc accessibles
- *		pour TOUT LE MONDE.
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include <vector>
 #include <list>
 #include <memory>
 
-// #include <ddraw.h>
 #include "ben_divers.h"
 #include "control_p1.h"
 #include "control_p2.h"
@@ -50,25 +28,13 @@
 
 #define NB_MAX_PLAT 8
 
-//-----------------------------------------------------------------------------
-//		Données sur la configuration
-//-----------------------------------------------------------------------------
-
 int fps_count = 0;
 int fps_current_count = 0;
-
-//-----------------------------------------------------------------------------
-//		Surfaces
-//-----------------------------------------------------------------------------
 
 SDL::Surface* primSurface = NULL;	 // Surface primaire
 SDL::Surface* backSurface = NULL;	 // pointeur sur le double buffer supposé
 SDL::Surface* systemSurface = NULL;	 // Pour optimiser les accès SYSTEM/SYSTEM
 SDL::Surface* videoA = NULL;		 // cache video
-
-//-----------------------------------------------------------------------------
-//		Données scroll et positions
-//-----------------------------------------------------------------------------
 
 int offset;		 // offset courant du scroll
 int scr_offset;	 // = offset % 640
@@ -84,10 +50,6 @@ int val_end_lock;
 bool no_scroll1;
 bool no_scroll2;
 
-//-----------------------------------------------------------------------------
-//		Données sur le niveau
-//-----------------------------------------------------------------------------
-
 size_t scr_level_size;	// taille en écran du niveau
 size_t level_size;		// taille en pixels du niveau
 int* num_decor = NULL;	// Numéro ecran courant -> surface à utiliser
@@ -97,16 +59,8 @@ int32_t** y_plat = NULL;  // Plateformes (ordonnées)
 bool** murs_opaques;	// Murs opaques (=true)
 bool** murs_sanglants;	// Murs sanglants (=true)
 
-//-----------------------------------------------------------------------------
-//		Pour les controles
-//-----------------------------------------------------------------------------
-
 ControlP1 ctrlP1;
 ControlP2 ctrlP2;
-
-//-----------------------------------------------------------------------------
-//		Les listes
-//-----------------------------------------------------------------------------
 
 std::vector<Couille*> list_joueurs;	 // FIXME: make it owning?
 std::list<TirBB*> list_tirs_bb;
@@ -138,10 +92,6 @@ std::list<std::unique_ptr<Sprite>> list_gore;
 std::list<Sprite*> list_meteo;
 std::list<std::unique_ptr<Bulle>> list_bulles;
 
-//-----------------------------------------------------------------------------
-//		Données sur les actions à faire
-//-----------------------------------------------------------------------------
-
 bool phase;	 // Pour les clignotements
 bool slow_phase;
 
@@ -167,10 +117,6 @@ bool okBonus;
 bool cowBombOn;
 bool okLanceFlame;
 
-//-----------------------------------------------------------------------------
-//		Les Picture Banks
-//-----------------------------------------------------------------------------
-
 PictureBank pbk_decor;	// pbk des décors
 PictureBank pbk_blip;	// pbk de blip
 PictureBank pbk_blop;
@@ -181,10 +127,6 @@ PictureBank pbk_niveau;	  // pbk du niveau (fonds animes & co)
 PictureBank pbk_rpg;	  // Gueules des RPGs du niveau
 PictureBank pbk_rpg_bb;	  // Les gueules de Blip et Blop
 PictureBank pbk_inter;	  // L'interface
-
-//-----------------------------------------------------------------------------
-//		Les Sounds Banks
-//-----------------------------------------------------------------------------
 
 SoundBankBB sbk_bb;	  // Sons BB/divers communs à tous les niveaux
 SoundBankBB sbk_rpg;  // Les musiques des scènes RPG
@@ -201,10 +143,6 @@ char current_sbk_niveau[200];  // Nom de la SBK courante pour pouvoir la recharg
 char current_mbk[200];		   // Nom de la MBK courante pour pouvoir la recharger si on enlève puis remet le son
 int current_zik;			   // Numéro de la zik jouée
 
-//-----------------------------------------------------------------------------
-//		Les Fontes
-//-----------------------------------------------------------------------------
-
 Fonte fnt_score_blip;
 Fonte fnt_score_blop;
 Fonte fnt_ammo;
@@ -213,10 +151,6 @@ Fonte fnt_cool;
 Fonte fnt_rpg;
 Fonte fnt_menu;
 Fonte fnt_menus;
-
-//-----------------------------------------------------------------------------
-//		Les fonctions cool
-//-----------------------------------------------------------------------------
 
 void tremblement(int amp) {
 	amplitude_tremblement = amp;
@@ -235,10 +169,6 @@ int plat(int x, int y) {
 
 		if (y >= tmp && y <= tmp + 10) return tmp;
 	}
-	/*
-		if ( mur_opaque( x, y))
-			return ( y - (y%8 + 1));
-	*/
 	return 0;
 }
 
@@ -333,7 +263,6 @@ bool grave(int x, int y, Picture* pic) {
 
 	Rect r;
 	int ni = x / /*640;*/ vbuffer_wide;
-	//	int		no = offset / vbuffer_wide;
 
 	r.top = 0;
 	r.bottom = 480;

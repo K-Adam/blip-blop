@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------------
- *		  EnnemiLemmings.cpp
- *		----------------------
- *
- *
- *
- *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_lemmings.h"
 #include "bonus_vache.h"
 
@@ -24,7 +9,6 @@ void EnnemiLemmings::update() {
 	if (blood != 0) blood -= 1;
 
 	// Si 200+ lemmings tués, ils se suicident et arrêtent les générateurs
-	//
 	if (game_flag[FLAG_NB_KILL] >= 200 && etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 		suicide = true;
 		col_on = false;
@@ -109,7 +93,6 @@ void EnnemiLemmings::onMeure() {
 	if (ss_etape == 0) etape += 1;
 
 	// Explosion abrégée si plus de plateforme
-	//
 	if (etape >= 6 && (plat(x - 80, y) == 0 || plat(x + 80, y) == 0)) a_detruire = true;
 
 	if (etape == 10) {

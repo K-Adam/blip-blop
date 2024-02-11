@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		------------------------
- *		  EnnemiSnorkyBase1.cpp
- *		------------------------
- *
- *		(giclures faites...)
- *
- *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_snorky_base_1.h"
 #include "morceaux_tete_snorky.h"
 #include "tir_snorkybase.h"

@@ -1,45 +1,12 @@
-/******************************************************************
- *
- *
- *		----------------
- *		  DD_gfx.h
- *		----------------
- *
- *
- *		Fonctions graphiques PROPRES
- *
- *
- *		Prosper / LOADED -   V 0.1
- *
- *
- *
- ******************************************************************/
-
 #pragma once
-
-//-----------------------------------------------------------------------------
-//		Constantes pour la création des surfaces
-//-----------------------------------------------------------------------------
 
 #define DDSURF_VIDEO 1	 // Mettre la surface en mémoire VIDEO
 #define DDSURF_SYSTEM 2	 // Mettre la surface en mémoire SYSTEM
 #define DDSURF_BEST 4	 // Mettre la surf en VIDEO si possible, SYSTEM sinon
 
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "graphics.h"
 
-//-----------------------------------------------------------------------------
-//		Objet 'ddraw' global (avec protection pour gfxutil.cpp)
-//-----------------------------------------------------------------------------
-
 extern Graphics* graphicInstance;
-
-//-----------------------------------------------------------------------------
-//		Prototypes
-//-----------------------------------------------------------------------------
 
 void DDInitDirectDraw();
 void DDSetGfxMode(int x, int y, int d, bool fullscreen = true);

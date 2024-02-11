@@ -1,19 +1,3 @@
-/******************************************************************
- *
- *
- *		--------------------
- *		    EnnemiSmurf.h
- *		--------------------
- *
- *		Le schtroumpf de base!
- *
- *
- *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_smurf_gourmand.h"
 #include "tir_gateau.h"
 
@@ -58,7 +42,6 @@ void EnnemiSmurfGourmand::onNormal() {
 	tombe();
 
 	// Tire de temps en temps
-	//
 	wait_for_shoot += 1;
 
 	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && tete_turc != NULL) {

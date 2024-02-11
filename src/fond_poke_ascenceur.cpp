@@ -1,4 +1,3 @@
-
 #include "fond_poke_ascenceur.h"
 
 #include "couille.h"
@@ -13,14 +12,12 @@ void FondPokeAscenceur::update() {
 		int xtmp;
 
 		// Fait des allers/retour
-		//
 		if (y <= 96)
 			dy = 1;
 		else if (y >= 387)
 			dy = -1;
 
 		// Si un joueur est sur la plateforme, on le déplace
-		//
 		for (Couille* joueur : list_joueurs) {
 			xtmp = joueur->x;
 
@@ -28,7 +25,6 @@ void FondPokeAscenceur::update() {
 		}
 
 		// Déplace la plateforme
-		//
 		y += dy;
 
 		for (int i = x; i < x + pic->xSize(); i++) y_plat[4][i] = y + 20;

@@ -1,4 +1,3 @@
-
 #include "ennemi_pikachu.h"
 
 EnnemiPikachu::EnnemiPikachu() { pv = 100; }
@@ -38,7 +37,6 @@ void EnnemiPikachu::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -101,7 +99,6 @@ void EnnemiPikachu::estTouche(Tir* tir) {
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {
-		//		sbk_niveau.play( 7/*+rand()%3*/);
 		sbk_misc.play(8 + rand() % 2);
 	}
 }

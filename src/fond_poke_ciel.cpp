@@ -1,4 +1,3 @@
-
 #include "globals.h"
 #include "fond_poke_ciel.h"
 
@@ -42,17 +41,6 @@ void FondPokeCiel::affiche() {
 
 	r.right = etape + largeur;
 	r.bottom = ys;
-
-	/*if ( x+53 > offset+640)
-		largeur = offset+640-x;
-	else if (x < offset)
-	{
-		largeur = 53;
-		r.left = offset - x;
-		decalage = offset - x;
-	}
-	else
-		largeur = 53;*/
 
 	backSurface->BltFast(x - offset + decalage, y + 50, surf, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
 

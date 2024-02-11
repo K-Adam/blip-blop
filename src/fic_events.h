@@ -2,10 +2,6 @@
 
 // TODO: REMOVE: Replace event types with strings like "ENNEMI" in json
 
-//--------------------------------------------------------------------------
-//	Constantes d'identification des événements
-//--------------------------------------------------------------------------
-
 #define EVENTID_ENNEMI 0
 #define EVENTID_ENNEMI_GENERATOR 1
 #define EVENTID_FOND_ANIME 2

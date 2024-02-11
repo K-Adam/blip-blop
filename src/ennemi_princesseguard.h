@@ -1,28 +1,9 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiPrincesseguard.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 21 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
 #include "ennemi_princesse.h"
 
 #define GUARD_SPEED 1
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiPrincesseGuard
-//----------------------------------------------------------------------------
 
 class EnnemiPrincesseguard : public Ennemi {
    private:

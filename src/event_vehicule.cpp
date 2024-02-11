@@ -1,4 +1,3 @@
-
 #include "event_vehicule.h"
 #include "ben_debug.h"
 #include "vehicule.h"

@@ -46,7 +46,6 @@ void EnnemiYoshi::update() {
 
 void EnnemiYoshi::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -62,20 +61,6 @@ void EnnemiYoshi::onAvance() {
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
-		/*if ((plat2(tete_turc->x,tete_turc->y)==plat2(x,y))
-			&&(((dir == SENS_DROITE)&&(x>(tete_turc->x-150))&&(tete_turc->x>x))
-			||((dir == SENS_GAUCHE)&&(x<(tete_turc->x+150))&&(tete_turc->x<x))))
-		{
-			etape=0;
-			etat=ETAT_TIRE;
-			attack=false;
-			etape = 0;
-			ss_etape = 0;
-			onAttaque();
-			return;
-		}*/
-		// else
-		//{
 		etape = 0;
 		etat = ETAT_TIRE;
 		attack = true;
@@ -84,7 +69,6 @@ void EnnemiYoshi::onAvance() {
 		sbk_niveau.play(35);
 		onTire();
 		return;
-		//}
 	}
 
 	if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) && (((dir == SENS_DROITE) && (x > (tete_turc->x - 150)) && (tete_turc->x > x)) ||
@@ -123,7 +107,6 @@ void EnnemiYoshi::onTombe() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -200,8 +183,6 @@ void EnnemiYoshi::onTire() {
 			tir->x = x + 23;
 
 		tir->y = y - 23;
-
-		// tirEnCloche( tir->x, tir->y, xcible, ycible, tir->dx, tir->dy);
 
 		list_tirs_ennemis.emplace_back(tir);
 

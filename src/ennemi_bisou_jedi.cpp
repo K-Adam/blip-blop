@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_jedi.h"
 #include "tir_epee_laser.h"
 
@@ -22,11 +21,6 @@ void EnnemiBisouJedi::update() {
 			onMeure();
 			break;
 
-		/*
-			case ETAT_TIRE:
-				onTire();
-				break;
-		*/
 		case ETAT_CARBONISE:
 			onCarbonise();
 			break;
@@ -49,7 +43,6 @@ void EnnemiBisouJedi::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - SPEED < offset + 20 || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 600 || mur_opaque(x + SPEED, y))

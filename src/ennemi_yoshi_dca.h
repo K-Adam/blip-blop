@@ -1,29 +1,6 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiYoshiDCA.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "enemy.h"
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiYoshiDCA
-//----------------------------------------------------------------------------
 
 class EnnemiYoshiDCA : public Ennemi {
    private:
@@ -35,9 +12,7 @@ class EnnemiYoshiDCA : public Ennemi {
 
 	virtual void update();
 	virtual void onAvance();
-	// virtual void onTombe();
 	virtual void onMeure();
-	// virtual void onAttaque();
 	virtual void onTire();
 	virtual void onCarbonise();
 

@@ -1,4 +1,3 @@
-
 #include "ennemi_sonic.h"
 #include "tir_epine.h"
 #include "tir_sonic_eclair.h"
@@ -22,7 +21,6 @@ EnnemiSonic::EnnemiSonic()
 	  vie_sur_critique(1250),
 	  ring(90) {
 	pv = 10000;
-	// pv = 2;
 	xmin = 1280;
 	ss_etape_attack = 0;
 	etape_attack = 0;
@@ -80,13 +78,10 @@ void EnnemiSonic::update() {
 			}
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiSonic::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -108,7 +103,6 @@ void EnnemiSonic::onAvance() {
 		if (tete_turc != NULL) {
 			if ((tete_turc->y > 0) && (((dir == SENS_DROITE) && (((tete_turc->x) - x) > 0)) || ((dir == SENS_GAUCHE) && (((tete_turc->x) - x) < 0)))) {
 				int rnd = rand() % 3;
-				//				debug <<rnd<<"\n";
 				switch (rnd) {
 					case 0:
 						attack_type = 0;
@@ -137,59 +131,23 @@ void EnnemiSonic::onAvance() {
 						onAttackvertical();
 						return;
 						break;
-					/*
-									case 2:
-										attack_type=2;
-										speed=0;
-										etat = ETAT_TIRE;
-										nb_tir=0;
-										ss_etape=0;
-										etape=0;
-										onAttackepine();
-										return;
-										break;
-					*/
 					case 2:
 						attack_type = 3;
 						ss_etape = 0;
 						etape = 0;
 						nb_tir = 0;
-						// x_cible = tete_turc->x;
 						etat = ETAT_TIRE;
 						onAttackeclair();
 						return;
 						break;
 				}
 			}
-
-			/*if ((plat2(tete_turc->x,tete_turc->y)==plat2(x,y))&&
-				(((dir == SENS_DROITE)&&(x<tete_turc->x))||
-				((dir == SENS_GAUCHE)&&(x>tete_turc->x))))
-			{
-				charge_etape=0;
-				speed=0;
-				dy=0;
-				etat = ETAT_TIRE;
-				onCharge();
-				return;
-			}
-			else
-			{
-				wait_for_charge=0;
-				charge_delay = 50 + rand() % 250;
-				etat = ETAT_SAUTE;
-				dy = -7;
-				lat_grav = 0;	// Sinon les sauts diffèrent par leur hauteur
-				onSaute();
-				return;
-			}*/
 		}
 	}
 
 	if ((ring > 0) && (pv < 9000)) {
 		if (ring % 30 == 0) {
 			onBalancering();
-			//			game_flag[FLAG_BONUS] = 6;
 		}
 		ring--;
 	}
@@ -271,59 +229,7 @@ void EnnemiSonic::onMeure() {
 	}
 }
 
-void EnnemiSonic::onCharge() {
-	/*speed=TOAD_CHARGE_SPEED;
-	if ( x - speed < xmin || mur_opaque( x-speed, y))
-	{
-		dir = SENS_DROITE;
-		speed=1;
-		etat=ETAT_AVANCE;
-		wait_for_charge=0;
-		charge_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	else if ( x + speed > offset + 640 || mur_opaque( x+speed, y))
-	{
-		dir = SENS_GAUCHE;
-		speed=1;
-		etat=ETAT_AVANCE;
-		wait_for_charge=0;
-		charge_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	charge_etape+=1;
-	if (charge_etape<80)
-	{
-		if ( dir == SENS_DROITE)
-		{
-			//marche(speed);
-			pic = pbk_ennemis[anime( anim_toad_marche_droite, 4, 3)];
-		}
-		else
-		{
-			//marche( -speed);
-			pic = pbk_ennemis[anime( anim_toad_marche_gauche, 4, 3)];
-		}
-	}
-	else
-	{
-		if ( dir == SENS_DROITE)
-		{
-			marche(speed);
-			pic = pbk_ennemis[anime( anim_toad_marche_droite, 4, 2)];
-		}
-		else
-		{
-			marche( -speed);
-			pic = pbk_ennemis[anime( anim_toad_marche_gauche, 4, 2)];
-		}
-	}
-
-
-	colFromPic();*/
-}
+void EnnemiSonic::onCharge() {}
 
 void EnnemiSonic::onSaute() {
 	int yp;
@@ -331,7 +237,6 @@ void EnnemiSonic::onSaute() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -377,7 +282,6 @@ void EnnemiSonic::onAttackhorizontal() {
 			if (ss_etape_attack == 0) {
 				etape_attack += 1;
 				etape_attack %= 16;
-				//				balance_epines();
 			}
 		}
 		nb_tir += 1;
@@ -405,7 +309,6 @@ void EnnemiSonic::onAttackhorizontal() {
 				if (ss_etape_attack == 0) {
 					etape_attack += 1;
 					etape_attack %= 16;
-					//					balance_epines();
 				}
 			}
 			tombe();
@@ -427,7 +330,6 @@ void EnnemiSonic::onAttackhorizontal() {
 				if (ss_etape_attack == 0) {
 					etape_attack += 1;
 					etape_attack %= 16;
-					//					balance_epines();
 				}
 			}
 			if (y + dy < y_cible) {
@@ -485,7 +387,6 @@ void EnnemiSonic::onAttackvertical() {
 			if (ss_etape_attack == 0) {
 				etape_attack += 1;
 				etape_attack %= 16;
-				//				balance_epines();
 			}
 		}
 		nb_tir += 1;
@@ -514,7 +415,6 @@ void EnnemiSonic::onAttackvertical() {
 				if (ss_etape_attack == 0) {
 					etape_attack += 1;
 					etape_attack %= 16;
-					//					balance_epines();
 				}
 			}
 			if ((dir == SENS_DROITE) && (x + speed > 1900)) {
@@ -534,7 +434,6 @@ void EnnemiSonic::onAttackvertical() {
 				if (ss_etape_attack == 0) {
 					etape_attack += 1;
 					etape_attack %= 16;
-					//					balance_epines();
 				}
 			}
 			if (y + dy < 40) {
@@ -543,17 +442,14 @@ void EnnemiSonic::onAttackvertical() {
 					dir = SENS_GAUCHE;
 					speed = -dy;
 					dy = 0;
-					// speed=12;
 				} else {
 					attack_phase = 2;
 					dir = SENS_DROITE;
 					speed = -dy;
 					dy = 0;
-					// speed=12;
 				}
 			}
 		} else if (attack_phase == 2) {
-			// tombe();
 			if ((dir == SENS_DROITE) && (x > x_cible)) {
 				attack_phase = 3;
 				dy = 12;
@@ -565,15 +461,10 @@ void EnnemiSonic::onAttackvertical() {
 			}
 		} else if (attack_phase == 3) {
 			// y+=dy;
-			//  Et si on arrêtait de tomber ?
-			//
 			if (y + dy > y_plat[0][y]) {
 				tombe();
 				y = y_plat[0][y];
-				// if ((dy > 0) && (yp=plat( x, y+dy)) != 0)
-				//{
 				dy = 0;
-				// y = yp;
 				ss_etape = 0;
 				etape = 0;
 				speed = 1;
@@ -582,7 +473,6 @@ void EnnemiSonic::onAttackvertical() {
 				attack_delay = 50 + rand() % 250;
 				onAvance();
 				return;
-				//}
 			} else {
 				y += dy;
 			}
@@ -636,7 +526,6 @@ void EnnemiSonic::onAttackepine() {
 	if (ss_etape_attack == 0) {
 		etape_attack += 1;
 		etape_attack %= 16;
-		//		balance_epines();
 	}
 	colFromPic();
 }
@@ -672,7 +561,6 @@ void EnnemiSonic::onAttackeclair() {
 	}
 
 	if ((etape == 0) && (ss_etape == 1) && (tete_turc != NULL)) {
-		// tremblement(5);
 		TirSoniceclair* tir;
 		tir = new TirSoniceclair();
 		tir->setDir(dir);

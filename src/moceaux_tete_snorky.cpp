@@ -1,29 +1,5 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    MorceauxTeteSnorky.cpp
- *		---------------------------
- *
- *		Les bouts de tete qui giclent...
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "morceaux_tete_snorky.h"
 #include "enemy.h"
-
-//-----------------------------------------------------------------------------
-//		Implementation de la classe MorceauSnorkyBaseTeteEntiere
-//-----------------------------------------------------------------------------
 
 MorceauSnorkyBaseTeteEntiere::MorceauSnorkyBaseTeteEntiere() { dy = 0; }
 
@@ -93,17 +69,7 @@ void MorceauSnorkyBaseTeteEntiere::update() {
 			}
 		}
 	}
-
-	/*if (etape>=3)
-	{
-		tombe();
-
-	}*/
 }
-
-//-----------------------------------------------------------------------------
-//		Implementation de la classe MorceauSnorkyHyporidercorp
-//-----------------------------------------------------------------------------
 
 MorceauSnorkyHyporidercorp::MorceauSnorkyHyporidercorp(int vx) {
 	dx = vx;
@@ -138,14 +104,9 @@ void MorceauSnorkyHyporidercorp::update() {
 		} else {
 			grave(x, y, pic);
 			a_detruire = true;
-			//			sbk_niveau.play( 9);
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------
-//		implementation de la classe MorceauSnorkyBaseTetePartieArriere
-//-----------------------------------------------------------------------------
 
 MorceauSnorkyBaseTetePartieArriere::MorceauSnorkyBaseTetePartieArriere(int vx, int vy) {
 	dx = vx;
@@ -172,10 +133,6 @@ void MorceauSnorkyBaseTetePartieArriere::update() {
 		a_detruire = true;
 	}
 }
-
-//-----------------------------------------------------------------------------
-//		Implementation de la classe MorceauSnorkyBaseTetePartieArriere
-//-----------------------------------------------------------------------------
 
 MorceauSnorkyBaseTrompe::MorceauSnorkyBaseTrompe(int vx, int vy) {
 	dx = vx;

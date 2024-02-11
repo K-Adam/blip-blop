@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondMonolite.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "fond_monolite.h"
 
 #include "couille.h"
@@ -42,15 +27,8 @@ void FondMonolite::update() {
 	int xtmp;
 
 	// Fait des allers/retour
-	//
-
-	/*if ( y <= 96)
-		dy = 1;
-	else if ( y >= 387)
-		dy = -1;*/
 
 	// Si un joueur est sur la plateforme, on le déplace
-	//
 	for (Couille* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
@@ -61,7 +39,6 @@ void FondMonolite::update() {
 				joueur->y -= monolite_levitation[etape_levitation - 22];
 			}
 		}
-		//	joueur->y += dy;
 	}
 
 	for (auto& ennemis : list_ennemis) {
@@ -74,12 +51,9 @@ void FondMonolite::update() {
 				ennemis->y -= monolite_levitation[etape_levitation - 22];
 			}
 		}
-		//	joueur->y += dy;
 	}
 
 	// Déplace la plateforme
-	//
-	// y += dy;
 	if (etape_levitation <= 22) {
 		y += monolite_levitation[etape_levitation];
 	} else {
@@ -89,7 +63,4 @@ void FondMonolite::update() {
 	for (int i = x - 118; i < x + pic->xSize() - 138; i++) y_plat[4][i] = y - 20;
 
 	colFromPic();
-
-	/*if ( x < offset-400)
-		a_detruire = true;*/
 }

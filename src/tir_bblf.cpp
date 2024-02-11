@@ -1,4 +1,3 @@
-
 #include "tir_bblf.h"
 
 void TirBBLF::aTouche(int pts) {

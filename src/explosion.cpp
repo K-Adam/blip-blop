@@ -1,4 +1,3 @@
-
 #include "explosion.h"
 
 Explosion::Explosion() : fini(false) {

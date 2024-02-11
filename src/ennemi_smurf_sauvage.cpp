@@ -1,28 +1,8 @@
-/******************************************************************
- *
- *
- *		--------------------
- *		EnnemiSmurfSauvage.cpp
- *		--------------------
- *
- *		Le schtroumph brujah
- *
- *
- *		Mortimus / LOADED -   V 0.1 - 23 Octobre 2000
- *
- *
- *
- ******************************************************************/
-
 const int tir_position_depart_x[] = {-15, -8, 6, 1, 8, 17};
 const int tir_position_depart_y[] = {55, 62, 65, 65, 62, 55};
 
 const int tir_dx[] = {-4, -1, 0, 0, 1, 4};
 const int tir_dy[] = {4, 5, 6, 6, 5, 4};
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
 
 #include "ennemi_smurf_sauvage.h"
 #include "tir_smurf_sauvage.h"
@@ -116,7 +96,6 @@ void EnnemiSmurfSauvage::update() {
 			if (++etape_wait >= wait_shoot) {
 				etat = ETAT_TOMBE;
 
-				//				if ( rand() % 10 == 0)
 				sbk_niveau.play(17);
 
 				if (rand() % 2 == 0)
@@ -173,10 +152,6 @@ void EnnemiSmurfSauvage::onTombe() {
 	}
 
 	etape_wait = 0;
-	/*
-		if ( y > hauteur - 50)
-			onTire();
-	*/
 	colFromPic();
 }
 
@@ -194,8 +169,6 @@ void EnnemiSmurfSauvage::onTire() {
 	etape_shoot %= 10;
 
 	if (etape_shoot == 0) {
-		//		if(nb_shoot < 5)
-		//		{
 		TirSmurfSauvage* tir = new TirSmurfSauvage();
 		tir->x = x + tir_position_depart_x[shoot_direction];
 		tir->y = y + tir_position_depart_y[shoot_direction];
@@ -204,7 +177,6 @@ void EnnemiSmurfSauvage::onTire() {
 		list_tirs_ennemis.emplace_back(tir);
 
 		if (nb_shoot == 0) sbk_niveau.play(18);
-		//		}
 		nb_shoot += 1;
 	}
 
@@ -218,11 +190,6 @@ void EnnemiSmurfSauvage::estTouche(Tir* tir) {
 	static const int dy_giclure_smurf_sauvage[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Ennemi::estTouche(tir);
-	//	gicle( tir, dx_giclure_smurf_sauvage, dy_giclure_smurf_sauvage);
-	/*
-		if ( etat == ETAT_MEURE)
-			sbk_bb.play( 10+rand()%5);
-	*/
 	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
 }
 

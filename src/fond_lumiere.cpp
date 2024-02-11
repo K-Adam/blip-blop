@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include "fond_lumiere.h"
 
@@ -20,7 +19,6 @@ void FondLumiere::update() {
 			allume = false;
 			ss_etape = 0;
 			etape = 0;
-			// pic=pbk_niveau[0];
 		}
 	} else {
 		pic = pbk_niveau[anime(anim_cligno, 58, 3)];

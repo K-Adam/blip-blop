@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    TirCruiserlaser.cpp
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 17 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "tir_cruiser_laser.h"
 
 TirCruiserLaser::TirCruiserLaser(int vx, int nb_pic) : dx(vx) {

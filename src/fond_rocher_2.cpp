@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondRocher2.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "fond_rocher_2.h"
 
 #include "couille.h"
@@ -41,15 +26,8 @@ void FondRocher2::update() {
 	int xtmp;
 
 	// Fait des allers/retour
-	//
-
-	/*if ( y <= 96)
-		dy = 1;
-	else if ( y >= 387)
-		dy = -1;*/
 
 	// Si un joueur est sur la plateforme, on le déplace
-	//
 
 	for (Couille* joueur : list_joueurs) {
 		xtmp = joueur->x;
@@ -61,12 +39,9 @@ void FondRocher2::update() {
 				joueur->y -= rocher2_levitation[etape_levitation - 9];
 			}
 		}
-		//	joueur->y += dy;
 	}
 
 	// Déplace la plateforme
-	//
-	// y += dy;
 
 	if (etape_levitation <= 9) {
 		y += rocher2_levitation[etape_levitation];
@@ -77,7 +52,4 @@ void FondRocher2::update() {
 	for (int i = x - 45; i < x + pic->xSize() - 45; i++) y_plat[4][i] = y - 25;
 
 	colFromPic();
-
-	/*if ( x < offset-400)
-		a_detruire = true;*/
 }

@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiLara.cpp
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.3 - 15 Fevrier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ben_debug.h"
 #include "ennemi_lara.h"
 #include "tir_epine.h"
@@ -49,8 +34,6 @@ void EnnemiLara::update() {
 			onTire();
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiLara::onAvance() {
@@ -82,18 +65,8 @@ void EnnemiLara::onAvance() {
 
 				pic->dir = SENS_GAUCHE;
 				list_ennemis.emplace_back(pic);
-				//				nb_ennemis_created += 1;
 			}
 		}
-
-		/*pic = new EnnemiPoid();
-		pic->x = 565;
-		pic->y = -50;
-		pic->dir = SENS_GAUCHE;
-		pic->etat = ETAT_AVANCE;
-		list_ennemis.ajoute( (void*) pic);
-
-		nb_ennemis_created += 1;*/
 
 		pics = true;
 	}
@@ -119,10 +92,6 @@ void EnnemiLara::onAvance() {
 			if (etape > 9) {
 				game_flag[0] = 3;
 				etape = 0;
-				/*
-								mbk_niveau.stop();
-								mbk_niveau.play( 0);
-				*/
 				game_flag[FLAG_TIMER] = 180;
 			} else {
 				numero_image_buste = anim_lara_bouton[etape];
@@ -292,16 +261,9 @@ void EnnemiLara::onAvance() {
 					onTire();
 					return;
 				}
-				// debug << pente <<" "<<dif_y<<"   "<<dif_x<< "\n";
 			} else {
-				/*TirEpine * tir  =new TirEpine(163,-9,0);
-				tir->x = x;
-				tir->y = y-150;
-				list_tirs_ennemis.ajoute( (void*) tir);
-				numero_image_buste = 150;*/
 			}
 		}
-		//		colFromPic();
 	} else if (game_flag[0] == 7) {
 		a_detruire = true;
 		game_flag[FLAG_NB_KILL]++;
@@ -340,10 +302,4 @@ void EnnemiLara::affiche() {
 	Sprite::affiche();
 }
 
-void EnnemiLara::estTouche(Tir* tir) {
-	/*
-	static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
-	*/
-	Ennemi::estTouche(tir);
-}
+void EnnemiLara::estTouche(Tir* tir) { Ennemi::estTouche(tir); }

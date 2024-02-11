@@ -1,19 +1,3 @@
-/******************************************************************
- *
- *
- *		--------------------
- *		    EnnemiSmurf.h
- *		--------------------
- *
- *		Le schtroumpf de base!
- *
- *
- *		Prosper / LOADED -   V 0.1 - 3 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_smurf.h"
 
 const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
@@ -54,7 +38,6 @@ void EnnemiSmurf::update() {
 
 void EnnemiSmurf::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -63,7 +46,6 @@ void EnnemiSmurf::onAvance() {
 	}
 
 	// Saute de temps en temps
-	//
 	wait_for_jump += 1;
 
 	if (wait_for_jump > jump_delay) {
@@ -72,17 +54,10 @@ void EnnemiSmurf::onAvance() {
 		lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 		wait_for_jump = 0;
 		jump_delay = 50 + rand() % 250;
-		/*
-				if ( rand() % 10 == 0)
-				{
-					sbk_niveau.play( 14 + rand() % 1);
-				}
-		*/
 		onSaute();
 	}
 
 	// Marche
-	//
 	if (x - speed < xmin || mur_opaque(x - speed, y))
 		dir = SENS_DROITE;
 	else if (x + speed > offset + 640 || mur_opaque(x + speed, y))
@@ -105,7 +80,6 @@ void EnnemiSmurf::onSaute() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

@@ -1,4 +1,3 @@
-
 #include "globals.h"
 #include "event_bonus.h"
 

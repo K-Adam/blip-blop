@@ -1,19 +1,3 @@
-
-/******************************************************************
- *
- *
- *		-----------------------
- *		   MorceauSonicRing.cpp
- *		-----------------------
- *
- *		Ring de Sonic qui Giclent...
- *
- *		Mephisto / LOADED -   V 0.1 - 20 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "morceau_sonic_ring.h"
 
 // implementation de la classe MorceauSonicRing

@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <fstream>
@@ -6,7 +5,6 @@
 #include <json.h>
 
 #ifdef _MSC_VER
-// TODO
 #pragma warning(disable : 4996)
 #endif
 

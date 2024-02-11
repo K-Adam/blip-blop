@@ -1,4 +1,3 @@
-
 #include "ennemi_grand_smurf.h"
 
 #define ATT_ATATA 0
@@ -69,7 +68,6 @@ void EnnemiGrandSmurf::update() {
 
 		case ETAT_CARBONISE:
 		case ETAT_MEURE:
-			//			onMeure() ;
 			break;
 	}
 }

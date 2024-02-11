@@ -1,26 +1,4 @@
-/******************************************************************
- *
- *
- *		----------------
- *		   Game.h
- *		----------------
- *
- *		Classe Game
- *
- *		La classe représentant une partie
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #pragma once
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
 
 #include "graphics.h"
 #include "dd_gfx.h"
@@ -50,10 +28,6 @@
 #define LVL_LAST 3
 #define LVL_COMPLETE 4
 #define LVL_END 5
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe Game
-//-----------------------------------------------------------------------------
 
 class Game {
    protected:
@@ -113,36 +87,28 @@ class Game {
 
    public:
 	// Constructeur -> met tout à NULL
-	//
 	Game();
 
 	// jouePartie -> Faites chier la vache!
-	//
 	void jouePartie(int nbj, int idj);
 
 	// joueNiveau -> Balance les PEs! Retourne VRAI si les joueurs
 	// passent le niveau avec succès
-	//
 	bool joueNiveau(const char* nom_niveau, int type);
 
 	// chargeNiveau -> Charge le niveau (appelé par joueNiveau)
-	//
 	bool chargeNiveau(const char* nom_niveau);
 
 	// releaseNiveau -> Permet de désallouer le schnuff
-	//
 	void releaseNiveau();
 
 	// updateAll -> fait tout avancer
-	//
 	void updateAll();
 
 	// drawAll -> affiche tout
-	//
 	void drawAll(bool flip = true);
 
 	// gameLoop -> let's burn!
-	//
 	void gameLoop();
 
 	void releasePartie();

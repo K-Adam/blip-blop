@@ -1,19 +1,3 @@
-/******************************************************************
- *
- *
- *		--------------------
- *		EnnemiSmurfPaysan.h
- *		--------------------
- *
- *		Burn ! Burn ! Burn !
- *
- *
- *		Mortimus / LOADED -   V 0.1 - 22 Octobre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_smurf_paysan.h"
 
 const int smurf_paysan_charge_droite[] = {156, 157, 158, 159};
@@ -65,7 +49,6 @@ void EnnemiSmurfPaysan::onAvance() {
 	tombe();
 
 	// Marche
-	//
 	if (mur_opaque(x - SMURF_PAYSAN_SPEED, y))
 		dir = SENS_DROITE;
 	else if (mur_opaque(x + SMURF_PAYSAN_SPEED, y))

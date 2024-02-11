@@ -1,20 +1,3 @@
-/******************************************************************
- *
- *
- *		------------
- *		  Config.h
- *		------------
- *
- *		Contient toutes les données sur la config
- *		et quelques fonctions pour la gérer.
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "hi_scores.h"

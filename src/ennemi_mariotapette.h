@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiMariotapette.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
@@ -26,10 +11,6 @@
 #define MULTIPLACATEUR_VITESSE_AU_SOL 100
 #define MULTIPLICATEUR_RECUL_AERIEN 15
 #define MULTIPLICATEUR_VITESSE_AERIEN 80
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiMarioTapette
-//----------------------------------------------------------------------------
 
 class EnnemiMariotapette : public Ennemi {
    private:

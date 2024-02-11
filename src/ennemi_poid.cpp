@@ -4,7 +4,6 @@
 EnnemiPoid::EnnemiPoid() : nb_colision(0) {
 	pv = 1000;
 	pic = pbk_ennemis[169];
-	// col_on = false;
 }
 
 void EnnemiPoid::update() {
@@ -17,7 +16,6 @@ void EnnemiPoid::update() {
 			x = 565;
 		}
 		if ((game_flag[0] == 3) || (game_flag[0] == 4)) {
-			// col_on = false;
 			if (y < 100) {
 				tombe2();
 			} else {
@@ -27,16 +25,7 @@ void EnnemiPoid::update() {
 				etat = ETAT_MEURE;
 			}
 		}
-		/*else if(game_flag[0] == 5)
-		{
-			//a_detruire = true;
-			if (x > 1000)
-			{
-				pv = 0;
-			}
-		}*/
 
-		//		debug <<"nb_colision: "<<nb_colision <<"\n";
 		if (nb_colision >= LATENCE_BOUGE) {
 			x += 3;
 			nb_colision -= LATENCE_BOUGE;
@@ -126,12 +115,8 @@ int EnnemiPoid::degats() { return 0; };
 
 void EnnemiPoid::estTouche(Tir* tir) {
 	if ((tir->dir >= 2) && (tir->dir <= 6)) {
-		// debug <<"tir direction: "<<tir->dir <<"\n";
 		nb_colision++;
 	}
 
-	//	tir->a_detruire = true;
 	tir->aTouche(0);
-
-	// Ennemi::estTouche( tir);
 }

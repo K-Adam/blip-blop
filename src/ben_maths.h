@@ -1,22 +1,6 @@
-/******************************************************************
- *
- *
- *               ----------------
- *                  BenMaths.h
- *               ----------------
- *
- *
- *               Precomputed cos, sin and sqrt functions for integral values.
- *               Original comment claims that it brings 2000% to 2500% speedup.
- *               #TODO: HOW TRUE IS THAT IN 2019?
- *
- *               Prosper / LOADED -   V 0.1
- *
- *
- *
- ******************************************************************/
-
 #pragma once
+
+// Lookup tables for integer angles and values, the original authors measured a large speedup over the libm calls
 
 #ifndef M_PI
 #define M_PI 3.141592654

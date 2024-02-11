@@ -1,12 +1,10 @@
 #include <cctype>
 #include <cstring>
-//#include <fcntl.h>
 #include "cine_player.h"
 #include "ben_divers.h"
 #include "ben_debug.h"
 #include "input.h"
 #include "txt_data.h"
-//#include "alphablend.h"
 #include "globals.h"
 #include "config.h"
 #include <json.h>
@@ -19,13 +17,10 @@ using json = nlohmann::json;
 #endif
 
 #ifdef _MSC_VER
-// TODO
 #pragma warning(disable : 4996)
 #endif
 
 #define ISCOM(_cmd) (strcmp(cmd_name, _cmd) == 0)
-
-//---------------------------------------------------------------------------
 
 void CINEPlayer::initPlayer() {
 	for (int i = 0; i < NB_OBJ; i++) {
@@ -50,21 +45,12 @@ void CINEPlayer::initPlayer() {
 	delta_vol = 0;
 }
 
-//---------------------------------------------------------------------------
-
 bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2) {
 	bool skiped = false;
-	/*
-		debug<<"---------------------------------------------------------------\n";
-		debug<<"Playing cine file "<<file<<"\n";
-		debug<<"---------------------------------------------------------------\n";
-	*/
 	initPlayer();
 
 	/*first_surf = s1;*/
 	back_surf = s2;
-
-	////////////////////////////
 
 	auto dir = asset_path_prefix("cin", file);
 	std::ifstream input(dir + ".json");
@@ -116,8 +102,6 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 		}
 	}
 
-	/////////////////////////
-
 	while (!fini) {
 		updateState();
 		update_regulator_.Skip();
@@ -143,17 +127,13 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 	return !skiped;
 }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::updateScene() {
 	// Gére le volume
-	//
 	int vol = delta_vol;
 
 	if (vol < 0) vol = 0;
 
 	// Gére l'alpha blending
-	//
 	alpha += delta_alpha;
 
 	if (alpha > 255)
@@ -162,7 +142,6 @@ void CINEPlayer::updateScene() {
 		alpha = 0;
 
 	// Gére les objets
-	//
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
 			if (obj[i].time_mov > 0) {
@@ -204,8 +183,6 @@ void CINEPlayer::updateScene() {
 	frame_to_draw -= 1;
 }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::renderLoop() {
 	int n_updates = update_regulator_.Step();
 	for (; n_updates > 0; --n_updates) {
@@ -214,8 +191,6 @@ void CINEPlayer::renderLoop() {
 
 	drawScene();
 }
-
-//---------------------------------------------------------------------------
 
 void CINEPlayer::updateState() {
 	bool to_draw = false;
@@ -399,8 +374,6 @@ void CINEPlayer::updateState() {
 	}
 }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::drawScene() {
 	RenderRect ddfx;
 
@@ -409,7 +382,6 @@ void CINEPlayer::drawScene() {
 	back_surf->FillRect(0, 0xFF000000);
 
 	// Affiche tous les sprites/scrolls
-	//
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
 			switch (obj[i].id) {
@@ -421,39 +393,33 @@ void CINEPlayer::drawScene() {
 	}
 
 	// Clippe le tout
-	//
 	ddfx.dwFillColor = clip_color[0];
 
 	r.left = 0;
 	r.right = clip_x1;
 	r.top = 0;
 	r.bottom = 480;
-	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
 	r.left = clip_x2;
 	r.right = 640;
 	r.top = 0;
 	r.bottom = 480;
-	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
 	r.left = 0;
 	r.right = 640;
 	r.top = 0;
 	r.bottom = clip_y1;
-	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
 	r.left = 0;
 	r.right = 640;
 	r.top = clip_y2;
 	r.bottom = 480;
-	// graphicInstance->Clear(ddfx);
 	back_surf->FillRect(&r, 0);
 
 	// Affiche tous les textes
-	//
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show && obj[i].id == OBJ_TEXTE) drawText(i);
 	}
@@ -461,19 +427,13 @@ void CINEPlayer::drawScene() {
 	DDFlip();
 }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::drawSprite(int n) {
 	if (n < NB_OBJ) obj[n].pic->BlitTo(back_surf, obj[n].x, obj[n].y);
 }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::drawText(int n) {
 	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt].c_str());
 }
-
-//---------------------------------------------------------------------------
 
 bool CINEPlayer::getCommand() {
 	static const char seps[] = ",)\n";
@@ -485,11 +445,9 @@ bool CINEPlayer::getCommand() {
 	char* pos;
 
 	// Retourne faux si EOF
-	//
 	if (fic_.eof()) return false;
 
 	// Esquive les lignes commentées et les lignes vides
-	//
 	fic_.getline(buffer, BUFFER_SIZE);
 	num_ligne += 1;
 
@@ -502,12 +460,10 @@ bool CINEPlayer::getCommand() {
 
 	// Vire les espaces et met tout en minuscule -----------------
 	// Vire aussi les "
-	//
 	do {
 		c = buffer[i++];  // Pour éviter 10.000 fois l'indirections
 
 		// Si on arrive à la fin de ligne on s'arrête
-		//
 		if (c == ';') {
 			buffer2[j] = '\0';
 		} else if (c != ' ' && c != '\"') {	 // Ignore les espaces
@@ -519,7 +475,6 @@ bool CINEPlayer::getCommand() {
 	buffer2[j] = '\0';
 
 	// Recherche le nom de la commande ---------------------------
-	//
 	pos = strchr(buffer2, '(');
 
 	if (pos == NULL) return error();
@@ -532,7 +487,6 @@ bool CINEPlayer::getCommand() {
 	if (cmd_name[0] == '\0') return error();
 
 	// Recherche les arguments de la commande ---------------------
-	//
 	nb_args = 0;
 
 	arg = strtok(arg, seps);
@@ -550,19 +504,13 @@ bool CINEPlayer::getCommand() {
 
 void CINEPlayer::loadPBK(const char* f) { pbk.loadGFX(f); }
 
-//---------------------------------------------------------------------------
-
 void CINEPlayer::closePlayer() { fic_ = std::stringstream{}; }
-
-//---------------------------------------------------------------------------
 
 bool CINEPlayer::error() {
 	debug << "CINEPlayer -> Syntax error line " << num_ligne << "\n";
 	fini = true;
 	return false;
 }
-
-//---------------------------------------------------------------------------
 
 bool CINEPlayer::error(const char* er) {
 	debug << "CINEPlayer -> Error line  " << num_ligne << " : " << er << "\n";

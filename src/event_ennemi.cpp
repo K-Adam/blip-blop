@@ -1,21 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------
- *		  EventEnnemi.h
- *		-----------------
- *
- *		Classe Evenement Ennemi
- *
- *		La classe evenement qui crée un ennemi
- *
- *
- *		Prosper / LOADED -   2 Aout 2000
- *
- *
- *
- ******************************************************************/
-
 #include "event_ennemi.h"
 #include "enemy.h"
 

@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_etoile.h"
 #include "gore_pieds_bisou_etoile.h"
 #include "tir_etoile.h"
@@ -140,7 +139,6 @@ void EnnemiBisouEtoile::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y) || (plat(x - SPEED, y) == 0 && plat(x - SPEED, y + 5) == 0))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 680 || mur_opaque(x + SPEED, y) || (plat(x + SPEED, y) == 0 && plat(x + SPEED, y + 5) == 0))

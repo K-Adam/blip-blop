@@ -27,7 +27,6 @@ int MenuList::ComputeWidth() const {
 void MenuList::ShadeTextBox(SDL::Surface* surf) const {
 	int ys = (int)items_.size() * 15;
 	// Compute the size of the "schnuff" (= thing) to darken
-	//
 	int width = ComputeWidth();
 
 	Rect rec;

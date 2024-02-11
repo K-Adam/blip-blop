@@ -1,4 +1,3 @@
-
 #include "ennemi_mario_hologramme.h"
 #include "tir_mario_fireball.h"
 #include "tir_mario_fireball_vertical.h"
@@ -58,13 +57,10 @@ void EnnemiMarioHologramme::update() {
 			}
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiMarioHologramme::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -127,59 +123,7 @@ void EnnemiMarioHologramme::onAvance() {
 
 void EnnemiMarioHologramme::onMeure() { a_detruire = true; }
 
-void EnnemiMarioHologramme::onCharge() {
-	/*speed=MARIO_CHARGE_SPEED;
-	if ( x - speed < xmin || mur_opaque( x-speed, y))
-	{
-		dir = SENS_DROITE;
-		speed=1;
-		etape=0;
-		ss_etape=0;
-		etat=ETAT_AVANCE;
-		wait_for_attack=0;
-		attack_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	else if ( x + speed > offset + 640 || mur_opaque( x+speed, y))
-	{
-		dir = SENS_GAUCHE;
-		speed=1;
-		etape=0;
-		ss_etape=0;
-		etat=ETAT_AVANCE;
-		wait_for_attack=0;
-		attack_delay=50 + rand() % 250;
-		onAvance();
-		return;
-	}
-	attack_etape+=1;
-	if (attack_etape<40)
-	{
-		if ( dir == SENS_DROITE)
-		{
-			pic = pbk_ennemis[anime( anim_mario_marche_droite, 4, 3)];
-		}
-		else
-		{
-			pic = pbk_ennemis[anime( anim_mario_marche_gauche, 4, 3)];
-		}
-	}
-	else
-	{
-		if ( dir == SENS_DROITE)
-		{
-			marche(speed);
-			pic = pbk_ennemis[anime( anim_mario_marche_droite, 4, 2)];
-		}
-		else
-		{
-			marche( -speed);
-			pic = pbk_ennemis[anime( anim_mario_marche_gauche, 4, 2)];
-		}
-	}
-	colFromPic();*/
-}
+void EnnemiMarioHologramme::onCharge() {}
 
 void EnnemiMarioHologramme::onSaute() {
 	int yp;
@@ -202,7 +146,6 @@ void EnnemiMarioHologramme::onSaute() {
 	}
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -230,24 +173,7 @@ void EnnemiMarioHologramme::onSaute() {
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onCarbonise() {
-	a_detruire = true;
-	/*ss_etape += 1;
-	ss_etape %= 5;
-
-	if ( ss_etape == 0)
-		etape += 1;
-
-	if ( etape >= 14)
-		a_detruire = true;
-	else
-	{
-		if ( dir == SENS_DROITE)
-			pic = pbk_ennemis[100+etape];
-		else
-			pic = pbk_ennemis[114+etape];
-	}*/
-}
+void EnnemiMarioHologramme::onCarbonise() { a_detruire = true; }
 
 void EnnemiMarioHologramme::affiche() {
 	Sprite::affiche();
@@ -294,7 +220,6 @@ void EnnemiMarioHologramme::onTire() {
 		}
 		y += dy;
 	} else {
-		// y+=dy;
 		ss_etape++;
 		ss_etape %= 4;
 		if (ss_etape == 0) {
@@ -402,10 +327,4 @@ void EnnemiMarioHologramme::tombe_mario() {
 		y += dy;
 }
 
-void EnnemiMarioHologramme::estTouche(Tir* tir) {
-	// static const int dx_giclure [] = { 0, 10, 15, 10, 0, -10, -15, -10 };
-	// static const int dy_giclure [] = { -15, -25, -25, -25, -35, -25, -25, -25 };
-
-	// Ennemi::estTouche( tir);
-	// gicle( tir, dx_giclure, dy_giclure);
-}
+void EnnemiMarioHologramme::estTouche(Tir* tir) {}

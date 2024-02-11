@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_zombi.h"
 #include "gore_pied_bisou_zombi.h"
 
@@ -90,7 +89,6 @@ void EnnemiBisouZombi::onAvance() {
 	}
 
 	// Marche
-	//
 	my_phase = !my_phase;
 
 	if (my_phase) {
@@ -262,7 +260,6 @@ void EnnemiBisouZombi::onRampe() {
 	tombe();
 
 	// Marche
-	//
 
 	etape2 = (etape2 + 1) % 4;
 

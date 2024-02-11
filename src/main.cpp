@@ -3,7 +3,6 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "graphics.h"
-// #include <mmsystem.h> TODO?
 #include <stdio.h>
 #include <string.h>
 
@@ -24,7 +23,6 @@
 #include "txt_data.h"
 
 #ifdef _MSC_VER
-// TODO
 #pragma warning(disable : 4996)
 #endif
 
@@ -34,8 +32,6 @@ Game game;
 #include <windows.h>
 HWND WinHandle = NULL;
 #endif
-
-// FSOUND_SAMPLE * samp_test = NULL;
 
 static bool safeMode = false;
 
@@ -117,17 +113,9 @@ static bool InitApp(int nCmdShow) {
 		int width;
 	} win_size = {480, 640};
 
-	//------------------------------------------------------------------
-	//                      Histoire d'avoir un joli fichier log
-	//------------------------------------------------------------------
-
 	debug << "---------------------------------------------------------------\n";
 	debug << "Blip & Blop - (c) LOADED Studio - " << __DATE__ << "\n";
 	debug << "---------------------------------------------------------------\n";
-
-	//------------------------------------------------------------------
-	//                      FMOD / Sons
-	//------------------------------------------------------------------
 
 	if (!FSOUND_Init(44100, CHANNEL_NUMBER, 0)) {
 		Warning("Cannot initialise FMOD. Sound will be turned off");
@@ -135,16 +123,8 @@ static bool InitApp(int nCmdShow) {
 		music_on = false;
 	}
 
-	//------------------------------------------------------------------
-	//                      Charge la configuration
-	//------------------------------------------------------------------
-
 	mount_save_dir();
 	load_BB3_config(CONFIG_FILE);
-
-	//------------------------------------------------------------------
-	//                      Charge les hi scores
-	//------------------------------------------------------------------
 
 	hi_scores.init();
 
@@ -154,10 +134,6 @@ static bool InitApp(int nCmdShow) {
 	} else {
 		debug << "Using " << HISCORES_FILE << " as hiscores file\n";
 	}
-
-	//------------------------------------------------------------------
-	//                      Les fichiers textes
-	//------------------------------------------------------------------
 
 	if (lang_type == LANG_UK) {
 		if (!loadTxtData("uk.dat")) {
@@ -171,15 +147,7 @@ static bool InitApp(int nCmdShow) {
 		}
 	}
 
-	//------------------------------------------------------------------
-	//                      SDL 2
-	//------------------------------------------------------------------
-
 	DDInitDirectDraw();
-
-	//------------------------------------------------------------------
-	//                      Input (SDL Events)
-	//------------------------------------------------------------------
 
 	if (!in.open()) {
 		Bug("Cannot initialise DirectInput. Make sure DirectX 7 or better is "
@@ -188,41 +156,6 @@ static bool InitApp(int nCmdShow) {
 	}
 
 	debug << "DI Initialized\n";
-
-	/*
-			// -------- Mode Windows ----------
-
-
-			DDSURFACEDESC2 ddsd;
-			ZeroMemory(&ddsd, sizeof(ddsd));
-
-			ddsd.dwSize = sizeof( ddsd );
-			ddsd.dwFlags = DDSD_CAPS;
-			ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-			if ( graphicInstance->CreateSurface( &ddsd, &primSurface, NULL) !=
-		DD_OK)
-			{
-					debug<<"Shit!\n";
-					return false;
-			}
-
-			ZeroMemory(&ddsd, sizeof(ddsd));
-
-			ddsd.dwSize = sizeof( ddsd );
-			ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
-			ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-			ddsd.dwWidth = 640;  // whatever you want
-			ddsd.dwHeight = 480; // whatever you want
-
-			if ( graphicInstance->CreateSurface( &ddsd, &backSurface, NULL) !=
-		DD_OK)
-			{
-					debug<<"Shit2!\n";
-					return false;
-			}
-
-	*/
 
 	// Mode EXCLUSIF (bourrin quoi...)
 
@@ -234,49 +167,10 @@ static bool InitApp(int nCmdShow) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
 		DDSetGfxMode(win_size.width, win_size.height, 16, false /* fullscreen */);
 	} else {
-		/*DEVMODE dm;
-
-		ZeroMemory(&dm, sizeof(dm));
-		dm.dmSize = sizeof(dm);
-		dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT |
-		DM_DISPLAYFREQUENCY; dm.dmPelsWidth  = 640; dm.dmPelsHeight = 480;
-		dm.dmBitsPerPel = 16;
-		dm.dmDisplayFrequency = BEST_RATE;
-
-		if (ChangeDisplaySettings(&dm, CDS_TEST) != DISP_CHANGE_SUCCESSFUL ||
-				ChangeDisplaySettings(&dm, CDS_FULLSCREEN) !=
-		DISP_CHANGE_SUCCESSFUL) { debug << "Cannot set 640x480x16 at " <<
-		BEST_RATE << " Hz.\n"; winSet = false;*/
 		debug << "Trying to create window\n";
 		DDSetGfxMode(win_size.width, win_size.height, 16, fullscreen /* fullscreen */);
 		debug << "Window creation done\n";
-		/*debug << "Using default 640x480x16 refresh rate.\n";
-		vSyncOn = true;
-} else {
-		debug << "Set 640x480x16 at " << BEST_RATE << " Hz.\n";
-		winSet = true;
-		vSyncOn = true;
-}*/
 	}
-
-	/*DDSCAPS2              ddscaps2dummy;
-	DWORD                   vid_mem1;
-	DWORD                   vid_mem2;
-
-	ZeroMemory(&ddscaps2dummy, sizeof(ddscaps2dummy));
-	ddscaps2dummy.dwCaps = DDSCAPS_VIDEOMEMORY;
-	graphicInstance->GetAvailableVidMem(&ddscaps2dummy, &vid_mem1, &vid_mem2);
-	debug << "Available video memory : " << (vid_mem2 >> 10) << " Ko\n";
-	mem_flag = DDSURF_BEST;
-	video_buffer_on = true;
-
-	if (vid_mem2 >> 10 >= 20) {
-			mustFixGforceBug = true;
-	}*/
-
-	//------------------------------------------------------------------
-	//                      Direct Draw (suite)
-	//------------------------------------------------------------------
 
 	// Crée la surface primaire avec double buffer
 	debug << "Creating primSurface\n";
@@ -290,9 +184,6 @@ static bool InitApp(int nCmdShow) {
 	}
 	debug << "primSurface created\n";
 
-	//------------------------------------------------------------------
-	//                      Surface système
-	//------------------------------------------------------------------
 	debug << "Creating systemSurface\n";
 	systemSurface = DDCreateSurface(win_size.width, win_size.height, DDSURF_SYSTEM);
 
@@ -303,10 +194,6 @@ static bool InitApp(int nCmdShow) {
 	}
 	debug << "systemSurface created\n";
 
-	//------------------------------------------------------------------
-	//                      Scroll buffers
-	//------------------------------------------------------------------
-
 	videoA = DDCreateSurface(WANTED_VBUFFER_WIDE, 480, DDSURF_SYSTEM);
 
 	if (videoA == NULL) {
@@ -315,10 +202,6 @@ static bool InitApp(int nCmdShow) {
 			"launch Blip'n Blop again.");
 		return false;
 	}
-
-	//------------------------------------------------------------------
-	//                      Chargement des fontes
-	//------------------------------------------------------------------
 
 	if (!fnt_menu.load("menu.lft")) {
 		Bug("Cannot open the file menu.lft");
@@ -340,10 +223,6 @@ static bool InitApp(int nCmdShow) {
 		return false;
 	}
 
-	//------------------------------------------------------------------
-	//                      Chargement de l'interface
-	//------------------------------------------------------------------
-
 	if (!pbk_inter.loadGFX("inter.gfx")) {
 		debug << "Cannot load interface.\n";
 		return false;
@@ -361,31 +240,17 @@ static bool InitApp(int nCmdShow) {
 		return false;
 	}
 
-	//------------------------------------------------------------------
-	//                      Mémoire video restante
-	//------------------------------------------------------------------
-
-	/*ZeroMemory(&ddscaps2dummy, sizeof(ddscaps2dummy));
-	ddscaps2dummy.dwCaps = DDSCAPS_VIDEOMEMORY;
-	graphicInstance->GetAvailableVidMem(&ddscaps2dummy, &vid_mem1, &vid_mem2);
-	debug << "Available video memory : " << (vid_mem2 >> 10) << " Ko\n";*/
-
 	return true;  // C'est fini!
 }
 
 #undef main
 
 void cleanup() {
-	//------------------------------------------------------------------
-	//                      On quitte plus ou moins proprement
-	//------------------------------------------------------------------
-
 	debug << "---------------------------------------------------------------\n";
 	debug << "Releasing Blip & Blop\n";
 	debug << "---------------------------------------------------------------\n";
 
 	// Désalloue tout ce qu'il faut (en théorie)
-	//
 
 	save_settings();
 }
@@ -398,15 +263,7 @@ int main(int argc, char** argv) {
 	}
 	int nCmdShow = 0;
 
-	//------------------------------------------------------------------
-	//                      Safe mode ?
-	//------------------------------------------------------------------
-
 	analyseCmdLine(lpCmdLine);
-
-	//------------------------------------------------------------------
-	//                      Initialise l'application
-	//------------------------------------------------------------------
 
 	if (!InitApp(nCmdShow)) {
 		return -1;
@@ -414,9 +271,6 @@ int main(int argc, char** argv) {
 
 	atexit(cleanup);
 
-	//------------------------------------------------------------------
-	//                      Joue la partie
-	//------------------------------------------------------------------
 	debug << "Game.go"
 		  << "\n";
 

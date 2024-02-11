@@ -1,21 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------
- *		   Game.cpp
- *		----------------
- *
- *		Classe Game
- *
- *		La classe représentant une partie
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #define GAME_CPP_FILE
 
 #include <algorithm>
@@ -79,7 +61,6 @@
 #include "half_tone.h"
 
 #ifdef _MSC_VER
-// TODO
 #pragma warning(disable : 4996)
 #endif
 
@@ -91,15 +72,9 @@ using json = nlohmann::json;
 
 Personnage dummyPlayer;
 
-//-----------------------------------------------------------------------------
-
 #define TXT_TIME 828
 
-//-----------------------------------------------------------------------------
-
 Game::Game() : player1(NULL), player2(NULL), next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
-
-//-----------------------------------------------------------------------------
 
 void Game::jouePartie(int nbj, int idj) {
 	if (app_killed) return;
@@ -109,11 +84,9 @@ void Game::jouePartie(int nbj, int idj) {
 	int i;
 
 	// Bidon
-	//
 	mbk_interl.stop();
 
 	// Charge Tout
-	//
 	if (!chargePartie()) {
 		releasePartie();
 		return;
@@ -141,7 +114,6 @@ void Game::jouePartie(int nbj, int idj) {
 	}
 
 	// Joue à tous les niveaux
-	//
 	cowBombOn = false;
 	last_perfect1 = last_perfect2 = false;
 	int nbNiv = 0;
@@ -213,7 +185,6 @@ void Game::jouePartie(int nbj, int idj) {
 	}
 
 	// Désalloue tout
-	//
 	releasePartie();
 
 	pbk_inter.loadGFX("inter.gfx");
@@ -238,8 +209,6 @@ void Game::jouePartie(int nbj, int idj) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 bool Game::joueNiveau(const char* nom_niveau, int type) {
 	int p1_life;  // Si il s'agit d'un niveau bonus on
 	bool p1_bringBack;
@@ -247,7 +216,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	bool p2_bringBack;
 
 	// Little init
-	//
 	joueurs_morts = false;
 	niveau_fini = false;
 	skipped = false;
@@ -283,7 +251,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	// Place les joueurs et initialise qq trucs
-	//
 	if (player1 != NULL && player1->nb_life > 0) {
 		player1->x = xstart1;
 		player1->y = ystart1;
@@ -323,7 +290,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	// Règlages conditionnels
-	//
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
 		nb_ennemis_created = 0;
 
@@ -375,23 +341,9 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	last_perfect1 = last_perfect2 = false;
 
 	// Niveau bonus = temps limite
-	//
 	niveau_bonus = type == LVL_BONUS;
 
 	// Règle l'offset sur les joueurs
-	//
-	/*
-			list_joueurs.start();
-			Sprite * s = (Sprite*) list_joueurs.info();
-			offset = s->x;
-			offset -= (offset%640);
-
-			n_img = offset / 640;
-			xTex = 0;
-
-			next_x = offset % vbuffer_wide;
-			next_x = next_x - (next_x & 1);
-	*/
 	Sprite* s = list_joueurs[0];
 	offset = s->x;
 	offset -= (offset % 640);
@@ -404,16 +356,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	debug << "---------------------------------------------------------------\n";
 	debug << "Now getting into game loop.\n";
 	debug << "---------------------------------------------------------------\n";
-
-	/*DDSCAPS2		ddscaps2dummy;
-	DWORD			vid_mem1;
-	DWORD			vid_mem2;
-
-	ZeroMemory(&ddscaps2dummy, sizeof(ddscaps2dummy));
-	ddscaps2dummy.dwCaps = DDSCAPS_VIDEOMEMORY;
-	graphicInstance->GetAvailableVidMem(&ddscaps2dummy, &vid_mem1, &vid_mem2);
-
-	debug << "Available video memory : " << (vid_mem2 >> 10) << " Ko\n";*/
 
 	SDL_Delay(2000);
 
@@ -431,7 +373,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		r.bottom = 480;
 
 		// backSurface->Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL,
-		// &ddfx);
 		backSurface->FillRect(&r, 0);
 
 		pbk_briefing[0]->PasteTo(backSurface, 0, 0);
@@ -445,7 +386,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	// Update quelques trucs
-	//
 	updateEvents();
 	updateAll();
 
@@ -454,7 +394,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	update_regulator_.Skip();
 
 	// Boucle principale
-	//
 	while (!joueurs_morts && !niveau_fini && !skipped && !app_killed) {
 		gameLoop();
 		updateVictoryAndDefeat();
@@ -478,13 +417,11 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	// Coupe les musiques
-	//
 	current_zik = -1;
 	if (music_on) mbk_niveau.stop();
 
 	// S'il s'agissait d'un niveau bonus on restaure les vies des
 	// joueurs + on ne peut pas perdre
-	//
 	if (type == LVL_BONUS && !skipped && !app_killed) {
 		if (player1 != NULL && p1_bringBack) {
 			if (player1->a_detruire && p1_life > 0) {
@@ -508,7 +445,6 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	// Récapitulatif de fin de niveau
-	//
 	if (niveau_fini && !joueurs_morts && type != LVL_END) {
 		drawAll(false);
 		DDFlip();
@@ -536,13 +472,10 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	DDFlipV();
 
 	// Libére la mémoire
-	//
 	releaseNiveau();
 
 	return niveau_fini;
 }
-
-//-----------------------------------------------------------------------------
 
 bool Game::chargeNiveau(const char* nom_niveau) {
 	auto dirname = asset_path(nom_niveau);
@@ -564,7 +497,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	debug << "---------------------------------------------------------------\n";
 
 	// GFX decors
-	//
 	copyStringToCharArray<20>(data["gfx_decors"], buffer);
 	strcpy(buffer2, "gfx/");
 	strcat(buffer2, buffer);
@@ -577,7 +509,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	debug << "Successfully loaded <" << buffer2 << "> as background\n";
 
 	// GFX niveau (fonds animés & co)
-	//
 	copyStringToCharArray<20>(data["gfx_niveau"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "gfx/");
@@ -592,7 +523,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// GFX ennemis
-	//
 	copyStringToCharArray<20>(data["gfx_ennemis"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "gfx/");
@@ -607,7 +537,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// SBK ennemis
-	//
 	copyStringToCharArray<20>(data["sbk_ennemis"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "sfx/");
@@ -622,7 +551,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// Fichier MBK
-	//
 	copyStringToCharArray<20>(data["fichier_mbk"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "mbk/");
@@ -640,7 +568,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 		strcpy(current_mbk, "");
 
 	// Fichier RPG itself
-	//
 	copyStringToCharArray<20>(data["fichier_rpg"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "rpg/");
@@ -648,13 +575,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 		rpg.attachFile(buffer2);
 
 		// Precache le fichier RPG
-		//
 
 		debug << "Successfully loaded <" << buffer2 << "> as RPG file\n";
 	}
 
 	// GFX rpg
-	//
 	copyStringToCharArray<20>(data["gfx_rpg"], buffer);
 	if (strlen(buffer) != 0) {
 		strcpy(buffer2, "gfx/");
@@ -669,7 +594,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// Taille du niveau
-	//
 	scr_level_size = data["num_decor"].size();
 	level_size = scr_level_size * 640;
 
@@ -684,57 +608,46 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// Numéros des écrans à afficher (comme des tiles)
-	//
 	num_decor = new int[scr_level_size];
 	for (size_t i = 0; i < scr_level_size; i++) {
 		num_decor[i] = data["num_decor"][i];
 	}
 
 	// Coordonnées de départ des joueurs
-	//
 	xstart1 = data["xstart1"];
 	ystart1 = data["ystart1"];
 	xstart2 = data["xstart2"];
 	ystart2 = data["ystart2"];
 
 	// Conditions de victoire
-	//
 	vic_x = data["vic_x"];
 	vic_flag1 = data["vic_flag1"];
 	vic_val1 = data["vic_val1"];
 	vic_flag2 = data["vic_flag2"];
 	vic_val2 = data["vic_val2"];
 
-	//
 	// Plateformes
-	//
 	y_plat = new int32_t*[NB_MAX_PLAT];
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
 		y_plat[i] = new int32_t[level_size];
 		memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
-	//
 	// Murs opaques
-	//
 	murs_opaques = new bool*[60];
 	for (size_t i = 0; i < 60; i++) {
 		murs_opaques[i] = new bool[level_size_8];
 		memcpy(murs_opaques[i], &murs_opaques_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
 	}
 
-	//
 	// Murs sanglants
-	//
 	murs_sanglants = new bool*[60];
 	for (int i = 0; i < 60; i++) {
 		murs_sanglants[i] = new bool[level_size_8];
 		memcpy(murs_sanglants[i], &murs_sanglants_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
 	}
 
-	//
 	// Charge les évenements
-	//
 	size_t nb_events = data["events"].size();
 	for (size_t i = 0; i < nb_events; i++) {
 		auto event = data["events"][i];
@@ -948,8 +861,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::releaseNiveau() {
 	if (num_decor != NULL) {
 		delete[] num_decor;
@@ -1007,24 +918,15 @@ void Game::releaseNiveau() {
 	list_bulles.clear();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateAll() {
-	/*
-			if ( scroll_speed < 1)
-					scroll_speed = 1;
-	*/
-
 	phase = !phase;
 
 	if (phase) slow_phase = !slow_phase;
 
 	// Met à jour les touches
-	//
 	in.update();
 
 	// Ok bonus ?
-	//
 	okBonus = false;
 
 	if (player1 != NULL) {
@@ -1036,13 +938,11 @@ void Game::updateAll() {
 	}
 
 	// Update tout ce qu'il faut
-	//
 	if (!no_scroll1 && !no_scroll2) updateScrolling(false);
 
 	updateEvents();
 
 	// On update le scroll une deuxième fois à cause des Locks
-	//
 	if (!no_scroll1 && !no_scroll2) updateScrolling();
 
 	updateCheat();
@@ -1081,15 +981,12 @@ void Game::updateAll() {
 	manageCollisions();
 
 	// Retire les trucs inutiles des listes
-	//
 	cleanLists();
 
 	updateMenu();
 
 	updateRPG();
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::drawAll(bool flip) {
 	if (!flip) {
@@ -1104,17 +1001,6 @@ void Game::drawAll(bool flip) {
 		fps_current_count = 0;
 		fps_start = SDL_GetTicks();
 	}
-
-	/*if (mustFixGforceBug) {
-			RECT	r;
-
-			r.top	= 10;
-			r.bottom = 150;
-			r.left	= 200;
-			r.right = 440;
-
-			backSurface->Blt(&r, videoA, NULL, DDBLT_WAIT, 0);
-	}*/
 
 	drawScrolling();
 	DrawCollection(list_fonds_statiques);
@@ -1142,7 +1028,6 @@ void Game::drawAll(bool flip) {
 	if (type_meteo == METEO_DEFORME && intensite_meteo != 0) drawDeformation();
 
 	// FIXME: Disable it for now as it works unproperly at least on Linux
-	// drawTremblements();
 	drawHUB();
 	drawTimer();
 	go_.Draw();
@@ -1151,7 +1036,6 @@ void Game::drawAll(bool flip) {
 	drawDebugInfos();
 
 	// Virer la bande qui déconne si besoin est
-	//
 	if (vbuffer_wide == 640) {
 		DDBLTFX ddfx;
 		Rect r;
@@ -1181,8 +1065,6 @@ void Game::drawAll(bool flip) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::gameLoop() {
 	int n_updates = update_regulator_.Step();
 	for (; n_updates > 0; --n_updates) {
@@ -1192,15 +1074,10 @@ void Game::gameLoop() {
 	drawAll();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::releasePartie() { list_joueurs.clear(); }
-
-//-----------------------------------------------------------------------------
 
 bool Game::chargePartie() {
 	// Charge les joueurs
-	//
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading global game files...\n";
 	debug << "---------------------------------------------------------------\n";
@@ -1214,61 +1091,51 @@ bool Game::chargePartie() {
 	debug << "Successfully loaded <blop.gfx>\n";
 
 	// Charge BB
-	//
 	if (!pbk_bb.loadGFX("bb.gfx")) return false;
 
 	debug << "Successfully loaded <bb.gfx>\n";
 
 	// Charge Divers
-	//
 	if (!pbk_misc.loadGFX("misc.gfx")) return false;
 
 	debug << "Successfully loaded <misc.gfx>\n";
 
 	// Charge gueules BB
-	//
 	if (!pbk_rpg_bb.loadGFX("rpg_bb.gfx")) return false;
 
 	debug << "Successfully loaded <rpg_bb.gfx>\n";
 
 	// Fonte score blip
-	//
 	if (!fnt_score_blip.load("scorei.lft")) return false;
 
 	debug << "Successfully loaded <scorei.lft>\n";
 
 	// Fonte score blop
-	//
 	if (!fnt_score_blop.load("scoreo.lft")) return false;
 
 	debug << "Successfully loaded <scoreo.lft>\n";
 
 	// Fonte munitions
-	//
 	if (!fnt_ammo.load("ammo1.lft")) return false;
 
 	debug << "Successfully loaded <ammo1.lft>\n";
 
 	// Fonte munitions utilisées
-	//
 	if (!fnt_ammo_used.load("ammo2.lft")) return false;
 
 	debug << "Successfully loaded <ammo2.lft>\n";
 
 	// Sons globaux
-	//
 	if (!sbk_misc.loadSFX("misc.sfx")) return false;
 
 	debug << "Successfully loaded <misc.sfx>\n";
 
 	// Sons BB
-	//
 	if (!sbk_bb.loadSFX("bb.sfx")) return false;
 
 	debug << "Successfully loaded <bb.sfx>\n";
 
 	// La liste des niveaux
-	//
 	if (!loadList("assets/bb.lst.json")) return false;
 
 	debug << "Successfully loaded <bb.lst>\n";
@@ -1277,16 +1144,12 @@ bool Game::chargePartie() {
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-
 template <class T>
 void Game::DrawCollection(const T& xs) {
 	for (auto& pl : xs) {
 		pl->affiche();
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 template <class T>
 void Game::RemoveDestroyed(T& xs) {
@@ -1314,12 +1177,9 @@ void Game::cleanLists() {
 	RemoveDestroyed(list_plateformes_mobiles);
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateEvents() {
 	// Les évenements de la liste "endormie" sont mis dans la liste "en attente"
 	// quand ils sont sur le point d'être activés
-	//
 	// FIXME: These reverse iterators are WEIRD. Why are the events coming
 	// in reverse order? This feels so backward.
 	for (auto it = list_event_endormis.rbegin(); it != list_event_endormis.rend(); ++it) {
@@ -1334,7 +1194,6 @@ void Game::updateEvents() {
 							  list_event_endormis.end());
 
 	// Si les évenements "en attente" doivent être activés, on les active
-	//
 	for (auto& event : list_event) {
 		if (event->aActiver()) {
 			event->doEvent();
@@ -1344,11 +1203,8 @@ void Game::updateEvents() {
 	list_event.erase(std::remove_if(list_event.begin(), list_event.end(), [](auto& ev) { return !ev.get(); }), list_event.end());
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::manageCollisions() {
 	// Collisions TirsBB / Ennemis
-	//
 	for (Tir* tir : list_tirs_bb) {
 		for (auto& ennemi : list_ennemis) {
 			if (tir->collision(ennemi.get())) {
@@ -1358,7 +1214,6 @@ void Game::manageCollisions() {
 	}
 
 	// Collisions Vaches / Ennemis
-	//
 	for (auto& tir : list_cow) {
 		for (auto& ennemi : list_ennemis) {
 			if (tir->collision(ennemi.get())) {
@@ -1368,7 +1223,6 @@ void Game::manageCollisions() {
 	}
 
 	// Collisions Joueurs / Bonus
-	//
 	for (auto& bonus : list_bonus) {
 		for (Couille* couille : list_joueurs) {
 			if (bonus->collision(couille)) {
@@ -1379,7 +1233,6 @@ void Game::manageCollisions() {
 
 	if (wait_for_victory <= 0) {
 		// Collisions Joueurs / Ennemis
-		//
 		for (auto& ennemi : list_ennemis) {
 			for (Couille* joueur : list_joueurs) {
 				if (ennemi->collision(joueur)) joueur->estTouche(ennemi->degats());
@@ -1387,7 +1240,6 @@ void Game::manageCollisions() {
 		}
 
 		// Collisions Joueurs / tirs ennemis
-		//
 		for (auto& tir : list_tirs_ennemis) {
 			for (Couille* joueur : list_joueurs) {
 				if (tir->collision(joueur)) {
@@ -1397,8 +1249,6 @@ void Game::manageCollisions() {
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::updateLock() {
 	if (!scroll_locked) return;
@@ -1410,15 +1260,11 @@ void Game::updateLock() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateHoldFire() {
 	if (!hold_fire) return;
 
 	if (game_flag[flag_hold_fire] == val_hold_fire) hold_fire = false;
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::drawHUB() {
 	if (player1 != NULL && player1->nb_life > 0) {
@@ -1432,8 +1278,6 @@ void Game::drawHUB() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::drawHUBpv(int x, int y, int pv) {
 	static const int x_pv[] = {3, 0, 13, 44, 31};
 	static const int y_pv[] = {0, 21, 48, 21, 0};
@@ -1443,8 +1287,6 @@ void Game::drawHUBpv(int x, int y, int pv) {
 	for (int i = pv; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::drawDebugInfos() {
 	char buffer[40];
 
@@ -1452,122 +1294,7 @@ void Game::drawDebugInfos() {
 		sprintf(buffer, "FPS = %d", fps_count);
 		fnt_rpg.print(backSurface, 10, 130, buffer);
 	}
-	/*
-			if ( show_lists)
-			{
-					sprintf( buffer, "Joueurs = %d", list_joueurs.taille());
-					fnt_rpg.print( backSurface, 10, 150, buffer);
-
-					sprintf( buffer, "Tirs joueurs = %d",
-		list_tirs_bb.taille()); fnt_rpg.print( backSurface, 10, 170, buffer);
-
-					sprintf( buffer, "Ennemis = %d", list_ennemis.taille());
-					fnt_rpg.print( backSurface, 10, 190, buffer);
-
-					sprintf( buffer, "Tirs ennemis = %d",
-		list_tirs_ennemis.taille()); fnt_rpg.print( backSurface, 10, 210,
-		buffer);
-
-					sprintf( buffer, "Gens ennemis = %d",
-		list_gen_ennemis.taille()); fnt_rpg.print( backSurface, 10, 230, buffer);
-
-					sprintf( buffer, "Nb created = %d", nb_ennemis_created);
-					fnt_rpg.print( backSurface, 10, 250, buffer);
-
-					sprintf( buffer, "Fonds animes = %d",
-		list_fonds_animes.taille()); fnt_rpg.print( backSurface, 10, 270,
-		buffer);
-
-					sprintf( buffer, "Meteo = %d / %d (%d)",
-		list_meteo.taille(), intensite_meteo, type_meteo); fnt_rpg.print(
-		backSurface, 10, 290, buffer);
-
-					sprintf( buffer, "Plat. mobile = %d",
-		list_plateformes_mobiles.taille()); fnt_rpg.print( backSurface, 10, 310,
-		buffer);
-
-					sprintf( buffer, "Giclures = %d", list_giclures.taille());
-					fnt_rpg.print( backSurface, 10, 330, buffer);
-
-					sprintf( buffer, "xTex = %d", xTex);
-					fnt_rpg.print( backSurface, 10, 350, buffer);
-
-					sprintf( buffer, "next_x = %d", next_x);
-					fnt_rpg.print( backSurface, 10, 370, buffer);
-
-					sprintf( buffer, "Offset = %d", offset);
-					fnt_rpg.print( backSurface, 10, 390, buffer);
-
-					sprintf( buffer, "n_img = %d", n_img);
-					fnt_rpg.print( backSurface, 10, 410, buffer);
-
-					sprintf( buffer, "n_cache = %d", n_cache);
-					fnt_rpg.print( backSurface, 10, 430, buffer);
-
-					sprintf( buffer, "glorf = %d", glorf);
-					fnt_rpg.print( backSurface, 10, 450, buffer);
-
-
-					sprintf( buffer, "0-USER0 = %d", game_flag[FLAG_USER0]);
-					fnt_rpg.print( backSurface, 440, 165, buffer);
-
-					sprintf( buffer, "1-USER1 = %d", game_flag[FLAG_USER1]);
-					fnt_rpg.print( backSurface, 440, 185, buffer);
-
-					sprintf( buffer, "2-USER2 = %d", game_flag[FLAG_USER2]);
-					fnt_rpg.print( backSurface, 440, 205, buffer);
-
-					sprintf( buffer, "3-USER3 = %d", game_flag[FLAG_USER3]);
-					fnt_rpg.print( backSurface, 440, 225, buffer);
-
-					sprintf( buffer, "4-RESERVED = %d", game_flag[3]);
-					fnt_rpg.print( backSurface, 440, 245, buffer);
-
-					sprintf( buffer, "5-BONUS = %d", game_flag[FLAG_BONUS]);
-					fnt_rpg.print( backSurface, 440, 265, buffer);
-
-					sprintf( buffer, "6-TIMER = %d", game_flag[FLAG_TIMER]);
-					fnt_rpg.print( backSurface, 440, 285, buffer);
-
-					sprintf( buffer, "7-GEN_OFF = %d", game_flag[FLAG_GEN_OFF]);
-					fnt_rpg.print( backSurface, 440, 305, buffer);
-
-					sprintf( buffer, "8-NB_KILL = %d", game_flag[FLAG_NB_KILL]);
-					fnt_rpg.print( backSurface, 440, 325, buffer);
-
-					sprintf( buffer, "9-NB_ENN = %d", game_flag[FLAG_NB_ENN]);
-					fnt_rpg.print( backSurface, 440, 345, buffer);
-
-					sprintf( buffer, "10-NB_GEN = %d", game_flag[FLAG_NB_GEN]);
-					fnt_rpg.print( backSurface, 440, 365, buffer);
-
-					sprintf( buffer, "Channels = %d",
-		FSOUND_GetChannelsPlaying()); fnt_rpg.print( backSurface, 440, 405,
-		buffer);
-
-					sprintf( buffer, "Gore = %d", list_gore.taille());
-					fnt_rpg.print( backSurface, 440, 425, buffer);
-
-					sprintf( buffer, "Fonds stat. = %d",
-		list_fonds_statiques.taille()); fnt_rpg.print( backSurface, 440, 445,
-		buffer);
-
-					sprintf( buffer, "Impacts = %d", list_impacts.taille());
-					fnt_rpg.print( backSurface, 440, 465, buffer);
-
-					RECT	r;
-
-					r.top	= 10;
-					r.bottom= 150;
-					r.left	= 200;
-					r.right = 440;
-
-					backSurface->Blt( &r, videoA, NULL, DDBLT_WAIT, 0);
-			}
-	*/
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::updateTeteTurc() {
 	static int ntete_turc = 0;
@@ -1583,8 +1310,6 @@ void Game::updateTeteTurc() {
 	ntete_turc %= list_joueurs.size();
 	tete_turc = list_joueurs[ntete_turc];
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::updateRPG() {
 	if (rpg_to_play == -1) return;
@@ -1609,11 +1334,8 @@ void Game::updateRPG() {
 	update_regulator_.Skip();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateVictoryAndDefeat() {
 	// Defaite ?
-	//
 	if (list_joueurs.empty()) {
 		wait_for_death += 1;
 
@@ -1623,7 +1345,6 @@ void Game::updateVictoryAndDefeat() {
 	}
 
 	// Victoire ?
-	//
 	if (offset >= vic_x && game_flag[vic_flag1] == vic_val1 && game_flag[vic_flag2] == vic_val2) {
 		hold_fire = true;
 		wait_for_victory += 1;
@@ -1636,15 +1357,12 @@ void Game::updateVictoryAndDefeat() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateFlags() {
 	game_flag[FLAG_NB_GEN] = (int)list_gen_ennemis.size();
 	game_flag[FLAG_NB_ENN] = (int)list_ennemis.size();
 	makeb_current_mode = game_flag[FLAG_BONUS];
 
 	// Le TIMER
-	//
 	if (game_flag[FLAG_TIMER] > 0 && wait_for_victory == -1) {
 		etape_timer += 1;
 		etape_timer %= 80;
@@ -1657,8 +1375,6 @@ void Game::updateFlags() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::drawTimer() {
 	if (game_flag[FLAG_TIMER] > 0) {
 		char buffer[10];
@@ -1669,11 +1385,8 @@ void Game::drawTimer() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateMenu() {
 	// Appelle le menu s'il y a lieu de le faire
-	//
 	if (in.scanKey(DIK_ESCAPE)) {
 		MenuGame menu;
 		int r;
@@ -1685,7 +1398,6 @@ void Game::updateMenu() {
 
 		menu.Draw(backSurface);
 		DDFlipV();
-		// primSurface->Flip(NULL, DDFLIP_WAIT );
 
 		in.waitClean();
 
@@ -1694,7 +1406,6 @@ void Game::updateMenu() {
 			menu.Draw(backSurface);
 
 			DDFlipV();
-			// primSurface->Flip(NULL, DDFLIP_WAIT );
 
 #ifdef __EMSCRIPTEN__
 			emscripten_sleep(0);
@@ -1711,8 +1422,6 @@ void Game::updateMenu() {
 		update_regulator_.Skip();
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::updateCheat() {
 	if (wait_cheat < 20) wait_cheat += 1;
@@ -1765,8 +1474,6 @@ void Game::updateCheat() {
 		wait_cheat = 0;
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::showPE(bool bonus, bool fuckOff) {
 	Fonte* fnt_p1 = nullptr;
@@ -1882,10 +1589,8 @@ void Game::showPE(bool bonus, bool fuckOff) {
 
 		if (delai == 0) {
 			// Calculs P1
-			//
 			if (calc_p1 == 0) {
 				// Perfect
-				//
 				if (c_perfect_p1 >= perfect_p1)
 					calc_p1 = 1;
 				else {
@@ -1895,7 +1600,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 				}
 			} else if (calc_p1 == 1) {
 				// Bonus objectif atteint
-				//
 				if (c_obj_p1 >= obj_p1)
 					calc_p1 = 2;
 				else {
@@ -1906,7 +1610,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 			}
 			if (calc_p1 == 2) {
 				// Bonus % d'ennemis tués
-				//
 				if (c_killed_p1 >= killed_p1)
 					calc_p1 = 3;  // Passe en TIMER
 				else {
@@ -1916,7 +1619,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 				}
 			} else if (calc_p1 == 3) {
 				// Bonus temps restant
-				//
 				if (c_time_p1 >= game_flag[FLAG_TIMER])
 					calc_p1 = 4;  // Fini le calcul
 				else {
@@ -1927,10 +1629,8 @@ void Game::showPE(bool bonus, bool fuckOff) {
 			}
 
 			// Calculs p2
-			//
 			if (calc_p2 == 0) {
 				// Perfect
-				//
 				if (c_perfect_p2 >= perfect_p2)
 					calc_p2 = 1;
 				else {
@@ -1940,7 +1640,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 				}
 			} else if (calc_p2 == 1) {
 				// Bonus objectif atteint
-				//
 				if (c_obj_p2 >= obj_p2)
 					calc_p2 = 2;
 				else {
@@ -1951,7 +1650,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 			}
 			if (calc_p2 == 2) {
 				// Bonus % d'ennemis tués
-				//
 				if (c_killed_p2 >= killed_p2)
 					calc_p2 = 3;  // Passe en TIMER
 				else {
@@ -1961,7 +1659,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 				}
 			} else if (calc_p2 == 3) {
 				// Bonus temps restant
-				//
 				if (c_time_p2 >= game_flag[FLAG_TIMER])
 					calc_p2 = 4;  // Fini le calcul
 				else {
@@ -1973,7 +1670,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 		}
 
 		// Affichage
-		//
 		backSurface->BltFast(0, 0, systemSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
 
 		if (fuckOff) {
@@ -1983,14 +1679,12 @@ void Game::showPE(bool bonus, bool fuckOff) {
 		}
 
 		// Affichage	P1
-		//
 
 		if (showp1) {
 			assert(fnt_p1 != nullptr);
 
 			if (life_up_p1 > 0) {
 				fnt_rpg.printC(backSurface, xbasep1 + 105, 270, "LIFE UP");
-				//				life_up_p1--;
 			}
 
 			if (perfect_p1 > 0) {
@@ -2039,13 +1733,11 @@ void Game::showPE(bool bonus, bool fuckOff) {
 		}
 
 		// Affichage	P2
-		//
 		if (showp2) {
 			assert(fnt_p2 != nullptr);
 
 			if (life_up_p2 > 0) {
 				fnt_rpg.printC(backSurface, xbasep2 + 105, 270, "LIFE UP");
-				//				life_up_p2--;
 			}
 
 			if (perfect_p2 > 0) {
@@ -2111,8 +1803,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 	mbk_inter.stop();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateMeteo() {
 	const static int speed_gouttes[] = {3, 5, 7, 8, 9, 10};
 
@@ -2122,8 +1812,6 @@ void Game::updateMeteo() {
 
 	while (list_meteo.size() < (size_t)intensite_meteo) {
 		if (type_meteo == METEO_NEIGE) {
-			//			MeteoNeige * flocon = new MeteoNeige();
-
 			next_flocon = (next_flocon + 1) % NB_FLOCONS;
 			MeteoNeige* flocon = &neige[next_flocon];
 
@@ -2146,8 +1834,6 @@ void Game::updateMeteo() {
 
 			list_meteo.emplace_back(flocon);
 		} else if (type_meteo == METEO_PLUIE) {
-			//			MeteoPluie * goutte = new MeteoPluie();
-
 			next_goutte = (next_goutte + 1) % NB_GOUTTES;
 			MeteoPluie* goutte = &pluie[next_goutte];
 
@@ -2166,16 +1852,12 @@ void Game::updateMeteo() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 template <class T>
 void Game::UpdateCollection(const T& xs) {
 	for (auto& pl : xs) {
 		pl->update();
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::updateFlecheGo() {
 	go_.Update();
@@ -2185,14 +1867,10 @@ void Game::updateFlecheGo() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateDeformation() {
 	phi_deform += 2;
 	phi_deform %= 360;
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::drawDeformation() {
 	DDBLTFX ddfx;
@@ -2251,11 +1929,8 @@ void Game::drawDeformation() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateBulles() {
 	// Crée de nouvelles bulles
-	//
 	for (Couille* pl : list_joueurs) {
 		creeBulle(pl);
 	}
@@ -2268,13 +1943,10 @@ void Game::updateBulles() {
 	}
 
 	// Update les bulles déjà crées
-	//
 	for (auto& pl : list_bulles) {
 		pl->update();
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::creeBulle(Sprite* s) {
 	s->wait_bulle += rand() % 10;
@@ -2294,8 +1966,6 @@ void Game::creeBulle(Sprite* s) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::updateTremblements() {
 	if (amplitude_tremblement == 0) return;
 
@@ -2313,8 +1983,6 @@ void Game::updateTremblements() {
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::drawTremblements() {
 	if (amplitude_tremblement == 0 || dy_tremblement == 0) return;
@@ -2355,8 +2023,6 @@ void Game::drawTremblements() {
 	backSurface->Blt(&r2, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddfx);
 }
 
-//-----------------------------------------------------------------------------
-
 bool Game::loadList(const char* fic) {
 	std::ifstream input(fic);
 	if (!input.good()) {
@@ -2386,8 +2052,6 @@ bool Game::loadList(const char* fic) {
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::drawLoading() {
 	Rect r;
 
@@ -2396,21 +2060,14 @@ void Game::drawLoading() {
 	r.top = 195;
 	r.bottom = 245;
 
-	//	LGXpaker.halfTone( backSurface, &r);
-
-	//	fnt_menu.printC( backSurface, 320, 205, "LOADING");
 	fnt_cool.printC(backSurface, 320, 205, "LOADING");
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::getHiscore() {
 	if (player1 != NULL && hi_scores.isGood(player1->getScore())) getName(player1, 1);
 
 	if (player2 != NULL && hi_scores.isGood(player2->getScore())) getName(player2, 2);
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::getName(Joueur* joueur, int ijoueur) {
 	char buff[30];
@@ -2463,7 +2120,6 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320 - x, 160, buff);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260, name);
-		// primSurface->Flip( NULL, 0);
 		DDFlipV();
 
 #ifdef __EMSCRIPTEN__
@@ -2491,8 +2147,6 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 	save_settings();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::showGameOver() {
 	int x = 400;
 
@@ -2500,38 +2154,12 @@ void Game::showGameOver() {
 
 	while (!app_killed && x > 20 && !in.anyKeyPressed()) {
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
-		/*
-						fnt_menu.printR( backSurface, 320-x, 220, "GAME");
-						fnt_menu.print( backSurface, 320+x, 220, "OVER");
-
-						x -= 1;
-		*/
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
 #ifdef __EMSCRIPTEN__
 		emscripten_sleep(0);
 #endif
 	}
-	/*
-			if ( !app_killed)
-			{
-					in.waitClean();
-					in.waitKey();
-			}
-
-			while ( !app_killed && x < 400)
-			{
-
-					pbk_inter[0]->PasteTo( backSurface, 0, 0);
-
-					fnt_menu.printR( backSurface, 320-x, 220, "GAME");
-					fnt_menu.print( backSurface, 320+x, 220, "OVER");
-
-					x += 20;
-
-					DDFlipV();
-			}
-	*/
 	mbk_inter.stop();
 }
 
@@ -2584,15 +2212,12 @@ void Game::showHighScores() {
 	in.waitClean();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::go() {
 	TitleScreen menu;
 	int r;
 	static int zob = 0;
 
 	// Clear l'écran en noir + LOADING
-	//
 	{
 		DDBLTFX ddfx;
 
@@ -2650,7 +2275,6 @@ void Game::go() {
 				}
 
 				zob = (zob + 1) % 8;
-				//				diff_start = GetTickCount();
 
 				menu.stop();
 				menu.start();
@@ -2715,8 +2339,6 @@ void Game::go() {
 	mbk_interl.stop();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::showBriefing(char* fn) {
 	pbk_briefing.loadGFX(fn);
 
@@ -2741,8 +2363,6 @@ void Game::showBriefing(char* fn) {
 	DDFlip();
 }
 
-//-----------------------------------------------------------------------------
-
 void Game::showMainScreen() {
 	Chrono t;
 
@@ -2757,8 +2377,6 @@ void Game::showMainScreen() {
 #endif
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Game::showCredits(bool theEnd) {
 	static const int NB_PAGE = 6;
@@ -2992,5 +2610,3 @@ void Game::showCredits(bool theEnd) {
 #endif
 	}
 }
-
-//-----------------------------------------------------------------------------

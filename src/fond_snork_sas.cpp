@@ -1,28 +1,10 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    FondSnorkSas.cpp
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 18 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "globals.h"
 #include "fond_snork_sas.h"
 #include "enemy.h"
 
 int FondSnorkSas1::etat = 0;  // 0 pour etat du sas 1 ouvert , 1 pour fermé
 
-FondSnorkSas1::FondSnorkSas1() : nb_joueur(0) {
-	etape = 0;
-	// pic = pbk_niveau[53];
-}
+FondSnorkSas1::FondSnorkSas1() : nb_joueur(0) { etape = 0; }
 
 void FondSnorkSas1::update() {
 	if (!etat) {  // si le sas n'est pas fermé..
@@ -61,8 +43,6 @@ void FondSnorkSas1::update() {
 }
 
 void FondSnorkSas1::affiche() {
-	// Sprite::affiche();
-
 	SDL::Surface* surf;
 	int xs;
 	int ys;
@@ -111,8 +91,6 @@ void FondSnorkSas2::update() {
 }
 
 void FondSnorkSas2::affiche() {
-	// Sprite::affiche();
-
 	SDL::Surface* surf;
 	int xs;
 	int ys;

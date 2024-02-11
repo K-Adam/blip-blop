@@ -1,22 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------------------------
- *		    TirMarioFireballVertical.cpp
- *		----------------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 14 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "tir_mario_fireball_vertical.h"
 
 TirMarioFireballVertical::TirMarioFireballVertical(int vx, int xc) : x_cible(xc), dx(vx) { dy = -12; }
@@ -74,10 +55,5 @@ void TirMarioFireballVertical::fireball_tombe() {
 
 	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_FIREBALL;
 
-	// int ny = plat( x, y + dy);
-
-	// if ( ny != 0 && dy > 0 && plat( x, y) == 0)
-	// y = ny;
-	// else
 	y += dy;
 }

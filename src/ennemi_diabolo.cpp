@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------------
- *		  EnnemiDiabolo.cpp
- *		----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.4 - 27 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_diabolo.h"
 #include "ben_debug.h"
 #include "tir_tornade.h"
@@ -59,8 +44,6 @@ void EnnemiDiabolo::update() {
 			}
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiDiabolo::onAvance() {
@@ -110,7 +93,6 @@ void EnnemiDiabolo::onAvance() {
 				attack_type = 2;
 				dx = -1;
 				dy = -8;
-				// debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
 				onCoupdegenou();
 				return;
 			} else if ((dir == SENS_DROITE) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
@@ -122,7 +104,6 @@ void EnnemiDiabolo::onAvance() {
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
 				dy = (int)(-8 + dx * 0.25);
-				// debug << "dx: "<<dx<<"  dy: "<<dy<<"\n";
 				onCoupdegenou();
 				return;
 			} else if ((dir == SENS_GAUCHE) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
@@ -158,20 +139,8 @@ void EnnemiDiabolo::onAvance() {
 
 	if (dir == SENS_GAUCHE) {
 		pic = pbk_ennemis[1];
-		/*marche(-SNORKY_BASE_SPEED);
-
-		pic = pbk_ennemis[anime(anim_snorky_base_marche_gauche,8,4)];
-
-		if ( mur_opaque( x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin))
-			dir = SENS_DROITE;*/
 	} else {
 		pic = pbk_ennemis[0];
-		/*marche(SNORKY_BASE_SPEED);
-
-		pic = pbk_ennemis[anime(anim_snorky_base_marche_droite,8,4)];
-
-		if ( mur_opaque( x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640))
-			dir = SENS_GAUCHE;*/
 	}
 
 	colFromPic();
@@ -185,105 +154,9 @@ void EnnemiDiabolo::onTombe() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onMeure() {
-	/*tombe();
+void EnnemiDiabolo::onMeure() {}
 
-	ss_etape += 1;
-	ss_etape %= 5;
-
-	if ( ss_etape == 0)
-		etape += 1;
-
-	if (etape==4 && ss_etape==1)
-	{
-		Sprite * s = new MorceauSnorkyBaseTeteEntiere();
-
-		s->dir = dir;
-		s->y = y-22;
-		s->x = x;
-
-		list_giclures.ajoute( (void*) s);
-
-		dy=0;
-	}
-	if ( etape == 14)
-	{
-		if ( plat( x, y) != 0 && plat( x-80, y) != 0 && plat( x+80, y) != 0)
-			grave( x, y, pic);
-
-		a_detruire = true;
-
-	}
-	else
-	{
-		if ( dir == SENS_GAUCHE)
-		{
-			marche(-SNORKY_BASE_SPEED);
-			pic = pbk_ennemis[71+etape];
-		}
-		else
-		{
-			marche(SNORKY_BASE_SPEED);
-			pic = pbk_ennemis[38+etape];
-		}
-	}*/
-}
-
-void EnnemiDiabolo::onAttack() {
-	/*	ss_etape ++;
-		ss_etape %= 6;
-		if(ss_etape == 0)
-		{
-			etape ++;
-		}
-
-		if (etape == 12)
-		{
-			etape = 0;
-			ss_etape = 0;
-			etat = ETAT_AVANCE;
-			onAvance();
-			return;
-		}
-
-		if (etape == 10 && ss_etape == 0)
-		{
-			if (dir == SENS_DROITE)
-			{
-
-				TirSnorkybase *	tir = new TirSnorkybase(1);
-
-				tir->setDir( dir);
-				tir->x = x+35;
-				tir->y = y-42;
-
-				list_tirs_ennemis.ajoute( (void*) tir);
-
-			}
-			else
-			{
-				TirSnorkybase *	tir = new TirSnorkybase(-1);
-
-				tir->setDir( dir);
-				tir->x = x-35;
-				tir->y = y-42;
-
-				list_tirs_ennemis.ajoute( (void*) tir);
-			}
-		}
-
-		if (etape<11)
-		{
-			if (dir == SENS_DROITE)
-			{
-				pic = pbk_ennemis[10+etape];
-			}
-			else
-			{
-				pic = pbk_ennemis[21+etape];
-			}
-		}*/
-}
+void EnnemiDiabolo::onAttack() {}
 
 void EnnemiDiabolo::onCoupdelatte() {
 	if (etape == 15) {
@@ -379,7 +252,6 @@ void EnnemiDiabolo::onTornade() {
 }
 
 void EnnemiDiabolo::onCoupdegenou() {
-	// tombe();
 	if (dx == 0) {
 		if (dy < 0) {
 			dy = 0;
@@ -451,43 +323,11 @@ void EnnemiDiabolo::onCoupdegenou() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onCarbonise() {
-	/*ss_etape ++;
-	ss_etape %= 6;
-
-	if ( ss_etape == 0)
-		etape ++;
-
-	if ( etape == 9)
-	{
-		a_detruire = true;
-	}
-	else
-	{
-		if ( dir == SENS_GAUCHE)
-			pic = pbk_ennemis[105+etape];
-		else
-			pic = pbk_ennemis[96+etape];
-	}*/
-}
+void EnnemiDiabolo::onCarbonise() {}
 
 void EnnemiDiabolo::colFromPic() {
 	Sprite::colFromPic();
 
-	/*if ( etat == ETAT_SALETO)
-	{
-		x1 += 15;
-		x2 -= 15;
-		y1 += 15;
-		y2 -= 15;
-	}
-	else
-	{
-		x1 += 20;
-		x2 -= 20;
-		//y1 += 10;
-		//y2 -= 10;
-	}*/
 	if (etat == ETAT_AVANCE) {
 		if (dir == SENS_DROITE) {
 			x2 -= 45;

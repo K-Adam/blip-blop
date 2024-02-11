@@ -1,4 +1,3 @@
-
 #include "ennemi_mariotapette.h"
 #include "ennemi_luigi.h"
 #include "gore_giclure.h"
@@ -14,7 +13,6 @@ const int anim_transformation_gauche[] = {78, 166};
 EnnemiMariotapette::EnnemiMariotapette()
 	: speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), aide_luigi(0), nabo(0), nabo_delay(0), encaissement(0) {
 	pv = 10000;
-	// pv = 1;
 	xmin = 1280;
 	pic = pbk_ennemis[78];
 }
@@ -46,13 +44,10 @@ void EnnemiMariotapette::update() {
 			onCharge();
 			break;
 	}
-
-	// updateADetruire();
 }
 
 void EnnemiMariotapette::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -94,7 +89,6 @@ void EnnemiMariotapette::onAvance() {
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * -9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				// debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 				etat = ETAT_SAUTE;
 				lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 				onSaute();
@@ -106,7 +100,6 @@ void EnnemiMariotapette::onAvance() {
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * 9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				// debug<<"dy: "<<dy<<" speed: "<<speed<<" dif_x: "<<dif_x<<" dif_y: "<<dif_y<<"\n";
 				etat = ETAT_SAUTE;
 				lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
 				onSaute();
@@ -155,69 +148,13 @@ void EnnemiMariotapette::onAvance() {
 		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL < offset + 640) {
 			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
 		}
-		/*else
-		{
-			encaissement = 0;
-		}*/
 	} else if (encaissement <= -MULTIPLICATEUR_RECUL_SOL) {
 		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL > xmin) {
 			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
 		}
-		/*else
-		{
-			encaissement = 0;
-		}*/
 	}
-	/*	if (dir == SENS_DROITE)
-		{
-			if (encaissement/100 <= speed)
-			{
-				marche(- encaissement/100);
-			}
-			else
-			{
-				if (x - encaissement/100 > xmin)
-				{
-					marche(- encaissement/100);
-				}
-				else
-				{
-					encaissement = 0;
-				}
-			}
-		}
-		else
-		{
-			if (encaissement/100 <= speed)
-			{
-				marche(encaissement/100);
-			}
-			else
-			{
-				if (x + encaissement/100 < offset + 640)
-				{
-					marche(encaissement/100);
-				}
-				else
-				{
-					encaissement = 0;
-				}
-			}
-		}
-	}*/
 
-	/*if (encaissement > MARIO_ENDURANCE)
-	{
-		encaissement -= MARIO_ENDURANCE;
-	}
-	else if (encaissement < -MARIO_ENDURANCE)
-	{
-		encaissement += MARIO_ENDURANCE;
-	}
-	else
-	{*/
 	encaissement = 0;
-	//}
 
 	if (speed < MARIO_SPEED) {
 		etape_speed++;
@@ -266,16 +203,6 @@ void EnnemiMariotapette::onMeure() {
 				pic = pbk_ennemis[anime(anim_nabo_gauche, 2, 16 - (3 * speed))];
 			}
 		}
-
-		/*if (speed<MARIO_SPEED)
-		{
-			etape_speed++;
-			if (etape_speed>=20)
-			{
-				etape_speed=0;
-				speed++;
-			}
-		}*/
 	}
 
 	if ((!aide_luigi) && (nabo)) {
@@ -377,7 +304,6 @@ void EnnemiMariotapette::onSaute() {
 	}
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -404,7 +330,6 @@ void EnnemiMariotapette::onSaute() {
 
 			if (encaissement < 0) {
 				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-					// speed -= encaissement /MULTIPLICATEUR_VITESSE_AERIEN;
 					if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * MARIO_SPEED) {
 						speed = -2 * MARIO_SPEED;
 					} else {
@@ -413,14 +338,6 @@ void EnnemiMariotapette::onSaute() {
 				} else {
 					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
 				}
-				/*if (speed > - encaissement / MULTIPLICATEUR_VITESSE_AERIEN)
-				{
-					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
-				}
-				else
-				{
-					speed = 0;
-				}*/
 
 			} else {
 				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 2 * MARIO_SPEED) {
@@ -474,24 +391,7 @@ void EnnemiMariotapette::onSaute() {
 	colFromPic();
 }
 
-void EnnemiMariotapette::onCarbonise() {
-	a_detruire = true;
-	/*ss_etape += 1;
-	ss_etape %= 5;
-
-	if ( ss_etape == 0)
-		etape += 1;
-
-	if ( etape >= 14)
-		a_detruire = true;
-	else
-	{
-		if ( dir == SENS_DROITE)
-			pic = pbk_ennemis[100+etape];
-		else
-			pic = pbk_ennemis[114+etape];
-	}*/
-}
+void EnnemiMariotapette::onCarbonise() { a_detruire = true; }
 
 void EnnemiMariotapette::tombe_mario() {
 	lat_grav += 1;

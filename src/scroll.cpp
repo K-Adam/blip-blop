@@ -1,26 +1,3 @@
-/******************************************************************
- *
- *
- *		------------------
- *		    Scroll.cpp
- *		------------------
- *
- *
- *		Fonctions pour le scroll. Gère le scrolling
- *		avec le super buffer qui marche bizarrement sur cette
- *		merde de GeForce.
- *
- *
- *		Prosper / LOADED -   V 0.1 - 2 Aout 2000
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "graphics.h"
 #include "sprite.h"
 #include "globals.h"
@@ -36,13 +13,10 @@ int xTex = 0;
 int n_img = 0;
 int n_cache = 0;
 
-//-----------------------------------------------------------------------------
-
 void drawScrolling() {
 	Rect r;
 
 	// Pour éviter les mauvaises surprises
-	//
 	if (offset < 0)
 		offset = 0;
 	else if (offset > (int)level_size - 640)
@@ -57,13 +31,6 @@ void drawScrolling() {
 
 	while (n_img < ((offset + vbuffer_wide - 2) / 640) ||
 		   (n_img < (int)scr_level_size && (next_x != ((x3 + 1) % vbuffer_wide)) && (next_x != ((x3) % vbuffer_wide)))) {
-		/*static int counter = 0;
-		char buf[128];
-		sprintf(buf, "test/%d.bmp", counter);
-		if (counter >200 && counter<250)
-			SDL_SaveBMP(videoA->Get(), buf);
-		counter++;*/
-
 		r.left = xTex;
 		r.right = xTex + 2;
 
@@ -101,8 +68,6 @@ void drawScrolling() {
 		backSurface->BltFast(vbuffer_wide - x1, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void updateScrolling(bool forceOk) {
 	if (scroll_locked) {

@@ -1,4 +1,3 @@
-
 #include "ennemi_smurfette.h"
 #include "tir_bisou_mortel.h"
 
@@ -44,7 +43,6 @@ void EnnemiSmurfette::onAvance() {
 	tombe();
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y) || (plat(x - SPEED, y) == 0 && plat(x - SPEED, y + 5) == 0))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y) || (plat(x + SPEED, y) == 0 && plat(x + SPEED, y + 5) == 0))

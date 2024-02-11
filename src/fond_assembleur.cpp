@@ -1,35 +1,14 @@
-/******************************************************************
- *
- *
- *		---------------------------
- *		    FondAssembleur.cpp
- *		---------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 12 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "globals.h"
 #include "fond_assembleur.h"
 
-FondAssembleur::FondAssembleur() {
-	// pic = pbk_niveau[53];
-}
+FondAssembleur::FondAssembleur() {}
 
 void FondAssembleur::update() {
 	etape += 1;
 	etape %= 432;
-
-	// colFromPic();
 }
 
 void FondAssembleur::affiche() {
-	// Sprite::affiche();
-
 	SDL::Surface* surf;
 	int xs;
 	int ys;

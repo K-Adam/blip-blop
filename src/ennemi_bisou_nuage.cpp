@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_nuage.h"
 #include "tir_nuage.h"
 
@@ -43,10 +42,8 @@ void EnnemiBisouNuage::onMeureFin() {
 		if (ss_etape == 0) etape += 1;
 
 		if (dir == SENS_DROITE) {
-			//			x += 2;
 			pic = pbk_ennemis[236 + etape];
 		} else {
-			//			x -= 2;
 			pic = pbk_ennemis[243 + etape];
 		}
 	} else {
@@ -74,7 +71,6 @@ void EnnemiBisouNuage::onMeureTombe() {
 	if (plat(x, y) != 0) {
 		etape = ss_etape = 0;
 		etat = ETAT_MEURE_4;
-		//		sbk_niveau.play( 25);
 	}
 }
 

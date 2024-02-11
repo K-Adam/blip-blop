@@ -15,5 +15,4 @@ class EnnemiGrandSmurf : public Ennemi {
 	virtual void updateChoice();
 	virtual void onAvance();
 	virtual void onAtata();
-	//	virtual void onMeure();
 };

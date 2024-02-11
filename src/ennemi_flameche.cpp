@@ -1,4 +1,3 @@
-
 #include "ennemi_flameche.h"
 
 EnnemiFlameche::EnnemiFlameche() { pv = 100; }
@@ -31,7 +30,6 @@ void EnnemiFlameche::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - 1 < xmin || mur_opaque(x - 1, y))
 		dir = SENS_DROITE;
 	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))

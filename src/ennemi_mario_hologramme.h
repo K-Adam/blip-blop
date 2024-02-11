@@ -1,28 +1,10 @@
 #pragma once
 
 #include "enemy.h"
-/******************************************************************
- *
- *
- *		------------------------------
- *		    EnnemiMarioHologramme.h
- *		------------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.2 - 27 Decembre 2000
- *
- *
- *
- ******************************************************************/
 
 #define MARIO_SPEED 5
 #define LATENCE_MARIO_GRAVITE 12
 #define NB_CLIGNO 4
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiMarioHologramme
-//----------------------------------------------------------------------------
 
 class EnnemiMarioHologramme : public Ennemi {
    private:

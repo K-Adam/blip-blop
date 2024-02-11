@@ -1,4 +1,3 @@
-
 #include "tir_coeur_bisou.h"
 #include "ben_maths.h"
 

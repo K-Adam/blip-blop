@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------------
- *		  EnnemiSnorkyMage.cpp
- *		----------------------
- *
- *		(giclures faites...)
- *
- *		Mephisto / LOADED -   V 0.3 - 28 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_snorky_mage.h"
 #include "tir_snorky_mage.h"
 
@@ -150,7 +135,6 @@ void EnnemiSnorkyMage::onMeure() {
 		if (plat(x, y) != 0) grave(x, y, pic);
 
 		a_detruire = true;
-		//		sbk_niveau.play( 11);
 	} else {
 		pic = pbk_ennemis[266 + etape];
 	}

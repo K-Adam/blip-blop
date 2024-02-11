@@ -1,21 +1,3 @@
-/******************************************************************
- *
- *
- *              ------------------
- *                PictureBank.h
- *              ------------------
- *
- *              Classe PictureBank
- *
- *              Représente un tableau/une banque d'images.
- *
- *
- *              Prosper / LOADED -   V 0.2 - 13 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include <memory>

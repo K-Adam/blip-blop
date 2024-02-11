@@ -1,44 +1,9 @@
-/******************************************************************
- *
- *
- *		----------------
- *		  Picture.h
- *		----------------
- *
- *		Classe Picture
- *
- *		La classe Picture représente les images
- *		utilisées par les sprites. Elles possèdent
- *		un point chaud pour permettre de mieux les
- *		gérer et permettent d'afficher des surfaces
- *		en bordure d'écran.
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
-// #include <ddraw.h>
 #include "dd_gfx.h"
-
-//-----------------------------------------------------------------------------
-//		Constantes pour la gestion de l'affichage
-//-----------------------------------------------------------------------------
 
 #define XPIC_MAX 640  // Représente la largeur de la Primary Surface
 #define YPIC_MAX 480  // Représente la hauteur de la Primary Surface
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe Picture
-//-----------------------------------------------------------------------------
 
 class Picture {
    private:
@@ -74,10 +39,6 @@ class Picture {
 
 	~Picture();
 };
-
-//-----------------------------------------------------------------------------
-//		Fonctions permettant de bien gérer les PBK
-//-----------------------------------------------------------------------------
 
 int loadPBK(char *fic, Picture *&p, int rgb);
 void closePBK(Picture *&p, int t);

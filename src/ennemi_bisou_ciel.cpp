@@ -1,4 +1,3 @@
-
 #include "ennemi_bisou_ciel.h"
 #include "gore_pieds_bisou_ciel.h"
 #include "tir_arc_ciel.h"
@@ -135,7 +134,6 @@ void EnnemiBisouCiel::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -150,7 +148,6 @@ void EnnemiBisouCiel::onAvance() {
 	}
 
 	// Regarde s'il peut tirer
-	//
 	if (wait_for_pisser == 0 && etape == 4) {		 // L'etape 4 est plus jolie
 		if (tete_turc != NULL && plat(x, y) != 0) {	 // ne tire pas en tombant
 			int ddx = x - tete_turc->x;

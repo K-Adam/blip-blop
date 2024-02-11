@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiPrincesse.cpp
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 31 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_princesse.h"
 #include "ennemi_princesseguard.h"
 #include "texte_cool.h"
@@ -47,33 +32,8 @@ void EnnemiPrincesse::update() {
 void EnnemiPrincesse::onAvance() {
 	// if (game_flag[0])
 	//{
-	//  Si plus de plateformes on passe dans l'etat TOMBE
-	//
-	/*if ( plat( x, y) == 0)
-	{
-		etat = ETAT_TOMBE;
-		dy = 0;
-		lat_grav = 0;
-		onSaute();
-	}*/
 
 	// pour marcher
-
-	/*if (x + PRINCESSE_SPEED >offset+640)
-	{
-		x -=50;
-	}*/
-	/*
-	if ( x - speed < xmin || mur_opaque( x-speed, y))
-	{
-		dir = SENS_DROITE;
-		speed=1;
-	}
-	else if ( x + speed > offset + 640 || mur_opaque( x+speed, y))
-	{
-		dir = SENS_GAUCHE;
-		speed=1;
-	}*/
 
 	if (game_flag[1]) {
 		if (x > offset + 820) {
@@ -84,11 +44,6 @@ void EnnemiPrincesse::onAvance() {
 			a_detruire = true;
 		}
 		if (!aide) {
-			/*
-							TexteCool * txt = new TexteCool();
-							txt->ntxt = 518;
-							list_txt_cool.ajoute( (void*) txt);
-			*/
 			aide = true;
 			Ennemi* guard;
 			int i;
@@ -102,10 +57,6 @@ void EnnemiPrincesse::onAvance() {
 			}
 			nb_ennemis_created += 3;
 		}
-		/*if (x < offset + 580)
-		{
-			avance=true;
-		}*/
 		if (dir == SENS_DROITE) {
 			if (x - offset > 400) {
 				ss_etape += 1;
@@ -128,8 +79,6 @@ void EnnemiPrincesse::onAvance() {
 			}
 		} else if (dir == SENS_GAUCHE) {
 			dir = SENS_DROITE;
-			// marche( -PRINCESSE_SPEED);
-			// pic = pbk_ennemis[128+etape];
 		} else {
 			avance = false;
 		}
@@ -149,15 +98,10 @@ void EnnemiPrincesse::onAvance() {
 			pic = pbk_ennemis[128];
 		}
 	}
-	//}
 	colFromPic();
 }
 
 void EnnemiPrincesse::onMeure() {
-	/*if (dy<-5)
-		dy-=5;
-	if (dy<-2)
-		dy=0;*/
 	tombe();
 
 	ss_etape += 1;
@@ -184,8 +128,6 @@ void EnnemiPrincesse::onMeure() {
 			list_bonus.emplace_back(bonus);
 		}
 	} else {
-		// if ( !mur_opaque( x + speed, y) && plat( x, y) == 0)
-		//	x += speed;
 		pic = pbk_ennemis[130 + etape];
 	}
 }

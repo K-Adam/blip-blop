@@ -1,37 +1,6 @@
-/******************************************************************
- *
- *
- *		----------------
- *		  Input.h
- *		----------------
- *
- *		Classe Input
- *
- *
- *		La Classe Input représente toutes les entrées :
- *
- *		 - Clavier
- *
- *
- *
- *
- *		Prosper / LOADED -   V 0.2
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "graphics.h"
-
-//-----------------------------------------------------------------------------
-//		Constantes pour les entrées
-//-----------------------------------------------------------------------------
 
 /*SDL KEYS*/
 
@@ -123,7 +92,6 @@
 #define DIK_SCROLL SDLK_SCROLLLOCK
 #define DIK_BACKSPACE SDLK_BACKSPACE
 #define DIK_LALT SDLK_LALT
-//#define DIK_OEM_102 SDLK_EXCLAIM
 
 #define DIK_NUMPAD1 SDLK_KP_1
 #define DIK_NUMPAD2 SDLK_KP_2
@@ -149,8 +117,6 @@
 #define DIK_END SDLK_END
 #define DIK_RCONTROL SDLK_RCTRL
 
-/**/
-
 #define MAX_JOY 5
 
 // Pad binding codes are ((slot + 1) << 10) | b, where b is an SDL_GameControllerButton,
@@ -172,10 +138,6 @@ struct Pad {
 };
 
 extern bool app_killed;
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe Input
-//-----------------------------------------------------------------------------
 
 class Input {
    private:
@@ -204,10 +166,6 @@ class Input {
 	void close();
 	bool anyKeyPressed();
 };
-
-//-----------------------------------------------------------------------------
-//		Déclaration d'un objet 'in' global
-//-----------------------------------------------------------------------------
 
 #ifndef BENINPUT_CPP_FILE
 extern Input in;

@@ -1,24 +1,8 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiLuigi.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.7 - 27 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
 
 #define LUIGI_SPEED 6
-//#define LUIGI_CHARGE_SPEED 7
 #define LATENCE_LUIGI_GRAVITE 12
 #define EXPLOSE_DELAY 180
 #define NOMBRE_GICLURES 90
@@ -27,10 +11,6 @@
 #define MULTIPLACATEUR_VITESSE_AU_SOL 100
 #define MULTIPLICATEUR_RECUL_AERIEN 15
 #define MULTIPLICATEUR_VITESSE_AERIEN 80
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiLuigi
-//----------------------------------------------------------------------------
 
 class EnnemiLuigi : public Ennemi {
    private:
@@ -46,15 +26,12 @@ class EnnemiLuigi : public Ennemi {
 	int nb_tir;
 	int encaissement;
 
-	// int attaque_speciale;
-
    public:
 	EnnemiLuigi();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
-	// virtual void onCharge();
 	virtual void onAttack();
 	virtual void onCarbonise();
 	virtual void tombe_luigi();

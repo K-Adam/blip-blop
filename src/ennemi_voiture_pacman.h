@@ -1,28 +1,9 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiVoiturepacman.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 4 Mars 2001
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
 
 #define LATENCE_GRAVITE_VOITURE 5
 #define GRAVITE_MAX_VOITURE 8
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiVoiturePacman
-//----------------------------------------------------------------------------
 
 class EnnemiVoiturePacman : public Ennemi {
    private:

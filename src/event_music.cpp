@@ -1,4 +1,3 @@
-
 #include "event_music.h"
 #include "globals.h"
 

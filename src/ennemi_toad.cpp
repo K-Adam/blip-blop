@@ -1,4 +1,3 @@
-
 #include "ennemi_toad.h"
 
 const int anim_toad_marche_droite[] = {0, 1, 2, 1};
@@ -50,7 +49,6 @@ void EnnemiToad::update() {
 
 void EnnemiToad::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -112,10 +110,6 @@ void EnnemiToad::onAvance() {
 }
 
 void EnnemiToad::onMeure() {
-	/*if (dy<-5)
-		dy-=5;
-	if (dy<-2)
-		dy=0;*/
 	tombe();
 
 	ss_etape += 1;
@@ -175,10 +169,8 @@ void EnnemiToad::onCharge() {
 	charge_etape += 1;
 	if (charge_etape < 80) {
 		if (dir == SENS_DROITE) {
-			// marche(speed);
 			pic = pbk_ennemis[anime(anim_toad_marche_droite, 4, 3)];
 		} else {
-			// marche( -speed);
 			pic = pbk_ennemis[anime(anim_toad_marche_gauche, 4, 3)];
 		}
 	} else {
@@ -200,7 +192,6 @@ void EnnemiToad::onSaute() {
 	tombe();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

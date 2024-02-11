@@ -1,4 +1,3 @@
-
 #include "tir_boule_chaman.h"
 
 TirBouleChaman::TirBouleChaman() : ok(false), boom(false) {}

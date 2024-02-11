@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <sstream>
@@ -54,10 +53,6 @@ class CINEPlayer {
 
 	/*SDL::Surface * first_surf;*/
 	SDL::Surface* back_surf;
-	/*
-		SDL::Surface * surf1;
-		SDL::Surface * surf2;
-	*/
 
 	std::stringstream fic_;
 	char buffer[BUFFER_SIZE + 1];
@@ -90,7 +85,6 @@ class CINEPlayer {
 	int delta_vol;
 
 	// Méthodes
-	//
 	bool getCommand();
 	void initPlayer();
 	void closePlayer();
@@ -98,7 +92,6 @@ class CINEPlayer {
 	bool error(const char* er);
 
 	// Execute toutes les commandes jusqu'à un affichage
-	//
 	void updateState();
 
 	void drawScene();

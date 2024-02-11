@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		--------------------------
- *		  EnnemiFlamecheHeros.cpp
- *		--------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 14 Janvier 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_flameche_heros.h"
 
 EnnemiFlamecheHeros::EnnemiFlamecheHeros() : dorkeball(2) {
@@ -88,7 +73,6 @@ void EnnemiFlamecheHeros::onAvance() {
 	}
 
 	// Marche
-	//
 	if (x - 1 < xmin || mur_opaque(x - 1, y))
 		dir = SENS_DROITE;
 	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))

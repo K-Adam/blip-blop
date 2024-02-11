@@ -1,19 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------
- *		    Couille.cpp
- *		-----------------
- *
- *		Pour Blip et Blop
- *
- *
- *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
 #include <stdio.h>
 #include "config.h"
 #include "couille.h"
@@ -22,10 +6,6 @@
 #include "tir_bb_fusil.h"
 #include "tir_bb_laser.h"
 #include "tir_bb_vache.h"
-
-//-----------------------------------------------------------------------------
-//		Animes
-//-----------------------------------------------------------------------------
 
 //----- Animations de Blip ----------------------------------------------------
 
@@ -93,10 +73,6 @@ const int dy_tir_pm[] = {29, 25, -9, -36, -54, -54, -36, -9, 25, 29};
 
 const int dx_tir_fusil[] = {2, 29, 41, 29, -5, 5, -29, -41, -30, -2};
 const int dy_tir_fusil[] = {33, 21, -12, -44, -57, -57, -44, -12, 21, 33};
-/*
-const int dx_tir_laser [] = { -5, 32, 37, 49, -3, -2, -49, -37, -32, 0 };
-const int dy_tir_laser [] = { 32, 23, -10, -64, -53, -53, -64, -10, 23, 32 };
-*/
 const int dx_tir_laser[] = {-5, 42, 57, 56, -3, -2, -56, -57, -42, 0};
 const int dy_tir_laser[] = {52, 33, -10, -71, -73, -73, -71, -10, 33, 52};
 
@@ -157,8 +133,6 @@ const int y_recul_fusil[][5] = {
 	{0, -4, -6, -4, 0}	 // BBDIR_BAS_B_G
 };
 
-//-----------------------------------------------------------------------------
-
 Couille::Couille(const PictureBank& pbk)
 	: sauti(0),
 	  ctrl(NULL),
@@ -200,19 +174,14 @@ Couille::Couille(const PictureBank& pbk)
 	pv = 5;
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::affiche() {
 	// On n'est pas mort au moins ?
-	//
 	if (nb_life <= 0) return;
 
 	// Si on est invincible, on clignote (2 vitesses)
-	//
 	if (invincible > 50 && etape_cli == 0 && phase && !inv_cow) return;
 
 	// Redirigons le travail...
-	//
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -239,8 +208,6 @@ void Couille::affiche() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::afficheNormal() {
 	int yback = y;	// Sauvegarde la valeur de y
 	y -= anime_sautille[sauti];
@@ -248,18 +215,14 @@ void Couille::afficheNormal() {
 	Sprite::affiche();
 
 	// Affiche les accessoires
-	//
 	afficheOeil(x, y);
 	afficheArme(x, y);
 
 	y = yback;
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::afficheArme(int xtmp, int ytmp) {
 	// Affiche l'arme elle même
-	//
 	int d_arme = dir_arme / 2;
 
 	if (dir_arme > BBLIM_DROITE) d_arme += 1;
@@ -318,7 +281,6 @@ void Couille::afficheArme(int xtmp, int ytmp) {
 	}
 
 	// Affiche la détonation
-	//
 	if (tire) {
 		int d_arme2 = d_arme;
 		if (d_arme == 9)
@@ -357,14 +319,11 @@ void Couille::afficheArme(int xtmp, int ytmp) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::afficheOeil(int xtmp, int ytmp) {
 	int base;	// Oeil de base (enervé & co)
 	int delta;	// Selon dir
 
 	// Prend le bon style d'oeil
-	//
 	if (a_mal) {
 		if (dir <= BBLIM_DROITE)
 			draw(xtmp + 12, ytmp - 14, pbk_own[22]);
@@ -377,7 +336,6 @@ void Couille::afficheOeil(int xtmp, int ytmp) {
 			base = 0;  // Oeil normal
 
 		// Prend la bonne direction
-		//
 		if (dir <= BBDIR_BAS_DROITE)
 			delta = 0;
 		else if (dir <= BBDIR_DROITE)
@@ -398,15 +356,11 @@ void Couille::afficheOeil(int xtmp, int ytmp) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::afficheSaute() {
 	// Affiche le corps
-	//
 	Sprite::affiche();
 
 	// Sauter n'est pas tomber
-	//
 	if (dy < 0) {  // Saute
 		afficheOeil(x, y + dy - 2);
 		afficheArme(x, y + dy - 2);
@@ -415,8 +369,6 @@ void Couille::afficheSaute() {
 		afficheArme(x, y);
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Couille::update() {
 	if (phase) {
@@ -451,11 +403,9 @@ void Couille::update() {
 	}
 
 	// Are we dead ?
-	//
 	if (nb_life <= 0) return;
 
 	// Si on tombe trop bas, on meurt direct
-	//
 	if (y > 540) {
 		nb_life = 0;
 		perfect = false;
@@ -463,7 +413,6 @@ void Couille::update() {
 	}
 
 	// Si on est morts, pas la peine de faire le reste
-	//
 	if (etat == ETAT_MEURE) {
 		onMeure();
 		return;
@@ -475,7 +424,6 @@ void Couille::update() {
 	}
 
 	// Rah! Les cow bombs! =)
-	//
 	if (wait_cow_bomb < 100) wait_cow_bomb += 1;
 
 	if (ctrl->super() && wait_cow_bomb == 100 && nb_cow_bomb >= 1) {
@@ -506,7 +454,6 @@ void Couille::update() {
 	}
 
 	// Poussé par le scroll
-	//
 	if (x < offset + 20 && !ctrl->droite() && !mur_opaque(x + 2, y)) {
 		x += 2;
 
@@ -518,7 +465,6 @@ void Couille::update() {
 	if (yp != 0) y = yp;
 
 	// Meure si ecrasé
-	//
 	if (x < offset - 30) {
 		no_scroll1 = true;
 		nb_life -= 1;
@@ -531,7 +477,6 @@ void Couille::update() {
 		etat = ETAT_COME_BACK;
 
 		// Cherche un endroit où atterir
-		//
 		x = offset + 320;
 		int i = 0;
 
@@ -557,7 +502,6 @@ void Couille::update() {
 	}
 
 	// Retire l'invincibilité
-	//
 	if (invincible > 0) {
 		invincible -= 1;
 	} else {
@@ -565,18 +509,15 @@ void Couille::update() {
 	}
 
 	// Rouvre l'oeil fermé
-	//
 	if (a_mal > 0) a_mal -= 1;
 
 	// Gère le sautillement permanent de Blip et Blop
-	//
 	if (ss_etape == 0) {
 		sauti++;
 		sauti %= 4;
 	}
 
 	// Gère le "deux fois en bas vite fait"
-	//
 	if (ctrl->bas()) {
 		if (time_down > 0 && time_down < 10 && etat == ETAT_NORMAL)
 			time_down = -1;	 // Deux fois en bas rapide
@@ -587,7 +528,6 @@ void Couille::update() {
 	}
 
 	// Change la direction
-	//
 	if (etat != ETAT_LOCKEDV || !locked_dir) manageDirection();
 
 	switch (etat) {
@@ -614,7 +554,6 @@ void Couille::update() {
 	}
 
 	// Plateformes glissantes
-	//
 	if (etat == ETAT_NORMAL || etat == ETAT_AVANCE) {
 		int nplat = plat2(x, y);
 
@@ -665,22 +604,17 @@ void Couille::update() {
 	}
 
 	// Pour les collisions
-	//
 	colFromPic();
 
 	// On s'occupe de l'arme
-	//
 	if (etat != ETAT_SALETO)  // && !( etat == ETAT_LOCKEDV && !locked_fire))
 		updateArme();
 
 	return;
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::onNormal() {
 	// Deux fois en bas très vite
-	//
 	if (time_down == -1 && !mur_opaque(x, y + 5) && !mur_opaque(x, y + 10) && !mur_opaque(x, y + 15) && !mur_opaque(x, y + 20) && !mur_opaque(x, y + 25)) {
 		y += 10;
 		dy = 5;
@@ -693,7 +627,6 @@ void Couille::onNormal() {
 	}
 
 	// Si on appuie sur SAUT on saute ('tain c'est pas con ça!)
-	//
 	if (ctrl->saut() && !mur_opaque(x, y - 5)) {
 		etat = ETAT_SAUTE;
 		dy = -5;
@@ -712,7 +645,6 @@ void Couille::onNormal() {
 	}
 
 	// Si on va à gauche ou à droite on passe dans l'etat AVANCE
-	//
 	if (ctrl->gauche() || ctrl->droite() || dx_glisse != 0) {
 		etat = ETAT_AVANCE;
 		onAvance();
@@ -720,7 +652,6 @@ void Couille::onNormal() {
 	}
 
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -732,23 +663,18 @@ void Couille::onNormal() {
 		else if (ctrl->droite() && dx_saut < 2)
 			dx_saut = 2;
 
-		//		onSaute();
 		return;
 	}
 
 	// Pour l'affichage (NORMAL)
-	//
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anime(anim_blip_marche_droite, 4, 8)];
 	else
 		pic = pbk_own[anime(anim_blip_marche_gauche, 4, 8)];
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::onAvance() {
 	// Si on appuie sur SAUT on saute ('tain c'est pas con ça!)
-	//
 	if (ctrl->saut() && !mur_opaque(x, y - 5)) {
 		etat = ETAT_SAUTE;
 		dy = -5;
@@ -773,21 +699,17 @@ void Couille::onAvance() {
 	else {
 		if (ctrl->droite() && (!mur_opaque(x + 2, y) && x + 2 < offset + 620)) {
 			// Avance droite
-			//
 			marche(2);
 		} else if (ctrl->gauche() && (!mur_opaque(x - 2, y) && x - 2 > offset + 20)) {
 			// Avance gauche
-			//
 			marche(-2);
 		} else {
 			// On avance plus
-			//
 			etat = ETAT_NORMAL;
 		}
 	}
 
 	// Si plus de plateformes on passe dans l'etat TOMBE
-	//
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -804,20 +726,16 @@ void Couille::onAvance() {
 	}
 
 	// Pour l'affichage (AVANCE)
-	//
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anime(anim_blip_marche_droite, 4, 5)];
 	else
 		pic = pbk_own[anime(anim_blip_marche_gauche, 4, 5)];
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::onSaute() {
 	int yp;
 
 	// Pour gérer le saleto
-	//
 	if (!ctrl->saut()) jump_released = true;
 
 	if (ctrl->saut() && jump_released && etat == ETAT_SAUTE && dy < 3) {
@@ -832,11 +750,9 @@ void Couille::onSaute() {
 	}
 
 	// Le classique tombor (cf. classe Sprite)
-	//
 	tombe2();
 
 	// Si on ne laisse pas appuyer sur saut on saute moins haut
-	//
 	if (dy < 0 && !ctrl->saut()) {
 		lat_grav += 1;
 		lat_grav %= LATENCE_GRAVITE;
@@ -847,7 +763,6 @@ void Couille::onSaute() {
 	}
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		latence_glisse = 200 * dx_saut;
@@ -858,7 +773,6 @@ void Couille::onSaute() {
 	}
 
 	// Même en tombant on peut se diriger à droite/gauche
-	//
 	if (!ctrl->inertia() || (!ctrl->bas() && !ctrl->haut())) {
 		if (ctrl->droite() && dx_saut < 2)
 			dx_saut = 2;
@@ -873,18 +787,14 @@ void Couille::onSaute() {
 	if (!mur_opaque(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
 
 	// Pour l'affichage (SAUTE/TOMBE)
-	//
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anim_blip_saute_droite[dy + 5]];
 	else
 		pic = pbk_own[anim_blip_saute_gauche[dy + 5]];
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::manageDirection() {
 	// Gere la direction désirée (pas de diagonales pour le laser)
-	//
 	if (ctrl->haut()) {
 		if (ctrl->droite())
 			dir = BBDIR_HAUT_DROITE;
@@ -919,7 +829,6 @@ void Couille::manageDirection() {
 	}
 
 	// Gére la direction de l'arme
-	//
 	if (dir <= BBLIM_DROITE && dir_arme > BBLIM_DROITE)
 		dir_arme = BBDIR_BAS_B_G - dir_arme;
 	else if (dir > BBLIM_DROITE && dir_arme <= BBLIM_DROITE)
@@ -935,8 +844,6 @@ void Couille::manageDirection() {
 			dir_arme -= 1;
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Couille::updateArme() {
 	if (etat == ETAT_LOCKEDV) return;
@@ -956,7 +863,6 @@ void Couille::updateArme() {
 	}
 
 	// Gere les détonations
-	//
 	if (tire) {
 		ss_etape_arme += 1;
 		ss_etape_arme %= latence_arme;
@@ -967,7 +873,6 @@ void Couille::updateArme() {
 	}
 
 	// Si le joueur appuie sur 'FEU' on passe en mode TIR
-	//
 	if (!tire && ctrl->fire() && !hold_fire) {
 		tire = true;
 		etape_arme = 0;
@@ -995,12 +900,10 @@ void Couille::updateArme() {
 	}
 
 	// Gère le recul
-	//
 	etape_recul += 1;
 	etape_recul %= 5;
 
 	// Gère les balles
-	//
 	pruno += 1;
 	pruno %= cadence_arme;
 
@@ -1017,8 +920,6 @@ void Couille::updateArme() {
 			case ID_M16:
 
 				sbk_bb.play(3);
-
-				//			t = new TirBBM16;
 
 				next_m16 = (next_m16 + 1) % NB_TIRS_M16;
 				t = &tirs_m16[next_m16];
@@ -1038,7 +939,6 @@ void Couille::updateArme() {
 				break;
 
 			case ID_PM:
-				//			t = new TirBBPM;
 
 				next_pm = (next_pm + 1) % NB_TIRS_PM;
 				t = &tirs_pm[next_pm];
@@ -1062,8 +962,6 @@ void Couille::updateArme() {
 				sbk_bb.play(1);
 
 				for (i = 0; i < 17; i++) {
-					//				t = new TirBBFusil;
-
 					next_fusil = (next_fusil + 1) % NB_TIRS_FUSIL;
 					t = &tirs_fusil[next_fusil];
 					t->a_detruire = false;
@@ -1083,7 +981,6 @@ void Couille::updateArme() {
 				break;
 
 			case ID_LASER:
-				//			t = new TirBBLaser;
 
 				next_laser = (next_laser + 1) % NB_TIRS_LASER;
 				t = &tirs_laser[next_laser];
@@ -1141,27 +1038,13 @@ void Couille::updateArme() {
 	y = yback;
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::estTouche(const Tir* tir) {}
-
-//-----------------------------------------------------------------------------
 
 void Couille::estTouche(int degats) {
 	if (invincible > 0 || etat == ETAT_MEURE) return;
 
 	pv -= degats;
 	perfect = false;
-	/*
-		if ( id_couille == ID_BLIP)
-		{
-			sbk_bb.play( 6);
-		}
-		else
-		{
-			sbk_bb.play( 7);
-		}
-	*/
 	if (pv <= 0) {
 		pv = 0;
 		etat = ETAT_MEURE;
@@ -1176,8 +1059,6 @@ void Couille::estTouche(int degats) {
 		a_mal = 100;
 	}
 }
-
-//-----------------------------------------------------------------------------
 
 void Couille::onMeure() {
 	if (dy < 0) dy = 0;
@@ -1227,13 +1108,9 @@ void Couille::onMeure() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::afficheMeure() {
 	if (etape < 5) Sprite::affiche();
 }
-
-//-----------------------------------------------------------------------------
 
 void Couille::onComeBack() {
 	no_scroll1 = true;
@@ -1259,8 +1136,6 @@ void Couille::onComeBack() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::onSaleto() {
 	int yp;
 
@@ -1273,11 +1148,9 @@ void Couille::onSaleto() {
 	}
 
 	// Le classique tombor (cf. classe Sprite)
-	//
 	tombe2();
 
 	// Et si on arrêtait de tomber ?
-	//
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		latence_glisse = 200 * dx_saut;
@@ -1288,7 +1161,6 @@ void Couille::onSaleto() {
 	}
 
 	// Même en tombant on peut se diriger à droite/gauche
-	//
 	if (ctrl->droite() && dx_saut < 2)
 		dx_saut = 2;
 	else if (ctrl->gauche() && dx_saut > -2)
@@ -1299,18 +1171,13 @@ void Couille::onSaleto() {
 	if (!mur_opaque(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
 
 	// Pour l'affichage
-	//
 	pic = pbk_own[109 + id_arme * 8 + etape];
 }
-
-//-----------------------------------------------------------------------------
 
 bool Couille::okBonus() {
 	return (id_arme == ID_M16 || (id_arme == ID_PM && ammo <= 30) || (id_arme == ID_FUSIL && ammo <= 4) || (id_arme == ID_LF && ammo <= 100) ||
 			(id_arme == ID_LASER && ammo <= 100));
 }
-
-//-----------------------------------------------------------------------------
 
 void Couille::setSuperWeapon() {
 	if (id_couille == ID_BLIP || !okLanceFlame) {
@@ -1340,8 +1207,6 @@ void Couille::setSuperWeapon() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::colFromPic() {
 	Sprite::colFromPic();
 
@@ -1358,10 +1223,7 @@ void Couille::colFromPic() {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::lockVehicule(bool can_fire, bool can_dir) {
-	//	etape = ss_etape = 0;
 	etat = ETAT_LOCKEDV;
 	locked_fire = !can_fire;
 	locked_dir = !can_dir;
@@ -1372,8 +1234,6 @@ void Couille::lockVehicule(bool can_fire, bool can_dir) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::unlockVehicule() {
 	etape = ss_etape = 0;
 	etat = ETAT_SALETO;
@@ -1383,15 +1243,10 @@ void Couille::unlockVehicule() {
 	etape_arme = ss_etape_arme = 0;
 }
 
-//-----------------------------------------------------------------------------
-
 void Couille::onVehicule() {}
-
-//-----------------------------------------------------------------------------
 
 void Couille::afficheVehicule() {
 	// Pour l'affichage (NORMAL)
-	//
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[0];
 	else

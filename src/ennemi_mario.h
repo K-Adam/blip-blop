@@ -1,20 +1,6 @@
 #pragma once
 
 #include "enemy.h"
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiMario.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.3 - 3 Janvier 2001
- *
- *
- *
- ******************************************************************/
 
 #define MARIO_SPEED 5
 #define MARIO_CHARGE_SPEED 7
@@ -22,10 +8,6 @@
 #define MARIO_PV_SOUS_CRITIQUE 17500
 #define MARIO_PV_CRITIQUE 11500
 #define MARIO_PV_SUR_CRITIQUE 8500
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiMario
-//----------------------------------------------------------------------------
 
 class EnnemiMario : public Ennemi {
    private:

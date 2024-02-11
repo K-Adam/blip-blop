@@ -1,10 +1,4 @@
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "tir_debouche_chiote.h"
-//#include "bendebug.h"
 
 TirDebouchechiote::TirDebouchechiote(int n_pbk_ennemis, int vx, int vy) {
 	pic = pbk_ennemis[n_pbk_ennemis];

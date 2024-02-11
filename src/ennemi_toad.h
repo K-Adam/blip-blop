@@ -1,28 +1,9 @@
-/******************************************************************
- *
- *
- *		-----------------------
- *		    EnnemiToad.h
- *		-----------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.9 - 12 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #pragma once
 
 #include "enemy.h"
 
 #define TOAD_SPEED 3
 #define TOAD_CHARGE_SPEED 7
-
-//-----------------------------------------------------------------------------
-//		Définition de la classe EnnemiToad
-//----------------------------------------------------------------------------
 
 class EnnemiToad : public Ennemi {
    private:
@@ -40,7 +21,6 @@ class EnnemiToad : public Ennemi {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
-	// virtual void onTombe();
 	virtual void onCharge();
 	virtual void onCarbonise();
 	virtual void estTouche(Tir* tir);

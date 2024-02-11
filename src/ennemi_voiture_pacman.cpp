@@ -35,43 +35,6 @@ void EnnemiVoiturePacman::update() {
 		if (wait_end >= 250 && game_flag[0] < 6) {
 			game_flag[0] = 6;
 		}
-		/*
-			etape ++;
-			if (etape >= 120)
-			{
-				etape = 0;
-				ss_etape = 0;
-				game_flag[2] = 4;
-			}
-		}
-		else if (game_flag[2] == 4)
-		{
-			ss_etape ++;
-			ss_etape %= 8;
-
-			if (ss_etape == 0)
-			{
-				etape ++;
-				if (etape > 4)
-				{
-					game_flag[2] = 5;
-					etape --;
-				}
-			}
-		}
-		else if (game_flag[2] >=5)
-		{
-			if (!invoc_pacman)
-			{
-				Ennemi * pacman = new EnnemiPacman();
-
-				pacman->x = x - 30;
-				pacman->y = y - 40;
-				pacman->dir = SENS_DROITE;
-				list_ennemis.ajoute( (void*) pacman);
-
-				invoc_pacman = true;
-			}*/
 	} else {
 		x = 1400;
 		y = -10;

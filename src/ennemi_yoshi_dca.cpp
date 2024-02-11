@@ -23,10 +23,6 @@ void EnnemiYoshiDCA::update() {
 			onCarbonise();
 			break;
 
-			/*case ETAT_TOMBE:
-				onTombe();
-				break;*/
-
 		case ETAT_TIRE:	 // YoshiDCA balance des carapaces
 			onTire();
 			break;

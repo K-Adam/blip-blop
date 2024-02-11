@@ -1,22 +1,3 @@
-/******************************************************************
- *
- *
- *		---------------------------------
- *		   TirSnorkyGouverneur.cpp
- *		---------------------------------
- *
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 15 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "tir_snorky_gouverneur.h"
 
 TirSnorkyGouverneur::TirSnorkyGouverneur(Personnage* cible, int vx, int vy) : joueur_cible(cible), dx(vx), etape_dx(0), etape_dy(0), time(0) { dy = vy; }
@@ -31,8 +12,6 @@ void TirSnorkyGouverneur::update() {
 	}
 
 	if (x < offset - 100 || x > offset + 740 || y > 580 || y < -100) a_detruire = true;
-
-	// tombe();
 
 	time++;
 

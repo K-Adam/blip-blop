@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include "fond_lampe_2.h"
 

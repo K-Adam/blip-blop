@@ -1,18 +1,3 @@
-/******************************************************************
- *
- *
- *		-----------------------------
- *		  EnnemiSnorkyHyporider.cpp
- *		-----------------------------
- *
- *		(giclures faites... sauf peut-etre vers le bas a cause de l'hypo...)
- *
- *		Mephisto / LOADED -   V 0.2 - 28 Decembre 2000
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_snorky_hyporider.h"
 #include "morceaux_tete_snorky.h"
 

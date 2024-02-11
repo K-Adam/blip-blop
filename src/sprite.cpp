@@ -1,27 +1,4 @@
-/******************************************************************
- *
- *
- *		----------------
- *		    Sprite.cpp
- *		----------------
- *
- *		La classe surpuissante!
- *
- *
- *		Prosper / LOADED -   V 0.1 - 17 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
-//-----------------------------------------------------------------------------
-//		Headers
-//-----------------------------------------------------------------------------
-
 #include "sprite.h"
-
-//-----------------------------------------------------------------------------
-//		Constructeur
 
 Sprite::Sprite()
 	: pic(NULL),
@@ -40,9 +17,6 @@ Sprite::Sprite()
 	  col_on(false),
 	  wait_bulle(0) {}
 
-//-----------------------------------------------------------------------------
-//		Tombor
-
 void Sprite::tombe() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
@@ -59,9 +33,6 @@ void Sprite::tombe() {
 		y += dy;
 }
 
-//-----------------------------------------------------------------------------
-//		Tombor2 : n'arrête pas la chute (utile pour les sauts)
-
 void Sprite::tombe2() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
@@ -77,9 +48,6 @@ void Sprite::tombe2() {
 	else
 		y += dy;
 }
-
-//-----------------------------------------------------------------------------
-//		Marchor
 
 void Sprite::marche(int ndx) {
 	x += ndx;
@@ -101,9 +69,6 @@ void Sprite::marche(int ndx) {
 	}
 }
 
-//-----------------------------------------------------------------------------
-//		Collisor
-
 void Sprite::colFromPic() {
 	if (pic == NULL) {
 		col_on = false;
@@ -117,8 +82,5 @@ void Sprite::colFromPic() {
 		col_on = true;
 	}
 }
-
-//-----------------------------------------------------------------------------
-//		Evitor de collisor
 
 void Sprite::noCol() { col_on = false; }

@@ -1,17 +1,3 @@
-/******************************************************************
- *
- *
- *		----------------------------
- *		  EnnemiSnorkInBlackBoss.cpp
- *		-----------------------------
- *
- *
- *		Mephisto / LOADED -   V 0.1 - 23 Avril 2001
- *
- *
- *
- ******************************************************************/
-
 #include "ennemi_snork_in_black_boss.h"
 #include "tir_epine.h"
 #include "ben_debug.h"
@@ -54,8 +40,6 @@ void EnnemiSnorkInBlackBoss::update() {
 	}
 
 	if (x > offset + 1000) a_detruire = true;
-
-	// updateADetruire();
 }
 
 void EnnemiSnorkInBlackBoss::onAvance() {
@@ -98,15 +82,6 @@ void EnnemiSnorkInBlackBoss::onAvance() {
 				} else if (tete_turc->x < 5950 && tete_turc->y < 200) {
 					destination = 1;
 				}
-
-				/*if (tete_turc->y < 200)
-				{
-					destination = rand() % 2 + 2;
-				}
-				else if(tete_turc->y > 200)
-				{
-					destination = rand() % 2;
-				}*/
 
 				if (destination == position) {
 					etape = 15;
@@ -197,20 +172,6 @@ void EnnemiSnorkInBlackBoss::onAvance() {
 					etape = 0;
 					etat = ETAT_TOMBE;
 
-					/*if (snork_in_black_position_x[position] > x)
-					{
-						dir = SENS_DROITE;
-					}
-					else
-					{
-						dir = SENS_GAUCHE;
-					}*/
-
-					// dx = 0;
-					// dy = 0;
-
-					// debug <<"destination : " << snork_in_black_position_x[position]<< "   "<<snork_in_black_position_y[position]<<"\n";
-					// tirEnCloche( x, y, snork_in_black_position_x[position], snork_in_black_position_y[position], dx, dy);
 					lat_grav = 0;
 					saut = true;
 					onTombe();
@@ -293,80 +254,7 @@ void EnnemiSnorkInBlackBoss::onTombe() {
 		dx = 0;
 		x = snork_in_black_position_x[position];
 	}
-	/*else if
-	{
-		dx =0;
-		x = snork_in_black_position_x[position];
-	}*/
 	x += dx;
-
-	/*if (dx >= 0)
-	{
-		if ((x <= snork_in_black_position_x[position]) && (x + dx > snork_in_black_position_x[position]))
-		{
-			if (dy >= 0)
-			{
-				if ((y <= snork_in_black_position_y[position]) && (y + dy > snork_in_black_position_y[position]))
-				{
-					etat = ETAT_AVANCE;
-					etape = 0;
-					ss_etape = 0;
-					x = snork_in_black_position_x[position];
-					y = snork_in_black_position_y[position];
-					onAvance();
-					return;
-				}
-			}
-			else
-			{
-				if ((y >= snork_in_black_position_y[position]) && (y + dy < snork_in_black_position_y[position]))
-				{
-					etat = ETAT_AVANCE;
-					etape = 0;
-					ss_etape = 0;
-					x = snork_in_black_position_x[position];
-					y = snork_in_black_position_y[position];
-					onAvance();
-					return;
-				}
-			}
-
-		}
-	}
-	else
-	{
-		if ((x >= snork_in_black_position_x[position]) && (x + dx < snork_in_black_position_x[position]))
-		{
-			if (dy >= 0)
-			{
-				if ((y <= snork_in_black_position_y[position]) && (y + dy > snork_in_black_position_y[position]))
-				{
-					etat = ETAT_AVANCE;
-					etape = 0;
-					ss_etape = 0;
-					x = snork_in_black_position_x[position];
-					y = snork_in_black_position_y[position];
-					onAvance();
-					return;
-				}
-			}
-			else
-			{
-				if ((y >= snork_in_black_position_y[position]) && (y + dy < snork_in_black_position_y[position]))
-				{
-					etat = ETAT_AVANCE;
-					etape = 0;
-					ss_etape = 0;
-					x = snork_in_black_position_x[position];
-					y = snork_in_black_position_y[position];
-					onAvance();
-					return;
-				}
-			}
-		}
-	}*/
-
-	// debug <<"x: "<<x <<" y: "<< y <<"\n";
 
 	if ((x > (snork_in_black_position_x[position] - tolerance)) && (x < (snork_in_black_position_x[position] + tolerance)) &&
 		(y > (snork_in_black_position_y[position] - tolerance)) && (y < (snork_in_black_position_y[position] + tolerance))) {
@@ -379,16 +267,6 @@ void EnnemiSnorkInBlackBoss::onTombe() {
 		onAvance();
 		return;
 	}
-
-	/*	if (plat2(x + dx , y + dy) == plat2(snork_in_black_position_x[position],snork_in_black_position_y[position]))
-		{
-
-			etat = ETAT_AVANCE;
-			etape = 0;
-			ss_etape = 0;
-			onAvance();
-			return;
-		}*/
 
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[anime(anim_snork_in_black_boss_saute_droite, 4, 6)];
@@ -500,7 +378,6 @@ void EnnemiSnorkInBlackBoss::onMeure() {
 			position = destination;
 			etape = 0;
 			saut = true;
-			// etat = ETAT_TOMBE;
 
 			lat_grav = 0;
 			return;
@@ -522,13 +399,11 @@ void EnnemiSnorkInBlackBoss::onMeure() {
 
 		if ((x > (snork_in_black_position_x[position] - tolerance)) && (x < (snork_in_black_position_x[position] + tolerance)) &&
 			(y > (snork_in_black_position_y[position] - tolerance)) && (y < (snork_in_black_position_y[position] + tolerance))) {
-			// etat = ETAT_MEURE;
 			etape = 0;
 			ss_etape = 0;
 			x = snork_in_black_position_x[position];
 			y = snork_in_black_position_y[position];
 			saut = false;
-			// onAvance();
 			return;
 		}
 
@@ -737,87 +612,6 @@ void EnnemiSnorkInBlackBoss::onTire() {
 			}
 		}
 	}
-	/*ss_etape ++;
-	if (etape == 0)
-	{
-		ss_etape %= 20;
-	}
-	else
-	{
-		ss_etape %= 4;
-	}
-
-	if(ss_etape == 0)
-	{
-		etape ++;
-	}
-
-	if ((etape == 1) && (ss_etape == 0))
-	{
-		if (dir == SENS_DROITE)
-		{
-			int vx = 5 + rand() % 2;
-			int vy = rand() % 5 - 2;
-
-			TirEpine * tir = new TirEpine(364, vx , vy);
-
-			tir->setDir( dir);
-			tir->x = x + 49;
-			tir->y = y - 15;
-
-			list_tirs_ennemis.ajoute( (void*) tir);
-		}
-		else
-		{
-			int vx = -5 - rand() % 2;
-			int vy = rand() % 5 - 2;
-
-			TirEpine * tir = new TirEpine(365, vx , vy);
-
-			tir->setDir( dir);
-			tir->x = x - 49;
-			tir->y = y - 15;
-
-			list_tirs_ennemis.ajoute( (void*) tir);
-		}
-	}
-
-	if (etape == 3)
-	{
-		nb_tir ++;
-		etape = 0;
-		if (nb_tir >= SNORK_IN_BLACK_MAX_TIR)
-		{
-			ss_etape = 0;
-			etape = 0;
-			etat = ETAT_AVANCE;
-			onAvance();
-			return;
-		}
-	}
-
-	if (dir == SENS_DROITE)
-	{
-		if (etape == 0)
-		{
-			pic = pbk_ennemis[344];
-		}
-		else
-		{
-			pic = pbk_ennemis[350 + etape - 1];
-		}
-	}
-	else
-	{
-		if (etape == 0)
-		{
-			pic = pbk_ennemis[347 ];
-		}
-		else
-		{
-			pic = pbk_ennemis[352 + etape - 1];
-		}
-	}*/
 	colFromPic();
 }
 

@@ -1,4 +1,3 @@
-
 #include "ennemi_com_volant.h"
 
 EnnemiCOMVolant::EnnemiCOMVolant() : speed(0), attack(true) {
@@ -37,7 +36,6 @@ void EnnemiCOMVolant::onAvance() {
 	}
 
 	// vole
-	//
 	if ((dir == SENS_GAUCHE) && (x - speed < offset || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		attack = false;

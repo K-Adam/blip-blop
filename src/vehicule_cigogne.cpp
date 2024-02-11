@@ -1,4 +1,3 @@
-
 #include "vehivule_cigogne.h"
 
 static bool first;
@@ -16,32 +15,6 @@ void VehiculeCigogne::updateUsed() {
 	static const int SPEED = 8;
 
 	can_be_used = false;
-	/*
-		if ( offset < level_size-640)
-			x += scroll_speed*2;
-
-		if ( ctrl->gauche() && x > offset+40 && !mur_opaque( x-SPEED, y))
-		{
-			x -= SPEED;
-		}
-
-		if ( ctrl->droite() && x < offset+600 && !mur_opaque( x+SPEED, y))
-		{
-			x += SPEED;
-		}
-
-		if ( ctrl->haut() && y > 40 && !mur_opaque( x, y-SPEED))
-		{
-			y -= SPEED;
-		}
-
-		if ( ctrl->bas() && y < 440 && !mur_opaque( x, y+SPEED))
-		{
-			y += SPEED;
-		}
-
-		pic = pbk_niveau[anime( bas_ailes, 6, 4)];
-	*/
 	x += SPEED;
 
 	joueur->dir = BBDIR_DROITE;

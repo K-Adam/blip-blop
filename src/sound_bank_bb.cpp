@@ -1,23 +1,3 @@
-/******************************************************************
- *
- *
- *		-------------------
- *		  SoundBankBB.cpp
- *		-------------------
- *
- *		Classe SoundBankBB
- *
- *		Cette classe est presque identique à la classe SoundBank.
- *		Elle ne fait qu'ajouter le fait qu'on puisse avoir le son
- *		on/off. (cf. config.h)
- *
- *
- *		Prosper / LOADED -   V 0.1 - 16 Juillet 2000
- *
- *
- *
- ******************************************************************/
-
 #include <string.h>
 #include "sound_bank_bb.h"
 #include "config.h"

@@ -1,4 +1,3 @@
-
 #include "ennemi_smurf_costaud.h"
 #include "tir_hadoken.h"
 
@@ -64,7 +63,6 @@ void EnnemiSmurfCostaud::onAvance() {
 	dx = 0;
 
 	// Marche
-	//
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))

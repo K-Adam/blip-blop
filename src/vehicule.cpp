@@ -1,4 +1,3 @@
-
 #include "vehicule.h"
 
 Vehicule::Vehicule() : joueur(NULL), ctrl(NULL), can_be_used(true) {}
@@ -37,6 +36,5 @@ Couille* Vehicule::scanne() {
 			return c;
 	}
 
-	//	debug<<"nothing!\n";
 	return NULL;
 }
