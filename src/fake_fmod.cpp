@@ -3,7 +3,6 @@
 #include <SDL2/SDL_mixer.h>
 
 extern "C" {
-struct FMUSIC_MODULE {};
 struct FSOUND_STREAM {
 	Mix_Music* music;
 };
@@ -11,10 +10,6 @@ struct FSOUND_SAMPLE {
 	Mix_Chunk* chunk;
 	int loop;
 };
-
-typedef struct FMUSIC_MODULE FMUSIC_MODULE;
-typedef struct FSOUND_STREAM FSOUND_STREAM;
-typedef struct FSOUND_SAMPLE FSOUND_SAMPLE;
 
 FSOUND_SAMPLE* FSOUND_Sample_Load_File(const char* path) {
 	FSOUND_SAMPLE* sample = new FSOUND_SAMPLE;
@@ -90,11 +85,4 @@ void FSOUND_Close() {
 	Mix_CloseAudio();
 	while (Mix_Init(0)) Mix_Quit();
 }
-int FSOUND_GetError() { return true; }
-signed char FMUSIC_PlaySong(FMUSIC_MODULE* mod) { return true; }
-FMUSIC_MODULE* FMUSIC_LoadSong(const char* name) { return nullptr; }
-signed char FMUSIC_SetMasterVolume(FMUSIC_MODULE* mod, int volume) { return true; }
-signed char FMUSIC_StopSong(FMUSIC_MODULE* mod) { return true; }
-signed char FMUSIC_FreeSong(FMUSIC_MODULE* mod) { return true; }
-signed char FSOUND_SetPriority(int channel, int priority) { return true; }
 }

@@ -29,7 +29,6 @@
 #include "control_p2.h"
 #include "picture_bank.h"
 #include "fonte.h"
-#include "super_liste.h"
 #include "sound_bank_bb.h"
 #include "music_bank.h"
 
@@ -197,8 +196,6 @@ extern int etape_tremblement;
 extern int amplitude_tremblement;
 extern int ddy_tremblement;
 
-extern bool total_debug;
-
 //-----------------------------------------------------------------------------
 //		Les Picture Banks
 //-----------------------------------------------------------------------------
@@ -256,7 +253,6 @@ bool mur_opaque(int x, int y);
 bool mur_sanglant(int x, int y);
 bool grave(int x, int y, Picture* pic);
 void tremblement(int amp);
-bool checkRestore();
 
 inline void draw(int x, int y, const Picture* pic) {
 	if (pic != NULL) pic->BlitTo(backSurface, x - offset, y);

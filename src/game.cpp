@@ -67,14 +67,12 @@
 #include "menu_main.h"
 #include "meteo_neige.h"
 #include "meteo_pluie.h"
-#include "restore.h"
 #include "scroll.h"
 #include "texte_cool.h"
 #include "tir_bb.h"
 #include "tir_bb_vache.h"
 #include "txt_data.h"
 #include "vehicule.h"
-#include "trace.h"
 #include <json.h>
 #include "string.h"
 #include <base64.h>
@@ -1018,10 +1016,6 @@ void Game::updateAll() {
 					scroll_speed = 1;
 	*/
 
-	manageMsg();  // Fucking windaube!!!
-
-	if (checkRestore()) update_regulator_.Skip();
-
 	phase = !phase;
 
 	if (phase) slow_phase = !slow_phase;
@@ -1099,16 +1093,18 @@ void Game::updateAll() {
 //-----------------------------------------------------------------------------
 
 void Game::drawAll(bool flip) {
-	manageMsg();  // Fucking windaube!!!
-
-	if (checkRestore()) update_regulator_.Skip();
-
 	if (!flip) {
 		phase = false;
 		slow_phase = false;
 	}
 
 	fps_current_count += 1;
+	static Uint32 fps_start = SDL_GetTicks();
+	if (SDL_GetTicks() - fps_start >= 1000) {
+		fps_count = fps_current_count;
+		fps_current_count = 0;
+		fps_start = SDL_GetTicks();
+	}
 
 	/*if (mustFixGforceBug) {
 			RECT	r;
@@ -1599,8 +1595,6 @@ void Game::updateRPG() {
 	rpg.startPlay(rpg_to_play);
 
 	while (continued && !app_killed) {
-		manageMsg();
-		checkRestore();
 		drawAll(false);
 		continued = rpg.drawScene(backSurface);
 		DDFlipV();
@@ -1697,8 +1691,6 @@ void Game::updateMenu() {
 		in.waitClean();
 
 		while (!(r = menu.Update()) && !app_killed) {
-			manageMsg();
-			checkRestore();
 			drawAll(false);
 			menu.Draw(backSurface);
 
@@ -1880,9 +1872,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 	}
 
 	while (!app_killed && (calc_p1 < 4 || calc_p2 < 4)) {
-		manageMsg();
-		checkRestore();
-
 		if (app_killed) return;
 
 		in.update();
@@ -2438,9 +2427,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 	strcpy(name, "");
 
 	while (!app_killed && x >= 40) {
-		manageMsg();
-		checkRestore();
-
+		in.update();
 		x -= 20;
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
@@ -2456,9 +2443,6 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 	}
 
 	while (!app_killed && key != DIK_RETURN) {
-		manageMsg();
-		checkRestore();
-
 		in.waitClean();
 		key = in.waitKey();
 		if (in.scanKey(DIK_RETURN)) key = DIK_RETURN;
@@ -2516,9 +2500,6 @@ void Game::showGameOver() {
 	mbk_inter.play(1);
 
 	while (!app_killed && x > 20 && !in.anyKeyPressed()) {
-		manageMsg();
-		checkRestore();
-
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
 		/*
 						fnt_menu.printR( backSurface, 320-x, 220, "GAME");
@@ -2541,8 +2522,6 @@ void Game::showGameOver() {
 
 			while ( !app_killed && x < 400)
 			{
-					manageMsg();
-					checkRestore();
 
 					pbk_inter[0]->PasteTo( backSurface, 0, 0);
 
@@ -2565,9 +2544,6 @@ void Game::showHighScores() {
 
 	Chrono scores_timer;
 	while (!app_killed && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
-		manageMsg();
-		checkRestore();
-
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -2587,9 +2563,7 @@ void Game::showHighScores() {
 	}
 
 	while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
-		manageMsg();
-		checkRestore();
-
+		in.update();
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -2646,9 +2620,6 @@ void Game::go() {
 		r = RET_CONTINUE;
 
 		while (!r && !app_killed) {
-			manageMsg();
-			checkRestore();
-
 			in.update();
 
 			if (in.anyKeyPressed()) {
@@ -2708,8 +2679,6 @@ void Game::go() {
 
 			auto selected = CharacterSelection::Output::Continue;
 			while (selected == CharacterSelection::Output::Continue && !app_killed) {
-				manageMsg();
-				checkRestore();
 				in.update();
 				selected = select.update();
 				select.draw();
@@ -2779,9 +2748,6 @@ void Game::showMainScreen() {
 	Chrono t;
 
 	while (!in.anyKeyPressed() && !app_killed && t.elapsed() <= 5000) {
-		manageMsg();
-		checkRestore();
-
 		in.update();
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
@@ -2827,20 +2793,7 @@ void Game::showCredits(bool theEnd) {
 			}
 		}
 
-		manageMsg();
-		checkRestore();
 		in.update();
-
-		if (mustFixGforceBug) {
-			Rect r;
-
-			r.top = 10;
-			r.bottom = 150;
-			r.left = 200;
-			r.right = 440;
-
-			backSurface->Blt(&r, videoA, NULL, DDBLT_WAIT, NULL);
-		}
 
 		{
 			DDBLTFX ddfx;

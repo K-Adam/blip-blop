@@ -22,10 +22,6 @@
 extern bool vSyncOn;
 extern bool fullscreen;
 
-extern int mem_flag;
-extern bool video_buffer_on;
-extern bool mustFixGforceBug;
-
 #define LANG_FR 0
 #define LANG_UK 1
 
@@ -37,8 +33,6 @@ extern bool sound_on;
 extern bool cheat_on;
 
 extern HiScores hi_scores;
-
-extern bool winSet;
 
 #define CONFIG_FILE "config/settings.json"
 #define HISCORES_FILE "config/hiscores.json"

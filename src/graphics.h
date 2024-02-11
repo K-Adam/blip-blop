@@ -84,8 +84,6 @@ class Graphics {
 	void Clear(int);
 	void Clear(RenderRect);
 
-	void RestoreAllSurfaces(){};
-
 	static unsigned long RGB16ToRGB32(unsigned short a) {
 		/* 1. Extract the red, green and blue values */
 

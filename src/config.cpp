@@ -33,10 +33,6 @@ using json = nlohmann::json;
 
 bool vSyncOn = true;
 
-int mem_flag = DDSURF_BEST;
-bool video_buffer_on = true;
-bool mustFixGforceBug = false;
-
 int lang_type = LANG_UK;
 
 bool music_on = true;
@@ -46,7 +42,6 @@ bool cheat_on = false;
 
 HiScores hi_scores;
 
-bool winSet;
 bool fullscreen = false;  // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
 
 static const char* ALIAS_NAMES[7] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};

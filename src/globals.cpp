@@ -29,11 +29,9 @@
 #include "control_p2.h"
 #include "picture_bank.h"
 #include "fonte.h"
-#include "super_liste.h"
 #include "sound_bank_bb.h"
 #include "music_bank.h"
 #include "scroll.h"
-#include "restore.h"
 #include "fond_statique.h"
 #include "tir_bb_vache.h"
 #include "explosion.h"
@@ -164,8 +162,6 @@ int dy_tremblement = 0;
 int etape_tremblement = 0;
 int amplitude_tremblement = 0;
 int ddy_tremblement = 0;
-
-bool total_debug = false;
 
 bool okBonus;
 bool cowBombOn;
@@ -366,28 +362,6 @@ bool grave(int x, int y, Picture* pic) {
 		r.right = vbuffer_wide;
 
 		clipedBlit(videoA, pic, x + vbuffer_wide, y, &r);
-
-		return true;
-	}
-
-	return false;
-}
-
-bool checkRestore() {
-	if (!active) {
-		debug << "Blip'n Blop 3 has been desactivated\n";
-
-		while (!active && !app_killed) manageMsg();
-
-		for (int i = 0; i < 10; i++) manageMsg();
-
-		debug << "Blip'n Blop 3 is active again\n";
-
-		if (primSurface->IsLost()) {
-			debug << "Restoring lost surfaces...";
-
-			if (RestoreAll()) debug << "ok\n";
-		}
 
 		return true;
 	}

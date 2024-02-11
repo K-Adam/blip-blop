@@ -88,40 +88,6 @@ void Warning(const char* txt) {
 #endif
 }
 
-#if 0
-// FIXME: Can you still work properly under Windows without this?
-long WINAPI WinProc(HWND WinHandle, UINT Msg, WPARAM wParam, LPARAM lParam) {
-	switch (Msg) {
-		case WM_SETCURSOR:  // CURSEUR --------
-			SetCursor(NULL);
-			return TRUE;
-			break;
-
-		case WM_ACTIVATE:
-			active = !((BOOL)HIWORD(wParam));
-			break;
-
-		case WM_CLOSE:
-			app_killed = TRUE;
-			//              want_to_kill_app = true;
-			return 0;
-			break;
-
-		case WM_DESTROY:  // ARG! -----------
-			app_killed = TRUE;
-			PostQuitMessage(0);
-			break;
-
-		case WM_TIMER:
-			fps_count = fps_current_count;
-			fps_current_count = 0;
-			break;
-	}
-
-	return DefWindowProc(WinHandle, Msg, wParam, lParam);
-}
-#endif
-
 static void analyseCmdLine(char* cmd) {
 	static const char sep[] = " ";
 	char* token;
@@ -167,10 +133,6 @@ static bool InitApp(int nCmdShow) {
 		Warning("Cannot initialise FMOD. Sound will be turned off");
 		sound_on = false;
 		music_on = false;
-	} else {
-		// Pour éviter que les musiques ne se fassent écraser par les sons
-		//
-		FSOUND_SetPriority(0, 255);
 	}
 
 	//------------------------------------------------------------------
@@ -264,16 +226,12 @@ static bool InitApp(int nCmdShow) {
 
 	// Mode EXCLUSIF (bourrin quoi...)
 
-	active = true;	// Activate the game loop
-
 	debug << "Exclusive mode set\n";
 
 	static const int BEST_RATE = 85;
 
 	if (safeMode) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
-		winSet = false;
-
 		DDSetGfxMode(win_size.width, win_size.height, 16, false /* fullscreen */);
 	} else {
 		/*DEVMODE dm;
@@ -357,9 +315,6 @@ static bool InitApp(int nCmdShow) {
 			"launch Blip'n Blop again.");
 		return false;
 	}
-
-	mem_flag = DDSURF_SYSTEM;
-	video_buffer_on = false;
 
 	//------------------------------------------------------------------
 	//                      Chargement des fontes

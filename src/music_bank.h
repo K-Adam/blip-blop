@@ -16,26 +16,6 @@ class Music {
 	virtual void set_volume(int v) = 0;
 };
 
-// TODO: ModMusic appears to be unused. Make sure it can safely be removed to
-// simplify the code.
-class ModMusic : public Music {
-   public:
-	ModMusic(const std::string& path) {
-		if ((mod_ = FMUSIC_LoadSong(path.c_str())) == 0) {
-			debug << "ModMusic(\"" << path << "\") failed\n";
-			throw std::runtime_error("ModMusic failed loading");
-		}
-	}
-
-	~ModMusic() override { FMUSIC_FreeSong(mod_); }
-	void Play() const override { FMUSIC_PlaySong(mod_); }
-	void Stop() const override { FMUSIC_StopSong(mod_); }
-	void set_volume(int v) override { FMUSIC_SetMasterVolume(mod_, v); }
-
-   private:
-	FMUSIC_MODULE* mod_;
-};
-
 class Mp3Music : public Music {
    public:
 	Mp3Music(const std::string& fname, bool loop = true) {

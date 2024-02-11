@@ -158,7 +158,6 @@ class Surface {
 		SDL_FreeSurface(surface);
 		delete this;  // FIXME: OH MY THAT'S DANGEROUS
 	}
-	inline bool Restore() { return true; }
 
 	inline void FillRect(Rect *r, unsigned int color) {
 		if (!r) {
@@ -189,8 +188,6 @@ class Surface {
 	}
 
 	void Unlock() { SDL_UnlockSurface(surface); }
-
-	bool IsLost() { return false; }
 };
 
 };	// namespace SDL

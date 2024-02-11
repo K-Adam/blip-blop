@@ -84,8 +84,6 @@ bool Fonte::load(const char* fic) {
 		pictab_[i]->SetSpot(0, 0);
 	}
 
-	filename_ = fic;
-
 	return true;
 }
 
@@ -238,16 +236,4 @@ int Fonte::width(const char* txt) {
 	}
 
 	return l;
-}
-
-//-----------------------------------------------------------------------------
-
-bool Fonte::restoreAll() {
-	if (filename_.empty()) {
-		return true;
-	}
-
-	assert(false);
-
-	return true;
 }

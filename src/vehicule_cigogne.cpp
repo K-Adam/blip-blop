@@ -1,8 +1,6 @@
 
 #include "vehivule_cigogne.h"
 
-#include "vehicule_hypo.h"
-
 static bool first;
 
 VehiculeCigogne::VehiculeCigogne() {

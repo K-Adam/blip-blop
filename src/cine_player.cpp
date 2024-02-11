@@ -118,19 +118,11 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 
 	/////////////////////////
 
-	manageMsg();
-
 	while (!fini) {
 		updateState();
 		update_regulator_.Skip();
 
 		while (frame_to_draw > 0 && !fini) {
-			manageMsg();
-
-			if (checkRestore()) {
-				update_regulator_.Skip();
-			}
-
 			in.update();
 
 			renderLoop();

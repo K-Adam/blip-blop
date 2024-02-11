@@ -34,7 +34,6 @@ class /* Poele en */ Fonte {
 	std::vector<std::unique_ptr<Picture>> pictab_;
 	int spc;  // Largeur d'un espace
 	int h;	  // Hauteur d'un saut de ligne
-	std::string filename_;
 
    public:
 	//	Charge un ficher FNT
@@ -64,8 +63,4 @@ class /* Poele en */ Fonte {
 	// Renvoie la longueur en pixels d'un texte donné
 	//
 	int width(const char* txt);
-
-	// What's the fuck up ?
-	//
-	bool restoreAll();
 };

@@ -68,17 +68,5 @@ bool PictureBank::loadGFX(const char* file) {
 		tab_[i]->SetSurface(new SDL::Surface(surf));
 	}
 
-	filename_ = file;
 	return true;
-}
-
-bool PictureBank::restoreAll() {
-	// TODO: REMOVE
-	if (filename_.empty()) {
-		return true;
-	}
-
-	assert(false);
-
-	return false;
 }

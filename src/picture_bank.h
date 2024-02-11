@@ -29,7 +29,6 @@
 class PictureBank {
    private:
 	std::vector<std::unique_ptr<Picture>> tab_;
-	std::string filename_;
 
    public:
 	inline Picture* operator[](int n) const {
@@ -40,5 +39,4 @@ class PictureBank {
 
 	PictureBank();
 	bool loadGFX(const char* file);
-	bool restoreAll();
 };
