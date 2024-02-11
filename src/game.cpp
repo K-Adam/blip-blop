@@ -276,8 +276,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 
 	if (!chargeNiveau(nom_niveau)) return false;
 
-	if (strcmp(nom_niveau, "data/snorkniv.lvl") == 0 || strcmp(nom_niveau, "data/snorkniv2.lvl") == 0 || strcmp(nom_niveau, "lvl/snorkniv.lvl") == 0 ||
-		strcmp(nom_niveau, "lvl/snorkniv2.lvl") == 0) {
+	if (strcmp(nom_niveau, "lvl/snorkniv.lvl") == 0 || strcmp(nom_niveau, "lvl/snorkniv2.lvl") == 0) {
 		okLanceFlame = false;
 	} else {
 		okLanceFlame = true;
