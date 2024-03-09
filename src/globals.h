@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 
 #include "ben_debug.h"
 #include "control_p1.h"
@@ -58,14 +59,14 @@ extern bool okBonus;
 extern bool cowBombOn;
 extern bool okLanceFlame;
 
-extern size_t scr_level_size;  // taille en écran du niveau
-extern size_t level_size;	   // taille en pixels du niveau
-extern int* num_decor;		   // Numéro ecran courant -> surface à utiliser
+extern size_t scr_level_size;		// taille en écran du niveau
+extern size_t level_size;			// taille en pixels du niveau
+extern std::vector<int> num_decor;	// Numéro ecran courant -> surface à utiliser
 
-extern int32_t** y_plat;  // Plateformes (ordonnées)
+extern std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
 
-extern bool** murs_opaques;	   // Murs opaques (=true)
-extern bool** murs_sanglants;  // Murs sanglants (=true)
+extern std::vector<std::vector<char>> murs_opaques;	   // Murs opaques (=true)
+extern std::vector<std::vector<char>> murs_sanglants;  // Murs sanglants (=true)
 
 extern ControlP1 ctrlP1;
 extern ControlP2 ctrlP2;
@@ -177,6 +178,7 @@ extern Fonte fnt_rpg;
 extern Fonte fnt_menu;
 extern Fonte fnt_menus;
 
+void set_plat(int n, int x, int y);
 int plat(int x, int y);	 // Retourne l'ordonnée de la plateforme (0 si pas de plat)
 int plat2(int x, int y);
 bool mur_opaque(int x, int y);

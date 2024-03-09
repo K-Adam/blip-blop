@@ -66,8 +66,8 @@ class Game {
 	int xstart2;
 	int ystart2;
 
-	Couille* player1;
-	Couille* player2;
+	std::unique_ptr<Couille> player1;
+	std::unique_ptr<Couille> player2;
 
 	RPGPlayer rpg;
 

@@ -60,7 +60,7 @@ void FondMonolite::update() {
 		y -= monolite_levitation[etape_levitation - 22];
 	}
 
-	for (int i = x - 118; i < x + pic->xSize() - 138; i++) y_plat[4][i] = y - 20;
+	for (int i = x - 118; i < x + pic->xSize() - 138; i++) set_plat(4, i, y - 20);
 
 	colFromPic();
 }

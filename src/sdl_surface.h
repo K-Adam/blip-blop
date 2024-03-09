@@ -65,21 +65,9 @@ class Surface {
 		/*
 		TODO: IF flags contains DDBLT_COLORFILL then i must fill the surface with the color of
 		*/
-		SDL_Rect *rect = 0, *position = 0;
-		if (src) {
-			rect = new SDL_Rect;
-			rect->x = src->left;
-			rect->y = src->top;
-			rect->w = src->right - src->left;
-			rect->h = src->bottom - src->top;
-		}
-		if (dest) {
-			position = new SDL_Rect;
-			position->x = dest->left;
-			position->y = dest->top;
-			position->w = dest->right - dest->left;
-			position->h = dest->bottom - dest->top;
-		}
+		SDL_Rect r = src ? SDL_Rect{src->left, src->top, src->right - src->left, src->bottom - src->top} : SDL_Rect{};
+		SDL_Rect p = dest ? SDL_Rect{dest->left, dest->top, dest->right - dest->left, dest->bottom - dest->top} : SDL_Rect{};
+		SDL_Rect *rect = src ? &r : nullptr, *position = dest ? &p : nullptr;
 		if (surf) {
 			SDL_BlitSurface(surf->Get(), rect, surface, position);
 		} else {
@@ -88,8 +76,6 @@ class Surface {
 			else
 				SDL_FillRect(surface, rect, 0x000000);
 		}
-		if (rect) delete rect;
-		if (position) delete position;
 	}
 
 	inline void Release() {

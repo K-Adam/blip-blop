@@ -48,7 +48,7 @@ void FondRocher1::update() {
 		y -= monolite_levitation[etape_levitation - 13];
 	}
 
-	for (int i = x - 45; i < x + pic->xSize() - 45; i++) y_plat[4][i] = y - 30;
+	for (int i = x - 45; i < x + pic->xSize() - 45; i++) set_plat(4, i, y - 30);
 
 	colFromPic();
 }

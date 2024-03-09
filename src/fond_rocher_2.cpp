@@ -49,7 +49,7 @@ void FondRocher2::update() {
 		y -= rocher2_levitation[etape_levitation - 9];
 	}
 
-	for (int i = x - 45; i < x + pic->xSize() - 45; i++) y_plat[4][i] = y - 25;
+	for (int i = x - 45; i < x + pic->xSize() - 45; i++) set_plat(4, i, y - 25);
 
 	colFromPic();
 }

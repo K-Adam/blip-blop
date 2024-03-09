@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include <fcntl.h>
-#include <malloc.h>
 #include <cstdio>
 #include <cstring>
 #include <fstream>
@@ -74,7 +73,7 @@ Personnage dummyPlayer;
 
 #define TXT_TIME 828
 
-Game::Game() : player1(NULL), player2(NULL), next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
+Game::Game() : next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
 
 void Game::jouePartie(int nbj, int idj) {
 	if (app_killed) return;
@@ -96,21 +95,21 @@ void Game::jouePartie(int nbj, int idj) {
 	current_zik = -1;
 
 	if (idj == 0)
-		player1 = new Blip();
+		player1 = std::make_unique<Blip>();
 	else
-		player1 = new Blop();
+		player1 = std::make_unique<Blop>();
 
 	player1->ctrl = &ctrlP1;
-	list_joueurs.push_back(player1);
+	list_joueurs.push_back(player1.get());
 
 	if (nbj == 2) {
 		if (idj == 0)
-			player2 = new Blop();
+			player2 = std::make_unique<Blop>();
 		else
-			player2 = new Blip();
+			player2 = std::make_unique<Blip>();
 
 		player2->ctrl = &ctrlP2;
-		list_joueurs.push_back(player2);
+		list_joueurs.push_back(player2.get());
 	}
 
 	// Joue à tous les niveaux
@@ -198,15 +197,8 @@ void Game::jouePartie(int nbj, int idj) {
 		showHighScores();
 	}
 
-	if (player1 != NULL) {
-		delete player1;
-		player1 = NULL;
-	}
-
-	if (player2 != NULL) {
-		delete player2;
-		player2 = NULL;
-	}
+	player1.reset();
+	player2.reset();
 }
 
 bool Game::joueNiveau(const char* nom_niveau, int type) {
@@ -426,7 +418,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		if (player1 != NULL && p1_bringBack) {
 			if (player1->a_detruire && p1_life > 0) {
 				player1->a_detruire = false;
-				list_joueurs.push_back(player1);
+				list_joueurs.push_back(player1.get());
 			}
 
 			player1->nb_life = p1_life;
@@ -435,7 +427,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		if (player2 != NULL && p2_bringBack) {
 			if (player2->a_detruire && p2_life > 0) {
 				player2->a_detruire = false;
-				list_joueurs.push_back(player2);
+				list_joueurs.push_back(player2.get());
 			}
 
 			player2->nb_life = p2_life;
@@ -608,7 +600,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	}
 
 	// Numéros des écrans à afficher (comme des tiles)
-	num_decor = new int[scr_level_size];
+	num_decor.resize(scr_level_size);
 	for (size_t i = 0; i < scr_level_size; i++) {
 		num_decor[i] = data["num_decor"][i];
 	}
@@ -627,24 +619,21 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	vic_val2 = data["vic_val2"];
 
 	// Plateformes
-	y_plat = new int32_t*[NB_MAX_PLAT];
+	y_plat.assign(NB_MAX_PLAT, std::vector<int32_t>(level_size));
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
-		y_plat[i] = new int32_t[level_size];
-		memcpy(y_plat[i], &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
+		memcpy(y_plat[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
 	// Murs opaques
-	murs_opaques = new bool*[60];
+	murs_opaques.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		murs_opaques[i] = new bool[level_size_8];
-		memcpy(murs_opaques[i], &murs_opaques_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
+		murs_opaques[i].assign(murs_opaques_str.begin() + i * level_size_8, murs_opaques_str.begin() + (i + 1) * level_size_8);
 	}
 
 	// Murs sanglants
-	murs_sanglants = new bool*[60];
-	for (int i = 0; i < 60; i++) {
-		murs_sanglants[i] = new bool[level_size_8];
-		memcpy(murs_sanglants[i], &murs_sanglants_str[i * level_size_8 * sizeof(bool)], level_size_8 * sizeof(bool));
+	murs_sanglants.resize(60);
+	for (size_t i = 0; i < 60; i++) {
+		murs_sanglants[i].assign(murs_sanglants_str.begin() + i * level_size_8, murs_sanglants_str.begin() + (i + 1) * level_size_8);
 	}
 
 	// Charge les évenements
@@ -862,31 +851,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 }
 
 void Game::releaseNiveau() {
-	if (num_decor != NULL) {
-		delete[] num_decor;
-		num_decor = NULL;
-	}
-
-	if (y_plat != NULL) {
-		for (int i = 0; i < NB_MAX_PLAT; i++) delete[] y_plat[i];
-
-		delete[] y_plat;
-		y_plat = NULL;
-	}
-
-	if (murs_sanglants != NULL) {
-		for (int i = 0; i < 60; i++) delete[] murs_sanglants[i];
-
-		delete[] murs_sanglants;
-		murs_sanglants = NULL;
-	}
-
-	if (murs_opaques != NULL) {
-		for (int i = 0; i < 60; i++) delete[] murs_opaques[i];
-
-		delete[] murs_opaques;
-		murs_opaques = NULL;
-	}
+	num_decor.clear();
+	y_plat.clear();
+	murs_sanglants.clear();
+	murs_opaques.clear();
 
 	list_event_endormis.clear();
 	list_event.clear();
@@ -1269,12 +1237,12 @@ void Game::updateHoldFire() {
 void Game::drawHUB() {
 	if (player1 != NULL && player1->nb_life > 0) {
 		auto color = player1->id_couille == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
-		hud_.Draw(player1, HUD::Location::Left, color, niveau_bonus);
+		hud_.Draw(player1.get(), HUD::Location::Left, color, niveau_bonus);
 	}
 
 	if (player2 != NULL && player2->nb_life > 0) {
 		auto color = player2->id_couille == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
-		hud_.Draw(player2, HUD::Location::Right, color, niveau_bonus);
+		hud_.Draw(player2.get(), HUD::Location::Right, color, niveau_bonus);
 	}
 }
 
@@ -2064,9 +2032,9 @@ void Game::drawLoading() {
 }
 
 void Game::getHiscore() {
-	if (player1 != NULL && hi_scores.isGood(player1->getScore())) getName(player1, 1);
+	if (player1 != NULL && hi_scores.isGood(player1->getScore())) getName(player1.get(), 1);
 
-	if (player2 != NULL && hi_scores.isGood(player2->getScore())) getName(player2, 2);
+	if (player2 != NULL && hi_scores.isGood(player2->getScore())) getName(player2.get(), 2);
 }
 
 void Game::getName(Joueur* joueur, int ijoueur) {

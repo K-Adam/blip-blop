@@ -482,7 +482,7 @@ void Couille::update() {
 
 		while (i < NB_MAX_PLAT && y_plat[i][x] == 0xFFFF) i++;
 
-		y_to_go = y_plat[i][x];
+		y_to_go = i < NB_MAX_PLAT ? y_plat[i][x] : 0xFFFF;
 
 		y = -50;
 		col_on = true;

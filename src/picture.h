@@ -39,6 +39,3 @@ class Picture {
 
 	~Picture();
 };
-
-int loadPBK(char *fic, Picture *&p, int rgb);
-void closePBK(Picture *&p, int t);

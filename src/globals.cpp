@@ -50,14 +50,14 @@ int val_end_lock;
 bool no_scroll1;
 bool no_scroll2;
 
-size_t scr_level_size;	// taille en écran du niveau
-size_t level_size;		// taille en pixels du niveau
-int* num_decor = NULL;	// Numéro ecran courant -> surface à utiliser
+size_t scr_level_size;		 // taille en écran du niveau
+size_t level_size;			 // taille en pixels du niveau
+std::vector<int> num_decor;	 // Numéro ecran courant -> surface à utiliser
 
-int32_t** y_plat = NULL;  // Plateformes (ordonnées)
+std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
 
-bool** murs_opaques;	// Murs opaques (=true)
-bool** murs_sanglants;	// Murs sanglants (=true)
+std::vector<std::vector<char>> murs_opaques;	// Murs opaques (=true)
+std::vector<std::vector<char>> murs_sanglants;	// Murs sanglants (=true)
 
 ControlP1 ctrlP1;
 ControlP2 ctrlP2;
@@ -157,6 +157,11 @@ void tremblement(int amp) {
 	ddy_tremblement = (amp >> 1) + 1;
 	dy_tremblement = -amp;
 	etape_tremblement = 0;
+}
+
+// Moving platforms can reach past the level edges
+void set_plat(int n, int x, int y) {
+	if (x >= 0 && size_t(x) < level_size) y_plat[n][x] = y;
 }
 
 int plat(int x, int y) {

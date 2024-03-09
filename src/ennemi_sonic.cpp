@@ -461,9 +461,9 @@ void EnnemiSonic::onAttackvertical() {
 			}
 		} else if (attack_phase == 3) {
 			// y+=dy;
-			if (y + dy > y_plat[0][y]) {
+			if (y + dy > y_plat[0][x]) {
 				tombe();
-				y = y_plat[0][y];
+				y = y_plat[0][x];
 				dy = 0;
 				ss_etape = 0;
 				etape = 0;

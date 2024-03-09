@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include <fstream>
 #include "hi_scores.h"
 #include <json.h>
@@ -15,7 +13,7 @@ void HiScores::init() {
 
 	for (int i = 0; i < HS_NB_SCORES; i++) {
 		scores[i] = scr;
-		strcpy(names[i], "LOADED STUDIO");
+		names[i] = "LOADED STUDIO";
 		scr -= 10000;
 	}
 }
@@ -29,14 +27,14 @@ void HiScores::add(int scr, const char* name) {
 
 	while (j > i) {
 		scores[j] = scores[j - 1];
-		strcpy(names[j], names[j - 1]);
+		names[j] = names[j - 1];
 
 		j--;
 	}
 
 	if (i < HS_NB_SCORES) {
 		scores[i] = scr;
-		strcpy(names[i], name);
+		names[i] = std::string(name).substr(0, HS_NAME_LENGTH - 1);
 	}
 }
 
@@ -75,11 +73,8 @@ bool HiScores::load(const char* file) {
 			return false;
 		}
 
-		std::string name = item["name"];
+		names[index] = item["name"].get<std::string>().substr(0, HS_NAME_LENGTH - 1);
 		scores[index] = item["score"];
-		size_t length = std::min(name.length(), (size_t)HS_NAME_LENGTH - 1);
-		std::copy(name.begin(), name.begin() + length, names[index]);
-		names[index][length] = '\0';
 		index++;
 	}
 

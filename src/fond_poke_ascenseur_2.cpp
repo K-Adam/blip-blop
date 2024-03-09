@@ -27,7 +27,7 @@ void FondPokeAscenceur2::update() {
 		// Déplace la plateforme
 		y += dy;
 
-		for (int i = x; i < x + pic->xSize(); i++) y_plat[4][i] = y + 20;
+		for (int i = x; i < x + pic->xSize(); i++) set_plat(4, i, y + 20);
 
 		colFromPic();
 

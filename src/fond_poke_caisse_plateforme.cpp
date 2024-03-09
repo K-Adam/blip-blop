@@ -19,11 +19,11 @@ void FondPokeCaissePlateforme::update() {
 
 	if (y + 28 != 0) {
 		for (i = x - 90; i < x + 140; i++) {
-			y_plat[4][i] = y + 28;
+			set_plat(4, i, y + 28);
 		}
 	} else {
 		for (i = x - 90; i < x + 140; i++) {
-			y_plat[4][i] = y + 29;
+			set_plat(4, i, y + 29);
 		}
 	}
 };
