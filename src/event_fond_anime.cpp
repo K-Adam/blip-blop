@@ -26,25 +26,13 @@
 #include "fond_lampe_2.h"
 #include "fond_eau.h"
 
-// Fonds Jeux Vidéos
-#include "fond_cube.h"
-#include "fond_piece.h"
-#include "fond_ring.h"
-#include "fond_tournesol_1.h"
-#include "fond_tournesol_2.h"
-#include "fond_tournesol_3.h"
-#include "fond_tournesol_4.h"
-#include "fond_drapeau.h"
-
+#include "fond_anime.h"
 #include "fond_lcd.h"
 #include "fond_worldmap.h"
 #include "fond_electronics.h"
-#include "fond_ecraneige.h"
 #include "fond_ecrancamera.h"
 #include "fond_assembleur.h"
 #include "fond_windows.h"
-#include "fond_dos.h"
-#include "fond_bossventilo.h"
 
 #include "fond_battle_cruiser.h"
 #include "fond_etoile.h"

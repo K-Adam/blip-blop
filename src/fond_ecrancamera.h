@@ -1,9 +1,9 @@
 #pragma once
 
-#include "sprite.h"
+#include "fond_anime.h"
 
-class FondEcrancamera : public Sprite {
+class FondEcrancamera : public FondAnime {
    public:
-	virtual void update();
-	virtual void affiche();
+	FondEcrancamera() : FondAnime(50, 3, 87, false) {}
+	void affiche() override;
 };

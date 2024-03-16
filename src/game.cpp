@@ -469,101 +469,41 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 	json data = json::parse(input);
 
-	std::string name, path;
-
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading level <" << nom_niveau << ">\n";
 	debug << "---------------------------------------------------------------\n";
 
-	// GFX decors
-	name = data["gfx_decors"].get<std::string>();
-	path = "gfx/" + name;
+	// Every asset but the background is optional, an empty name means the level has none
+	auto load = [&](const char* key, const char* dir, const char* what, bool required, auto loader) {
+		std::string name = data[key].get<std::string>();
+		if (name.empty() && !required) return true;
 
-	if (!pbk_decor.loadGFX(path.c_str())) {
-		debug << "Game::chargeNiveau() -> Cannot load " << path << " as background\n";
-		return false;
-	}
-
-	debug << "Successfully loaded <" << path << "> as background\n";
-
-	// GFX niveau (fonds animés & co)
-	name = data["gfx_niveau"].get<std::string>();
-	if (!name.empty()) {
-		path = "gfx/" + name;
-
-		if (!pbk_niveau.loadGFX(path.c_str())) {
-			debug << "Game::chargeNiveau() -> Cannot load " << path << " as level stuff\n";
+		std::string path = dir + name;
+		if (!loader(path.c_str())) {
+			debug << "Game::chargeNiveau() -> Cannot load " << path << " as " << what << "\n";
 			return false;
 		}
+		debug << "Successfully loaded <" << path << "> as " << what << "\n";
+		return true;
+	};
 
-		debug << "Successfully loaded <" << path << "> as level stuff\n";
-	}
-
-	// GFX ennemis
-	name = data["gfx_ennemis"].get<std::string>();
-	if (!name.empty()) {
-		path = "gfx/" + name;
-
-		if (!pbk_ennemis.loadGFX(path.c_str())) {
-			debug << "Game::chargeNiveau() -> Cannot load " << path << " as ennemies\n";
-			return false;
-		}
-
-		debug << "Successfully loaded <" << path << "> as ennemies\n";
-	}
-
-	// SBK ennemis
-	name = data["sbk_ennemis"].get<std::string>();
-	if (!name.empty()) {
-		path = "sfx/" + name;
-
-		if (!sbk_niveau.loadSFX(path.c_str())) {
-			debug << "Game::chargeNiveau() -> Cannot load " << path << " as SBK\n";
-			return false;
-		}
-
-		debug << "Successfully loaded <" << path << "> as SBK\n";
-	}
-
-	// Fichier MBK
-	name = data["fichier_mbk"].get<std::string>();
-	if (!name.empty()) {
-		path = "mbk/" + name;
-		current_mbk = path;
-
-		if (music_on) {
-			if (!mbk_niveau.open(path.c_str())) {
-				debug << "Game::chargeNiveau() -> Cannot load " << path << " as MKB\n";
-				return false;
-			}
-			debug << "Successfully loaded <" << path << "> as MBK\n";
-		}
-	} else
-		current_mbk.clear();
-
-	// Fichier RPG itself
-	name = data["fichier_rpg"].get<std::string>();
-	if (!name.empty()) {
-		path = "rpg/" + name;
-		rpg.attachFile(path.c_str());
-
-		// Precache le fichier RPG
-
-		debug << "Successfully loaded <" << path << "> as RPG file\n";
-	}
-
-	// GFX rpg
-	name = data["gfx_rpg"].get<std::string>();
-	if (!name.empty()) {
-		path = "gfx/" + name;
-
-		if (!pbk_rpg.loadGFX(path.c_str())) {
-			debug << "Game::chargeNiveau() -> Cannot load " << path << " as RPG GFX\n";
-			return false;
-		}
-
-		debug << "Successfully loaded <" << path << "> as RPG GFX\n";
-	}
+	bool loaded = load("gfx_decors", "gfx/", "background", true, [](const char* f) { return pbk_decor.loadGFX(f); }) &&
+				  load("gfx_niveau", "gfx/", "level stuff", false, [](const char* f) { return pbk_niveau.loadGFX(f); }) &&
+				  load("gfx_ennemis", "gfx/", "ennemies", false, [](const char* f) { return pbk_ennemis.loadGFX(f); }) &&
+				  load("sbk_ennemis", "sfx/", "SBK", false, [](const char* f) { return sbk_niveau.loadSFX(f); }) &&
+				  load("fichier_mbk", "mbk/", "MBK", false,
+					   [](const char* f) {
+						   current_mbk = f;
+						   return !music_on || mbk_niveau.open(f);
+					   }) &&
+				  load("fichier_rpg", "rpg/", "RPG file", false,
+					   [&](const char* f) {
+						   rpg.attachFile(f);
+						   return true;
+					   }) &&
+				  load("gfx_rpg", "gfx/", "RPG GFX", false, [](const char* f) { return pbk_rpg.loadGFX(f); });
+	if (!loaded) return false;
+	if (data["fichier_mbk"].get<std::string>().empty()) current_mbk.clear();
 
 	// Taille du niveau
 	scr_level_size = data["num_decor"].size();
@@ -1413,110 +1353,117 @@ void Game::updateCheat() {
 	}
 }
 
+namespace {
+struct PlayerTotals {
+	Couille* player = nullptr;
+	Fonte* fnt = nullptr;
+	int xbase = 0;
+	int calc = 4;
+	int perfect = 0, c_perfect = 0;
+	int obj = 0, c_obj = 0;
+	int killed = 0, c_killed = 0;
+	int c_time = 0;
+	int total_bonus = 0, total = 0;
+	int life_up = 0;
+
+	void add(int& counter, int step, int points) {
+		counter += step;
+		total_bonus += points;
+		total += points;
+	}
+
+	void step(int timer) {
+		if (calc == 0) {
+			if (c_perfect >= perfect)
+				calc = 1;
+			else
+				add(c_perfect, 1000, 1000);
+		} else if (calc == 1) {
+			if (c_obj >= obj)
+				calc = 2;
+			else
+				add(c_obj, 1000, 1000);
+		}
+		if (calc == 2) {
+			if (c_killed >= killed)
+				calc = 3;
+			else
+				add(c_killed, 1, 500);
+		} else if (calc == 3) {
+			if (c_time >= timer)
+				calc = 4;
+			else
+				add(c_time, 1, 1000);
+		}
+	}
+
+	void draw(int timer) {
+		if (life_up > 0) fnt_rpg.printC(backSurface, xbase + 105, 270, "LIFE UP");
+
+		auto line = [&](int y, const char* label, int value) {
+			fnt_rpg.print(backSurface, xbase, y, label);
+			fnt->printR(backSurface, xbase + 210, y, std::to_string(value).c_str());
+		};
+		if (perfect > 0) line(180, "PERFECT", c_perfect);
+		if (obj > 0) line(200, "Objective", c_obj);
+		line(220, "Casualties", c_killed);
+		fnt_rpg.printR(backSurface, xbase + 220, 220, "%");
+		if (timer > 0) line(240, "Time left", c_time);
+		line(300, "BONUS", total_bonus);
+		line(320, "SCORE", total);
+
+		if (total / 500000 > player->mod_life) {
+			player->mod_life = total / 500000;
+			player->nb_life++;
+			life_up = 100;
+		}
+	}
+};
+}  // namespace
+
 void Game::showPE(bool bonus, bool fuckOff) {
-	Fonte* fnt_p1 = nullptr;
-	Fonte* fnt_p2 = nullptr;
-	int killed_p1 = 0;	  // % d'ennemis tués par le joueur 1
-	int c_killed_p1 = 0;  // compteur killed_p1
-	int calc_p1 = 0;
-	int c_time_p1 = 0;
-	int total_bonus_p1 = 0;
-	int total_p1 = 0;
-	int obj_p1 = 0;
-	int c_obj_p1 = 0;
-	int perfect_p1 = 0;
-	int c_perfect_p1 = 0;
-	int life_up_p1 = 0;
-
-	int killed_p2 = 0;	  // % d'ennemis tués par le joueur 1
-	int c_killed_p2 = 0;  // compteur killed_p2
-	int calc_p2 = 0;
-	int c_time_p2 = 0;
-	int total_bonus_p2 = 0;
-	int total_p2 = 0;
-	int obj_p2 = 0;
-	int c_obj_p2 = 0;
-	int perfect_p2 = 0;
-	int c_perfect_p2 = 0;
-	int life_up_p2 = 0;
-
-	int delai = 0;
-	int xbasep1 = 0;
-	bool showp1 = false;
-	int xbasep2 = 0;
-	bool showp2 = false;
+	PlayerTotals totals[2];
+	totals[0].player = player1.get();
+	totals[1].player = player2.get();
 
 	systemSurface->BltFast(0, 0, backSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
 
 	Rect r;
-
 	r.top = 100;
 	r.left = 60;
 	r.right = 580;
 	r.bottom = 400;
-
 	halfTone(systemSurface, &r);
 
 	mbk_inter.play(0);
 
 	if (list_joueurs.size() == 2) {
-		showp1 = showp2 = true;
-		xbasep1 = 80;
-		xbasep2 = 350;
-	} else {
-		if (player1 != NULL && player1->nb_life > 0) {
-			showp1 = true;
-			showp2 = false;
-			xbasep1 = 210;
-			calc_p2 = 4;
-		} else if (player2 != NULL) {
-			showp1 = false;
-			showp2 = true;
-			xbasep2 = 210;
-			calc_p1 = 4;
-		}
+		totals[0].calc = totals[1].calc = 0;
+		totals[0].xbase = 80;
+		totals[1].xbase = 350;
+	} else if (player1 != NULL && player1->nb_life > 0) {
+		totals[0].calc = 0;
+		totals[0].xbase = 210;
+	} else if (player2 != NULL) {
+		totals[1].calc = 0;
+		totals[1].xbase = 210;
 	}
 
-	if (showp1) {
-		if (player1->id_couille == ID_BLIP)
-			fnt_p1 = &fnt_score_blip;
-		else
-			fnt_p1 = &fnt_score_blop;
+	for (auto& t : totals) {
+		if (t.calc == 4) continue;
+		t.fnt = t.player->id_couille == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
+		if (nb_ennemis_created > 0) t.killed = (100 * t.player->getKilled()) / nb_ennemis_created;
+		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !joueurs_morts)) t.obj = 50000;
+		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
+		t.total = t.player->getScore();
+		if (fuckOff) t.perfect = t.obj = t.killed = 0;
 	}
+	if (fuckOff) game_flag[FLAG_TIMER] = 0;
 
-	if (showp2) {
-		if (player2->id_couille == ID_BLIP)
-			fnt_p2 = &fnt_score_blip;
-		else
-			fnt_p2 = &fnt_score_blop;
-	}
+	int delai = 0;
 
-	if (nb_ennemis_created > 0) {
-		if (showp1) killed_p1 = (100 * player1->getKilled()) / nb_ennemis_created;
-		if (showp2) killed_p2 = (100 * player2->getKilled()) / nb_ennemis_created;
-	}
-
-	if (!bonus || (game_flag[FLAG_TIMER] > 0 && !joueurs_morts)) {
-		if (showp1) obj_p1 = 50000;
-		if (showp2) obj_p2 = 50000;
-	}
-
-	if (obj_p1 > 0 && player1->perfect) perfect_p1 = 50000;
-
-	if (obj_p2 > 0 && player2->perfect) perfect_p2 = 50000;
-
-	if (showp1) total_p1 = player1->getScore();
-
-	if (showp2) total_p2 = player2->getScore();
-
-	if (fuckOff) {
-		perfect_p1 = perfect_p2 = obj_p1 = obj_p2 = killed_p1 = killed_p2 = 0;
-		game_flag[FLAG_TIMER] = 0;
-	}
-
-	while (!app_killed && (calc_p1 < 4 || calc_p2 < 4)) {
-		if (app_killed) return;
-
+	// Runs at least once so the screen shows even when no player is left to tally
+	do {
 		in.update();
 
 		delai += 1;
@@ -1525,189 +1472,30 @@ void Game::showPE(bool bonus, bool fuckOff) {
 		if (in.anyKeyPressed()) delai = 0;
 
 		if (delai == 0) {
-			// Calculs P1
-			if (calc_p1 == 0) {
-				// Perfect
-				if (c_perfect_p1 >= perfect_p1)
-					calc_p1 = 1;
-				else {
-					c_perfect_p1 += 1000;
-					total_bonus_p1 += 1000;
-					total_p1 += 1000;
-				}
-			} else if (calc_p1 == 1) {
-				// Bonus objectif atteint
-				if (c_obj_p1 >= obj_p1)
-					calc_p1 = 2;
-				else {
-					c_obj_p1 += 1000;
-					total_bonus_p1 += 1000;
-					total_p1 += 1000;
-				}
-			}
-			if (calc_p1 == 2) {
-				// Bonus % d'ennemis tués
-				if (c_killed_p1 >= killed_p1)
-					calc_p1 = 3;  // Passe en TIMER
-				else {
-					c_killed_p1 += 1;
-					total_bonus_p1 += 500;
-					total_p1 += 500;
-				}
-			} else if (calc_p1 == 3) {
-				// Bonus temps restant
-				if (c_time_p1 >= game_flag[FLAG_TIMER])
-					calc_p1 = 4;  // Fini le calcul
-				else {
-					c_time_p1 += 1;
-					total_bonus_p1 += 1000;
-					total_p1 += 1000;
-				}
-			}
-
-			// Calculs p2
-			if (calc_p2 == 0) {
-				// Perfect
-				if (c_perfect_p2 >= perfect_p2)
-					calc_p2 = 1;
-				else {
-					c_perfect_p2 += 1000;
-					total_bonus_p2 += 1000;
-					total_p2 += 1000;
-				}
-			} else if (calc_p2 == 1) {
-				// Bonus objectif atteint
-				if (c_obj_p2 >= obj_p2)
-					calc_p2 = 2;
-				else {
-					c_obj_p2 += 1000;
-					total_bonus_p2 += 1000;
-					total_p2 += 1000;
-				}
-			}
-			if (calc_p2 == 2) {
-				// Bonus % d'ennemis tués
-				if (c_killed_p2 >= killed_p2)
-					calc_p2 = 3;  // Passe en TIMER
-				else {
-					c_killed_p2 += 1;
-					total_bonus_p2 += 500;
-					total_p2 += 500;
-				}
-			} else if (calc_p2 == 3) {
-				// Bonus temps restant
-				if (c_time_p2 >= game_flag[FLAG_TIMER])
-					calc_p2 = 4;  // Fini le calcul
-				else {
-					c_time_p2 += 1;
-					total_bonus_p2 += 1000;
-					total_p2 += 1000;
-				}
-			}
+			for (auto& t : totals) t.step(game_flag[FLAG_TIMER]);
 		}
 
-		// Affichage
 		backSurface->BltFast(0, 0, systemSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
 
-		if (fuckOff) {
-			fnt_cool.printC(backSurface, 320, 120, "BONUS STAGE FAILED!");
-		} else {
-			fnt_cool.printC(backSurface, 320, 120, "LEVEL COMPLETE!");
-		}
+		fnt_cool.printC(backSurface, 320, 120, fuckOff ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
-		// Affichage	P1
-
-		if (showp1) {
-			assert(fnt_p1 != nullptr);
-
-			if (life_up_p1 > 0) {
-				fnt_rpg.printC(backSurface, xbasep1 + 105, 270, "LIFE UP");
-			}
-
-			if (perfect_p1 > 0) {
-				fnt_rpg.print(backSurface, xbasep1, 180, "PERFECT");
-				fnt_p1->printR(backSurface, xbasep1 + 210, 180, std::to_string(c_perfect_p1).c_str());
-			}
-
-			if (obj_p1 > 0) {
-				fnt_rpg.print(backSurface, xbasep1, 200, "Objective");
-				fnt_p1->printR(backSurface, xbasep1 + 210, 200, std::to_string(c_obj_p1).c_str());
-			}
-
-			fnt_rpg.print(backSurface, xbasep1, 220, "Casualties");
-			fnt_p1->printR(backSurface, xbasep1 + 210, 220, std::to_string(c_killed_p1).c_str());
-			fnt_rpg.printR(backSurface, xbasep1 + 220, 220, "%");
-
-			if (game_flag[FLAG_TIMER] > 0) {
-				fnt_rpg.print(backSurface, xbasep1, 240, "Time left");
-				fnt_p1->printR(backSurface, xbasep1 + 210, 240, std::to_string(c_time_p1).c_str());
-			}
-
-			fnt_rpg.print(backSurface, xbasep1, 300, "BONUS");
-			fnt_p1->printR(backSurface, xbasep1 + 210, 300, std::to_string(total_bonus_p1).c_str());
-
-			fnt_rpg.print(backSurface, xbasep1, 320, "SCORE");
-			fnt_p1->printR(backSurface, xbasep1 + 210, 320, std::to_string(total_p1).c_str());
-
-			if (total_p1 / 500000 > player1->mod_life) {
-				player1->mod_life = total_p1 / 500000;
-				player1->nb_life++;
-				life_up_p1 = 100;
-			}
-		}
-
-		// Affichage	P2
-		if (showp2) {
-			assert(fnt_p2 != nullptr);
-
-			if (life_up_p2 > 0) {
-				fnt_rpg.printC(backSurface, xbasep2 + 105, 270, "LIFE UP");
-			}
-
-			if (perfect_p2 > 0) {
-				fnt_rpg.print(backSurface, xbasep2, 180, "PERFECT");
-				fnt_p2->printR(backSurface, xbasep2 + 210, 180, std::to_string(c_perfect_p2).c_str());
-			}
-
-			if (obj_p2 > 0) {
-				fnt_rpg.print(backSurface, xbasep2, 200, "Objective");
-				fnt_p2->printR(backSurface, xbasep2 + 210, 200, std::to_string(c_obj_p2).c_str());
-			}
-
-			fnt_rpg.print(backSurface, xbasep2, 220, "Casualties");
-			fnt_p2->printR(backSurface, xbasep2 + 210, 220, std::to_string(c_killed_p2).c_str());
-			fnt_rpg.printR(backSurface, xbasep2 + 220, 220, "%");
-
-			if (game_flag[FLAG_TIMER] > 0) {
-				fnt_rpg.print(backSurface, xbasep2, 240, "Time left");
-				fnt_p2->printR(backSurface, xbasep2 + 210, 240, std::to_string(c_time_p2).c_str());
-			}
-
-			fnt_rpg.print(backSurface, xbasep2, 300, "BONUS");
-			fnt_p2->printR(backSurface, xbasep2 + 210, 300, std::to_string(total_bonus_p2).c_str());
-
-			fnt_rpg.print(backSurface, xbasep2, 320, "SCORE");
-			fnt_p2->printR(backSurface, xbasep2 + 210, 320, std::to_string(total_p2).c_str());
-
-			if (total_p2 / 500000 > player2->mod_life) {
-				player2->mod_life = total_p2 / 500000;
-				player2->nb_life++;
-				life_up_p2 = 100;
-			}
+		for (auto& t : totals) {
+			if (t.fnt) t.draw(game_flag[FLAG_TIMER]);
 		}
 
 		DDFlipV();
 
 		yieldToBrowser();
-	}
+	} while (!app_killed && (totals[0].calc < 4 || totals[1].calc < 4));
 
 	if (!app_killed) {
 		in.waitClean();
 		in.waitKey();
 	}
 
-	if (showp1) player1->setScore(total_p1);
-	if (showp2) player2->setScore(total_p2);
+	for (auto& t : totals) {
+		if (t.fnt) t.player->setScore(t.total);
+	}
 
 	mbk_inter.stop();
 }

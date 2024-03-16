@@ -1,8 +1,7 @@
 #include "globals.h"
 #include "fond_bombe.h"
+#include "bonus_arme.h"
 #include "enemy.h"
-#include "bonus_fusil.h"
-#include "bonus_pm.h"
 #include "bonus_vache.h"
 
 int save_time = 0;
