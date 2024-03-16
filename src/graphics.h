@@ -32,7 +32,6 @@ constexpr int RGB(uint8_t r, uint8_t g, uint8_t b) { return r | (g << 8) | (b <<
 constexpr int RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return r | (g << 8) | (b << 16) | (a << 24); }
 
 #include "sdl_surface.h"
-#include "sdl_texture.h"
 
 /*Nulled dd flags*/
 #define DDBLTFAST_WAIT 0
@@ -55,9 +54,13 @@ class Graphics {
 	struct RendererDeleter {
 		void operator()(SDL_Renderer* ptr) { SDL_DestroyRenderer(ptr); }
 	};
+	struct TextureDeleter {
+		void operator()(SDL_Texture* ptr) { SDL_DestroyTexture(ptr); }
+	};
 
 	std::unique_ptr<SDL_Window, WindowDeleter> window_;
 	std::unique_ptr<SDL_Renderer, RendererDeleter> renderer_;
+	std::unique_ptr<SDL_Texture, TextureDeleter> screen_;
 	bool fullscreen_;
 	int x_;
 	int y_;
@@ -78,10 +81,6 @@ class Graphics {
 	bool SetColorKey(SDL::Surface* surf, Pixel rgb);
 	void Flip();
 	void FlipV();
-
-	void Clear(int r = 0, int g = 0, int b = 0);
-	void Clear(int);
-	void Clear(RenderRect);
 
 	static unsigned long RGB16ToRGB32(unsigned short a) {
 		/* 1. Extract the red, green and blue values */

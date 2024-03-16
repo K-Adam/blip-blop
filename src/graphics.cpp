@@ -11,17 +11,23 @@ void Graphics::Init() {
 	}
 }
 
-void Graphics::ToggleFullscreen() { SetGfxMode(x_, y_, d_, !fullscreen_); }
+void Graphics::ToggleFullscreen() {
+	fullscreen_ = !fullscreen_;
+	SDL_SetWindowFullscreen(window_.get(), fullscreen_ ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+}
 void Graphics::SetGfxMode(int x, int y, int d, bool fullscreen) {
 	x_ = x;
 	y_ = y;
 	d_ = d;
 	fullscreen_ = fullscreen;
+	screen_.reset();
 	renderer_.reset();
-	window_.reset(SDL_ErrWrap(
-		SDL_CreateWindow("Blip&Blop", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN | (fullscreen * SDL_WINDOW_FULLSCREEN))));
+	Uint32 mode = fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_RESIZABLE;
+	window_.reset(SDL_ErrWrap(SDL_CreateWindow("Blip&Blop", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN | mode)));
 
 	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, SDL_RENDERER_ACCELERATED | (vSyncOn ? SDL_RENDERER_PRESENTVSYNC : 0))));
+	// The game draws a fixed 640x480 frame, the renderer scales it to the window and letterboxes the rest
+	SDL_RenderSetLogicalSize(renderer_.get(), x, y);
 }
 
 void Graphics::SetVSync(bool on) { SDL_RenderSetVSync(renderer_.get(), on); }
@@ -102,44 +108,14 @@ bool Graphics::SetColorKey(SDL::Surface* surf, Pixel rgb) {
 }
 
 void Graphics::Flip() {
-	SDL_Texture* tex = 0;
-	tex = SDL_CreateTextureFromSurface(renderer_.get(), backSurface->Get());
+	SDL_Surface* frame = backSurface->Get();
+	if (!screen_) {
+		screen_.reset(SDL_ErrWrap(SDL_CreateTexture(renderer_.get(), frame->format->format, SDL_TEXTUREACCESS_STREAMING, frame->w, frame->h)));
+	}
+	SDL_UpdateTexture(screen_.get(), NULL, frame->pixels, frame->pitch);
 	SDL_RenderClear(renderer_.get());
-	SDL_RenderCopy(renderer_.get(), tex, NULL, NULL);
+	SDL_RenderCopy(renderer_.get(), screen_.get(), NULL, NULL);
 	SDL_RenderPresent(renderer_.get());
-
-	SDL_DestroyTexture(tex);
 }
 
 void Graphics::FlipV() { Flip(); }
-
-void Graphics::Clear(int r, int g, int b) {
-	SDL_SetRenderDrawColor(renderer_.get(), r, g, b, 255);
-	SDL_RenderClear(renderer_.get());
-	SDL_RenderPresent(renderer_.get());
-}
-
-void Graphics::Clear(int c) {
-	int r = (c >> 16) & 0xFF;
-	int g = (c >> 8) & 0xFF;
-	int b = (c >> 0) & 0xFF;
-
-	SDL_SetRenderDrawColor(renderer_.get(), r, g, b, 255);
-	SDL_RenderClear(renderer_.get());
-	SDL_RenderPresent(renderer_.get());
-}
-
-void Graphics::Clear(RenderRect r2) {
-	int r = (r2.dwFillColor >> 16) & 0xFF;
-	int g = (r2.dwFillColor >> 8) & 0xFF;
-	int b = (r2.dwFillColor >> 0) & 0xFF;
-
-	SDL_Rect rect;
-	rect.x = r2.left;
-	rect.y = r2.top;
-	rect.w = r2.right - r2.left;
-	rect.h = r2.bottom - r2.top;
-
-	SDL_SetRenderDrawColor(renderer_.get(), r, g, b, 255);
-	SDL_RenderDrawRect(renderer_.get(), &rect);
-}
