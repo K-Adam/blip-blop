@@ -3,7 +3,7 @@
 #include "tir_epine.h"
 #include "ennemi_pic.h"
 #include "ennemi_poid.h"
-#include "ennemi_tete___rayman.h"
+#include "ennemi_tete_rayman.h"
 #include <math.h>
 
 const int anim_lara_bouton[] = {123, 123, 124, 125, 126, 126, 126, 125, 124, 123};

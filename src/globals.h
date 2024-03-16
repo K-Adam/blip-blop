@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <string>
 #include <vector>
 
 #include "ben_debug.h"
@@ -163,11 +164,8 @@ extern MusicBank mbk_niveau;
 extern MusicBank mbk_inter;
 extern MusicBank mbk_interl;
 
-extern char current_sbk[];		   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-extern char current_sbk_misc[];	   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-extern char current_sbk_niveau[];  // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-extern char current_mbk[];		   // Nom de la MBK courante pour pouvoir la recharger si on enlève puis remet le son
-extern int current_zik;			   // Numéro de la zik jouée
+extern std::string current_mbk;
+extern int current_zik;
 
 extern Fonte fnt_score_blip;
 extern Fonte fnt_score_blop;

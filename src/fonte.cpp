@@ -2,20 +2,13 @@
 
 #include "graphics.h"
 #include <string.h>
-#include <fstream>
-#include <fcntl.h>
-#include <stdio.h>
 
 #include "ben_debug.h"
 #include "fonte.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 
 #include <SDL2/SDL_image.h>
-
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#endif
 
 using json = nlohmann::json;
 
@@ -163,23 +156,24 @@ void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym
 	cury = y;
 
 	std::string txt(srctxt);
-	char* token = strtok(&txt[0], delim);
+	size_t pos = 0;
 
-	while (token != NULL) {
-		nx = width(token);
+	while ((pos = txt.find_first_not_of(delim, pos)) != std::string::npos) {
+		size_t end = txt.find_first_of(delim, pos);
+		std::string token = txt.substr(pos, end - pos);
+		pos = end;
+		nx = width(token.c_str());
 
 		if (curx + nx > ym) {
 			cury += h;
-			print(surf, x, cury, token);
+			print(surf, x, cury, token.c_str());
 			curx = x + nx;
 		} else {
-			print(surf, curx, cury, token);
+			print(surf, curx, cury, token.c_str());
 			curx += nx;
 		}
 
 		curx += spc;
-
-		token = strtok(NULL, delim);
 	}
 }
 

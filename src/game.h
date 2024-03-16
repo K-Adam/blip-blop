@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "graphics.h"
 #include "dd_gfx.h"
 #include "picture.h"
@@ -37,7 +39,7 @@ class Game {
 	bool briefing;
 
 	int nb_part;
-	char fic_names[MAX_PART][200];
+	std::string fic_names[MAX_PART];
 	int type_part[MAX_PART];
 	int type_lvl[MAX_PART];
 
@@ -159,7 +161,7 @@ class Game {
 	void showGameOver();
 	void showHighScores();
 
-	void showBriefing(char* fn);
+	void showBriefing(const char* fn);
 
 	void showCredits(bool theEnd = false);
 	void showMainScreen();

@@ -1,6 +1,4 @@
 #include "menu_main.h"
-#include <cstdio>
-#include <cstring>
 #include "config.h"
 #include "control_alias.h"
 #include "globals.h"
@@ -52,8 +50,8 @@ void TitleScreen::stop() {
 
 	if (music_on != start_music_on) {
 		if (music_on) {
-			if (strlen(current_mbk) > 0) {
-				if (!mbk_niveau.open(current_mbk))
+			if (!current_mbk.empty()) {
+				if (!mbk_niveau.open(current_mbk.c_str()))
 					music_on = false;
 				else {
 					if (current_zik >= 0) {

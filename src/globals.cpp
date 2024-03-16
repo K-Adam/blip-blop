@@ -137,11 +137,8 @@ MusicBank mbk_niveau;
 MusicBank mbk_inter;
 MusicBank mbk_interl;
 
-char current_sbk[200];		   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char current_sbk_misc[200];	   // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char current_sbk_niveau[200];  // Nom de la SBK courante pour pouvoir la recharger si on enlève puis remet le son
-char current_mbk[200];		   // Nom de la MBK courante pour pouvoir la recharger si on enlève puis remet le son
-int current_zik;			   // Numéro de la zik jouée
+std::string current_mbk;
+int current_zik;
 
 Fonte fnt_score_blip;
 Fonte fnt_score_blop;

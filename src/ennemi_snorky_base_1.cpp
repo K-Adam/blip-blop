@@ -1,6 +1,6 @@
 #include "ennemi_snorky_base_1.h"
 #include "morceaux_tete_snorky.h"
-#include "tir_snorkybase.h"
+#include "tir_snorky_base.h"
 
 const int anim_snorky_base_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_snorky_base_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};

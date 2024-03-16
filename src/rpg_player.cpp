@@ -8,7 +8,7 @@
 #include "scroll.h"
 #include "half_tone.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 
 using json = nlohmann::json;
 

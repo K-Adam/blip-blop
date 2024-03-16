@@ -1,4 +1,4 @@
-#include "ennemi_tete___rayman.h"
+#include "ennemi_tete_rayman.h"
 
 EnnemiTeteRayman::EnnemiTeteRayman() : dx(3) {
 	pv = 1;

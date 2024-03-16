@@ -3,7 +3,6 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "graphics.h"
-#include <stdio.h>
 #include <string.h>
 
 #include "ben_debug.h"
@@ -21,10 +20,6 @@
 #include "scroll.h"
 #include "sound_bank_bb.h"
 #include "txt_data.h"
-
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#endif
 
 Game game;
 
@@ -84,26 +79,11 @@ void Warning(const char* txt) {
 #endif
 }
 
-static void analyseCmdLine(char* cmd) {
-	static const char sep[] = " ";
-	char* token;
-
-	token = strtok(cmd, sep);
-
-	while (token != NULL) {
-		if (strcmp(token, "/safe") == 0) {
-			safeMode = true;
-		}
-
-		if (strcmp(token, "/cheat") == 0) {
-			cheat_on = true;
-		}
-
-		if (strcmp(token, "/quiet") == 0) {
-			music_on = false;
-		}
-
-		token = strtok(NULL, sep);
+static void analyseCmdLine(int argc, char** argv) {
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "/safe") == 0) safeMode = true;
+		if (strcmp(argv[i], "/cheat") == 0) cheat_on = true;
+		if (strcmp(argv[i], "/quiet") == 0) music_on = false;
 	}
 }
 
@@ -256,14 +236,9 @@ void cleanup() {
 }
 
 int main(int argc, char** argv) {
-	char lpCmdLine[512] = {0};
-	for (int i = 1; i < argc; i++) {
-		strcat(lpCmdLine, argv[i]);
-		strcat(lpCmdLine, " ");
-	}
 	int nCmdShow = 0;
 
-	analyseCmdLine(lpCmdLine);
+	analyseCmdLine(argc, argv);
 
 	if (!InitApp(nCmdShow)) {
 		return -1;

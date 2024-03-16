@@ -1,12 +1,9 @@
 #define BENINPUT_CPP_FILE
 
+#include "ben_divers.h"
 #include "input.h"
 
 #include "ben_debug.h"
-
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#endif
 
 Input in;
 
@@ -129,9 +126,7 @@ unsigned int Input::waitKey() {
 	waitClean();
 	int k;
 	while ((k = pressedCode()) < 0 && !app_killed) {
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 		update();
 	}
 	return k < 0 ? 0 : k;
@@ -140,9 +135,7 @@ unsigned int Input::waitKey() {
 void Input::waitClean() {
 	update();
 	while (pressedCode() >= 0 && !app_killed) {
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 		update();
 	}
 }

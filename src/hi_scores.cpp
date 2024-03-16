@@ -2,10 +2,6 @@
 #include "hi_scores.h"
 #include <json.h>
 
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#endif
-
 using json = nlohmann::json;
 
 void HiScores::init() {

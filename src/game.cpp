@@ -55,19 +55,11 @@
 #include "txt_data.h"
 #include "vehicule.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 #include <base64.h>
 #include "half_tone.h"
 
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#endif
-
 using json = nlohmann::json;
-
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#endif
 
 Personnage dummyPlayer;
 
@@ -120,7 +112,7 @@ void Game::jouePartie(int nbj, int idj) {
 
 	while (i < nb_part && letsgo && !app_killed) {
 		if (type_part[i] == PART_LEVEL) {
-			letsgo = joueNiveau(fic_names[i], type_lvl[i]);
+			letsgo = joueNiveau(fic_names[i].c_str(), type_lvl[i]);
 
 			if (!cowBombOn) {
 				if (player1 != NULL) player1->nb_cow_bomb = 1;
@@ -130,15 +122,13 @@ void Game::jouePartie(int nbj, int idj) {
 				cowBombOn = true;
 			}
 		} else if (type_part[i] == PART_BRIEFING) {
-			showBriefing(fic_names[i]);
+			showBriefing(fic_names[i].c_str());
 		} else {
-			cine.playScene(fic_names[i], primSurface, backSurface);
+			cine.playScene(fic_names[i].c_str(), primSurface, backSurface);
 		}
 
 		i += 1;
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	if (letsgo && !app_killed) {
@@ -390,9 +380,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		gameLoop();
 		updateVictoryAndDefeat();
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	if (joueurs_morts) debug << "Players died\n";
@@ -481,108 +469,100 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 	json data = json::parse(input);
 
-	char buffer[20];
-	char buffer2[70];
+	std::string name, path;
 
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading level <" << nom_niveau << ">\n";
 	debug << "---------------------------------------------------------------\n";
 
 	// GFX decors
-	copyStringToCharArray<20>(data["gfx_decors"], buffer);
-	strcpy(buffer2, "gfx/");
-	strcat(buffer2, buffer);
+	name = data["gfx_decors"].get<std::string>();
+	path = "gfx/" + name;
 
-	if (!pbk_decor.loadGFX(buffer2)) {
-		debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as background\n";
+	if (!pbk_decor.loadGFX(path.c_str())) {
+		debug << "Game::chargeNiveau() -> Cannot load " << path << " as background\n";
 		return false;
 	}
 
-	debug << "Successfully loaded <" << buffer2 << "> as background\n";
+	debug << "Successfully loaded <" << path << "> as background\n";
 
 	// GFX niveau (fonds animés & co)
-	copyStringToCharArray<20>(data["gfx_niveau"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "gfx/");
-		strcat(buffer2, buffer);
+	name = data["gfx_niveau"].get<std::string>();
+	if (!name.empty()) {
+		path = "gfx/" + name;
 
-		if (!pbk_niveau.loadGFX(buffer2)) {
-			debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as level stuff\n";
+		if (!pbk_niveau.loadGFX(path.c_str())) {
+			debug << "Game::chargeNiveau() -> Cannot load " << path << " as level stuff\n";
 			return false;
 		}
 
-		debug << "Successfully loaded <" << buffer2 << "> as level stuff\n";
+		debug << "Successfully loaded <" << path << "> as level stuff\n";
 	}
 
 	// GFX ennemis
-	copyStringToCharArray<20>(data["gfx_ennemis"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "gfx/");
-		strcat(buffer2, buffer);
+	name = data["gfx_ennemis"].get<std::string>();
+	if (!name.empty()) {
+		path = "gfx/" + name;
 
-		if (!pbk_ennemis.loadGFX(buffer2)) {
-			debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as ennemies\n";
+		if (!pbk_ennemis.loadGFX(path.c_str())) {
+			debug << "Game::chargeNiveau() -> Cannot load " << path << " as ennemies\n";
 			return false;
 		}
 
-		debug << "Successfully loaded <" << buffer2 << "> as ennemies\n";
+		debug << "Successfully loaded <" << path << "> as ennemies\n";
 	}
 
 	// SBK ennemis
-	copyStringToCharArray<20>(data["sbk_ennemis"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "sfx/");
-		strcat(buffer2, buffer);
+	name = data["sbk_ennemis"].get<std::string>();
+	if (!name.empty()) {
+		path = "sfx/" + name;
 
-		if (!sbk_niveau.loadSFX(buffer2)) {
-			debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as SBK\n";
+		if (!sbk_niveau.loadSFX(path.c_str())) {
+			debug << "Game::chargeNiveau() -> Cannot load " << path << " as SBK\n";
 			return false;
 		}
 
-		debug << "Successfully loaded <" << buffer2 << "> as SBK\n";
+		debug << "Successfully loaded <" << path << "> as SBK\n";
 	}
 
 	// Fichier MBK
-	copyStringToCharArray<20>(data["fichier_mbk"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "mbk/");
-		strcat(buffer2, buffer);
-		strcpy(current_mbk, buffer2);
+	name = data["fichier_mbk"].get<std::string>();
+	if (!name.empty()) {
+		path = "mbk/" + name;
+		current_mbk = path;
 
 		if (music_on) {
-			if (!mbk_niveau.open(buffer2)) {
-				debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as MKB\n";
+			if (!mbk_niveau.open(path.c_str())) {
+				debug << "Game::chargeNiveau() -> Cannot load " << path << " as MKB\n";
 				return false;
 			}
-			debug << "Successfully loaded <" << buffer2 << "> as MBK\n";
+			debug << "Successfully loaded <" << path << "> as MBK\n";
 		}
 	} else
-		strcpy(current_mbk, "");
+		current_mbk.clear();
 
 	// Fichier RPG itself
-	copyStringToCharArray<20>(data["fichier_rpg"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "rpg/");
-		strcat(buffer2, buffer);
-		rpg.attachFile(buffer2);
+	name = data["fichier_rpg"].get<std::string>();
+	if (!name.empty()) {
+		path = "rpg/" + name;
+		rpg.attachFile(path.c_str());
 
 		// Precache le fichier RPG
 
-		debug << "Successfully loaded <" << buffer2 << "> as RPG file\n";
+		debug << "Successfully loaded <" << path << "> as RPG file\n";
 	}
 
 	// GFX rpg
-	copyStringToCharArray<20>(data["gfx_rpg"], buffer);
-	if (strlen(buffer) != 0) {
-		strcpy(buffer2, "gfx/");
-		strcat(buffer2, buffer);
+	name = data["gfx_rpg"].get<std::string>();
+	if (!name.empty()) {
+		path = "gfx/" + name;
 
-		if (!pbk_rpg.loadGFX(buffer2)) {
-			debug << "Game::chargeNiveau() -> Cannot load " << buffer2 << " as RPG GFX\n";
+		if (!pbk_rpg.loadGFX(path.c_str())) {
+			debug << "Game::chargeNiveau() -> Cannot load " << path << " as RPG GFX\n";
 			return false;
 		}
 
-		debug << "Successfully loaded <" << buffer2 << "> as RPG GFX\n";
+		debug << "Successfully loaded <" << path << "> as RPG GFX\n";
 	}
 
 	// Taille du niveau
@@ -1256,11 +1236,8 @@ void Game::drawHUBpv(int x, int y, int pv) {
 }
 
 void Game::drawDebugInfos() {
-	char buffer[40];
-
 	if (show_fps) {
-		sprintf(buffer, "FPS = %d", fps_count);
-		fnt_rpg.print(backSurface, 10, 130, buffer);
+		fnt_rpg.print(backSurface, 10, 130, ("FPS = " + std::to_string(fps_count)).c_str());
 	}
 }
 
@@ -1291,9 +1268,7 @@ void Game::updateRPG() {
 		continued = rpg.drawScene(backSurface);
 		DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	rpg.stopPlay();
@@ -1345,11 +1320,8 @@ void Game::updateFlags() {
 
 void Game::drawTimer() {
 	if (game_flag[FLAG_TIMER] > 0) {
-		char buffer[10];
-
 		fnt_cool.printC(backSurface, 320, 20, txt_data[TXT_TIME].c_str());
-		sprintf(buffer, "%d", game_flag[FLAG_TIMER]);
-		fnt_cool.printC(backSurface, 320, 50, buffer);
+		fnt_cool.printC(backSurface, 320, 50, std::to_string(game_flag[FLAG_TIMER]).c_str());
 	}
 }
 
@@ -1375,9 +1347,7 @@ void Game::updateMenu() {
 
 			DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-			emscripten_sleep(0);
-#endif
+			yieldToBrowser();
 		}
 
 		if (r == 2) skipped = true;
@@ -1446,7 +1416,6 @@ void Game::updateCheat() {
 void Game::showPE(bool bonus, bool fuckOff) {
 	Fonte* fnt_p1 = nullptr;
 	Fonte* fnt_p2 = nullptr;
-	char buffer[20];
 	int killed_p1 = 0;	  // % d'ennemis tués par le joueur 1
 	int c_killed_p1 = 0;  // compteur killed_p1
 	int calc_p1 = 0;
@@ -1656,42 +1625,29 @@ void Game::showPE(bool bonus, bool fuckOff) {
 			}
 
 			if (perfect_p1 > 0) {
-				strcpy(buffer, "PERFECT");
-				fnt_rpg.print(backSurface, xbasep1, 180, buffer);
-				sprintf(buffer, "%d", c_perfect_p1);
-				fnt_p1->printR(backSurface, xbasep1 + 210, 180, buffer);
+				fnt_rpg.print(backSurface, xbasep1, 180, "PERFECT");
+				fnt_p1->printR(backSurface, xbasep1 + 210, 180, std::to_string(c_perfect_p1).c_str());
 			}
 
 			if (obj_p1 > 0) {
-				strcpy(buffer, "Objective");
-				fnt_rpg.print(backSurface, xbasep1, 200, buffer);
-				sprintf(buffer, "%d", c_obj_p1);
-				fnt_p1->printR(backSurface, xbasep1 + 210, 200, buffer);
+				fnt_rpg.print(backSurface, xbasep1, 200, "Objective");
+				fnt_p1->printR(backSurface, xbasep1 + 210, 200, std::to_string(c_obj_p1).c_str());
 			}
 
-			strcpy(buffer, "Casualties");
-			fnt_rpg.print(backSurface, xbasep1, 220, buffer);
-			sprintf(buffer, "%d", c_killed_p1);
-			fnt_p1->printR(backSurface, xbasep1 + 210, 220, buffer);
-			strcpy(buffer, "%");
-			fnt_rpg.printR(backSurface, xbasep1 + 220, 220, buffer);
+			fnt_rpg.print(backSurface, xbasep1, 220, "Casualties");
+			fnt_p1->printR(backSurface, xbasep1 + 210, 220, std::to_string(c_killed_p1).c_str());
+			fnt_rpg.printR(backSurface, xbasep1 + 220, 220, "%");
 
 			if (game_flag[FLAG_TIMER] > 0) {
-				strcpy(buffer, "Time left");
-				fnt_rpg.print(backSurface, xbasep1, 240, buffer);
-				sprintf(buffer, "%d", c_time_p1);
-				fnt_p1->printR(backSurface, xbasep1 + 210, 240, buffer);
+				fnt_rpg.print(backSurface, xbasep1, 240, "Time left");
+				fnt_p1->printR(backSurface, xbasep1 + 210, 240, std::to_string(c_time_p1).c_str());
 			}
 
-			strcpy(buffer, "BONUS");
-			fnt_rpg.print(backSurface, xbasep1, 300, buffer);
-			sprintf(buffer, "%d", total_bonus_p1);
-			fnt_p1->printR(backSurface, xbasep1 + 210, 300, buffer);
+			fnt_rpg.print(backSurface, xbasep1, 300, "BONUS");
+			fnt_p1->printR(backSurface, xbasep1 + 210, 300, std::to_string(total_bonus_p1).c_str());
 
-			strcpy(buffer, "SCORE");
-			fnt_rpg.print(backSurface, xbasep1, 320, buffer);
-			sprintf(buffer, "%d", total_p1);
-			fnt_p1->printR(backSurface, xbasep1 + 210, 320, buffer);
+			fnt_rpg.print(backSurface, xbasep1, 320, "SCORE");
+			fnt_p1->printR(backSurface, xbasep1 + 210, 320, std::to_string(total_p1).c_str());
 
 			if (total_p1 / 500000 > player1->mod_life) {
 				player1->mod_life = total_p1 / 500000;
@@ -1709,42 +1665,29 @@ void Game::showPE(bool bonus, bool fuckOff) {
 			}
 
 			if (perfect_p2 > 0) {
-				strcpy(buffer, "PERFECT");
-				fnt_rpg.print(backSurface, xbasep2, 180, buffer);
-				sprintf(buffer, "%d", c_perfect_p2);
-				fnt_p2->printR(backSurface, xbasep2 + 210, 180, buffer);
+				fnt_rpg.print(backSurface, xbasep2, 180, "PERFECT");
+				fnt_p2->printR(backSurface, xbasep2 + 210, 180, std::to_string(c_perfect_p2).c_str());
 			}
 
 			if (obj_p2 > 0) {
-				strcpy(buffer, "Objective");
-				fnt_rpg.print(backSurface, xbasep2, 200, buffer);
-				sprintf(buffer, "%d", c_obj_p2);
-				fnt_p2->printR(backSurface, xbasep2 + 210, 200, buffer);
+				fnt_rpg.print(backSurface, xbasep2, 200, "Objective");
+				fnt_p2->printR(backSurface, xbasep2 + 210, 200, std::to_string(c_obj_p2).c_str());
 			}
 
-			strcpy(buffer, "Casualties");
-			fnt_rpg.print(backSurface, xbasep2, 220, buffer);
-			sprintf(buffer, "%d", c_killed_p2);
-			fnt_p2->printR(backSurface, xbasep2 + 210, 220, buffer);
-			strcpy(buffer, "%");
-			fnt_rpg.printR(backSurface, xbasep2 + 220, 220, buffer);
+			fnt_rpg.print(backSurface, xbasep2, 220, "Casualties");
+			fnt_p2->printR(backSurface, xbasep2 + 210, 220, std::to_string(c_killed_p2).c_str());
+			fnt_rpg.printR(backSurface, xbasep2 + 220, 220, "%");
 
 			if (game_flag[FLAG_TIMER] > 0) {
-				strcpy(buffer, "Time left");
-				fnt_rpg.print(backSurface, xbasep2, 240, buffer);
-				sprintf(buffer, "%d", c_time_p2);
-				fnt_p2->printR(backSurface, xbasep2 + 210, 240, buffer);
+				fnt_rpg.print(backSurface, xbasep2, 240, "Time left");
+				fnt_p2->printR(backSurface, xbasep2 + 210, 240, std::to_string(c_time_p2).c_str());
 			}
 
-			strcpy(buffer, "BONUS");
-			fnt_rpg.print(backSurface, xbasep2, 300, buffer);
-			sprintf(buffer, "%d", total_bonus_p2);
-			fnt_p2->printR(backSurface, xbasep2 + 210, 300, buffer);
+			fnt_rpg.print(backSurface, xbasep2, 300, "BONUS");
+			fnt_p2->printR(backSurface, xbasep2 + 210, 300, std::to_string(total_bonus_p2).c_str());
 
-			strcpy(buffer, "SCORE");
-			fnt_rpg.print(backSurface, xbasep2, 320, buffer);
-			sprintf(buffer, "%d", total_p2);
-			fnt_p2->printR(backSurface, xbasep2 + 210, 320, buffer);
+			fnt_rpg.print(backSurface, xbasep2, 320, "SCORE");
+			fnt_p2->printR(backSurface, xbasep2 + 210, 320, std::to_string(total_p2).c_str());
 
 			if (total_p2 / 500000 > player2->mod_life) {
 				player2->mod_life = total_p2 / 500000;
@@ -1755,9 +1698,7 @@ void Game::showPE(bool bonus, bool fuckOff) {
 
 		DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	if (!app_killed) {
@@ -2012,7 +1953,7 @@ bool Game::loadList(const char* fic) {
 			assert(false);
 		}
 
-		copyStringToCharArray<200>(item["path"], fic_names[nb_part]);
+		fic_names[nb_part] = item["path"].get<std::string>();
 
 		nb_part++;
 	}
@@ -2044,11 +1985,9 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 	int key = -1;
 	int x = 640;
 
-	sprintf(buff, "PLAYER %d GOT A HIGH SCORE!", ijoueur);
+	snprintf(buff, sizeof(buff), "PLAYER %d GOT A HIGH SCORE!", ijoueur);
 
 	name[0] = '\0';
-
-	strcpy(name, "");
 
 	while (!app_killed && x >= 40) {
 		in.update();
@@ -2061,9 +2000,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	while (!app_killed && key != DIK_RETURN) {
@@ -2090,9 +2027,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320, 260, name);
 		DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	while (!app_killed && x < 640) {
@@ -2106,9 +2041,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	hi_scores.add(joueur->getScore(), name);
@@ -2124,15 +2057,12 @@ void Game::showGameOver() {
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 	mbk_inter.stop();
 }
 
 void Game::showHighScores() {
-	char buffer[50];
 	int x[HS_NB_SCORES];
 
 	for (int i = 0; i < HS_NB_SCORES; i++) x[i] = 400 + 160 * i;
@@ -2144,17 +2074,13 @@ void Game::showHighScores() {
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (x[i] > 0) x[i] -= 20;
 
-			sprintf(buffer, "%d", hi_scores.getScore(i));
-			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, buffer);
+			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, std::to_string(hi_scores.getScore(i)).c_str());
 
-			sprintf(buffer, "%s", hi_scores.getName(i));
-			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, buffer);
+			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
 		}
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
@@ -2164,17 +2090,13 @@ void Game::showHighScores() {
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (i == 0 || x[i - 1] >= 160) x[i] += 20;
 
-			sprintf(buffer, "%d", hi_scores.getScore(i));
-			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, buffer);
+			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, std::to_string(hi_scores.getScore(i)).c_str());
 
-			sprintf(buffer, "%s", hi_scores.getName(i));
-			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, buffer);
+			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
 		}
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 
 	in.waitClean();
@@ -2260,9 +2182,7 @@ void Game::go() {
 				DDFlipV();
 			}
 
-#ifdef __EMSCRIPTEN__
-			emscripten_sleep(0);
-#endif
+			yieldToBrowser();
 		}
 
 		if (r == RET_START_GAME1 || r == RET_START_GAME2) {
@@ -2275,9 +2195,7 @@ void Game::go() {
 				select.draw();
 				DDFlipV();
 
-#ifdef __EMSCRIPTEN__
-				emscripten_sleep(0);
-#endif
+				yieldToBrowser();
 			}
 			// The confirming pad A is also the default jump
 			in.waitClean();
@@ -2296,9 +2214,7 @@ void Game::go() {
 			diff_start.Reset();
 		}
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 
 	} while (r != RET_EXIT && !app_killed);
 
@@ -2307,7 +2223,7 @@ void Game::go() {
 	mbk_interl.stop();
 }
 
-void Game::showBriefing(char* fn) {
+void Game::showBriefing(const char* fn) {
 	pbk_briefing.loadGFX(fn);
 
 	briefing = true;
@@ -2340,9 +2256,7 @@ void Game::showMainScreen() {
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip(NULL, DDFLIP_WAIT );
 
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 }
 
@@ -2573,8 +2487,6 @@ void Game::showCredits(bool theEnd) {
 		}
 
 		DDFlip();
-#ifdef __EMSCRIPTEN__
-		emscripten_sleep(0);
-#endif
+		yieldToBrowser();
 	}
 }

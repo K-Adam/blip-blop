@@ -7,7 +7,7 @@
 #include "ben_debug.h"
 #include "dd_gfx.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 #include <SDL2/SDL_image.h>
 
 using json = nlohmann::json;

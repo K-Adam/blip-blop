@@ -8,7 +8,7 @@
 
 #include "ben_debug.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 
 using json = nlohmann::json;
 

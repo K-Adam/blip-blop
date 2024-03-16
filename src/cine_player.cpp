@@ -8,17 +8,9 @@
 #include "globals.h"
 #include "config.h"
 #include <json.h>
-#include "string.h"
+#include "asset_path.h"
 
 using json = nlohmann::json;
-
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#endif
-
-#ifdef _MSC_VER
-#pragma warning(disable : 4996)
-#endif
 
 #define ISCOM(_cmd) (strcmp(cmd_name, _cmd) == 0)
 
@@ -116,9 +108,7 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 				skiped = true;
 			}
 
-#ifdef __EMSCRIPTEN__
-			emscripten_sleep(0);
-#endif
+			yieldToBrowser();
 		}
 	}
 
@@ -481,7 +471,7 @@ bool CINEPlayer::getCommand() {
 
 	pos[0] = '\0';
 	if (strlen(buffer2) >= CMD_SIZE) return error();
-	strcpy(cmd_name, buffer2);
+	snprintf(cmd_name, CMD_SIZE, "%s", buffer2);
 	arg = pos + 1;
 
 	if (cmd_name[0] == '\0') return error();
@@ -489,14 +479,15 @@ bool CINEPlayer::getCommand() {
 	// Recherche les arguments de la commande ---------------------
 	nb_args = 0;
 
-	arg = strtok(arg, seps);
-
-	while (arg != NULL && nb_args < NB_ARG) {
-		snprintf(str_arg[nb_args], STR_LENGTH, "%s", arg);
-		int_arg[nb_args] = atoi(arg);
-
-		arg = strtok(NULL, seps);
-		nb_args += 1;
+	while (*arg != '\0' && nb_args < NB_ARG) {
+		size_t len = strcspn(arg, seps);
+		if (len > 0) {
+			snprintf(str_arg[nb_args], STR_LENGTH, "%.*s", int(len), arg);
+			int_arg[nb_args] = atoi(str_arg[nb_args]);
+			nb_args += 1;
+		}
+		arg += len;
+		if (*arg != '\0') arg++;
 	}
 
 	return true;
