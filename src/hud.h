@@ -49,9 +49,9 @@ class HUD {
 
 		std::string ammo_str = std::to_string(ammo);
 		if (firing) {
-			fnt_ammo_used.printC(backSurface, x, 43, ammo_str.c_str());
+			fnt_ammo_used.printC(backSurface, x, 43, ammo_str);
 		} else {
-			fnt_ammo.printC(backSurface, x, 43, ammo_str.c_str());
+			fnt_ammo.printC(backSurface, x, 43, ammo_str);
 		}
 	}
 
@@ -94,9 +94,9 @@ class HUD {
 
 	void DrawLives(int lives, Location location) {
 		if (location == Location::Left) {
-			fnt_cool.print(backSurface, 5, 5, std::to_string(lives).c_str());
+			fnt_cool.print(backSurface, 5, 5, std::to_string(lives));
 		} else {
-			fnt_cool.printR(backSurface, 635, 5, std::to_string(lives).c_str());
+			fnt_cool.printR(backSurface, 635, 5, std::to_string(lives));
 		}
 	}
 
@@ -107,9 +107,9 @@ class HUD {
 
 		int x = (location == Location::Left) ? 100 : 450;
 		if (color == Color::Blue) {
-			fnt_score_blip.print(backSurface, x, 20, s.c_str());
+			fnt_score_blip.print(backSurface, x, 20, s);
 		} else {
-			fnt_score_blop.print(backSurface, x, 20, s.c_str());
+			fnt_score_blop.print(backSurface, x, 20, s);
 		}
 	}
 

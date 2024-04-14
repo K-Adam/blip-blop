@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include <string>
 #include "music_bank.h"
 #include "picture_bank.h"
 #include "fonte.h"
@@ -13,9 +14,6 @@
 
 #define NB_OBJ 20
 #define NB_ARG 20
-#define STR_LENGTH 40
-#define BUFFER_SIZE 200
-#define CMD_SIZE 20
 
 struct OBJECT {
 	int id;
@@ -55,18 +53,16 @@ class CINEPlayer {
 	SDL::Surface* back_surf;
 
 	std::stringstream fic_;
-	char buffer[BUFFER_SIZE + 1];
-	char buffer2[BUFFER_SIZE + 1];
 
 	PictureBank pbk;
 	MusicBank mbk;
 
 	OBJECT obj[NB_OBJ];
 
-	char cmd_name[CMD_SIZE];
+	std::string cmd_name;
 	int nb_args;
 	int int_arg[NB_ARG];
-	char str_arg[NB_ARG][STR_LENGTH];
+	std::string str_arg[NB_ARG];
 
 	int num_ligne;
 	bool fini;

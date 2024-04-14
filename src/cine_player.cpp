@@ -1,5 +1,7 @@
+#include <algorithm>
 #include <cctype>
-#include <cstring>
+#include <charconv>
+#include <string_view>
 #include "cine_player.h"
 #include "ben_divers.h"
 #include "ben_debug.h"
@@ -11,8 +13,6 @@
 #include "asset_path.h"
 
 using json = nlohmann::json;
-
-#define ISCOM(_cmd) (strcmp(cmd_name, _cmd) == 0)
 
 void CINEPlayer::initPlayer() {
 	for (int i = 0; i < NB_OBJ; i++) {
@@ -189,17 +189,17 @@ void CINEPlayer::updateState() {
 	int i;
 
 	while (!fini && !to_draw && getCommand()) {
-		if (ISCOM("endscene")) {
+		if (cmd_name == "endscene") {
 			fini = true;
-		} else if (ISCOM("loadgfx")) {
-			if (!pbk.loadGFX(str_arg[0])) error("ne peut pas charger le fichier GFX");
-		} else if (ISCOM("loadmbk")) {
-			if (!mbk.open(str_arg[0])) error("ne peut pas charger la MBK");
-		} else if (ISCOM("playmusic")) {
+		} else if (cmd_name == "loadgfx") {
+			if (!pbk.loadGFX(str_arg[0].c_str())) error("ne peut pas charger le fichier GFX");
+		} else if (cmd_name == "loadmbk") {
+			if (!mbk.open(str_arg[0].c_str())) error("ne peut pas charger la MBK");
+		} else if (cmd_name == "playmusic") {
 			mbk.play(int_arg[0]);
-		} else if (ISCOM("stopmusic")) {
+		} else if (cmd_name == "stopmusic") {
 			mbk.stop();
-		} else if (ISCOM("setpos")) {
+		} else if (cmd_name == "setpos") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -208,7 +208,7 @@ void CINEPlayer::updateState() {
 				obj[n].x = int_arg[1];
 				obj[n].y = int_arg[2];
 			}
-		} else if (ISCOM("setpic")) {
+		} else if (cmd_name == "setpic") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -224,7 +224,7 @@ void CINEPlayer::updateState() {
 					obj[n].show = true;
 				}
 			}
-		} else if (ISCOM("setmove")) {
+		} else if (cmd_name == "setmove") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -234,7 +234,7 @@ void CINEPlayer::updateState() {
 				obj[n].dy = int_arg[2];
 				obj[n].time_mov = int_arg[3];
 			}
-		} else if (ISCOM("settext")) {
+		} else if (cmd_name == "settext") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -244,7 +244,7 @@ void CINEPlayer::updateState() {
 				obj[n].txt = int_arg[1];
 				obj[n].show = true;
 			}
-		} else if (ISCOM("reset")) {
+		} else if (cmd_name == "reset") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -257,7 +257,7 @@ void CINEPlayer::updateState() {
 				obj[n].x_warp = false;
 				obj[n].y_warp = false;
 			}
-		} else if (ISCOM("resetall")) {
+		} else if (cmd_name == "resetall") {
 			for (i = 0; i < NB_OBJ; i++) {
 				obj[i].show = false;
 				obj[i].dx = 0;
@@ -266,17 +266,17 @@ void CINEPlayer::updateState() {
 				obj[i].x_warp = false;
 				obj[i].y_warp = false;
 			}
-		} else if (ISCOM("setclip")) {
+		} else if (cmd_name == "setclip") {
 			clip_x1 = int_arg[0];
 			clip_y1 = int_arg[1];
 			clip_x2 = int_arg[2];
 			clip_y2 = int_arg[3];
-		} else if (ISCOM("noclip")) {
+		} else if (cmd_name == "noclip") {
 			clip_x1 = 0;
 			clip_y1 = 0;
 			clip_x2 = 640;
 			clip_y2 = 480;
-		} else if (ISCOM("setanim")) {
+		} else if (cmd_name == "setanim") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -298,7 +298,7 @@ void CINEPlayer::updateState() {
 					obj[n].anim[i - 3] = int_arg[i];
 				}
 			}
-		} else if (ISCOM("setxwarp")) {
+		} else if (cmd_name == "setxwarp") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -308,7 +308,7 @@ void CINEPlayer::updateState() {
 				obj[n].x_warp1 = int_arg[1];
 				obj[n].x_warp2 = int_arg[2];
 			}
-		} else if (ISCOM("setywarp")) {
+		} else if (cmd_name == "setywarp") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -318,7 +318,7 @@ void CINEPlayer::updateState() {
 				obj[n].y_warp1 = int_arg[1];
 				obj[n].y_warp2 = int_arg[2];
 			}
-		} else if (ISCOM("stopanim")) {
+		} else if (cmd_name == "stopanim") {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
@@ -326,12 +326,12 @@ void CINEPlayer::updateState() {
 			else {
 				obj[n].nb_anim = false;
 			}
-		} else if (ISCOM("setalpha")) {
+		} else if (cmd_name == "setalpha") {
 			alpha = int_arg[0];
 			delta_alpha = 0;
-		} else if (ISCOM("setdeltaalpha")) {
+		} else if (cmd_name == "setdeltaalpha") {
 			delta_alpha = int_arg[0];
-		} else if (ISCOM("setbackcolor")) {
+		} else if (cmd_name == "setbackcolor") {
 			if (int_arg[0] < 0 || int_arg[0] > 1)
 				error("mauvais numéro de calque");
 			else {
@@ -341,7 +341,7 @@ void CINEPlayer::updateState() {
 					color[int_arg[0]] = 0xFFFF;
 				}
 			}
-		} else if (ISCOM("setclipcolor")) {
+		} else if (cmd_name == "setclipcolor") {
 			if (int_arg[0] < 0 || int_arg[0] > 1)
 				error("mauvais numéro de calque");
 			else {
@@ -351,11 +351,11 @@ void CINEPlayer::updateState() {
 					clip_color[int_arg[0]] = 0xFFFF;
 				}
 			}
-		} else if (ISCOM("setvolume")) {
+		} else if (cmd_name == "setvolume") {
 			delta_vol = 0;
-		} else if (ISCOM("setdeltavolume")) {
+		} else if (cmd_name == "setdeltavolume") {
 			delta_vol = int_arg[0];
-		} else if (ISCOM("renderscene")) {
+		} else if (cmd_name == "renderscene") {
 			frame_to_draw = int_arg[0];
 			to_draw = true;
 		} else {
@@ -422,72 +422,45 @@ void CINEPlayer::drawSprite(int n) {
 }
 
 void CINEPlayer::drawText(int n) {
-	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt].c_str());
+	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt]);
 }
 
 bool CINEPlayer::getCommand() {
-	static const char seps[] = ",)\n";
-
-	int i = 0;
-	int j = 0;
-	char c;
-	char* arg;
-	char* pos;
-
-	// Retourne faux si EOF
-	if (fic_.eof()) return false;
+	std::string line;
 
 	// Esquive les lignes commentées et les lignes vides
-	fic_.getline(buffer, BUFFER_SIZE);
-	num_ligne += 1;
-
-	while (!fic_.eof() && (buffer[0] == ';' || buffer[0] == '\0')) {
-		fic_.getline(buffer, BUFFER_SIZE);
+	do {
+		// A script without endscene would otherwise spin forever on EOF
+		if (!std::getline(fic_, line)) {
+			fini = true;
+			return false;
+		}
 		num_ligne += 1;
+	} while (line.empty() || line[0] == ';');
+
+	// Vire les espaces et les " et met tout en minuscule, jusqu'au commentaire
+	std::string clean;
+	for (char c : line) {
+		if (c == ';') break;
+		if (c != ' ' && c != '"') clean += char(std::tolower((unsigned char)c));
 	}
 
-	if (fic_.eof() && strlen(buffer) == 0) return false;
+	size_t paren = clean.find('(');
+	if (paren == std::string::npos || paren == 0) return error();
+	cmd_name = clean.substr(0, paren);
 
-	// Vire les espaces et met tout en minuscule -----------------
-	// Vire aussi les "
-	do {
-		c = buffer[i++];  // Pour éviter 10.000 fois l'indirections
-
-		// Si on arrive à la fin de ligne on s'arrête
-		if (c == ';') {
-			buffer2[j] = '\0';
-		} else if (c != ' ' && c != '\"') {	 // Ignore les espaces
-			buffer2[j++] = tolower(c);
-		}
-
-	} while (c != '\0' && c != ';');
-
-	buffer2[j] = '\0';
-
-	// Recherche le nom de la commande ---------------------------
-	pos = strchr(buffer2, '(');
-
-	if (pos == NULL) return error();
-
-	pos[0] = '\0';
-	if (strlen(buffer2) >= CMD_SIZE) return error();
-	snprintf(cmd_name, CMD_SIZE, "%s", buffer2);
-	arg = pos + 1;
-
-	if (cmd_name[0] == '\0') return error();
-
-	// Recherche les arguments de la commande ---------------------
 	nb_args = 0;
-
-	while (*arg != '\0' && nb_args < NB_ARG) {
-		size_t len = strcspn(arg, seps);
+	std::string_view args(clean);
+	args.remove_prefix(paren + 1);
+	while (!args.empty() && nb_args < NB_ARG) {
+		size_t len = std::min(args.find_first_of(",)"), args.size());
 		if (len > 0) {
-			snprintf(str_arg[nb_args], STR_LENGTH, "%.*s", int(len), arg);
-			int_arg[nb_args] = atoi(str_arg[nb_args]);
+			str_arg[nb_args] = std::string(args.substr(0, len));
+			int_arg[nb_args] = 0;
+			std::from_chars(args.data(), args.data() + len, int_arg[nb_args]);
 			nb_args += 1;
 		}
-		arg += len;
-		if (*arg != '\0') arg++;
+		args.remove_prefix(std::min(len + 1, args.size()));
 	}
 
 	return true;

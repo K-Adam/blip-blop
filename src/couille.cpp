@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "config.h"
 #include "couille.h"
 #include "tir_bbm16.h"

@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include <fcntl.h>
-#include <cstdio>
 #include <cstring>
 #include <fstream>
 
@@ -226,7 +225,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 
 	if (!chargeNiveau(nom_niveau)) return false;
 
-	if (strcmp(nom_niveau, "lvl/snorkniv.lvl") == 0 || strcmp(nom_niveau, "lvl/snorkniv2.lvl") == 0) {
+	if (std::string_view(nom_niveau) == "lvl/snorkniv.lvl" || std::string_view(nom_niveau) == "lvl/snorkniv2.lvl") {
 		okLanceFlame = false;
 	} else {
 		okLanceFlame = true;
@@ -342,12 +341,10 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	SDL_Delay(2000);
 
 	if (briefing) {
-		DDBLTFX ddfx;
+		DDBLTFX ddfx{};
 		Rect r;
 
-		memset(&ddfx, 0, sizeof(ddfx));
 		ddfx.dwSize = sizeof(ddfx);
-		ddfx.dwFillColor = 0;  // Noir
 
 		r.left = 0;
 		r.right = 640;
@@ -541,7 +538,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	// Plateformes
 	y_plat.assign(NB_MAX_PLAT, std::vector<int32_t>(level_size));
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
-		memcpy(y_plat[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
+		std::memcpy(y_plat[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
 	// Murs opaques
@@ -925,12 +922,10 @@ void Game::drawAll(bool flip) {
 
 	// Virer la bande qui déconne si besoin est
 	if (vbuffer_wide == 640) {
-		DDBLTFX ddfx;
+		DDBLTFX ddfx{};
 		Rect r;
 
-		memset(&ddfx, 0, sizeof(ddfx));
 		ddfx.dwSize = sizeof(ddfx);
-		ddfx.dwFillColor = 0;  // Noir
 
 		r.left = 638;
 		r.right = 640;
@@ -1260,8 +1255,8 @@ void Game::updateFlags() {
 
 void Game::drawTimer() {
 	if (game_flag[FLAG_TIMER] > 0) {
-		fnt_cool.printC(backSurface, 320, 20, txt_data[TXT_TIME].c_str());
-		fnt_cool.printC(backSurface, 320, 50, std::to_string(game_flag[FLAG_TIMER]).c_str());
+		fnt_cool.printC(backSurface, 320, 20, txt_data[TXT_TIME]);
+		fnt_cool.printC(backSurface, 320, 50, std::to_string(game_flag[FLAG_TIMER]));
 	}
 }
 
@@ -1570,7 +1565,7 @@ void Game::updateDeformation() {
 }
 
 void Game::drawDeformation() {
-	DDBLTFX ddfx;
+	DDBLTFX ddfx{};
 	Rect r;
 	int pas = 20;
 	int phi = phi_deform;
@@ -1578,9 +1573,7 @@ void Game::drawDeformation() {
 	int x;
 	int xt;
 
-	memset(&ddfx, 0, sizeof(ddfx));
 	ddfx.dwSize = sizeof(ddfx);
-	ddfx.dwFillColor = 0;  // Noir
 
 	pas = 2;
 	dphi = 1;
@@ -1711,11 +1704,8 @@ void Game::drawTremblements() {
 
 	backSurface->BltFast(0, y, backSurface, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
 
-	DDBLTFX ddfx;
-
-	memset(&ddfx, 0, sizeof(ddfx));
+	DDBLTFX ddfx{};
 	ddfx.dwSize = sizeof(ddfx);
-	ddfx.dwFillColor = 0;
 
 	backSurface->Blt(&r2, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddfx);
 }
@@ -1767,15 +1757,10 @@ void Game::getHiscore() {
 }
 
 void Game::getName(Joueur* joueur, int ijoueur) {
-	char buff[30];
-	char name[21];
-	int i = 0;
+	const std::string title = "PLAYER " + std::to_string(ijoueur) + " GOT A HIGH SCORE!";
+	std::string name;
 	int key = -1;
 	int x = 640;
-
-	snprintf(buff, sizeof(buff), "PLAYER %d GOT A HIGH SCORE!", ijoueur);
-
-	name[0] = '\0';
 
 	while (!app_killed && x >= 40) {
 		in.update();
@@ -1783,7 +1768,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
-		fnt_menu.printC(backSurface, 320 - x, 160, buff);
+		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 
 		DDFlipV();
@@ -1798,19 +1783,15 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		std::string key_tmp = DIK_to_string(key);
 
-		if (key == DIK_SPACE && i < 19) {
-			name[i++] = ' ';
-			name[i] = '\0';
-		}
-		if (key == DIK_BACKSPACE && i > 0) {
-			name[--i] = '\0';
-		} else if (key_tmp.size() == 1 && i < 19) {
-			name[i++] = key_tmp[0];
-			name[i] = '\0';
+		if (key == DIK_SPACE && name.size() < 19) name += ' ';
+		if (key == DIK_BACKSPACE && !name.empty()) {
+			name.pop_back();
+		} else if (key_tmp.size() == 1 && name.size() < 19) {
+			name += key_tmp[0];
 		}
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
-		fnt_menu.printC(backSurface, 320 - x, 160, buff);
+		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260, name);
 		DDFlipV();
@@ -1823,7 +1804,7 @@ void Game::getName(Joueur* joueur, int ijoueur) {
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
-		fnt_menu.printC(backSurface, 320 - x, 160, buff);
+		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260 + x, name);
 
@@ -1897,11 +1878,8 @@ void Game::go() {
 
 	// Clear l'écran en noir + LOADING
 	{
-		DDBLTFX ddfx;
-
-		memset(&ddfx, 0, sizeof(ddfx));
+		DDBLTFX ddfx{};
 		ddfx.dwSize = sizeof(ddfx);
-		ddfx.dwFillColor = 0;
 
 		backSurface->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddfx);
 		fnt_cool.printC(backSurface, 320, 240, "PLEASE WAIT");
@@ -2016,12 +1994,10 @@ void Game::showBriefing(const char* fn) {
 
 	briefing = true;
 
-	DDBLTFX ddfx;
+	DDBLTFX ddfx{};
 	Rect r;
 
-	memset(&ddfx, 0, sizeof(ddfx));
 	ddfx.dwSize = sizeof(ddfx);
-	ddfx.dwFillColor = 0;  // Noir
 
 	r.left = 0;
 	r.right = 640;
@@ -2083,12 +2059,10 @@ void Game::showCredits(bool theEnd) {
 		in.update();
 
 		{
-			DDBLTFX ddfx;
+			DDBLTFX ddfx{};
 			Rect r;
 
-			memset(&ddfx, 0, sizeof(ddfx));
 			ddfx.dwSize = sizeof(ddfx);
-			ddfx.dwFillColor = 0;  // Noir
 
 			r.left = 0;
 			r.right = 640;

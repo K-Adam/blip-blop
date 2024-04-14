@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include "picture.h"
 #include "dd_gfx.h"
@@ -17,20 +18,20 @@ class /* Poele en */ Fonte {
 	bool load(const char* f);
 
 	// Affiche du texte normal
-	void print(SDL::Surface* surf, int x, int y, const char* txt);
+	void print(SDL::Surface* surf, int x, int y, std::string_view txt);
 
 	// Affiche texte justifié à droite
-	void printR(SDL::Surface* surf, int x, int y, const char* txt);
+	void printR(SDL::Surface* surf, int x, int y, std::string_view txt);
 
 	// Affiche texte centré
-	void printC(SDL::Surface* surf, int xtaille, int y, const char* txt);
+	void printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt);
 
 	// Affiche texte multiligne
-	void printM(SDL::Surface* surf, int x, int y, const char* txt, int ym);
+	void printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym);
 
 	// Affiche texte multiligne sans couper les mots
-	void printMW(SDL::Surface* surf, int x, int y, const char* txt, int ym);
+	void printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym);
 
 	// Renvoie la longueur en pixels d'un texte donné
-	int width(const char* txt);
+	int width(std::string_view txt);
 };

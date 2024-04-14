@@ -1,4 +1,3 @@
-#include <string.h>
 #include "sound_bank_bb.h"
 #include "config.h"
 #include "ben_debug.h"

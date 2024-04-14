@@ -1,6 +1,4 @@
 #include "menu_game.h"
-#include <cstdio>
-#include <cstring>
 #include "config.h"
 #include "control_alias.h"
 #include "globals.h"

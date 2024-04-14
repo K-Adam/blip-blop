@@ -1,4 +1,3 @@
-#include <string.h>
 #include <fstream>
 
 #include "ben_debug.h"

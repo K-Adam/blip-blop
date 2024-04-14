@@ -1,6 +1,4 @@
 #include <fstream>
-#include <cstdio>
-#include <cstring>
 #include "rpg_player.h"
 #include "globals.h"
 #include "txt_data.h"
@@ -172,9 +170,9 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	}
 
 	// Ecrit le texte
-	if (ntxt[0] != -1 && txt_data[ntxt[0]].c_str() != NULL) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]].c_str(), 640);
+	if (ntxt[0] != -1) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]], 640);
 
-	if (ntxt[1] != -1 && txt_data[ntxt[1]].c_str() != NULL) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]].c_str(), 535);
+	if (ntxt[1] != -1) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]], 535);
 
 	return not_finished;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdio.h>
 #include "sprite.h"
 
 int water_seed = 0;

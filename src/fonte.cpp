@@ -1,7 +1,6 @@
 #include <fstream>
 
 #include "graphics.h"
-#include <string.h>
 
 #include "ben_debug.h"
 #include "fonte.h"
@@ -55,16 +54,10 @@ bool Fonte::load(const char* fic) {
 	return true;
 }
 
-void Fonte::print(SDL::Surface* surf, int x, int y, const char* txt) {
-	if (txt == NULL) return;
+void Fonte::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
+	int curx = x;
 
-	int curx;  // X courant
-	int c;
-
-	curx = x;
-
-	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char)txt[i];
+	for (unsigned char c : txt) {
 		if (c == ' ') {
 			curx += spc;
 		} else if (pictab_[c] != NULL) {
@@ -74,32 +67,21 @@ void Fonte::print(SDL::Surface* surf, int x, int y, const char* txt) {
 	}
 }
 
-void Fonte::printM(SDL::Surface* surf, int x, int y, const char* txt, int ym) {
-	if (txt == NULL) return;
+void Fonte::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+	int curx = x;
+	int cury = y;
 
-	int curx;  // X courant
-	int cury;  // Y courant
-	int nx;	   // Next x (pour ne pas le calculer 2 fois)
-	unsigned int c;
-
-	curx = x;
-	cury = y;
-
-	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char)txt[i];
-
+	for (unsigned char c : txt) {
 		if (c == ' ') {
 			curx += spc;
 		} else if (pictab_[c] != NULL) {
-			// Calcul du X suivant
-			nx = curx + pictab_[c]->xSize();
+			int nx = curx + pictab_[c]->xSize();
 
-			// Ligne suivante ?
 			if (nx >= ym) {
 				cury += h;
 				pictab_[c]->BlitTo(surf, x, cury);
 				curx = x + pictab_[c]->xSize();
-			} else {  // Non, on continue..
+			} else {
 				pictab_[c]->BlitTo(surf, curx, cury);
 				curx = nx;
 			}
@@ -107,69 +89,27 @@ void Fonte::printM(SDL::Surface* surf, int x, int y, const char* txt, int ym) {
 	}
 }
 
-void Fonte::printR(SDL::Surface* surf, int x, int y, const char* txt) {
-	if (txt == NULL) return;
+void Fonte::printR(SDL::Surface* surf, int x, int y, std::string_view txt) { print(surf, x - width(txt), y, txt); }
 
-	int l = 0;	// Longueur en pixels de la chaîne
-	int c;
+void Fonte::printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt) { print(surf, xtaille - (width(txt) >> 1), y, txt); }
 
-	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char)txt[i];
-
-		if (c == ' ')
-			l += spc;
-		else if (pictab_[c] != NULL)
-			l += pictab_[c]->xSize();
-	}
-
-	print(surf, x - l, y, txt);
-}
-
-void Fonte::printC(SDL::Surface* surf, int xtaille, int y, const char* txt) {
-	if (txt == NULL) return;
-
-	int l = 0;	// Longueur en pixels de la chaîne
-	int c;
-
-	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char)txt[i];
-
-		if (c == ' ')
-			l += spc;
-		else if (pictab_[c] != NULL)
-			l += pictab_[c]->xSize();
-	}
-
-	print(surf, xtaille - (l >> 1), y, txt);
-}
-
-void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym) {
-	static const char delim[] = " ";
-
-	if (srctxt == NULL) return;
-
-	int curx;  // X courant
-	int cury;  // Y courant
-	int nx;	   // Next x (pour ne pas le calculer 2 fois)
-
-	curx = x;
-	cury = y;
-
-	std::string txt(srctxt);
+void Fonte::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+	int curx = x;
+	int cury = y;
 	size_t pos = 0;
 
-	while ((pos = txt.find_first_not_of(delim, pos)) != std::string::npos) {
-		size_t end = txt.find_first_of(delim, pos);
-		std::string token = txt.substr(pos, end - pos);
+	while ((pos = txt.find_first_not_of(' ', pos)) != std::string_view::npos) {
+		size_t end = txt.find(' ', pos);
+		std::string_view word = txt.substr(pos, end - pos);
 		pos = end;
-		nx = width(token.c_str());
+		int nx = width(word);
 
 		if (curx + nx > ym) {
 			cury += h;
-			print(surf, x, cury, token.c_str());
+			print(surf, x, cury, word);
 			curx = x + nx;
 		} else {
-			print(surf, curx, cury, token.c_str());
+			print(surf, curx, cury, word);
 			curx += nx;
 		}
 
@@ -177,15 +117,10 @@ void Fonte::printMW(SDL::Surface* surf, int x, int y, const char* srctxt, int ym
 	}
 }
 
-int Fonte::width(const char* txt) {
-	if (txt == NULL) return 0;
+int Fonte::width(std::string_view txt) {
+	int l = 0;
 
-	int l = 0;	// Longueur en pixels de la chaîne
-	int c;
-
-	for (unsigned int i = 0; i < strlen(txt); i++) {
-		c = (unsigned char)txt[i];
-
+	for (unsigned char c : txt) {
 		if (c == ' ')
 			l += spc;
 		else if (pictab_[c] != NULL)

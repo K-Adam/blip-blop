@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL_mixer.h>
 
+#include <iostream>
+
 extern "C" {
 struct FSOUND_STREAM {
 	Mix_Music* music;
@@ -17,7 +19,7 @@ FSOUND_SAMPLE* FSOUND_Sample_Load_File(const char* path) {
 	sample->loop = 0;
 	sample->chunk = Mix_LoadWAV(path);
 	if (!sample->chunk) {
-		printf("Mix_LoadWAV: %s\n", Mix_GetError());
+		std::cerr << "Mix_LoadWAV: " << Mix_GetError() << "\n";
 	}
 
 	return sample;
@@ -29,7 +31,7 @@ FSOUND_SAMPLE* FSOUND_Sample_Load(int index, const char* buffer, unsigned int mo
 	sample->loop = 0;
 	sample->chunk = Mix_LoadWAV_RW(SDL_RWFromConstMem(buffer, memlength), 1);
 	if (!sample->chunk) {
-		printf("Mix_LoadWAV_RW: %s\n", Mix_GetError());
+		std::cerr << "Mix_LoadWAV_RW: " << Mix_GetError() << "\n";
 	}
 
 	return sample;
@@ -54,7 +56,7 @@ FSOUND_STREAM* FSOUND_Stream_OpenFile(const char* filename, unsigned int mode, i
 	FSOUND_STREAM* stream = new FSOUND_STREAM;
 	stream->music = Mix_LoadMUS(filename);
 	if (!stream->music) {
-		printf("Mix_LoadMUS(\"%s\"): %s\n", filename, Mix_GetError());
+		std::cerr << "Mix_LoadMUS(" << filename << "): " << Mix_GetError() << "\n";
 	}
 	return stream;
 }
@@ -73,10 +75,10 @@ signed char FSOUND_Stream_Close(FSOUND_STREAM* stream) {
 
 signed char FSOUND_Init(int mixrate, int maxsoftwarechannels, unsigned int flags) {
 	// Music is ogg only, sound effects still work without it
-	if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) == 0) printf("Mix_Init: %s\n", Mix_GetError());
+	if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) == 0) std::cerr << "Mix_Init: " << Mix_GetError() << "\n";
 
 	if (Mix_OpenAudio(mixrate, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-		printf("Mix_OpenAudio: %s\n", Mix_GetError());
+		std::cerr << "Mix_OpenAudio: " << Mix_GetError() << "\n";
 		return 0;
 	}
 	return 1;

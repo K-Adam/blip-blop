@@ -1,4 +1,3 @@
-#include <cmath>
 #include "tir_tornade.h"
 
 TirTornade::TirTornade(int vx) : dx(vx), etape_speed(0), nb_tour(0) { dy = 0; }

@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include "fond_lampe_2.h"
 
 #define ETAT_CLIGNOTE 100

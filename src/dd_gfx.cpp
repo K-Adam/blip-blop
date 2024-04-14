@@ -1,5 +1,4 @@
 #include "dd_gfx.h"
-#include <stdio.h>
 #include "ben_debug.h"
 #include "config.h"
 #include "globals.h"

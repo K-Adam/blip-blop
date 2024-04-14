@@ -30,7 +30,7 @@ void TexteCool::update() {
 		x -= 16;
 }
 
-void TexteCool::affiche() { fnt_cool.printC(backSurface, x, y, txt_data[ntxt].c_str()); }
+void TexteCool::affiche() { fnt_cool.printC(backSurface, x, y, txt_data[ntxt]); }
 
 void clearTexteCool() {
 	for (int i = 0; i < 10; i++) text_cool_free[i] = true;

@@ -3,8 +3,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "graphics.h"
-#include <cstdlib>
-#include <string.h>
+#include <charconv>
+#include <string_view>
 
 #include "ben_debug.h"
 #include "ben_divers.h"
@@ -77,10 +77,14 @@ void Warning(const char* txt) { std::cerr << txt << "\n"; }
 
 static void analyseCmdLine(int argc, char** argv) {
 	for (int i = 1; i < argc; i++) {
-		if (strcmp(argv[i], "/safe") == 0) safeMode = true;
-		if (strcmp(argv[i], "/cheat") == 0) cheat_on = true;
-		if (strcmp(argv[i], "/quiet") == 0) music_on = false;
-		if (strcmp(argv[i], "/autoquit") == 0 && i + 1 < argc) autoquit_frames = atoi(argv[++i]);
+		std::string_view arg = argv[i];
+		if (arg == "/safe") safeMode = true;
+		if (arg == "/cheat") cheat_on = true;
+		if (arg == "/quiet") music_on = false;
+		if (arg == "/autoquit" && i + 1 < argc) {
+			std::string_view n = argv[++i];
+			std::from_chars(n.data(), n.data() + n.size(), autoquit_frames);
+		}
 	}
 }
 

@@ -2,8 +2,6 @@
 
 #include <fstream>
 
-#include <stdio.h>
-#include <string.h>
 #include "ben_debug.h"
 #include "dd_gfx.h"
 #include <json.h>

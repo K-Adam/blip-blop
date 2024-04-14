@@ -1,5 +1,5 @@
 #include "ben_maths.h"
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 static int bCos[360] = {0};

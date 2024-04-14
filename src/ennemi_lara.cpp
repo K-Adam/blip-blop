@@ -4,7 +4,7 @@
 #include "ennemi_pic.h"
 #include "ennemi_poid.h"
 #include "ennemi_tete_rayman.h"
-#include <math.h>
+#include <cmath>
 
 const int anim_lara_bouton[] = {123, 123, 124, 125, 126, 126, 126, 125, 124, 123};
 const int anim_lara_degaine[] = {127, 127, 127, 128, 128, 129, 130, 130, 131, 131, 131};

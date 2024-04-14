@@ -14,7 +14,7 @@ void HiScores::init() {
 	}
 }
 
-void HiScores::add(int scr, const char* name) {
+void HiScores::add(int scr, const std::string& name) {
 	int i = 0;
 
 	while (i < HS_NB_SCORES && scores[i] > scr) i++;
@@ -30,7 +30,7 @@ void HiScores::add(int scr, const char* name) {
 
 	if (i < HS_NB_SCORES) {
 		scores[i] = scr;
-		names[i] = std::string(name).substr(0, HS_NAME_LENGTH - 1);
+		names[i] = name.substr(0, HS_NAME_LENGTH - 1);
 	}
 }
 

@@ -1,7 +1,5 @@
 #include "music_bank.h"
 #include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <algorithm>
 #include <fstream>
 #include <iostream>

@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "tir_bb_fusil.h"
 
 const int dx_tirbb_fusil[] = {0, 6, 11, 14, 15, 14, 11, 6, 0, -6, -11, -14, -15, -14, -11, -6};

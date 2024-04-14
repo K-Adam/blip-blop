@@ -1,7 +1,6 @@
 #include <string>
 
-#include <stdio.h>
-#include <string.h>
+#include <cstring>
 #include "config.h"
 #include "input.h"
 #include "key_translator.h"

@@ -54,8 +54,7 @@ class Surface {
 			SDL_Rect*       dstrect)*/
 			int ret = SDL_BlitSurface(surf->Get(), &rect, surface, &position);
 			if (ret != 0) {
-				debug << "Errore SDL_BlitSurface in sdl_surface.h - " << SDL_GetError() << "\n";
-				exit(0);
+				debug << "SDL_BlitSurface failed: " << SDL_GetError() << "\n";
 			}
 		}
 	}
