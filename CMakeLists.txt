@@ -39,6 +39,12 @@ else()
 endif()
 
 if(NOT EMSCRIPTEN)
+    option(BUILD_TESTING "Build the end to end tests" ON)
+    if(BUILD_TESTING)
+        enable_testing()
+        add_subdirectory(tests)
+    endif()
+
     install(TARGETS blipblop RUNTIME DESTINATION .)
     install(DIRECTORY assets config DESTINATION .)
     if(WIN32)

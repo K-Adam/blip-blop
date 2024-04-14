@@ -3,6 +3,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "graphics.h"
+#include <cstdlib>
 #include <string.h>
 
 #include "ben_debug.h"
@@ -55,35 +56,31 @@ void ReleaseAll(void) {
 	in.close();
 }
 
-void Bug(const char* txt) {
 #if _WIN32
-	int size = MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0);
-	wchar_t* wideMessage = new wchar_t[size];
-	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
-
-	MessageBoxW(WinHandle, wideMessage, L"Blip'n Blop : Error reporting", MB_OK | MB_ICONERROR);
-#else
-	std::cerr << txt << "\n";
-#endif
+static void report(const char* txt, const wchar_t* title, UINT icon) {
+	// A message box would hang an unattended test run
+	if (autoquit_frames > 0) {
+		std::cerr << txt << "\n";
+		return;
+	}
+	std::wstring wide(MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0), L'\0');
+	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wide.data(), (int)wide.size());
+	MessageBoxW(WinHandle, wide.c_str(), title, MB_OK | icon);
 }
 
-void Warning(const char* txt) {
-#if _WIN32
-	int size = MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0);
-	wchar_t* wideMessage = new wchar_t[size];
-	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wideMessage, size);
-
-	MessageBoxW(WinHandle, wideMessage, L"Blip'n Blop : Warning", MB_OK | MB_ICONWARNING);
+void Bug(const char* txt) { report(txt, L"Blip'n Blop : Error reporting", MB_ICONERROR); }
+void Warning(const char* txt) { report(txt, L"Blip'n Blop : Warning", MB_ICONWARNING); }
 #else
-	std::cerr << txt << "\n";
+void Bug(const char* txt) { std::cerr << txt << "\n"; }
+void Warning(const char* txt) { std::cerr << txt << "\n"; }
 #endif
-}
 
 static void analyseCmdLine(int argc, char** argv) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "/safe") == 0) safeMode = true;
 		if (strcmp(argv[i], "/cheat") == 0) cheat_on = true;
 		if (strcmp(argv[i], "/quiet") == 0) music_on = false;
+		if (strcmp(argv[i], "/autoquit") == 0 && i + 1 < argc) autoquit_frames = atoi(argv[++i]);
 	}
 }
 
@@ -232,7 +229,8 @@ void cleanup() {
 
 	// Désalloue tout ce qu'il faut (en théorie)
 
-	save_settings();
+	// Test runs start from the repo, saving would rewrite the tracked config files
+	if (autoquit_frames == 0) save_settings();
 }
 
 int main(int argc, char** argv) {
@@ -240,7 +238,10 @@ int main(int argc, char** argv) {
 
 	analyseCmdLine(argc, argv);
 
-	if (!InitApp(nCmdShow)) {
+	try {
+		if (!InitApp(nCmdShow)) return -1;
+	} catch (const std::exception& e) {
+		Bug(e.what());
 		return -1;
 	}
 

@@ -1,5 +1,6 @@
 #include "graphics.h"
 
+#include "ben_divers.h"
 #include "config.h"
 #include "errors.h"
 
@@ -25,7 +26,7 @@ void Graphics::SetGfxMode(int x, int y, int d, bool fullscreen) {
 	Uint32 mode = fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_RESIZABLE;
 	window_.reset(SDL_ErrWrap(SDL_CreateWindow("Blip&Blop", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN | mode)));
 
-	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, SDL_RENDERER_ACCELERATED | (vSyncOn ? SDL_RENDERER_PRESENTVSYNC : 0))));
+	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, vSyncOn ? SDL_RENDERER_PRESENTVSYNC : 0)));
 	// The game draws a fixed 640x480 frame, the renderer scales it to the window and letterboxes the rest
 	SDL_RenderSetLogicalSize(renderer_.get(), x, y);
 }
@@ -116,6 +117,8 @@ void Graphics::Flip() {
 	SDL_RenderClear(renderer_.get());
 	SDL_RenderCopy(renderer_.get(), screen_.get(), NULL, NULL);
 	SDL_RenderPresent(renderer_.get());
+	static int frames = 0;
+	if (autoquit_frames > 0 && ++frames == autoquit_frames) app_killed = true;
 }
 
 void Graphics::FlipV() { Flip(); }

@@ -94,11 +94,11 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 		}
 	}
 
-	while (!fini) {
+	while (!fini && !app_killed) {
 		updateState();
 		update_regulator_.Skip();
 
-		while (frame_to_draw > 0 && !fini) {
+		while (frame_to_draw > 0 && !fini && !app_killed) {
 			in.update();
 
 			renderLoop();
