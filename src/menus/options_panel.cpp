@@ -1,12 +1,12 @@
-#include "options_panel.h"
+#include "menus/options_panel.h"
 
-#include "../config.h"
-#include "../control_alias.h"
-#include "../input.h"
-#include "../txt_data.h"
-#include "txt_defines.h"
+#include "core/config.h"
+#include "engine/control_alias.h"
+#include "engine/input.h"
+#include "core/text_data.h"
+#include "menus/txt_defines.h"
 
-#include "../dd_gfx.h"
+#include "engine/dd_gfx.h"
 
 OptionsPanel::OptionsPanel() {
 	vsync_on_txt_ = txt_data[TXT_VSYNC] + " " + txt_data[TXT_ON];

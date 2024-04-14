@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-file(GLOB SRC CONFIGURE_DEPENDS src/*.cpp src/menus/*.cpp)
+file(GLOB_RECURSE SRC CONFIGURE_DEPENDS src/*.cpp)
 
 add_executable(blipblop ${SRC})
-target_include_directories(blipblop PRIVATE include)
+target_include_directories(blipblop PRIVATE src include)
 
 if(MSVC)
     target_compile_options(blipblop PRIVATE /W3 /utf-8)

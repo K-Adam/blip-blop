@@ -1,7 +1,7 @@
-#include "options_menu.h"
+#include "menus/options_menu.h"
 
-#include "../config.h"
-#include "../input.h"
+#include "core/config.h"
+#include "engine/input.h"
 
 int OptionsMenu::ProcessEvent() {
 	in.update();

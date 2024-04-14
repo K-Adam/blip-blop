@@ -1,0 +1,20 @@
+#include "entities/shots/shot_bb_m16.h"
+
+const int dx_tirbb_m16[] = {0, 3, 6, 8, 9, 8, 6, 3, 0, -3, -6, -8, -9, -8, -6, -3};
+const int dy_tirbb_m16[] = {9, 8, 6, 3, 0, -2, -6, -8, -9, -8, -6, -3, 0, 3, 6, 8};
+
+void TirBBM16::update() {
+	x += dx_tirbb_m16[dir];
+	y += dy_tirbb_m16[dir];
+
+	x += dxReferentiel;
+
+	if (mur_opaque(x, y) || x < offset - 20 || x > offset + 690 || y < -20 || y > 500) {
+		pic = NULL;
+		noCol();
+		a_detruire = true;
+	} else {
+		pic = pbk_bb[72 + dir];
+		colFromPic();
+	}
+}

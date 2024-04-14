@@ -1,11 +1,11 @@
-#include "keys_menu.h"
+#include "menus/keys_menu.h"
 
-#include "../config.h"
-#include "../control_alias.h"
-#include "../input.h"
-#include "../key_translator.h"
-#include "../txt_data.h"
-#include "txt_defines.h"
+#include "core/config.h"
+#include "engine/control_alias.h"
+#include "engine/input.h"
+#include "engine/key_translator.h"
+#include "core/text_data.h"
+#include "menus/txt_defines.h"
 
 KeysMenu::KeysMenu(int nb_player) {
 	player_ = nb_player;

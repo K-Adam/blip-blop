@@ -1,9 +1,9 @@
-#include "start_menu.h"
+#include "menus/start_menu.h"
 
-#include "../control_alias.h"
-#include "../input.h"
-#include "../txt_data.h"
-#include "txt_defines.h"
+#include "engine/control_alias.h"
+#include "engine/input.h"
+#include "core/text_data.h"
+#include "menus/txt_defines.h"
 
 StartMenu::StartMenu() {
 	items_.AddEntry(txt_data[TXT_START_GAME1]);

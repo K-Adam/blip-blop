@@ -1,7 +1,7 @@
-#include "menu_list.h"
+#include "menus/menu_list.h"
 
-#include "../globals.h"
-#include "../half_tone.h"
+#include "core/globals.h"
+#include "engine/half_tone.h"
 
 int MenuList::ComputeWidth() const {
 	int width = 0;

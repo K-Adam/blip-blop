@@ -1,7 +1,7 @@
 #pragma once
 
-#include "abstract_menu.h"
-#include "menu_list.h"
+#include "menus/abstract_menu.h"
+#include "menus/menu_list.h"
 
 class PauseMenu : public AbstractMenu {
    public:

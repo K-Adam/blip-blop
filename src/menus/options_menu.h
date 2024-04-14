@@ -1,9 +1,9 @@
 #pragma once
 
-#include "abstract_menu.h"
+#include "menus/abstract_menu.h"
 
-#include "keys_menu.h"
-#include "options_panel.h"
+#include "menus/keys_menu.h"
+#include "menus/options_panel.h"
 
 class OptionsMenu : public AbstractMenu {
    public:
