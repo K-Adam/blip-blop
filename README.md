@@ -7,6 +7,16 @@ making the game playable on the web. While additions to the game's features
 are welcomed, the major goal of this fork is to ensure that people may
 access and enjoy the game directly through web browsers.
 
+## Development
+
+Sources are formatted with clang-format 13, the version CI checks. Enable the
+pre-commit hook once per clone so staged files get formatted automatically:
+
+```
+pip install clang-format==13.0.1
+git config core.hooksPath .githooks
+```
+
 # Forker's notes
 
 I am mainly trying to modernize the code. Both in terms of C++ features, and

@@ -12,7 +12,8 @@ Makefile
 
 # Visual Studio
 .vs
-.vscode
+.vscode/*
+!.vscode/settings.json
 Builds
 Debug
 Release
