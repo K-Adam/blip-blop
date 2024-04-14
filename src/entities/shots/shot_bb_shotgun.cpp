@@ -15,8 +15,8 @@ int n_d_grand = 0;
 int n_d_petit = 0;
 int n_d_min = 0;
 
-void TirBBFusil::setDir(int d) {
-	TirBB::setDir(d);
+void ShotBBShotgun::setDir(int d) {
+	ShotBB::setDir(d);
 
 	n_lat_grande += 1;
 	n_lat_grande %= 6;
@@ -108,7 +108,7 @@ void TirBBFusil::setDir(int d) {
 	vie = 0;
 }
 
-void TirBBFusil::update() {
+void ShotBBShotgun::update() {
 	y += dy;
 	x += dx;
 

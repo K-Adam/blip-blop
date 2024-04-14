@@ -68,8 +68,8 @@ class Game {
 	int xstart2;
 	int ystart2;
 
-	std::unique_ptr<Couille> player1;
-	std::unique_ptr<Couille> player2;
+	std::unique_ptr<Ball> player1;
+	std::unique_ptr<Ball> player2;
 
 	RPGPlayer rpg;
 
@@ -81,10 +81,10 @@ class Game {
 
 	int phi_deform;
 
-	MeteoNeige neige[NB_FLOCONS];
+	WeatherSnow neige[NB_FLOCONS];
 	int next_flocon;
 
-	MeteoPluie pluie[NB_GOUTTES];
+	WeatherRain pluie[NB_GOUTTES];
 	int next_goutte;
 
    public:
@@ -157,7 +157,7 @@ class Game {
 	void showPE(bool bonus, bool fuckOff = false);
 	void drawLoading();
 	void getHiscore();
-	void getName(Joueur* joueur, int i);
+	void getName(Player* joueur, int i);
 	void showGameOver();
 	void showHighScores();
 

@@ -2,13 +2,13 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiTeteRayman : public Ennemi {
+class EnemyRaymanHead : public Enemy {
    private:
 	int dx;
 
    public:
 	// methodes "habituelles"
-	EnnemiTeteRayman();
+	EnemyRaymanHead();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -17,5 +17,5 @@ class EnnemiTeteRayman : public Ennemi {
 
 	virtual int degats();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

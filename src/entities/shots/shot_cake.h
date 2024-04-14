@@ -2,11 +2,11 @@
 
 #include "entities/shots/shot.h"
 
-class TirGateau : public Tir {
+class ShotCake : public Shot {
    public:
 	int dx;
 
-	TirGateau();
+	ShotCake();
 
 	virtual int degats() const { return 1; };
 

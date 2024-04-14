@@ -1,11 +1,11 @@
 #include "entities/piece_rayman_head.h"
 
-MorceauTeteRayman::MorceauTeteRayman(int vx, int vy) : dx(vx) {
+PieceRaymanHead::PieceRaymanHead(int vx, int vy) : dx(vx) {
 	pic = pbk_ennemis[496];
 	dy = vy;
 }
 
-void MorceauTeteRayman::update() {
+void PieceRaymanHead::update() {
 	x += dx;
 	tombe();
 

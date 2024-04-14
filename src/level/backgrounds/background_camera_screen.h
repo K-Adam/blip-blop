@@ -2,8 +2,8 @@
 
 #include "level/backgrounds/background_animated.h"
 
-class FondEcrancamera : public FondAnime {
+class BackgroundCameraScreen : public BackgroundAnimated {
    public:
-	FondEcrancamera() : FondAnime(50, 3, 87, false) {}
+	BackgroundCameraScreen() : BackgroundAnimated(50, 3, 87, false) {}
 	void affiche() override;
 };

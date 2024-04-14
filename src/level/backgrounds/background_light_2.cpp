@@ -3,12 +3,12 @@
 
 #define ETAT_CLIGNOTE 100
 
-FondLumiere2::FondLumiere2() : allume(false), wait_for_cligno(0) {
+BackgroundLight2::BackgroundLight2() : allume(false), wait_for_cligno(0) {
 	delai_cligno = 50 + rand() % 200;
 	pic = pbk_niveau[17];
 }
 
-void FondLumiere2::update() {
+void BackgroundLight2::update() {
 	static const int anim_cligno[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
 									  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
 

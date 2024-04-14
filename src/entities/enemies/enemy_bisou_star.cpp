@@ -2,12 +2,12 @@
 #include "entities/gore_feet_bisou_star.h"
 #include "entities/shots/shot_star.h"
 
-EnnemiBisouEtoile::EnnemiBisouEtoile() : etape_shoot(0) {
+EnemyBisouStar::EnemyBisouStar() : etape_shoot(0) {
 	pv = 200;
 	wait_shoot = 200 + rand() % 250;
 }
 
-void EnnemiBisouEtoile::update() {
+void EnemyBisouStar::update() {
 	if (blood > 0) blood -= 1;
 
 	etape_shoot += 1;
@@ -42,7 +42,7 @@ void EnnemiBisouEtoile::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouEtoile::onMeureEntier() {
+void EnemyBisouStar::onMeureEntier() {
 	tombe();
 
 	ss_etape += 1;
@@ -51,7 +51,7 @@ void EnnemiBisouEtoile::onMeureEntier() {
 	if (ss_etape == 0) etape += 1;
 
 	if (etape == 4) {
-		GorePiedsBisouEtoile* pieds = new GorePiedsBisouEtoile();
+		GoreFeetBisouStar* pieds = new GoreFeetBisouStar();
 
 		pieds->x = x;
 		pieds->dir = dir;
@@ -73,7 +73,7 @@ void EnnemiBisouEtoile::onMeureEntier() {
 	}
 }
 
-void EnnemiBisouEtoile::onTire() {
+void EnemyBisouStar::onTire() {
 	ss_etape += 1;
 
 	if (ss_etape >= 60) {
@@ -85,7 +85,7 @@ void EnnemiBisouEtoile::onTire() {
 	}
 }
 
-void EnnemiBisouEtoile::onMeureHaut() {
+void EnemyBisouStar::onMeureHaut() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -108,7 +108,7 @@ void EnnemiBisouEtoile::onMeureHaut() {
 	}
 }
 
-void EnnemiBisouEtoile::onMeureHautFin() {
+void EnemyBisouStar::onMeureHautFin() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -125,7 +125,7 @@ void EnnemiBisouEtoile::onMeureHautFin() {
 	}
 }
 
-void EnnemiBisouEtoile::onAvance() {
+void EnemyBisouStar::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -155,7 +155,7 @@ void EnnemiBisouEtoile::onAvance() {
 	etape_shoot += 1;
 
 	if (etape == 4 && etape_shoot >= wait_shoot && x > offset) {
-		TirEtoile* s = new TirEtoile();
+		ShotStar* s = new ShotStar();
 
 		s->x = x;
 		s->y = y - 30;
@@ -170,7 +170,7 @@ void EnnemiBisouEtoile::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBisouEtoile::onCarbonise() {
+void EnemyBisouStar::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -189,11 +189,11 @@ void EnnemiBisouEtoile::onCarbonise() {
 		pic = pbk_ennemis[566 + etape];
 }
 
-void EnnemiBisouEtoile::estTouche(Tir* tir) {
+void EnemyBisouStar::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));

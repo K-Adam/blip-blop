@@ -11,11 +11,11 @@
 
 using json = nlohmann::json;
 
-bool Fonte::load(const char* fic) {
+bool Font::load(const char* fic) {
 	auto font_path = asset_path_prefix("lft", fic);
 	std::ifstream input(font_path + ".json");
 	if (!input.good()) {
-		debug << "Fonte::load->Ne peut pas ouvrir " << font_path + ".json"
+		debug << "Font::load->Ne peut pas ouvrir " << font_path + ".json"
 			  << "\n";
 		return false;
 	}
@@ -54,7 +54,7 @@ bool Fonte::load(const char* fic) {
 	return true;
 }
 
-void Fonte::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
+void Font::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
 	int curx = x;
 
 	for (unsigned char c : txt) {
@@ -67,7 +67,7 @@ void Fonte::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
 	}
 }
 
-void Fonte::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+void Font::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
 	int curx = x;
 	int cury = y;
 
@@ -89,11 +89,11 @@ void Fonte::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int y
 	}
 }
 
-void Fonte::printR(SDL::Surface* surf, int x, int y, std::string_view txt) { print(surf, x - width(txt), y, txt); }
+void Font::printR(SDL::Surface* surf, int x, int y, std::string_view txt) { print(surf, x - width(txt), y, txt); }
 
-void Fonte::printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt) { print(surf, xtaille - (width(txt) >> 1), y, txt); }
+void Font::printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt) { print(surf, xtaille - (width(txt) >> 1), y, txt); }
 
-void Fonte::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+void Font::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
 	int curx = x;
 	int cury = y;
 	size_t pos = 0;
@@ -117,7 +117,7 @@ void Fonte::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int 
 	}
 }
 
-int Fonte::width(std::string_view txt) {
+int Font::width(std::string_view txt) {
 	int l = 0;
 
 	for (unsigned char c : txt) {

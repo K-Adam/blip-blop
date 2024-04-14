@@ -45,8 +45,8 @@ would still disallow the gamer to properly play the game). Congrats and thanks!
 
 ## Lexicon
 
-- Couille: testicle. That's what the players are, and the code is in
-  couille.{cpp,h}
+- Couille: testicle. That's what the players were called. The class is now
+  `Ball` in entities/ball.{cpp,h}
 - schnuff: "thing". It's not french, it's a made up word, don't look at me like
   that
 - snuf: Smurf?

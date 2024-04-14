@@ -2,10 +2,10 @@
 
 #include "entities/enemies/enemy_smurf.h"
 
-class EnnemiSmurfALunettes : public EnnemiSmurf {
+class EnemySmurfGlasses : public EnemySmurf {
    public:
 	inline virtual void affiche() {
-		EnnemiSmurf::affiche();
+		EnemySmurf::affiche();
 		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 			switch (dir) {
 				case SENS_GAUCHE:
@@ -24,6 +24,6 @@ class EnnemiSmurfALunettes : public EnnemiSmurf {
 		else
 			speed = 1;
 
-		EnnemiSmurf::update();
+		EnemySmurf::update();
 	}
 };

@@ -10,14 +10,14 @@ const int anim_nabo_gauche[] = {166, 167};
 const int anim_transformation_droite[] = {75, 164};
 const int anim_transformation_gauche[] = {78, 166};
 
-EnnemiMariotapette::EnnemiMariotapette()
+EnemyMarioSwatter::EnemyMarioSwatter()
 	: speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), aide_luigi(0), nabo(0), nabo_delay(0), encaissement(0) {
 	pv = 10000;
 	xmin = 1280;
 	pic = pbk_ennemis[78];
 }
 
-void EnnemiMariotapette::update() {
+void EnemyMarioSwatter::update() {
 	if (game_flag[0] < 1) {
 		return;
 	}
@@ -46,7 +46,7 @@ void EnnemiMariotapette::update() {
 	}
 }
 
-void EnnemiMariotapette::onAvance() {
+void EnemyMarioSwatter::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -167,7 +167,7 @@ void EnnemiMariotapette::onAvance() {
 	colFromPic();
 }
 
-void EnnemiMariotapette::onMeure() {
+void EnemyMarioSwatter::onMeure() {
 	if (!nabo) {
 		tombe();
 		nabo_delay++;
@@ -209,7 +209,7 @@ void EnnemiMariotapette::onMeure() {
 		game_flag[3] = 1;
 		aide_luigi = 1;
 		dir = SENS_DROITE;
-		Ennemi* luigi = new EnnemiLuigi();
+		Enemy* luigi = new EnemyLuigi();
 
 		nb_ennemis_created++;
 
@@ -227,7 +227,7 @@ void EnnemiMariotapette::onMeure() {
 	}
 }
 
-void EnnemiMariotapette::onCharge() {
+void EnemyMarioSwatter::onCharge() {
 	speed = MARIO_CHARGE_SPEED;
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -283,7 +283,7 @@ void EnnemiMariotapette::onCharge() {
 	colFromPic();
 }
 
-void EnnemiMariotapette::onSaute() {
+void EnemyMarioSwatter::onSaute() {
 	int yp;
 
 	if (dy < 0) {
@@ -391,9 +391,9 @@ void EnnemiMariotapette::onSaute() {
 	colFromPic();
 }
 
-void EnnemiMariotapette::onCarbonise() { a_detruire = true; }
+void EnemyMarioSwatter::onCarbonise() { a_detruire = true; }
 
-void EnnemiMariotapette::tombe_mario() {
+void EnemyMarioSwatter::tombe_mario() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_MARIO_GRAVITE;
 
@@ -409,15 +409,15 @@ void EnnemiMariotapette::tombe_mario() {
 		y += dy;
 }
 
-void EnnemiMariotapette::estTouche(Tir* tir) {
+void EnemyMarioSwatter::estTouche(Shot* tir) {
 	for (int i = 0; i < 4; i++) {
-		GoreGiclure* s;
+		GoreSplatter* s;
 		if ((tir->dir >= 2) && (tir->dir <= 6)) {
-			s = new GoreGiclure(rand() % 6, -2 - rand() % 6);
+			s = new GoreSplatter(rand() % 6, -2 - rand() % 6);
 		} else if ((tir->dir >= 10) && (tir->dir <= 14)) {
-			s = new GoreGiclure(-rand() % 5 - 1, -2 - rand() % 6);
+			s = new GoreSplatter(-rand() % 5 - 1, -2 - rand() % 6);
 		} else {
-			s = new GoreGiclure(rand() % 11 - 5, -2 - rand() % 6);
+			s = new GoreSplatter(rand() % 11 - 5, -2 - rand() % 6);
 		}
 		s->x = x + rand() % 11 - 5;
 		s->y = y - rand() % 30 - 10;
@@ -434,6 +434,6 @@ void EnnemiMariotapette::estTouche(Tir* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 }

@@ -4,14 +4,14 @@
 
 #define YOSHI_SPEED 3
 
-class EnnemiYoshi : public Ennemi {
+class EnemyYoshi : public Enemy {
    private:
 	bool attack;  // type d'attaque false=carapace, true=contact(langue)
 	int attack_delay;
 	int wait_for_attack;
 
    public:
-	EnnemiYoshi();
+	EnemyYoshi();
 
 	virtual void update();
 	virtual void onAvance();
@@ -21,5 +21,5 @@ class EnnemiYoshi : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

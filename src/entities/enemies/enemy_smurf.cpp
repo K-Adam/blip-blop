@@ -3,14 +3,14 @@
 const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_smurf_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
-EnnemiSmurf::EnnemiSmurf() : wait_for_jump(0) {
+EnemySmurf::EnemySmurf() : wait_for_jump(0) {
 	pv = 100;
 	jump_delay = 50 + rand() % 250;
 	dy_saut = -5;
 	speed = 1;
 }
 
-void EnnemiSmurf::update() {
+void EnemySmurf::update() {
 	if (blood != 0) blood -= 1;
 
 	switch (etat) {
@@ -36,7 +36,7 @@ void EnnemiSmurf::update() {
 	updateADetruire();
 }
 
-void EnnemiSmurf::onAvance() {
+void EnemySmurf::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -74,7 +74,7 @@ void EnnemiSmurf::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSmurf::onSaute() {
+void EnemySmurf::onSaute() {
 	int yp;
 
 	tombe();
@@ -99,7 +99,7 @@ void EnnemiSmurf::onSaute() {
 	colFromPic();
 }
 
-void EnnemiSmurf::onMeure() {
+void EnemySmurf::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -123,17 +123,17 @@ void EnnemiSmurf::onMeure() {
 	}
 }
 
-void EnnemiSmurf::estTouche(Tir* tir) {
+void EnemySmurf::estTouche(Shot* tir) {
 	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
 
 	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
 }
 
-void EnnemiSmurf::onCarbonise() {
+void EnemySmurf::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 

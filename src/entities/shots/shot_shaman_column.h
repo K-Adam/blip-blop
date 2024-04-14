@@ -2,12 +2,12 @@
 
 #include "entities/shots/shot.h"
 
-class TirColonneChaman : public Tir {
+class ShotShamanColumn : public Shot {
    public:
 	int duree_vie;
 	int etat;  // 0:cree - 1:normal - 2:detruit
 
-	TirColonneChaman();
+	ShotShamanColumn();
 
 	virtual int degats() const { return 1; };
 

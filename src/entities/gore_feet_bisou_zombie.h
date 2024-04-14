@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class GorePiedsBisouZombi : public Sprite {
+class GoreFeetBisouZombie : public Sprite {
    public:
 	virtual void update() {
 		tombe();

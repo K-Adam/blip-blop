@@ -4,15 +4,15 @@
 
 #define LATENCE_BOUGE 1
 
-class EnnemiPoid : public Ennemi {
+class EnemyWeight : public Enemy {
    private:
 	int nb_colision;
 
    public:
-	EnnemiPoid();
+	EnemyWeight();
 	virtual void update();
 	virtual int degats();
 	virtual void onMeure();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual bool count() { return false; };
 };

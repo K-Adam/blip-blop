@@ -1,9 +1,9 @@
 #include "entities/sprite.h"
 #include "level/backgrounds/background_poke_crate.h"
 
-FondPokeCaisse::FondPokeCaisse() { pic = pbk_niveau[117]; }
+BackgroundPokeCrate::BackgroundPokeCrate() { pic = pbk_niveau[117]; }
 
-void FondPokeCaisse::update() {
+void BackgroundPokeCrate::update() {
 	int yp;
 
 	tombe();

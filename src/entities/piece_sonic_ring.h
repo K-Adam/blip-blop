@@ -2,11 +2,11 @@
 
 #include "entities/sprite.h"
 
-class MorceauSonicRing : public Sprite {
+class PieceSonicRing : public Sprite {
    public:
 	int dx;
 
-	MorceauSonicRing(int vx, int vy);
+	PieceSonicRing(int vx, int vy);
 
 	virtual void update();
 };

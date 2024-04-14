@@ -62,35 +62,35 @@ std::vector<std::vector<char>> murs_sanglants;	// Murs sanglants (=true)
 ControlP1 ctrlP1;
 ControlP2 ctrlP2;
 
-std::vector<Couille*> list_joueurs;	 // FIXME: make it owning?
-std::list<TirBB*> list_tirs_bb;
-std::list<std::unique_ptr<TirBBVache>> list_cow;
+std::vector<Ball*> list_joueurs;  // FIXME: make it owning?
+std::list<ShotBB*> list_tirs_bb;
+std::list<std::unique_ptr<ShotBBCow>> list_cow;
 std::list<std::unique_ptr<Explosion>> list_impacts;
 
-std::list<std::unique_ptr<Vehicule>> list_vehicules;
+std::list<std::unique_ptr<Vehicle>> list_vehicules;
 
 std::list<std::unique_ptr<Event>> list_event_endormis;
 std::list<std::unique_ptr<Event>> list_event;
 
-std::list<std::unique_ptr<Ennemi>> list_ennemis;
-std::list<std::unique_ptr<Tir>> list_tirs_ennemis;
-std::list<std::unique_ptr<GenEnnemi>> list_gen_ennemis;
+std::list<std::unique_ptr<Enemy>> list_ennemis;
+std::list<std::unique_ptr<Shot>> list_tirs_ennemis;
+std::list<std::unique_ptr<EnemyGenerator>> list_gen_ennemis;
 
 std::list<std::unique_ptr<Bonus>> list_bonus;
-std::list<std::unique_ptr<GenBonus>> list_gen_bonus;
+std::list<std::unique_ptr<BonusGenerator>> list_gen_bonus;
 
 std::list<std::unique_ptr<Sprite>> list_fonds_animes;
 std::list<std::unique_ptr<Sprite>> list_fonds_statiques;
 std::list<std::unique_ptr<Sprite>> list_premiers_plans;
 std::list<std::unique_ptr<Sprite>> list_plateformes_mobiles;
 
-std::list<std::unique_ptr<TexteCool>> list_txt_cool;
+std::list<std::unique_ptr<CoolText>> list_txt_cool;
 
 std::list<std::unique_ptr<Sprite>> list_giclures;
 std::list<std::unique_ptr<Sprite>> list_gore;
 
 std::list<Sprite*> list_meteo;
-std::list<std::unique_ptr<Bulle>> list_bulles;
+std::list<std::unique_ptr<Bubble>> list_bulles;
 
 bool phase;	 // Pour les clignotements
 bool slow_phase;
@@ -140,14 +140,14 @@ MusicBank mbk_interl;
 std::string current_mbk;
 int current_zik;
 
-Fonte fnt_score_blip;
-Fonte fnt_score_blop;
-Fonte fnt_ammo;
-Fonte fnt_ammo_used;
-Fonte fnt_cool;
-Fonte fnt_rpg;
-Fonte fnt_menu;
-Fonte fnt_menus;
+Font fnt_score_blip;
+Font fnt_score_blop;
+Font fnt_ammo;
+Font fnt_ammo_used;
+Font fnt_cool;
+Font fnt_rpg;
+Font fnt_menu;
+Font fnt_menus;
 
 void tremblement(int amp) {
 	amplitude_tremblement = amp;
@@ -247,7 +247,7 @@ inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rec
 bool grave(int x, int y, Picture* pic) {
 	if (pic == NULL || x > (offset + vbuffer_wide - pic->xSize())) return false;
 
-	FondStatique s;
+	BackgroundStatic s;
 
 	s.x = x;
 	s.y = y;

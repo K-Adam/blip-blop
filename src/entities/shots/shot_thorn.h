@@ -2,12 +2,12 @@
 
 #include "entities/shots/shot.h"
 
-class TirEpine : public Tir {
+class ShotThorn : public Shot {
    public:
 	int dx;
 	bool traverse;
 
-	TirEpine(int n_pbk_ennemis, int vx, int vy);
+	ShotThorn(int n_pbk_ennemis, int vx, int vy);
 
 	virtual int degats() const { return 1; };
 

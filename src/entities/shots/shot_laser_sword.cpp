@@ -1,14 +1,14 @@
 #include "entities/shots/shot_laser_sword.h"
 #include "entities/enemies/enemy_bisou_jedi.h"
 
-TirEpeeLaser::TirEpeeLaser() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1) {
+ShotLaserSword::ShotLaserSword() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1) {
 	duree_vie = 200 + rand() % 100;
 	sbk_niveau.play(13, SOUND_LOOP);
 }
 
-TirEpeeLaser::~TirEpeeLaser() { sbk_niveau.stop(13); }
+ShotLaserSword::~ShotLaserSword() { sbk_niveau.stop(13); }
 
-void TirEpeeLaser::update() {
+void ShotLaserSword::update() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -26,7 +26,7 @@ void TirEpeeLaser::update() {
 	int yc = 240;
 
 	if (!isdead) {
-		if (lanceur->a_detruire || ((Ennemi*)lanceur)->etat == ETAT_MEURE) {
+		if (lanceur->a_detruire || ((Enemy*)lanceur)->etat == ETAT_MEURE) {
 			isdead = true;
 		}
 	}
@@ -42,7 +42,7 @@ void TirEpeeLaser::update() {
 
 		if (ddx > -10 && ddx < 10 && ddy > -10 && ddy < 10) {
 			a_detruire = true;
-			((EnnemiBisouJedi*)lanceur)->a_epee = true;
+			((EnemyBisouJedi*)lanceur)->a_epee = true;
 		}
 	} else {
 		duree_vie -= 1;

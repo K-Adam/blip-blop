@@ -4,12 +4,12 @@
 
 #define CARAPACE_SPEED 6
 
-class TirCarapace : public Tir {
+class ShotShell : public Shot {
    public:
 	int dx;
 	bool rebond;
 
-	TirCarapace();
+	ShotShell();
 
 	virtual int degats() const { return 1; };
 

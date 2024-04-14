@@ -6,14 +6,14 @@
 #define LATENCE_DIABOLO_GRAVITE 5
 #define DIABOLO_GRAVITE_MAX 8
 
-class EnnemiDiabolo : public Ennemi {
+class EnemyDiabolo : public Enemy {
    public:
 	int wait_for_attack;
 	int attack_delay;
 	int dx;
 	int attack_type;
 
-	EnnemiDiabolo();
+	EnemyDiabolo();
 
 	virtual void update();
 	virtual void onAvance();
@@ -27,5 +27,5 @@ class EnnemiDiabolo : public Ennemi {
 	virtual void tombe_diabolo();
 	virtual void colFromPic();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

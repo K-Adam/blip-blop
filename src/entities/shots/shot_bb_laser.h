@@ -3,14 +3,14 @@
 #include "entities/player.h"
 #include "entities/shots/shot_bb.h"
 
-class TirBBLaser : public TirBB {
+class ShotBBLaser : public ShotBB {
    protected:
 	int largeur;
 	int hauteur;
 	int base;
 
    public:
-	TirBBLaser();
+	ShotBBLaser();
 
 	virtual int getGiclureDir() const { return dir; };
 

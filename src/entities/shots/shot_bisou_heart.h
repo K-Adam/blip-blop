@@ -2,13 +2,13 @@
 
 #include "entities/shots/shot.h"
 
-class TirCoeurBisou : public Tir {
+class ShotBisouHeart : public Shot {
    public:
 	int xbase;
 	int phi;
 	bool ok;
 
-	TirCoeurBisou();
+	ShotBisouHeart();
 
 	virtual int degats() const { return 1; };
 

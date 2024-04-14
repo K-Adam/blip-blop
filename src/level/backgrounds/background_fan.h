@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondVentilo : public Sprite {
+class BackgroundFan : public Sprite {
    public:
 	virtual void update() {
 		ss_etape += 1;

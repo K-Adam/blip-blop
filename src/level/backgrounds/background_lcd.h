@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondLCD : public Sprite {
+class BackgroundLCD : public Sprite {
    public:
 	virtual void update();
 };

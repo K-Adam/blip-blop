@@ -9,14 +9,14 @@ struct WeaponSpec {
 	bool light;
 };
 
-class BonusArme : public Bonus {
+class BonusWeapon : public Bonus {
    public:
-	explicit BonusArme(const WeaponSpec& w) : w_(w) {
+	explicit BonusWeapon(const WeaponSpec& w) : w_(w) {
 		pic = pbk_misc[w.pic];
 		col_on = true;
 	}
 
-	void estPris(Couille* c) override {
+	void estPris(Ball* c) override {
 		// A light weapon must not replace a well stocked flamethrower or laser
 		if (w_.light && (c->id_arme == ID_LF || c->id_arme == ID_LASER) && c->ammo >= 100) return;
 
@@ -45,22 +45,22 @@ class BonusArme : public Bonus {
 	WeaponSpec w_;
 };
 
-class BonusPM : public BonusArme {
+class BonusPM : public BonusWeapon {
    public:
-	BonusPM() : BonusArme({8, 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
+	BonusPM() : BonusWeapon({8, 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
 };
 
-class BonusFusil : public BonusArme {
+class BonusShotgun : public BonusWeapon {
    public:
-	BonusFusil() : BonusArme({9, 0, ID_FUSIL, 20, 40, 15, 45, 1, true}) {}
+	BonusShotgun() : BonusWeapon({9, 0, ID_FUSIL, 20, 40, 15, 45, 1, true}) {}
 };
 
-class BonusLaser : public BonusArme {
+class BonusLaser : public BonusWeapon {
    public:
-	BonusLaser() : BonusArme({10, 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
+	BonusLaser() : BonusWeapon({10, 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
 };
 
-class BonusLF : public BonusArme {
+class BonusLF : public BonusWeapon {
    public:
-	BonusLF() : BonusArme({11, 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
+	BonusLF() : BonusWeapon({11, 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
 };

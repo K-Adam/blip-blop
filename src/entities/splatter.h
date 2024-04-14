@@ -2,9 +2,9 @@
 
 #include "entities/character.h"
 
-class Giclure : public Sprite {
+class Splatter : public Sprite {
    public:
-	Personnage *pere;
+	Character *pere;
 	int deltax;
 	int deltay;
 

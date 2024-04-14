@@ -132,7 +132,7 @@ const int y_recul_fusil[][5] = {
 	{0, -4, -6, -4, 0}	 // BBDIR_BAS_B_G
 };
 
-Couille::Couille(const PictureBank& pbk)
+Ball::Ball(const PictureBank& pbk)
 	: sauti(0),
 	  ctrl(NULL),
 	  id_arme(ID_M16),
@@ -173,7 +173,7 @@ Couille::Couille(const PictureBank& pbk)
 	pv = 5;
 }
 
-void Couille::affiche() {
+void Ball::affiche() {
 	// On n'est pas mort au moins ?
 	if (nb_life <= 0) return;
 
@@ -207,7 +207,7 @@ void Couille::affiche() {
 	}
 }
 
-void Couille::afficheNormal() {
+void Ball::afficheNormal() {
 	int yback = y;	// Sauvegarde la valeur de y
 	y -= anime_sautille[sauti];
 
@@ -220,7 +220,7 @@ void Couille::afficheNormal() {
 	y = yback;
 }
 
-void Couille::afficheArme(int xtmp, int ytmp) {
+void Ball::afficheArme(int xtmp, int ytmp) {
 	// Affiche l'arme elle même
 	int d_arme = dir_arme / 2;
 
@@ -289,7 +289,7 @@ void Couille::afficheArme(int xtmp, int ytmp) {
 
 		switch (id_arme) {
 			case ID_M16:
-				if (id_couille == ID_BLIP) {
+				if (id_ball == ID_BLIP) {
 					draw(xtmp + dx_m16_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16_deto[d_arme] + y_recul[d_arme][etape_recul],
 						 pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
 				} else {
@@ -318,7 +318,7 @@ void Couille::afficheArme(int xtmp, int ytmp) {
 	}
 }
 
-void Couille::afficheOeil(int xtmp, int ytmp) {
+void Ball::afficheOeil(int xtmp, int ytmp) {
 	int base;	// Oeil de base (enervé & co)
 	int delta;	// Selon dir
 
@@ -355,7 +355,7 @@ void Couille::afficheOeil(int xtmp, int ytmp) {
 	}
 }
 
-void Couille::afficheSaute() {
+void Ball::afficheSaute() {
 	// Affiche le corps
 	Sprite::affiche();
 
@@ -369,7 +369,7 @@ void Couille::afficheSaute() {
 	}
 }
 
-void Couille::update() {
+void Ball::update() {
 	if (phase) {
 		etape_cli += 1;
 		etape_cli %= 4;
@@ -426,13 +426,13 @@ void Couille::update() {
 	if (wait_cow_bomb < 100) wait_cow_bomb += 1;
 
 	if (ctrl->super() && wait_cow_bomb == 100 && nb_cow_bomb >= 1) {
-		TirBBVache* ptr;
+		ShotBBCow* ptr;
 
 		for (int i = 0; i < 11; i++) {
 			int xVache = offset + i * 64 + rand() % 20;
 
 			if (!mur_opaque(xVache, 0)) {
-				ptr = new TirBBVache();
+				ptr = new ShotBBCow();
 
 				ptr->x = xVache;
 				ptr->y = rand() % 180 - 200;
@@ -440,7 +440,7 @@ void Couille::update() {
 				ptr->etape = rand() % 8;
 				ptr->joueur = this;
 
-				list_cow.push_back(std::unique_ptr<TirBBVache>(ptr));
+				list_cow.push_back(std::unique_ptr<ShotBBCow>(ptr));
 			}
 		}
 
@@ -612,7 +612,7 @@ void Couille::update() {
 	return;
 }
 
-void Couille::onNormal() {
+void Ball::onNormal() {
 	// Deux fois en bas très vite
 	if (time_down == -1 && !mur_opaque(x, y + 5) && !mur_opaque(x, y + 10) && !mur_opaque(x, y + 15) && !mur_opaque(x, y + 20) && !mur_opaque(x, y + 25)) {
 		y += 10;
@@ -672,7 +672,7 @@ void Couille::onNormal() {
 		pic = pbk_own[anime(anim_blip_marche_gauche, 4, 8)];
 }
 
-void Couille::onAvance() {
+void Ball::onAvance() {
 	// Si on appuie sur SAUT on saute ('tain c'est pas con ça!)
 	if (ctrl->saut() && !mur_opaque(x, y - 5)) {
 		etat = ETAT_SAUTE;
@@ -731,7 +731,7 @@ void Couille::onAvance() {
 		pic = pbk_own[anime(anim_blip_marche_gauche, 4, 5)];
 }
 
-void Couille::onSaute() {
+void Ball::onSaute() {
 	int yp;
 
 	// Pour gérer le saleto
@@ -792,7 +792,7 @@ void Couille::onSaute() {
 		pic = pbk_own[anim_blip_saute_gauche[dy + 5]];
 }
 
-void Couille::manageDirection() {
+void Ball::manageDirection() {
 	// Gere la direction désirée (pas de diagonales pour le laser)
 	if (ctrl->haut()) {
 		if (ctrl->droite())
@@ -844,7 +844,7 @@ void Couille::manageDirection() {
 	}
 }
 
-void Couille::updateArme() {
+void Ball::updateArme() {
 	if (etat == ETAT_LOCKEDV) return;
 
 	int yback = y;	// Sauvegarde la valeur de y
@@ -912,7 +912,7 @@ void Couille::updateArme() {
 		d_arme = dir_arme / 2;
 		if (dir_arme > BBLIM_DROITE) d_arme += 1;
 
-		TirBB* t = NULL;
+		ShotBB* t = NULL;
 		int i;
 
 		switch (id_arme) {
@@ -998,7 +998,7 @@ void Couille::updateArme() {
 				t = &tirs_lf[next_lf];
 				t->a_detruire = false;
 
-				((TirBBLF*)t)->deg = 2;
+				((ShotBBLF*)t)->deg = 2;
 				t->joueur = this;
 				t->x = x + dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul];
 				t->y = y + dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul];
@@ -1010,7 +1010,7 @@ void Couille::updateArme() {
 				t = &tirs_lf[next_lf];
 				t->a_detruire = false;
 
-				((TirBBLF*)t)->deg = 1;
+				((ShotBBLF*)t)->deg = 1;
 				t->joueur = this;
 				t->x = x + dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul];
 				t->y = y + dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul];
@@ -1037,9 +1037,9 @@ void Couille::updateArme() {
 	y = yback;
 }
 
-void Couille::estTouche(const Tir* tir) {}
+void Ball::estTouche(const Shot* tir) {}
 
-void Couille::estTouche(int degats) {
+void Ball::estTouche(int degats) {
 	if (invincible > 0 || etat == ETAT_MEURE) return;
 
 	pv -= degats;
@@ -1059,7 +1059,7 @@ void Couille::estTouche(int degats) {
 	}
 }
 
-void Couille::onMeure() {
+void Ball::onMeure() {
 	if (dy < 0) dy = 0;
 
 	tombe();
@@ -1107,11 +1107,11 @@ void Couille::onMeure() {
 	}
 }
 
-void Couille::afficheMeure() {
+void Ball::afficheMeure() {
 	if (etape < 5) Sprite::affiche();
 }
 
-void Couille::onComeBack() {
+void Ball::onComeBack() {
 	no_scroll1 = true;
 
 	if (y < y_to_go) {
@@ -1135,7 +1135,7 @@ void Couille::onComeBack() {
 	}
 }
 
-void Couille::onSaleto() {
+void Ball::onSaleto() {
 	int yp;
 
 	ss_etape += 1;
@@ -1173,13 +1173,13 @@ void Couille::onSaleto() {
 	pic = pbk_own[109 + id_arme * 8 + etape];
 }
 
-bool Couille::okBonus() {
+bool Ball::okBonus() {
 	return (id_arme == ID_M16 || (id_arme == ID_PM && ammo <= 30) || (id_arme == ID_FUSIL && ammo <= 4) || (id_arme == ID_LF && ammo <= 100) ||
 			(id_arme == ID_LASER && ammo <= 100));
 }
 
-void Couille::setSuperWeapon() {
-	if (id_couille == ID_BLIP || !okLanceFlame) {
+void Ball::setSuperWeapon() {
+	if (id_ball == ID_BLIP || !okLanceFlame) {
 		id_arme = ID_LASER;
 		ammo = 750;
 		latence_arme = 3;
@@ -1206,7 +1206,7 @@ void Couille::setSuperWeapon() {
 	}
 }
 
-void Couille::colFromPic() {
+void Ball::colFromPic() {
 	Sprite::colFromPic();
 
 	if (etat == ETAT_SALETO) {
@@ -1222,7 +1222,7 @@ void Couille::colFromPic() {
 	}
 }
 
-void Couille::lockVehicule(bool can_fire, bool can_dir) {
+void Ball::lockVehicule(bool can_fire, bool can_dir) {
 	etat = ETAT_LOCKEDV;
 	locked_fire = !can_fire;
 	locked_dir = !can_dir;
@@ -1233,7 +1233,7 @@ void Couille::lockVehicule(bool can_fire, bool can_dir) {
 	}
 }
 
-void Couille::unlockVehicule() {
+void Ball::unlockVehicule() {
 	etape = ss_etape = 0;
 	etat = ETAT_SALETO;
 	dy = -5;
@@ -1242,9 +1242,9 @@ void Couille::unlockVehicule() {
 	etape_arme = ss_etape_arme = 0;
 }
 
-void Couille::onVehicule() {}
+void Ball::onVehicule() {}
 
-void Couille::afficheVehicule() {
+void Ball::afficheVehicule() {
 	// Pour l'affichage (NORMAL)
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[0];

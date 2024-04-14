@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondBombe : public Sprite {
+class BackgroundBomb : public Sprite {
    private:
 	int etape_compteur;
 
@@ -18,7 +18,7 @@ class FondBombe : public Sprite {
 	int ss_etape_nuke;
 
    public:
-	FondBombe();
+	BackgroundBomb();
 
 	virtual void update();
 	virtual void affiche();

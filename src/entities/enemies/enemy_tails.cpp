@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_tails.h"
 
-EnnemiTails::EnnemiTails() : speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
+EnemyTails::EnemyTails() : speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
 	tresor = 8;
 	pv = 150;
 }
 
-void EnnemiTails::update() {
+void EnemyTails::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -34,7 +34,7 @@ void EnnemiTails::update() {
 	updateADetruire();
 }
 
-void EnnemiTails::onAvance() {
+void EnemyTails::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -103,7 +103,7 @@ void EnnemiTails::onAvance() {
 	colFromPic();
 }
 
-void EnnemiTails::onMeure() {
+void EnemyTails::onMeure() {
 	tombe();
 
 	if (fly) {
@@ -157,7 +157,7 @@ void EnnemiTails::onMeure() {
 	}
 }
 
-void EnnemiTails::onVolle() {
+void EnemyTails::onVolle() {
 	if (attack && (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
@@ -226,7 +226,7 @@ void EnnemiTails::onVolle() {
 	colFromPic();
 }
 
-void EnnemiTails::onTombe() {
+void EnemyTails::onTombe() {
 	int yp;
 
 	tombe();
@@ -260,7 +260,7 @@ void EnnemiTails::onTombe() {
 	colFromPic();
 }
 
-void EnnemiTails::onCarbonise() {
+void EnemyTails::onCarbonise() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 5;
@@ -277,11 +277,11 @@ void EnnemiTails::onCarbonise() {
 	}
 }
 
-void EnnemiTails::estTouche(Tir* tir) {
+void EnemyTails::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

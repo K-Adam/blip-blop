@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_weight.h"
 #include "entities/gore_splatter.h"
 
-EnnemiPoid::EnnemiPoid() : nb_colision(0) {
+EnemyWeight::EnemyWeight() : nb_colision(0) {
 	pv = 1000;
 	pic = pbk_ennemis[169];
 }
 
-void EnnemiPoid::update() {
+void EnemyWeight::update() {
 	if (etat == ETAT_MEURE) {
 		onMeure();
 	} else {
@@ -34,7 +34,7 @@ void EnnemiPoid::update() {
 	}
 }
 
-void EnnemiPoid::onMeure() {
+void EnemyWeight::onMeure() {
 	if ((mur_opaque(x, y + dy))) {
 		game_flag[0] = 7;
 		ss_etape++;
@@ -59,7 +59,7 @@ void EnnemiPoid::onMeure() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 8; i++) {
-				s = new GoreGiclure(rand() % 15 - 7, -1 - rand() % 10);
+				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
 				list_giclures.emplace_back(s);
@@ -69,7 +69,7 @@ void EnnemiPoid::onMeure() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 6; i++) {
-				s = new GoreGiclure(rand() % 15 - 7, -1 - rand() % 10);
+				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
 				list_giclures.emplace_back(s);
@@ -79,7 +79,7 @@ void EnnemiPoid::onMeure() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 5; i++) {
-				s = new GoreGiclure(rand() % 15 - 7, -1 - rand() % 10);
+				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
 				list_giclures.emplace_back(s);
@@ -90,7 +90,7 @@ void EnnemiPoid::onMeure() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 4; i++) {
-				s = new GoreGiclure(rand() % 15 - 7, -1 - rand() % 10);
+				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
 				list_giclures.emplace_back(s);
@@ -100,7 +100,7 @@ void EnnemiPoid::onMeure() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 3; i++) {
-				s = new GoreGiclure(rand() % 15 - 7, -1 - rand() % 10);
+				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
 				list_giclures.emplace_back(s);
@@ -111,9 +111,9 @@ void EnnemiPoid::onMeure() {
 	}
 }
 
-int EnnemiPoid::degats() { return 0; };
+int EnemyWeight::degats() { return 0; };
 
-void EnnemiPoid::estTouche(Tir* tir) {
+void EnemyWeight::estTouche(Shot* tir) {
 	if ((tir->dir >= 2) && (tir->dir <= 6)) {
 		nb_colision++;
 	}

@@ -3,9 +3,9 @@
 
 const int rocher_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0};
 
-FondRocherHyperspace::FondRocherHyperspace() : placer(1), delta(rand() % 360), y_base(0), sinusoide_delay(1) {}
+BackgroundRockHyperspace::BackgroundRockHyperspace() : placer(1), delta(rand() % 360), y_base(0), sinusoide_delay(1) {}
 
-void FondRocherHyperspace::update() {
+void BackgroundRockHyperspace::update() {
 	delta += sinusoide_delay;
 	delta %= 360;
 
@@ -76,7 +76,7 @@ void FondRocherHyperspace::update() {
 	}
 }
 
-void FondRocherHyperspace::affiche() {
+void BackgroundRockHyperspace::affiche() {
 	if (!placer) {
 		Sprite::affiche();
 	}

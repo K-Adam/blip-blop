@@ -1,14 +1,14 @@
 #include "entities/shots/shot_bb_lf.h"
 
-void TirBBLF::aTouche(int pts) {
+void ShotBBLF::aTouche(int pts) {
 	if (!a_detruire) {
-		TirBB::aTouche(pts);
+		ShotBB::aTouche(pts);
 		a_detruire = false;
 	}
 }
 
-void TirBBLF::setDir(int d) {
-	TirBB::setDir(d);
+void ShotBBLF::setDir(int d) {
+	ShotBB::setDir(d);
 
 	etape = 0;
 	ss_etape = 0;
@@ -107,7 +107,7 @@ void TirBBLF::setDir(int d) {
 	}
 }
 
-void TirBBLF::update() {
+void ShotBBLF::update() {
 	ss_etape += 1;
 	ss_etape %= speed;
 

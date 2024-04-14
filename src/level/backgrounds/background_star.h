@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondEtoile : public Sprite {
+class BackgroundStar : public Sprite {
    public:
 	virtual void update();
 };

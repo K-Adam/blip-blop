@@ -2,14 +2,14 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiSmurfCigogne : public Ennemi {
+class EnemySmurfStork : public Enemy {
    public:
 	int base_y;
 	int base_x;
 	bool first;
 	int teta;
 
-	EnnemiSmurfCigogne();
+	EnemySmurfStork();
 
 	virtual void update();
 };

@@ -2,11 +2,11 @@
 
 #include "entities/sprite.h"
 
-class TirCruiserLaser : public Sprite {
+class ShotCruiserLaser : public Sprite {
    public:
 	int dx;
 	int npic;
 
-	TirCruiserLaser(int vx, int nb_pic);
+	ShotCruiserLaser(int vx, int nb_pic);
 	virtual void update();
 };

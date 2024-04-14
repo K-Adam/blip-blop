@@ -2,9 +2,9 @@
 
 #include "core/math_utils.h"
 
-Bulle::Bulle() : phi(0) {}
+Bubble::Bubble() : phi(0) {}
 
-void Bulle::update() {
+void Bubble::update() {
 	phi += dphi;
 	phi %= 360;
 

@@ -6,7 +6,7 @@
 #define LATENCE_MARIO_GRAVITE 12
 #define NB_CLIGNO 4
 
-class EnnemiMarioHologramme : public Ennemi {
+class EnemyMarioHologram : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -24,7 +24,7 @@ class EnnemiMarioHologramme : public Ennemi {
 	int y_cible;
 
    public:
-	EnnemiMarioHologramme();
+	EnemyMarioHologram();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -36,5 +36,5 @@ class EnnemiMarioHologramme : public Ennemi {
 	virtual void tombe_mario();
 	virtual inline void boule_de_feu();
 	virtual void affiche();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

@@ -4,12 +4,12 @@
 #include "entities/shots/shot.h"
 
 #ifndef ENNEMI_CPP
-extern Personnage* tete_turc;
+extern Character* tete_turc;
 #endif
 
-class Ennemi : public Personnage {
+class Enemy : public Character {
    public:
-	Ennemi();
+	Enemy();
 
 	int xmin;
 	int blood;
@@ -17,11 +17,11 @@ class Ennemi : public Personnage {
 
 	virtual bool count() { return true; };
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 
 	virtual int degats() { return 1; };
 
-	virtual void gicle(const Tir* tir, const int* dxg, const int* dyg);
+	virtual void gicle(const Shot* tir, const int* dxg, const int* dyg);
 
 	void tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const;
 };

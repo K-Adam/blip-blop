@@ -2,8 +2,8 @@
 
 #include "entities/sprite.h"
 
-class FondPokeAscenceur : public Sprite {
+class BackgroundPokeElevator : public Sprite {
    public:
-	FondPokeAscenceur();
+	BackgroundPokeElevator();
 	virtual void update();
 };

@@ -2,13 +2,13 @@
 
 #include "entities/shots/shot.h"
 
-class TirBisouMortel : public Tir {
+class ShotBisouDeadly : public Shot {
    public:
 	Sprite* cible;
 	int dx;
 	int duree_vie;
 
-	TirBisouMortel() : dx(0), duree_vie(235){};
+	ShotBisouDeadly() : dx(0), duree_vie(235){};
 
 	virtual int degats() const { return 1; };
 

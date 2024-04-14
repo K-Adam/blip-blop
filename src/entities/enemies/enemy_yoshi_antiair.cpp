@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_yoshi_antiair.h"
 #include "entities/shots/shot_shell.h"
 
-EnnemiYoshiDCA::EnnemiYoshiDCA() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
+EnemyYoshiAntiair::EnemyYoshiAntiair() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
 	tresor = 12;
 	pv = 400;
 }
 
-void EnnemiYoshiDCA::update() {
+void EnemyYoshiAntiair::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -31,7 +31,7 @@ void EnnemiYoshiDCA::update() {
 	updateADetruire();
 }
 
-void EnnemiYoshiDCA::onAvance() {
+void EnemyYoshiAntiair::onAvance() {
 	tombe();
 	// pour attaquer
 	wait_for_attack++;
@@ -59,7 +59,7 @@ void EnnemiYoshiDCA::onAvance() {
 	colFromPic();
 }
 
-void EnnemiYoshiDCA::onMeure() {
+void EnemyYoshiAntiair::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -81,14 +81,14 @@ void EnnemiYoshiDCA::onMeure() {
 	}
 }
 
-void EnnemiYoshiDCA::onTire() {
+void EnemyYoshiAntiair::onTire() {
 	ss_etape += 1;
 	ss_etape %= 15;
 
 	if (ss_etape == 0) etape += 1;
 
 	if (etape >= 2) {
-		TirCarapace* tir = new TirCarapace();
+		ShotShell* tir = new ShotShell();
 
 		tir->setDir(dir);
 
@@ -115,7 +115,7 @@ void EnnemiYoshiDCA::onTire() {
 	colFromPic();
 }
 
-void EnnemiYoshiDCA::onCarbonise() {
+void EnemyYoshiAntiair::onCarbonise() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 5;
@@ -132,11 +132,11 @@ void EnnemiYoshiDCA::onCarbonise() {
 	}
 }
 
-void EnnemiYoshiDCA::estTouche(Tir* tir) {
+void EnemyYoshiAntiair::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

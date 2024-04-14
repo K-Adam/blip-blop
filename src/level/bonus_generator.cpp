@@ -3,9 +3,9 @@
 #include "level/bonus_generator.h"
 #include "entities/make_bonus.h"
 
-GenBonus::GenBonus() : t(0), a_detruire(false) {}
+BonusGenerator::BonusGenerator() : t(0), a_detruire(false) {}
 
-void GenBonus::update() {
+void BonusGenerator::update() {
 	if (list_bonus.size() < 3) {
 		t += 1;
 		t %= periode;

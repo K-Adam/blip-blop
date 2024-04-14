@@ -1,6 +1,6 @@
 #include "entities/splatter.h"
 
-void Giclure::update() {
+void Splatter::update() {
 	if (pere->a_detruire || pere->etat == ETAT_MEURE) {
 		a_detruire = true;
 		return;

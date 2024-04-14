@@ -2,14 +2,14 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiCOMVolant : public Ennemi {
+class EnemyCOMFlying : public Enemy {
    private:
 	int speed;
 	bool attack;
 	int y_cible;
 
    public:
-	EnnemiCOMVolant();
+	EnemyCOMFlying();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();

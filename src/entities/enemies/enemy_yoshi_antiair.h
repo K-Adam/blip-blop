@@ -2,13 +2,13 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiYoshiDCA : public Ennemi {
+class EnemyYoshiAntiair : public Enemy {
    private:
 	int attack_delay;
 	int wait_for_attack;
 
    public:
-	EnnemiYoshiDCA();
+	EnemyYoshiAntiair();
 
 	virtual void update();
 	virtual void onAvance();
@@ -16,5 +16,5 @@ class EnnemiYoshiDCA : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

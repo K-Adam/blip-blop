@@ -5,9 +5,9 @@
 
 const int anim_lock[] = {88, 89, 90, 91, 92, 93, 92, 91, 90, 89};
 
-FondPokeCaisseTombante::FondPokeCaisseTombante() { pic = pbk_niveau[87]; }
+BackgroundPokeCrateFalling::BackgroundPokeCrateFalling() { pic = pbk_niveau[87]; }
 
-void FondPokeCaisseTombante::update() {
+void BackgroundPokeCrateFalling::update() {
 	if (game_flag[2] > 2) {
 		if ((y < 100) && (etape <= UNLOCK_DELAY)) {
 			y += 2;
@@ -20,13 +20,13 @@ void FondPokeCaisseTombante::update() {
 
 			if ((etape == 0) && (ss_etape == 1)) {
 				// les 2 autres en haut a droite de l'ecran...
-				FondPokeCaissePlateforme* s2 = new FondPokeCaissePlateforme(180);
+				BackgroundPokeCratePlatform* s2 = new BackgroundPokeCratePlatform(180);
 				s2->x = x - 250;
 				s2->y = -150;
 
 				list_plateformes_mobiles.emplace_back(s2);
 
-				s2 = new FondPokeCaissePlateforme(180);
+				s2 = new BackgroundPokeCratePlatform(180);
 				s2->x = x - 470;
 				s2->y = -150;
 
@@ -42,14 +42,14 @@ void FondPokeCaisseTombante::update() {
 				if ((etape == UNLOCK_DELAY + 5) && (ss_etape == 0)) {
 					pic = pbk_niveau[116];
 
-					FondPokeCaisse* s = new FondPokeCaisse();
+					BackgroundPokeCrate* s = new BackgroundPokeCrate();
 					s->x = x;
 					s->y = y + 150;
 
 					list_fonds_animes.emplace_back(s);
 
 					// plateforme qui bouge...
-					FondPokeCaissePlateforme2* s3 = new FondPokeCaissePlateforme2();
+					BackgroundPokeCratePlatform2* s3 = new BackgroundPokeCratePlatform2();
 					s3->x = x;
 					s3->y = -150;
 
@@ -62,7 +62,7 @@ void FondPokeCaisseTombante::update() {
 	}
 }
 
-void FondPokeCaisseTombante::affiche() {
+void BackgroundPokeCrateFalling::affiche() {
 	Sprite::affiche();
 	if (etape > UNLOCK_DELAY + 4) {
 		draw(x, y, pbk_niveau[94]);

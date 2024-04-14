@@ -2,17 +2,17 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiSmurfette : public Ennemi {
+class EnemySmurfette : public Enemy {
    public:
 	int etape_shoot;
 	int wait_shoot;
 
-	EnnemiSmurfette();
+	EnemySmurfette();
 
 	virtual void update();
 	virtual void onAvance();
 	virtual void onTire();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void onCarbonise();
 	virtual void onMeure();
 };

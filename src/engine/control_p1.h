@@ -4,7 +4,7 @@
 #include "engine/controller.h"
 #include "engine/control_alias.h"
 
-class ControlP1 : public Controlor {
+class ControlP1 : public Controller {
    protected:
    public:
 	virtual int gauche() const { return in.scanAlias(ALIAS_P1_LEFT); };

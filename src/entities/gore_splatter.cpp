@@ -1,8 +1,8 @@
 #include "entities/gore_splatter.h"
 
-// implementation de la classe GoreGiclure
+// implementation de la classe GoreSplatter
 
-GoreGiclure::GoreGiclure(int vx, int vy) : dx(vx) {
+GoreSplatter::GoreSplatter(int vx, int vy) : dx(vx) {
 	dy = vy;
 
 	if ((dx > -2) && (dx < 0)) {
@@ -34,7 +34,7 @@ GoreGiclure::GoreGiclure(int vx, int vy) : dx(vx) {
 	}
 }
 
-void GoreGiclure::update() {
+void GoreSplatter::update() {
 	int decalage;
 	if (dx < 0) {
 		decalage = 0;

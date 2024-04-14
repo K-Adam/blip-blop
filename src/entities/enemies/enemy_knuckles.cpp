@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_knuckles.h"
 
-EnnemiKnukles::EnnemiKnukles() : speed(1), etape_speed(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
+EnemyKnuckles::EnemyKnuckles() : speed(1), etape_speed(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
 	tresor = 7;
 	pv = 150;
 }
 
-void EnnemiKnukles::update() {
+void EnemyKnuckles::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -37,7 +37,7 @@ void EnnemiKnukles::update() {
 	updateADetruire();
 }
 
-void EnnemiKnukles::onAvance() {
+void EnemyKnuckles::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -108,7 +108,7 @@ void EnnemiKnukles::onAvance() {
 	colFromPic();
 }
 
-void EnnemiKnukles::onMeure() {
+void EnemyKnuckles::onMeure() {
 	tombe();
 	{
 		ss_etape += 1;
@@ -140,7 +140,7 @@ void EnnemiKnukles::onMeure() {
 	}
 }
 
-void EnnemiKnukles::onSaute() {
+void EnemyKnuckles::onSaute() {
 	ss_etape++;
 	ss_etape %= 60;
 	if ((ss_etape == 0) && (etape == 0)) {
@@ -172,7 +172,7 @@ void EnnemiKnukles::onSaute() {
 	colFromPic();
 }
 
-void EnnemiKnukles::onCharge() {
+void EnemyKnuckles::onCharge() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 40;
@@ -224,7 +224,7 @@ void EnnemiKnukles::onCharge() {
 	colFromPic();
 }
 
-void EnnemiKnukles::onTombe() {
+void EnemyKnuckles::onTombe() {
 	int yp;
 
 	tombe();
@@ -250,7 +250,7 @@ void EnnemiKnukles::onTombe() {
 	colFromPic();
 }
 
-void EnnemiKnukles::onCarbonise() {
+void EnemyKnuckles::onCarbonise() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 5;
@@ -267,11 +267,11 @@ void EnnemiKnukles::onCarbonise() {
 	}
 }
 
-void EnnemiKnukles::estTouche(Tir* tir) {
+void EnemyKnuckles::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {
@@ -279,7 +279,7 @@ void EnnemiKnukles::estTouche(Tir* tir) {
 	}
 }
 
-void EnnemiKnukles::tombe() {
+void EnemyKnuckles::tombe() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
 

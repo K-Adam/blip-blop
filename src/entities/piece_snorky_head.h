@@ -2,36 +2,36 @@
 
 #include "entities/sprite.h"
 
-class MorceauSnorkyBaseTeteEntiere : public Sprite {
+class PieceSnorkyBaseHeadWhole : public Sprite {
    public:
-	MorceauSnorkyBaseTeteEntiere();
+	PieceSnorkyBaseHeadWhole();
 
 	virtual void update();
 };
 
-class MorceauSnorkyBaseTetePartieArriere : public Sprite {
+class PieceSnorkyBaseHeadBackPart : public Sprite {
    public:
 	int dx;
 
-	MorceauSnorkyBaseTetePartieArriere(int vx, int vy);
+	PieceSnorkyBaseHeadBackPart(int vx, int vy);
 
 	virtual void update();
 };
 
-class MorceauSnorkyHyporidercorp : public Sprite {
+class PieceSnorkyHyporiderBody : public Sprite {
    public:
 	int dx;
 
-	MorceauSnorkyHyporidercorp(int vx);
+	PieceSnorkyHyporiderBody(int vx);
 
 	virtual void update();
 };
 
-class MorceauSnorkyBaseTrompe : public Sprite {
+class PieceSnorkyBaseTrunk : public Sprite {
    public:
 	int dx;
 
-	MorceauSnorkyBaseTrompe(int vx, int vy);
+	PieceSnorkyBaseTrunk(int vx, int vy);
 
 	virtual void update();
 };

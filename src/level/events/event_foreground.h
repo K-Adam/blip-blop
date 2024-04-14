@@ -3,7 +3,7 @@
 #include "level/events/event.h"
 #include "core/globals.h"
 
-class EventPremierPlan : public Event {
+class EventForeground : public Event {
    public:
 	int x;
 	int y;

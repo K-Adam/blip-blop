@@ -2,7 +2,7 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiBisouChaman : public Ennemi {
+class EnemyBisouShaman : public Enemy {
    public:
 	int wait_shoot;
 	int etape_shoot;
@@ -10,14 +10,14 @@ class EnnemiBisouChaman : public Ennemi {
 	int nb_touch;
 	int n_pos;
 
-	EnnemiBisouChaman();
+	EnemyBisouShaman();
 	virtual void onAvance();
 	virtual void onLeveBaton();
 	virtual void onBaisseBaton();
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void update();
 	virtual void affiche();
 	virtual void onTele();

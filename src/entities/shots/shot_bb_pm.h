@@ -3,7 +3,7 @@
 #include "entities/player.h"
 #include "entities/shots/shot_bb.h"
 
-class TirBBPM : public TirBB {
+class ShotBBPM : public ShotBB {
    public:
 	inline virtual int degats() const { return 75; };
 

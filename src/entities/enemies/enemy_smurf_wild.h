@@ -12,7 +12,7 @@
 #define ETAT_ATTENDS 100
 #define ETAT_MONTE 102
 
-class EnnemiSmurfSauvage : public Ennemi {
+class EnemySmurfWild : public Enemy {
    public:
 	int shoot_direction;  // direction dans laquelle on pointe l'arme
 	int hauteur;
@@ -37,7 +37,7 @@ class EnnemiSmurfSauvage : public Ennemi {
 
 	Sprite* cible;
 
-	EnnemiSmurfSauvage();
+	EnemySmurfWild();
 
 	inline virtual void affiche() {
 		draw(x, y - 50, pbk_ennemis[117]);
@@ -46,7 +46,7 @@ class EnnemiSmurfSauvage : public Ennemi {
 		draw(x, y - 200, pbk_ennemis[117]);
 		draw(x, y - 250, pbk_ennemis[117]);
 
-		Ennemi::affiche();
+		Enemy::affiche();
 
 		// Si on est pas mort, on affiche l'arme suivant la direction du tir
 		if (pv > 0) {
@@ -101,5 +101,5 @@ class EnnemiSmurfSauvage : public Ennemi {
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

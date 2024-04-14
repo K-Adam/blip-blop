@@ -1,9 +1,9 @@
 #include "entities/piece_snorky_head.h"
 #include "entities/enemies/enemy.h"
 
-MorceauSnorkyBaseTeteEntiere::MorceauSnorkyBaseTeteEntiere() { dy = 0; }
+PieceSnorkyBaseHeadWhole::PieceSnorkyBaseHeadWhole() { dy = 0; }
 
-void MorceauSnorkyBaseTeteEntiere::update() {
+void PieceSnorkyBaseHeadWhole::update() {
 	ss_etape++;
 	ss_etape %= 5;
 	if (ss_etape == 0) {
@@ -13,10 +13,10 @@ void MorceauSnorkyBaseTeteEntiere::update() {
 	if (etape == 2 && ss_etape == 0) {
 		Sprite* s;
 		if (dir == SENS_DROITE) {
-			s = new MorceauSnorkyBaseTrompe(1 + rand() % 2, -1 + rand() % 2);
+			s = new PieceSnorkyBaseTrunk(1 + rand() % 2, -1 + rand() % 2);
 			s->x = x + 19;
 		} else {
-			s = new MorceauSnorkyBaseTrompe(-1 - rand() % 2, -1 - rand() % 2);
+			s = new PieceSnorkyBaseTrunk(-1 - rand() % 2, -1 - rand() % 2);
 			s->x = x - 19;
 		}
 
@@ -29,10 +29,10 @@ void MorceauSnorkyBaseTeteEntiere::update() {
 	if (etape == 3 && ss_etape == 0) {
 		Sprite* s;
 		if (dir == SENS_DROITE) {
-			s = new MorceauSnorkyBaseTetePartieArriere(1, 0);
+			s = new PieceSnorkyBaseHeadBackPart(1, 0);
 			s->x = x + 0;
 		} else {
-			s = new MorceauSnorkyBaseTetePartieArriere(-1, 0);
+			s = new PieceSnorkyBaseHeadBackPart(-1, 0);
 			s->x = x - 0;
 		}
 
@@ -71,12 +71,12 @@ void MorceauSnorkyBaseTeteEntiere::update() {
 	}
 }
 
-MorceauSnorkyHyporidercorp::MorceauSnorkyHyporidercorp(int vx) {
+PieceSnorkyHyporiderBody::PieceSnorkyHyporiderBody(int vx) {
 	dx = vx;
 	dy = -1;
 }
 
-void MorceauSnorkyHyporidercorp::update() {
+void PieceSnorkyHyporiderBody::update() {
 	tombe();
 	x += dx;
 	ss_etape++;
@@ -108,12 +108,12 @@ void MorceauSnorkyHyporidercorp::update() {
 	}
 }
 
-MorceauSnorkyBaseTetePartieArriere::MorceauSnorkyBaseTetePartieArriere(int vx, int vy) {
+PieceSnorkyBaseHeadBackPart::PieceSnorkyBaseHeadBackPart(int vx, int vy) {
 	dx = vx;
 	dy = vy;
 }
 
-void MorceauSnorkyBaseTetePartieArriere::update() {
+void PieceSnorkyBaseHeadBackPart::update() {
 	tombe();
 	x += dx;
 	ss_etape++;
@@ -134,12 +134,12 @@ void MorceauSnorkyBaseTetePartieArriere::update() {
 	}
 }
 
-MorceauSnorkyBaseTrompe::MorceauSnorkyBaseTrompe(int vx, int vy) {
+PieceSnorkyBaseTrunk::PieceSnorkyBaseTrunk(int vx, int vy) {
 	dx = vx;
 	dy = vy;
 }
 
-void MorceauSnorkyBaseTrompe::update() {
+void PieceSnorkyBaseTrunk::update() {
 	tombe();
 	x += dx;
 	ss_etape++;

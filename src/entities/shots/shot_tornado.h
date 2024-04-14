@@ -7,13 +7,13 @@
 #define TOUR_MAX 1
 #define LATENCE_TORNADE 21
 
-class TirTornade : public Tir {
+class ShotTornado : public Shot {
    public:
 	int dx;
 	int etape_speed;
 	int nb_tour;
 
-	TirTornade(int vx);
+	ShotTornado(int vx);
 
 	virtual int degats() const { return 1; };
 

@@ -2,9 +2,9 @@
 
 #include "entities/sprite.h"
 
-class FondPokeCiel : public Sprite {
+class BackgroundPokeSky : public Sprite {
    public:
-	FondPokeCiel();
+	BackgroundPokeSky();
 	virtual void update();
 	virtual void affiche();
 };

@@ -1,7 +1,7 @@
 #include "level/weather_snow.h"
 #include "core/math_utils.h"
 
-void MeteoNeige::update() {
+void WeatherSnow::update() {
 	// Update angle
 	phi += 3;
 	phi %= 360;

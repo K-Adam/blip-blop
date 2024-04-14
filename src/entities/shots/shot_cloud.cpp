@@ -1,9 +1,9 @@
 #include "entities/enemies/enemy.h"
 #include "entities/shots/shot_cloud.h"
 
-TirNuage::TirNuage() : etape_shoot(0), etat(0), eclair(0), delta_eclair(0) { duree_vie = 600 + rand() % 400; }
+ShotCloud::ShotCloud() : etape_shoot(0), etat(0), eclair(0), delta_eclair(0) { duree_vie = 600 + rand() % 400; }
 
-void TirNuage::update() {
+void ShotCloud::update() {
 	switch (etat) {
 		case 0:
 			onCreation();
@@ -25,7 +25,7 @@ void TirNuage::update() {
 	updateADetruire();
 }
 
-void TirNuage::onCreation() {
+void ShotCloud::onCreation() {
 	static const int SPEED = 1;
 
 	ss_etape += 1;
@@ -55,7 +55,7 @@ void TirNuage::onCreation() {
 	noCol();
 }
 
-void TirNuage::onDestruction() {
+void ShotCloud::onDestruction() {
 	static const int SPEED = 1;
 
 	ss_etape += 1;
@@ -78,7 +78,7 @@ void TirNuage::onDestruction() {
 	noCol();
 }
 
-void TirNuage::onNormal() {
+void ShotCloud::onNormal() {
 	static const int anim[] = {253, 254, 255, 254};
 	static const int SPEED = 1;
 
@@ -117,7 +117,7 @@ void TirNuage::onNormal() {
 	noCol();
 }
 
-void TirNuage::onTire() {
+void ShotCloud::onTire() {
 	static const int anim[] = {253, 254, 255, 254};
 	static const int SPEED = 1;
 
@@ -159,7 +159,7 @@ void TirNuage::onTire() {
 	dy = rand() % 20;
 }
 
-void TirNuage::affiche() {
+void ShotCloud::affiche() {
 	int de = eclair;
 
 	if (etat == 3 && etape_shoot > 50) {

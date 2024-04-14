@@ -2,11 +2,11 @@
 
 #include "entities/sprite.h"
 
-class FondMonolite : public Sprite {
+class BackgroundMonolith : public Sprite {
    public:
 	int ss_etape_levitation;
 	int etape_levitation;
 
-	FondMonolite();
+	BackgroundMonolith();
 	virtual void update();
 };

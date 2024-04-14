@@ -2,11 +2,11 @@
 
 #include "entities/vehicle.h"
 
-class VehiculeCigogne : public Vehicule {
+class VehicleStork : public Vehicle {
    public:
 	bool hasBeenUsed;
 
-	VehiculeCigogne();
+	VehicleStork();
 
 	virtual bool canFire() { return false; };
 

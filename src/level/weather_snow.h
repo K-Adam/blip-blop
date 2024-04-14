@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class MeteoNeige : public Sprite {
+class WeatherSnow : public Sprite {
    public:
 	int xbase;
 	int phi;

@@ -4,17 +4,17 @@
 #include "entities/ball.h"
 #include "engine/controller.h"
 
-class Vehicule : public Sprite {
+class Vehicle : public Sprite {
    public:
 	bool can_be_used;
 
-	Couille* joueur;
-	Controlor* ctrl;
+	Ball* joueur;
+	Controller* ctrl;
 
-	Vehicule();
+	Vehicle();
 
 	virtual void update();
-	virtual Couille* scanne();
+	virtual Ball* scanne();
 
 	virtual bool canFire() = 0;
 	virtual bool canChangeDir() = 0;

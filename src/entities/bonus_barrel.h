@@ -2,14 +2,14 @@
 
 #include "entities/bonus.h"
 
-class BonusTonneau : public Bonus {
+class BonusBarrel : public Bonus {
    public:
-	BonusTonneau() {
+	BonusBarrel() {
 		pic = pbk_misc[47];
 		col_on = true;
 	};
 
-	virtual void estPris(Couille* c) {
+	virtual void estPris(Ball* c) {
 		sbk_misc.play(5);
 
 		c->pv = 5;

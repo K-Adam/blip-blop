@@ -1,9 +1,9 @@
 #include "entities/shots/shot_cake.h"
 #include "core/debug.h"
 
-TirGateau::TirGateau() { pic = pbk_ennemis[194]; }
+ShotCake::ShotCake() { pic = pbk_ennemis[194]; }
 
-void TirGateau::update() {
+void ShotCake::update() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
 

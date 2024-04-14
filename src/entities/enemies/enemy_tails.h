@@ -5,7 +5,7 @@
 #define TAILS_SPEED 3
 #define TAILS_FLY_SPEED 6
 
-class EnnemiTails : public Ennemi {
+class EnemyTails : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -18,12 +18,12 @@ class EnnemiTails : public Ennemi {
 	int direction;
 
    public:
-	EnnemiTails();
+	EnemyTails();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTombe();
 	virtual void onVolle();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

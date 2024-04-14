@@ -1,8 +1,8 @@
 #include "entities/shots/shot_tornado.h"
 
-TirTornade::TirTornade(int vx) : dx(vx), etape_speed(0), nb_tour(0) { dy = 0; }
+ShotTornado::ShotTornado(int vx) : dx(vx), etape_speed(0), nb_tour(0) { dy = 0; }
 
-void TirTornade::update() {
+void ShotTornado::update() {
 	ss_etape++;
 	ss_etape %= 6;
 

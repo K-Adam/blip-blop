@@ -2,9 +2,9 @@
 
 #include "entities/sprite.h"
 
-class FondAnime : public Sprite {
+class BackgroundAnimated : public Sprite {
    public:
-	FondAnime(int first, int frames, int latency, bool expire) : first_(first), frames_(frames), latency_(latency), expire_(expire) {}
+	BackgroundAnimated(int first, int frames, int latency, bool expire) : first_(first), frames_(frames), latency_(latency), expire_(expire) {}
 
 	void update() override {
 		ss_etape = (ss_etape + 1) % latency_;
@@ -19,49 +19,49 @@ class FondAnime : public Sprite {
 	bool expire_;
 };
 
-class FondBossventilo : public FondAnime {
+class BackgroundBossFan : public BackgroundAnimated {
    public:
-	FondBossventilo() : FondAnime(60, 4, 3, true) {}
+	BackgroundBossFan() : BackgroundAnimated(60, 4, 3, true) {}
 };
 
-class FondDos : public FondAnime {
+class BackgroundDos : public BackgroundAnimated {
    public:
-	FondDos() : FondAnime(58, 2, 40, true) {}
+	BackgroundDos() : BackgroundAnimated(58, 2, 40, true) {}
 };
 
-class FondDrapeau : public FondAnime {
+class BackgroundFlag : public BackgroundAnimated {
    public:
-	FondDrapeau() : FondAnime(31, 10, 5, false) {}
+	BackgroundFlag() : BackgroundAnimated(31, 10, 5, false) {}
 };
 
-class FondEcranneige : public FondAnime {
+class BackgroundSnowScreen : public BackgroundAnimated {
    public:
-	FondEcranneige() : FondAnime(45, 4, 4, true) {}
+	BackgroundSnowScreen() : BackgroundAnimated(45, 4, 4, true) {}
 };
 
-class FondTournesol1 : public FondAnime {
+class BackgroundSunflower1 : public BackgroundAnimated {
    public:
-	FondTournesol1() : FondAnime(20, 2, 10, false) {}
+	BackgroundSunflower1() : BackgroundAnimated(20, 2, 10, false) {}
 };
 
-class FondTournesol2 : public FondAnime {
+class BackgroundSunflower2 : public BackgroundAnimated {
    public:
-	FondTournesol2() : FondAnime(22, 2, 10, false) {}
+	BackgroundSunflower2() : BackgroundAnimated(22, 2, 10, false) {}
 };
 
-class FondTournesol3 : public FondAnime {
+class BackgroundSunflower3 : public BackgroundAnimated {
    public:
-	FondTournesol3() : FondAnime(24, 2, 10, false) {}
+	BackgroundSunflower3() : BackgroundAnimated(24, 2, 10, false) {}
 };
 
-class FondTournesol4 : public FondAnime {
+class BackgroundSunflower4 : public BackgroundAnimated {
    public:
-	FondTournesol4() : FondAnime(26, 2, 10, false) {}
+	BackgroundSunflower4() : BackgroundAnimated(26, 2, 10, false) {}
 };
 
 // All instances of one kind share the frame counter so they animate in step
 template <int FIRST, int FRAMES, int LATENCY>
-class FondSynchro : public Sprite {
+class BackgroundSynced : public Sprite {
    public:
 	void update() override {
 		if (synchro_ != phase) {
@@ -80,6 +80,6 @@ class FondSynchro : public Sprite {
 	static inline bool synchro_ = false;
 };
 
-class FondCube : public FondSynchro<0, 9, 5> {};
-class FondPiece : public FondSynchro<9, 4, 6> {};
-class FondRing : public FondSynchro<13, 4, 6> {};
+class BackgroundCube : public BackgroundSynced<0, 9, 5> {};
+class BackgroundCoin : public BackgroundSynced<9, 4, 6> {};
+class BackgroundRing : public BackgroundSynced<13, 4, 6> {};

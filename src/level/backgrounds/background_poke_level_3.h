@@ -7,7 +7,7 @@
 #define PBK_E 133
 #define PBK_V 139
 
-class FondPokeLevel3 : public Sprite {
+class BackgroundPokeLevel3 : public Sprite {
    private:
 	int etape_E1;
 	int etape_V;
@@ -15,7 +15,7 @@ class FondPokeLevel3 : public Sprite {
 	int etape_L2;
 
    public:
-	FondPokeLevel3();
+	BackgroundPokeLevel3();
 
 	virtual void update();
 	virtual void affiche();

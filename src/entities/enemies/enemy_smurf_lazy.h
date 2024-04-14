@@ -2,9 +2,9 @@
 
 #include "entities/enemies/enemy_smurf.h"
 
-class EnnemiSmurfParesseux : public EnnemiSmurf {
+class EnemySmurfLazy : public EnemySmurf {
    public:
-	EnnemiSmurfParesseux() { dy_saut = -4; }
+	EnemySmurfLazy() { dy_saut = -4; }
 
-	inline virtual void affiche() { EnnemiSmurf::affiche(); }
+	inline virtual void affiche() { EnemySmurf::affiche(); }
 };

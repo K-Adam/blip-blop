@@ -2,11 +2,11 @@
 
 #include "entities/shots/shot.h"
 
-class TirEtoile : public Tir {
+class ShotStar : public Shot {
    public:
 	int life_time;
 
-	TirEtoile() : life_time(500){};
+	ShotStar() : life_time(500){};
 
 	virtual void update() {
 		static const int SPEED = 2;

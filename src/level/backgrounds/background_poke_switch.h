@@ -1,6 +1,6 @@
 #pragma once
 
-class FondPokeInterupteur : public Sprite {
+class BackgroundPokeSwitch : public Sprite {
    private:
 	bool etat;
 	bool wait_msg;
@@ -8,6 +8,6 @@ class FondPokeInterupteur : public Sprite {
 	bool bravo;
 
    public:
-	FondPokeInterupteur();
+	BackgroundPokeSwitch();
 	virtual void update();
 };

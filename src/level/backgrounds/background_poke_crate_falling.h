@@ -4,9 +4,9 @@
 
 #define UNLOCK_DELAY 32
 
-class FondPokeCaisseTombante : public Sprite {
+class BackgroundPokeCrateFalling : public Sprite {
    public:
-	FondPokeCaisseTombante();
+	BackgroundPokeCrateFalling();
 	virtual void update();
 	virtual void affiche();
 };

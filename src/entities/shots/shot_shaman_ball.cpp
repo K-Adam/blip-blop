@@ -1,8 +1,8 @@
 #include "entities/shots/shot_shaman_ball.h"
 
-TirBouleChaman::TirBouleChaman() : ok(false), boom(false) {}
+ShotShamanBall::ShotShamanBall() : ok(false), boom(false) {}
 
-void TirBouleChaman::update() {
+void ShotShamanBall::update() {
 	if (!boom) {
 		x += dx;
 		y += dy;

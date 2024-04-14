@@ -5,7 +5,7 @@
 #define SNORK_IN_BLACK_SPEED 2
 #define SNORK_IN_BLACK_MAX_TIR 6
 
-class EnnemiSnorkInBlack : public Ennemi {
+class EnemySnorkInBlack : public Enemy {
    private:
 	int x_cible;
 	int y_cible;
@@ -15,7 +15,7 @@ class EnnemiSnorkInBlack : public Ennemi {
 	int wait_for_shoot;
 	int shoot_delay;
 
-	EnnemiSnorkInBlack();
+	EnemySnorkInBlack();
 
 	virtual void update();
 	virtual void onAvance();
@@ -24,5 +24,5 @@ class EnnemiSnorkInBlack : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

@@ -4,7 +4,7 @@
 #include "entities/cool_text.h"
 #include "core/debug.h"
 
-class EventTexte : public Event {
+class EventText : public Event {
    public:
 	int ntxt;
 	int flag;
@@ -21,7 +21,7 @@ class EventTexte : public Event {
 	};
 
 	virtual void doEvent() {
-		TexteCool* txt = new TexteCool();
+		CoolText* txt = new CoolText();
 
 		txt->ntxt = ntxt;
 

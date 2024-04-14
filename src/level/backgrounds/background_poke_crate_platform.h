@@ -2,11 +2,11 @@
 
 #include "entities/sprite.h"
 
-class FondPokeCaissePlateforme : public Sprite {
+class BackgroundPokeCratePlatform : public Sprite {
    private:
 	int y_cible;
 
    public:
-	FondPokeCaissePlateforme(int niveau_y);
+	BackgroundPokeCratePlatform(int niveau_y);
 	virtual void update();
 };

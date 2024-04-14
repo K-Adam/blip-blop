@@ -1,11 +1,11 @@
 #include "entities/shots/shot_mario_fireball.h"
 
-TirMarioFireball::TirMarioFireball(int vx) : speed_etape(0) {
+ShotMarioFireball::ShotMarioFireball(int vx) : speed_etape(0) {
 	dy = 0;
 	dx = vx;
 }
 
-void TirMarioFireball::update() {
+void ShotMarioFireball::update() {
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
 
 	speed_etape++;

@@ -4,11 +4,11 @@
 
 #define LEM_SPEED 1
 
-class EnnemiLemmings : public Ennemi {
+class EnemyLemmings : public Enemy {
    public:
 	bool suicide;
 
-	EnnemiLemmings();
+	EnemyLemmings();
 
 	virtual void update();
 	virtual void onAvance();
@@ -16,5 +16,5 @@ class EnnemiLemmings : public Ennemi {
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

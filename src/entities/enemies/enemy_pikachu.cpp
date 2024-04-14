@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_pikachu.h"
 
-EnnemiPikachu::EnnemiPikachu() { pv = 100; }
+EnemyPikachu::EnemyPikachu() { pv = 100; }
 
-void EnnemiPikachu::update() {
+void EnemyPikachu::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -23,7 +23,7 @@ void EnnemiPikachu::update() {
 	updateADetruire();
 }
 
-void EnnemiPikachu::onAvance() {
+void EnemyPikachu::onAvance() {
 	static const int SPEED = 3;
 
 	tombe();
@@ -53,7 +53,7 @@ void EnnemiPikachu::onAvance() {
 	colFromPic();
 }
 
-void EnnemiPikachu::onMeure() {
+void EnemyPikachu::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -75,7 +75,7 @@ void EnnemiPikachu::onMeure() {
 	}
 }
 
-void EnnemiPikachu::onCarbonise() {
+void EnemyPikachu::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -91,11 +91,11 @@ void EnnemiPikachu::onCarbonise() {
 	}
 }
 
-void EnnemiPikachu::estTouche(Tir* tir) {
+void EnemyPikachu::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

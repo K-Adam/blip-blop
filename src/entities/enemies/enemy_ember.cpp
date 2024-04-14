@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_ember.h"
 
-EnnemiFlameche::EnnemiFlameche() { pv = 100; }
+EnemyEmber::EnemyEmber() { pv = 100; }
 
-void EnnemiFlameche::update() {
+void EnemyEmber::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -18,7 +18,7 @@ void EnnemiFlameche::update() {
 	updateADetruire();
 }
 
-void EnnemiFlameche::onAvance() {
+void EnemyEmber::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -46,7 +46,7 @@ void EnnemiFlameche::onAvance() {
 	colFromPic();
 }
 
-void EnnemiFlameche::onMeure() {
+void EnemyEmber::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -64,10 +64,10 @@ void EnnemiFlameche::onMeure() {
 	}
 }
 
-void EnnemiFlameche::estTouche(Tir* tir) {
+void EnemyEmber::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 10, 10, 0, -10, -10, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 }

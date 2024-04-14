@@ -2,21 +2,21 @@
 
 #include "entities/sprite.h"
 
-class FondSnorkSas1 : public Sprite {
+class BackgroundSnorkAirlock1 : public Sprite {
    private:
 	int nb_joueur;
 
    public:
 	static int etat;
 
-	FondSnorkSas1();
+	BackgroundSnorkAirlock1();
 	virtual void update();
 	virtual void affiche();
 };
 
-class FondSnorkSas2 : public Sprite {
+class BackgroundSnorkAirlock2 : public Sprite {
    public:
-	FondSnorkSas2();
+	BackgroundSnorkAirlock2();
 	virtual void update();
 	virtual void affiche();
 };

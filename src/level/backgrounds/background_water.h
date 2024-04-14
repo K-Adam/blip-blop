@@ -5,7 +5,7 @@
 int water_seed = 0;
 int water_seed2 = 5;
 
-class FondEau1 : public Sprite {
+class BackgroundWater1 : public Sprite {
    public:
 	virtual void update() {
 		pic = pbk_niveau[7 + water_seed];
@@ -14,7 +14,7 @@ class FondEau1 : public Sprite {
 	};
 };
 
-class FondEau2 : public Sprite {
+class BackgroundWater2 : public Sprite {
 	virtual void update() {
 		pic = pbk_niveau[7 + water_seed2];
 
@@ -22,17 +22,17 @@ class FondEau2 : public Sprite {
 	};
 };
 
-class FondEau : public Sprite {
+class BackgroundWater : public Sprite {
    public:
-	FondEau() {
+	BackgroundWater() {
 		Sprite* ptr;
 		bool b = false;
 
 		for (int i = 0; i < ((((int)level_size) / pbk_niveau[7]->xSize()) + 1); i++) {
 			if (b)
-				ptr = new FondEau1();
+				ptr = new BackgroundWater1();
 			else
-				ptr = new FondEau2();
+				ptr = new BackgroundWater2();
 
 			ptr->x = x;
 			ptr->y = 454;

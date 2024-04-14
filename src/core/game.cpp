@@ -60,7 +60,7 @@
 
 using json = nlohmann::json;
 
-Personnage dummyPlayer;
+Character dummyPlayer;
 
 #define TXT_TIME 828
 
@@ -561,7 +561,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 		int event_id = event["event_id"];
 		switch (event_id) {
 			case EVENTID_ENNEMI: {
-				auto event_ennemi = std::make_unique<EventEnnemi>();
+				auto event_ennemi = std::make_unique<EventEnemy>();
 
 				event_ennemi->x_activation = event["x_activation"];
 				event_ennemi->id_ennemi = event["id_ennemi"];
@@ -574,7 +574,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_ENNEMI_GENERATOR: {
-				auto event_gennemi = std::make_unique<EventGenEnnemi>();
+				auto event_gennemi = std::make_unique<EventEnemyGenerator>();
 
 				event_gennemi->x_activation = event["x_activation"];
 				event_gennemi->id_ennemi = event["id_ennemi"];
@@ -634,7 +634,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_BONUS_GENERATOR: {
-				auto event_gen_bonus = std::make_unique<EventGenBonus>();
+				auto event_gen_bonus = std::make_unique<EventBonusGenerator>();
 
 				event_gen_bonus->x_activation = event["x_activation"];
 				event_gen_bonus->type = event["type"];
@@ -645,7 +645,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_TEXT: {
-				auto event_texte = std::make_unique<EventTexte>();
+				auto event_texte = std::make_unique<EventText>();
 
 				event_texte->x_activation = event["x_activation"];
 				event_texte->ntxt = event["ntxt"];
@@ -658,7 +658,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_FOND_ANIME: {
-				auto event_fond_anime = std::make_unique<EventFondAnime>();
+				auto event_fond_anime = std::make_unique<EventAnimatedBackground>();
 
 				event_fond_anime->x_activation = event["x_activation"];
 				event_fond_anime->id_fond = event["id_fond"];
@@ -670,7 +670,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_MIFOND: {
-				auto event_mi_fond = std::make_unique<EventMiFond>();
+				auto event_mi_fond = std::make_unique<EventMidground>();
 
 				event_mi_fond->x_activation = event["x_activation"];
 				event_mi_fond->id = event["id"];
@@ -682,7 +682,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_PREMIER_PLAN: {
-				auto event_pplan = std::make_unique<EventPremierPlan>();
+				auto event_pplan = std::make_unique<EventForeground>();
 
 				event_pplan->id_fond = event["id_fond"];
 				event_pplan->x_activation = event["x_activation"];
@@ -718,7 +718,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_METEO: {
-				auto event_meteo = std::make_unique<EventMeteo>();
+				auto event_meteo = std::make_unique<EventWeather>();
 
 				event_meteo->x_activation = event["x_activation"];
 				event_meteo->intensite = event["intensite"];
@@ -740,7 +740,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_TURRET: {
-				auto event_vehicule = std::make_unique<EventVehicule>();
+				auto event_vehicule = std::make_unique<EventVehicle>();
 				event_vehicule->x_activation = event["x_activation"];
 				event_vehicule->id_vehicule = event["id_vehicule"];
 				event_vehicule->x = event["x"];
@@ -752,7 +752,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			}
 
 			case EVENTID_SON: {
-				auto event_son = std::make_unique<EventSon>();
+				auto event_son = std::make_unique<EventSound>();
 				event_son->x_activation = event["x_activation"];
 				event_son->nsnd = event["nsnd"];
 
@@ -988,22 +988,22 @@ bool Game::chargePartie() {
 
 	debug << "Successfully loaded <rpg_bb.gfx>\n";
 
-	// Fonte score blip
+	// Font score blip
 	if (!fnt_score_blip.load("scorei.lft")) return false;
 
 	debug << "Successfully loaded <scorei.lft>\n";
 
-	// Fonte score blop
+	// Font score blop
 	if (!fnt_score_blop.load("scoreo.lft")) return false;
 
 	debug << "Successfully loaded <scoreo.lft>\n";
 
-	// Fonte munitions
+	// Font munitions
 	if (!fnt_ammo.load("ammo1.lft")) return false;
 
 	debug << "Successfully loaded <ammo1.lft>\n";
 
-	// Fonte munitions utilisées
+	// Font munitions utilisées
 	if (!fnt_ammo_used.load("ammo2.lft")) return false;
 
 	debug << "Successfully loaded <ammo2.lft>\n";
@@ -1088,7 +1088,7 @@ void Game::updateEvents() {
 
 void Game::manageCollisions() {
 	// Collisions TirsBB / Ennemis
-	for (Tir* tir : list_tirs_bb) {
+	for (Shot* tir : list_tirs_bb) {
 		for (auto& ennemi : list_ennemis) {
 			if (tir->collision(ennemi.get())) {
 				ennemi->estTouche(tir);
@@ -1107,9 +1107,9 @@ void Game::manageCollisions() {
 
 	// Collisions Joueurs / Bonus
 	for (auto& bonus : list_bonus) {
-		for (Couille* couille : list_joueurs) {
-			if (bonus->collision(couille)) {
-				bonus->estPris(couille);
+		for (Ball* ball : list_joueurs) {
+			if (bonus->collision(ball)) {
+				bonus->estPris(ball);
 			}
 		}
 	}
@@ -1117,14 +1117,14 @@ void Game::manageCollisions() {
 	if (wait_for_victory <= 0) {
 		// Collisions Joueurs / Ennemis
 		for (auto& ennemi : list_ennemis) {
-			for (Couille* joueur : list_joueurs) {
+			for (Ball* joueur : list_joueurs) {
 				if (ennemi->collision(joueur)) joueur->estTouche(ennemi->degats());
 			}
 		}
 
 		// Collisions Joueurs / tirs ennemis
 		for (auto& tir : list_tirs_ennemis) {
-			for (Couille* joueur : list_joueurs) {
+			for (Ball* joueur : list_joueurs) {
 				if (tir->collision(joueur)) {
 					joueur->estTouche(tir->degats());
 				}
@@ -1151,12 +1151,12 @@ void Game::updateHoldFire() {
 
 void Game::drawHUB() {
 	if (player1 != NULL && player1->nb_life > 0) {
-		auto color = player1->id_couille == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
+		auto color = player1->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
 		hud_.Draw(player1.get(), HUD::Location::Left, color, niveau_bonus);
 	}
 
 	if (player2 != NULL && player2->nb_life > 0) {
-		auto color = player2->id_couille == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
+		auto color = player2->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
 		hud_.Draw(player2.get(), HUD::Location::Right, color, niveau_bonus);
 	}
 }
@@ -1350,8 +1350,8 @@ void Game::updateCheat() {
 
 namespace {
 struct PlayerTotals {
-	Couille* player = nullptr;
-	Fonte* fnt = nullptr;
+	Ball* player = nullptr;
+	Font* fnt = nullptr;
 	int xbase = 0;
 	int calc = 4;
 	int perfect = 0, c_perfect = 0;
@@ -1446,7 +1446,7 @@ void Game::showPE(bool bonus, bool fuckOff) {
 
 	for (auto& t : totals) {
 		if (t.calc == 4) continue;
-		t.fnt = t.player->id_couille == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
+		t.fnt = t.player->id_ball == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
 		if (nb_ennemis_created > 0) t.killed = (100 * t.player->getKilled()) / nb_ennemis_created;
 		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !joueurs_morts)) t.obj = 50000;
 		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
@@ -1505,7 +1505,7 @@ void Game::updateMeteo() {
 	while (list_meteo.size() < (size_t)intensite_meteo) {
 		if (type_meteo == METEO_NEIGE) {
 			next_flocon = (next_flocon + 1) % NB_FLOCONS;
-			MeteoNeige* flocon = &neige[next_flocon];
+			WeatherSnow* flocon = &neige[next_flocon];
 
 			int d = rand() % 3;
 
@@ -1527,7 +1527,7 @@ void Game::updateMeteo() {
 			list_meteo.emplace_back(flocon);
 		} else if (type_meteo == METEO_PLUIE) {
 			next_goutte = (next_goutte + 1) % NB_GOUTTES;
-			MeteoPluie* goutte = &pluie[next_goutte];
+			WeatherRain* goutte = &pluie[next_goutte];
 
 			int d = rand() % 4;
 
@@ -1621,7 +1621,7 @@ void Game::drawDeformation() {
 
 void Game::updateBulles() {
 	// Crée de nouvelles bulles
-	for (Couille* pl : list_joueurs) {
+	for (Ball* pl : list_joueurs) {
 		creeBulle(pl);
 	}
 
@@ -1642,7 +1642,7 @@ void Game::creeBulle(Sprite* s) {
 	s->wait_bulle += rand() % 10;
 
 	if (s->wait_bulle > 300) {
-		Bulle* b = new Bulle();
+		Bubble* b = new Bubble();
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
@@ -1756,7 +1756,7 @@ void Game::getHiscore() {
 	if (player2 != NULL && hi_scores.isGood(player2->getScore())) getName(player2.get(), 2);
 }
 
-void Game::getName(Joueur* joueur, int ijoueur) {
+void Game::getName(Player* joueur, int ijoueur) {
 	const std::string title = "PLAYER " + std::to_string(ijoueur) + " GOT A HIGH SCORE!";
 	std::string name;
 	int key = -1;
@@ -1874,7 +1874,7 @@ void Game::showHighScores() {
 void Game::go() {
 	TitleScreen menu;
 	int r;
-	static int zob = 0;
+	static int attract_step = 0;
 
 	// Clear l'écran en noir + LOADING
 	{
@@ -1907,7 +1907,7 @@ void Game::go() {
 			}
 
 			if (diff_start.elapsed() >= 10000) {
-				switch (zob) {
+				switch (attract_step) {
 					case 0:
 					case 2:
 					case 4:
@@ -1930,7 +1930,7 @@ void Game::go() {
 						break;
 				}
 
-				zob = (zob + 1) % 8;
+				attract_step = (attract_step + 1) % 8;
 
 				menu.stop();
 				menu.start();

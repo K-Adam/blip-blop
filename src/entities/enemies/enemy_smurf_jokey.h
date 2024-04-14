@@ -8,7 +8,7 @@
 const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_smurf_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
-class EnnemiSmurfFarceur : public Ennemi {
+class EnemySmurfJokey : public Enemy {
    public:
 	bool porte_bomb;
 	int new_bomb_delay;
@@ -17,7 +17,7 @@ class EnnemiSmurfFarceur : public Ennemi {
 	int wait_for_bomb;
 	int decalage_y_cadeau;
 
-	EnnemiSmurfFarceur();
+	EnemySmurfJokey();
 
 	inline virtual void affiche() {
 		if (porte_bomb) {
@@ -34,7 +34,7 @@ class EnnemiSmurfFarceur : public Ennemi {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void onPoseCadeau();
 	virtual void onDegaine();
 };

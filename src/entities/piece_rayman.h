@@ -2,12 +2,12 @@
 
 #include "entities/sprite.h"
 
-class MorceauRayman : public Sprite {
+class PieceRayman : public Sprite {
    public:
 	int dx;
 	int n_pic;
 
-	MorceauRayman(int m_pic, int vx, int vy);
+	PieceRayman(int m_pic, int vx, int vy);
 
 	virtual void update();
 };

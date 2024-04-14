@@ -2,12 +2,12 @@
 
 #include "entities/sprite.h"
 
-class GoreTeteBisouCoeur : public Sprite {
+class GoreHeadBisouHeart : public Sprite {
    public:
 	int dx;
 	bool joue_son;
 
-	GoreTeteBisouCoeur() : joue_son(false) {
+	GoreHeadBisouHeart() : joue_son(false) {
 		dy = -1 - rand() % 3;
 		dx = -2 + rand() % 5;
 	};

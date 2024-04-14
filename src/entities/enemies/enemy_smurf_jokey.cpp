@@ -4,7 +4,7 @@
 const int anim_smurf_farceur_marche_droite[] = {46, 47, 48, 49, 50, 49, 48, 47};
 const int anim_smurf_farceur_marche_gauche[] = {51, 52, 53, 54, 55, 54, 53, 52};
 
-EnnemiSmurfFarceur::EnnemiSmurfFarceur() {
+EnemySmurfJokey::EnemySmurfJokey() {
 	pv = 150;
 	bomb_delay = 100 + rand() % 400;
 	wait_for_bomb = 0;
@@ -14,7 +14,7 @@ EnnemiSmurfFarceur::EnnemiSmurfFarceur() {
 	decalage_y_cadeau = 5;
 }
 
-void EnnemiSmurfFarceur::update() {
+void EnemySmurfJokey::update() {
 	if (blood != 0) blood -= 1;
 
 	switch (etat) {
@@ -38,7 +38,7 @@ void EnnemiSmurfFarceur::update() {
 	updateADetruire();
 }
 
-void EnnemiSmurfFarceur::onDegaine() {
+void EnemySmurfJokey::onDegaine() {
 	ss_etape += 1;
 	ss_etape %= 8;
 
@@ -58,7 +58,7 @@ void EnnemiSmurfFarceur::onDegaine() {
 	}
 }
 
-void EnnemiSmurfFarceur::onPoseCadeau() {
+void EnemySmurfJokey::onPoseCadeau() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -74,8 +74,8 @@ void EnnemiSmurfFarceur::onPoseCadeau() {
 		wait_for_new_bomb = 0;
 		new_bomb_delay = 50 + rand() % 200;
 
-		// On crée un objet TirCadeau
-		TirCadeau* tir = new TirCadeau();
+		// On crée un objet ShotGift
+		ShotGift* tir = new ShotGift();
 		if (dir == SENS_DROITE)
 			tir->x = x + 26;
 		else
@@ -89,7 +89,7 @@ void EnnemiSmurfFarceur::onPoseCadeau() {
 	}
 }
 
-void EnnemiSmurfFarceur::onAvance() {
+void EnemySmurfJokey::onAvance() {
 	// Si pas de sol en dessous, on tombe
 	tombe();
 
@@ -141,14 +141,14 @@ void EnnemiSmurfFarceur::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSmurfFarceur::onMeure() {
+void EnemySmurfJokey::onMeure() {
 	tombe();
 
 	// Si on porte un cadeau, alors on meure carbonisé
 	if (porte_bomb) {
 		etat = ETAT_CARBONISE;
 		porte_bomb = false;
-		TirCadeau* tir = new TirCadeau();
+		ShotGift* tir = new ShotGift();
 		tir->etape = 20;
 		tir->y = y - 5;
 		if (dir == SENS_DROITE) {
@@ -181,7 +181,7 @@ void EnnemiSmurfFarceur::onMeure() {
 	}
 }
 
-void EnnemiSmurfFarceur::onCarbonise() {
+void EnemySmurfJokey::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -197,11 +197,11 @@ void EnnemiSmurfFarceur::onCarbonise() {
 	}
 }
 
-void EnnemiSmurfFarceur::estTouche(Tir* tir) {
+void EnemySmurfJokey::estTouche(Shot* tir) {
 	static const int dx_giclure_smurf_farceur[] = {0, 0, 6, 0, 0, 0, -6, 0};
 	static const int dy_giclure_smurf_farceur[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_smurf_farceur, dy_giclure_smurf_farceur);
 
 	if (etat == ETAT_MEURE) {

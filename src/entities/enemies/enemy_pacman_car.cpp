@@ -1,13 +1,13 @@
 #include "entities/enemies/enemy_pacman_car.h"
 #include "entities/enemies/enemy_pacman.h"
 
-EnnemiVoiturePacman::EnnemiVoiturePacman() : invoc_pacman(false) {
+EnemyPacmanCar::EnemyPacmanCar() : invoc_pacman(false) {
 	pv = 1000;
 	pic = pbk_ennemis[216];
 	wait_end = 0;
 }
 
-void EnnemiVoiturePacman::update() {
+void EnemyPacmanCar::update() {
 	if ((game_flag[2] == 1) || (game_flag[2] == 2)) {
 		etape++;
 		if (etape > 160) {
@@ -41,7 +41,7 @@ void EnnemiVoiturePacman::update() {
 	}
 }
 
-void EnnemiVoiturePacman::tombeVoiture() {
+void EnemyPacmanCar::tombeVoiture() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE_VOITURE;
 
@@ -57,13 +57,13 @@ void EnnemiVoiturePacman::tombeVoiture() {
 		y += dy;
 }
 
-int EnnemiVoiturePacman::degats() { return 0; };
+int EnemyPacmanCar::degats() { return 0; };
 
-void EnnemiVoiturePacman::affiche() {
+void EnemyPacmanCar::affiche() {
 	if (game_flag[2] >= 4) {
 		draw(x + 48, y - 82, pbk_ennemis[217 + etape]);
 	}
 	Sprite::affiche();
 }
 
-void EnnemiVoiturePacman::estTouche(Tir* tir) {}
+void EnemyPacmanCar::estTouche(Shot* tir) {}

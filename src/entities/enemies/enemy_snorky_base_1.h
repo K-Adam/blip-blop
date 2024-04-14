@@ -4,12 +4,12 @@
 
 #define SNORKY_BASE_SPEED 2
 
-class EnnemiSnorkyBase1 : public Ennemi {
+class EnemySnorkyBase1 : public Enemy {
    public:
 	int wait_for_shoot;
 	int shoot_delay;
 
-	EnnemiSnorkyBase1();
+	EnemySnorkyBase1();
 
 	virtual void update();
 	virtual void onAvance();
@@ -18,5 +18,5 @@ class EnnemiSnorkyBase1 : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

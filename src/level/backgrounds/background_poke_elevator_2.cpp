@@ -2,12 +2,12 @@
 
 #include "entities/ball.h"
 
-FondPokeAscenceur2::FondPokeAscenceur2() {
+BackgroundPokeElevator2::BackgroundPokeElevator2() {
 	pic = pbk_niveau[51];
 	dy = 1;
 }
 
-void FondPokeAscenceur2::update() {
+void BackgroundPokeElevator2::update() {
 	if (game_flag[2] > 1) {
 		int xtmp;
 
@@ -18,7 +18,7 @@ void FondPokeAscenceur2::update() {
 			dy = -1;
 
 		// Si un joueur est sur la plateforme, on le déplace
-		for (Couille* joueur : list_joueurs) {
+		for (Ball* joueur : list_joueurs) {
 			xtmp = joueur->x;
 
 			if (xtmp > x && xtmp < x + pic->xSize() && plat(xtmp, joueur->y) == y + 20) joueur->y += dy;

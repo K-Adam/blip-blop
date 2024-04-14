@@ -12,7 +12,7 @@
 #define MULTIPLICATEUR_RECUL_AERIEN 15
 #define MULTIPLICATEUR_VITESSE_AERIEN 80
 
-class EnnemiLuigi : public Ennemi {
+class EnemyLuigi : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -27,7 +27,7 @@ class EnnemiLuigi : public Ennemi {
 	int encaissement;
 
    public:
-	EnnemiLuigi();
+	EnemyLuigi();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -35,5 +35,5 @@ class EnnemiLuigi : public Ennemi {
 	virtual void onAttack();
 	virtual void onCarbonise();
 	virtual void tombe_luigi();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

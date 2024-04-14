@@ -7,15 +7,15 @@
 #define SPEED_MAX 6
 #define TIME_MAX 100
 
-class TirSnorkyGouverneur : public Tir {
+class ShotSnorkyGovernor : public Shot {
    public:
 	int dx;
 	int etape_dx;
 	int etape_dy;
 	int time;
-	Personnage* joueur_cible;
+	Character* joueur_cible;
 
-	TirSnorkyGouverneur(Personnage* cible, int vx, int vy);
+	ShotSnorkyGovernor(Character* cible, int vx, int vy);
 
 	virtual int degats() const { return 1; };
 

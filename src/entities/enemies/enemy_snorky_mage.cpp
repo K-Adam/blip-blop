@@ -3,13 +3,13 @@
 
 const int snorky_mage_oscilation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-EnnemiSnorkyMage::EnnemiSnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscilation_etape(0) {
+EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscilation_etape(0) {
 	pv = 200;
 	pic = pbk_ennemis[0];
 	dy = 0;
 }
 
-void EnnemiSnorkyMage::update() {
+void EnemySnorkyMage::update() {
 	switch (etat) {
 		case ETAT_AVANCE:
 		case ETAT_NORMAL:
@@ -37,7 +37,7 @@ void EnnemiSnorkyMage::update() {
 	updateADetruire();
 }
 
-void EnnemiSnorkyMage::onAvance() {
+void EnemySnorkyMage::onAvance() {
 	oscilation_etape++;
 	oscilation_etape %= 43;
 	if (oscilation_etape >= 22) {
@@ -98,7 +98,7 @@ void EnnemiSnorkyMage::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSnorkyMage::onTombe() {
+void EnemySnorkyMage::onTombe() {
 	tombe();
 
 	if (plat(x, y) != 0) etat = ETAT_AVANCE;
@@ -106,7 +106,7 @@ void EnnemiSnorkyMage::onTombe() {
 	colFromPic();
 }
 
-void EnnemiSnorkyMage::onMeure() {
+void EnemySnorkyMage::onMeure() {
 	if (etape > 2) {
 		tombe();
 	}
@@ -140,7 +140,7 @@ void EnnemiSnorkyMage::onMeure() {
 	}
 }
 
-void EnnemiSnorkyMage::onTire() {
+void EnemySnorkyMage::onTire() {
 	if (concentration < 3) {
 		ss_etape++;
 		ss_etape %= 4;
@@ -166,7 +166,7 @@ void EnnemiSnorkyMage::onTire() {
 		}
 		if ((etape == 2) && (ss_etape == 0)) {
 			if (dir == SENS_DROITE) {
-				TirSnorkyMage* tir = new TirSnorkyMage();
+				ShotSnorkyMage* tir = new ShotSnorkyMage();
 
 				tir->setDir(dir);
 				tir->x = x + 35;
@@ -174,7 +174,7 @@ void EnnemiSnorkyMage::onTire() {
 
 				list_tirs_ennemis.emplace_back(tir);
 			} else {
-				TirSnorkyMage* tir = new TirSnorkyMage();
+				ShotSnorkyMage* tir = new ShotSnorkyMage();
 
 				tir->setDir(dir);
 				tir->x = x - 35;
@@ -204,7 +204,7 @@ void EnnemiSnorkyMage::onTire() {
 	}
 }
 
-void EnnemiSnorkyMage::onCarbonise() {
+void EnemySnorkyMage::onCarbonise() {
 	ss_etape++;
 	ss_etape %= 6;
 
@@ -217,11 +217,11 @@ void EnnemiSnorkyMage::onCarbonise() {
 	}
 }
 
-void EnnemiSnorkyMage::estTouche(Tir* tir) {
+void EnemySnorkyMage::estTouche(Shot* tir) {
 	static const int dx_giclure_mage[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_mage[] = {-35, -45, -45, -45, -55, -45, -45, -45};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_mage, dy_giclure_mage);
 
 	if (etat == ETAT_MEURE) {

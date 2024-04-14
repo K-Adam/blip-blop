@@ -2,13 +2,13 @@
 #include "core/debug.h"
 #include "entities/shots/shot_tornado.h"
 
-EnnemiDiabolo::EnnemiDiabolo() : wait_for_attack(0), attack_delay(50 + rand() % 100), attack_type(0) {
+EnemyDiabolo::EnemyDiabolo() : wait_for_attack(0), attack_delay(50 + rand() % 100), attack_type(0) {
 	pv = 30000;
 	dy = 0;
 	xmin = 80;
 }
 
-void EnnemiDiabolo::update() {
+void EnemyDiabolo::update() {
 	switch (etat) {
 		case ETAT_AVANCE:
 		case ETAT_NORMAL:
@@ -46,7 +46,7 @@ void EnnemiDiabolo::update() {
 	}
 }
 
-void EnnemiDiabolo::onAvance() {
+void EnemyDiabolo::onAvance() {
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -146,7 +146,7 @@ void EnnemiDiabolo::onAvance() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onTombe() {
+void EnemyDiabolo::onTombe() {
 	tombe();
 
 	if (plat(x, y) != 0) etat = ETAT_AVANCE;
@@ -154,11 +154,11 @@ void EnnemiDiabolo::onTombe() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onMeure() {}
+void EnemyDiabolo::onMeure() {}
 
-void EnnemiDiabolo::onAttack() {}
+void EnemyDiabolo::onAttack() {}
 
-void EnnemiDiabolo::onCoupdelatte() {
+void EnemyDiabolo::onCoupdelatte() {
 	if (etape == 15) {
 		etape = 0;
 		ss_etape = 0;
@@ -212,7 +212,7 @@ void EnnemiDiabolo::onCoupdelatte() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onTornade() {
+void EnemyDiabolo::onTornade() {
 	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
@@ -228,13 +228,13 @@ void EnnemiDiabolo::onTornade() {
 	}
 
 	if ((etape == 6) && (ss_etape == 0)) {
-		Tir* tornade;
+		Shot* tornade;
 
 		if (dir == SENS_DROITE) {
-			tornade = new TirTornade(1);
+			tornade = new ShotTornado(1);
 			tornade->x = x + 30;
 		} else {
-			tornade = new TirTornade(-1);
+			tornade = new ShotTornado(-1);
 			tornade->x = x - 30;
 		}
 
@@ -251,7 +251,7 @@ void EnnemiDiabolo::onTornade() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onCoupdegenou() {
+void EnemyDiabolo::onCoupdegenou() {
 	if (dx == 0) {
 		if (dy < 0) {
 			dy = 0;
@@ -323,9 +323,9 @@ void EnnemiDiabolo::onCoupdegenou() {
 	colFromPic();
 }
 
-void EnnemiDiabolo::onCarbonise() {}
+void EnemyDiabolo::onCarbonise() {}
 
-void EnnemiDiabolo::colFromPic() {
+void EnemyDiabolo::colFromPic() {
 	Sprite::colFromPic();
 
 	if (etat == ETAT_AVANCE) {
@@ -337,7 +337,7 @@ void EnnemiDiabolo::colFromPic() {
 	}
 }
 
-void EnnemiDiabolo::tombe_diabolo() {
+void EnemyDiabolo::tombe_diabolo() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_DIABOLO_GRAVITE;
 
@@ -353,10 +353,10 @@ void EnnemiDiabolo::tombe_diabolo() {
 		y += dy;
 }
 
-void EnnemiDiabolo::estTouche(Tir* tir) {
+void EnemyDiabolo::estTouche(Shot* tir) {
 	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_lem, dy_giclure_lem);
 }

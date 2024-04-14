@@ -77,7 +77,7 @@ void updateScrolling(bool forceOk) {
 	} else if (list_joueurs.size() > 0) {
 		int x_moy = 0;
 
-		for (Couille* s : list_joueurs) {
+		for (Ball* s : list_joueurs) {
 			x_moy += s->x;
 		}
 

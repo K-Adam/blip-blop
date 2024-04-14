@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_com_hero.h"
 
-EnnemiComHeros::EnnemiComHeros() : dorkeball(2) {
+EnemyCOMHero::EnemyCOMHero() : dorkeball(2) {
 	pv = 1000;
 	dy = -8;
 	dx = -2;
 }
 
-void EnnemiComHeros::update() {
+void EnemyCOMHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		tombe();
@@ -61,7 +61,7 @@ void EnnemiComHeros::update() {
 	}
 }
 
-void EnnemiComHeros::onAvance() {
+void EnemyCOMHero::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -89,7 +89,7 @@ void EnnemiComHeros::onAvance() {
 	colFromPic();
 }
 
-void EnnemiComHeros::onMeure() {
+void EnemyCOMHero::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -105,4 +105,4 @@ void EnnemiComHeros::onMeure() {
 	}
 }
 
-void EnnemiComHeros::estTouche(Tir* tir) { Ennemi::estTouche(tir); }
+void EnemyCOMHero::estTouche(Shot* tir) { Enemy::estTouche(tir); }

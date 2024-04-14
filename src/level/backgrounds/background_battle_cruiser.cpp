@@ -6,12 +6,12 @@
 const int anim_cruiser_droite[] = {0, 1, 2, 1};
 const int anim_cruiser_gauche[] = {3, 4, 5, 4};
 
-FondBattlecruiser::FondBattlecruiser() : x_adversaire(700), y_adversaire(40), attack_etape(-2), feu_etape(0), feu_ss_etape(0) {
+BackgroundBattleCruiser::BackgroundBattleCruiser() : x_adversaire(700), y_adversaire(40), attack_etape(-2), feu_etape(0), feu_ss_etape(0) {
 	x = -20;
 	y = 80;
 }
 
-void FondBattlecruiser::update() {
+void BackgroundBattleCruiser::update() {
 	feu_ss_etape += 1;
 	feu_ss_etape %= 40;
 	if (feu_ss_etape == 0) {
@@ -32,24 +32,24 @@ void FondBattlecruiser::update() {
 			if (attack_etape == 2) attack_etape = -2;
 
 			pic = pbk_niveau[26 + attack_etape];
-			Sprite* s = new TirCruiser((dif_x * TIR_SPEED) / dif_y, (int)(TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y), 8 + attack_etape);
+			Sprite* s = new ShotCruiser((dif_x * TIR_SPEED) / dif_y, (int)(TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y), 8 + attack_etape);
 			s->x = x - 8 * attack_etape;
 			s->y = y + 6;
 			list_fonds_animes.emplace_back(s);
 
-			s = new TirCruiser(-(dif_x * TIR_SPEED) / dif_y, (int)(-TIR_SPEED + (dif_x * TIR_SPEED * 0.25) / dif_y), 7 - attack_etape);
+			s = new ShotCruiser(-(dif_x * TIR_SPEED) / dif_y, (int)(-TIR_SPEED + (dif_x * TIR_SPEED * 0.25) / dif_y), 7 - attack_etape);
 			s->x = x_adversaire - 8 * attack_etape;
 			s->y = y_adversaire - 6;
 			list_fonds_animes.emplace_back(s);
 
 			if (attack_etape == -2) {
-				s = new TirCruiserLaser(1, 13 - (dif_x / dif_y));
+				s = new ShotCruiserLaser(1, 13 - (dif_x / dif_y));
 				s->x = x + 16;	//+8*rand()%5-16;
 				s->y = y;
 				list_fonds_animes.emplace_back(s);
 			}
 			if (attack_etape == 0) {
-				s = new TirCruiserLaser(-1, 17 - (dif_x / dif_y));
+				s = new ShotCruiserLaser(-1, 17 - (dif_x / dif_y));
 				s->x = x_adversaire - 16;  //+8*rand()%5-16;
 				s->y = y_adversaire;
 				list_fonds_animes.emplace_back(s);
@@ -67,7 +67,7 @@ void FondBattlecruiser::update() {
 	}
 }
 
-void FondBattlecruiser::affiche() {
+void BackgroundBattleCruiser::affiche() {
 	Sprite::affiche();
 	if (attack_etape == -3) {
 		draw(x_adversaire, y_adversaire, pbk_niveau[anim_cruiser_gauche[etape]]);

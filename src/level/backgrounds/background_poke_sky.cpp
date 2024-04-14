@@ -1,16 +1,16 @@
 #include "core/globals.h"
 #include "level/backgrounds/background_poke_sky.h"
 
-FondPokeCiel::FondPokeCiel() { pic = pbk_niveau[48]; }
+BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_niveau[48]; }
 
-void FondPokeCiel::update() {
+void BackgroundPokeSky::update() {
 	etape += 4;
 	etape %= 384;
 
 	colFromPic();
 }
 
-void FondPokeCiel::affiche() {
+void BackgroundPokeSky::affiche() {
 	Sprite::affiche();
 
 	SDL::Surface* surf;

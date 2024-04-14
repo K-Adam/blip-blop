@@ -5,12 +5,12 @@
 
 #define IDVEHICULE_CIGO 0
 
-void EventVehicule::doEvent() {
-	Vehicule* v = NULL;
+void EventVehicle::doEvent() {
+	Vehicle* v = NULL;
 
 	switch (id_vehicule) {
 		case IDVEHICULE_CIGO:
-			v = new VehiculeCigogne();
+			v = new VehicleStork();
 			break;
 	}
 
@@ -19,7 +19,7 @@ void EventVehicule::doEvent() {
 		v->y = y;
 		v->dir = dir;
 
-		list_vehicules.push_back(std::unique_ptr<Vehicule>(v));
+		list_vehicules.push_back(std::unique_ptr<Vehicle>(v));
 	} else {
 		debug << "Unknown vehicle ID : " << id_vehicule << "\n";
 	}

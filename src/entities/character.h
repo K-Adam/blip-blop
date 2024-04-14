@@ -23,12 +23,12 @@
 #define SENS_DROITE 1
 #endif
 
-class Personnage : public Sprite {
+class Character : public Sprite {
    public:
 	int pv;
 	int etat;
 
-	Personnage();
+	Character();
 
 	virtual void update();
 };

@@ -14,7 +14,7 @@ void EventBonus::doEvent() {
 			break;
 
 		case BFUSIL:
-			bonus = new BonusFusil();
+			bonus = new BonusShotgun();
 			break;
 
 		case BLF:
@@ -34,11 +34,11 @@ void EventBonus::doEvent() {
 			break;
 
 		case BTONNO:
-			bonus = new BonusTonneau();
+			bonus = new BonusBarrel();
 			break;
 
 		case BCOW:
-			bonus = new BonusVache();
+			bonus = new BonusCow();
 			break;
 
 		default:

@@ -74,34 +74,34 @@ extern ControlP2 ctrlP2;
 
 // FIXME: They're all lists instead of ideally vectors because we sometimes
 // append during iterations and relocating is then STRICTLY forbidden
-class Couille;
-extern std::vector<Couille*> list_joueurs;	// FIXME: make it owning?
-class TirBB;
-extern std::list<TirBB*> list_tirs_bb;
-class TirBBVache;
-extern std::list<std::unique_ptr<TirBBVache>> list_cow;
+class Ball;
+extern std::vector<Ball*> list_joueurs;	 // FIXME: make it owning?
+class ShotBB;
+extern std::list<ShotBB*> list_tirs_bb;
+class ShotBBCow;
+extern std::list<std::unique_ptr<ShotBBCow>> list_cow;
 class Explosion;
 // FIXME: should be owning by value but can't, because of circular deps
 extern std::list<std::unique_ptr<Explosion>> list_impacts;
 
-class Vehicule;
-extern std::list<std::unique_ptr<Vehicule>> list_vehicules;
+class Vehicle;
+extern std::list<std::unique_ptr<Vehicle>> list_vehicules;
 
 class Event;
 extern std::list<std::unique_ptr<Event>> list_event_endormis;
 extern std::list<std::unique_ptr<Event>> list_event;
 
-class Ennemi;
-extern std::list<std::unique_ptr<Ennemi>> list_ennemis;
-class Tir;
-extern std::list<std::unique_ptr<Tir>> list_tirs_ennemis;
-class GenEnnemi;
-extern std::list<std::unique_ptr<GenEnnemi>> list_gen_ennemis;
+class Enemy;
+extern std::list<std::unique_ptr<Enemy>> list_ennemis;
+class Shot;
+extern std::list<std::unique_ptr<Shot>> list_tirs_ennemis;
+class EnemyGenerator;
+extern std::list<std::unique_ptr<EnemyGenerator>> list_gen_ennemis;
 
 class Bonus;
 extern std::list<std::unique_ptr<Bonus>> list_bonus;
-class GenBonus;
-extern std::list<std::unique_ptr<GenBonus>> list_gen_bonus;
+class BonusGenerator;
+extern std::list<std::unique_ptr<BonusGenerator>> list_gen_bonus;
 
 class Sprite;
 extern std::list<std::unique_ptr<Sprite>> list_fonds_animes;
@@ -109,19 +109,19 @@ extern std::list<std::unique_ptr<Sprite>> list_fonds_statiques;
 extern std::list<std::unique_ptr<Sprite>> list_premiers_plans;
 extern std::list<std::unique_ptr<Sprite>> list_plateformes_mobiles;
 
-class TexteCool;
-extern std::list<std::unique_ptr<TexteCool>> list_txt_cool;
+class CoolText;
+extern std::list<std::unique_ptr<CoolText>> list_txt_cool;
 
-// FIXME: should prolly be a list of Giclure, but GoreGiclure doesn't inherit
-// Giclure
+// FIXME: should prolly be a list of Splatter, but GoreSplatter doesn't inherit
+// Splatter
 extern std::list<std::unique_ptr<Sprite>> list_giclures;
 // FIXME all things put insite list_gore don't have a common base aside from
 // Sprite
 extern std::list<std::unique_ptr<Sprite>> list_gore;
 
 extern std::list<Sprite*> list_meteo;
-class Bulle;
-extern std::list<std::unique_ptr<Bulle>> list_bulles;
+class Bubble;
+extern std::list<std::unique_ptr<Bubble>> list_bulles;
 
 extern bool phase;	// Pour les clignotements
 extern bool slow_phase;
@@ -167,14 +167,14 @@ extern MusicBank mbk_interl;
 extern std::string current_mbk;
 extern int current_zik;
 
-extern Fonte fnt_score_blip;
-extern Fonte fnt_score_blop;
-extern Fonte fnt_ammo;
-extern Fonte fnt_ammo_used;
-extern Fonte fnt_cool;
-extern Fonte fnt_rpg;
-extern Fonte fnt_menu;
-extern Fonte fnt_menus;
+extern Font fnt_score_blip;
+extern Font fnt_score_blop;
+extern Font fnt_ammo;
+extern Font fnt_ammo_used;
+extern Font fnt_cool;
+extern Font fnt_rpg;
+extern Font fnt_menu;
+extern Font fnt_menus;
 
 void set_plat(int n, int x, int y);
 int plat(int x, int y);	 // Retourne l'ordonnée de la plateforme (0 si pas de plat)

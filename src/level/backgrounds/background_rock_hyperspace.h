@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondRocherHyperspace : public Sprite {
+class BackgroundRockHyperspace : public Sprite {
    public:
 	int plan_rocher;
 	int placer;
@@ -11,7 +11,7 @@ class FondRocherHyperspace : public Sprite {
 	int sinusoide_delay;
 	int y_base;
 
-	FondRocherHyperspace();
+	BackgroundRockHyperspace();
 	virtual void update();
 	virtual void affiche();
 };

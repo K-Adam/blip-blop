@@ -2,14 +2,14 @@
 
 #include "entities/bonus.h"
 
-class BonusVache : public Bonus {
+class BonusCow : public Bonus {
    public:
-	BonusVache() {
+	BonusCow() {
 		pic = pbk_misc[48];
 		col_on = true;
 	};
 
-	virtual void estPris(Couille* c) {
+	virtual void estPris(Ball* c) {
 		sbk_misc.play(1);
 
 		c->nb_cow_bomb += 1;

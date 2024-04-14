@@ -4,7 +4,7 @@
 extern bool txt_cool_free[];
 #endif
 
-class TexteCool {
+class CoolText {
    public:
 	int y;
 	int nn;
@@ -12,7 +12,7 @@ class TexteCool {
 	int x;
 	int t;
 
-	TexteCool();
+	CoolText();
 
 	void update();
 	void affiche();

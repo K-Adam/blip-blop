@@ -2,7 +2,7 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiPacman : public Ennemi {
+class EnemyPacman : public Enemy {
    private:
 	int tir;
 	int etape_tir;
@@ -11,11 +11,11 @@ class EnnemiPacman : public Ennemi {
 	int dx;
 
    public:
-	EnnemiPacman();
+	EnemyPacman();
 	virtual void update();
 	virtual int degats();
 	virtual void affiche();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 
 	virtual bool count() { return false; };
 };

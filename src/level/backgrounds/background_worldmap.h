@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondWorldmap : public Sprite {
+class BackgroundWorldmap : public Sprite {
    public:
 	virtual void update();
 };

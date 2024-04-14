@@ -6,7 +6,7 @@ class PPlan : public Sprite {
 	virtual void update(){};
 };
 
-void EventPremierPlan::doEvent() {
+void EventForeground::doEvent() {
 	PPlan* s = new PPlan();
 
 	s->x = x;

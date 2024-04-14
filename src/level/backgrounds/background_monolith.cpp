@@ -7,12 +7,12 @@ const int monolite_levitation[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 
 const int monolite_animation[] = {41, 42, 43, 43, 44, 44, 44, 45, 45, 45, 45, 45, 44, 44, 44, 43, 43, 42,
 								  41, 46, 47, 47, 48, 48, 48, 49, 49, 49, 49, 49, 48, 48, 48, 47, 47, 46};
 
-FondMonolite::FondMonolite() : etape_levitation(0), ss_etape_levitation(0) {
+BackgroundMonolith::BackgroundMonolith() : etape_levitation(0), ss_etape_levitation(0) {
 	pic = pbk_niveau[22];
 	dy = 0;
 }
 
-void FondMonolite::update() {
+void BackgroundMonolith::update() {
 	pic = pbk_niveau[anime(monolite_animation, 36, 3)];
 	// anime36
 	ss_etape_levitation++;
@@ -29,7 +29,7 @@ void FondMonolite::update() {
 	// Fait des allers/retour
 
 	// Si un joueur est sur la plateforme, on le déplace
-	for (Couille* joueur : list_joueurs) {
+	for (Ball* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
 		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && plat(xtmp, joueur->y) == y - 20) {

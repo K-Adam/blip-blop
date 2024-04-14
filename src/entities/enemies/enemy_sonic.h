@@ -5,7 +5,7 @@
 #define SONIC_SPEED 7
 #define SONIC_CHARGE_SPEED 8
 
-class EnnemiSonic : public Ennemi {
+class EnemySonic : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -26,7 +26,7 @@ class EnnemiSonic : public Ennemi {
 	int wait_sang_tombe;
 
    public:
-	EnnemiSonic();
+	EnemySonic();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -39,5 +39,5 @@ class EnnemiSonic : public Ennemi {
 	virtual void onBalancering();
 	virtual void balance_epines();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

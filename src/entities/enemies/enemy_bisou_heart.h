@@ -2,12 +2,12 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiBisouCoeur : public Ennemi {
+class EnemyBisouHeart : public Enemy {
    public:
-	EnnemiBisouCoeur();
+	EnemyBisouHeart();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onPart();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void update();
 };

@@ -1,7 +1,7 @@
 #pragma once
 
-class FondPokeCaisse : public Sprite {
+class BackgroundPokeCrate : public Sprite {
    public:
-	FondPokeCaisse();
+	BackgroundPokeCrate();
 	virtual void update();
 };

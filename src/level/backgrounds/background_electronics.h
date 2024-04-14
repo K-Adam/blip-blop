@@ -2,25 +2,25 @@
 
 #include "entities/sprite.h"
 
-class FondElectronic1 : public Sprite {
+class BackgroundElectronic1 : public Sprite {
    public:
 	virtual void update();
 	virtual void affiche();
 };
 
-class FondElectronic2 : public Sprite {
+class BackgroundElectronic2 : public Sprite {
    public:
 	virtual void update();
 	virtual void affiche();
 };
 
-class FondElectronic3 : public Sprite {
+class BackgroundElectronic3 : public Sprite {
    public:
 	virtual void update();
 	virtual void affiche();
 };
 
-class FondElectronic4 : public Sprite {
+class BackgroundElectronic4 : public Sprite {
    public:
 	virtual void update();
 };

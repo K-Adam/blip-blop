@@ -11,7 +11,7 @@ const int sonic_anim_boule_gauche[] = {51, 52, 55, 53, 54, 55};
 const int sonic_anim_super_saien[] = {108, 109, 110, 109, 108, 109, 110, 111, 110, 109, 110, 111, 112, 111, 110, 111, 112, 113, 112, 111, 112, 113,
 									  114, 113, 112, 113, 114, 115, 114, 113, 114, 115, 116, 115, 114, 115, 116, 117, 116, 115, 116, 117, 118};
 
-EnnemiSonic::EnnemiSonic()
+EnemySonic::EnemySonic()
 	: speed(1),
 	  etape_speed(0),
 	  attack_delay(50 + rand() % 250),
@@ -29,7 +29,7 @@ EnnemiSonic::EnnemiSonic()
 	wait_sang_tombe = 0;
 }
 
-void EnnemiSonic::update() {
+void EnemySonic::update() {
 	if (game_flag[0] == 7) a_detruire = true;
 
 	if (wait_sang_tombe < 400) {
@@ -80,7 +80,7 @@ void EnnemiSonic::update() {
 	}
 }
 
-void EnnemiSonic::onAvance() {
+void EnemySonic::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -175,7 +175,7 @@ void EnnemiSonic::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSonic::onMeure() {
+void EnemySonic::onMeure() {
 	if (game_flag[2] == 0) {
 		tombe();
 		if (x - speed < xmin || mur_opaque(x - speed, y)) {
@@ -229,9 +229,9 @@ void EnnemiSonic::onMeure() {
 	}
 }
 
-void EnnemiSonic::onCharge() {}
+void EnemySonic::onCharge() {}
 
-void EnnemiSonic::onSaute() {
+void EnemySonic::onSaute() {
 	int yp;
 
 	tombe();
@@ -274,7 +274,7 @@ void EnnemiSonic::onSaute() {
 	colFromPic();
 }
 
-void EnnemiSonic::onAttackhorizontal() {
+void EnemySonic::onAttackhorizontal() {
 	if (attack_phase == -1) {
 		if (pv < vie_sous_critique) {
 			ss_etape_attack += 1;
@@ -379,7 +379,7 @@ void EnnemiSonic::onAttackhorizontal() {
 	colFromPic();
 }
 
-void EnnemiSonic::onAttackvertical() {
+void EnemySonic::onAttackvertical() {
 	if (attack_phase == -1) {
 		if (pv < vie_sous_critique) {
 			ss_etape_attack += 1;
@@ -488,7 +488,7 @@ void EnnemiSonic::onAttackvertical() {
 	colFromPic();
 }
 
-void EnnemiSonic::onAttackepine() {
+void EnemySonic::onAttackepine() {
 	nb_tir += 1;
 	if (nb_tir > 200) {
 		speed = 1;
@@ -530,7 +530,7 @@ void EnnemiSonic::onAttackepine() {
 	colFromPic();
 }
 
-void EnnemiSonic::onAttackeclair() {
+void EnemySonic::onAttackeclair() {
 	ss_etape++;
 	ss_etape %= 5;
 	if (ss_etape == 0) {
@@ -561,8 +561,8 @@ void EnnemiSonic::onAttackeclair() {
 	}
 
 	if ((etape == 0) && (ss_etape == 1) && (tete_turc != NULL)) {
-		TirSoniceclair* tir;
-		tir = new TirSoniceclair();
+		ShotSonicLightning* tir;
+		tir = new ShotSonicLightning();
 		tir->setDir(dir);
 		tir->x = tete_turc->x;
 		tir->y = 0;
@@ -581,7 +581,7 @@ void EnnemiSonic::onAttackeclair() {
 	colFromPic();
 }
 
-void EnnemiSonic::onBalancering() {
+void EnemySonic::onBalancering() {
 	Sprite* s;
 	int i, mx = 1, my = 1;
 
@@ -599,53 +599,53 @@ void EnnemiSonic::onBalancering() {
 				mx = 1;
 				break;
 		}
-		s = new MorceauSonicRing(1 * mx, 10 * my);
+		s = new PieceSonicRing(1 * mx, 10 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(3 * mx, 9 * my);
+		s = new PieceSonicRing(3 * mx, 9 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(4 * mx, 7 * my);
+		s = new PieceSonicRing(4 * mx, 7 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(5 * mx, 6 * my);
+		s = new PieceSonicRing(5 * mx, 6 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(6 * mx, 5 * my);
+		s = new PieceSonicRing(6 * mx, 5 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(7 * mx, 4 * my);
+		s = new PieceSonicRing(7 * mx, 4 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(9 * mx, 3 * my);
+		s = new PieceSonicRing(9 * mx, 3 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 
-		s = new MorceauSonicRing(10 * mx, 1 * my);
+		s = new PieceSonicRing(10 * mx, 1 * my);
 		s->x = x;
 		s->y = y - 40;
 		list_giclures.emplace_back(s);
 	}
 }
 
-void EnnemiSonic::balance_epines() {
-	TirEpine* tir;
+void EnemySonic::balance_epines() {
+	ShotThorn* tir;
 	switch (etape_attack) {
 		case 0:
-			tir = new TirEpine(59, 12, 0);
+			tir = new ShotThorn(59, 12, 0);
 			tir->setDir(dir);
 			tir->x = x + 23;
 			tir->y = y - 13;
@@ -653,7 +653,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 1:
-			tir = new TirEpine(60, 9, -2);
+			tir = new ShotThorn(60, 9, -2);
 			tir->setDir(dir);
 			tir->x = x + 23;
 			tir->y = y - 18;
@@ -661,7 +661,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 2:
-			tir = new TirEpine(61, 8, -8);
+			tir = new ShotThorn(61, 8, -8);
 			tir->setDir(dir);
 			tir->x = x + 18;
 			tir->y = y - 23;
@@ -669,7 +669,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 3:
-			tir = new TirEpine(62, 2, -9);
+			tir = new ShotThorn(62, 2, -9);
 			tir->setDir(dir);
 			tir->x = x + 13;
 			tir->y = y - 23;
@@ -677,7 +677,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 4:
-			tir = new TirEpine(63, 0, -12);
+			tir = new ShotThorn(63, 0, -12);
 			tir->setDir(dir);
 			tir->x = x + 0;
 			tir->y = y - 23;
@@ -685,7 +685,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 5:
-			tir = new TirEpine(64, -2, -9);
+			tir = new ShotThorn(64, -2, -9);
 			tir->setDir(dir);
 			tir->x = x - 13;
 			tir->y = y - 23;
@@ -693,7 +693,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 6:
-			tir = new TirEpine(65, -8, -8);
+			tir = new ShotThorn(65, -8, -8);
 			tir->setDir(dir);
 			tir->x = x - 18;
 			tir->y = y - 23;
@@ -701,7 +701,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 7:
-			tir = new TirEpine(66, -9, -2);
+			tir = new ShotThorn(66, -9, -2);
 			tir->setDir(dir);
 			tir->x = x - 23;
 			tir->y = y - 18;
@@ -709,7 +709,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 8:
-			tir = new TirEpine(67, -12, 0);
+			tir = new ShotThorn(67, -12, 0);
 			tir->setDir(dir);
 			tir->x = x - 23;
 			tir->y = y - 13;
@@ -717,7 +717,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 9:
-			tir = new TirEpine(68, -9, 2);
+			tir = new ShotThorn(68, -9, 2);
 			tir->setDir(dir);
 			tir->x = x - 23;
 			tir->y = y - 8;
@@ -725,7 +725,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 10:
-			tir = new TirEpine(69, -8, 8);
+			tir = new ShotThorn(69, -8, 8);
 			tir->setDir(dir);
 			tir->x = x - 18;
 			tir->y = y - 3;
@@ -733,7 +733,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 11:
-			tir = new TirEpine(70, -2, 9);
+			tir = new ShotThorn(70, -2, 9);
 			tir->setDir(dir);
 			tir->x = x - 13;
 			tir->y = y - 3;
@@ -741,7 +741,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 12:
-			tir = new TirEpine(71, 0, 12);
+			tir = new ShotThorn(71, 0, 12);
 			tir->setDir(dir);
 			tir->x = x - 0;
 			tir->y = y - 0;
@@ -749,7 +749,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 13:
-			tir = new TirEpine(72, 2, 9);
+			tir = new ShotThorn(72, 2, 9);
 			tir->setDir(dir);
 			tir->x = x + 13;
 			tir->y = y - 3;
@@ -757,7 +757,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 14:
-			tir = new TirEpine(73, 8, 8);
+			tir = new ShotThorn(73, 8, 8);
 			tir->setDir(dir);
 			tir->x = x + 18;
 			tir->y = y - 8;
@@ -765,7 +765,7 @@ void EnnemiSonic::balance_epines() {
 			break;
 
 		case 15:
-			tir = new TirEpine(74, 9, 2);
+			tir = new ShotThorn(74, 9, 2);
 			tir->setDir(dir);
 			tir->x = x + 18;
 			tir->y = y - 13;
@@ -774,12 +774,12 @@ void EnnemiSonic::balance_epines() {
 	}
 }
 
-void EnnemiSonic::onCarbonise() { a_detruire = true; }
+void EnemySonic::onCarbonise() { a_detruire = true; }
 
-void EnnemiSonic::estTouche(Tir* tir) {
+void EnemySonic::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 }

@@ -2,7 +2,7 @@
 
 #include "level/enemy_generator.h"
 
-class GenEnnemiTMP : public GenEnnemi {
+class EnemyGeneratorTMP : public EnemyGenerator {
    public:
 	virtual void update();
 };

@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_tails_flying.h"
 
-EnnemiTailsvolant::EnnemiTailsvolant() : placer(0), speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
+EnemyTailsFlying::EnemyTailsFlying() : placer(0), speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
 	tresor = 8;
 	pv = 150;
 }
 
-void EnnemiTailsvolant::update() {
+void EnemyTailsFlying::update() {
 	if (!placer) {
 		y = -20;
 		etat = ETAT_TIRE;
@@ -59,7 +59,7 @@ void EnnemiTailsvolant::update() {
 	updateADetruire();
 }
 
-void EnnemiTailsvolant::onAvance() {
+void EnemyTailsFlying::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -128,7 +128,7 @@ void EnnemiTailsvolant::onAvance() {
 	colFromPic();
 }
 
-void EnnemiTailsvolant::onMeure() {
+void EnemyTailsFlying::onMeure() {
 	tombe();
 	if (fly) {
 		int yp;
@@ -181,7 +181,7 @@ void EnnemiTailsvolant::onMeure() {
 	}
 }
 
-void EnnemiTailsvolant::onVolle() {
+void EnemyTailsFlying::onVolle() {
 	if (dir == SENS_GAUCHE && /*attack &&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
@@ -250,7 +250,7 @@ void EnnemiTailsvolant::onVolle() {
 	colFromPic();
 }
 
-void EnnemiTailsvolant::onTombe() {
+void EnemyTailsFlying::onTombe() {
 	int yp;
 
 	tombe();
@@ -284,7 +284,7 @@ void EnnemiTailsvolant::onTombe() {
 	colFromPic();
 }
 
-void EnnemiTailsvolant::onCarbonise() {
+void EnemyTailsFlying::onCarbonise() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 5;
@@ -301,11 +301,11 @@ void EnnemiTailsvolant::onCarbonise() {
 	}
 }
 
-void EnnemiTailsvolant::estTouche(Tir* tir) {
+void EnemyTailsFlying::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

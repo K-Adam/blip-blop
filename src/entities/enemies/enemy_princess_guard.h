@@ -5,16 +5,16 @@
 
 #define GUARD_SPEED 1
 
-class EnnemiPrincesseguard : public Ennemi {
+class EnemyPrincessGuard : public Enemy {
    private:
 	int distance_couverture;
 
    public:
-	EnnemiPrincesse* princesse;
+	EnemyPrincess* princesse;
 
-	EnnemiPrincesseguard(EnnemiPrincesse* Princesse, int distance);
+	EnemyPrincessGuard(EnemyPrincess* Princesse, int distance);
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

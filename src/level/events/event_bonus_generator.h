@@ -3,13 +3,13 @@
 #include "level/events/event.h"
 #include "level/bonus_generator.h"
 
-class EventGenBonus : public Event {
+class EventBonusGenerator : public Event {
    public:
 	int type;
 	int periode;
 
 	virtual void doEvent() {
-		GenBonus* gb = new GenBonus();
+		BonusGenerator* gb = new BonusGenerator();
 
 		gb->periode = periode;
 		gb->type = type;

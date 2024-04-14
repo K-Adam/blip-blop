@@ -1,11 +1,11 @@
 #include "entities/shots/shot_sonic_lightning.h"
 
-TirSoniceclair::TirSoniceclair() {
+ShotSonicLightning::ShotSonicLightning() {
 	ss_etape = 0;
 	etape = 0;
 }
 
-void TirSoniceclair::update() {
+void ShotSonicLightning::update() {
 	ss_etape += 1;
 	ss_etape %= 3;
 
@@ -25,7 +25,7 @@ void TirSoniceclair::update() {
 	}
 }
 
-void TirSoniceclair::affiche() {
+void ShotSonicLightning::affiche() {
 	if (etape == 0 || etape > 30) {
 		Sprite::affiche();
 	}

@@ -4,7 +4,7 @@
 
 #define tolerance 5
 
-class EnnemiSnorkInBlackBoss : public Ennemi {
+class EnemySnorkInBlackBoss : public Enemy {
    private:
 	int nb_tir;
 	int position;
@@ -18,7 +18,7 @@ class EnnemiSnorkInBlackBoss : public Ennemi {
 	bool saut;
 
    public:
-	EnnemiSnorkInBlackBoss();
+	EnemySnorkInBlackBoss();
 
 	virtual void update();
 	virtual void onAvance();
@@ -27,5 +27,5 @@ class EnnemiSnorkInBlackBoss : public Ennemi {
 	virtual void onTire();
 	virtual void affiche();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

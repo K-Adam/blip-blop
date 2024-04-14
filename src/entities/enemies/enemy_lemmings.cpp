@@ -3,9 +3,9 @@
 
 static int wait_no = 0;
 
-EnnemiLemmings::EnnemiLemmings() : suicide(false) { pv = 100; }
+EnemyLemmings::EnemyLemmings() : suicide(false) { pv = 100; }
 
-void EnnemiLemmings::update() {
+void EnemyLemmings::update() {
 	if (blood != 0) blood -= 1;
 
 	// Si 200+ lemmings tués, ils se suicident et arrêtent les générateurs
@@ -46,7 +46,7 @@ void EnnemiLemmings::update() {
 	updateADetruire();
 }
 
-void EnnemiLemmings::onAvance() {
+void EnemyLemmings::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -76,7 +76,7 @@ void EnnemiLemmings::onAvance() {
 	colFromPic();
 }
 
-void EnnemiLemmings::onTombe() {
+void EnemyLemmings::onTombe() {
 	tombe();
 
 	if (plat(x, y) != 0) etat = ETAT_AVANCE;
@@ -84,7 +84,7 @@ void EnnemiLemmings::onTombe() {
 	colFromPic();
 }
 
-void EnnemiLemmings::onMeure() {
+void EnemyLemmings::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -101,7 +101,7 @@ void EnnemiLemmings::onMeure() {
 		a_detruire = true;
 
 		if (suicide && game_flag[0] == 0) {
-			Bonus* bonus = new BonusVache();
+			Bonus* bonus = new BonusCow();
 			bonus->x = 1500;
 			bonus->y = -50;
 
@@ -116,7 +116,7 @@ void EnnemiLemmings::onMeure() {
 	}
 }
 
-void EnnemiLemmings::onCarbonise() {
+void EnemyLemmings::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -132,11 +132,11 @@ void EnnemiLemmings::onCarbonise() {
 	}
 }
 
-void EnnemiLemmings::estTouche(Tir* tir) {
+void EnemyLemmings::estTouche(Shot* tir) {
 	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_lem, dy_giclure_lem);
 
 	if (etat == ETAT_MEURE) {

@@ -6,13 +6,13 @@ const int anim_mario_marche_droite[] = {0, 1, 2, 1};
 const int anim_mario_marche_gauche[] = {3, 4, 5, 4};
 const int recul_mario[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-EnnemiMarioHologramme::EnnemiMarioHologramme()
+EnemyMarioHologram::EnemyMarioHologram()
 	: speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_cligno(0), cligno_delay(10 + rand() % 10) {
 	pv = 1;
 	pic = pbk_ennemis[0];
 }
 
-void EnnemiMarioHologramme::update() {
+void EnemyMarioHologram::update() {
 	wait_for_cligno++;
 	if (wait_for_cligno > cligno_delay + NB_CLIGNO) {
 		decalage_cligno = 54;
@@ -59,7 +59,7 @@ void EnnemiMarioHologramme::update() {
 	}
 }
 
-void EnnemiMarioHologramme::onAvance() {
+void EnemyMarioHologram::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -121,11 +121,11 @@ void EnnemiMarioHologramme::onAvance() {
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onMeure() { a_detruire = true; }
+void EnemyMarioHologram::onMeure() { a_detruire = true; }
 
-void EnnemiMarioHologramme::onCharge() {}
+void EnemyMarioHologram::onCharge() {}
 
-void EnnemiMarioHologramme::onSaute() {
+void EnemyMarioHologram::onSaute() {
 	int yp;
 
 	if (dy < 0) {
@@ -173,9 +173,9 @@ void EnnemiMarioHologramme::onSaute() {
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onCarbonise() { a_detruire = true; }
+void EnemyMarioHologram::onCarbonise() { a_detruire = true; }
 
-void EnnemiMarioHologramme::affiche() {
+void EnemyMarioHologram::affiche() {
 	Sprite::affiche();
 	if (fireball) {
 		if (dir == SENS_DROITE) {
@@ -186,7 +186,7 @@ void EnnemiMarioHologramme::affiche() {
 	}
 }
 
-void EnnemiMarioHologramme::onTire() {
+void EnemyMarioHologram::onTire() {
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[10 + decalage_cligno];
 
@@ -252,7 +252,7 @@ void EnnemiMarioHologramme::onTire() {
 	colFromPic();
 }
 
-void EnnemiMarioHologramme::onTireverticale() {
+void EnemyMarioHologram::onTireverticale() {
 	if (dir == SENS_DROITE)
 		pic = pbk_ennemis[10];
 
@@ -269,7 +269,7 @@ void EnnemiMarioHologramme::onTireverticale() {
 	attack_etape++;
 	if (attack_etape == 40) {
 		fireball = 0;
-		TirMarioFireballVertical* tir = new TirMarioFireballVertical(0, x_cible);
+		ShotMarioFireballVertical* tir = new ShotMarioFireballVertical(0, x_cible);
 
 		tir->setDir(dir);
 		if (dir == SENS_DROITE) {
@@ -291,9 +291,9 @@ void EnnemiMarioHologramme::onTireverticale() {
 	colFromPic();
 }
 
-inline void EnnemiMarioHologramme::boule_de_feu() {
+inline void EnemyMarioHologram::boule_de_feu() {
 	if (dir == SENS_DROITE) {
-		TirMarioFireball* tir = new TirMarioFireball(1);
+		ShotMarioFireball* tir = new ShotMarioFireball(1);
 
 		tir->setDir(dir);
 		tir->x = x + 38;
@@ -301,7 +301,7 @@ inline void EnnemiMarioHologramme::boule_de_feu() {
 
 		list_tirs_ennemis.emplace_back(tir);
 	} else {
-		TirMarioFireball* tir = new TirMarioFireball(-1);
+		ShotMarioFireball* tir = new ShotMarioFireball(-1);
 
 		tir->setDir(dir);
 		tir->x = x - 38;
@@ -311,7 +311,7 @@ inline void EnnemiMarioHologramme::boule_de_feu() {
 	}
 }
 
-void EnnemiMarioHologramme::tombe_mario() {
+void EnemyMarioHologram::tombe_mario() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_MARIO_GRAVITE;
 
@@ -327,4 +327,4 @@ void EnnemiMarioHologramme::tombe_mario() {
 		y += dy;
 }
 
-void EnnemiMarioHologramme::estTouche(Tir* tir) {}
+void EnemyMarioHologram::estTouche(Shot* tir) {}

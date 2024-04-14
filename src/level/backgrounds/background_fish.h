@@ -2,38 +2,38 @@
 
 #define POISSON_SPEED 1
 
-class FondPoissonRouge : public Sprite {
+class BackgroundFishRed : public Sprite {
    private:
 	int dir;
 
    public:
-	FondPoissonRouge();
+	BackgroundFishRed();
 	virtual void update();
 };
 
-class FondPoissonViolet : public Sprite {
+class BackgroundFishPurple : public Sprite {
    private:
 	int dir;
 
    public:
-	FondPoissonViolet();
+	BackgroundFishPurple();
 	virtual void update();
 };
 
-class FondPoissonRougeCamoufle : public Sprite {
+class BackgroundFishRedCamouflaged : public Sprite {
    private:
 	int dir;
 
    public:
-	FondPoissonRougeCamoufle();
+	BackgroundFishRedCamouflaged();
 	virtual void update();
 };
 
-class FondPoissonVioletCamoufle : public Sprite {
+class BackgroundFishPurpleCamouflaged : public Sprite {
    private:
 	int dir;
 
    public:
-	FondPoissonVioletCamoufle();
+	BackgroundFishPurpleCamouflaged();
 	virtual void update();
 };

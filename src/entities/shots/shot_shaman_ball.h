@@ -2,13 +2,13 @@
 
 #include "entities/shots/shot.h"
 
-class TirBouleChaman : public Tir {
+class ShotShamanBall : public Shot {
    public:
 	int dx;
 	bool ok;
 	bool boom;
 
-	TirBouleChaman();
+	ShotShamanBall();
 
 	virtual int degats() const { return 1; };
 

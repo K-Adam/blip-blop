@@ -3,13 +3,13 @@
 
 const int anim_guard_marche_gauche[] = {135, 136, 137, 136};
 
-EnnemiPrincesseguard::EnnemiPrincesseguard(EnnemiPrincesse* Princesse, int distance) : princesse(Princesse), distance_couverture(distance) {
+EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princesse, int distance) : princesse(Princesse), distance_couverture(distance) {
 	pv = 2500;
 	tresor = 100;
 	dir = SENS_GAUCHE;
 }
 
-void EnnemiPrincesseguard::update() {
+void EnemyPrincessGuard::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -27,7 +27,7 @@ void EnnemiPrincesseguard::update() {
 	updateADetruire();
 }
 
-void EnnemiPrincesseguard::onAvance() {
+void EnemyPrincessGuard::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 
 	// pour marcher
@@ -58,7 +58,7 @@ void EnnemiPrincesseguard::onAvance() {
 	colFromPic();
 }
 
-void EnnemiPrincesseguard::onMeure() {
+void EnemyPrincessGuard::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -79,10 +79,10 @@ void EnnemiPrincesseguard::onMeure() {
 	}
 }
 
-void EnnemiPrincesseguard::estTouche(Tir* tir) {
+void EnemyPrincessGuard::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 }

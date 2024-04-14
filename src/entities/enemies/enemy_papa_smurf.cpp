@@ -3,9 +3,9 @@
 #define ATT_ATATA 0
 #define ATT_BOOM 1
 
-EnnemiGrandSmurf::EnnemiGrandSmurf() : wait_change_cible(0), dx(0), cible(NULL), attak_wanted(ATT_BOOM) { pv = 5000; }
+EnemyPapaSmurf::EnemyPapaSmurf() : wait_change_cible(0), dx(0), cible(NULL), attak_wanted(ATT_BOOM) { pv = 5000; }
 
-void EnnemiGrandSmurf::updateCible() {
+void EnemyPapaSmurf::updateCible() {
 	if (wait_change_cible > 0 && cible != NULL && !cible->a_detruire) {
 		wait_change_cible -= 1;
 	} else {
@@ -18,7 +18,7 @@ void EnnemiGrandSmurf::updateCible() {
 	}
 }
 
-void EnnemiGrandSmurf::updateChoice() {
+void EnemyPapaSmurf::updateChoice() {
 	if (cible == NULL) return;
 
 	int ddx = cible->x - x;
@@ -46,7 +46,7 @@ void EnnemiGrandSmurf::updateChoice() {
 	}
 }
 
-void EnnemiGrandSmurf::update() {
+void EnemyPapaSmurf::update() {
 	if (blood != 0) blood -= 1;
 
 	updateCible();
@@ -72,7 +72,7 @@ void EnnemiGrandSmurf::update() {
 	}
 }
 
-void EnnemiGrandSmurf::onAtata() {
+void EnemyPapaSmurf::onAtata() {
 	ss_etape += 1;
 	ss_etape %= 3;
 
@@ -97,7 +97,7 @@ void EnnemiGrandSmurf::onAtata() {
 	}
 }
 
-void EnnemiGrandSmurf::onAvance() {
+void EnemyPapaSmurf::onAvance() {
 	int x2 = x + dx;
 
 	if (!mur_opaque(x2, y) && x2 > offset + 50 && x2 < offset + 600) x = x2;

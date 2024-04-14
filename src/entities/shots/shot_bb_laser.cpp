@@ -1,10 +1,10 @@
 #include "entities/shots/shot_bb_laser.h"
 #include "core/debug.h"
 
-TirBBLaser::TirBBLaser() : base(0), hauteur(0), largeur(0) {}
+ShotBBLaser::ShotBBLaser() : base(0), hauteur(0), largeur(0) {}
 
-void TirBBLaser::setDir(int d) {
-	TirBB::setDir(d);
+void ShotBBLaser::setDir(int d) {
+	ShotBB::setDir(d);
 
 	base = hauteur = largeur = 0;
 
@@ -80,13 +80,13 @@ void TirBBLaser::setDir(int d) {
 	ss_etape = 2;
 }
 
-void TirBBLaser::update() {
+void ShotBBLaser::update() {
 	ss_etape -= 1;
 
 	if (ss_etape == 0) a_detruire = true;
 }
 
-void TirBBLaser::affiche() {
+void ShotBBLaser::affiche() {
 	SDL::Surface* surf = pbk_bb[base + etape]->Surf();
 	Rect r;
 	int xx = x - offset;
@@ -201,7 +201,7 @@ void TirBBLaser::affiche() {
 	}
 }
 
-bool TirBBLaser::collision(const Sprite* s) const {
+bool ShotBBLaser::collision(const Sprite* s) const {
 	switch (dir) {
 		case 0:
 		case 2:

@@ -9,12 +9,12 @@
 const int anim_lara_bouton[] = {123, 123, 124, 125, 126, 126, 126, 125, 124, 123};
 const int anim_lara_degaine[] = {127, 127, 127, 128, 128, 129, 130, 130, 131, 131, 131};
 
-EnnemiLara::EnnemiLara() : numero_image_buste(127), wait_for_attack(0), pics(0), tete_rayman(0) {
+EnemyLara::EnemyLara() : numero_image_buste(127), wait_for_attack(0), pics(0), tete_rayman(0) {
 	pv = 15000;
 	pic = pbk_ennemis[162];
 }
 
-void EnnemiLara::update() {
+void EnemyLara::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -36,13 +36,13 @@ void EnnemiLara::update() {
 	}
 }
 
-void EnnemiLara::onAvance() {
+void EnemyLara::onAvance() {
 	if (!pics) {
-		Ennemi* pic;
+		Enemy* pic;
 		int i, j;
 		for (i = 2; i >= 0; i--) {
 			for (j = 0; j < 6; j++) {
-				pic = new EnnemiPic();
+				pic = new EnemySpikes();
 
 				if (i != 1) {
 					pic->x = 515 + j * 65 - i * 20;
@@ -75,7 +75,7 @@ void EnnemiLara::onAvance() {
 
 		if (!tete_rayman) {
 			if (tete_turc != NULL) {
-				Ennemi* tete = new EnnemiTeteRayman();
+				Enemy* tete = new EnemyRaymanHead();
 				tete->x = tete_turc->x + 10;
 				tete->y = tete_turc->y - 30;
 				tete->dy = -8;
@@ -126,8 +126,8 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					ShotThorn* tir;
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 					tir->x = x - 60;
 					tir->y = y - 144;
 					tir->traverse = true;
@@ -149,9 +149,9 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
+					ShotThorn* tir;
 
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
 					tir->x = x - 58;
 					tir->y = y - 154;
@@ -172,9 +172,9 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
+					ShotThorn* tir;
 
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
 					tir->x = x - 57;
 					tir->y = y - 165;
@@ -196,9 +196,9 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
+					ShotThorn* tir;
 
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 					tir->x = x - 53;
 					tir->y = y - 175;
 					tir->traverse = true;
@@ -221,9 +221,9 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
+					ShotThorn* tir;
 
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
 					tir->x = x - 59;
 					tir->y = y - 129;
@@ -246,9 +246,9 @@ void EnnemiLara::onAvance() {
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					TirEpine* tir;
+					ShotThorn* tir;
 
-					tir = new TirEpine(163, dx, dy + rand() % 3 - 1);
+					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
 					tir->x = x - 60;
 					tir->y = y - 144;
@@ -270,7 +270,7 @@ void EnnemiLara::onAvance() {
 	}
 }
 
-void EnnemiLara::onTire() {
+void EnemyLara::onTire() {
 	ss_etape++;
 	ss_etape %= etape;
 	if (ss_etape == 0) {
@@ -289,12 +289,12 @@ void EnnemiLara::onTire() {
 	}
 }
 
-void EnnemiLara::onMeure() {
+void EnemyLara::onMeure() {
 	game_flag[0] = 5;
 	a_detruire = true;
 }
 
-void EnnemiLara::affiche() {
+void EnemyLara::affiche() {
 	if (game_flag[0] < 6) {
 		draw(x, y - 102, pbk_ennemis[numero_image_buste]);
 	}
@@ -302,4 +302,4 @@ void EnnemiLara::affiche() {
 	Sprite::affiche();
 }
 
-void EnnemiLara::estTouche(Tir* tir) { Ennemi::estTouche(tir); }
+void EnemyLara::estTouche(Shot* tir) { Enemy::estTouche(tir); }

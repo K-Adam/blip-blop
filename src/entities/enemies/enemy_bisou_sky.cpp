@@ -2,9 +2,9 @@
 #include "entities/gore_feet_bisou_sky.h"
 #include "entities/shots/shot_rainbow.h"
 
-EnnemiBisouCiel::EnnemiBisouCiel() : wait_for_pisser(0) { pv = 175; }
+EnemyBisouSky::EnemyBisouSky() : wait_for_pisser(0) { pv = 175; }
 
-void EnnemiBisouCiel::update() {
+void EnemyBisouSky::update() {
 	if (blood > 0) blood -= 1;
 
 	if (wait_for_pisser > 0) wait_for_pisser -= 1;
@@ -39,7 +39,7 @@ void EnnemiBisouCiel::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouCiel::onMeureEntier() {
+void EnemyBisouSky::onMeureEntier() {
 	tombe();
 
 	ss_etape += 1;
@@ -48,7 +48,7 @@ void EnnemiBisouCiel::onMeureEntier() {
 	if (ss_etape == 0) etape += 1;
 
 	if (etape == 4) {
-		GorePiedsBisouCiel* pieds = new GorePiedsBisouCiel();
+		GoreFeetBisouSky* pieds = new GoreFeetBisouSky();
 
 		pieds->x = x;
 		pieds->dir = dir;
@@ -70,7 +70,7 @@ void EnnemiBisouCiel::onMeureEntier() {
 	}
 }
 
-void EnnemiBisouCiel::onTire() {
+void EnemyBisouSky::onTire() {
 	ss_etape += 1;
 
 	if (ss_etape >= 60) {
@@ -80,7 +80,7 @@ void EnnemiBisouCiel::onTire() {
 	}
 }
 
-void EnnemiBisouCiel::onMeureHaut() {
+void EnemyBisouSky::onMeureHaut() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -103,7 +103,7 @@ void EnnemiBisouCiel::onMeureHaut() {
 	}
 }
 
-void EnnemiBisouCiel::onMeureHautFin() {
+void EnemyBisouSky::onMeureHautFin() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -120,7 +120,7 @@ void EnnemiBisouCiel::onMeureHautFin() {
 	}
 }
 
-void EnnemiBisouCiel::onAvance() {
+void EnemyBisouSky::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -157,7 +157,7 @@ void EnnemiBisouCiel::onAvance() {
 				if (dir == SENS_GAUCHE) {
 					if (ddx > 0 && ddx < 90) {
 						sbk_niveau.play(9);
-						TirArcCiel* s = new TirArcCiel();
+						ShotRainbow* s = new ShotRainbow();
 						s->x = x - 15;
 						s->y = y - 25;
 						s->dir = SENS_GAUCHE;
@@ -170,7 +170,7 @@ void EnnemiBisouCiel::onAvance() {
 				} else {
 					if (ddx < 0 && ddx > -90) {
 						sbk_niveau.play(9);
-						TirArcCiel* s = new TirArcCiel();
+						ShotRainbow* s = new ShotRainbow();
 						s->x = x + 15;
 						s->y = y - 25;
 						s->dir = SENS_DROITE;
@@ -188,7 +188,7 @@ void EnnemiBisouCiel::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBisouCiel::onCarbonise() {
+void EnemyBisouSky::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -207,11 +207,11 @@ void EnnemiBisouCiel::onCarbonise() {
 		pic = pbk_ennemis[566 + etape];
 }
 
-void EnnemiBisouCiel::estTouche(Tir* tir) {
+void EnemyBisouSky::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));

@@ -1,7 +1,7 @@
 #include "entities/shots/shot_bb_cow.h"
 #include "entities/gore_splatter.h"
 
-void TirBBVache::update() {
+void ShotBBCow::update() {
 	y += dy;
 
 	ss_etape += 1;
@@ -22,10 +22,10 @@ void TirBBVache::update() {
 		a_detruire = true;
 		tremblement(10);
 
-		GoreGiclure* s;
+		GoreSplatter* s;
 
 		for (int i = 0; i < 15; i++) {
-			s = new GoreGiclure(rand() % 11 - 5, -2 - rand() % 6);
+			s = new GoreSplatter(rand() % 11 - 5, -2 - rand() % 6);
 			s->x = x + rand() % 11 - 5;
 			s->y = y - rand() % 30 - 10;
 			list_gore.emplace_back(s);

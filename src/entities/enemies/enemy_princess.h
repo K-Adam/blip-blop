@@ -4,16 +4,16 @@
 
 #define PRINCESSE_SPEED 1
 
-class EnnemiPrincesse : public Ennemi {
+class EnemyPrincess : public Enemy {
    private:
 	bool avance;
 	bool aide;
 
    public:
-	EnnemiPrincesse();
+	EnemyPrincess();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

@@ -2,12 +2,12 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiBisouNuage : public Ennemi {
+class EnemyBisouCloud : public Enemy {
    public:
 	int wait_shoot;
 	int etape_shoot;
 
-	EnnemiBisouNuage();
+	EnemyBisouCloud();
 	virtual void onNormal();
 	virtual void update();
 	virtual void onMeureWait();

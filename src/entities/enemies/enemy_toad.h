@@ -5,7 +5,7 @@
 #define TOAD_SPEED 3
 #define TOAD_CHARGE_SPEED 7
 
-class EnnemiToad : public Ennemi {
+class EnemyToad : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -16,12 +16,12 @@ class EnnemiToad : public Ennemi {
 	int hokuto;
 
    public:
-	EnnemiToad();
+	EnemyToad();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
 	virtual void onCharge();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

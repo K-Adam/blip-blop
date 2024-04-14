@@ -2,12 +2,12 @@
 
 #include "entities/enemies/enemy_smurf.h"
 
-class EnnemiSmurfPeon : public EnnemiSmurf {
+class EnemySmurfPeon : public EnemySmurf {
    public:
-	EnnemiSmurfPeon() { pv = 125; }
+	EnemySmurfPeon() { pv = 125; }
 
 	inline virtual void affiche() {
-		EnnemiSmurf::affiche();
+		EnemySmurf::affiche();
 		if ((etat != ETAT_MEURE && etat != ETAT_CARBONISE) || (etat == ETAT_MEURE && etape <= 2)) {
 			switch (dir) {
 				case SENS_GAUCHE:

@@ -5,12 +5,12 @@
 #define GRAVITE_FIREBALL 15
 #define LATENCE_FIREBALL 10
 
-class TirMarioFireballVertical : public Tir {
+class ShotMarioFireballVertical : public Shot {
    public:
 	int dx;
 	int x_cible;
 
-	TirMarioFireballVertical(int vx, int xc);
+	ShotMarioFireballVertical(int vx, int xc);
 
 	virtual int degats() const { return 1; };
 

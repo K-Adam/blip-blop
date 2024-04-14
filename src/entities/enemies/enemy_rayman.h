@@ -11,7 +11,7 @@
 #define PV_CRITIQUE 5000
 #define PV_SUR_CRITIQUE 1000
 
-class EnnemiRayman : public Ennemi {
+class EnemyRayman : public Enemy {
    private:
 	int attack_delay;
 	int wait_for_attack;
@@ -23,14 +23,14 @@ class EnnemiRayman : public Ennemi {
 	int pieds;
 	int dorkemon;
 
-	TirRaymanpoing* tir_poing;
+	ShotRaymanFist* tir_poing;
 
    public:
-	EnnemiRayman();
+	EnemyRayman();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTombe();
 	virtual void onTire();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

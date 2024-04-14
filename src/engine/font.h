@@ -8,7 +8,7 @@
 #include "engine/picture.h"
 #include "engine/dd_gfx.h"
 
-class /* Poele en */ Fonte {
+class /* Poele en */ Font {
    private:
 	std::vector<std::unique_ptr<Picture>> pictab_;
 	int spc;  // Largeur d'un espace

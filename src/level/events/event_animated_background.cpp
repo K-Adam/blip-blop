@@ -95,215 +95,215 @@
 #define IDFOND_ROCHER2 704
 #define IDFOND_ETOILE 705
 
-void EventFondAnime::doEvent() {
+void EventAnimatedBackground::doEvent() {
 	Sprite* s = NULL;
 	bool plat_mobile = false;
 
 	switch (id_fond) {
 		case IDFOND_VENTILO:
-			s = new FondVentilo();
+			s = new BackgroundFan();
 			break;
 
 		case IDFOND_LUMIERE:
-			s = new FondLumiere();
+			s = new BackgroundLight();
 			break;
 
 		case IDFOND_EAU:
-			s = new FondEau();
+			s = new BackgroundWater();
 			break;
 
 		case IDFOND_LUMIERE2:
-			s = new FondLumiere2();
+			s = new BackgroundLight2();
 			break;
 
 		case IDFOND_POKEALARME1:
-			s = new FondPokeAlarme1();
+			s = new BackgroundPokeAlarm1();
 			break;
 
 		case IDFOND_POKEALARME2:
-			s = new FondPokeAlarme2();
+			s = new BackgroundPokeAlarm2();
 			break;
 
 		case IDFOND_POKEALARME3:
-			s = new FondPokeAlarme3();
+			s = new BackgroundPokeAlarm3();
 			break;
 
 		case IDFOND_POKEFLECHE:
-			s = new FondPokeFleche();
+			s = new BackgroundPokeArrow();
 			break;
 
 		case IDFOND_POKECIEL:
-			s = new FondPokeCiel();
+			s = new BackgroundPokeSky();
 			break;
 
 		case IDFOND_POKEASCENC:
-			s = new FondPokeAscenceur();
+			s = new BackgroundPokeElevator();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_INTERRUPTEUR:
-			s = new FondPokeInterupteur();
+			s = new BackgroundPokeSwitch();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_CAISSETOMBANTE:
-			s = new FondPokeCaisseTombante();
+			s = new BackgroundPokeCrateFalling();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_POKEASCENC2:
-			s = new FondPokeAscenceur2();
+			s = new BackgroundPokeElevator2();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_BOMBE:
-			s = new FondBombe();
+			s = new BackgroundBomb();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_LEVEL2:
-			s = new FondPokeLevel2();
+			s = new BackgroundPokeLevel2();
 			break;
 
 		case IDFOND_LEVEL3:
-			s = new FondPokeLevel3();
+			s = new BackgroundPokeLevel3();
 			break;
 
 		case IDFOND_SAS1:
-			s = new FondSnorkSas1();
+			s = new BackgroundSnorkAirlock1();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_SAS2:
-			s = new FondSnorkSas2();
+			s = new BackgroundSnorkAirlock2();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_POISSONROUGE:
-			s = new FondPoissonRouge();
+			s = new BackgroundFishRed();
 			break;
 
 		case IDFOND_POISSONVIOLET:
-			s = new FondPoissonViolet();
+			s = new BackgroundFishPurple();
 			break;
 
 		case IDFOND_POISSONROUGECAMOUFLE:
-			s = new FondPoissonRougeCamoufle();
+			s = new BackgroundFishRedCamouflaged();
 			break;
 
 		case IDFOND_POISSONVIOLETCAMOUFLE:
-			s = new FondPoissonVioletCamoufle();
+			s = new BackgroundFishPurpleCamouflaged();
 			break;
 
 		case IDFOND_CUBE:
-			s = new FondCube();
+			s = new BackgroundCube();
 			break;
 
 		case IDFOND_PIECE:
-			s = new FondPiece();
+			s = new BackgroundCoin();
 			break;
 
 		case IDFOND_RING:
-			s = new FondRing();
+			s = new BackgroundRing();
 			break;
 
 		case IDFOND_TOURNESOL1:
-			s = new FondTournesol1();
+			s = new BackgroundSunflower1();
 			break;
 
 		case IDFOND_TOURNESOL2:
-			s = new FondTournesol2();
+			s = new BackgroundSunflower2();
 			break;
 
 		case IDFOND_TOURNESOL3:
-			s = new FondTournesol3();
+			s = new BackgroundSunflower3();
 			break;
 
 		case IDFOND_TOURNESOL4:
-			s = new FondTournesol4();
+			s = new BackgroundSunflower4();
 			break;
 
 		case IDFOND_DRAPEAU:
-			s = new FondDrapeau();
+			s = new BackgroundFlag();
 			break;
 
 		case IDFOND_LCD:
-			s = new FondLCD();
+			s = new BackgroundLCD();
 			break;
 
 		case IDFOND_WORLDMAP:
-			s = new FondWorldmap();
+			s = new BackgroundWorldmap();
 			break;
 
 		case IDFOND_ELECTRONIC1:
-			s = new FondElectronic1();
+			s = new BackgroundElectronic1();
 			break;
 
 		case IDFOND_ELECTRONIC2:
-			s = new FondElectronic2();
+			s = new BackgroundElectronic2();
 			break;
 
 		case IDFOND_ELECTRONIC3:
-			s = new FondElectronic3();
+			s = new BackgroundElectronic3();
 			break;
 
 		case IDFOND_ELECTRONIC4:
-			s = new FondElectronic4();
+			s = new BackgroundElectronic4();
 			break;
 
 		case IDFOND_ECRANNEIGE:
-			s = new FondEcranneige();
+			s = new BackgroundSnowScreen();
 			break;
 
 		case IDFOND_ECRANCAMERA:
-			s = new FondEcrancamera();
+			s = new BackgroundCameraScreen();
 			break;
 
 		case IDFOND_ASSEMBLEUR:
-			s = new FondAssembleur();
+			s = new BackgroundAssembler();
 			break;
 
 		case IDFOND_WINDOWS:
-			s = new FondWindows();
+			s = new BackgroundWindows();
 			break;
 
 		case IDFOND_DOS:
-			s = new FondDos();
+			s = new BackgroundDos();
 			break;
 
 		case IDFOND_BOSSVENTILO:
-			s = new FondBossventilo();
+			s = new BackgroundBossFan();
 			break;
 
 		case IDFOND_BATTLECRUISER:
-			s = new FondBattlecruiser();
+			s = new BackgroundBattleCruiser();
 			break;
 
 		case IDFOND_ROCHER_HYPERSPACE:
-			s = new FondRocherHyperspace();
+			s = new BackgroundRockHyperspace();
 			break;
 
 		case IDFOND_MONOLITE:
-			s = new FondMonolite();
+			s = new BackgroundMonolith();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_ROCHER1:
-			s = new FondRocher1();
+			s = new BackgroundRock1();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_ROCHER2:
-			s = new FondRocher2();
+			s = new BackgroundRock2();
 			plat_mobile = true;
 			break;
 
 		case IDFOND_ETOILE:
-			s = new FondEtoile();
+			s = new BackgroundStar();
 			break;
 
 		case 900:
-			s = new FondBombe();
+			s = new BackgroundBomb();
 			break;
 	}
 

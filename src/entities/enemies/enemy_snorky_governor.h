@@ -4,13 +4,13 @@
 
 #define GOUVERNEUR_SPEED 1
 
-class EnnemiSnorkyGouverneur : public Ennemi {
+class EnemySnorkyGovernor : public Enemy {
    public:
 	int nb_tir;
 	int wait_for_shoot;
 	int shoot_delay;
 
-	EnnemiSnorkyGouverneur();
+	EnemySnorkyGovernor();
 
 	virtual void update();
 	virtual void onAvance();
@@ -19,5 +19,5 @@ class EnnemiSnorkyGouverneur : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

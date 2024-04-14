@@ -4,17 +4,17 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiSmurfPaysan : public Ennemi {
+class EnemySmurfFarmer : public Enemy {
    public:
 	int tete_ss_etape;
 	int tete_etape;
 	int x_mort;
 	int y_mort;
 
-	EnnemiSmurfPaysan();
+	EnemySmurfFarmer();
 
 	inline virtual void affiche() {
-		Ennemi::affiche();
+		Enemy::affiche();
 		if (etat == ETAT_MEURE && tete_etape < 5) {
 			if (dir == SENS_GAUCHE)
 				draw(x_mort, y_mort, pbk_ennemis[169 + tete_etape]);
@@ -28,5 +28,5 @@ class EnnemiSmurfPaysan : public Ennemi {
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

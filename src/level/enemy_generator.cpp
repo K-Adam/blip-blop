@@ -8,9 +8,9 @@
 #define SENS_DROITE 1
 #endif
 
-GenEnnemi::GenEnnemi() : t(0), a_detruire(false) {}
+EnemyGenerator::EnemyGenerator() : t(0), a_detruire(false) {}
 
-void GenEnnemi::update() {
+void EnemyGenerator::update() {
 	if (game_flag[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
@@ -19,12 +19,12 @@ void GenEnnemi::update() {
 	if (t == 0) {
 		bool ok = true;
 
-		for (Couille* s : list_joueurs) {
+		for (Ball* s : list_joueurs) {
 			ok = (s->x < x - 100 || s->x > x + 100 || s->y < y - 100 || s->y > y + 100);
 		}
 
 		if (ok) {
-			EventEnnemi e;
+			EventEnemy e;
 
 			e.id_ennemi = id_ennemi;
 			e.sens = sens;

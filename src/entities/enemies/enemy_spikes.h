@@ -2,16 +2,16 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiPic : public Ennemi {
+class EnemySpikes : public Enemy {
    private:
 	int y_origine;
 
    public:
-	EnnemiPic();
+	EnemySpikes();
 	virtual void update();
 	virtual void affiche();
 	virtual void colFromPic();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual int degats() { return 5; };
 
 	virtual bool count() { return false; };

@@ -1,8 +1,8 @@
 #include "entities/vehicle.h"
 
-Vehicule::Vehicule() : joueur(NULL), ctrl(NULL), can_be_used(true) {}
+Vehicle::Vehicle() : joueur(NULL), ctrl(NULL), can_be_used(true) {}
 
-void Vehicule::update() {
+void Vehicle::update() {
 	if (joueur == NULL) {
 		if (can_be_used) joueur = scanne();
 
@@ -24,11 +24,11 @@ void Vehicule::update() {
 	}
 }
 
-Couille* Vehicule::scanne() {
+Ball* Vehicle::scanne() {
 	int ddx;
 	int ddy;
 
-	for (Couille* c : list_joueurs) {
+	for (Ball* c : list_joueurs) {
 		ddx = c->x - x;
 		ddy = c->y - y;
 

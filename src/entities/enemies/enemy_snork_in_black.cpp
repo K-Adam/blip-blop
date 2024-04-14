@@ -4,12 +4,12 @@
 const int anim_snork_in_black_marche_droite[] = {344, 345, 346, 345};
 const int anim_snork_in_black_marche_gauche[] = {347, 348, 349, 348};
 
-EnnemiSnorkInBlack::EnnemiSnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_tir(0) {
+EnemySnorkInBlack::EnemySnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_tir(0) {
 	pv = 250;
 	dy = 0;
 }
 
-void EnnemiSnorkInBlack::update() {
+void EnemySnorkInBlack::update() {
 	switch (etat) {
 		case ETAT_AVANCE:
 		case ETAT_NORMAL:
@@ -37,7 +37,7 @@ void EnnemiSnorkInBlack::update() {
 	updateADetruire();
 }
 
-void EnnemiSnorkInBlack::onAvance() {
+void EnemySnorkInBlack::onAvance() {
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -95,7 +95,7 @@ void EnnemiSnorkInBlack::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlack::onTombe() {
+void EnemySnorkInBlack::onTombe() {
 	tombe();
 
 	if (plat(x, y) != 0) etat = ETAT_AVANCE;
@@ -103,7 +103,7 @@ void EnnemiSnorkInBlack::onTombe() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlack::onMeure() {
+void EnemySnorkInBlack::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -124,7 +124,7 @@ void EnnemiSnorkInBlack::onMeure() {
 	}
 }
 
-void EnnemiSnorkInBlack::onTire() {
+void EnemySnorkInBlack::onTire() {
 	ss_etape++;
 	if (etape == 0) {
 		ss_etape %= 20;
@@ -141,7 +141,7 @@ void EnnemiSnorkInBlack::onTire() {
 			int vx = 5 + rand() % 2;
 			int vy = rand() % 5 - 2;
 
-			TirEpine* tir = new TirEpine(364, vx, vy);
+			ShotThorn* tir = new ShotThorn(364, vx, vy);
 
 			tir->setDir(dir);
 			tir->x = x + 49;
@@ -152,7 +152,7 @@ void EnnemiSnorkInBlack::onTire() {
 			int vx = -5 - rand() % 2;
 			int vy = rand() % 5 - 2;
 
-			TirEpine* tir = new TirEpine(365, vx, vy);
+			ShotThorn* tir = new ShotThorn(365, vx, vy);
 
 			tir->setDir(dir);
 			tir->x = x - 49;
@@ -192,7 +192,7 @@ void EnnemiSnorkInBlack::onTire() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlack::onCarbonise() {
+void EnemySnorkInBlack::onCarbonise() {
 	ss_etape++;
 	ss_etape %= 6;
 
@@ -208,11 +208,11 @@ void EnnemiSnorkInBlack::onCarbonise() {
 	}
 }
 
-void EnnemiSnorkInBlack::estTouche(Tir* tir) {
+void EnemySnorkInBlack::estTouche(Shot* tir) {
 	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
 
 	if (etat == ETAT_MEURE) {

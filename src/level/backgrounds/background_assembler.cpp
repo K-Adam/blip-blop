@@ -1,14 +1,14 @@
 #include "core/globals.h"
 #include "level/backgrounds/background_assembler.h"
 
-FondAssembleur::FondAssembleur() {}
+BackgroundAssembler::BackgroundAssembler() {}
 
-void FondAssembleur::update() {
+void BackgroundAssembler::update() {
 	etape += 1;
 	etape %= 432;
 }
 
-void FondAssembleur::affiche() {
+void BackgroundAssembler::affiche() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;

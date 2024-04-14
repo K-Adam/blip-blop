@@ -11,7 +11,7 @@ class HUD {
 	enum class Location : int { Left, Right };
 	enum class Color { Blue, Orange };
 
-	void Draw(Couille* player, Location location, Color color, bool bonus_stage) {
+	void Draw(Ball* player, Location location, Color color, bool bonus_stage) {
 		DrawHealth(player->pv, location);
 		DrawScore(player->getScore(), location, color);
 		if (bonus_stage) {

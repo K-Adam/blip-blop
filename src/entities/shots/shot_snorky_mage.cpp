@@ -1,8 +1,8 @@
 #include "entities/shots/shot_snorky_mage.h"
 
-TirSnorkyMage::TirSnorkyMage() { dy = 6; }
+ShotSnorkyMage::ShotSnorkyMage() { dy = 6; }
 
-void TirSnorkyMage::update() {
+void ShotSnorkyMage::update() {
 	ss_etape++;
 	ss_etape %= 4;
 

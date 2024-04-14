@@ -2,9 +2,9 @@
 
 #include "entities/ball.h"
 
-class Blop : public Couille {
+class Blop : public Ball {
    public:
-	Blop() : Couille(pbk_blop) { id_couille = ID_BLOP; };
+	Blop() : Ball(pbk_blop) { id_ball = ID_BLOP; };
 
 	virtual void rearme() {
 		id_arme = ID_FUSIL;

@@ -2,9 +2,9 @@
 
 #include "entities/sprite.h"
 
-class FondAssembleur : public Sprite {
+class BackgroundAssembler : public Sprite {
    public:
-	FondAssembleur();
+	BackgroundAssembler();
 	virtual void update();
 	virtual void affiche();
 };

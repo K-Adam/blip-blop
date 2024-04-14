@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_rayman_head.h"
 
-EnnemiTeteRayman::EnnemiTeteRayman() : dx(3) {
+EnemyRaymanHead::EnemyRaymanHead() : dx(3) {
 	pv = 1;
 	pic = pbk_ennemis[171];
 }
 
-void EnnemiTeteRayman::update() {
+void EnemyRaymanHead::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -23,7 +23,7 @@ void EnnemiTeteRayman::update() {
 	}
 }
 
-void EnnemiTeteRayman::onAvance() {
+void EnemyRaymanHead::onAvance() {
 	x += dx;
 	tombe();
 	colFromPic();
@@ -44,7 +44,7 @@ void EnnemiTeteRayman::onAvance() {
 	}
 }
 
-void EnnemiTeteRayman::onMeure() {
+void EnemyRaymanHead::onMeure() {
 	ss_etape++;
 	ss_etape %= 6;
 	if (ss_etape == 0) {
@@ -58,13 +58,13 @@ void EnnemiTeteRayman::onMeure() {
 	}
 }
 
-int EnnemiTeteRayman::degats() { return 0; };
+int EnemyRaymanHead::degats() { return 0; };
 
-void EnnemiTeteRayman::estTouche(Tir* tir) {
+void EnemyRaymanHead::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	tir->aTouche(9999);
 	gicle(tir, dx_giclure, dy_giclure);
 }

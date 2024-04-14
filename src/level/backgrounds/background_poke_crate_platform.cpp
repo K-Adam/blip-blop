@@ -1,8 +1,8 @@
 #include "level/backgrounds/background_poke_crate_platform.h"
 
-FondPokeCaissePlateforme::FondPokeCaissePlateforme(int niveau_y) : y_cible(niveau_y) { pic = pbk_niveau[87]; }
+BackgroundPokeCratePlatform::BackgroundPokeCratePlatform(int niveau_y) : y_cible(niveau_y) { pic = pbk_niveau[87]; }
 
-void FondPokeCaissePlateforme::update() {
+void BackgroundPokeCratePlatform::update() {
 	if (y < y_cible - 50) {
 		y += 5;
 	} else if (y < y_cible - 40) {

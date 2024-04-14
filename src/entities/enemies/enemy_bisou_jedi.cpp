@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_bisou_jedi.h"
 #include "entities/shots/shot_laser_sword.h"
 
-EnnemiBisouJedi::EnnemiBisouJedi() : etape_shoot(0), a_epee(true) {
+EnemyBisouJedi::EnemyBisouJedi() : etape_shoot(0), a_epee(true) {
 	pv = 250;
 	wait_shoot = 200 + rand() % 250;
 }
 
-void EnnemiBisouJedi::update() {
+void EnemyBisouJedi::update() {
 	if (blood > 0) blood -= 1;
 
 	if (a_epee) etape_shoot += 1;
@@ -29,7 +29,7 @@ void EnnemiBisouJedi::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouJedi::onAvance() {
+void EnemyBisouJedi::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -57,7 +57,7 @@ void EnnemiBisouJedi::onAvance() {
 	}
 
 	if (etape_shoot > wait_shoot && tete_turc != NULL) {
-		TirEpeeLaser* t = new TirEpeeLaser;
+		ShotLaserSword* t = new ShotLaserSword;
 
 		t->x = x;
 		t->y = y - 40;
@@ -76,9 +76,9 @@ void EnnemiBisouJedi::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBisouJedi::onMeure() {
+void EnemyBisouJedi::onMeure() {
 	if (a_epee) {
-		TirEpeeLaser* t = new TirEpeeLaser;
+		ShotLaserSword* t = new ShotLaserSword;
 
 		t->x = x;
 		t->y = y - 40;
@@ -118,17 +118,17 @@ void EnnemiBisouJedi::onMeure() {
 		pic = pbk_ennemis[504 + etape];
 }
 
-void EnnemiBisouJedi::estTouche(Tir* tir) {
+void EnemyBisouJedi::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 }
 
-void EnnemiBisouJedi::onCarbonise() {
+void EnemyBisouJedi::onCarbonise() {
 	if (a_epee) {
-		TirEpeeLaser* t = new TirEpeeLaser;
+		ShotLaserSword* t = new ShotLaserSword;
 
 		t->x = x;
 		t->y = y - 40;
@@ -166,7 +166,7 @@ void EnnemiBisouJedi::onCarbonise() {
 		pic = pbk_ennemis[597 + etape];
 }
 
-void EnnemiBisouJedi::affiche() {
+void EnemyBisouJedi::affiche() {
 	static const int dx_epee[] = {8, 4, -1, -6, -6, -6, -1, 3};
 	static const int dy_epee[] = {-19, -19, -19, -19, -18, -18, -19, -19};
 	static const int etape_epee[] = {0, 1, 2, 3, 4, 3, 2, 1};

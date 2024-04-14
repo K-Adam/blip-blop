@@ -13,12 +13,12 @@ const int anim_luigi_marche_mort_droite[] = {205, 206, 207, 206};
 const int anim_luigi_marche_mort_gauche[] = {213, 214, 215, 214};
 const int anim_luigi_mort[] = {208, 209, 210, 211, 212, 211, 210, 209};
 
-EnnemiLuigi::EnnemiLuigi() : speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), encaissement(0) {
+EnemyLuigi::EnemyLuigi() : speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), encaissement(0) {
 	pv = 10000;
 	xmin = offset + 20;
 }
 
-void EnnemiLuigi::update() {
+void EnemyLuigi::update() {
 	if (game_flag[0] == 7) a_detruire = true;
 
 	if (blood > 0) blood -= 1;
@@ -51,7 +51,7 @@ void EnnemiLuigi::update() {
 	}
 }
 
-void EnnemiLuigi::onAvance() {
+void EnemyLuigi::onAvance() {
 	// debug<<"a\n";
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -207,7 +207,7 @@ void EnnemiLuigi::onAvance() {
 	colFromPic();
 }
 
-void EnnemiLuigi::onMeure() {
+void EnemyLuigi::onMeure() {
 	if (game_flag[1] == 0) {
 		tombe();
 		if (x - 3 < xmin || mur_opaque(x - 3, y)) {
@@ -245,7 +245,7 @@ void EnnemiLuigi::onMeure() {
 	} else if (game_flag[1] == 3) {
 		attack_delay++;
 		if (attack_delay >= NOMBRE_GICLURES) {
-			Ennemi* sonic = new EnnemiVoiturePacman();
+			Enemy* sonic = new EnemyPacmanCar();
 
 			sonic->x = 1960;
 			sonic->y = y;
@@ -254,7 +254,7 @@ void EnnemiLuigi::onMeure() {
 
 			nb_ennemis_created++;
 
-			sonic = new EnnemiSonic();
+			sonic = new EnemySonic();
 
 			sonic->x = 1960;
 			sonic->y = y;
@@ -265,7 +265,7 @@ void EnnemiLuigi::onMeure() {
 		} else {
 			int i;
 			for (i = 0; i < 16; i++) {
-				Sprite* s = new GoreGiclure(-rand() % 10 - 2, -1 - rand() % 10);
+				Sprite* s = new GoreSplatter(-rand() % 10 - 2, -1 - rand() % 10);
 				s->x = x + rand() % 20 - 10;
 				s->y = y - rand() % 60 - 10;
 				list_giclures.emplace_back(s);
@@ -274,7 +274,7 @@ void EnnemiLuigi::onMeure() {
 	}
 }
 
-void EnnemiLuigi::onAttack() {
+void EnemyLuigi::onAttack() {
 	nb_tir++;
 	if (nb_tir > 275) {
 		etape = 0;
@@ -301,13 +301,13 @@ void EnnemiLuigi::onAttack() {
 		if (ss_etape_attack == 0) {
 			etape_attack += 1;
 			etape_attack %= 6;
-			TirDebouchechiote* tir1;
-			TirDebouchechiote* tir2;
+			ShotPlunger* tir1;
+			ShotPlunger* tir2;
 
 			switch (etape_attack) {
 				case 0:
-					tir1 = new TirDebouchechiote(19, 12, 0);
-					tir2 = new TirDebouchechiote(19, 12, 0);
+					tir1 = new ShotPlunger(19, 12, 0);
+					tir2 = new ShotPlunger(19, 12, 0);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -322,8 +322,8 @@ void EnnemiLuigi::onAttack() {
 
 					break;
 				case 1:
-					tir1 = new TirDebouchechiote(18, 11, 1);
-					tir2 = new TirDebouchechiote(20, 11, -1);
+					tir1 = new ShotPlunger(18, 11, 1);
+					tir2 = new ShotPlunger(20, 11, -1);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -337,8 +337,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 2:
-					tir1 = new TirDebouchechiote(17, 10, 2);
-					tir2 = new TirDebouchechiote(21, 10, -2);
+					tir1 = new ShotPlunger(17, 10, 2);
+					tir2 = new ShotPlunger(21, 10, -2);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -352,8 +352,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 3:
-					tir1 = new TirDebouchechiote(16, 9, 3);
-					tir2 = new TirDebouchechiote(22, 9, -3);
+					tir1 = new ShotPlunger(16, 9, 3);
+					tir2 = new ShotPlunger(22, 9, -3);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -367,8 +367,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 4:
-					tir1 = new TirDebouchechiote(17, 10, 2);
-					tir2 = new TirDebouchechiote(21, 10, -2);
+					tir1 = new ShotPlunger(17, 10, 2);
+					tir2 = new ShotPlunger(21, 10, -2);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -382,8 +382,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 5:
-					tir1 = new TirDebouchechiote(18, 11, 1);
-					tir2 = new TirDebouchechiote(20, 11, -1);
+					tir1 = new ShotPlunger(18, 11, 1);
+					tir2 = new ShotPlunger(20, 11, -1);
 
 					tir1->setDir(dir);
 					tir1->x = x + 23;
@@ -410,13 +410,13 @@ void EnnemiLuigi::onAttack() {
 		if (ss_etape_attack == 0) {
 			etape_attack += 1;
 			etape_attack %= 6;
-			TirDebouchechiote* tir1;
-			TirDebouchechiote* tir2;
+			ShotPlunger* tir1;
+			ShotPlunger* tir2;
 
 			switch (etape_attack) {
 				case 0:
-					tir1 = new TirDebouchechiote(26, -12, 0);
-					tir2 = new TirDebouchechiote(26, -12, 0);
+					tir1 = new ShotPlunger(26, -12, 0);
+					tir2 = new ShotPlunger(26, -12, 0);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -431,8 +431,8 @@ void EnnemiLuigi::onAttack() {
 
 					break;
 				case 1:
-					tir1 = new TirDebouchechiote(25, -11, 1);
-					tir2 = new TirDebouchechiote(27, -11, -1);
+					tir1 = new ShotPlunger(25, -11, 1);
+					tir2 = new ShotPlunger(27, -11, -1);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -446,8 +446,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 2:
-					tir1 = new TirDebouchechiote(24, -10, 2);
-					tir2 = new TirDebouchechiote(28, -10, -2);
+					tir1 = new ShotPlunger(24, -10, 2);
+					tir2 = new ShotPlunger(28, -10, -2);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -461,8 +461,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 3:
-					tir1 = new TirDebouchechiote(23, -9, 3);
-					tir2 = new TirDebouchechiote(29, -9, -3);
+					tir1 = new ShotPlunger(23, -9, 3);
+					tir2 = new ShotPlunger(29, -9, -3);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -476,8 +476,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 4:
-					tir1 = new TirDebouchechiote(24, -10, 2);
-					tir2 = new TirDebouchechiote(28, -10, -2);
+					tir1 = new ShotPlunger(24, -10, 2);
+					tir2 = new ShotPlunger(28, -10, -2);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -491,8 +491,8 @@ void EnnemiLuigi::onAttack() {
 					list_tirs_ennemis.emplace_back(tir2);
 					break;
 				case 5:
-					tir1 = new TirDebouchechiote(25, -11, 1);
-					tir2 = new TirDebouchechiote(27, -11, -1);
+					tir1 = new ShotPlunger(25, -11, 1);
+					tir2 = new ShotPlunger(27, -11, -1);
 
 					tir1->setDir(dir);
 					tir1->x = x - 23;
@@ -516,7 +516,7 @@ void EnnemiLuigi::onAttack() {
 	colFromPic();
 }
 
-void EnnemiLuigi::onSaute() {
+void EnemyLuigi::onSaute() {
 	int yp;
 
 	if (dy < 0) {
@@ -614,9 +614,9 @@ void EnnemiLuigi::onSaute() {
 	colFromPic();
 }
 
-void EnnemiLuigi::onCarbonise() { a_detruire = true; }
+void EnemyLuigi::onCarbonise() { a_detruire = true; }
 
-void EnnemiLuigi::tombe_luigi() {
+void EnemyLuigi::tombe_luigi() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_LUIGI_GRAVITE;
 
@@ -632,16 +632,16 @@ void EnnemiLuigi::tombe_luigi() {
 		y += dy;
 }
 
-void EnnemiLuigi::estTouche(Tir* tir) {
+void EnemyLuigi::estTouche(Shot* tir) {
 	Sprite* s;
 
 	for (int i = 0; i < 4; i++) {
 		if ((tir->dir >= 2) && (tir->dir <= 6)) {
-			s = new GoreGiclure(rand() % 6, -2 - rand() % 6);
+			s = new GoreSplatter(rand() % 6, -2 - rand() % 6);
 		} else if ((tir->dir >= 10) && (tir->dir <= 14)) {
-			s = new GoreGiclure(-rand() % 5 - 1, -2 - rand() % 6);
+			s = new GoreSplatter(-rand() % 5 - 1, -2 - rand() % 6);
 		} else {
-			s = new GoreGiclure(rand() % 11 - 5, -2 - rand() % 6);
+			s = new GoreSplatter(rand() % 11 - 5, -2 - rand() % 6);
 		}
 		s->x = x + rand() % 11 - 5;
 		s->y = y - rand() % 30 - 10;
@@ -658,7 +658,7 @@ void EnnemiLuigi::estTouche(Tir* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (pv <= 0) {

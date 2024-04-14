@@ -5,14 +5,14 @@
 #define HYPORIDER_SPEED 1
 #define HYPORIDER_CHARGE_SPEED 8
 
-class EnnemiSnorkyHyporider : public Ennemi {
+class EnemySnorkyHyporider : public Enemy {
    public:
 	int wait_for_charge;
 	int charge_delay;
 	int nageoire;
 	int attack_etape;
 
-	EnnemiSnorkyHyporider();
+	EnemySnorkyHyporider();
 
 	virtual void update();
 	virtual void onAvance();
@@ -21,5 +21,5 @@ class EnnemiSnorkyHyporider : public Ennemi {
 	virtual void affiche();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

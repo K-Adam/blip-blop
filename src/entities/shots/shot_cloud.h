@@ -2,7 +2,7 @@
 
 #include "entities/shots/shot.h"
 
-class TirNuage : public Tir {
+class ShotCloud : public Shot {
    public:
 	int etat;
 	int etape_shoot;
@@ -10,7 +10,7 @@ class TirNuage : public Tir {
 	int eclair;
 	int duree_vie;
 
-	TirNuage();
+	ShotCloud();
 	virtual void update();
 	virtual void onCreation();
 	virtual void onDestruction();

@@ -7,10 +7,10 @@ const int tir_dy[] = {4, 5, 6, 6, 5, 4};
 #include "entities/enemies/enemy_smurf_wild.h"
 #include "entities/shots/shot_smurf_wild.h"
 
-int EnnemiSmurfSauvage::wait_shoot;
-int EnnemiSmurfSauvage::etape_wait;
+int EnemySmurfWild::wait_shoot;
+int EnemySmurfWild::etape_wait;
 
-EnnemiSmurfSauvage::EnnemiSmurfSauvage() : etape_shoot(0), position(false) {
+EnemySmurfWild::EnemySmurfWild() : etape_shoot(0), position(false) {
 	first_loop = true;
 	pv = 150;
 	etape = 1;
@@ -38,7 +38,7 @@ EnnemiSmurfSauvage::EnnemiSmurfSauvage() : etape_shoot(0), position(false) {
 	}
 }
 
-void EnnemiSmurfSauvage::update() {
+void EnemySmurfWild::update() {
 	if (x > 5850) x = 5850;
 
 	shooting = false;
@@ -144,7 +144,7 @@ void EnnemiSmurfSauvage::update() {
 	updateADetruire();
 }
 
-void EnnemiSmurfSauvage::onTombe() {
+void EnemySmurfWild::onTombe() {
 	if (y < hauteur) {
 		y += 3;
 	} else {
@@ -155,7 +155,7 @@ void EnnemiSmurfSauvage::onTombe() {
 	colFromPic();
 }
 
-void EnnemiSmurfSauvage::onTire() {
+void EnemySmurfWild::onTire() {
 	shooting = true;
 
 	ss_etape += 1;
@@ -169,7 +169,7 @@ void EnnemiSmurfSauvage::onTire() {
 	etape_shoot %= 10;
 
 	if (etape_shoot == 0) {
-		TirSmurfSauvage* tir = new TirSmurfSauvage();
+		ShotSmurfWild* tir = new ShotSmurfWild();
 		tir->x = x + tir_position_depart_x[shoot_direction];
 		tir->y = y + tir_position_depart_y[shoot_direction];
 		tir->dx = tir_dx[shoot_direction];
@@ -185,15 +185,15 @@ void EnnemiSmurfSauvage::onTire() {
 	colFromPic();
 }
 
-void EnnemiSmurfSauvage::estTouche(Tir* tir) {
+void EnemySmurfWild::estTouche(Shot* tir) {
 	static const int dx_giclure_smurf_sauvage[] = {0, 0, 6, 0, 0, 0, -6, 0};
 	static const int dy_giclure_smurf_sauvage[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
 }
 
-void EnnemiSmurfSauvage::onMeure() {
+void EnemySmurfWild::onMeure() {
 	if (etape >= 5) {
 		bool ok = true;
 
@@ -229,7 +229,7 @@ void EnnemiSmurfSauvage::onMeure() {
 	}
 }
 
-void EnnemiSmurfSauvage::onCarbonise() {
+void EnemySmurfWild::onCarbonise() {
 	y = hauteur + 50 - etape;
 	ss_etape += 1;
 	ss_etape %= 6;

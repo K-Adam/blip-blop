@@ -12,7 +12,7 @@
 #define MULTIPLICATEUR_RECUL_AERIEN 15
 #define MULTIPLICATEUR_VITESSE_AERIEN 80
 
-class EnnemiMariotapette : public Ennemi {
+class EnemyMarioSwatter : public Enemy {
    private:
 	int aide_luigi;
 	int speed;		  // vitesse courante
@@ -27,7 +27,7 @@ class EnnemiMariotapette : public Ennemi {
 	int encaissement;
 
    public:
-	EnnemiMariotapette();
+	EnemyMarioSwatter();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -35,5 +35,5 @@ class EnnemiMariotapette : public Ennemi {
 	virtual void onCharge();
 	virtual void onCarbonise();
 	virtual void tombe_mario();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

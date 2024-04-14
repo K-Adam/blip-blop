@@ -4,7 +4,7 @@
 
 #define TIR_SPEED 2
 
-class FondBattlecruiser : public Sprite {
+class BackgroundBattleCruiser : public Sprite {
    public:
 	int x_adversaire;
 	int y_adversaire;
@@ -12,7 +12,7 @@ class FondBattlecruiser : public Sprite {
 	int feu_etape;
 	int feu_ss_etape;
 
-	FondBattlecruiser();
+	BackgroundBattleCruiser();
 
 	virtual void update();
 	virtual void affiche();

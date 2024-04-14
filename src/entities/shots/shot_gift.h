@@ -2,9 +2,9 @@
 
 #include "entities/shots/shot.h"
 
-class TirCadeau : public Tir {
+class ShotGift : public Shot {
    public:
-	TirCadeau();
+	ShotGift();
 	virtual int degats() const { return 1; };
 
 	virtual int enflame() const { return 0; };

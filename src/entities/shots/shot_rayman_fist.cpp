@@ -1,11 +1,9 @@
 #include "entities/shots/shot_rayman_fist.h"
 #include "core/debug.h"
 
-// implementation de la classe TirRaymanPoing
+ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_cible(xc) { ss_etape = 1; }
 
-TirRaymanpoing::TirRaymanpoing(int dx0, int xc) : dx(dx0), x_cible(xc) { ss_etape = 1; }
-
-void TirRaymanpoing::update() {
+void ShotRaymanFist::update() {
 	if (dir == SENS_DROITE) {
 		pic = pbk_ennemis[230];
 	} else {

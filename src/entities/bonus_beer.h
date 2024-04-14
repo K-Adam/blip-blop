@@ -9,7 +9,7 @@ class BonusBeer : public Bonus {
 		col_on = true;
 	};
 
-	virtual void estPris(Couille* c) {
+	virtual void estPris(Ball* c) {
 		if (c->pv == 5) return;
 
 		sbk_misc.play(5);

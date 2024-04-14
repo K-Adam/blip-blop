@@ -6,9 +6,9 @@
 const int anim_interupteur_on[] = {84, 85, 86, 84};
 const int anim_interupteur_off[] = {81, 82, 83, 82};
 
-FondPokeInterupteur::FondPokeInterupteur() : etat(false), wait_msg(false), ascenc_msg(false), bravo(false) {}
+BackgroundPokeSwitch::BackgroundPokeSwitch() : etat(false), wait_msg(false), ascenc_msg(false), bravo(false) {}
 
-void FondPokeInterupteur::update() {
+void BackgroundPokeSwitch::update() {
 	ss_etape++;
 	ss_etape %= 8;
 
@@ -42,24 +42,24 @@ void FondPokeInterupteur::update() {
 
 	if (!wait_msg && game_flag[2] == 0 && game_flag[6] <= 80) {
 		wait_msg = true;
-		TexteCool* txt = new TexteCool();
+		CoolText* txt = new CoolText();
 		txt->ntxt = 104;
 		list_txt_cool.emplace_back(txt);
 	}
 
 	if (!ascenc_msg && wait_msg && game_flag[2] == 1) {
 		ascenc_msg = true;
-		TexteCool* txt = new TexteCool();
+		CoolText* txt = new CoolText();
 		txt->ntxt = 105;
 		list_txt_cool.emplace_back(txt);
-		txt = new TexteCool();
+		txt = new CoolText();
 		txt->ntxt = 106;
 		list_txt_cool.emplace_back(txt);
 	}
 
 	if (!bravo && ascenc_msg && game_flag[0] == 1) {
 		bravo = true;
-		TexteCool* txt = new TexteCool();
+		CoolText* txt = new CoolText();
 		txt->ntxt = 107;
 		list_txt_cool.emplace_back(txt);
 	}

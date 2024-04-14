@@ -2,12 +2,12 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiPikachu : public Ennemi {
+class EnemyPikachu : public Enemy {
    public:
-	EnnemiPikachu();
+	EnemyPikachu();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

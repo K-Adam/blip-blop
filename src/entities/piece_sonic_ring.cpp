@@ -1,10 +1,10 @@
 #include "entities/piece_sonic_ring.h"
 
-// implementation de la classe MorceauSonicRing
+// implementation de la classe PieceSonicRing
 
-MorceauSonicRing::MorceauSonicRing(int vx, int vy) : dx(vx) { dy = vy; }
+PieceSonicRing::PieceSonicRing(int vx, int vy) : dx(vx) { dy = vy; }
 
-void MorceauSonicRing::update() {
+void PieceSonicRing::update() {
 	x += dx;
 	tombe2();
 

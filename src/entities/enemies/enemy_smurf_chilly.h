@@ -2,30 +2,30 @@
 
 #include "entities/enemies/enemy_smurf.h"
 
-class EnnemiSmurfFrileux : public EnnemiSmurf {
+class EnemySmurfChilly : public EnemySmurf {
    public:
-	EnnemiSmurfFrileux() { pv = 75; }
+	EnemySmurfChilly() { pv = 75; }
 
 	inline virtual void affiche() {
 		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 			switch (dir) {
 				case SENS_GAUCHE:
 					draw(x + 7, y - 18, pbk_ennemis[147]);
-					EnnemiSmurf::affiche();
+					EnemySmurf::affiche();
 					draw(x, y - 20, pbk_ennemis[149]);
 					break;
 				case SENS_DROITE:
 					draw(x - 7, y - 18, pbk_ennemis[148]);
-					EnnemiSmurf::affiche();
+					EnemySmurf::affiche();
 					draw(x, y - 20, pbk_ennemis[150]);
 					break;
 			}
 		} else
-			EnnemiSmurf::affiche();
+			EnemySmurf::affiche();
 	}
 
 	virtual void onAvance() {
 		speed = 1 + rand() % 3;
-		EnnemiSmurf::onAvance();
+		EnemySmurf::onAvance();
 	}
 };

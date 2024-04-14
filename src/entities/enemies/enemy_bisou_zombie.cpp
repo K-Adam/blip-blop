@@ -10,12 +10,12 @@ static int etape_moan = 199;
 static int num_moan = 0;
 static bool local_phase;
 
-EnnemiBisouZombi::EnnemiBisouZombi() : etape2(0) {
+EnemyBisouZombie::EnemyBisouZombie() : etape2(0) {
 	pv = 1000;
 	tresor = 10;
 }
 
-void EnnemiBisouZombi::update() {
+void EnemyBisouZombie::update() {
 	if (blood > 0) blood -= 1;
 
 	if (game_flag[0] == 7 && etat != ETAT_CARBONISE && etat != ETAT_CARBONISE_HAUT) {
@@ -75,7 +75,7 @@ void EnnemiBisouZombi::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouZombi::onAvance() {
+void EnemyBisouZombie::onAvance() {
 	static const int SPEED = 1;
 
 	tombe();
@@ -109,7 +109,7 @@ void EnnemiBisouZombi::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBisouZombi::estTouche(Tir* tir) {
+void EnemyBisouZombie::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
@@ -170,7 +170,7 @@ void EnnemiBisouZombi::estTouche(Tir* tir) {
 		gicle(tir, dx_giclure, dy_giclure);
 }
 
-void EnnemiBisouZombi::onTombe() {
+void EnemyBisouZombie::onTombe() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -194,7 +194,7 @@ void EnnemiBisouZombi::onTombe() {
 	}
 }
 
-void EnnemiBisouZombi::onMeure() {
+void EnemyBisouZombie::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -213,7 +213,7 @@ void EnnemiBisouZombi::onMeure() {
 	}
 }
 
-void EnnemiBisouZombi::onCoupe() {
+void EnemyBisouZombie::onCoupe() {
 	tombe();
 
 	ss_etape += 1;
@@ -222,7 +222,7 @@ void EnnemiBisouZombi::onCoupe() {
 	if (ss_etape == 0) etape += 1;
 
 	if (etape == 4) {
-		GorePiedsBisouZombi* pieds = new GorePiedsBisouZombi();
+		GoreFeetBisouZombie* pieds = new GoreFeetBisouZombie();
 
 		pieds->x = x;
 		pieds->dir = dir;
@@ -244,7 +244,7 @@ void EnnemiBisouZombi::onCoupe() {
 	}
 }
 
-void EnnemiBisouZombi::onRampe() {
+void EnemyBisouZombie::onRampe() {
 	static const int anim_droite[] = {286, 287, 288, 287};
 	static const int anim_gauche[] = {289, 290, 291, 290};
 	static const int SPEED = 1;
@@ -283,7 +283,7 @@ void EnnemiBisouZombi::onRampe() {
 		pic = pbk_ennemis[anime(anim_gauche, 4, 16)];
 }
 
-void EnnemiBisouZombi::onCarbonise() {
+void EnemyBisouZombie::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 4;
 
@@ -302,7 +302,7 @@ void EnnemiBisouZombi::onCarbonise() {
 		pic = pbk_ennemis[612 + etape];
 }
 
-void EnnemiBisouZombi::onCarboniseHaut() {
+void EnemyBisouZombie::onCarboniseHaut() {
 	ss_etape += 1;
 	ss_etape %= 4;
 

@@ -3,13 +3,13 @@
 #include "entities/cool_text.h"
 #include "entities/bonus_cow.h"
 
-EnnemiPrincesse::EnnemiPrincesse() : avance(false), aide(false) {
+EnemyPrincess::EnemyPrincess() : avance(false), aide(false) {
 	pv = 3700;
 	tresor = 0;
 	pic = pbk_ennemis[128];
 }
 
-void EnnemiPrincesse::update() {
+void EnemyPrincess::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -29,7 +29,7 @@ void EnnemiPrincesse::update() {
 	}
 }
 
-void EnnemiPrincesse::onAvance() {
+void EnemyPrincess::onAvance() {
 	// if (game_flag[0])
 	//{
 
@@ -37,7 +37,7 @@ void EnnemiPrincesse::onAvance() {
 
 	if (game_flag[1]) {
 		if (x > offset + 820) {
-			TexteCool* txt = new TexteCool();
+			CoolText* txt = new CoolText();
 			txt->ntxt = 517;
 			list_txt_cool.emplace_back(txt);
 
@@ -45,10 +45,10 @@ void EnnemiPrincesse::onAvance() {
 		}
 		if (!aide) {
 			aide = true;
-			Ennemi* guard;
+			Enemy* guard;
 			int i;
 			for (i = 1; i < 4; i++) {
-				guard = new EnnemiPrincesseguard(this, 40 + i * 40);
+				guard = new EnemyPrincessGuard(this, 40 + i * 40);
 
 				guard->x = offset + 720 - i * 20;
 				guard->y = y - 20;
@@ -101,7 +101,7 @@ void EnnemiPrincesse::onAvance() {
 	colFromPic();
 }
 
-void EnnemiPrincesse::onMeure() {
+void EnemyPrincess::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -114,7 +114,7 @@ void EnnemiPrincesse::onMeure() {
 
 		if (yy != 0 && yy != y_plat[4][x]) {
 			grave(x, y, pic);
-			TexteCool* txt = new TexteCool();
+			CoolText* txt = new CoolText();
 			txt->ntxt = 519;
 			list_txt_cool.emplace_back(txt);
 			a_detruire = true;
@@ -122,7 +122,7 @@ void EnnemiPrincesse::onMeure() {
 				game_flag[2] = 1;
 			}
 
-			Bonus* bonus = new BonusVache();
+			Bonus* bonus = new BonusCow();
 			bonus->x = x;
 			bonus->y = y;
 			list_bonus.emplace_back(bonus);
@@ -132,12 +132,12 @@ void EnnemiPrincesse::onMeure() {
 	}
 }
 
-void EnnemiPrincesse::estTouche(Tir* tir) {
+void EnemyPrincess::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (game_flag[1]) {
-		Ennemi::estTouche(tir);
+		Enemy::estTouche(tir);
 	}
 	gicle(tir, dx_giclure, dy_giclure);
 }

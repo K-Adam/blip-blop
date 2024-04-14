@@ -2,14 +2,14 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiSmurf : public Ennemi {
+class EnemySmurf : public Enemy {
    public:
 	int wait_for_jump;
 	int jump_delay;
 	int dy_saut;
 	int speed;
 
-	EnnemiSmurf();
+	EnemySmurf();
 
 	virtual void update();
 	virtual void onAvance();
@@ -17,5 +17,5 @@ class EnnemiSmurf : public Ennemi {
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

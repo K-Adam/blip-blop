@@ -2,13 +2,13 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiBisouZombi : public Ennemi {
+class EnemyBisouZombie : public Enemy {
    public:
 	bool my_phase;
 	bool my_phase2;
 	int etape2;
 
-	EnnemiBisouZombi();
+	EnemyBisouZombie();
 	virtual void onCoupe();
 	virtual void onAvance();
 	virtual void onTombe();
@@ -16,6 +16,6 @@ class EnnemiBisouZombi : public Ennemi {
 	virtual void onMeure();
 	virtual void onCarbonise();
 	virtual void onCarboniseHaut();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void update();
 };

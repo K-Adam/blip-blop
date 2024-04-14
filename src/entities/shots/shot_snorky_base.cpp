@@ -2,12 +2,12 @@
 
 const int tir_snorky_oscilation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-TirSnorkybase::TirSnorkybase(int vx) : speed_etape(0), oscilation_etape(0) {
+ShotSnorkyBase::ShotSnorkyBase(int vx) : speed_etape(0), oscilation_etape(0) {
 	dy = 0;
 	dx = vx;
 }
 
-void TirSnorkybase::update() {
+void ShotSnorkyBase::update() {
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
 
 	speed_etape++;

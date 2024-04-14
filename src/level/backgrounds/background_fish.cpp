@@ -1,9 +1,9 @@
 #include "entities/sprite.h"
 #include "level/backgrounds/background_fish.h"
 
-FondPoissonRouge::FondPoissonRouge() { dir = rand() % 2; }
+BackgroundFishRed::BackgroundFishRed() { dir = rand() % 2; }
 
-void FondPoissonRouge::update() {
+void BackgroundFishRed::update() {
 	ss_etape++;
 	ss_etape %= 9;
 
@@ -25,9 +25,9 @@ void FondPoissonRouge::update() {
 	}
 }
 
-FondPoissonViolet::FondPoissonViolet() { dir = rand() % 2; }
+BackgroundFishPurple::BackgroundFishPurple() { dir = rand() % 2; }
 
-void FondPoissonViolet::update() {
+void BackgroundFishPurple::update() {
 	ss_etape++;
 	ss_etape %= 9;
 
@@ -49,9 +49,9 @@ void FondPoissonViolet::update() {
 	}
 };
 
-FondPoissonRougeCamoufle::FondPoissonRougeCamoufle() { dir = rand() % 2; }
+BackgroundFishRedCamouflaged::BackgroundFishRedCamouflaged() { dir = rand() % 2; }
 
-void FondPoissonRougeCamoufle::update() {
+void BackgroundFishRedCamouflaged::update() {
 	ss_etape++;
 	ss_etape %= 9;
 
@@ -73,9 +73,9 @@ void FondPoissonRougeCamoufle::update() {
 	}
 }
 
-FondPoissonVioletCamoufle::FondPoissonVioletCamoufle() { dir = rand() % 2; }
+BackgroundFishPurpleCamouflaged::BackgroundFishPurpleCamouflaged() { dir = rand() % 2; }
 
-void FondPoissonVioletCamoufle::update() {
+void BackgroundFishPurpleCamouflaged::update() {
 	ss_etape++;
 	ss_etape %= 9;
 

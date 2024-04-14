@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class GorePiedBisouBoom : public Sprite {
+class GoreFeetBisouBoom : public Sprite {
    public:
 	virtual void update() {
 		tombe();
@@ -34,7 +34,7 @@ class GorePiedBisouBoom : public Sprite {
 	};
 };
 
-class GoreTeteBisouBoom : public Sprite {
+class GoreHeadBisouBoom : public Sprite {
    public:
 	virtual void update() {
 		tombe();
@@ -66,7 +66,7 @@ class GoreTeteBisouBoom : public Sprite {
 	};
 };
 
-class GoreBideBisouBoom : public Sprite {
+class GoreBellyBisouBoom : public Sprite {
    public:
 	virtual void update() {
 		tombe();

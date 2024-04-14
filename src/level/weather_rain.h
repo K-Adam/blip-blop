@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class MeteoPluie : public Sprite {
+class WeatherRain : public Sprite {
    public:
 	virtual void update();
 };

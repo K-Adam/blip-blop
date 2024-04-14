@@ -2,11 +2,11 @@
 
 #include "entities/sprite.h"
 
-class FondRocher1 : public Sprite {
+class BackgroundRock1 : public Sprite {
    public:
 	int ss_etape_levitation;
 	int etape_levitation;
 
-	FondRocher1();
+	BackgroundRock1();
 	virtual void update();
 };

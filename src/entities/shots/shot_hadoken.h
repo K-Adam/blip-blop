@@ -4,13 +4,13 @@
 
 #define DELAY_ACCELERATION 20
 
-class TirHadoken : public Tir {
+class ShotHadoken : public Shot {
    public:
 	/*
 
 	TODO:Is this method used? where?
 
-	int TirSnorkybase();
+	int ShotSnorkyBase();
 
 	*/
 

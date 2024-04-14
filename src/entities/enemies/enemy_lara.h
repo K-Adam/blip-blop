@@ -5,7 +5,7 @@
 #define LARA_TIR_SPEED 10
 #define ATTACK_DELAY 10
 
-class EnnemiLara : public Ennemi {
+class EnemyLara : public Enemy {
    private:
 	int numero_image_buste;
 	int attack_delay;
@@ -22,12 +22,12 @@ class EnnemiLara : public Ennemi {
 
    public:
 	// methodes "habituelles"
-	EnnemiLara();
+	EnemyLara();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTire();
 
 	virtual void affiche();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

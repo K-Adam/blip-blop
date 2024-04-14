@@ -2,9 +2,9 @@
 #include "entities/gore_head_bisou_heart.h"
 #include "entities/shots/shot_bisou_heart.h"
 
-EnnemiBisouCoeur::EnnemiBisouCoeur() { pv = 300; }
+EnemyBisouHeart::EnemyBisouHeart() { pv = 300; }
 
-void EnnemiBisouCoeur::update() {
+void EnemyBisouHeart::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -28,7 +28,7 @@ void EnnemiBisouCoeur::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouCoeur::onAvance() {
+void EnemyBisouHeart::onAvance() {
 	static const int SPEED = 2;
 
 	static const int anim_gauche[] = {431, 432, 433, 434, 433, 432};
@@ -49,7 +49,7 @@ void EnnemiBisouCoeur::onAvance() {
 	}
 
 	if (etape == 3 && ss_etape == 0) {
-		TirCoeurBisou* tir = new TirCoeurBisou();
+		ShotBisouHeart* tir = new ShotBisouHeart();
 
 		if (dir == SENS_DROITE)
 			tir->xbase = x + 10;
@@ -64,7 +64,7 @@ void EnnemiBisouCoeur::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBisouCoeur::onMeure() {
+void EnemyBisouHeart::onMeure() {
 	static const int SPEED = 2;
 
 	ss_etape += 1;
@@ -79,7 +79,7 @@ void EnnemiBisouCoeur::onMeure() {
 		}
 
 		if (etape == 4) {
-			GoreTeteBisouCoeur* tete = new GoreTeteBisouCoeur();
+			GoreHeadBisouHeart* tete = new GoreHeadBisouHeart();
 
 			tete->y = y - 20;
 			tete->dir = dir;
@@ -102,7 +102,7 @@ void EnnemiBisouCoeur::onMeure() {
 	}
 }
 
-void EnnemiBisouCoeur::onPart() {
+void EnemyBisouHeart::onPart() {
 	static const int SPEED = 10;
 
 	if (dir == SENS_DROITE)
@@ -111,11 +111,11 @@ void EnnemiBisouCoeur::onPart() {
 		x -= SPEED;
 }
 
-void EnnemiBisouCoeur::estTouche(Tir* tir) {
+void EnemyBisouHeart::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));

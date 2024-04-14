@@ -10,9 +10,11 @@ const int anim_warning[] = {118, 118, 118, 118, 118, 119, 119, 120, 119, 119};
 const int anim_nuke[] = {53, 53, 53, 54, 54, 54, 55, 55, 56, 57, 58, 59, 59, 60, 60, 60, 61, 61,
 						 61, 61, 60, 60, 60, 59, 59, 58, 57, 56, 55, 55, 54, 54, 54, 53, 53};
 
-FondBombe::FondBombe() : etape_compteur(0), etape_warning(0), ss_etape_warning(0), etape_nuke(0), ss_etape_nuke(0), armed(true) { pic = pbk_niveau[52]; }
+BackgroundBomb::BackgroundBomb() : etape_compteur(0), etape_warning(0), ss_etape_warning(0), etape_nuke(0), ss_etape_nuke(0), armed(true) {
+	pic = pbk_niveau[52];
+}
 
-void FondBombe::update() {
+void BackgroundBomb::update() {
 	if (armed) {
 		if (tete_turc != NULL) {
 			if ((tete_turc->x > x - 50) && (tete_turc->x < x + 50) && (tete_turc->y > y - 10) && (tete_turc->y < y + 51)) {
@@ -21,7 +23,7 @@ void FondBombe::update() {
 				Bonus* bonus = nullptr;
 				switch (game_flag[0]) {
 					case 1:
-						bonus = new BonusFusil();
+						bonus = new BonusShotgun();
 						break;
 
 					case 2:
@@ -29,7 +31,7 @@ void FondBombe::update() {
 						break;
 
 					case 3:
-						bonus = new BonusVache();
+						bonus = new BonusCow();
 						save_time = game_flag[FLAG_TIMER];
 						game_flag[FLAG_GEN_OFF] = 1;
 						break;
@@ -84,7 +86,7 @@ void FondBombe::update() {
 	}
 }
 
-void FondBombe::affiche() {
+void BackgroundBomb::affiche() {
 	Sprite::affiche();
 	if (armed) {
 		draw(x, y, pbk_niveau[121 + etape]);

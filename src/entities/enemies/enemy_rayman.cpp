@@ -7,13 +7,13 @@
 #include "entities/enemies/enemy_ember_hero.h"
 #include "entities/piece_rayman_head.h"
 
-EnnemiRayman::EnnemiRayman() : dorkemon(4), attack_delay(100 + rand() % 250), wait_for_attack(0), tir_poing(NULL), poing1(1), poing2(1), pieds(1) {
+EnemyRayman::EnemyRayman() : dorkemon(4), attack_delay(100 + rand() % 250), wait_for_attack(0), tir_poing(NULL), poing1(1), poing2(1), pieds(1) {
 	pv = 15000;
 	xmin = 10428;
 	tresor = 0;
 }
 
-void EnnemiRayman::update() {
+void EnemyRayman::update() {
 	if (blood > 0) blood -= 1;
 
 	if (x < 10930 && game_flag[3] == 0) {
@@ -46,10 +46,10 @@ void EnnemiRayman::update() {
 	updateADetruire();
 }
 
-void EnnemiRayman::onAvance() {
+void EnemyRayman::onAvance() {
 	if ((game_flag[1] <= dorkemon) && (game_flag[0] == 2) && (game_flag[1] > 0)) {
 		if (game_flag[1] == 4) {
-			EnnemiBulbizarreHeros* bulbizarre = new EnnemiBulbizarreHeros();
+			EnemyBulbizarreHero* bulbizarre = new EnemyBulbizarreHero();
 
 			bulbizarre->x = x - 10;
 			bulbizarre->y = y - 25;
@@ -63,7 +63,7 @@ void EnnemiRayman::onAvance() {
 
 			dorkemon--;
 		} else if (game_flag[1] == 3) {
-			EnnemiFlamecheHeros* flameche = new EnnemiFlamecheHeros();
+			EnemyEmberHero* flameche = new EnemyEmberHero();
 
 			flameche->x = x - 10;
 			flameche->y = y - 25;
@@ -72,7 +72,7 @@ void EnnemiRayman::onAvance() {
 
 			nb_ennemis_created++;
 
-			EnnemiComHeros* Com = new EnnemiComHeros();
+			EnemyCOMHero* Com = new EnemyCOMHero();
 
 			Com->x = x - 10;
 			Com->y = y - 25;
@@ -82,7 +82,7 @@ void EnnemiRayman::onAvance() {
 			dorkemon -= 2;
 
 		} else if (game_flag[1] == 1) {
-			EnnemiPikachuHeros* pika = new EnnemiPikachuHeros();
+			EnemyPikachuHero* pika = new EnemyPikachuHero();
 
 			nb_ennemis_created++;
 
@@ -143,9 +143,9 @@ void EnnemiRayman::onAvance() {
 					Sprite* s;
 					// faire gicler le premier poing
 					if (x - offset > 320) {
-						s = new MorceauRayman(230, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(230, -1 - rand() % 3, -3 - rand() % 3);
 					} else {
-						s = new MorceauRayman(230, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(230, 1 + rand() % 3, -3 - rand() % 3);
 					}
 
 					s->dir = dir;
@@ -189,9 +189,9 @@ void EnnemiRayman::onAvance() {
 					// faire gicler le second poing
 					Sprite* s;
 					if (x - offset > 320) {
-						s = new MorceauRayman(231, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(231, -1 - rand() % 3, -3 - rand() % 3);
 					} else {
-						s = new MorceauRayman(231, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(231, 1 + rand() % 3, -3 - rand() % 3);
 					}
 
 					s->dir = dir;
@@ -238,7 +238,7 @@ void EnnemiRayman::onAvance() {
 					// faire gicler les pieds
 					int vy = -3 - rand() % 3;
 
-					Sprite* s = new MorceauRayman(270, 1 + rand() % 3, vy);
+					Sprite* s = new PieceRayman(270, 1 + rand() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -246,7 +246,7 @@ void EnnemiRayman::onAvance() {
 
 					list_giclures.emplace_back(s);
 
-					s = new MorceauRayman(271, -1 - rand() % 3, vy);
+					s = new PieceRayman(271, -1 - rand() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -287,7 +287,7 @@ void EnnemiRayman::onAvance() {
 	}
 }
 
-void EnnemiRayman::onMeure() {
+void EnemyRayman::onMeure() {
 	ss_etape++;
 	ss_etape %= 6;
 
@@ -295,9 +295,9 @@ void EnnemiRayman::onMeure() {
 		// fait gicler la tete
 		Sprite* tete;
 		if (x - offset > 320) {
-			tete = new MorceauTeteRayman(-1 - rand() % 3, -3 - rand() % 3);
+			tete = new PieceRaymanHead(-1 - rand() % 3, -3 - rand() % 3);
 		} else {
-			tete = new MorceauTeteRayman(1 + rand() % 3, -3 - rand() % 3);
+			tete = new PieceRaymanHead(1 + rand() % 3, -3 - rand() % 3);
 		}
 		tete->x = x;
 		tete->y = y - 60;
@@ -319,7 +319,7 @@ void EnnemiRayman::onMeure() {
 	}
 }
 
-void EnnemiRayman::onTire() {
+void EnemyRayman::onTire() {
 	if (pv > PV_SOUS_CRITIQUE) {
 		if (attack_etape == 0) {
 			ss_etape++;
@@ -329,7 +329,7 @@ void EnnemiRayman::onTire() {
 				etape %= 6;
 				range_poing += 30;
 				if ((dir == SENS_DROITE) && (x_cible - x < range_poing)) {
-					tir_poing = new TirRaymanpoing(RAYMAN_POING1_SPEED, x_cible);
+					tir_poing = new ShotRaymanFist(RAYMAN_POING1_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x + 13;
 					tir_poing->y = y - 13;
@@ -339,7 +339,7 @@ void EnnemiRayman::onTire() {
 					ss_etape = 0;
 					etape = 6;
 				} else if ((dir == SENS_GAUCHE) && (x - x_cible < range_poing)) {
-					tir_poing = new TirRaymanpoing(-RAYMAN_POING1_SPEED, x_cible);
+					tir_poing = new ShotRaymanFist(-RAYMAN_POING1_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x - 13;
 					tir_poing->y = y - 13;
@@ -392,7 +392,7 @@ void EnnemiRayman::onTire() {
 				etape %= 7;
 				range_poing += 30;
 				if ((dir == SENS_DROITE) && (x_cible - x < range_poing)) {
-					tir_poing = new TirRaymanpoing(RAYMAN_POING2_SPEED, x_cible);
+					tir_poing = new ShotRaymanFist(RAYMAN_POING2_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x + 13;
 					tir_poing->y = y - 13;
@@ -402,7 +402,7 @@ void EnnemiRayman::onTire() {
 					ss_etape = 0;
 					etape = 7;
 				} else if ((dir == SENS_GAUCHE) && (x - x_cible < range_poing)) {
-					tir_poing = new TirRaymanpoing(-RAYMAN_POING2_SPEED, x_cible);
+					tir_poing = new ShotRaymanFist(-RAYMAN_POING2_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x - 13;
 					tir_poing->y = y - 13;
@@ -451,7 +451,7 @@ void EnnemiRayman::onTire() {
 	colFromPic();
 }
 
-void EnnemiRayman::onTombe() {
+void EnemyRayman::onTombe() {
 	int yp;
 
 	tombe();
@@ -468,12 +468,12 @@ void EnnemiRayman::onTombe() {
 	colFromPic();
 }
 
-void EnnemiRayman::estTouche(Tir* tir) {
+void EnemyRayman::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	if (game_flag[1] == 0) {
-		Ennemi::estTouche(tir);
+		Enemy::estTouche(tir);
 		gicle(tir, dx_giclure, dy_giclure);
 	}
 }

@@ -1,11 +1,11 @@
 #include "entities/shots/shot_gift.h"
 
-TirCadeau::TirCadeau() {
+ShotGift::ShotGift() {
 	pic = pbk_ennemis[56];
 	noCol();
 }
 
-void TirCadeau::update() {
+void ShotGift::update() {
 	if (!mur_opaque(x, y)) tombe();
 
 	ss_etape += 1;

@@ -9,7 +9,7 @@
 #define MARIO_PV_CRITIQUE 11500
 #define MARIO_PV_SUR_CRITIQUE 8500
 
-class EnnemiMario : public Ennemi {
+class EnemyMario : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -28,7 +28,7 @@ class EnnemiMario : public Ennemi {
 
    public:
 	// methodes "habituelles"
-	EnnemiMario();
+	EnemyMario();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -65,5 +65,5 @@ class EnnemiMario : public Ennemi {
 	virtual inline void boule_de_feu(int vitesse);
 
 	virtual void affiche();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

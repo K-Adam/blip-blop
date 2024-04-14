@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_bulbizarre.h"
 
-EnnemiBulbizarre::EnnemiBulbizarre() { pv = 100; }
+EnemyBulbizarre::EnemyBulbizarre() { pv = 100; }
 
-void EnnemiBulbizarre::update() {
+void EnemyBulbizarre::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -23,7 +23,7 @@ void EnnemiBulbizarre::update() {
 	updateADetruire();
 }
 
-void EnnemiBulbizarre::onAvance() {
+void EnemyBulbizarre::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -51,7 +51,7 @@ void EnnemiBulbizarre::onAvance() {
 	colFromPic();
 }
 
-void EnnemiBulbizarre::onMeure() {
+void EnemyBulbizarre::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -73,7 +73,7 @@ void EnnemiBulbizarre::onMeure() {
 	}
 }
 
-void EnnemiBulbizarre::onCarbonise() {
+void EnemyBulbizarre::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
@@ -89,11 +89,11 @@ void EnnemiBulbizarre::onCarbonise() {
 	}
 }
 
-void EnnemiBulbizarre::estTouche(Tir* tir) {
+void EnemyBulbizarre::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

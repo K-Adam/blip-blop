@@ -13,7 +13,7 @@ class Bonus : public Sprite {
 
 	Bonus() : phi(0), local_phase(0){};
 
-	virtual void estPris(Couille* c) {
+	virtual void estPris(Ball* c) {
 		a_detruire = true;
 		col_on = false;
 	};

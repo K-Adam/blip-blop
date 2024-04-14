@@ -3,9 +3,9 @@
 #include "entities/player.h"
 #include "entities/shots/shot_bb.h"
 
-class TirBBFusil : public TirBB {
+class ShotBBShotgun : public ShotBB {
    public:
-	TirBBFusil() : etape_dx(0), etape_dy(0) {}
+	ShotBBShotgun() : etape_dx(0), etape_dy(0) {}
 	int dx;
 	int ddx;
 	int ddy;

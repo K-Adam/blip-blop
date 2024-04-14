@@ -1,15 +1,15 @@
 #pragma once
 
-class GenBonus {
+class BonusGenerator {
    public:
-	virtual ~GenBonus() = default;
+	virtual ~BonusGenerator() = default;
 	int x;
 	int periode;
 	int t;
 	int type;
 	bool a_detruire;
 
-	GenBonus();
+	BonusGenerator();
 
 	virtual void update();
 

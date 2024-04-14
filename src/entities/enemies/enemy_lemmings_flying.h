@@ -2,7 +2,7 @@
 
 #include "entities/enemies/enemy_lemmings.h"
 
-class EnnemiLemmingsVolant : public EnnemiLemmings {
+class EnemyLemmingsFlying : public EnemyLemmings {
    public:
-	EnnemiLemmingsVolant() { y = -5; };
+	EnemyLemmingsFlying() { y = -5; };
 };

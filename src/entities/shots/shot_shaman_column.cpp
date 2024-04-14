@@ -1,8 +1,8 @@
 #include "entities/shots/shot_shaman_column.h"
 
-TirColonneChaman::TirColonneChaman() : etat(0) { duree_vie = 250 + rand() % 100; }
+ShotShamanColumn::ShotShamanColumn() : etat(0) { duree_vie = 250 + rand() % 100; }
 
-void TirColonneChaman::update() {
+void ShotShamanColumn::update() {
 	deplace();
 
 	ss_etape += 1;
@@ -63,7 +63,7 @@ void TirColonneChaman::update() {
 	updateADetruire();
 }
 
-void TirColonneChaman::deplace() {
+void ShotShamanColumn::deplace() {
 	static const int SPEED = 4;
 
 	tombe();

@@ -7,7 +7,7 @@
 
 #include "entities/sprite.h"
 
-class Tir : public Sprite {
+class Shot : public Sprite {
    public:
 	virtual int degats() const { return 1; };
 
@@ -30,5 +30,5 @@ class Tir : public Sprite {
 		col_on = false;
 	};
 
-	virtual ~Tir(){};
+	virtual ~Shot(){};
 };

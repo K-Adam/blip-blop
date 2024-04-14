@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondWindows : public Sprite {
+class BackgroundWindows : public Sprite {
    public:
 	virtual void update() {
 		ss_etape += 1;

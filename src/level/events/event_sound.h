@@ -2,7 +2,7 @@
 
 #include "level/events/event.h"
 
-class EventSon : public Event {
+class EventSound : public Event {
    public:
 	int nsnd;
 

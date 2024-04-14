@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_bisou_cloud.h"
 #include "entities/shots/shot_cloud.h"
 
-EnnemiBisouNuage::EnnemiBisouNuage() : etape_shoot(0) {
+EnemyBisouCloud::EnemyBisouCloud() : etape_shoot(0) {
 	pv = 250;
 	wait_shoot = 150 + rand() % 150;
 }
 
-void EnnemiBisouNuage::update() {
+void EnemyBisouCloud::update() {
 	if (blood > 0) blood -= 1;
 
 	etape_shoot += 1;
@@ -34,7 +34,7 @@ void EnnemiBisouNuage::update() {
 	updateADetruire();
 }
 
-void EnnemiBisouNuage::onMeureFin() {
+void EnemyBisouCloud::onMeureFin() {
 	if (etape < 6) {
 		ss_etape += 1;
 		ss_etape %= 3;
@@ -52,7 +52,7 @@ void EnnemiBisouNuage::onMeureFin() {
 	}
 }
 
-void EnnemiBisouNuage::onMeureTombe() {
+void EnemyBisouCloud::onMeureTombe() {
 	tombe();
 
 	ss_etape += 1;
@@ -74,7 +74,7 @@ void EnnemiBisouNuage::onMeureTombe() {
 	}
 }
 
-void EnnemiBisouNuage::onMeureWait() {
+void EnemyBisouCloud::onMeureWait() {
 	etape += 1;
 
 	if (dir == SENS_GAUCHE)
@@ -88,7 +88,7 @@ void EnnemiBisouNuage::onMeureWait() {
 	}
 }
 
-void EnnemiBisouNuage::onNormal() {
+void EnemyBisouCloud::onNormal() {
 	static const int anim_gauche[] = {229, 230, 231, 230};
 	static const int anim_droite[] = {226, 227, 228, 227};
 
@@ -101,7 +101,7 @@ void EnnemiBisouNuage::onNormal() {
 	}
 
 	if (etape_shoot >= wait_shoot && x <= offset + 640) {
-		TirNuage* s = new TirNuage();
+		ShotCloud* s = new ShotCloud();
 
 		s->x = x;
 		s->y = y - 17;

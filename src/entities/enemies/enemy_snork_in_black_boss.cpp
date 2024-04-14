@@ -8,14 +8,14 @@ const int anim_snork_in_black_boss_saute_gauche[] = {417, 418, 419, 418};
 const int snork_in_black_position_x[] = {5904, 6351, 5831, 6319};  // 144,591,71,559
 const int snork_in_black_position_y[] = {175, 189, 342, 328};
 
-EnnemiSnorkInBlackBoss::EnnemiSnorkInBlackBoss() : position(1), type_attack(0), attack(false), x_shark(5604), y_shark(100), shark(false), saut(false) {
+EnemySnorkInBlackBoss::EnemySnorkInBlackBoss() : position(1), type_attack(0), attack(false), x_shark(5604), y_shark(100), shark(false), saut(false) {
 	pv = 15000;
 	dy = 0;
 	dir = SENS_GAUCHE;
 	pic = pbk_ennemis[380];
 }
 
-void EnnemiSnorkInBlackBoss::update() {
+void EnemySnorkInBlackBoss::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (etat) {
@@ -42,7 +42,7 @@ void EnnemiSnorkInBlackBoss::update() {
 	if (x > offset + 1000) a_detruire = true;
 }
 
-void EnnemiSnorkInBlackBoss::onAvance() {
+void EnemySnorkInBlackBoss::onAvance() {
 	if (game_flag[0] == 1) {
 		if (ss_etape == 0 && etape == 0) {
 			sbk_niveau.play(0);
@@ -242,7 +242,7 @@ void EnnemiSnorkInBlackBoss::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlackBoss::onTombe() {
+void EnemySnorkInBlackBoss::onTombe() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_GRAVITE;
 
@@ -277,7 +277,7 @@ void EnnemiSnorkInBlackBoss::onTombe() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlackBoss::onMeure() {
+void EnemySnorkInBlackBoss::onMeure() {
 	col_on = false;
 	if (game_flag[0] == 2 && !saut) {
 		int destination = 0;
@@ -430,7 +430,7 @@ void EnnemiSnorkInBlackBoss::onMeure() {
 	}
 }
 
-void EnnemiSnorkInBlackBoss::onTire() {
+void EnemySnorkInBlackBoss::onTire() {
 	if (type_attack == 0) {
 		ss_etape++;
 		ss_etape %= 6;
@@ -446,10 +446,10 @@ void EnnemiSnorkInBlackBoss::onTire() {
 			return;
 		} else if (ss_etape == 1) {
 			if (dir == SENS_DROITE) {
-				TirEpine* tir;
+				ShotThorn* tir;
 				switch (etape) {
 					case 0:
-						tir = new TirEpine(425, 4, -6);
+						tir = new ShotThorn(425, 4, -6);
 						tir->setDir(dir);
 						tir->x = x + 36;
 						tir->y = y - 51;
@@ -459,7 +459,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 1:
-						tir = new TirEpine(426, 5, -5);
+						tir = new ShotThorn(426, 5, -5);
 						tir->setDir(dir);
 						tir->x = x + 36;
 						tir->y = y - 51;
@@ -469,7 +469,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 2:
-						tir = new TirEpine(427, 6, -4);
+						tir = new ShotThorn(427, 6, -4);
 						tir->setDir(dir);
 						tir->x = x + 52;
 						tir->y = y - 16;
@@ -478,7 +478,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 3:
-						tir = new TirEpine(428, 7, 0);
+						tir = new ShotThorn(428, 7, 0);
 						tir->setDir(dir);
 						tir->x = x + 52;
 						tir->y = y - 16;
@@ -487,7 +487,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 4:
-						tir = new TirEpine(429, 6, 4);
+						tir = new ShotThorn(429, 6, 4);
 						tir->setDir(dir);
 						tir->x = x + 35;
 						tir->y = y + 25;
@@ -496,7 +496,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 5:
-						tir = new TirEpine(430, 5, 5);
+						tir = new ShotThorn(430, 5, 5);
 						tir->setDir(dir);
 						tir->x = x + 35;
 						tir->y = y + 25;
@@ -505,11 +505,11 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 				}
 			} else {
-				TirEpine* tir;
+				ShotThorn* tir;
 
 				switch (etape) {
 					case 0:
-						tir = new TirEpine(439, -4, -6);
+						tir = new ShotThorn(439, -4, -6);
 						tir->setDir(dir);
 						tir->x = x - 36;
 						tir->y = y - 51;
@@ -519,7 +519,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 1:
-						tir = new TirEpine(438, -5, -5);
+						tir = new ShotThorn(438, -5, -5);
 						tir->setDir(dir);
 						tir->x = x - 36;
 						tir->y = y - 51;
@@ -529,7 +529,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 2:
-						tir = new TirEpine(437, -6, -4);
+						tir = new ShotThorn(437, -6, -4);
 						tir->setDir(dir);
 						tir->x = x - 52;
 						tir->y = y - 16;
@@ -538,7 +538,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 3:
-						tir = new TirEpine(436, -7, 0);
+						tir = new ShotThorn(436, -7, 0);
 						tir->setDir(dir);
 						tir->x = x - 52;
 						tir->y = y - 16;
@@ -547,7 +547,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 4:
-						tir = new TirEpine(435, -6, 4);
+						tir = new ShotThorn(435, -6, 4);
 						tir->setDir(dir);
 						tir->x = x - 35;
 						tir->y = y + 25;
@@ -556,7 +556,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 						break;
 
 					case 5:
-						tir = new TirEpine(434, -5, 5);
+						tir = new ShotThorn(434, -5, 5);
 						tir->setDir(dir);
 						tir->x = x - 35;
 						tir->y = y + 25;
@@ -582,7 +582,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 
 		if (etape >= 1) {
 			if (dir == SENS_DROITE) {
-				TirEpine* tir = new TirEpine(422, 14, 0);
+				ShotThorn* tir = new ShotThorn(422, 14, 0);
 
 				tir->setDir(dir);
 				tir->x = x + 77;
@@ -590,7 +590,7 @@ void EnnemiSnorkInBlackBoss::onTire() {
 
 				list_tirs_ennemis.emplace_back(tir);
 			} else {
-				TirEpine* tir = new TirEpine(423, -14, 0);
+				ShotThorn* tir = new ShotThorn(423, -14, 0);
 
 				tir->setDir(dir);
 				tir->x = x - 77;
@@ -615,15 +615,15 @@ void EnnemiSnorkInBlackBoss::onTire() {
 	colFromPic();
 }
 
-void EnnemiSnorkInBlackBoss::estTouche(Tir* tir) {
+void EnemySnorkInBlackBoss::estTouche(Shot* tir) {
 	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
 }
 
-void EnnemiSnorkInBlackBoss::affiche() {
+void EnemySnorkInBlackBoss::affiche() {
 	if (x_shark < 5904) {
 		Sprite::affiche();
 	}

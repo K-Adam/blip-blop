@@ -2,15 +2,15 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiComHeros : public Ennemi {
+class EnemyCOMHero : public Enemy {
    private:
 	int dx;
 	int dorkeball;
 
    public:
-	EnnemiComHeros();
+	EnemyCOMHero();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

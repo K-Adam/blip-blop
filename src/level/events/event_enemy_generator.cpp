@@ -2,13 +2,13 @@
 #include "level/enemy_generator_tmp.h"
 #include "level/enemy_generator.h"
 
-void EventGenEnnemi::doEvent() {
-	GenEnnemi* gen;
+void EventEnemyGenerator::doEvent() {
+	EnemyGenerator* gen;
 
 	if (tmp)
-		gen = new GenEnnemiTMP();
+		gen = new EnemyGeneratorTMP();
 	else
-		gen = new GenEnnemi();
+		gen = new EnemyGenerator();
 
 	gen->id_ennemi = id_ennemi;
 	gen->x = x;

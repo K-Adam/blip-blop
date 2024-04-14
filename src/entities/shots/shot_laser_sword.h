@@ -2,7 +2,7 @@
 
 #include "entities/shots/shot.h"
 
-class TirEpeeLaser : public Tir {
+class ShotLaserSword : public Shot {
    public:
 	Sprite* cible;
 	Sprite* lanceur;
@@ -12,8 +12,8 @@ class TirEpeeLaser : public Tir {
 	int duree_vie;
 	int accel;
 
-	TirEpeeLaser();
-	virtual ~TirEpeeLaser();
+	ShotLaserSword();
+	virtual ~ShotLaserSword();
 
 	virtual int degats() const { return 1; };
 

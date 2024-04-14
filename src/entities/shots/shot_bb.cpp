@@ -1,6 +1,6 @@
 #include "entities/shots/shot_bb.h"
 
-void TirBB::setDir(int d) {
+void ShotBB::setDir(int d) {
 	// Convertit la dir BB en dir TIR
 	if (d == BBDIR_BAS_B_G)
 		dir = 0;

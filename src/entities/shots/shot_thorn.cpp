@@ -1,13 +1,13 @@
 #include "entities/shots/shot_thorn.h"
 
-TirEpine::TirEpine(int n_pbk_ennemis, int vx, int vy) {
+ShotThorn::ShotThorn(int n_pbk_ennemis, int vx, int vy) {
 	pic = pbk_ennemis[n_pbk_ennemis];
 	dy = vy;
 	dx = vx;
 	traverse = false;
 }
 
-void TirEpine::update() {
+void ShotThorn::update() {
 	x += dx;
 	y += dy;
 

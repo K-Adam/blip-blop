@@ -1,8 +1,8 @@
 #pragma once
 
-class GenEnnemi {
+class EnemyGenerator {
    public:
-	virtual ~GenEnnemi() = default;
+	virtual ~EnemyGenerator() = default;
 	int id_ennemi;
 	int sens;
 	int x;
@@ -12,7 +12,7 @@ class GenEnnemi {
 	int t;
 	bool a_detruire;
 
-	GenEnnemi();
+	EnemyGenerator();
 
 	virtual void update();
 

@@ -2,31 +2,31 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiBisouJedi : public Ennemi {
+class EnemyBisouJedi : public Enemy {
    public:
 	int wait_shoot;
 	int etape_shoot;
 	bool a_epee;
 
-	EnnemiBisouJedi();
+	EnemyBisouJedi();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void update();
 	virtual void onCarbonise();
 	virtual void affiche();
 };
 
-class EnnemiBisouJediHeros : public EnnemiBisouJedi {
+class EnemyBisouJediHero : public EnemyBisouJedi {
    public:
 	bool intro;
 
-	EnnemiBisouJediHeros() : intro(true) { pv = 6000; };
+	EnemyBisouJediHero() : intro(true) { pv = 6000; };
 
 	virtual void update() {
 		if (intro) {
 			if (x > offset + 450) {
-				EnnemiBisouJedi::onAvance();
+				EnemyBisouJedi::onAvance();
 				col_on = false;
 			} else {
 				intro = false;
@@ -34,12 +34,12 @@ class EnnemiBisouJediHeros : public EnnemiBisouJedi {
 				game_flag[FLAG_GEN_OFF] = 0;
 			}
 		} else {
-			EnnemiBisouJedi::update();
+			EnemyBisouJedi::update();
 		}
 	};
 
-	virtual void estTouche(Tir* tir) {
-		EnnemiBisouJedi::estTouche(tir);
+	virtual void estTouche(Shot* tir) {
+		EnemyBisouJedi::estTouche(tir);
 
 		if (pv <= 0) {
 			game_flag[FLAG_USER1] = 2;

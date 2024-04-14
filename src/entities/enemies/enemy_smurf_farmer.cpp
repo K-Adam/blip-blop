@@ -6,14 +6,14 @@ const int smurf_paysan_charge_gauche[] = {160, 161, 162, 163};
 const int smurf_paysan_decapite_droite[] = {174, 175, 176, 177};
 const int smurf_paysan_decapite_gauche[] = {178, 179, 180, 180};
 
-EnnemiSmurfPaysan::EnnemiSmurfPaysan() {
+EnemySmurfFarmer::EnemySmurfFarmer() {
 	pv = 200;
 	etat = ETAT_AVANCE;
 	tete_etape = 0;
 	tete_ss_etape = 0;
 }
 
-void EnnemiSmurfPaysan::update() {
+void EnemySmurfFarmer::update() {
 	if (blood != 0) blood -= 1;
 
 	switch (etat) {
@@ -31,7 +31,7 @@ void EnnemiSmurfPaysan::update() {
 	updateADetruire();
 }
 
-void EnnemiSmurfPaysan::onMeure() {
+void EnemySmurfFarmer::onMeure() {
 	if (tete_etape == 0) {
 		x_mort = x;
 		y_mort = y - 25;
@@ -45,7 +45,7 @@ void EnnemiSmurfPaysan::onMeure() {
 	}
 }
 
-void EnnemiSmurfPaysan::onAvance() {
+void EnemySmurfFarmer::onAvance() {
 	tombe();
 
 	// Marche
@@ -74,7 +74,7 @@ void EnnemiSmurfPaysan::onAvance() {
 	}
 }
 
-void EnnemiSmurfPaysan::onCarbonise() {
+void EnemySmurfFarmer::onCarbonise() {
 	ss_etape += 1;
 	ss_etape %= 6;
 
@@ -90,11 +90,11 @@ void EnnemiSmurfPaysan::onCarbonise() {
 	}
 }
 
-void EnnemiSmurfPaysan::estTouche(Tir* tir) {
+void EnemySmurfFarmer::estTouche(Shot* tir) {
 	static const int dx_giclure_smurf_paysan[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf_paysan[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_smurf_paysan, dy_giclure_smurf_paysan);
 
 	if (etat == ETAT_MEURE) sbk_misc.play(8 + rand() % 3);

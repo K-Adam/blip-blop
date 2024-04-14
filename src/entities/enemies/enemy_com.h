@@ -2,9 +2,9 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiCOM : public Ennemi {
+class EnemyCOM : public Enemy {
    public:
-	EnnemiCOM();
+	EnemyCOM();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();

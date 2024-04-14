@@ -2,12 +2,12 @@
 
 #include "entities/sprite.h"
 
-class Bulle : public Sprite {
+class Bubble : public Sprite {
    public:
 	int xbase;
 	int phi;
 	int dphi;
 
-	Bulle();
+	Bubble();
 	virtual void update();
 };

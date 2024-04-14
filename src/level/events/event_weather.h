@@ -3,7 +3,7 @@
 #include "level/events/event.h"
 #include "core/debug.h"
 
-class EventMeteo : public Event {
+class EventWeather : public Event {
    public:
 	int intensite;
 	int type;

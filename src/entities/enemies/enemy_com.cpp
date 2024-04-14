@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_com.h"
 
-EnnemiCOM::EnnemiCOM() { pv = 100; }
+EnemyCOM::EnemyCOM() { pv = 100; }
 
-void EnnemiCOM::update() {
+void EnemyCOM::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -18,7 +18,7 @@ void EnnemiCOM::update() {
 	updateADetruire();
 }
 
-void EnnemiCOM::onAvance() {
+void EnemyCOM::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 8;
 
@@ -43,7 +43,7 @@ void EnnemiCOM::onAvance() {
 	colFromPic();
 }
 
-void EnnemiCOM::onMeure() {
+void EnemyCOM::onMeure() {
 	if (ss_etape == 0 && etape == 0) {
 		sbk_niveau.play(6);
 	}

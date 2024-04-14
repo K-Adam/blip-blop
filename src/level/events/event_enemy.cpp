@@ -121,223 +121,223 @@
 
 #define IDENNEMI_MARIO 700
 
-void EventEnnemi::doEvent() {
-	Ennemi* enn = NULL;
+void EventEnemy::doEvent() {
+	Enemy* enn = NULL;
 
 	switch (id_ennemi) {
 		case IDENNEMI_SMURF:
 			switch (rand() % 6) {
 				case 0:
-					enn = new EnnemiSmurf();
+					enn = new EnemySmurf();
 					break;
 				case 1:
-					enn = new EnnemiSmurfALunettes();
+					enn = new EnemySmurfGlasses();
 					break;
 				case 2:
-					enn = new EnnemiSmurfCoquet();
+					enn = new EnemySmurfVain();
 					break;
 				case 3:
-					enn = new EnnemiSmurfFrileux();
+					enn = new EnemySmurfChilly();
 					break;
 				case 4:
-					enn = new EnnemiSmurfParesseux();
+					enn = new EnemySmurfLazy();
 					break;
 				case 5:
-					enn = new EnnemiSmurfPeon();
+					enn = new EnemySmurfPeon();
 					break;
 			}
 			break;
 
 		case IDENNEMI_SMURF_GOURMAND:
-			enn = new EnnemiSmurfGourmand();
+			enn = new EnemySmurfGreedy();
 			break;
 
 		case IDENNEMI_SMURF_FARCEUR:
-			enn = new EnnemiSmurfFarceur();
+			enn = new EnemySmurfJokey();
 			break;
 
 		case IDENNEMI_SMURF_SAUVAGE:
-			enn = new EnnemiSmurfSauvage();
+			enn = new EnemySmurfWild();
 			break;
 
 		case IDENNEMI_SMURF_PAYSAN:
-			enn = new EnnemiSmurfPaysan();
+			enn = new EnemySmurfFarmer();
 			break;
 
 		case IDENNEMI_SMURCOSTAUD:
-			enn = new EnnemiSmurfCostaud();
+			enn = new EnemySmurfHefty();
 			break;
 
 		case IDENNEMI_SMURFETTE:
-			enn = new EnnemiSmurfette();
+			enn = new EnemySmurfette();
 			break;
 
 		case IDENNEMI_GRANDSMURF:
-			enn = new EnnemiGrandSmurf();
+			enn = new EnemyPapaSmurf();
 			break;
 
 		case IDENNEMI_CIGOGNE:
-			enn = new EnnemiSmurfCigogne();
+			enn = new EnemySmurfStork();
 			break;
 
 		case IDENNEMI_PIKACHU:
-			enn = new EnnemiPikachu();
+			enn = new EnemyPikachu();
 			break;
 
 		case IDENNEMI_BULBIZARRE:
-			enn = new EnnemiBulbizarre();
+			enn = new EnemyBulbizarre();
 			break;
 
 		case IDENNEMI_FLAMECHE:
-			enn = new EnnemiFlameche();
+			enn = new EnemyEmber();
 			break;
 
 		case IDENNEMI_COM:
-			enn = new EnnemiCOM();
+			enn = new EnemyCOM();
 			break;
 
 		case IDENNEMI_BISOUCIEL:
-			enn = new EnnemiBisouCiel();
+			enn = new EnemyBisouSky();
 			break;
 
 		case IDENNEMI_BISOUETOILE:
-			enn = new EnnemiBisouEtoile();
+			enn = new EnemyBisouStar();
 			break;
 
 		case IDENNEMI_BISOUBOOM:
-			enn = new EnnemiBisouBoom();
+			enn = new EnemyBisouBoom();
 			break;
 
 		case IDENNEMI_BISOUNUAGE:
-			enn = new EnnemiBisouNuage();
+			enn = new EnemyBisouCloud();
 			break;
 
 		case IDENNEMI_BISOUZOMBI:
-			enn = new EnnemiBisouZombi();
+			enn = new EnemyBisouZombie();
 			break;
 
 		case IDENNEMI_BISOUCHAMAN:
-			enn = new EnnemiBisouChaman();
+			enn = new EnemyBisouShaman();
 			break;
 
 		case IDENNEMI_BISOUCOEUR:
-			enn = new EnnemiBisouCoeur();
+			enn = new EnemyBisouHeart();
 			break;
 
 		case IDENNEMI_BISOUJEDI:
-			enn = new EnnemiBisouJedi();
+			enn = new EnemyBisouJedi();
 			break;
 
 		case IDENNEMI_BISOUJEDIHEROS:
-			enn = new EnnemiBisouJediHeros();
+			enn = new EnemyBisouJediHero();
 			break;
 
 		case IDENNEMI_BISOUSIB:
-			enn = new EnnemiBisouSIB();
+			enn = new EnemyBisouSIB();
 			break;
 
 		case IDENNEMI_LEMMINGS:
-			enn = new EnnemiLemmings();
+			enn = new EnemyLemmings();
 			break;
 
 		case IDENNEMI_LEMMINGS_VOLANT:
-			enn = new EnnemiLemmingsVolant();
+			enn = new EnemyLemmingsFlying();
 			break;
 
 		case IDENNEMI_COM_VOLANT:
-			enn = new EnnemiCOMVolant();
+			enn = new EnemyCOMFlying();
 			break;
 
 		case IDENNEMI_SNORKY_BASE_1:
-			enn = new EnnemiSnorkyBase1();
+			enn = new EnemySnorkyBase1();
 			break;
 
 		case IDENNEMI_SNORKY_BASE_2:
-			enn = new EnnemiSnorkyBase2();
+			enn = new EnemySnorkyBase2();
 			break;
 
 		case IDENNEMI_SNORKY_GOUVERNEUR:
-			enn = new EnnemiSnorkyGouverneur();
+			enn = new EnemySnorkyGovernor();
 			break;
 
 		case IDENNEMI_SNORKY_MAGE:
-			enn = new EnnemiSnorkyMage();
+			enn = new EnemySnorkyMage();
 			break;
 
 		case IDENNEMI_SNORKY_RIDER:
-			enn = new EnnemiSnorkyHyporider();
+			enn = new EnemySnorkyHyporider();
 			break;
 
 		case IDENNEMI_DIABOLO:
-			enn = new EnnemiDiabolo();
+			enn = new EnemyDiabolo();
 			break;
 
 		case IDENNEMI_SNORK_IN_BLACK:
-			enn = new EnnemiSnorkInBlack();
+			enn = new EnemySnorkInBlack();
 			break;
 
 		case IDENNEMI_SNORK_IN_BLACK_BOSS:
-			enn = new EnnemiSnorkInBlackBoss();
+			enn = new EnemySnorkInBlackBoss();
 			break;
 
 		case IDENNEMI_TOAD:
-			enn = new EnnemiToad();
+			enn = new EnemyToad();
 			break;
 
 		case IDENNEMI_YOSHI:
-			enn = new EnnemiYoshi();
+			enn = new EnemyYoshi();
 			break;
 
 		case IDENNEMI_YOSHI_DCA:
-			enn = new EnnemiYoshiDCA();
+			enn = new EnemyYoshiAntiair();
 			break;
 
 		case IDENNEMI_PRINCESSE:
-			enn = new EnnemiPrincesse();
+			enn = new EnemyPrincess();
 			break;
 
 		case IDENNEMI_TAILS:
-			enn = new EnnemiTails();
+			enn = new EnemyTails();
 			break;
 
 		case IDENNEMI_KNUKLES:
-			enn = new EnnemiKnukles();
+			enn = new EnemyKnuckles();
 			break;
 
 		case IDENNEMI_RAYMAN:
-			enn = new EnnemiRayman();
+			enn = new EnemyRayman();
 			break;
 
 		case IDENNEMI_TAILSVOLANT:
-			enn = new EnnemiTailsvolant();
+			enn = new EnemyTailsFlying();
 			break;
 
 		case IDENNEMI_LUIGI:
-			enn = new EnnemiLuigi();
+			enn = new EnemyLuigi();
 			break;
 
 		case IDENNEMI_SONIC:
-			enn = new EnnemiSonic();
+			enn = new EnemySonic();
 			break;
 
 		case IDENNEMI_MARIO_TAPETTE:
-			enn = new EnnemiMariotapette();
+			enn = new EnemyMarioSwatter();
 			break;
 
 		case IDENNEMI_LARA:
-			enn = new EnnemiLara();
+			enn = new EnemyLara();
 			break;
 
 		case IDENNEMI_PIC:
-			enn = new EnnemiPic();
+			enn = new EnemySpikes();
 			break;
 
 		case IDENNEMI_POID:
-			enn = new EnnemiPoid();
+			enn = new EnemyWeight();
 			break;
 
 		case IDENNEMI_MARIO:
-			enn = new EnnemiMario();
+			enn = new EnemyMario();
 			break;
 	}
 

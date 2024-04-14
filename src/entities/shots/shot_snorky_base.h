@@ -4,13 +4,13 @@
 
 #define DELAY_ACCELERATION 20
 
-class TirSnorkybase : public Tir {
+class ShotSnorkyBase : public Shot {
    public:
 	int oscilation_etape;
 	int speed_etape;
 	int dx;
 
-	TirSnorkybase(int vx);
+	ShotSnorkyBase(int vx);
 
 	virtual int degats() const { return 1; };
 

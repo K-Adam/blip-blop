@@ -6,12 +6,12 @@ const int rocher2_levitation[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
 const int rocher2_animation[] = {57, 58, 58, 59, 59, 59, 60, 60, 60, 60, 60, 59, 59, 59, 58, 58,
 								 57, 61, 61, 62, 62, 62, 63, 63, 63, 63, 63, 62, 62, 62, 61, 61};
 
-FondRocher2::FondRocher2() : etape_levitation(0), ss_etape_levitation(0) {
+BackgroundRock2::BackgroundRock2() : etape_levitation(0), ss_etape_levitation(0) {
 	pic = pbk_niveau[38];
 	dy = 0;
 }
 
-void FondRocher2::update() {
+void BackgroundRock2::update() {
 	pic = pbk_niveau[anime(rocher2_animation, 32, 4)];
 
 	ss_etape_levitation++;
@@ -29,7 +29,7 @@ void FondRocher2::update() {
 
 	// Si un joueur est sur la plateforme, on le déplace
 
-	for (Couille* joueur : list_joueurs) {
+	for (Ball* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
 		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && plat(xtmp, joueur->y) == y - 25) {

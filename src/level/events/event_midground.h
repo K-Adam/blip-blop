@@ -2,7 +2,7 @@
 
 #include "level/events/event.h"
 
-class EventMiFond : public Event {
+class EventMidground : public Event {
    public:
 	int id;
 	int x;

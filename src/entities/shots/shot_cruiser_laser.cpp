@@ -1,12 +1,12 @@
 #include "entities/shots/shot_cruiser_laser.h"
 
-TirCruiserLaser::TirCruiserLaser(int vx, int nb_pic) : dx(vx) {
+ShotCruiserLaser::ShotCruiserLaser(int vx, int nb_pic) : dx(vx) {
 	pic = pbk_niveau[nb_pic];
 	etape = 0;
 	ss_etape = 2;
 }
 
-void TirCruiserLaser::update() {
+void ShotCruiserLaser::update() {
 	ss_etape++;
 	ss_etape %= 4;
 	if (ss_etape == 0) etape++;

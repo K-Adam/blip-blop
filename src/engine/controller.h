@@ -1,11 +1,11 @@
 #pragma once
 
-class Controlor {
+class Controller {
    protected:
 	bool inertia_on;
 
    public:
-	Controlor() : inertia_on(true){};
+	Controller() : inertia_on(true){};
 
 	virtual int gauche() const = 0;
 	virtual int haut() const = 0;

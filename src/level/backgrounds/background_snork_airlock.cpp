@@ -2,11 +2,11 @@
 #include "level/backgrounds/background_snork_airlock.h"
 #include "entities/enemies/enemy.h"
 
-int FondSnorkSas1::etat = 0;  // 0 pour etat du sas 1 ouvert , 1 pour fermé
+int BackgroundSnorkAirlock1::etat = 0;	// 0 pour etat du sas 1 ouvert , 1 pour fermé
 
-FondSnorkSas1::FondSnorkSas1() : nb_joueur(0) { etape = 0; }
+BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : nb_joueur(0) { etape = 0; }
 
-void FondSnorkSas1::update() {
+void BackgroundSnorkAirlock1::update() {
 	if (!etat) {  // si le sas n'est pas fermé..
 		if ((tete_turc != NULL) && (tete_turc->x > 1400)) {
 			nb_joueur++;
@@ -42,7 +42,7 @@ void FondSnorkSas1::update() {
 	}
 }
 
-void FondSnorkSas1::affiche() {
+void BackgroundSnorkAirlock1::affiche() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;
@@ -72,11 +72,11 @@ void FondSnorkSas1::affiche() {
 	backSurface->BltFast(x - offset + decalage, y, surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
 }
 
-FondSnorkSas2::FondSnorkSas2() { etape = 222; }
+BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { etape = 222; }
 
-void FondSnorkSas2::update() {
+void BackgroundSnorkAirlock2::update() {
 	// si le sas 1 est verouillé...
-	if ((FondSnorkSas1::etat) && (etape > 0)) {
+	if ((BackgroundSnorkAirlock1::etat) && (etape > 0)) {
 		etape--;
 	}
 
@@ -90,7 +90,7 @@ void FondSnorkSas2::update() {
 	}
 }
 
-void FondSnorkSas2::affiche() {
+void BackgroundSnorkAirlock2::affiche() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;

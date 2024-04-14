@@ -7,7 +7,7 @@
 #define KNUKLES_JUMP_SPEED 12
 #define KNUKLES_GRAVITE_MAX 7
 
-class EnnemiKnukles : public Ennemi {
+class EnemyKnuckles : public Enemy {
    private:
 	int speed;		  // vitesse courante
 	int etape_speed;  // delai d'acceleration
@@ -15,7 +15,7 @@ class EnnemiKnukles : public Ennemi {
 	int wait_for_charge;
 
    public:
-	EnnemiKnukles();
+	EnemyKnuckles();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
@@ -23,6 +23,6 @@ class EnnemiKnukles : public Ennemi {
 	virtual void onCarbonise();
 	virtual void onCharge();
 	virtual void onSaute();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 	virtual void tombe();
 };

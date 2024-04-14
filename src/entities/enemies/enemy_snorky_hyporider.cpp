@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_snorky_hyporider.h"
 #include "entities/piece_snorky_head.h"
 
-EnnemiSnorkyHyporider::EnnemiSnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_etape(0) {
+EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_etape(0) {
 	pv = 350;
 	dy = 0;
 }
 
-void EnnemiSnorkyHyporider::update() {
+void EnemySnorkyHyporider::update() {
 	switch (etat) {
 		case ETAT_TOMBE:
 		case ETAT_SAUTE:
@@ -32,7 +32,7 @@ void EnnemiSnorkyHyporider::update() {
 	updateADetruire();
 }
 
-void EnnemiSnorkyHyporider::onAvance() {
+void EnemySnorkyHyporider::onAvance() {
 	wait_for_charge++;
 	if ((wait_for_charge > charge_delay) && ((dir == SENS_DROITE && x > offset + 80) || (dir == SENS_GAUCHE && x < offset + 560))) {
 		wait_for_charge = 0;
@@ -68,7 +68,7 @@ void EnnemiSnorkyHyporider::onAvance() {
 	colFromPic();
 }
 
-void EnnemiSnorkyHyporider::onMeure() {
+void EnemySnorkyHyporider::onMeure() {
 	ss_etape += 1;
 	if (etape < 7) {
 		ss_etape %= 3;
@@ -81,9 +81,9 @@ void EnnemiSnorkyHyporider::onMeure() {
 	if (etape == 7 && ss_etape == 0) {
 		Sprite* s;
 		if (dir == SENS_DROITE) {
-			s = new MorceauSnorkyHyporidercorp(-1);
+			s = new PieceSnorkyHyporiderBody(-1);
 		} else {
-			s = new MorceauSnorkyHyporidercorp(1);
+			s = new PieceSnorkyHyporiderBody(1);
 		}
 
 		s->dir = dir;
@@ -115,7 +115,7 @@ void EnnemiSnorkyHyporider::onMeure() {
 	}
 }
 
-void EnnemiSnorkyHyporider::onCharge() {
+void EnemySnorkyHyporider::onCharge() {
 	ss_etape++;
 	ss_etape %= 2;
 
@@ -165,7 +165,7 @@ void EnnemiSnorkyHyporider::onCharge() {
 	colFromPic();
 }
 
-void EnnemiSnorkyHyporider::onCarbonise() {
+void EnemySnorkyHyporider::onCarbonise() {
 	nageoire = 0;
 	ss_etape++;
 	ss_etape %= 4;
@@ -185,7 +185,7 @@ void EnnemiSnorkyHyporider::onCarbonise() {
 	}
 }
 
-void EnnemiSnorkyHyporider::affiche() {
+void EnemySnorkyHyporider::affiche() {
 	Sprite::affiche();
 
 	if ((etat == ETAT_CARBONISE) && (etape < 9)) {
@@ -205,11 +205,11 @@ void EnnemiSnorkyHyporider::affiche() {
 	}
 }
 
-void EnnemiSnorkyHyporider::estTouche(Tir* tir) {
+void EnemySnorkyHyporider::estTouche(Shot* tir) {
 	static const int dx_giclure_hyporider[] = {0, 0, 7, 3, 0, -3, -7, 0};
 	static const int dy_giclure_hyporider[] = {-15, -15, -15, -25, -25, -25, -15, -15};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure_hyporider, dy_giclure_hyporider);
 
 	if (etat == ETAT_MEURE) {

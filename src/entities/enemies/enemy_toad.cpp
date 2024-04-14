@@ -7,12 +7,12 @@ static int wait_brain_hurts = 1000;
 static bool local_phase;
 static int brain_hurts = 9;
 
-EnnemiToad::EnnemiToad() : speed(0), etape_speed(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
+EnemyToad::EnemyToad() : speed(0), etape_speed(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
 	tresor = 7;
 	pv = 300;
 }
 
-void EnnemiToad::update() {
+void EnemyToad::update() {
 	if (local_phase != phase) {
 		wait_brain_hurts++;
 		local_phase = phase;
@@ -47,7 +47,7 @@ void EnnemiToad::update() {
 	updateADetruire();
 }
 
-void EnnemiToad::onAvance() {
+void EnemyToad::onAvance() {
 	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
@@ -109,7 +109,7 @@ void EnnemiToad::onAvance() {
 	colFromPic();
 }
 
-void EnnemiToad::onMeure() {
+void EnemyToad::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -143,7 +143,7 @@ void EnnemiToad::onMeure() {
 	}
 }
 
-void EnnemiToad::onCharge() {
+void EnemyToad::onCharge() {
 	speed = TOAD_CHARGE_SPEED;
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -186,7 +186,7 @@ void EnnemiToad::onCharge() {
 	colFromPic();
 }
 
-void EnnemiToad::onSaute() {
+void EnemyToad::onSaute() {
 	int yp;
 
 	tombe();
@@ -213,7 +213,7 @@ void EnnemiToad::onSaute() {
 	colFromPic();
 }
 
-void EnnemiToad::onCarbonise() {
+void EnemyToad::onCarbonise() {
 	tombe();
 	ss_etape++;
 	ss_etape %= 5;
@@ -232,11 +232,11 @@ void EnnemiToad::onCarbonise() {
 	}
 }
 
-void EnnemiToad::estTouche(Tir* tir) {
+void EnemyToad::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Ennemi::estTouche(tir);
+	Enemy::estTouche(tir);
 	gicle(tir, dx_giclure, dy_giclure);
 
 	if (etat == ETAT_MEURE) {

@@ -2,8 +2,8 @@
 #include "level/events/event_midground.h"
 #include "level/backgrounds/background_static.h"
 
-void EventMiFond::doEvent() {
-	Sprite* s = new FondStatique();
+void EventMidground::doEvent() {
+	Sprite* s = new BackgroundStatic();
 
 	s->x = x;
 	s->y = y;

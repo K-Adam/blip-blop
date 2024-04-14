@@ -2,12 +2,12 @@
 
 #include "entities/sprite.h"
 
-class GorePiedsBisouEtoile : public Sprite {
+class GoreFeetBisouStar : public Sprite {
    public:
 	int etat;
 	int nb;
 
-	GorePiedsBisouEtoile() : etat(0), nb(0) {}
+	GoreFeetBisouStar() : etat(0), nb(0) {}
 
 	virtual void update() {
 		static const int anim_droite[] = {97, 98, 99, 98};

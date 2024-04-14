@@ -3,13 +3,13 @@
 #include "entities/make_bonus.h"
 #include "entities/splatter.h"
 
-Personnage* tete_turc;
+Character* tete_turc;
 int wait_for_bonus;
 int num_giclure;
 
-Ennemi::Ennemi() : xmin(offset), blood(0), tresor(5) {}
+Enemy::Enemy() : xmin(offset), blood(0), tresor(5) {}
 
-void Ennemi::estTouche(Tir* tir) {
+void Enemy::estTouche(Shot* tir) {
 	int blessure = tir->degats();
 
 	if (blessure < pv) {
@@ -57,10 +57,10 @@ void Ennemi::estTouche(Tir* tir) {
 	}
 }
 
-void Ennemi::gicle(const Tir* tir, const int* dxg, const int* dyg) {
+void Enemy::gicle(const Shot* tir, const int* dxg, const int* dyg) {
 	if (blood > 0 || tir->enflame()) return;
 
-	Giclure* gicle = new Giclure();
+	Splatter* gicle = new Splatter();
 
 	gicle->pere = this;
 	int d = gicle->dir = tir->getGiclureDir();
@@ -72,7 +72,7 @@ void Ennemi::gicle(const Tir* tir, const int* dxg, const int* dyg) {
 	list_giclures.emplace_back(gicle);
 }
 
-void Ennemi::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const {
+void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const {
 	int netape = 0;
 	int ddx = xci - xtir;
 

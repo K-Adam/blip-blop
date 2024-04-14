@@ -2,7 +2,7 @@
 
 #include "level/events/event.h"
 
-class EventGenEnnemi : public Event {
+class EventEnemyGenerator : public Event {
    public:
 	int x;
 	int y;

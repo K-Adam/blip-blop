@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_ember_hero.h"
 
-EnnemiFlamecheHeros::EnnemiFlamecheHeros() : dorkeball(2) {
+EnemyEmberHero::EnemyEmberHero() : dorkeball(2) {
 	pv = 1000;
 	dy = -7;
 	dx = -1;
 }
 
-void EnnemiFlamecheHeros::update() {
+void EnemyEmberHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		tombe();
@@ -61,7 +61,7 @@ void EnnemiFlamecheHeros::update() {
 	}
 }
 
-void EnnemiFlamecheHeros::onAvance() {
+void EnemyEmberHero::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -88,7 +88,7 @@ void EnnemiFlamecheHeros::onAvance() {
 	colFromPic();
 }
 
-void EnnemiFlamecheHeros::onMeure() {
+void EnemyEmberHero::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -107,12 +107,12 @@ void EnnemiFlamecheHeros::onMeure() {
 	}
 }
 
-void EnnemiFlamecheHeros::estTouche(Tir* tir) {
+void EnemyEmberHero::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (dorkeball == 0) {
-		Ennemi::estTouche(tir);
+		Enemy::estTouche(tir);
 		gicle(tir, dx_giclure, dy_giclure);
 	}
 }

@@ -1,13 +1,13 @@
 #include "entities/enemies/enemy_pikachu_hero.h"
 
-EnnemiPikachuHeros::EnnemiPikachuHeros() : dorkeball(2) {
+EnemyPikachuHero::EnemyPikachuHero() : dorkeball(2) {
 	pv = 1500;
 	dy = -8;
 	dx = -2;
 	tresor = 100;
 }
 
-void EnnemiPikachuHeros::update() {
+void EnemyPikachuHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		tombe();
@@ -63,7 +63,7 @@ void EnnemiPikachuHeros::update() {
 	}
 }
 
-void EnnemiPikachuHeros::onAvance() {
+void EnemyPikachuHero::onAvance() {
 	tombe();
 
 	ss_etape += 1;
@@ -90,7 +90,7 @@ void EnnemiPikachuHeros::onAvance() {
 	colFromPic();
 }
 
-void EnnemiPikachuHeros::onMeure() {
+void EnemyPikachuHero::onMeure() {
 	tombe();
 
 	ss_etape += 1;
@@ -113,12 +113,12 @@ void EnnemiPikachuHeros::onMeure() {
 	}
 }
 
-void EnnemiPikachuHeros::estTouche(Tir* tir) {
+void EnemyPikachuHero::estTouche(Shot* tir) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (dorkeball == 0) {
-		Ennemi::estTouche(tir);
+		Enemy::estTouche(tir);
 		gicle(tir, dx_giclure, dy_giclure);
 	}
 }

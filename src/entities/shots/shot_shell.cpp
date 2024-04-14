@@ -1,12 +1,12 @@
 #include "entities/shots/shot_shell.h"
 #include "core/debug.h"
 
-TirCarapace::TirCarapace() {
+ShotShell::ShotShell() {
 	pic = pbk_ennemis[58];
 	rebond = false;
 }
 
-void TirCarapace::update() {
+void ShotShell::update() {
 	tombe();
 
 	ss_etape++;

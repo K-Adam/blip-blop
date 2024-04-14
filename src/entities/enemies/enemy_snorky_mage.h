@@ -4,14 +4,14 @@
 
 #define SNORKY_MAGE_SPEED 1
 
-class EnnemiSnorkyMage : public Ennemi {
+class EnemySnorkyMage : public Enemy {
    public:
 	int wait_for_shoot;
 	int shoot_delay;
 	int oscilation_etape;
 	int concentration;
 
-	EnnemiSnorkyMage();
+	EnemySnorkyMage();
 
 	virtual void update();
 	virtual void onAvance();
@@ -20,5 +20,5 @@ class EnnemiSnorkyMage : public Ennemi {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

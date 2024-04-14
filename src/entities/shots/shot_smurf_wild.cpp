@@ -1,8 +1,8 @@
 #include "entities/shots/shot_smurf_wild.h"
 
-TirSmurfSauvage::TirSmurfSauvage() { pic = pbk_ennemis[144]; }
+ShotSmurfWild::ShotSmurfWild() { pic = pbk_ennemis[144]; }
 
-void TirSmurfSauvage::update() {
+void ShotSmurfWild::update() {
 	x += dx;
 	y += dy;
 

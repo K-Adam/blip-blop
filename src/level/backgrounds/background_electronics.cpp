@@ -1,7 +1,7 @@
 #include "core/globals.h"
 #include "level/backgrounds/background_electronics.h"
 
-void FondElectronic1::update() {
+void BackgroundElectronic1::update() {
 	ss_etape += 1;
 	ss_etape %= 2;
 	if (ss_etape == 0) {
@@ -11,12 +11,12 @@ void FondElectronic1::update() {
 	pic = pbk_niveau[27 + etape];
 }
 
-void FondElectronic1::affiche() {
+void BackgroundElectronic1::affiche() {
 	Sprite::affiche();
 	draw(x, y, pbk_niveau[42]);
 }
 
-void FondElectronic2::update() {
+void BackgroundElectronic2::update() {
 	ss_etape += 1;
 	ss_etape %= 2;
 	if (ss_etape == 0) {
@@ -26,12 +26,12 @@ void FondElectronic2::update() {
 	pic = pbk_niveau[27 + etape];
 }
 
-void FondElectronic2::affiche() {
+void BackgroundElectronic2::affiche() {
 	Sprite::affiche();
 	draw(x, y, pbk_niveau[44]);
 }
 
-void FondElectronic3::update() {
+void BackgroundElectronic3::update() {
 	ss_etape += 1;
 	ss_etape %= 2;
 	if (ss_etape == 0) {
@@ -41,12 +41,12 @@ void FondElectronic3::update() {
 	pic = pbk_niveau[27 + etape];
 }
 
-void FondElectronic3::affiche() {
+void BackgroundElectronic3::affiche() {
 	Sprite::affiche();
 	draw(x, y, pbk_niveau[43]);
 }
 
-void FondElectronic4::update() {
+void BackgroundElectronic4::update() {
 	ss_etape += 1;
 	ss_etape %= 2;
 	if (ss_etape == 0) {

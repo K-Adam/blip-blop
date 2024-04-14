@@ -4,13 +4,13 @@
 
 #define LATENCE_POING 8
 
-class TirRaymanpoing : public Tir {
+class ShotRaymanFist : public Shot {
    public:
 	int dx;
 	int x_cible;
 	int n_pic;
 
-	TirRaymanpoing(int dx0, int xc);
+	ShotRaymanFist(int dx0, int xc);
 
 	virtual int degats() const { return 1; };
 

@@ -2,9 +2,9 @@
 
 #include "entities/shots/shot.h"
 
-class TirSoniceclair : public Tir {
+class ShotSonicLightning : public Shot {
    public:
-	TirSoniceclair();
+	ShotSonicLightning();
 
 	virtual int degats() const { return 1; };
 

@@ -4,12 +4,12 @@
 
 #define DELAY_ACCELERATION 8
 
-class TirMarioFireball : public Tir {
+class ShotMarioFireball : public Shot {
    public:
 	int speed_etape;
 	int dx;
 
-	TirMarioFireball(int vx);
+	ShotMarioFireball(int vx);
 
 	virtual int degats() const { return 1; };
 

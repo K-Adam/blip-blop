@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_com_flying.h"
 
-EnnemiCOMVolant::EnnemiCOMVolant() : speed(0), attack(true) {
+EnemyCOMFlying::EnemyCOMFlying() : speed(0), attack(true) {
 	pv = 100;
 	if (tete_turc != NULL) {
 		y_cible = tete_turc->y;
@@ -10,7 +10,7 @@ EnnemiCOMVolant::EnnemiCOMVolant() : speed(0), attack(true) {
 	}
 }
 
-void EnnemiCOMVolant::update() {
+void EnemyCOMFlying::update() {
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -26,7 +26,7 @@ void EnnemiCOMVolant::update() {
 	updateADetruire();
 }
 
-void EnnemiCOMVolant::onAvance() {
+void EnemyCOMFlying::onAvance() {
 	ss_etape += 1;
 	ss_etape %= 8;
 
@@ -95,7 +95,7 @@ void EnnemiCOMVolant::onAvance() {
 	colFromPic();
 }
 
-void EnnemiCOMVolant::onMeure() {
+void EnemyCOMFlying::onMeure() {
 	if (ss_etape == 0 && etape == 0) {
 		sbk_niveau.play(6);
 	}

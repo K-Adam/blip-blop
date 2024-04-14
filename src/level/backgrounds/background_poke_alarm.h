@@ -2,7 +2,7 @@
 
 #include "entities/sprite.h"
 
-class FondPokeAlarme1 : public Sprite {
+class BackgroundPokeAlarm1 : public Sprite {
    public:
 	virtual void update() {
 		ss_etape += 1;
@@ -18,7 +18,7 @@ class FondPokeAlarme1 : public Sprite {
 	};
 };
 
-class FondPokeAlarme2 : public Sprite {
+class BackgroundPokeAlarm2 : public Sprite {
    public:
 	virtual void update() {
 		ss_etape += 1;
@@ -34,7 +34,7 @@ class FondPokeAlarme2 : public Sprite {
 	};
 };
 
-class FondPokeAlarme3 : public Sprite {
+class BackgroundPokeAlarm3 : public Sprite {
    public:
 	virtual void update() {
 		ss_etape += 1;

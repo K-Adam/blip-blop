@@ -2,11 +2,11 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnnemiFlameche : public Ennemi {
+class EnemyEmber : public Enemy {
    public:
-	EnnemiFlameche();
+	EnemyEmber();
 	virtual void update();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Tir* tir);
+	virtual void estTouche(Shot* tir);
 };

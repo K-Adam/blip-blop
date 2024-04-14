@@ -4,11 +4,11 @@
 
 #define DEBOUCHE_CHIOTE_SPEED 10
 
-class TirDebouchechiote : public Tir {
+class ShotPlunger : public Shot {
    public:
 	int dx;
 
-	TirDebouchechiote(int n_pbk_ennemis, int vx, int vy);
+	ShotPlunger(int n_pbk_ennemis, int vx, int vy);
 
 	virtual int degats() const { return 1; };
 

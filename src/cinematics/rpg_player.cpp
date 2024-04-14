@@ -98,8 +98,8 @@ bool RPGPlayer::startPlay(int n) {
 
 	int i = 0;
 
-	for (Couille* c : list_joueurs) {
-		if (c->id_couille == ID_BLIP)
+	for (Ball* c : list_joueurs) {
+		if (c->id_ball == ID_BLIP)
 			base_joueur[i] = 0;
 		else
 			base_joueur[i] = 6;

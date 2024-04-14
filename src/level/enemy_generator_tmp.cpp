@@ -6,14 +6,14 @@
 #define SENS_DROITE 1
 #endif
 
-void GenEnnemiTMP::update() {
+void EnemyGeneratorTMP::update() {
 	if (game_flag[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
 	t %= periode;
 
 	if (t == 0) {
-		EventEnnemi e;
+		EventEnemy e;
 
 		e.id_ennemi = id_ennemi;
 		e.sens = sens;

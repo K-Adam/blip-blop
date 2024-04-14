@@ -2,12 +2,12 @@
 
 #include "entities/shots/shot.h"
 
-class TirSmurfSauvage : public Tir {
+class ShotSmurfWild : public Shot {
    public:
 	int dx;
 	int dy;
 
-	TirSmurfSauvage();
+	ShotSmurfWild();
 	virtual int degats() const { return 1; };
 
 	virtual int enflame() const { return 0; };

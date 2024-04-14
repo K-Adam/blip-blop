@@ -5,12 +5,12 @@
 
 #include "core/constants.h"
 
-class TirBB : public Tir {
+class ShotBB : public Shot {
    public:
-	Joueur* joueur;
+	Player* joueur;
 	int dxReferentiel;
 
-	TirBB() : dxReferentiel(0){};
+	ShotBB() : dxReferentiel(0){};
 	virtual int degats() const = 0;
 	virtual int enflame() const = 0;
 

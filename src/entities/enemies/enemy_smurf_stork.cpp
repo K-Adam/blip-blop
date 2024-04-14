@@ -1,13 +1,13 @@
 #include "entities/enemies/enemy_smurf_stork.h"
 #include "core/math_utils.h"
 
-EnnemiSmurfCigogne::EnnemiSmurfCigogne() {
+EnemySmurfStork::EnemySmurfStork() {
 	pic = pbk_ennemis[355];
 	noCol();
 	first = true;
 }
 
-void EnnemiSmurfCigogne::update() {
+void EnemySmurfStork::update() {
 	if (first) {
 		base_y = y;
 		x -= 100;

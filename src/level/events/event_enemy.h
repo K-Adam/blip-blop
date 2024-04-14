@@ -3,7 +3,7 @@
 #include "level/events/event.h"
 #include "core/globals.h"
 
-class EventEnnemi : public Event {
+class EventEnemy : public Event {
    public:
 	int x;
 	int y;

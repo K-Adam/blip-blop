@@ -1,6 +1,6 @@
 #pragma once
 
-class TirArcCiel : public Tir {
+class ShotRainbow : public Shot {
    public:
 	virtual void update() {
 		ss_etape += 1;

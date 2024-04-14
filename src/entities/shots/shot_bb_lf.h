@@ -3,7 +3,7 @@
 #include "entities/player.h"
 #include "entities/shots/shot_bb.h"
 
-class TirBBLF : public TirBB {
+class ShotBBLF : public ShotBB {
    public:
 	int type;
 	int dx;

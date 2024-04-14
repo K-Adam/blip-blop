@@ -1,9 +1,9 @@
 #include "level/backgrounds/background_poke_crate_platform_2.h"
 #include "core/math_utils.h"
 
-FondPokeCaissePlateforme2::FondPokeCaissePlateforme2() { pic = pbk_niveau[87]; }
+BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = pbk_niveau[87]; }
 
-void FondPokeCaissePlateforme2::update() {
+void BackgroundPokeCratePlatform2::update() {
 	if (y < 20) {  //-200
 		y += 3;
 	} else {

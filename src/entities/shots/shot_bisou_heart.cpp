@@ -1,9 +1,9 @@
 #include "entities/shots/shot_bisou_heart.h"
 #include "core/math_utils.h"
 
-TirCoeurBisou::TirCoeurBisou() : ok(false) { phi = rand() % 360; }
+ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rand() % 360; }
 
-void TirCoeurBisou::update() {
+void ShotBisouHeart::update() {
 	y += 1;
 
 	phi += 5;

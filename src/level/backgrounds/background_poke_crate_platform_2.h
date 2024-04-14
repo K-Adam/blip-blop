@@ -2,8 +2,8 @@
 
 #include "entities/sprite.h"
 
-class FondPokeCaissePlateforme2 : public Sprite {
+class BackgroundPokeCratePlatform2 : public Sprite {
    public:
-	FondPokeCaissePlateforme2();
+	BackgroundPokeCratePlatform2();
 	virtual void update();
 };
