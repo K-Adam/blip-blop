@@ -23,7 +23,12 @@ void Graphics::SetGfxMode(int x, int y, int d, bool fullscreen) {
 	fullscreen_ = fullscreen;
 	screen_.reset();
 	renderer_.reset();
+#ifdef __EMSCRIPTEN__
+	// The canvas keeps its 640x480 backing store and the page CSS scales it
+	Uint32 mode = fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+#else
 	Uint32 mode = fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_RESIZABLE;
+#endif
 	window_.reset(SDL_ErrWrap(SDL_CreateWindow("Blip&Blop", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN | mode)));
 
 	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, vSyncOn ? SDL_RENDERER_PRESENTVSYNC : 0)));
