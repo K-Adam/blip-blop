@@ -1818,11 +1818,11 @@ void Game::getName(Player* joueur, int ijoueur) {
 }
 
 void Game::showGameOver() {
-	int x = 400;
+	Chrono t;
 
 	mbk_inter.play(1);
 
-	while (!app_killed && x > 20 && !in.anyKeyPressed()) {
+	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
