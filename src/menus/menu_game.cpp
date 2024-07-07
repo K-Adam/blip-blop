@@ -10,7 +10,6 @@
 int MenuGame::Update() {
 	in.update();
 	MenuType next = MenuType(active_->ProcessEvent());
-	in.waitClean();
 
 	switch (next) {
 		case MenuType::Game_1:

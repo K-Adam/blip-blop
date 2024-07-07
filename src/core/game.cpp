@@ -148,6 +148,7 @@ void Game::jouePartie(int nbj, int idj) {
 		pbk[1]->PasteTo(backSurface, 0, 0);
 		DDFlip();
 
+		in.update();
 		if (!in.anyKeyPressed()) mbk2.play(0);
 
 		in.waitClean();
@@ -1285,6 +1286,9 @@ void Game::updateMenu() {
 			yieldToBrowser();
 		}
 
+		// The key that closed the menu must not reach the players
+		in.waitClean();
+
 		if (r == 2) skipped = true;
 
 		drawAll(false);
@@ -1823,6 +1827,7 @@ void Game::showGameOver() {
 	mbk_inter.play(1);
 
 	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
+		in.update();
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
@@ -1838,6 +1843,7 @@ void Game::showHighScores() {
 
 	Chrono scores_timer;
 	while (!app_killed && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
+		in.update();
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -1956,7 +1962,6 @@ void Game::go() {
 
 			auto selected = CharacterSelection::Output::Continue;
 			while (selected == CharacterSelection::Output::Continue && !app_killed) {
-				in.update();
 				selected = select.update();
 				select.draw();
 				DDFlipV();

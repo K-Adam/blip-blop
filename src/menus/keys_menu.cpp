@@ -35,7 +35,7 @@ std::string KeysMenu::KeyText(int n) const {
 }
 
 void KeysMenu::EditKey() {
-	state_ = State::WaitingKey;
+	state_ = State::WaitingRelease;
 	items_.ChangeEntry(items_.focused(), WaitText(items_.focused()));
 }
 
@@ -46,20 +46,18 @@ void KeysMenu::SetKey(int key) {
 }
 
 int KeysMenu::ProcessEvent() {
-	if (state_ == State::WaitingKey) {
-		int key = in.waitKey();
-		if (key) {
-			SetKey(key);
-		} else {
-			state_ = State::Browsing;
-		}
+	if (state_ == State::WaitingRelease) {
+		if (in.pressedCode() < 0) state_ = State::WaitingKey;
+	} else if (state_ == State::WaitingKey) {
+		int key = in.pressedCode();
+		if (key >= 0) SetKey(key);
 	} else {
-		if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
+		if (in.pressedKey(DIK_UP) || in.pressedAlias(ALIAS_P1_UP)) {
 			items_.MoveUp();
-		} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
+		} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(ALIAS_P1_DOWN)) {
 			items_.MoveDown();
 		}
-		if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
+		if (in.pressedKey(DIK_RETURN) || in.pressedAlias(ALIAS_P1_FIRE)) {
 			if (items_.focused() == items_.size() - 1) {
 				return MenuType::Options;
 			}

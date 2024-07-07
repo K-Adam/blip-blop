@@ -141,19 +141,28 @@ extern bool app_killed;
 
 class Input {
    private:
-	Pad pads[MAX_JOY];
-	char buffer[256] = {};
-	char specialsbuffer[0x1000] = {};
+	struct State {
+		Pad pads[MAX_JOY];
+		char buffer[256] = {};
+		char specialsbuffer[0x1000] = {};
+	};
+	State cur_, prev_;
 	unsigned int aliastab[256] = {};
 
-	int pressedCode() const;
+	static int scan(const State &s, unsigned int k);
 	unsigned int padDefault(int a) const;
 	Pad *padById(SDL_JoystickID id);
 
    public:
-	int scanKey(unsigned int k) const;
-
+	int scanKey(unsigned int k) const { return scan(cur_, k); }
 	int scanAlias(int a) const { return scanKey(aliastab[a]) || scanKey(padDefault(a)); }
+
+	// True only on the update where the key went down
+	bool pressedKey(unsigned int k) const { return scan(cur_, k) && !scan(prev_, k); }
+	bool pressedAlias(int a) const { return pressedKey(aliastab[a]) || pressedKey(padDefault(a)); }
+
+	// Code of the first key or pad button held, -1 if none
+	int pressedCode() const;
 	unsigned int getAlias(int n) const { return aliastab[n]; }
 
 	bool open();
@@ -164,7 +173,7 @@ class Input {
 	void waitClean();
 	void update();
 	void close();
-	bool anyKeyPressed();
+	bool anyKeyPressed() const;
 };
 
 #ifndef BENINPUT_CPP_FILE

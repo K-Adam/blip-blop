@@ -13,7 +13,7 @@ class KeysMenu : public AbstractMenu {
 	int ProcessEvent();
 
    private:
-	enum class State { WaitingKey, Browsing };
+	enum class State { WaitingRelease, WaitingKey, Browsing };
 	void EditKey();
 	void SetKey(int key);
 	std::string WaitText(int n) const;

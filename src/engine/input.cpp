@@ -20,13 +20,14 @@ bool Input::open() {
 }
 
 Pad* Input::padById(SDL_JoystickID id) {
-	for (Pad& p : pads) {
+	for (Pad& p : cur_.pads) {
 		if (p.ctrl && p.id == id) return &p;
 	}
 	return nullptr;
 }
 
 void Input::update() {
+	prev_ = cur_;
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
@@ -41,9 +42,9 @@ void Input::update() {
 				// Unicode keycodes of non Latin layouts would collide with pad codes
 				if (k >= 255 && !(k & SDLK_SCANCODE_MASK)) k = SDL_SCANCODE_TO_KEYCODE(e.key.keysym.scancode);
 				if (k >= 0 && k < 255) {
-					buffer[k] = down;
+					cur_.buffer[k] = down;
 				} else {
-					specialsbuffer[k & 0xFFF] = down;
+					cur_.specialsbuffer[k & 0xFFF] = down;
 				}
 				break;
 			}
@@ -51,7 +52,7 @@ void Input::update() {
 			case SDL_CONTROLLERDEVICEADDED: {
 				SDL_JoystickID id = SDL_JoystickGetDeviceInstanceID(e.cdevice.which);
 				if (padById(id)) break;
-				for (Pad& p : pads) {
+				for (Pad& p : cur_.pads) {
 					if (p.ctrl) continue;
 					p.ctrl = SDL_GameControllerOpen(e.cdevice.which);
 					if (p.ctrl) {
@@ -104,10 +105,10 @@ void Input::update() {
 
 int Input::pressedCode() const {
 	for (int i = 0; i < 255; i++) {
-		if (buffer[i]) return i;
+		if (cur_.buffer[i]) return i;
 	}
 	for (int i = 0; i < 0x1000; i++) {
-		if (specialsbuffer[i]) return i | 0x40000000;
+		if (cur_.specialsbuffer[i]) return i | 0x40000000;
 	}
 	for (int s = 0; s < MAX_JOY; s++) {
 		int base = (s + 1) << 10;
@@ -116,7 +117,7 @@ int Input::pressedCode() const {
 		}
 		for (int b = 0; b < PAD_BUTTONS; b++) {
 			bool dpad = b >= SDL_CONTROLLER_BUTTON_DPAD_UP && b <= SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
-			if (!dpad && pads[s].buttons[b]) return base + b;
+			if (!dpad && cur_.pads[s].buttons[b]) return base + b;
 		}
 	}
 	return -1;
@@ -143,16 +144,13 @@ void Input::waitClean() {
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }
 
 void Input::close() {
-	for (Pad& p : pads) {
+	for (Pad& p : cur_.pads) {
 		if (p.ctrl) SDL_GameControllerClose(p.ctrl);
 		p = Pad();
 	}
 }
 
-bool Input::anyKeyPressed() {
-	update();
-	return pressedCode() >= 0;
-}
+bool Input::anyKeyPressed() const { return pressedCode() >= 0; }
 
 // Pad N drives player N with a standard layout until a binding takes over that player or that pad
 unsigned int Input::padDefault(int a) const {
@@ -166,13 +164,13 @@ unsigned int Input::padDefault(int a) const {
 	return ((player + 1) << 10) | layout[i];
 }
 
-int Input::scanKey(unsigned int k) const {
+int Input::scan(const State& st, unsigned int k) {
 	if (k == 0) return 0;
 
 	int j = k >> 10 & 0xFF;
 	if (j > 0) {
 		if (j > MAX_JOY) return 0;
-		const Pad& p = pads[j - 1];
+		const Pad& p = st.pads[j - 1];
 		int b = k & 0x3FF;
 		switch (b) {
 			case JOY_UP:
@@ -190,12 +188,12 @@ int Input::scanKey(unsigned int k) const {
 	// Any pad can navigate, confirm and pause, so menus, cutscenes and the hi-score entry work without a keyboard
 	int joy = k == DIK_UP ? JOY_UP : k == DIK_DOWN ? JOY_DOWN : k == DIK_LEFT ? JOY_LEFT : k == DIK_RIGHT ? JOY_RIGHT : 0;
 	for (int s = 0; s < MAX_JOY; s++) {
-		const Pad& p = pads[s];
-		if (joy && scanKey(((s + 1) << 10) | joy)) return 1;
+		const Pad& p = st.pads[s];
+		if (joy && scan(st, ((s + 1) << 10) | joy)) return 1;
 		if (k == DIK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
 		if (k == DIK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
 	}
 
-	if (k < 255) return buffer[k];
-	return specialsbuffer[k & 0xFFF];
+	if (k < 255) return st.buffer[k];
+	return st.specialsbuffer[k & 0xFFF];
 }

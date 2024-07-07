@@ -29,15 +29,15 @@ void OptionsPanel::ToggleVsync() {
 }
 
 int OptionsPanel::ProcessEvent() {
-	if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
+	if (in.pressedKey(DIK_UP) || in.pressedAlias(ALIAS_P1_UP)) {
 		items_.MoveUp();
-	} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
+	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(ALIAS_P1_DOWN)) {
 		items_.MoveDown();
 	}
-	if (items_.focused() == 0 && (in.scanKey(DIK_RIGHT) || in.scanAlias(ALIAS_P1_RIGHT) || in.scanKey(DIK_LEFT) || in.scanAlias(ALIAS_P1_LEFT))) {
+	if (items_.focused() == 0 && (in.pressedKey(DIK_RIGHT) || in.pressedAlias(ALIAS_P1_RIGHT) || in.pressedKey(DIK_LEFT) || in.pressedAlias(ALIAS_P1_LEFT))) {
 		ToggleVsync();
 	}
-	if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
+	if (in.pressedKey(DIK_RETURN) || in.pressedAlias(ALIAS_P1_FIRE)) {
 		switch (items_.focused()) {
 			case 0:
 				ToggleVsync();

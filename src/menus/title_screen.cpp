@@ -15,10 +15,7 @@ void TitleScreen::start() {
 }
 
 int TitleScreen::update() {
-	in.update();
-
 	MenuType next = MenuType(active_menu_->ProcessEvent());
-	in.waitClean();
 
 	switch (next) {
 		case MenuType::Main:
