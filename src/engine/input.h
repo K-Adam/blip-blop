@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/task.h"
 #include "engine/graphics.h"
 
 /*SDL KEYS*/
@@ -168,9 +169,9 @@ class Input {
 	bool open();
 	void setAlias(int a, unsigned int val);
 
-	unsigned int waitKey();
+	Task<int> waitKey();
 
-	void waitClean();
+	Task<> waitClean();
 	void update();
 	void close();
 	bool anyKeyPressed() const;

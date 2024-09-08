@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core/task.h"
+
 #include <string>
 
 #include "engine/graphics.h"
@@ -92,11 +94,11 @@ class Game {
 	Game();
 
 	// jouePartie -> Faites chier la vache!
-	void jouePartie(int nbj, int idj);
+	Task<> jouePartie(int nbj, int idj);
 
 	// joueNiveau -> Balance les PEs! Retourne VRAI si les joueurs
 	// passent le niveau avec succès
-	bool joueNiveau(const char* nom_niveau, int type);
+	Task<bool> joueNiveau(const char* nom_niveau, int type);
 
 	// chargeNiveau -> Charge le niveau (appelé par joueNiveau)
 	bool chargeNiveau(const char* nom_niveau);
@@ -111,7 +113,7 @@ class Game {
 	void drawAll(bool flip = true);
 
 	// gameLoop -> let's burn!
-	void gameLoop();
+	Task<> gameLoop();
 
 	void releasePartie();
 
@@ -132,10 +134,10 @@ class Game {
 	void updateLock();
 	void updateHoldFire();
 	void updateTeteTurc();
-	void updateRPG();
+	Task<> updateRPG();
 	void updateFlags();
 	void updateVictoryAndDefeat();
-	void updateMenu();
+	Task<> updateMenu();
 	void updateCheat();
 	void manageCollisions();
 
@@ -154,17 +156,17 @@ class Game {
 	void drawDeformation();
 
 	void cleanLists();
-	void showPE(bool bonus, bool fuckOff = false);
+	Task<> showPE(bool bonus, bool fuckOff = false);
 	void drawLoading();
-	void getHiscore();
-	void getName(Player* joueur, int i);
-	void showGameOver();
-	void showHighScores();
+	Task<> getHiscore();
+	Task<> getName(Player* joueur, int i);
+	Task<> showGameOver();
+	Task<> showHighScores();
 
 	void showBriefing(const char* fn);
 
-	void showCredits(bool theEnd = false);
-	void showMainScreen();
+	Task<> showCredits(bool theEnd = false);
+	Task<> showMainScreen();
 
-	void go();
+	Task<> go();
 };

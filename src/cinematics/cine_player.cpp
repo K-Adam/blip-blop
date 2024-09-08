@@ -37,7 +37,7 @@ void CINEPlayer::initPlayer() {
 	delta_vol = 0;
 }
 
-bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2) {
+Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2) {
 	bool skiped = false;
 	initPlayer();
 
@@ -49,7 +49,7 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 	if (!input.good()) {
 		debug << "CINEPlayer -> Cannot open file " << dir << ".json"
 			  << "\n";
-		return false;
+		co_return false;
 	}
 
 	json data = json::parse(input);
@@ -99,8 +99,6 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 		update_regulator_.Skip();
 
 		while (frame_to_draw > 0 && !fini && !app_killed) {
-			in.update();
-
 			renderLoop();
 
 			if (in.scanKey(DIK_ESCAPE)) {
@@ -108,13 +106,13 @@ bool CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2)
 				skiped = true;
 			}
 
-			yieldToBrowser();
+			co_await nextFrame();
 		}
 	}
 
 	closePlayer();
 
-	return !skiped;
+	co_return !skiped;
 }
 
 void CINEPlayer::updateScene() {

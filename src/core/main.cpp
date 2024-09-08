@@ -254,7 +254,13 @@ int main(int argc, char** argv) {
 	debug << "Game.go"
 		  << "\n";
 
-	game.go();
+	Task<> root = game.go();
+	root.start();
+	while (!root.done()) {
+		in.update();
+		resumeFrame();
+		yieldToBrowser();
+	}
 
 	return 0;
 

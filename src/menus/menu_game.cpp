@@ -8,7 +8,6 @@
 #include "core/text_data.h"
 
 int MenuGame::Update() {
-	in.update();
 	MenuType next = MenuType(active_->ProcessEvent());
 
 	switch (next) {

@@ -6,6 +6,7 @@
 #include "engine/picture_bank.h"
 #include "engine/font.h"
 #include "engine/chrono.h"
+#include "core/task.h"
 #include "engine/update_regulator.h"
 
 #define OBJ_SPRITE 0
@@ -98,5 +99,5 @@ class CINEPlayer {
 
    public:
 	void loadPBK(const char* f);
-	bool playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2);
+	Task<bool> playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2);
 };

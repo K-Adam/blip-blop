@@ -115,12 +115,9 @@ void RPGPlayer::stopPlay() { fic_ = std::stringstream{}; }
 bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	bool not_finished = true;
 
-	in.update();
-
 	if (in.anyKeyPressed()) {
+		// The caller waits for the release once the dialog is over
 		if (in.scanKey(DIK_ESCAPE)) {
-			in.waitClean();
-
 			while (updateScene())
 				;
 

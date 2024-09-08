@@ -66,8 +66,8 @@ Character dummyPlayer;
 
 Game::Game() : next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
 
-void Game::jouePartie(int nbj, int idj) {
-	if (app_killed) return;
+Task<> Game::jouePartie(int nbj, int idj) {
+	if (app_killed) co_return;
 
 	CINEPlayer cine;
 	bool letsgo = true;
@@ -79,7 +79,7 @@ void Game::jouePartie(int nbj, int idj) {
 	// Charge Tout
 	if (!chargePartie()) {
 		releasePartie();
-		return;
+		co_return;
 	}
 
 	wait_for_death = 0;
@@ -111,7 +111,7 @@ void Game::jouePartie(int nbj, int idj) {
 
 	while (i < nb_part && letsgo && !app_killed) {
 		if (type_part[i] == PART_LEVEL) {
-			letsgo = joueNiveau(fic_names[i].c_str(), type_lvl[i]);
+			letsgo = co_await joueNiveau(fic_names[i].c_str(), type_lvl[i]);
 
 			if (!cowBombOn) {
 				if (player1 != NULL) player1->nb_cow_bomb = 1;
@@ -123,11 +123,11 @@ void Game::jouePartie(int nbj, int idj) {
 		} else if (type_part[i] == PART_BRIEFING) {
 			showBriefing(fic_names[i].c_str());
 		} else {
-			cine.playScene(fic_names[i].c_str(), primSurface, backSurface);
+			co_await cine.playScene(fic_names[i].c_str(), primSurface, backSurface);
 		}
 
 		i += 1;
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	if (letsgo && !app_killed) {
@@ -140,7 +140,7 @@ void Game::jouePartie(int nbj, int idj) {
 		mbk2.open("end.mbk", false);
 		cine.loadPBK("end.gfx");
 		mbk.play(1);
-		cine.playScene("end.cin", primSurface, backSurface);
+		co_await cine.playScene("end.cin", primSurface, backSurface);
 		mbk.stop();
 
 		pbk[1]->PasteTo(backSurface, 0, 0);
@@ -148,29 +148,28 @@ void Game::jouePartie(int nbj, int idj) {
 		pbk[1]->PasteTo(backSurface, 0, 0);
 		DDFlip();
 
-		in.update();
 		if (!in.anyKeyPressed()) mbk2.play(0);
 
-		in.waitClean();
-		in.waitKey();
-		in.waitClean();
+		co_await in.waitClean();
+		co_await in.waitKey();
+		co_await in.waitClean();
 		mbk2.stop();
 
 		mbk.play(0);
-		showCredits(true);
+		co_await showCredits(true);
 
 		pbk[0]->PasteTo(backSurface, 0, 0);
 		DDFlip();
 		pbk[0]->PasteTo(backSurface, 0, 0);
 		DDFlip();
 
-		in.waitClean();
-		in.waitKey();
-		in.waitClean();
+		co_await in.waitClean();
+		co_await in.waitKey();
+		co_await in.waitClean();
 
 		mbk.stop();
 
-		showPE(false);
+		co_await showPE(false);
 	}
 
 	// Désalloue tout
@@ -180,18 +179,18 @@ void Game::jouePartie(int nbj, int idj) {
 
 	if (!skipped && !app_killed) {
 		if (!letsgo) {
-			showGameOver();
+			co_await showGameOver();
 		}
 
-		getHiscore();
-		showHighScores();
+		co_await getHiscore();
+		co_await showHighScores();
 	}
 
 	player1.reset();
 	player2.reset();
 }
 
-bool Game::joueNiveau(const char* nom_niveau, int type) {
+Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	int p1_life;  // Si il s'agit d'un niveau bonus on
 	bool p1_bringBack;
 	int p2_life;  // conserve le nombre de vies des joueurs
@@ -224,7 +223,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 
 	clearTexteCool();
 
-	if (!chargeNiveau(nom_niveau)) return false;
+	if (!chargeNiveau(nom_niveau)) co_return false;
 
 	if (std::string_view(nom_niveau) == "lvl/snorkniv.lvl" || std::string_view(nom_niveau) == "lvl/snorkniv2.lvl") {
 		okLanceFlame = false;
@@ -339,7 +338,10 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	debug << "Now getting into game loop.\n";
 	debug << "---------------------------------------------------------------\n";
 
-	SDL_Delay(2000);
+	for (Chrono pause; pause.elapsed() < 2000 && !app_killed;) {
+		DDFlipV();
+		co_await nextFrame();
+	}
 
 	if (briefing) {
 		DDBLTFX ddfx{};
@@ -360,8 +362,8 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 		DDFlip();
 
 		mbk_inter.play(2);
-		in.waitClean();
-		in.waitKey();
+		co_await in.waitClean();
+		co_await in.waitKey();
 		briefing = false;
 	}
 
@@ -375,10 +377,10 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 
 	// Boucle principale
 	while (!joueurs_morts && !niveau_fini && !skipped && !app_killed) {
-		gameLoop();
+		co_await gameLoop();
 		updateVictoryAndDefeat();
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	if (joueurs_morts) debug << "Players died\n";
@@ -437,12 +439,12 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 				last_perfect2 = player2->perfect;
 			}
 
-			showPE((type == LVL_BONUS));
+			co_await showPE((type == LVL_BONUS));
 		} else if (type == LVL_BONUS) {
-			showPE(true, true);
+			co_await showPE(true, true);
 		}
 	} else if (type == LVL_BONUS) {
-		showPE(true, true);
+		co_await showPE(true, true);
 	}
 
 	drawAll(false);
@@ -452,7 +454,7 @@ bool Game::joueNiveau(const char* nom_niveau, int type) {
 	// Libére la mémoire
 	releaseNiveau();
 
-	return niveau_fini;
+	co_return niveau_fini;
 }
 
 bool Game::chargeNiveau(const char* nom_niveau) {
@@ -809,9 +811,6 @@ void Game::updateAll() {
 
 	if (phase) slow_phase = !slow_phase;
 
-	// Met à jour les touches
-	in.update();
-
 	// Ok bonus ?
 	okBonus = false;
 
@@ -868,10 +867,6 @@ void Game::updateAll() {
 
 	// Retire les trucs inutiles des listes
 	cleanLists();
-
-	updateMenu();
-
-	updateRPG();
 }
 
 void Game::drawAll(bool flip) {
@@ -949,11 +944,15 @@ void Game::drawAll(bool flip) {
 	}
 }
 
-void Game::gameLoop() {
+Task<> Game::gameLoop() {
 	int n_updates = update_regulator_.Step();
-	for (; n_updates > 0; --n_updates) {
+	// A dialog starts as soon as an event asks for it, like it did inside updateAll
+	for (; n_updates > 0 && rpg_to_play == -1; --n_updates) {
 		updateAll();
 	}
+
+	co_await updateMenu();
+	co_await updateRPG();
 
 	drawAll();
 }
@@ -1192,8 +1191,8 @@ void Game::updateTeteTurc() {
 	tete_turc = list_joueurs[ntete_turc];
 }
 
-void Game::updateRPG() {
-	if (rpg_to_play == -1) return;
+Task<> Game::updateRPG() {
+	if (rpg_to_play == -1) co_return;
 
 	bool continued = true;
 
@@ -1204,11 +1203,11 @@ void Game::updateRPG() {
 		continued = rpg.drawScene(backSurface);
 		DDFlipV();
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	rpg.stopPlay();
-	in.waitClean();
+	co_await in.waitClean();
 	rpg_to_play = -1;
 	update_regulator_.Skip();
 }
@@ -1261,7 +1260,7 @@ void Game::drawTimer() {
 	}
 }
 
-void Game::updateMenu() {
+Task<> Game::updateMenu() {
 	// Appelle le menu s'il y a lieu de le faire
 	if (in.scanKey(DIK_ESCAPE)) {
 		MenuGame menu;
@@ -1275,7 +1274,7 @@ void Game::updateMenu() {
 		menu.Draw(backSurface);
 		DDFlipV();
 
-		in.waitClean();
+		co_await in.waitClean();
 
 		while (!(r = menu.Update()) && !app_killed) {
 			drawAll(false);
@@ -1283,11 +1282,11 @@ void Game::updateMenu() {
 
 			DDFlipV();
 
-			yieldToBrowser();
+			co_await nextFrame();
 		}
 
 		// The key that closed the menu must not reach the players
-		in.waitClean();
+		co_await in.waitClean();
 
 		if (r == 2) skipped = true;
 
@@ -1420,7 +1419,7 @@ struct PlayerTotals {
 };
 }  // namespace
 
-void Game::showPE(bool bonus, bool fuckOff) {
+Task<> Game::showPE(bool bonus, bool fuckOff) {
 	PlayerTotals totals[2];
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
@@ -1463,8 +1462,6 @@ void Game::showPE(bool bonus, bool fuckOff) {
 
 	// Runs at least once so the screen shows even when no player is left to tally
 	do {
-		in.update();
-
 		delai += 1;
 		delai %= 3;
 
@@ -1484,12 +1481,12 @@ void Game::showPE(bool bonus, bool fuckOff) {
 
 		DDFlipV();
 
-		yieldToBrowser();
+		co_await nextFrame();
 	} while (!app_killed && (totals[0].calc < 4 || totals[1].calc < 4));
 
 	if (!app_killed) {
-		in.waitClean();
-		in.waitKey();
+		co_await in.waitClean();
+		co_await in.waitKey();
 	}
 
 	for (auto& t : totals) {
@@ -1754,20 +1751,19 @@ void Game::drawLoading() {
 	fnt_cool.printC(backSurface, 320, 205, "LOADING");
 }
 
-void Game::getHiscore() {
-	if (player1 != NULL && hi_scores.isGood(player1->getScore())) getName(player1.get(), 1);
+Task<> Game::getHiscore() {
+	if (player1 != NULL && hi_scores.isGood(player1->getScore())) co_await getName(player1.get(), 1);
 
-	if (player2 != NULL && hi_scores.isGood(player2->getScore())) getName(player2.get(), 2);
+	if (player2 != NULL && hi_scores.isGood(player2->getScore())) co_await getName(player2.get(), 2);
 }
 
-void Game::getName(Player* joueur, int ijoueur) {
+Task<> Game::getName(Player* joueur, int ijoueur) {
 	const std::string title = "PLAYER " + std::to_string(ijoueur) + " GOT A HIGH SCORE!";
 	std::string name;
 	int key = -1;
 	int x = 640;
 
 	while (!app_killed && x >= 40) {
-		in.update();
 		x -= 20;
 
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
@@ -1777,12 +1773,12 @@ void Game::getName(Player* joueur, int ijoueur) {
 
 		DDFlipV();
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	while (!app_killed && key != DIK_RETURN) {
-		in.waitClean();
-		key = in.waitKey();
+		co_await in.waitClean();
+		key = co_await in.waitKey();
 		if (in.scanKey(DIK_RETURN)) key = DIK_RETURN;
 
 		std::string key_tmp = DIK_to_string(key);
@@ -1800,7 +1796,7 @@ void Game::getName(Player* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320, 260, name);
 		DDFlipV();
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	while (!app_killed && x < 640) {
@@ -1814,36 +1810,34 @@ void Game::getName(Player* joueur, int ijoueur) {
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	hi_scores.add(joueur->getScore(), name);
 	save_settings();
 }
 
-void Game::showGameOver() {
+Task<> Game::showGameOver() {
 	Chrono t;
 
 	mbk_inter.play(1);
 
 	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
-		in.update();
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip( NULL, 0);
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 	mbk_inter.stop();
 }
 
-void Game::showHighScores() {
+Task<> Game::showHighScores() {
 	int x[HS_NB_SCORES];
 
 	for (int i = 0; i < HS_NB_SCORES; i++) x[i] = 400 + 160 * i;
 
 	Chrono scores_timer;
 	while (!app_killed && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
-		in.update();
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -1855,11 +1849,10 @@ void Game::showHighScores() {
 		}
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
 	while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
-		in.update();
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
@@ -1871,13 +1864,13 @@ void Game::showHighScores() {
 		}
 
 		DDFlipV();	// primSurface->Flip( NULL, 0);
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 
-	in.waitClean();
+	co_await in.waitClean();
 }
 
-void Game::go() {
+Task<> Game::go() {
 	TitleScreen menu;
 	int r;
 	static int attract_step = 0;
@@ -1895,10 +1888,10 @@ void Game::go() {
 
 	cine.loadPBK("intro.gfx");
 	mbk_interl.play(0);
-	cine.playScene("intro.cin", primSurface, backSurface);
+	co_await cine.playScene("intro.cin", primSurface, backSurface);
 
 	menu.start();
-	in.waitClean();
+	co_await in.waitClean();
 
 	Chrono diff_start;
 
@@ -1906,8 +1899,6 @@ void Game::go() {
 		r = RET_CONTINUE;
 
 		while (!r && !app_killed) {
-			in.update();
-
 			if (in.anyKeyPressed()) {
 				diff_start.Reset();
 			}
@@ -1918,21 +1909,21 @@ void Game::go() {
 					case 2:
 					case 4:
 					case 6:
-						showMainScreen();
+						co_await showMainScreen();
 						break;
 
 					case 1:
-						showHighScores();
+						co_await showHighScores();
 						break;
 
 					case 5:
-						showCredits();
+						co_await showCredits();
 						break;
 
 					case 3:
 					case 7:
 						cine.loadPBK("intro.gfx");
-						cine.playScene("intro.cin", primSurface, backSurface);
+						co_await cine.playScene("intro.cin", primSurface, backSurface);
 						break;
 				}
 
@@ -1943,7 +1934,7 @@ void Game::go() {
 
 				if (in.anyKeyPressed()) {
 					diff_start.Reset();
-					in.waitClean();
+					co_await in.waitClean();
 				}
 			} else {
 				pbk_inter[1]->PasteTo(backSurface, 0, 0);
@@ -1954,7 +1945,7 @@ void Game::go() {
 				DDFlipV();
 			}
 
-			yieldToBrowser();
+			co_await nextFrame();
 		}
 
 		if (r == RET_START_GAME1 || r == RET_START_GAME2) {
@@ -1966,18 +1957,18 @@ void Game::go() {
 				select.draw();
 				DDFlipV();
 
-				yieldToBrowser();
+				co_await nextFrame();
 			}
 			// The confirming pad A is also the default jump
-			in.waitClean();
+			co_await in.waitClean();
 
 			drawLoading();
 			DDFlipV();
 
 			if (r == RET_START_GAME1)
-				jouePartie(1, int(selected));
+				co_await jouePartie(1, int(selected));
 			else
-				jouePartie(2, int(selected));
+				co_await jouePartie(2, int(selected));
 
 			menu.stop();
 			menu.start();
@@ -1985,7 +1976,7 @@ void Game::go() {
 			diff_start.Reset();
 		}
 
-		yieldToBrowser();
+		co_await nextFrame();
 
 	} while (r != RET_EXIT && !app_killed);
 
@@ -2016,20 +2007,18 @@ void Game::showBriefing(const char* fn) {
 	DDFlip();
 }
 
-void Game::showMainScreen() {
+Task<> Game::showMainScreen() {
 	Chrono t;
 
 	while (!in.anyKeyPressed() && !app_killed && t.elapsed() <= 5000) {
-		in.update();
-
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
 		DDFlipV();	// primSurface->Flip(NULL, DDFLIP_WAIT );
 
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 }
 
-void Game::showCredits(bool theEnd) {
+Task<> Game::showCredits(bool theEnd) {
 	static const int NB_PAGE = 6;
 	static const int ILIGNE = 20;
 	static const int ITITRE = 40;
@@ -2060,8 +2049,6 @@ void Game::showCredits(bool theEnd) {
 				y--;
 			}
 		}
-
-		in.update();
 
 		{
 			DDBLTFX ddfx{};
@@ -2254,6 +2241,6 @@ void Game::showCredits(bool theEnd) {
 		}
 
 		DDFlip();
-		yieldToBrowser();
+		co_await nextFrame();
 	}
 }

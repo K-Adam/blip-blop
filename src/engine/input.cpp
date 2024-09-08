@@ -123,22 +123,15 @@ int Input::pressedCode() const {
 	return -1;
 }
 
-unsigned int Input::waitKey() {
-	waitClean();
+Task<int> Input::waitKey() {
+	co_await waitClean();
 	int k;
-	while ((k = pressedCode()) < 0 && !app_killed) {
-		yieldToBrowser();
-		update();
-	}
-	return k < 0 ? 0 : k;
+	while ((k = pressedCode()) < 0 && !app_killed) co_await nextFrame();
+	co_return k < 0 ? 0 : k;
 }
 
-void Input::waitClean() {
-	update();
-	while (pressedCode() >= 0 && !app_killed) {
-		yieldToBrowser();
-		update();
-	}
+Task<> Input::waitClean() {
+	while (pressedCode() >= 0 && !app_killed) co_await nextFrame();
 }
 
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }

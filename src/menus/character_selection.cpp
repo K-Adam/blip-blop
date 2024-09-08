@@ -17,8 +17,6 @@ CharacterSelection::CharacterSelection()
 	  y_charac_(255) {}
 
 CharacterSelection::Output CharacterSelection::update() {
-	in.update();
-
 	et_phase_ += 1;
 	et_phase_ %= 10;
 
