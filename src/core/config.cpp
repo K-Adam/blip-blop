@@ -7,6 +7,8 @@
 #include "core/globals.h"
 #include <json.h>
 
+#include <filesystem>
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -28,25 +30,16 @@ bool fullscreen = false;  // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
 
 static const char* ALIAS_NAMES[7] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};
 
+// IndexedDB starts empty on a first visit, the preloaded files are the defaults
+void restore_default_saves() {
 #ifdef __EMSCRIPTEN__
-// clang-format off
-// Browser saves live in IndexedDB, the preloaded files are the defaults for a first visit
-EM_ASYNC_JS(void, js_mount_save_dir, (), {
-	const defaults = {};
-	for (const f of FS.readdir('/config')) {
-		if (f !== '.' && f !== '..') defaults[f] = FS.readFile('/config/' + f);
+	for (const char* f : {CONFIG_FILE, HISCORES_FILE}) {
+		std::error_code ec;
+		std::filesystem::copy_file(std::string("config_defaults/") + std::filesystem::path(f).filename().string(), f,
+								   std::filesystem::copy_options::skip_existing, ec);
 	}
-	FS.mount(IDBFS, {}, '/config');
-	await new Promise(resolve => FS.syncfs(true, resolve));
-	for (const f in defaults) {
-		if (!FS.analyzePath('/config/' + f).exists) FS.writeFile('/config/' + f, defaults[f]);
-	}
-});
-// clang-format on
-void mount_save_dir() { js_mount_save_dir(); }
-#else
-void mount_save_dir() {}
 #endif
+}
 
 void save_settings() {
 	if (!hi_scores.save(HISCORES_FILE)) debug << "Cannot save hi-scores\n";

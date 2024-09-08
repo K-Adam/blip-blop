@@ -21,12 +21,12 @@ endif()
 if(EMSCRIPTEN)
     set(SDL_PORTS -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 "-sSDL2_IMAGE_FORMATS=[\"bmp\",\"png\"]")
     target_compile_options(blipblop PRIVATE ${SDL_PORTS} $<$<CONFIG:Debug>:-fexceptions -sNO_DISABLE_EXCEPTION_CATCHING>)
-    target_link_options(blipblop PRIVATE ${SDL_PORTS} -sASYNCIFY -sALLOW_MEMORY_GROWTH -lidbfs.js
-        "SHELL:--shell-file ${CMAKE_SOURCE_DIR}/web/shell.html"
-        "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/assets@assets" "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/config@config"
+    target_link_options(blipblop PRIVATE ${SDL_PORTS} -sALLOW_MEMORY_GROWTH -lidbfs.js
+        "SHELL:--shell-file ${CMAKE_SOURCE_DIR}/web/shell.html" "SHELL:--pre-js ${CMAKE_SOURCE_DIR}/web/pre.js"
+        "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/assets@assets" "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/config@config_defaults"
         $<$<CONFIG:Debug>:-gsource-map -fexceptions -sNO_DISABLE_EXCEPTION_CATCHING -sEXCEPTION_DEBUG=1>)
     set_target_properties(blipblop PROPERTIES OUTPUT_NAME "index" SUFFIX ".html")
-    set_property(TARGET blipblop APPEND PROPERTY LINK_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell.html)
+    set_property(TARGET blipblop APPEND PROPERTY LINK_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell.html ${CMAKE_SOURCE_DIR}/web/pre.js)
 elseif(WIN32)
     find_package(SDL2 CONFIG REQUIRED)
     target_link_libraries(blipblop PRIVATE SDL2::SDL2)

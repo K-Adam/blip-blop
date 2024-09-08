@@ -20,7 +20,7 @@ extern HiScores hi_scores;
 #define CONFIG_FILE "config/settings.json"
 #define HISCORES_FILE "config/hiscores.json"
 
-void mount_save_dir();
+void restore_default_saves();
 void save_settings();
 void load_BB3_config(const char* cfg_file);
 void save_BB3_config(const char* cfg_file);

@@ -13,6 +13,7 @@
 #include "engine/fmod.h"
 #include "engine/font.h"
 #include "core/game.h"
+#include "core/task.h"
 #include "core/globals.h"
 #include "engine/input.h"
 #include "engine/music_bank.h"
@@ -21,6 +22,10 @@
 #include "level/scroll.h"
 #include "engine/sound_bank_bb.h"
 #include "core/text_data.h"
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 Game game;
 
@@ -104,7 +109,7 @@ static bool InitApp(int nCmdShow) {
 		music_on = false;
 	}
 
-	mount_save_dir();
+	restore_default_saves();
 	load_BB3_config(CONFIG_FILE);
 
 	hi_scores.init();
@@ -254,13 +259,26 @@ int main(int argc, char** argv) {
 	debug << "Game.go"
 		  << "\n";
 
-	Task<> root = game.go();
+	static Task<> root = game.go();
 	root.start();
+#ifdef __EMSCRIPTEN__
+	// The browser calls this once per animation frame, main never returns
+	emscripten_set_main_loop(
+		[] {
+			if (root.done()) {
+				emscripten_cancel_main_loop();
+				return;
+			}
+			in.update();
+			resumeFrame();
+		},
+		0, true);
+#else
 	while (!root.done()) {
 		in.update();
 		resumeFrame();
-		yieldToBrowser();
 	}
+#endif
 
 	return 0;
 
