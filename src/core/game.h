@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/task.h"
+#include "engine/scheme_controller.h"
 
 #include <string>
 
@@ -92,6 +93,9 @@ class Game {
    public:
 	// Constructeur -> met tout à NULL
 	Game();
+
+	// Controls of the players who joined, the balls point at them during a game
+	SchemeController controllers_[2];
 
 	// jouePartie -> Faites chier la vache!
 	Task<> jouePartie(int nbj, int idj);

@@ -11,7 +11,7 @@ int MenuGame::Update() {
 	MenuType next = MenuType(active_->ProcessEvent());
 
 	switch (next) {
-		case MenuType::Game_1:
+		case MenuType::Play:
 			return 1;
 		case MenuType::Exit:
 			return 2;

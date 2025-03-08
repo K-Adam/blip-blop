@@ -78,6 +78,17 @@ void Input::update() {
 				}
 				break;
 
+			case SDL_MOUSEBUTTONDOWN:
+			case SDL_MOUSEBUTTONUP:
+				if (e.button.button < MOUSE_BUTTONS) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
+				break;
+
+			// SDL already reports these in the 640x480 logical space of the renderer
+			case SDL_MOUSEMOTION:
+				mouse_x_ = e.motion.x;
+				mouse_y_ = e.motion.y;
+				break;
+
 			case SDL_CONTROLLERAXISMOTION:
 				if (Pad* p = padById(e.caxis.which)) {
 					int v = e.caxis.value;
@@ -103,21 +114,29 @@ void Input::update() {
 	}
 }
 
-int Input::pressedCode() const {
-	for (int i = 0; i < 255; i++) {
-		if (cur_.buffer[i]) return i;
-	}
-	for (int i = 0; i < 0x1000; i++) {
-		if (cur_.specialsbuffer[i]) return i | 0x40000000;
-	}
-	for (int s = 0; s < MAX_JOY; s++) {
-		int base = (s + 1) << 10;
-		for (int d = JOY_UP; d <= JOY_RIGHT; d++) {
-			if (scanKey(base + d)) return base + d;
+int Input::heldCode(int devices) const {
+	if (devices & DEV_KEYS) {
+		for (int i = 0; i < 255; i++) {
+			if (cur_.buffer[i]) return i;
 		}
-		for (int b = 0; b < PAD_BUTTONS; b++) {
-			bool dpad = b >= SDL_CONTROLLER_BUTTON_DPAD_UP && b <= SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
-			if (!dpad && cur_.pads[s].buttons[b]) return base + b;
+		for (int i = 0; i < 0x1000; i++) {
+			if (cur_.specialsbuffer[i]) return i | 0x40000000;
+		}
+	}
+	if (devices & DEV_MOUSE) {
+		for (int b = 1; b < MOUSE_BUTTONS; b++) {
+			if (cur_.mouse[b]) return MOUSE_CODE(b);
+		}
+	}
+	if (devices & DEV_PADS) {
+		for (int s = 0; s < MAX_JOY; s++) {
+			for (int d = JOY_UP; d <= JOY_RIGHT; d++) {
+				if (scanCode(PAD_CODE(s, d))) return PAD_CODE(s, d);
+			}
+			for (int b = 0; b < PAD_BUTTONS; b++) {
+				bool dpad = b >= SDL_CONTROLLER_BUTTON_DPAD_UP && b <= SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+				if (!dpad && cur_.pads[s].buttons[b]) return PAD_CODE(s, b);
+			}
 		}
 	}
 	return -1;
@@ -126,12 +145,12 @@ int Input::pressedCode() const {
 Task<int> Input::waitKey() {
 	co_await waitClean();
 	int k;
-	while ((k = pressedCode()) < 0 && !app_killed) co_await nextFrame();
+	while ((k = heldCode()) < 0 && !app_killed) co_await nextFrame();
 	co_return k < 0 ? 0 : k;
 }
 
 Task<> Input::waitClean() {
-	while (pressedCode() >= 0 && !app_killed) co_await nextFrame();
+	while (heldCode() >= 0 && !app_killed) co_await nextFrame();
 }
 
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }
@@ -143,24 +162,16 @@ void Input::close() {
 	}
 }
 
-bool Input::anyKeyPressed() const { return pressedCode() >= 0; }
-
-// Pad N drives player N with a standard layout until a binding takes over that player or that pad
-unsigned int Input::padDefault(int a) const {
-	int player = a / 10, i = a % 10;
-	if (player > 1 || i >= 7) return 0;
-	for (int b = 0; b < 17; b++) {
-		int slot = aliastab[b] >> 10 & 0xFF;
-		if (b % 10 < 7 && slot && (slot == player + 1 || b / 10 == player)) return 0;
-	}
-	static const unsigned int layout[7] = {JOY_UP, JOY_DOWN, JOY_LEFT, JOY_RIGHT, SDL_CONTROLLER_BUTTON_X, SDL_CONTROLLER_BUTTON_A, SDL_CONTROLLER_BUTTON_B};
-	return ((player + 1) << 10) | layout[i];
-}
+bool Input::anyKeyPressed() const { return heldCode() >= 0; }
 
 int Input::scan(const State& st, unsigned int k) {
 	if (k == 0) return 0;
 
-	int j = k >> 10 & 0xFF;
+	int j = codeSlot(k);
+	if (j == MOUSE_SLOT) {
+		int b = k & 0x3FF;
+		return b < MOUSE_BUTTONS && st.mouse[b];
+	}
 	if (j > 0) {
 		if (j > MAX_JOY) return 0;
 		const Pad& p = st.pads[j - 1];
@@ -178,15 +189,21 @@ int Input::scan(const State& st, unsigned int k) {
 		return b < PAD_BUTTONS && p.buttons[b];
 	}
 
-	// Any pad can navigate, confirm and pause, so menus, cutscenes and the hi-score entry work without a keyboard
+	if (k < 255) return st.buffer[k];
+	return st.specialsbuffer[k & 0xFFF];
+}
+
+int Input::scanMenu(const State& st, unsigned int k) {
+	if (scan(st, k)) return 1;
+
+	// Menus, cutscenes and the hi-score entry work with whatever device the player holds
+	if (k == DIK_RETURN && st.mouse[SDL_BUTTON_LEFT]) return 1;
 	int joy = k == DIK_UP ? JOY_UP : k == DIK_DOWN ? JOY_DOWN : k == DIK_LEFT ? JOY_LEFT : k == DIK_RIGHT ? JOY_RIGHT : 0;
 	for (int s = 0; s < MAX_JOY; s++) {
 		const Pad& p = st.pads[s];
-		if (joy && scan(st, ((s + 1) << 10) | joy)) return 1;
+		if (joy && scan(st, PAD_CODE(s, joy))) return 1;
 		if (k == DIK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
 		if (k == DIK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
 	}
-
-	if (k < 255) return st.buffer[k];
-	return st.specialsbuffer[k & 0xFFF];
+	return 0;
 }

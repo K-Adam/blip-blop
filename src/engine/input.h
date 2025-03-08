@@ -120,8 +120,9 @@
 
 #define MAX_JOY 5
 
-// Pad binding codes are ((slot + 1) << 10) | b, where b is an SDL_GameControllerButton,
+// Pad binding codes are PAD_CODE(slot, b), where b is an SDL_GameControllerButton,
 // a trigger (PAD_LT, PAD_RT) or a direction (JOY_*) that combines the D-pad and the left stick
+#define PAD_CODE(slot, b) ((((slot) + 1) << 10) | (b))
 #define PAD_LT SDL_CONTROLLER_BUTTON_MAX
 #define PAD_RT (SDL_CONTROLLER_BUTTON_MAX + 1)
 #define PAD_BUTTONS (SDL_CONTROLLER_BUTTON_MAX + 2)
@@ -130,6 +131,19 @@
 #define JOY_DOWN 101
 #define JOY_LEFT 102
 #define JOY_RIGHT 103
+
+// Mouse buttons use a slot far above the pads, b is an SDL_BUTTON_* index
+#define MOUSE_SLOT 0x80
+#define MOUSE_CODE(b) ((MOUSE_SLOT << 10) | (b))
+#define MOUSE_BUTTONS 6
+
+// Device filters for heldCode
+#define DEV_KEYS 1
+#define DEV_MOUSE 2
+#define DEV_PADS 4
+#define DEV_ALL 7
+
+inline int codeSlot(unsigned int k) { return k >> 10 & 0xFF; }
 
 struct Pad {
 	SDL_GameController *ctrl = nullptr;
@@ -146,25 +160,31 @@ class Input {
 		Pad pads[MAX_JOY];
 		char buffer[256] = {};
 		char specialsbuffer[0x1000] = {};
+		bool mouse[MOUSE_BUTTONS] = {};
 	};
 	State cur_, prev_;
+	int mouse_x_ = 0, mouse_y_ = 0;
 	unsigned int aliastab[256] = {};
 
 	static int scan(const State &s, unsigned int k);
-	unsigned int padDefault(int a) const;
+	static int scanMenu(const State &s, unsigned int k);
 	Pad *padById(SDL_JoystickID id);
 
    public:
-	int scanKey(unsigned int k) const { return scan(cur_, k); }
-	int scanAlias(int a) const { return scanKey(aliastab[a]) || scanKey(padDefault(a)); }
+	// Menu keys: any pad or a left click also counts as the arrows, Enter and Escape
+	int scanKey(unsigned int k) const { return scanMenu(cur_, k); }
+	bool pressedKey(unsigned int k) const { return scanMenu(cur_, k) && !scanMenu(prev_, k); }
 
-	// True only on the update where the key went down
-	bool pressedKey(unsigned int k) const { return scan(cur_, k) && !scan(prev_, k); }
-	bool pressedAlias(int a) const { return pressedKey(aliastab[a]) || pressedKey(padDefault(a)); }
+	// Exact binding codes, used by the control schemes so one device never drives another player
+	int scanCode(unsigned int k) const { return scan(cur_, k); }
+	bool pressedCode(unsigned int k) const { return scan(cur_, k) && !scan(prev_, k); }
+	bool pressedAlias(int a) const { return pressedCode(aliastab[a]); }
 
-	// Code of the first key or pad button held, -1 if none
-	int pressedCode() const;
+	// Code of the first held input among the devices, -1 if none
+	int heldCode(int devices = DEV_ALL) const;
 	unsigned int getAlias(int n) const { return aliastab[n]; }
+	int mouseX() const { return mouse_x_; }
+	int mouseY() const { return mouse_y_; }
 
 	bool open();
 	void setAlias(int a, unsigned int val);

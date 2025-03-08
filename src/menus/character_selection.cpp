@@ -2,6 +2,8 @@
 
 #include "core/config.h"
 #include "core/globals.h"
+#include "engine/control_alias.h"
+#include "engine/input.h"
 
 CharacterSelection::CharacterSelection()
 	: et_phase_(0),
@@ -44,7 +46,7 @@ CharacterSelection::Output CharacterSelection::update() {
 	if (step_ == APPAR_BLIP) {
 		if (x_charac_ < 240) {
 			x_charac_ += 20;
-		} else if (in.pressedKey(DIK_RIGHT) || in.pressedAlias(ALIAS_P1_RIGHT)) {
+		} else if (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedAlias(SCHEME_MOUSE + ACTION_RIGHT)) {
 			step_ = FINI_BLIP;
 		}
 
@@ -52,7 +54,8 @@ CharacterSelection::Output CharacterSelection::update() {
 			x_name_ -= 20;
 		}
 
-		if (x_charac_ >= 240 && (in.pressedKey(DIK_RETURN) || in.pressedAlias(ALIAS_P1_FIRE))) {
+		if (x_charac_ >= 240 &&
+			(in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
 			return Output::Blip;
 		}
 	} else if (step_ == FINI_BLIP) {
@@ -73,7 +76,7 @@ CharacterSelection::Output CharacterSelection::update() {
 	} else if (step_ == APPAR_BLOP) {
 		if (x_charac_ > 310) {
 			x_charac_ -= 20;
-		} else if (in.pressedKey(DIK_LEFT) || in.pressedAlias(ALIAS_P1_LEFT)) {
+		} else if (in.pressedKey(DIK_LEFT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT) || in.pressedAlias(SCHEME_MOUSE + ACTION_LEFT)) {
 			step_ = FINI_BLOP;
 		}
 
@@ -81,7 +84,8 @@ CharacterSelection::Output CharacterSelection::update() {
 			x_name_ += 20;
 		}
 
-		if (x_charac_ <= 310 && (in.pressedKey(DIK_RETURN) || in.pressedAlias(ALIAS_P1_FIRE))) {
+		if (x_charac_ <= 310 &&
+			(in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
 			return Output::Blop;
 		}
 	} else {

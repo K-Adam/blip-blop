@@ -6,18 +6,15 @@
 #include "engine/graphics.h"
 #include "menus/main_menu.h"
 #include "menus/options_menu.h"
-#include "menus/start_menu.h"
 
 #define RET_CONTINUE 0
-#define RET_START_GAME1 1
+#define RET_START_GAME 1
 #define RET_HISCORES 2
 #define RET_EXIT 3
 #define RET_CREDITS 4
-#define RET_START_GAME2 5
 
 class TitleScreen {
 	MainMenu first_menu_;
-	StartMenu start_menu_;
 	OptionsMenu options_menu_;
 	AbstractMenu* active_menu_;
 

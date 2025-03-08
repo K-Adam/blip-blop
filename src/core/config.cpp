@@ -8,6 +8,7 @@
 #include <json.h>
 
 #include <filesystem>
+#include <utility>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -28,7 +29,8 @@ HiScores hi_scores;
 
 bool fullscreen = false;  // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
 
-static const char* ALIAS_NAMES[7] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};
+static const char* ALIAS_NAMES[NB_ACTIONS] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};
+static const std::pair<const char*, int> SCHEMES[] = {{"keyboard", SCHEME_KEYBOARD}, {"mouse", SCHEME_MOUSE}, {"controller", SCHEME_PAD}};
 
 // IndexedDB starts empty on a first visit, the preloaded files are the defaults
 void restore_default_saves() {
@@ -60,11 +62,11 @@ void load_BB3_config(const char* cfg_file) {
 	vSyncOn = flag("vsync", vSyncOn);
 	fullscreen = flag("fullscreen", fullscreen);
 
-	for (int p = 0; p < 2; p++) {
-		json keys = data.value(p == 0 ? "player1" : "player2", json());
-		for (int i = 0; i < 7; i++) {
+	for (auto& [name, scheme] : SCHEMES) {
+		json keys = data.value(name, json());
+		for (int i = 0; i < NB_ACTIONS; i++) {
 			if (keys.is_object() && keys.contains(ALIAS_NAMES[i]) && keys[ALIAS_NAMES[i]].is_number_integer()) {
-				in.setAlias(p * 10 + i, keys[ALIAS_NAMES[i]].get<unsigned int>());
+				in.setAlias(scheme + i, keys[ALIAS_NAMES[i]].get<unsigned int>());
 			}
 		}
 	}
@@ -76,9 +78,9 @@ void save_BB3_config(const char* cfg_file) {
 	data["vsync"] = vSyncOn;
 	data["fullscreen"] = fullscreen;
 
-	for (int p = 0; p < 2; p++) {
-		json& keys = data[p == 0 ? "player1" : "player2"];
-		for (int i = 0; i < 7; i++) keys[ALIAS_NAMES[i]] = in.getAlias(p * 10 + i);
+	for (auto& [name, scheme] : SCHEMES) {
+		json& keys = data[name];
+		for (int i = 0; i < NB_ACTIONS; i++) keys[ALIAS_NAMES[i]] = in.getAlias(scheme + i);
 	}
 
 	std::ofstream out(cfg_file);
@@ -88,19 +90,20 @@ void save_BB3_config(const char* cfg_file) {
 void set_default_config(bool reset_lang) {
 	if (reset_lang) lang_type = LANG_UK;
 
-	in.setAlias(ALIAS_P1_UP, DIK_UP);
-	in.setAlias(ALIAS_P1_DOWN, DIK_DOWN);
-	in.setAlias(ALIAS_P1_LEFT, DIK_LEFT);
-	in.setAlias(ALIAS_P1_RIGHT, DIK_RIGHT);
-	in.setAlias(ALIAS_P1_FIRE, DIK_LSHIFT);
-	in.setAlias(ALIAS_P1_JUMP, DIK_SPACE);
-	in.setAlias(ALIAS_P1_SUPER, DIK_BACKSPACE);
-
-	in.setAlias(ALIAS_P2_UP, DIK_W);
-	in.setAlias(ALIAS_P2_DOWN, DIK_S);
-	in.setAlias(ALIAS_P2_LEFT, DIK_A);
-	in.setAlias(ALIAS_P2_RIGHT, DIK_D);
-	in.setAlias(ALIAS_P2_FIRE, DIK_TAB);
-	in.setAlias(ALIAS_P2_JUMP, DIK_Q);
-	in.setAlias(ALIAS_P2_SUPER, DIK_F);
+	// The usual keyboard platformer layout, keeping WASD and the mouse free for a second player
+	const unsigned int keyboard[NB_ACTIONS] = {DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT, DIK_X, DIK_Z, DIK_C};
+	const unsigned int mouse[NB_ACTIONS] = {DIK_W, DIK_S, DIK_A, DIK_D, MOUSE_CODE(SDL_BUTTON_LEFT), DIK_SPACE, MOUSE_CODE(SDL_BUTTON_RIGHT)};
+	// Pad buttons are stored for the first pad, the joining pad replaces the slot
+	const unsigned int pad[NB_ACTIONS] = {PAD_CODE(0, JOY_UP),
+										  PAD_CODE(0, JOY_DOWN),
+										  PAD_CODE(0, JOY_LEFT),
+										  PAD_CODE(0, JOY_RIGHT),
+										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_X),
+										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_A),
+										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_B)};
+	for (int i = 0; i < NB_ACTIONS; i++) {
+		in.setAlias(SCHEME_KEYBOARD + i, keyboard[i]);
+		in.setAlias(SCHEME_MOUSE + i, mouse[i]);
+		in.setAlias(SCHEME_PAD + i, pad[i]);
+	}
 }

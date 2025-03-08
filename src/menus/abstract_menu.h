@@ -5,7 +5,7 @@ class Surface;
 }
 
 // FIXME: That ontology is pretty bad. Find something better.
-enum MenuType : int { Main, Start, Options, Exit, Keys_1, Keys_2, Game_1, Game_2 };
+enum MenuType : int { Main, Options, Exit, Keys_Keyboard, Keys_Mouse, Keys_Pad, Play };
 
 class AbstractMenu {
    public:

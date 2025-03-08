@@ -1,22 +1,31 @@
 {
   "fullscreen": false,
-  "player1": {
+  "keyboard": {
     "DOWN": 1073741905,
-    "FIRE": 1073742049,
-    "JUMP": 32,
+    "FIRE": 120,
+    "JUMP": 122,
     "LEFT": 1073741904,
     "RIGHT": 1073741903,
-    "SUPER": 8,
+    "SUPER": 99,
     "UP": 1073741906
   },
-  "player2": {
+  "mouse": {
     "DOWN": 115,
-    "FIRE": 9,
-    "JUMP": 113,
+    "FIRE": 131073,
+    "JUMP": 32,
     "LEFT": 97,
     "RIGHT": 100,
-    "SUPER": 102,
+    "SUPER": 131075,
     "UP": 119
+  },
+  "controller": {
+    "DOWN": 1125,
+    "FIRE": 1026,
+    "JUMP": 1024,
+    "LEFT": 1126,
+    "RIGHT": 1127,
+    "SUPER": 1025,
+    "UP": 1124
   },
   "vsync": true
 }

@@ -21,16 +21,11 @@ int TitleScreen::update() {
 		case MenuType::Main:
 			active_menu_ = &first_menu_;
 			break;
-		case MenuType::Start:
-			active_menu_ = &start_menu_;
-			break;
 		case MenuType::Options:
 			active_menu_ = &options_menu_;
 			break;
-		case MenuType::Game_1:
-			return RET_START_GAME1;
-		case MenuType::Game_2:
-			return RET_START_GAME2;
+		case MenuType::Play:
+			return RET_START_GAME;
 		case MenuType::Exit:
 			return RET_EXIT;
 	}

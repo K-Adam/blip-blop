@@ -13,6 +13,7 @@
 #include "entities/bonus.h"
 #include "entities/bubble.h"
 #include "menus/character_selection.h"
+#include "menus/join_screen.h"
 #include "cinematics/cine_player.h"
 #include "core/config.h"
 #include "engine/dd_gfx.h"
@@ -90,7 +91,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 	else
 		player1 = std::make_unique<Blop>();
 
-	player1->ctrl = &ctrlP1;
+	player1->ctrl = &controllers_[0];
 	list_joueurs.push_back(player1.get());
 
 	if (nbj == 2) {
@@ -99,7 +100,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		else
 			player2 = std::make_unique<Blip>();
 
-		player2->ctrl = &ctrlP2;
+		player2->ctrl = &controllers_[1];
 		list_joueurs.push_back(player2.get());
 	}
 
@@ -1948,31 +1949,43 @@ Task<> Game::go() {
 			co_await nextFrame();
 		}
 
-		if (r == RET_START_GAME1 || r == RET_START_GAME2) {
-			CharacterSelection select;
+		if (r == RET_START_GAME) {
+			JoinScreen join;
 
-			auto selected = CharacterSelection::Output::Continue;
-			while (selected == CharacterSelection::Output::Continue && !app_killed) {
-				selected = select.update();
-				select.draw();
+			auto joined = JoinScreen::Output::Continue;
+			while (joined == JoinScreen::Output::Continue && !app_killed) {
+				joined = join.update();
+				join.draw();
 				DDFlipV();
 
 				co_await nextFrame();
 			}
-			// The confirming pad A is also the default jump
-			co_await in.waitClean();
 
-			drawLoading();
-			DDFlipV();
+			if (joined == JoinScreen::Output::Start) {
+				for (int i = 0; i < join.players(); i++) controllers_[i] = join.player(i);
 
-			if (r == RET_START_GAME1)
-				co_await jouePartie(1, int(selected));
-			else
-				co_await jouePartie(2, int(selected));
+				CharacterSelection select;
+
+				auto selected = CharacterSelection::Output::Continue;
+				while (selected == CharacterSelection::Output::Continue && !app_killed) {
+					selected = select.update();
+					select.draw();
+					DDFlipV();
+
+					co_await nextFrame();
+				}
+				// The confirming pad A is also the default jump
+				co_await in.waitClean();
+
+				drawLoading();
+				DDFlipV();
+
+				co_await jouePartie(join.players(), int(selected));
+				mbk_interl.play(0);
+			}
 
 			menu.stop();
 			menu.start();
-			mbk_interl.play(0);
 			diff_start.Reset();
 		}
 

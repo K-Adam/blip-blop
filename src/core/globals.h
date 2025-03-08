@@ -5,8 +5,6 @@
 #include <vector>
 
 #include "core/debug.h"
-#include "engine/control_p1.h"
-#include "engine/control_p2.h"
 #include "engine/picture_bank.h"
 #include "engine/font.h"
 #include "engine/sound_bank_bb.h"
@@ -68,9 +66,6 @@ extern std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
 
 extern std::vector<std::vector<char>> murs_opaques;	   // Murs opaques (=true)
 extern std::vector<std::vector<char>> murs_sanglants;  // Murs sanglants (=true)
-
-extern ControlP1 ctrlP1;
-extern ControlP2 ctrlP2;
 
 // FIXME: They're all lists instead of ideally vectors because we sometimes
 // append during iterations and relocating is then STRICTLY forbidden

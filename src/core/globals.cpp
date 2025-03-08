@@ -3,8 +3,6 @@
 #include <memory>
 
 #include "core/misc.h"
-#include "engine/control_p1.h"
-#include "engine/control_p2.h"
 #include "engine/picture_bank.h"
 #include "engine/font.h"
 #include "engine/sound_bank_bb.h"
@@ -58,9 +56,6 @@ std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
 
 std::vector<std::vector<char>> murs_opaques;	// Murs opaques (=true)
 std::vector<std::vector<char>> murs_sanglants;	// Murs sanglants (=true)
-
-ControlP1 ctrlP1;
-ControlP2 ctrlP2;
 
 std::vector<Ball*> list_joueurs;  // FIXME: make it owning?
 std::list<ShotBB*> list_tirs_bb;

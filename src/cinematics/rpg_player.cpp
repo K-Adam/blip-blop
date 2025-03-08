@@ -1,5 +1,6 @@
 #include <fstream>
 #include "cinematics/rpg_player.h"
+#include "engine/input.h"
 #include "core/globals.h"
 #include "core/text_data.h"
 #include "entities/ball.h"

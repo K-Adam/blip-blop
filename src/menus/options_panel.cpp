@@ -14,8 +14,9 @@ OptionsPanel::OptionsPanel() {
 
 	items_.AddEntry("VSYNC");
 	items_.AddEntry(txt_data[TXT_FULLSCREEN]);
-	items_.AddEntry(txt_data[TXT_P1KEYS]);
-	items_.AddEntry(txt_data[TXT_P2KEYS]);
+	items_.AddEntry("KEYBOARD CONTROLS");
+	items_.AddEntry("MOUSE AND KEYBOARD");
+	items_.AddEntry("CONTROLLER");
 	items_.AddEntry(txt_data[TXT_RETURN]);
 	RefreshVsync();
 }
@@ -29,15 +30,16 @@ void OptionsPanel::ToggleVsync() {
 }
 
 int OptionsPanel::ProcessEvent() {
-	if (in.pressedKey(DIK_UP) || in.pressedAlias(ALIAS_P1_UP)) {
+	if (in.pressedKey(DIK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
 		items_.MoveUp();
-	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(ALIAS_P1_DOWN)) {
+	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
 		items_.MoveDown();
 	}
-	if (items_.focused() == 0 && (in.pressedKey(DIK_RIGHT) || in.pressedAlias(ALIAS_P1_RIGHT) || in.pressedKey(DIK_LEFT) || in.pressedAlias(ALIAS_P1_LEFT))) {
+	if (items_.focused() == 0 && (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedKey(DIK_LEFT) ||
+								  in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT))) {
 		ToggleVsync();
 	}
-	if (in.pressedKey(DIK_RETURN) || in.pressedAlias(ALIAS_P1_FIRE)) {
+	if (in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE)) {
 		switch (items_.focused()) {
 			case 0:
 				ToggleVsync();
@@ -47,10 +49,12 @@ int OptionsPanel::ProcessEvent() {
 				DDToggleFullscreen();
 				break;
 			case 2:
-				return MenuType::Keys_1;
+				return MenuType::Keys_Keyboard;
 			case 3:
-				return MenuType::Keys_2;
+				return MenuType::Keys_Mouse;
 			case 4:
+				return MenuType::Keys_Pad;
+			case 5:
 				return MenuType::Main;
 		}
 	}

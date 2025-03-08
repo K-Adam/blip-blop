@@ -8,6 +8,18 @@
 static std::string DIK_to_string_us(int n);
 static std::string DIK_to_string_fr(int n);
 
+static std::string mouse_to_string(int n, bool fr) {
+	switch (n & 0x3FF) {
+		case SDL_BUTTON_LEFT:
+			return fr ? "SOURIS GAUCHE" : "MOUSE LEFT";
+		case SDL_BUTTON_RIGHT:
+			return fr ? "SOURIS DROITE" : "MOUSE RIGHT";
+		case SDL_BUTTON_MIDDLE:
+			return fr ? "SOURIS MILIEU" : "MOUSE MIDDLE";
+	}
+	return (fr ? "SOURIS " : "MOUSE ") + std::to_string(n & 0x3FF);
+}
+
 static std::string pad_to_string(int n, bool fr) {
 	int d = n & 0x3FF;
 	std::string name;
@@ -36,7 +48,7 @@ static std::string pad_to_string(int n, bool fr) {
 			for (char& c : name) c = char(toupper(c));
 		}
 	}
-	return std::string(fr ? "MANETTE" : "PAD") + std::to_string(n >> 10 & 0xFF) + " " + name;
+	return std::string(fr ? "MANETTE " : "PAD ") + name;
 }
 
 std::string DIK_to_string(int n) {
@@ -48,7 +60,8 @@ std::string DIK_to_string(int n) {
 }
 
 std::string DIK_to_string_us(int n) {
-	if (n >> 10 & 0xFF) return pad_to_string(n, false);
+	if (codeSlot(n) == MOUSE_SLOT) return mouse_to_string(n, false);
+	if (codeSlot(n)) return pad_to_string(n, false);
 
 	switch (n) {
 #define X(_num, _val) \
@@ -62,7 +75,8 @@ std::string DIK_to_string_us(int n) {
 }
 
 std::string DIK_to_string_fr(int n) {
-	if (n >> 10 & 0xFF) return pad_to_string(n, true);
+	if (codeSlot(n) == MOUSE_SLOT) return mouse_to_string(n, true);
+	if (codeSlot(n)) return pad_to_string(n, true);
 
 	switch (n) {
 #define X(_num, _val) \

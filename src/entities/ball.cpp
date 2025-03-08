@@ -794,10 +794,14 @@ void Ball::onSaute() {
 
 void Ball::manageDirection() {
 	// Gere la direction désirée (pas de diagonales pour le laser)
-	if (ctrl->haut()) {
-		if (ctrl->droite())
+	// The pivot is the gun height, the feet are at y
+	int ax, ay;
+	ctrl->aim(x - offset, y - 12, ax, ay);
+
+	if (ay < 0) {
+		if (ax > 0)
 			dir = BBDIR_HAUT_DROITE;
-		else if (ctrl->gauche())
+		else if (ax < 0)
 			dir = BBDIR_HAUT_GAUCHE;
 		else {
 			if (dir <= BBLIM_DROITE)
@@ -805,10 +809,10 @@ void Ball::manageDirection() {
 			else
 				dir = BBDIR_HAUT_H_G;
 		}
-	} else if (ctrl->bas()) {
-		if (ctrl->droite())
+	} else if (ay > 0) {
+		if (ax > 0)
 			dir = BBDIR_BAS_DROITE;
-		else if (ctrl->gauche())
+		else if (ax < 0)
 			dir = BBDIR_BAS_GAUCHE;
 		else {
 			if (dir <= BBLIM_DROITE)
@@ -816,9 +820,9 @@ void Ball::manageDirection() {
 			else
 				dir = BBDIR_BAS_B_G;
 		}
-	} else if (ctrl->droite()) {
+	} else if (ax > 0) {
 		dir = BBDIR_DROITE;
-	} else if (ctrl->gauche()) {
+	} else if (ax < 0) {
 		dir = BBDIR_GAUCHE;
 	} else {  // Aucune direction -> on retourne à l'horizontale
 		if (dir <= BBLIM_DROITE)
