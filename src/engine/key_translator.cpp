@@ -1,4 +1,5 @@
 #include <charconv>
+#include <iterator>
 #include <string>
 
 #include "core/config.h"
@@ -110,11 +111,9 @@ std::string codeName(unsigned int code) {
 
 unsigned int codeFromName(const std::string& name) {
 	if (name.empty()) return 0;
-	if (name.find_first_not_of("0123456789") == std::string::npos) {
-		unsigned int v = 0;
-		auto [p, ec] = std::from_chars(name.data(), name.data() + name.size(), v);
-		return ec == std::errc() && p == name.data() + name.size() ? v : UNKNOWN_CODE;
-	}
+	unsigned int v = 0;
+	auto [end, err] = std::from_chars(name.data(), name.data() + name.size(), v);
+	if (err == std::errc() && end == name.data() + name.size()) return v;
 	if (name.rfind("Mouse ", 0) == 0) {
 		int b = 0;
 		auto [p, ec] = std::from_chars(name.data() + 6, name.data() + name.size(), b);
@@ -122,10 +121,10 @@ unsigned int codeFromName(const std::string& name) {
 	}
 	if (name.rfind("Pad ", 0) == 0) {
 		std::string b = name.substr(4);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < (int)std::size(PAD_DIRS); i++) {
 			if (b == PAD_DIRS[i]) return PAD_CODE(0, JOY_UP + i);
 		}
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < (int)std::size(PAD_EXTRA); i++) {
 			if (b == PAD_EXTRA[i]) return PAD_CODE(0, PAD_LT + i);
 		}
 		SDL_GameControllerButton btn = SDL_GameControllerGetButtonFromString(b.c_str());

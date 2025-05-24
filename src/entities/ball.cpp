@@ -6,6 +6,7 @@
 #include "entities/shots/shot_bb_laser.h"
 #include "entities/shots/shot_bb_cow.h"
 
+#include <algorithm>
 #include <cmath>
 #include <numbers>
 
@@ -237,20 +238,20 @@ static void rotateAround(int& px, int& py, int gx, int gy, double deg) {
 double Ball::gunAngle() const {
 	double a = angleOf(dir_arme);
 	// The exact aim goes stale while a vehicle locks the direction
-	bool precise = (id_arme == ID_M16 || id_arme == ID_PM) && dir_arme == dir && std::abs(aim_angle_ - a) <= 11.25;
+	bool locked = etat == ETAT_LOCKEDV && locked_dir;
+	bool precise = (id_arme == ID_M16 || id_arme == ID_PM) && !locked && dir_arme == dir && std::abs(aim_angle_ - a) <= 11.25;
 	return precise ? aim_angle_ : a;
 }
 
 void Ball::gunSector(int& d_arme, double& residual) const {
-	static const double SECTORS[] = {-90, -45, 0, 45, 90, 90, 135, 180, 225, 270};
 	double a = gunAngle();
-	int first = dir_arme <= BBLIM_DROITE ? 0 : 5;
-	d_arme = first;
-	for (int i = first + 1; i < first + 5; i++) {
-		if (std::abs(a - SECTORS[i]) < std::abs(a - SECTORS[d_arme])) d_arme = i;
-	}
+	bool right = dir_arme <= BBLIM_DROITE;
+	// Sprites 0..4 run from down to up on the right, 5..9 from up to down on the left
+	int step = std::clamp((int)std::lround(right ? (a + 90) / 45 : (a - 90) / 45), 0, 4);
+	d_arme = right ? step : 5 + step;
+	double sector = right ? -90 + 45 * step : 90 + 45 * step;
 	// The shotgun hand and the laser glow are drawn per sector and do not rotate
-	residual = id_arme == ID_LASER || id_arme == ID_FUSIL ? 0 : a - SECTORS[d_arme];
+	residual = id_arme == ID_LASER || id_arme == ID_FUSIL ? 0 : a - sector;
 }
 
 void Ball::afficheArme(int xtmp, int ytmp) {
@@ -850,7 +851,10 @@ void Ball::manageDirection() {
 	if (std::abs(s) < 4 && vx != 0) right = vx > 0;
 	dir = right ? BBDIR_DROITE + s : BBDIR_GAUCHE - s;
 	double deg = t * 180 / std::numbers::pi;
-	aim_angle_ = right ? deg : 180 - deg;
+	// Mirrored by the aim itself, then kept in the facing's range so near vertical aim stays on its side
+	aim_angle_ = vx < 0 ? 180 - deg : deg;
+	if (right && aim_angle_ > 180) aim_angle_ -= 360;
+	if (!right && aim_angle_ < 0) aim_angle_ += 360;
 
 	// Gére la direction de l'arme
 	if (dir <= BBLIM_DROITE && dir_arme > BBLIM_DROITE)

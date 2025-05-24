@@ -66,8 +66,10 @@ void load_BB3_config(const char* cfg_file) {
 	for (auto& [name, scheme] : SCHEMES) {
 		json keys = data.value(name, json());
 		for (int i = 0; i < NB_ACTIONS; i++) {
-			if (!keys.is_object() || !keys.contains(ALIAS_NAMES[i]) || !keys[ALIAS_NAMES[i]].is_string()) continue;
-			unsigned int code = codeFromName(keys[ALIAS_NAMES[i]].get<std::string>());
+			if (!keys.is_object() || !keys.contains(ALIAS_NAMES[i])) continue;
+			const json& v = keys[ALIAS_NAMES[i]];
+			// Older saves store the raw codes
+			unsigned int code = v.is_number_unsigned() ? v.get<unsigned int>() : v.is_string() ? codeFromName(v.get<std::string>()) : UNKNOWN_CODE;
 			if (code != UNKNOWN_CODE) in.setAlias(scheme + i, code);
 		}
 	}

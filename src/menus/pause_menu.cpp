@@ -1,7 +1,5 @@
 #include "menus/pause_menu.h"
 
-#include "engine/control_alias.h"
-#include "engine/input.h"
 #include "core/text_data.h"
 #include "menus/txt_defines.h"
 
