@@ -1,31 +1,31 @@
 {
+  "controller": {
+    "DOWN": "Pad down",
+    "FIRE": "Pad x",
+    "JUMP": "Pad a",
+    "LEFT": "Pad left",
+    "RIGHT": "Pad right",
+    "SUPER": "Pad b",
+    "UP": "Pad up"
+  },
   "fullscreen": false,
   "keyboard": {
-    "DOWN": 1073741905,
-    "FIRE": 120,
-    "JUMP": 122,
-    "LEFT": 1073741904,
-    "RIGHT": 1073741903,
-    "SUPER": 99,
-    "UP": 1073741906
+    "DOWN": "Down",
+    "FIRE": "X",
+    "JUMP": "Z",
+    "LEFT": "Left",
+    "RIGHT": "Right",
+    "SUPER": "C",
+    "UP": "Up"
   },
   "mouse": {
-    "DOWN": 115,
-    "FIRE": 131073,
-    "JUMP": 32,
-    "LEFT": 97,
-    "RIGHT": 100,
-    "SUPER": 131075,
-    "UP": 119
-  },
-  "controller": {
-    "DOWN": 1125,
-    "FIRE": 1026,
-    "JUMP": 1024,
-    "LEFT": 1126,
-    "RIGHT": 1127,
-    "SUPER": 1025,
-    "UP": 1124
+    "DOWN": "S",
+    "FIRE": "Mouse 1",
+    "JUMP": "Space",
+    "LEFT": "A",
+    "RIGHT": "D",
+    "SUPER": "Mouse 3",
+    "UP": "W"
   },
   "vsync": true
 }

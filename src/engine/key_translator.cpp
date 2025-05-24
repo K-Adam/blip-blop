@@ -1,6 +1,6 @@
+#include <charconv>
 #include <string>
 
-#include <cstring>
 #include "core/config.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
@@ -87,4 +87,50 @@ std::string DIK_to_string_fr(int n) {
 		default:
 			return "INDEFINIE";
 	}
+}
+
+static const char* const PAD_EXTRA[] = {"lefttrigger", "righttrigger"};
+static const char* const PAD_DIRS[] = {"up", "down", "left", "right"};
+
+std::string codeName(unsigned int code) {
+	if (code == 0) return "";
+	int b = code & 0x3FF;
+	if (codeSlot(code) == MOUSE_SLOT) return "Mouse " + std::to_string(b);
+	if (codeSlot(code)) {
+		if (b >= JOY_UP && b <= JOY_RIGHT) return std::string("Pad ") + PAD_DIRS[b - JOY_UP];
+		if (b == PAD_LT || b == PAD_RT) return std::string("Pad ") + PAD_EXTRA[b - PAD_LT];
+		const char* s = b < SDL_CONTROLLER_BUTTON_MAX ? SDL_GameControllerGetStringForButton(SDL_GameControllerButton(b)) : nullptr;
+		return s ? std::string("Pad ") + s : std::to_string(code);
+	}
+	std::string name = SDL_GetKeyName(SDL_Keycode(code));
+	// Layout fallback codes read back as another key, those stay numeric
+	if (name.empty() || codeFromName(name) != code) return std::to_string(code);
+	return name;
+}
+
+unsigned int codeFromName(const std::string& name) {
+	if (name.empty()) return 0;
+	if (name.find_first_not_of("0123456789") == std::string::npos) {
+		unsigned int v = 0;
+		auto [p, ec] = std::from_chars(name.data(), name.data() + name.size(), v);
+		return ec == std::errc() && p == name.data() + name.size() ? v : UNKNOWN_CODE;
+	}
+	if (name.rfind("Mouse ", 0) == 0) {
+		int b = 0;
+		auto [p, ec] = std::from_chars(name.data() + 6, name.data() + name.size(), b);
+		return ec == std::errc() && b > 0 && b < MOUSE_BUTTONS ? MOUSE_CODE(b) : UNKNOWN_CODE;
+	}
+	if (name.rfind("Pad ", 0) == 0) {
+		std::string b = name.substr(4);
+		for (int i = 0; i < 4; i++) {
+			if (b == PAD_DIRS[i]) return PAD_CODE(0, JOY_UP + i);
+		}
+		for (int i = 0; i < 2; i++) {
+			if (b == PAD_EXTRA[i]) return PAD_CODE(0, PAD_LT + i);
+		}
+		SDL_GameControllerButton btn = SDL_GameControllerGetButtonFromString(b.c_str());
+		return btn == SDL_CONTROLLER_BUTTON_INVALID ? UNKNOWN_CODE : PAD_CODE(0, btn);
+	}
+	SDL_Keycode k = SDL_GetKeyFromName(name.c_str());
+	return k == SDLK_UNKNOWN ? UNKNOWN_CODE : (unsigned int)k;
 }

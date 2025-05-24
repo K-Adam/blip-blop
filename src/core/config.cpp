@@ -3,6 +3,7 @@
 #include "core/config.h"
 #include "engine/input.h"
 #include "engine/control_alias.h"
+#include "engine/key_translator.h"
 #include "engine/fmod.h"
 #include "core/globals.h"
 #include <json.h>
@@ -65,9 +66,9 @@ void load_BB3_config(const char* cfg_file) {
 	for (auto& [name, scheme] : SCHEMES) {
 		json keys = data.value(name, json());
 		for (int i = 0; i < NB_ACTIONS; i++) {
-			if (keys.is_object() && keys.contains(ALIAS_NAMES[i]) && keys[ALIAS_NAMES[i]].is_number_integer()) {
-				in.setAlias(scheme + i, keys[ALIAS_NAMES[i]].get<unsigned int>());
-			}
+			if (!keys.is_object() || !keys.contains(ALIAS_NAMES[i]) || !keys[ALIAS_NAMES[i]].is_string()) continue;
+			unsigned int code = codeFromName(keys[ALIAS_NAMES[i]].get<std::string>());
+			if (code != UNKNOWN_CODE) in.setAlias(scheme + i, code);
 		}
 	}
 }
@@ -80,7 +81,7 @@ void save_BB3_config(const char* cfg_file) {
 
 	for (auto& [name, scheme] : SCHEMES) {
 		json& keys = data[name];
-		for (int i = 0; i < NB_ACTIONS; i++) keys[ALIAS_NAMES[i]] = in.getAlias(scheme + i);
+		for (int i = 0; i < NB_ACTIONS; i++) keys[ALIAS_NAMES[i]] = codeName(in.getAlias(scheme + i));
 	}
 
 	std::ofstream out(cfg_file);
