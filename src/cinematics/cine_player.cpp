@@ -37,7 +37,7 @@ void CINEPlayer::initPlayer() {
 	delta_vol = 0;
 }
 
-Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2) {
+Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2, bool anyInputSkips) {
 	bool skiped = false;
 	initPlayer();
 
@@ -101,7 +101,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surfac
 		while (frame_to_draw > 0 && !fini && !app_killed) {
 			renderLoop();
 
-			if (in.scanKey(DIK_ESCAPE)) {
+			if (anyInputSkips ? in.anyNewPress() : in.scanKey(DIK_ESCAPE)) {
 				fini = true;
 				skiped = true;
 			}

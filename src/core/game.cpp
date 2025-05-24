@@ -1889,7 +1889,7 @@ Task<> Game::go() {
 
 	cine.loadPBK("intro.gfx");
 	mbk_interl.play(0);
-	co_await cine.playScene("intro.cin", primSurface, backSurface);
+	co_await cine.playScene("intro.cin", primSurface, backSurface, true);
 
 	menu.start();
 	co_await in.waitClean();
@@ -1924,7 +1924,7 @@ Task<> Game::go() {
 					case 3:
 					case 7:
 						cine.loadPBK("intro.gfx");
-						co_await cine.playScene("intro.cin", primSurface, backSurface);
+						co_await cine.playScene("intro.cin", primSurface, backSurface, true);
 						break;
 				}
 

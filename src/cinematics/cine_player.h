@@ -99,5 +99,5 @@ class CINEPlayer {
 
    public:
 	void loadPBK(const char* f);
-	Task<bool> playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2);
+	Task<bool> playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2, bool anyInputSkips = false);
 };
