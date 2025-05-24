@@ -93,7 +93,8 @@ void set_default_config(bool reset_lang) {
 
 	// The usual keyboard platformer layout, keeping WASD and the mouse free for a second player
 	const unsigned int keyboard[NB_ACTIONS] = {DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT, DIK_X, DIK_Z, DIK_C};
-	const unsigned int mouse[NB_ACTIONS] = {DIK_W, DIK_S, DIK_A, DIK_D, MOUSE_CODE(SDL_BUTTON_LEFT), DIK_SPACE, MOUSE_CODE(SDL_BUTTON_RIGHT)};
+	// The mouse aims, so W is free to jump
+	const unsigned int mouse[NB_ACTIONS] = {0, DIK_S, DIK_A, DIK_D, MOUSE_CODE(SDL_BUTTON_LEFT), DIK_W, MOUSE_CODE(SDL_BUTTON_RIGHT)};
 	// Pad buttons are stored for the first pad, the joining pad replaces the slot
 	const unsigned int pad[NB_ACTIONS] = {PAD_CODE(0, JOY_UP),
 										  PAD_CODE(0, JOY_DOWN),

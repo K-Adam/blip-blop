@@ -21,11 +21,11 @@
   "mouse": {
     "DOWN": "S",
     "FIRE": "Mouse 1",
-    "JUMP": "Space",
+    "JUMP": "W",
     "LEFT": "A",
     "RIGHT": "D",
     "SUPER": "Mouse 3",
-    "UP": "W"
+    "UP": ""
   },
   "vsync": true
 }

@@ -21,4 +21,5 @@ class KeysMenu : public AbstractMenu {
 	State state_ = State::Browsing;
 	int scheme_;
 	int self_;
+	int first_;
 };
