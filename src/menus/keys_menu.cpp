@@ -61,12 +61,7 @@ int KeysMenu::ProcessEvent() {
 		}
 		if (key >= 0) SetKey(key);
 	} else {
-		if (in.pressedKey(DIK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
-			items_.MoveUp();
-		} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
-			items_.MoveDown();
-		}
-		if (in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE)) {
+		if (items_.Navigate()) {
 			if (items_.focused() == (int)items_.size() - 1) return MenuType::Options;
 			state_ = State::WaitingRelease;
 			items_.ChangeEntry(items_.focused(), txt_data[ACTION_TEXT[first_ + items_.focused()]] + " = ...");

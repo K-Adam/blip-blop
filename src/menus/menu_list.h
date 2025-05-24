@@ -25,6 +25,9 @@ class MenuList {
 
 	int focused() const { return focused_; }
 
+	// Keys, aliases, hover and click. True when the focused item is chosen
+	bool Navigate();
+
 	void AddEntry(const std::string& entry) { items_.push_back(entry); }
 	void ChangeEntry(int idx, const std::string& entry) { items_[idx] = entry; }
 
@@ -32,6 +35,7 @@ class MenuList {
 
    private:
 	int ComputeWidth() const;
+	int ItemAt(int x, int y) const;
 	void ShadeTextBox(SDL::Surface* surf) const;
 
 	std::vector<std::string> items_;

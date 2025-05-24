@@ -12,12 +12,7 @@ MainMenu::MainMenu() {
 }
 
 int MainMenu::ProcessEvent() {
-	if (in.pressedKey(DIK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
-		items_.MoveUp();
-	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
-		items_.MoveDown();
-	}
-	if (in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE)) {
+	if (items_.Navigate()) {
 		switch (items_.focused()) {
 			case 0:
 				return MenuType::Play;

@@ -14,6 +14,7 @@ bool Input::open() {
 	if (SDL_GameControllerAddMappingsFromFile("assets/gamecontrollerdb.txt") < 0) {
 		debug << "Cannot load controller mappings: " << SDL_GetError() << "\n";
 	}
+	SDL_SetCursor(SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR));
 	// Already connected pads arrive as SDL_CONTROLLERDEVICEADDED events
 	return true;
 }
@@ -27,6 +28,7 @@ Pad* Input::padById(SDL_JoystickID id) {
 
 void Input::update() {
 	prev_ = cur_;
+	mouse_moved_ = new_press_ = false;
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
@@ -37,6 +39,7 @@ void Input::update() {
 			case SDL_KEYDOWN:
 			case SDL_KEYUP: {
 				char down = e.type == SDL_KEYDOWN;
+				if (down && !e.key.repeat) new_press_ = true;
 				SDL_Keycode k = e.key.keysym.sym;
 				// Unicode keycodes of non Latin layouts would collide with pad codes
 				if (k >= 255 && !(k & SDLK_SCANCODE_MASK)) k = SDL_SCANCODE_TO_KEYCODE(e.key.keysym.scancode);
@@ -74,18 +77,21 @@ void Input::update() {
 			case SDL_CONTROLLERBUTTONUP:
 				if (Pad* p = padById(e.cbutton.which)) {
 					p->buttons[e.cbutton.button] = e.cbutton.state == SDL_PRESSED;
+					if (e.cbutton.state == SDL_PRESSED) new_press_ = true;
 				}
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 				if (e.button.button < MOUSE_BUTTONS) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
+				if (e.button.state == SDL_PRESSED) new_press_ = true;
 				break;
 
 			// SDL already reports these in the 640x480 logical space of the renderer
 			case SDL_MOUSEMOTION:
 				mouse_x_ = e.motion.x;
 				mouse_y_ = e.motion.y;
+				mouse_moved_ = true;
 				break;
 
 			case SDL_CONTROLLERAXISMOTION:

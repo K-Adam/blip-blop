@@ -30,16 +30,11 @@ void OptionsPanel::ToggleVsync() {
 }
 
 int OptionsPanel::ProcessEvent() {
-	if (in.pressedKey(DIK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
-		items_.MoveUp();
-	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
-		items_.MoveDown();
-	}
 	if (items_.focused() == 0 && (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedKey(DIK_LEFT) ||
 								  in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT))) {
 		ToggleVsync();
 	}
-	if (in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE)) {
+	if (items_.Navigate()) {
 		switch (items_.focused()) {
 			case 0:
 				ToggleVsync();

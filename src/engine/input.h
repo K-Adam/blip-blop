@@ -168,6 +168,7 @@ class Input {
 	};
 	State cur_, prev_;
 	int mouse_x_ = 0, mouse_y_ = 0;
+	bool mouse_moved_ = false, new_press_ = false;
 	unsigned int aliastab[256] = {};
 
 	static int scan(const State &s, unsigned int k);
@@ -189,6 +190,9 @@ class Input {
 	unsigned int getAlias(int n) const { return aliastab[n]; }
 	int mouseX() const { return mouse_x_; }
 	int mouseY() const { return mouse_y_; }
+	bool mouseMoved() const { return mouse_moved_; }
+	// A key, mouse button or pad button went down this frame, unlike the held state of anyKeyPressed
+	bool anyNewPress() const { return new_press_; }
 	void padStick(int slot, int &x, int &y) const {
 		x = cur_.pads[slot].rx;
 		y = cur_.pads[slot].ry;
