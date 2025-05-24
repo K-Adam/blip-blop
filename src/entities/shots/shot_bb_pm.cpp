@@ -1,13 +1,7 @@
 #include "entities/shots/shot_bb_pm.h"
 
-const int dx_tirbb_PM[] = {0, 5, 8, 11, 12, 11, 8, 5, 0, -5, -8, -11, -12, -11, -8, -5};
-const int dy_tirbb_PM[] = {12, 11, 8, 5, 0, -5, -8, -11, -12, -11, -8, -5, 0, 5, 8, 11};
-
 void ShotBBPM::update() {
-	x += dx_tirbb_PM[dir];
-	y += dy_tirbb_PM[dir];
-
-	x += dxReferentiel;
+	moveAlongAngle();
 
 	if (mur_opaque(x, y) || x < offset - 20 || x > offset + 690 || y < -20 || y > 500) {
 		pic = NULL;

@@ -6,6 +6,9 @@
 #include "entities/shots/shot_bb_laser.h"
 #include "entities/shots/shot_bb_cow.h"
 
+#include <cmath>
+#include <numbers>
+
 //----- Animations de Blip ----------------------------------------------------
 
 const int anim_blip_marche_droite[] = {0, 1, 2, 1};
@@ -220,31 +223,73 @@ void Ball::afficheNormal() {
 	y = yback;
 }
 
-void Ball::afficheArme(int xtmp, int ytmp) {
-	// Affiche l'arme elle même
-	int d_arme = dir_arme / 2;
+// Counterclockwise degrees, the right side spans -90..90 and the left side 90..270
+static double angleOf(int d) { return d <= BBLIM_DROITE ? (d - BBDIR_DROITE) * 22.5 : 180 + (d - BBDIR_GAUCHE) * 22.5; }
 
-	if (dir_arme > BBLIM_DROITE) d_arme += 1;
+// Moves a point placed for the hand drawn sprite onto the gun rotated around its grip
+static void rotateAround(int& px, int& py, int gx, int gy, double deg) {
+	double a = deg * std::numbers::pi / 180, c = std::cos(a), s = std::sin(a);
+	int ox = px - gx, oy = py - gy;
+	px = gx + (int)std::lround(ox * c + oy * s);
+	py = gy + (int)std::lround(-ox * s + oy * c);
+}
+
+double Ball::gunAngle() const {
+	double a = angleOf(dir_arme);
+	// The exact aim goes stale while a vehicle locks the direction
+	bool precise = (id_arme == ID_M16 || id_arme == ID_PM) && dir_arme == dir && std::abs(aim_angle_ - a) <= 11.25;
+	return precise ? aim_angle_ : a;
+}
+
+void Ball::gunSector(int& d_arme, double& residual) const {
+	static const double SECTORS[] = {-90, -45, 0, 45, 90, 90, 135, 180, 225, 270};
+	double a = gunAngle();
+	int first = dir_arme <= BBLIM_DROITE ? 0 : 5;
+	d_arme = first;
+	for (int i = first + 1; i < first + 5; i++) {
+		if (std::abs(a - SECTORS[i]) < std::abs(a - SECTORS[d_arme])) d_arme = i;
+	}
+	// The shotgun hand and the laser glow are drawn per sector and do not rotate
+	residual = id_arme == ID_LASER || id_arme == ID_FUSIL ? 0 : a - SECTORS[d_arme];
+}
+
+void Ball::afficheArme(int xtmp, int ytmp) {
+	// Hand drawn sprites cover 45 degree steps, the rest of the aim rotates them around the grip
+	int d_arme;
+	double rot;
+	gunSector(d_arme, rot);
+	int gx = xtmp, gy = ytmp;
+	auto put = [&](int px, int py, const Picture* pic) {
+		if (rot == 0) return draw(px, py, pic);
+		rotateAround(px, py, gx, gy, rot);
+		drawRotated(px, py, pic, rot);
+	};
 
 	int d_arme2 = d_arme % 5;
 
 	switch (id_arme) {
 		case ID_M16:
+			gx = xtmp + dx_m16[d_arme];
+			gy = ytmp + dy_m16[d_arme];
 			if (tire)
-				draw(xtmp + dx_m16[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16[d_arme] + y_recul[d_arme][etape_recul], pbk_own[24 + d_arme]);
+				put(gx + x_recul[d_arme][etape_recul], gy + y_recul[d_arme][etape_recul], pbk_own[24 + d_arme]);
 			else
-				draw(xtmp + dx_m16[d_arme], ytmp + dy_m16[d_arme], pbk_own[24 + d_arme]);
+				put(gx, gy, pbk_own[24 + d_arme]);
 			break;
 
 		case ID_PM:
+			gx = xtmp + dx_pm[d_arme];
+			gy = ytmp + dy_pm[d_arme];
 			if (tire)
-				draw(xtmp + dx_pm[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_pm[d_arme] + y_recul[d_arme][etape_recul], pbk_own[64 + d_arme]);
+				put(gx + x_recul[d_arme][etape_recul], gy + y_recul[d_arme][etape_recul], pbk_own[64 + d_arme]);
 			else
-				draw(xtmp + dx_pm[d_arme], ytmp + dy_pm[d_arme], pbk_own[64 + d_arme]);
+				put(gx, gy, pbk_own[64 + d_arme]);
 			break;
 
 		case ID_LF:
-			draw(xtmp + dx_lf[d_arme], ytmp + dy_lf[d_arme], pbk_own[54 + d_arme]);
+			gx = xtmp + dx_lf[d_arme];
+			gy = ytmp + dy_lf[d_arme];
+			put(gx, gy, pbk_own[54 + d_arme]);
 			break;
 
 		case ID_FUSIL:
@@ -290,17 +335,17 @@ void Ball::afficheArme(int xtmp, int ytmp) {
 		switch (id_arme) {
 			case ID_M16:
 				if (id_ball == ID_BLIP) {
-					draw(xtmp + dx_m16_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16_deto[d_arme] + y_recul[d_arme][etape_recul],
-						 pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
+					put(xtmp + dx_m16_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16_deto[d_arme] + y_recul[d_arme][etape_recul],
+						pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
 				} else {
-					draw(xtmp + dx_m16o_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16o_deto[d_arme] + y_recul[d_arme][etape_recul],
-						 pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
+					put(xtmp + dx_m16o_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_m16o_deto[d_arme] + y_recul[d_arme][etape_recul],
+						pbk_bb[12 + d_arme * 3 + anim_m16_deto[etape_arme]]);
 				}
 				break;
 
 			case ID_PM:
-				draw(xtmp + dx_pm_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_pm_deto[d_arme] + y_recul[d_arme][etape_recul],
-					 pbk_own[74 + d_arme * 3 + anim_pm_deto[etape_arme]]);
+				put(xtmp + dx_pm_deto[d_arme] + x_recul[d_arme][etape_recul], ytmp + dy_pm_deto[d_arme] + y_recul[d_arme][etape_recul],
+					pbk_own[74 + d_arme * 3 + anim_pm_deto[etape_arme]]);
 				break;
 
 			case ID_FUSIL:
@@ -793,43 +838,19 @@ void Ball::onSaute() {
 }
 
 void Ball::manageDirection() {
-	// Gere la direction désirée (pas de diagonales pour le laser)
-	// The pivot is the gun height, the feet are at y
-	int ax, ay;
-	ctrl->aim(x - offset, y - 12, ax, ay);
-
-	if (ay < 0) {
-		if (ax > 0)
-			dir = BBDIR_HAUT_DROITE;
-		else if (ax < 0)
-			dir = BBDIR_HAUT_GAUCHE;
-		else {
-			if (dir <= BBLIM_DROITE)
-				dir = BBDIR_HAUT_H_D;
-			else
-				dir = BBDIR_HAUT_H_G;
-		}
-	} else if (ay > 0) {
-		if (ax > 0)
-			dir = BBDIR_BAS_DROITE;
-		else if (ax < 0)
-			dir = BBDIR_BAS_GAUCHE;
-		else {
-			if (dir <= BBLIM_DROITE)
-				dir = BBDIR_BAS_B_D;
-			else
-				dir = BBDIR_BAS_B_G;
-		}
-	} else if (ax > 0) {
-		dir = BBDIR_DROITE;
-	} else if (ax < 0) {
-		dir = BBDIR_GAUCHE;
-	} else {  // Aucune direction -> on retourne à l'horizontale
-		if (dir <= BBLIM_DROITE)
-			dir = BBDIR_DROITE;
-		else
-			dir = BBDIR_GAUCHE;
-	}
+	// The pivot is the gun height, the feet are at y. No aim returns to horizontal
+	int vx, vy;
+	ctrl->aim(x - offset, y - 12, vx, vy);
+	double t = std::atan2(-vy, std::abs(vx));
+	int s = (int)std::lround(t / (std::numbers::pi / 8));
+	// Laser beams and shotgun spreads only exist in 8 directions
+	if (id_arme == ID_LASER || id_arme == ID_FUSIL) s = 2 * (int)std::lround(s / 2.0);
+	bool right = dir <= BBLIM_DROITE;
+	// Straight up or down keeps the facing, so the body does not flip while aiming there
+	if (std::abs(s) < 4 && vx != 0) right = vx > 0;
+	dir = right ? BBDIR_DROITE + s : BBDIR_GAUCHE - s;
+	double deg = t * 180 / std::numbers::pi;
+	aim_angle_ = right ? deg : 180 - deg;
 
 	// Gére la direction de l'arme
 	if (dir <= BBLIM_DROITE && dir_arme > BBLIM_DROITE)
@@ -912,9 +933,14 @@ void Ball::updateArme() {
 
 	if (tire && pruno == 0 && !(poid_arme <= 1 && dir_arme != dir)) {
 		int d_arme;
-
-		d_arme = dir_arme / 2;
-		if (dir_arme > BBLIM_DROITE) d_arme += 1;
+		double rot;
+		gunSector(d_arme, rot);
+		// Muzzle of the rotated gun, from the sprite's grip
+		auto muzzle = [&](ShotBB* t, const int* gdx, const int* gdy, int mx, int my) {
+			t->x = x + mx;
+			t->y = y + my;
+			rotateAround(t->x, t->y, x + gdx[d_arme], y + gdy[d_arme], rot);
+		};
 
 		ShotBB* t = NULL;
 		int i;
@@ -929,15 +955,14 @@ void Ball::updateArme() {
 				t->a_detruire = false;
 
 				t->joueur = this;
-				t->x = x + dx_tir_m16[d_arme] + rand() % 11 - 5;
-				t->y = y + dy_tir_m16[d_arme] + rand() % 11 - 5;
+				muzzle(t, dx_m16, dy_m16, dx_tir_m16[d_arme] + rand() % 11 - 5, dy_tir_m16[d_arme] + rand() % 11 - 5);
 
 				if (etat == ETAT_LOCKEDV)
 					t->dxReferentiel = scroll_speed;
 				else
 					t->dxReferentiel = 0;
 
-				t->setDir(dir);
+				t->setAngle(gunAngle(), 9);
 				list_tirs_bb.push_back(t);
 				break;
 
@@ -948,15 +973,14 @@ void Ball::updateArme() {
 				t->a_detruire = false;
 
 				t->joueur = this;
-				t->x = x + dx_tir_pm[d_arme] + rand() % 11 - 5;
-				t->y = y + dy_tir_pm[d_arme] + rand() % 11 - 5;
+				muzzle(t, dx_pm, dy_pm, dx_tir_pm[d_arme] + rand() % 11 - 5, dy_tir_pm[d_arme] + rand() % 11 - 5);
 
 				if (etat == ETAT_LOCKEDV)
 					t->dxReferentiel = scroll_speed;
 				else
 					t->dxReferentiel = 0;
 
-				t->setDir(dir_arme);
+				t->setAngle(gunAngle(), 12);
 				list_tirs_bb.push_back(t);
 				break;
 
@@ -1004,8 +1028,7 @@ void Ball::updateArme() {
 
 				((ShotBBLF*)t)->deg = 2;
 				t->joueur = this;
-				t->x = x + dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul];
-				t->y = y + dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul];
+				muzzle(t, dx_lf, dy_lf, dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul], dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul]);
 				t->setDir(dir_arme);
 
 				list_tirs_bb.push_back(t);
@@ -1016,8 +1039,7 @@ void Ball::updateArme() {
 
 				((ShotBBLF*)t)->deg = 1;
 				t->joueur = this;
-				t->x = x + dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul];
-				t->y = y + dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul];
+				muzzle(t, dx_lf, dy_lf, dx_tir_lf[d_arme] + x_recul[d_arme][etape_recul], dy_tir_lf[d_arme] + y_recul[d_arme][etape_recul]);
 				t->setDir(dir_arme);
 
 				list_tirs_bb.push_back(t);

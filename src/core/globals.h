@@ -182,3 +182,7 @@ void tremblement(int amp);
 inline void draw(int x, int y, const Picture* pic) {
 	if (pic != NULL) pic->BlitTo(backSurface, x - offset, y);
 }
+
+inline void drawRotated(int x, int y, const Picture* pic, double deg) {
+	if (pic != NULL) pic->BlitRotated(backSurface, x - offset, y, deg);
+}

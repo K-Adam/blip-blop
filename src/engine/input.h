@@ -120,6 +120,9 @@
 
 #define MAX_JOY 5
 
+// A quarter of the travel, so drifting sticks do not register
+#define DEAD_ZONE 8000
+
 // Pad binding codes are PAD_CODE(slot, b), where b is an SDL_GameControllerButton,
 // a trigger (PAD_LT, PAD_RT) or a direction (JOY_*) that combines the D-pad and the left stick
 #define PAD_CODE(slot, b) ((((slot) + 1) << 10) | (b))
@@ -150,6 +153,7 @@ struct Pad {
 	SDL_JoystickID id = -1;
 	bool buttons[PAD_BUTTONS] = {};
 	bool left = false, right = false, up = false, down = false;
+	int rx = 0, ry = 0;
 };
 
 extern bool app_killed;
@@ -185,6 +189,10 @@ class Input {
 	unsigned int getAlias(int n) const { return aliastab[n]; }
 	int mouseX() const { return mouse_x_; }
 	int mouseY() const { return mouse_y_; }
+	void padStick(int slot, int &x, int &y) const {
+		x = cur_.pads[slot].rx;
+		y = cur_.pads[slot].ry;
+	}
 
 	bool open();
 	void setAlias(int a, unsigned int val);

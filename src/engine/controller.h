@@ -15,10 +15,10 @@ class Controller {
 	virtual int saut() const = 0;
 	virtual int super() const = 0;
 
-	// 8 way aim, -1/0/1 per axis, from the player's screen position
-	virtual void aim(int px, int py, int& ax, int& ay) const {
-		ax = droite() ? 1 : gauche() ? -1 : 0;
-		ay = haut() ? -1 : bas() ? 1 : 0;
+	// Aim vector of any length from the player's screen position, the move keys give 8 directions
+	virtual void aim(int px, int py, int& vx, int& vy) const {
+		vx = droite() ? 1 : gauche() ? -1 : 0;
+		vy = haut() ? -1 : bas() ? 1 : 0;
 	}
 
 	virtual bool inertia() const { return inertia_on; };

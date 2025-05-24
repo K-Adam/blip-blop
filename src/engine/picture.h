@@ -35,6 +35,8 @@ class Picture {
 	void LoadLGX(char *file, int xs = 0, int ys = 0, int flags = 0);
 	void PasteTo(SDL::Surface *s, int x, int y) const;
 	void BlitTo(SDL::Surface *s, int x, int y) const;
+	// Rotated counterclockwise around the hotspot, in degrees
+	void BlitRotated(SDL::Surface *s, int x, int y, double deg) const;
 	void Close();
 
 	~Picture();

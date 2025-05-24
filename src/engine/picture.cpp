@@ -1,3 +1,7 @@
+#include <algorithm>
+#include <cmath>
+#include <numbers>
+
 #include "engine/graphics.h"
 #include "engine/picture.h"
 #include "engine/dd_gfx.h"
@@ -109,3 +113,33 @@ void Picture::Close() {
 }
 
 Picture::~Picture() { Close(); }
+
+void Picture::BlitRotated(SDL::Surface* s, int x, int y, double deg) const {
+	SDL_Surface* src = surf->Get();
+	int r = (int)std::ceil(std::hypot(std::max(xspot, xsize - xspot), std::max(yspot, ysize - yspot)));
+	SDL_Surface* tmp = SDL_CreateRGBSurfaceWithFormat(0, 2 * r, 2 * r, 32, src->format->format);
+	if (!tmp) return;
+	Uint32 key;
+	if (SDL_GetColorKey(src, &key) == 0) {
+		SDL_FillRect(tmp, nullptr, key);
+		SDL_SetColorKey(tmp, SDL_TRUE, key);
+	}
+
+	double a = deg * std::numbers::pi / 180, c = std::cos(a), sn = std::sin(a);
+	SDL_LockSurface(src);
+	SDL_LockSurface(tmp);
+	for (int dy = -r; dy < r; dy++) {
+		Uint32* row = (Uint32*)((Uint8*)tmp->pixels + (dy + r) * tmp->pitch);
+		for (int dx = -r; dx < r; dx++) {
+			int sx = xspot + (int)std::lround(dx * c - dy * sn);
+			int sy = yspot + (int)std::lround(dx * sn + dy * c);
+			if (sx >= 0 && sy >= 0 && sx < src->w && sy < src->h) row[dx + r] = ((Uint32*)((Uint8*)src->pixels + sy * src->pitch))[sx];
+		}
+	}
+	SDL_UnlockSurface(tmp);
+	SDL_UnlockSurface(src);
+
+	SDL_Rect pos{x - r, y - r, 0, 0};
+	SDL_BlitSurface(tmp, nullptr, s->Get(), &pos);
+	SDL_FreeSurface(tmp);
+}

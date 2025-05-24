@@ -23,4 +23,12 @@ class ShotBB : public Shot {
 	};
 
 	virtual void setDir(int d);
+	// Exact direction in degrees counterclockwise from the right, the sprite takes the nearest of 16
+	void setAngle(double deg, double speed);
+
+   protected:
+	void moveAlongAngle();
+
+   private:
+	double fx_ = 0, fy_ = 0, vx_ = 0, vy_ = 0;
 };

@@ -117,6 +117,11 @@ class Ball : public Character, public Player {
 	virtual void unlockVehicule();
 
 	virtual void manageDirection();
+	// Drawn and fired angle of the gun, in degrees counterclockwise from the right
+	double gunAngle() const;
+	// Hand drawn sprite nearest the gun angle, and what is left to rotate it by
+	void gunSector(int& d_arme, double& residual) const;
+	double aim_angle_ = 0;
 	virtual bool okBonus();
 	virtual void setSuperWeapon();
 	virtual void endLevel() {

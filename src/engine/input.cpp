@@ -7,8 +7,7 @@
 
 Input in;
 
-// A quarter of the travel, so drifting sticks and resting triggers do not register
-static const int DEAD_ZONE = 8000;
+// A quarter of the travel, so resting triggers do not register
 static const int TRIGGER_THRESHOLD = 8192;
 
 bool Input::open() {
@@ -100,6 +99,12 @@ void Input::update() {
 						case SDL_CONTROLLER_AXIS_LEFTY:
 							p->up = v < -DEAD_ZONE;
 							p->down = v > DEAD_ZONE;
+							break;
+						case SDL_CONTROLLER_AXIS_RIGHTX:
+							p->rx = v;
+							break;
+						case SDL_CONTROLLER_AXIS_RIGHTY:
+							p->ry = v;
 							break;
 						case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
 							p->buttons[PAD_LT] = v > TRIGGER_THRESHOLD;
