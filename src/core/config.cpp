@@ -86,8 +86,9 @@ void save_BB3_config(const char* cfg_file) {
 		for (int i = 0; i < NB_ACTIONS; i++) keys[ALIAS_NAMES[i]] = codeName(in.getAlias(scheme + i));
 	}
 
-	std::ofstream out(cfg_file);
-	out << data.dump(2);
+	// Binary keeps LF on Windows, so saving does not rewrite the tracked file
+	std::ofstream out(cfg_file, std::ios::binary);
+	out << data.dump(2) << '\n';
 }
 
 void set_default_config(bool reset_lang) {

@@ -46,8 +46,9 @@ bool HiScores::save(const char* file) {
 		result["items"].push_back(item);
 	}
 
-	std::ofstream out(file);
-	out << result.dump(2);
+	// Binary keeps LF on Windows, so saving does not rewrite the tracked file
+	std::ofstream out(file, std::ios::binary);
+	out << result.dump(2) << '\n';
 
 	return true;
 }
