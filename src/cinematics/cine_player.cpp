@@ -101,7 +101,8 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surfac
 		while (frame_to_draw > 0 && !fini && !app_killed) {
 			renderLoop();
 
-			if (anyInputSkips ? in.anyNewPress() : in.scanKey(DIK_ESCAPE)) {
+			// Enter also reads a click or pad A, a fresh press so fire held from the level does not skip
+			if (anyInputSkips ? in.anyNewPress() : in.scanKey(DIK_ESCAPE) || in.pressedKey(DIK_RETURN)) {
 				fini = true;
 				skiped = true;
 			}
