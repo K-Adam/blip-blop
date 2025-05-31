@@ -28,7 +28,7 @@ bool cheat_on = false;
 
 HiScores hi_scores;
 
-bool fullscreen = false;  // THIS IS UGLY AS FUCK. WAY TOO MANY GLOBALS
+bool fullscreen = false;
 
 static const char* ALIAS_NAMES[NB_ACTIONS] = {"UP", "DOWN", "LEFT", "RIGHT", "FIRE", "JUMP", "SUPER"};
 static const std::pair<const char*, int> SCHEMES[] = {{"keyboard", SCHEME_KEYBOARD}, {"mouse", SCHEME_MOUSE}, {"controller", SCHEME_PAD}};

@@ -9,17 +9,14 @@ static char bSqr[0xFFFF] = {0};
 class MathsInit {
    public:
 	MathsInit() {
-		// Précalcul des cosinus
 		for (int i = 0; i < 360; i++) {
 			bCos[i] = int(1024 * cos(i / (180 / M_PI)));
 		}
 
-		// Précalcul des sinus
 		for (int i = 0; i < 360; i++) {
 			bSin[i] = int(1024 * sin(i / (180 / M_PI)));
 		}
 
-		// Précalcul des racines carrées
 		for (int i = 0; i < 0xFFFF; i++) {
 			bSqr[i] = char(sqrt(i));
 		}

@@ -29,11 +29,11 @@
 int fps_count = 0;
 int fps_current_count = 0;
 
-SDL::Surface* backSurface = NULL;	 // pointeur sur le double buffer supposé
-SDL::Surface* systemSurface = NULL;	 // Pour optimiser les accès SYSTEM/SYSTEM
-SDL::Surface* videoA = NULL;		 // cache video
+SDL::Surface* backSurface = NULL;
+SDL::Surface* systemSurface = NULL;
+SDL::Surface* videoA = NULL;
 
-int offset;	 // offset courant du scroll
+int offset;
 
 int scroll_speed;
 
@@ -46,16 +46,16 @@ int val_end_lock;
 bool no_scroll1;
 bool no_scroll2;
 
-size_t scr_level_size;		 // taille en écran du niveau
-size_t level_size;			 // taille en pixels du niveau
-std::vector<int> num_decor;	 // Numéro ecran courant -> surface à utiliser
+size_t scr_level_size;
+size_t level_size;
+std::vector<int> num_decor;
 
-std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
+std::vector<std::vector<int32_t>> y_plat;
 
-std::vector<std::vector<char>> murs_opaques;	// Murs opaques (=true)
-std::vector<std::vector<char>> murs_sanglants;	// Murs sanglants (=true)
+std::vector<std::vector<char>> murs_opaques;
+std::vector<std::vector<char>> murs_sanglants;
 
-std::vector<Ball*> list_joueurs;  // FIXME: make it owning?
+std::vector<Ball*> list_joueurs;
 std::list<ShotBB*> list_tirs_bb;
 std::list<std::unique_ptr<ShotBBCow>> list_cow;
 std::list<std::unique_ptr<Explosion>> list_impacts;
@@ -85,7 +85,7 @@ std::list<std::unique_ptr<Sprite>> list_gore;
 std::list<Sprite*> list_meteo;
 std::list<std::unique_ptr<Bubble>> list_bulles;
 
-bool phase;	 // Pour les clignotements
+bool phase;
 bool slow_phase;
 
 int game_flag[11];
@@ -94,7 +94,7 @@ bool hold_fire;
 int flag_hold_fire;
 int val_hold_fire;
 
-int rpg_to_play = -1;  // Le numéro de la phase RPG à actionner (-1:aucune)
+int rpg_to_play = -1;
 
 int nb_ennemis_created;
 
@@ -105,18 +105,18 @@ bool okBonus;
 bool cowBombOn;
 bool okLanceFlame;
 
-PictureBank pbk_decor;	// pbk des décors
-PictureBank pbk_blip;	// pbk de blip
+PictureBank pbk_decor;
+PictureBank pbk_blip;
 PictureBank pbk_blop;
-PictureBank pbk_bb;		  // pbk commune à blip et blop
-PictureBank pbk_misc;	  // pbk globale du jeu (bonus & co)
-PictureBank pbk_ennemis;  // pbk des ennemis
-PictureBank pbk_niveau;	  // pbk du niveau (fonds animes & co)
-PictureBank pbk_rpg;	  // Gueules des RPGs du niveau
-PictureBank pbk_rpg_bb;	  // Les gueules de Blip et Blop
-PictureBank pbk_inter;	  // L'interface
+PictureBank pbk_bb;
+PictureBank pbk_misc;
+PictureBank pbk_ennemis;
+PictureBank pbk_niveau;
+PictureBank pbk_rpg;
+PictureBank pbk_rpg_bb;
+PictureBank pbk_inter;
 
-SoundBankBB sbk_bb;	 // Sons BB/divers communs à tous les niveaux
+SoundBankBB sbk_bb;
 SoundBankBB sbk_misc;
 SoundBankBB sbk_niveau;
 

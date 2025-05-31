@@ -35,11 +35,11 @@
 extern int fps_count;
 extern int fps_current_count;
 
-extern SDL::Surface* backSurface;	 // pointeur sur le double buffer supposé
-extern SDL::Surface* systemSurface;	 // Pour optimiser les accès SYSTEM/SYSTEM
-extern SDL::Surface* videoA;		 // cache video
+extern SDL::Surface* backSurface;
+extern SDL::Surface* systemSurface;
+extern SDL::Surface* videoA;
 
-extern int offset;	// offset courant du scroll
+extern int offset;
 
 extern int scroll_speed;
 
@@ -49,24 +49,24 @@ extern int cond_end_lock;
 extern int flag_end_lock;
 extern int val_end_lock;
 
-extern bool no_scroll1;	 // Pour arrêter le scroll quand
-extern bool no_scroll2;	 // blip ou blop meure
+extern bool no_scroll1;	 // Stops the scroll while that player is dead
+extern bool no_scroll2;
 
 extern bool okBonus;
 extern bool cowBombOn;
 extern bool okLanceFlame;
 
-extern size_t scr_level_size;		// taille en écran du niveau
-extern size_t level_size;			// taille en pixels du niveau
-extern std::vector<int> num_decor;	// Numéro ecran courant -> surface à utiliser
+extern size_t scr_level_size;		// In screens
+extern size_t level_size;			// In pixels
+extern std::vector<int> num_decor;	// Decor surface of each screen
 
-extern std::vector<std::vector<int32_t>> y_plat;  // Plateformes (ordonnées)
+extern std::vector<std::vector<int32_t>> y_plat;  // Platform heights
 
-extern std::vector<std::vector<char>> murs_opaques;	   // Murs opaques (=true)
-extern std::vector<std::vector<char>> murs_sanglants;  // Murs sanglants (=true)
+extern std::vector<std::vector<char>> murs_opaques;
+extern std::vector<std::vector<char>> murs_sanglants;
 
-// FIXME: They're all lists instead of ideally vectors because we sometimes
-// append during iterations and relocating is then STRICTLY forbidden
+// Lists rather than vectors because entries get appended while iterating
+// and must not relocate
 class Ball;
 extern std::vector<Ball*> list_joueurs;	 // FIXME: make it owning?
 class ShotBB;
@@ -105,18 +105,16 @@ extern std::list<std::unique_ptr<Sprite>> list_plateformes_mobiles;
 class CoolText;
 extern std::list<std::unique_ptr<CoolText>> list_txt_cool;
 
-// FIXME: should prolly be a list of Splatter, but GoreSplatter doesn't inherit
-// Splatter
+// FIXME: should be a list of Splatter once GoreSplatter inherits it
 extern std::list<std::unique_ptr<Sprite>> list_giclures;
-// FIXME all things put insite list_gore don't have a common base aside from
-// Sprite
+// FIXME: list_gore entries share no base below Sprite
 extern std::list<std::unique_ptr<Sprite>> list_gore;
 
 extern std::list<Sprite*> list_meteo;
 class Bubble;
 extern std::list<std::unique_ptr<Bubble>> list_bulles;
 
-extern bool phase;	// Pour les clignotements
+extern bool phase;	// Drives blinking
 extern bool slow_phase;
 
 extern int game_flag[11];
@@ -125,25 +123,25 @@ extern bool hold_fire;
 extern int flag_hold_fire;
 extern int val_hold_fire;
 
-extern int rpg_to_play;	 // Le numéro de la phase RPG à actionner (-1:aucune)
+extern int rpg_to_play;	 // -1 means none
 
 extern int nb_ennemis_created;
 
 extern int intensite_meteo;
 extern int type_meteo;
 
-extern PictureBank pbk_decor;  // pbk des décors
-extern PictureBank pbk_blip;   // pbk de blip
+extern PictureBank pbk_decor;
+extern PictureBank pbk_blip;
 extern PictureBank pbk_blop;
-extern PictureBank pbk_bb;		 // pbk commune à blip et blop
-extern PictureBank pbk_misc;	 // pbk "diverse"
-extern PictureBank pbk_ennemis;	 // pbk des ennemis
-extern PictureBank pbk_niveau;	 // pbk du niveau (fonds animes & co)
-extern PictureBank pbk_rpg;		 // Gueules des RPGs du niveau
-extern PictureBank pbk_rpg_bb;	 // Les gueules de Blip et Blop
-extern PictureBank pbk_inter;	 // L'interface
+extern PictureBank pbk_bb;
+extern PictureBank pbk_misc;
+extern PictureBank pbk_ennemis;
+extern PictureBank pbk_niveau;
+extern PictureBank pbk_rpg;
+extern PictureBank pbk_rpg_bb;
+extern PictureBank pbk_inter;
 
-extern SoundBankBB sbk_bb;	// Sons BB/divers communs à tous les niveaux
+extern SoundBankBB sbk_bb;
 extern SoundBankBB sbk_misc;
 extern SoundBankBB sbk_niveau;
 
@@ -164,7 +162,7 @@ extern Font fnt_menu;
 extern Font fnt_menus;
 
 void set_plat(int n, int x, int y);
-int plat(int x, int y);	 // Retourne l'ordonnée de la plateforme (0 si pas de plat)
+int plat(int x, int y);	 // 0 when there is no platform
 int plat2(int x, int y);
 bool mur_opaque(int x, int y);
 bool mur_sanglant(int x, int y);

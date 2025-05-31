@@ -45,27 +45,28 @@ class Game {
 	int type_part[MAX_PART];
 	int type_lvl[MAX_PART];
 
-	bool joueurs_morts;	 // Explicite, isn't it ?
-	bool niveau_fini;	 // Yeah!
+	bool joueurs_morts;
+	bool niveau_fini;
 	bool niveau_bonus;
-	bool skipped;  // Jeu skippe
+	bool skipped;
 	bool last_perfect1;
 	bool last_perfect2;
 
-	int nframe;	 // Pour la synchronisation
+	int nframe;
 	int etape_timer;
 
-	int vic_x;		// Pour obtenir la victoire il faut avoir :
-	int vic_flag1;	// offset >= vic_x
-	int vic_val1;	// ET game_flag[vic_flag1] == vic_val1
-	int vic_flag2;	// ET game_flag[vic_flag2] == vic_val2
+	// Victory needs offset >= vic_x, game_flag[vic_flag1] == vic_val1 and game_flag[vic_flag2] == vic_val2
+	int vic_x;
+	int vic_flag1;
+	int vic_val1;
+	int vic_flag2;
 	int vic_val2;
 
-	int wait_for_victory;  // Pour que la partie ne s'achève pas immédiatement
+	int wait_for_victory;  // Delays the end of the level after victory
 	int wait_for_death;
 	int wait_cheat;
 
-	int xstart1;  // Coordonnées de départ des joueurs
+	int xstart1;
 	int ystart1;
 	int xstart2;
 	int ystart2;
@@ -90,32 +91,23 @@ class Game {
 	int next_goutte;
 
    public:
-	// Constructeur -> met tout à NULL
 	Game();
 
 	// Controls of the players who joined, the balls point at them during a game
 	SchemeController controllers_[2];
 
-	// jouePartie -> Faites chier la vache!
 	Task<> jouePartie(int nbj, int idj);
 
-	// joueNiveau -> Balance les PEs! Retourne VRAI si les joueurs
-	// passent le niveau avec succès
 	Task<bool> joueNiveau(const char* nom_niveau, int type);
 
-	// chargeNiveau -> Charge le niveau (appelé par joueNiveau)
 	bool chargeNiveau(const char* nom_niveau);
 
-	// releaseNiveau -> Permet de désallouer le schnuff
 	void releaseNiveau();
 
-	// updateAll -> fait tout avancer
 	void updateAll();
 
-	// drawAll -> affiche tout
 	void drawAll(bool flip = true);
 
-	// gameLoop -> let's burn!
 	Task<> gameLoop();
 
 	void releasePartie();

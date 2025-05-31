@@ -123,8 +123,6 @@ static bool InitApp(int nCmdShow) {
 
 	debug << "DI Initialized\n";
 
-	// Mode EXCLUSIF (bourrin quoi...)
-
 	debug << "Exclusive mode set\n";
 
 	static const int BEST_RATE = 85;
@@ -202,7 +200,7 @@ static bool InitApp(int nCmdShow) {
 		return false;
 	}
 
-	return true;  // C'est fini!
+	return true;
 }
 
 #undef main
@@ -211,8 +209,6 @@ void cleanup() {
 	debug << "---------------------------------------------------------------\n";
 	debug << "Releasing Blip & Blop\n";
 	debug << "---------------------------------------------------------------\n";
-
-	// Désalloue tout ce qu'il faut (en théorie)
 
 	// Test runs start from the repo, saving would rewrite the tracked config files
 	if (autoquit_frames == 0) save_settings();
@@ -257,5 +253,4 @@ int main(int argc, char** argv) {
 #endif
 
 	return 0;
-
-}  // WinMain ------------------------
+}

@@ -74,10 +74,8 @@ Task<> Game::jouePartie(int nbj, int idj) {
 	bool letsgo = true;
 	int i;
 
-	// Bidon
 	mbk_interl.stop();
 
-	// Charge Tout
 	if (!chargePartie()) {
 		releasePartie();
 		co_return;
@@ -104,7 +102,6 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		list_joueurs.push_back(player2.get());
 	}
 
-	// Joue à tous les niveaux
 	cowBombOn = false;
 	last_perfect1 = last_perfect2 = false;
 	int nbNiv = 0;
@@ -173,7 +170,6 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		co_await showPE(false);
 	}
 
-	// Désalloue tout
 	releasePartie();
 
 	pbk_inter.loadGFX("inter.gfx");
@@ -192,12 +188,11 @@ Task<> Game::jouePartie(int nbj, int idj) {
 }
 
 Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
-	int p1_life;  // Si il s'agit d'un niveau bonus on
+	int p1_life;  // Restored after a bonus level
 	bool p1_bringBack;
-	int p2_life;  // conserve le nombre de vies des joueurs
+	int p2_life;
 	bool p2_bringBack;
 
-	// Little init
 	joueurs_morts = false;
 	niveau_fini = false;
 	skipped = false;
@@ -229,7 +224,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		okLanceFlame = true;
 	}
 
-	// Place les joueurs et initialise qq trucs
 	if (player1 != NULL && player1->nb_life > 0) {
 		player1->x = xstart1;
 		player1->y = ystart1;
@@ -268,7 +262,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		p2_bringBack = false;
 	}
 
-	// Règlages conditionnels
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
 		nb_ennemis_created = 0;
 
@@ -319,10 +312,8 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	last_perfect1 = last_perfect2 = false;
 
-	// Niveau bonus = temps limite
 	niveau_bonus = type == LVL_BONUS;
 
-	// Règle l'offset sur les joueurs
 	Sprite* s = list_joueurs[0];
 	offset = s->x;
 	offset -= (offset % 640);
@@ -359,15 +350,11 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	if (!app_killed) debug << "Now getting into game loop.\n";
 
-	// Update quelques trucs
 	updateEvents();
 	updateAll();
 
-	// Pour le mode automatique
-	// FIXME: what is this auto mode? should that step really be there?
 	update_regulator_.Skip();
 
-	// Boucle principale
 	while (!joueurs_morts && !niveau_fini && !skipped && !app_killed) {
 		co_await gameLoop();
 		updateVictoryAndDefeat();
@@ -388,12 +375,10 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		player2->endLevel();
 	}
 
-	// Coupe les musiques
 	current_zik = -1;
 	if (music_on) mbk_niveau.stop();
 
-	// S'il s'agissait d'un niveau bonus on restaure les vies des
-	// joueurs + on ne peut pas perdre
+	// A bonus level gives the lives back and cannot be lost
 	if (type == LVL_BONUS && !skipped && !app_killed) {
 		if (player1 != NULL && p1_bringBack) {
 			if (player1->a_detruire && p1_life > 0) {
@@ -416,7 +401,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		niveau_fini = true;
 	}
 
-	// Récapitulatif de fin de niveau
 	if (niveau_fini && !joueurs_morts && type != LVL_END) {
 		drawAll(false);
 		graphics.Flip();
@@ -443,7 +427,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	drawLoading();
 	graphics.Flip();
 
-	// Libére la mémoire
 	releaseNiveau();
 
 	co_return niveau_fini;
@@ -497,7 +480,6 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	if (!loaded) return false;
 	if (data["fichier_mbk"].get<std::string>().empty()) current_mbk.clear();
 
-	// Taille du niveau
 	scr_level_size = data["num_decor"].size();
 	level_size = scr_level_size * 640;
 
@@ -511,44 +493,37 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 		return false;
 	}
 
-	// Numéros des écrans à afficher (comme des tiles)
 	num_decor.resize(scr_level_size);
 	for (size_t i = 0; i < scr_level_size; i++) {
 		num_decor[i] = data["num_decor"][i];
 	}
 
-	// Coordonnées de départ des joueurs
 	xstart1 = data["xstart1"];
 	ystart1 = data["ystart1"];
 	xstart2 = data["xstart2"];
 	ystart2 = data["ystart2"];
 
-	// Conditions de victoire
 	vic_x = data["vic_x"];
 	vic_flag1 = data["vic_flag1"];
 	vic_val1 = data["vic_val1"];
 	vic_flag2 = data["vic_flag2"];
 	vic_val2 = data["vic_val2"];
 
-	// Plateformes
 	y_plat.assign(NB_MAX_PLAT, std::vector<int32_t>(level_size));
 	for (int i = 0; i < NB_MAX_PLAT; i++) {
 		std::memcpy(y_plat[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
-	// Murs opaques
 	murs_opaques.resize(60);
 	for (size_t i = 0; i < 60; i++) {
 		murs_opaques[i].assign(murs_opaques_str.begin() + i * level_size_8, murs_opaques_str.begin() + (i + 1) * level_size_8);
 	}
 
-	// Murs sanglants
 	murs_sanglants.resize(60);
 	for (size_t i = 0; i < 60; i++) {
 		murs_sanglants[i].assign(murs_sanglants_str.begin() + i * level_size_8, murs_sanglants_str.begin() + (i + 1) * level_size_8);
 	}
 
-	// Charge les évenements
 	size_t nb_events = data["events"].size();
 	for (size_t i = 0; i < nb_events; i++) {
 		auto event = data["events"][i];
@@ -803,7 +778,6 @@ void Game::updateAll() {
 
 	if (phase) slow_phase = !slow_phase;
 
-	// Ok bonus ?
 	okBonus = false;
 
 	if (player1 != NULL) {
@@ -814,12 +788,11 @@ void Game::updateAll() {
 		okBonus = okBonus || player2->okBonus();
 	}
 
-	// Update tout ce qu'il faut
 	if (!no_scroll1 && !no_scroll2) updateScrolling(false);
 
 	updateEvents();
 
-	// On update le scroll une deuxième fois à cause des Locks
+	// Scroll again so locks set by the events apply
 	if (!no_scroll1 && !no_scroll2) updateScrolling();
 
 	updateCheat();
@@ -856,7 +829,6 @@ void Game::updateAll() {
 
 	manageCollisions();
 
-	// Retire les trucs inutiles des listes
 	cleanLists();
 }
 
@@ -899,7 +871,6 @@ void Game::drawAll(bool flip) {
 
 	if (type_meteo == METEO_DEFORME && intensite_meteo != 0) drawDeformation();
 
-	// FIXME: Disable it for now as it works unproperly at least on Linux
 	drawHUB();
 	drawTimer();
 	go_.Draw();
@@ -907,7 +878,7 @@ void Game::drawAll(bool flip) {
 
 	drawDebugInfos();
 
-	// Virer la bande qui déconne si besoin est
+	// Hides the glitchy strip at the right edge
 	if (vbuffer_wide == 640) {
 		Rect r;
 
@@ -947,7 +918,6 @@ Task<> Game::gameLoop() {
 void Game::releasePartie() { list_joueurs.clear(); }
 
 bool Game::chargePartie() {
-	// Charge les joueurs
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading global game files...\n";
 	debug << "---------------------------------------------------------------\n";
@@ -960,52 +930,42 @@ bool Game::chargePartie() {
 
 	debug << "Successfully loaded <blop.gfx>\n";
 
-	// Charge BB
 	if (!pbk_bb.loadGFX("bb.gfx")) return false;
 
 	debug << "Successfully loaded <bb.gfx>\n";
 
-	// Charge Divers
 	if (!pbk_misc.loadGFX("misc.gfx")) return false;
 
 	debug << "Successfully loaded <misc.gfx>\n";
 
-	// Charge gueules BB
 	if (!pbk_rpg_bb.loadGFX("rpg_bb.gfx")) return false;
 
 	debug << "Successfully loaded <rpg_bb.gfx>\n";
 
-	// Font score blip
 	if (!fnt_score_blip.load("scorei.lft")) return false;
 
 	debug << "Successfully loaded <scorei.lft>\n";
 
-	// Font score blop
 	if (!fnt_score_blop.load("scoreo.lft")) return false;
 
 	debug << "Successfully loaded <scoreo.lft>\n";
 
-	// Font munitions
 	if (!fnt_ammo.load("ammo1.lft")) return false;
 
 	debug << "Successfully loaded <ammo1.lft>\n";
 
-	// Font munitions utilisées
 	if (!fnt_ammo_used.load("ammo2.lft")) return false;
 
 	debug << "Successfully loaded <ammo2.lft>\n";
 
-	// Sons globaux
 	if (!sbk_misc.loadSFX("misc.sfx")) return false;
 
 	debug << "Successfully loaded <misc.sfx>\n";
 
-	// Sons BB
 	if (!sbk_bb.loadSFX("bb.sfx")) return false;
 
 	debug << "Successfully loaded <bb.sfx>\n";
 
-	// La liste des niveaux
 	if (!loadList("assets/bb.lst.json")) return false;
 
 	debug << "Successfully loaded <bb.lst>\n";
@@ -1048,10 +1008,7 @@ void Game::cleanLists() {
 }
 
 void Game::updateEvents() {
-	// Les évenements de la liste "endormie" sont mis dans la liste "en attente"
-	// quand ils sont sur le point d'être activés
-	// FIXME: These reverse iterators are WEIRD. Why are the events coming
-	// in reverse order? This feels so backward.
+	// Sleeping events move to the pending list when they are about to fire
 	for (auto it = list_event_endormis.rbegin(); it != list_event_endormis.rend(); ++it) {
 		auto& event = *it;
 		if (!event->aReveiller()) {
@@ -1063,7 +1020,6 @@ void Game::updateEvents() {
 	list_event_endormis.erase(std::remove_if(list_event_endormis.begin(), list_event_endormis.end(), [](auto& ev) { return !ev.get(); }),
 							  list_event_endormis.end());
 
-	// Si les évenements "en attente" doivent être activés, on les active
 	for (auto& event : list_event) {
 		if (event->aActiver()) {
 			event->doEvent();
@@ -1074,7 +1030,6 @@ void Game::updateEvents() {
 }
 
 void Game::manageCollisions() {
-	// Collisions TirsBB / Ennemis
 	for (Shot* tir : list_tirs_bb) {
 		for (auto& ennemi : list_ennemis) {
 			if (tir->collision(ennemi.get())) {
@@ -1083,7 +1038,6 @@ void Game::manageCollisions() {
 		}
 	}
 
-	// Collisions Vaches / Ennemis
 	for (auto& tir : list_cow) {
 		for (auto& ennemi : list_ennemis) {
 			if (tir->collision(ennemi.get())) {
@@ -1092,7 +1046,6 @@ void Game::manageCollisions() {
 		}
 	}
 
-	// Collisions Joueurs / Bonus
 	for (auto& bonus : list_bonus) {
 		for (Ball* ball : list_joueurs) {
 			if (bonus->collision(ball)) {
@@ -1102,14 +1055,12 @@ void Game::manageCollisions() {
 	}
 
 	if (wait_for_victory <= 0) {
-		// Collisions Joueurs / Ennemis
 		for (auto& ennemi : list_ennemis) {
 			for (Ball* joueur : list_joueurs) {
 				if (ennemi->collision(joueur)) joueur->estTouche(ennemi->degats());
 			}
 		}
 
-		// Collisions Joueurs / tirs ennemis
 		for (auto& tir : list_tirs_ennemis) {
 			for (Ball* joueur : list_joueurs) {
 				if (tir->collision(joueur)) {
@@ -1200,7 +1151,6 @@ Task<> Game::updateRPG() {
 }
 
 void Game::updateVictoryAndDefeat() {
-	// Defaite ?
 	if (list_joueurs.empty()) {
 		wait_for_death += 1;
 
@@ -1209,7 +1159,6 @@ void Game::updateVictoryAndDefeat() {
 		return;
 	}
 
-	// Victoire ?
 	if (offset >= vic_x && game_flag[vic_flag1] == vic_val1 && game_flag[vic_flag2] == vic_val2) {
 		hold_fire = true;
 		wait_for_victory += 1;
@@ -1227,7 +1176,6 @@ void Game::updateFlags() {
 	game_flag[FLAG_NB_ENN] = (int)list_ennemis.size();
 	makeb_current_mode = game_flag[FLAG_BONUS];
 
-	// Le TIMER
 	if (game_flag[FLAG_TIMER] > 0 && wait_for_victory == -1) {
 		etape_timer += 1;
 		etape_timer %= 80;
@@ -1248,7 +1196,6 @@ void Game::drawTimer() {
 }
 
 Task<> Game::updateMenu() {
-	// Appelle le menu s'il y a lieu de le faire
 	if (in.scanKey(DIK_ESCAPE)) {
 		MenuGame menu;
 		int r;
@@ -1573,13 +1520,7 @@ void Game::drawDeformation() {
 
 		x = xt = sini(5, phi);
 
-		// FIXME: This is absolutely wrong. We are copying a memory location to
-		// another that is overlapping (moving a line a few pixels). Depending
-		// on the order of overlap, we might be (and are) overwriting the data
-		// we're copying from and screwing everything up.  A temp satisfying
-		// fix would involve allocating a third surface to safely copy or doing
-		// it ourselves by locking the surface into host memory. A long term
-		// and much better fix is using pixel shaders.
+		// FIXME: the blit overlaps itself and can read rows it already overwrote, a scratch surface or a shader would fix it
 
 		if (x < 0) {
 			r.left = -x;
@@ -1606,7 +1547,6 @@ void Game::drawDeformation() {
 }
 
 void Game::updateBulles() {
-	// Crée de nouvelles bulles
 	for (Ball* pl : list_joueurs) {
 		creeBulle(pl);
 	}
@@ -1618,7 +1558,6 @@ void Game::updateBulles() {
 		creeBulle(pl.get());
 	}
 
-	// Update les bulles déjà crées
 	for (auto& pl : list_bulles) {
 		pl->update();
 	}
@@ -1806,7 +1745,6 @@ Task<> Game::go() {
 	int r;
 	static int attract_step = 0;
 
-	// Clear l'écran en noir + LOADING
 	{
 		backSurface->FillRect(nullptr, 0);
 		fnt_cool.printC(backSurface, 320, 240, "PLEASE WAIT");
