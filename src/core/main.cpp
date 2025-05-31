@@ -65,7 +65,7 @@ void ReleaseAll(void) {
 static void report(const char* txt, const wchar_t* title, UINT icon) {
 	// A message box would hang an unattended test run
 	if (autoquit_frames > 0) {
-		std::cerr << txt << "\n";
+		std::cerr << (icon == MB_ICONERROR ? "Bug: " : "Warning: ") << txt << "\n";
 		return;
 	}
 	std::wstring wide(MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0), L'\0');
@@ -76,8 +76,8 @@ static void report(const char* txt, const wchar_t* title, UINT icon) {
 void Bug(const char* txt) { report(txt, L"Blip'n Blop : Error reporting", MB_ICONERROR); }
 void Warning(const char* txt) { report(txt, L"Blip'n Blop : Warning", MB_ICONWARNING); }
 #else
-void Bug(const char* txt) { std::cerr << txt << "\n"; }
-void Warning(const char* txt) { std::cerr << txt << "\n"; }
+void Bug(const char* txt) { std::cerr << "Bug: " << txt << "\n"; }
+void Warning(const char* txt) { std::cerr << "Warning: " << txt << "\n"; }
 #endif
 
 static void analyseCmdLine(int argc, char** argv) {
@@ -86,6 +86,7 @@ static void analyseCmdLine(int argc, char** argv) {
 		if (arg == "/safe") safeMode = true;
 		if (arg == "/cheat") cheat_on = true;
 		if (arg == "/quiet") music_on = false;
+		if (arg == "/input" && i + 1 < argc && !in.setScript(argv[++i])) std::cerr << "Bug: bad /input script\n";
 		if (arg == "/autoquit" && i + 1 < argc) {
 			std::string_view n = argv[++i];
 			std::from_chars(n.data(), n.data() + n.size(), autoquit_frames);
@@ -110,7 +111,11 @@ static bool InitApp(int nCmdShow) {
 	}
 
 	restore_default_saves();
-	load_BB3_config(CONFIG_FILE);
+	// Tests run with the default controls whatever the local settings say
+	if (autoquit_frames > 0)
+		set_default_config(true);
+	else
+		load_BB3_config(CONFIG_FILE);
 
 	hi_scores.init();
 

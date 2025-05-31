@@ -1,9 +1,14 @@
 #define BENINPUT_CPP_FILE
 
+#include <charconv>
+#include <string>
+
 #include "core/misc.h"
 #include "engine/input.h"
 
 #include "core/debug.h"
+#include "engine/chrono.h"
+#include "engine/key_translator.h"
 
 Input in;
 
@@ -29,6 +34,17 @@ Pad* Input::padById(SDL_JoystickID id) {
 void Input::update() {
 	prev_ = cur_;
 	mouse_moved_ = new_press_ = false;
+	frames_played++;
+	if (autoquit_frames > 0 && (int)frames_played >= autoquit_frames) app_killed = true;
+	for (auto [frame, key] : script_) {
+		if (frame != frames_played && frame + 2 != frames_played) continue;
+		SDL_Event k{};
+		k.type = frame == frames_played ? SDL_KEYDOWN : SDL_KEYUP;
+		k.key.state = k.type == SDL_KEYDOWN ? SDL_PRESSED : SDL_RELEASED;
+		k.key.keysym.sym = key;
+		k.key.keysym.scancode = SDL_GetScancodeFromKey(key);
+		SDL_PushEvent(&k);
+	}
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
@@ -217,4 +233,21 @@ int Input::scanMenu(const State& st, unsigned int k) {
 		if (k == DIK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
 	}
 	return 0;
+}
+
+bool Input::setScript(std::string_view script) {
+	while (!script.empty()) {
+		size_t comma = script.find(',');
+		std::string_view step = script.substr(0, comma);
+		script = comma == std::string_view::npos ? std::string_view() : script.substr(comma + 1);
+		size_t colon = step.find(':');
+		if (colon == std::string_view::npos) return false;
+		std::uint32_t frame = 0;
+		auto [end, err] = std::from_chars(step.data(), step.data() + colon, frame);
+		unsigned int key = codeFromName(std::string(step.substr(colon + 1)));
+		bool keyboard = key < 255 || (key & SDLK_SCANCODE_MASK);
+		if (err != std::errc() || end != step.data() + colon || frame == 0 || key == 0 || !keyboard) return false;
+		script_.emplace_back(frame, SDL_Keycode(key));
+	}
+	return true;
 }

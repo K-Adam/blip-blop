@@ -2,6 +2,8 @@
 
 #include "core/misc.h"
 #include "core/config.h"
+#include "core/debug.h"
+#include "engine/chrono.h"
 #include "engine/errors.h"
 
 extern SDL::Surface* backSurface;
@@ -113,6 +115,19 @@ bool Graphics::SetColorKey(SDL::Surface* surf, Pixel rgb) {
 	return true;
 }
 
+// Tests compare these to prove a refactor draws exactly the same frames
+static void PrintFrameHash(SDL_Surface* frame) {
+	static std::uint32_t last = 0;
+	if (frames_played % 60 != 0 || frames_played == last) return;
+	last = frames_played;
+	std::uint32_t h = 2166136261u;
+	for (int y = 0; y < frame->h; y++) {
+		const Uint8* row = (const Uint8*)frame->pixels + y * frame->pitch;
+		for (int i = 0; i < frame->w * 4; i++) h = (h ^ row[i]) * 16777619u;
+	}
+	debug << "frame " << frames_played << " hash " << std::hex << h << std::dec << "\n";
+}
+
 void Graphics::Flip() {
 	SDL_Surface* frame = backSurface->Get();
 	if (!screen_) {
@@ -122,8 +137,7 @@ void Graphics::Flip() {
 	SDL_RenderClear(renderer_.get());
 	SDL_RenderCopy(renderer_.get(), screen_.get(), NULL, NULL);
 	SDL_RenderPresent(renderer_.get());
-	static int frames = 0;
-	if (autoquit_frames > 0 && ++frames == autoquit_frames) app_killed = true;
+	if (autoquit_frames > 0) PrintFrameHash(frame);
 }
 
 void Graphics::FlipV() { Flip(); }

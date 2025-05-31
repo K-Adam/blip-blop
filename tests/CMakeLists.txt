@@ -6,13 +6,16 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(e2e_tests startup_test.cpp)
+add_executable(e2e_tests e2e_test.cpp)
 target_link_libraries(e2e_tests PRIVATE GTest::gtest_main)
 target_compile_definitions(e2e_tests PRIVATE GAME_EXE="$<TARGET_FILE:blipblop>")
 add_dependencies(e2e_tests blipblop)
 
-add_test(NAME e2e_tests COMMAND e2e_tests)
-set_tests_properties(e2e_tests PROPERTIES
+include(GoogleTest)
+# BB_FIXEDSTEP ties game time to frames so the scripted input lands on the same screens every run
+gtest_discover_tests(e2e_tests
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_AUDIODRIVER=dummy"
-    TIMEOUT 120)
+    DISCOVERY_MODE PRE_TEST
+    PROPERTIES
+        ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_AUDIODRIVER=dummy;BB_FIXEDSTEP=1"
+        TIMEOUT 120)

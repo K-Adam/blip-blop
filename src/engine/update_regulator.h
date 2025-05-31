@@ -32,11 +32,12 @@
  * take.
  */
 
+#include "engine/chrono.h"
 #include "engine/moving_average.h"
 
 class UpdateRegulator {
    public:
-	UpdateRegulator(int delay_goal = 11, int margin = 1, int hist_size = 50)
+	UpdateRegulator(int delay_goal = UPDATE_PERIOD_MS, int margin = 1, int hist_size = 50)
 		: last_frames_spare_time_(hist_size), dtime_(0), delay_goal_(delay_goal), margin_(margin) {}
 
 	/**
@@ -45,6 +46,7 @@ class UpdateRegulator {
 	 * @return how many update steps to perform.
 	 */
 	int Step() {
+		if (fixedStep()) return 1;
 		int since_last = RegisterFrameTime();
 		dtime_ += since_last;
 		int mean_FST = last_frames_spare_time_.average();

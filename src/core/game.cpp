@@ -335,10 +335,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	n_cache = 0;
 	next_x = 0;
 
-	debug << "---------------------------------------------------------------\n";
-	debug << "Now getting into game loop.\n";
-	debug << "---------------------------------------------------------------\n";
-
 	for (Chrono pause; pause.elapsed() < 2000 && !app_killed;) {
 		DDFlipV();
 		co_await nextFrame();
@@ -367,6 +363,8 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		co_await in.waitKey();
 		briefing = false;
 	}
+
+	if (!app_killed) debug << "Now getting into game loop.\n";
 
 	// Update quelques trucs
 	updateEvents();
@@ -1266,6 +1264,7 @@ Task<> Game::updateMenu() {
 	if (in.scanKey(DIK_ESCAPE)) {
 		MenuGame menu;
 		int r;
+		debug << "Pause menu\n";
 
 		drawAll(false);
 		DDFlipV();
@@ -1892,6 +1891,7 @@ Task<> Game::go() {
 	co_await cine.playScene("intro.cin", primSurface, backSurface, true);
 
 	menu.start();
+	debug << "Title menu\n";
 	co_await in.waitClean();
 
 	Chrono diff_start;

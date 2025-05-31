@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string_view>
+#include <utility>
+#include <vector>
+
 #include "core/task.h"
 #include "engine/graphics.h"
 
@@ -170,6 +174,7 @@ class Input {
 	int mouse_x_ = 0, mouse_y_ = 0;
 	bool mouse_moved_ = false, new_press_ = false;
 	unsigned int aliastab[256] = {};
+	std::vector<std::pair<std::uint32_t, SDL_Keycode>> script_;
 
 	static int scan(const State &s, unsigned int k);
 	static int scanMenu(const State &s, unsigned int k);
@@ -204,6 +209,8 @@ class Input {
 	Task<int> waitKey();
 
 	Task<> waitClean();
+	// "<frame>:<key>,..." presses each key at that frame and releases it two frames later
+	bool setScript(std::string_view script);
 	void update();
 	void close();
 	bool anyKeyPressed() const;
