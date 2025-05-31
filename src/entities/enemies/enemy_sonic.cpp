@@ -217,7 +217,6 @@ void EnemySonic::onMeure() {
 		ss_etape++;
 		ss_etape %= 5;
 		if (ss_etape == 0) {
-			tremblement((etape / 5) + 2);
 			etape++;
 			if (etape >= 43) {
 				game_flag[2] = 2;

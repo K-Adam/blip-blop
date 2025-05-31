@@ -77,7 +77,7 @@ void EnemySpikes::affiche() {
 	r.right = 39;
 	r.bottom = -y_origine;
 
-	backSurface->BltFast(x - offset, y, surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
+	backSurface->BltFast(x - offset, y, surf, &r);
 }
 
 void EnemySpikes::colFromPic() {

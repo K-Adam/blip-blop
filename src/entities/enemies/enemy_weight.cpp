@@ -39,9 +39,6 @@ void EnemyWeight::onMeure() {
 		game_flag[0] = 7;
 		ss_etape++;
 		ss_etape %= 15;
-		if ((etape == 0) && (ss_etape == 1)) {
-			tremblement(8);
-		}
 		if (ss_etape == 0) {
 			etape++;
 			if (etape >= 3) {

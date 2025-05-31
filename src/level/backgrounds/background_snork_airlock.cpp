@@ -69,7 +69,7 @@ void BackgroundSnorkAirlock1::affiche() {
 	r.right = largeur;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + decalage, y, surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
+	backSurface->BltFast(x - offset + decalage, y, surf, &r);
 }
 
 BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { etape = 222; }
@@ -117,5 +117,5 @@ void BackgroundSnorkAirlock2::affiche() {
 	r.right = largeur;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + decalage, y, surf, &r, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
+	backSurface->BltFast(x - offset + decalage, y, surf, &r);
 }

@@ -16,7 +16,7 @@
 #include "menus/join_screen.h"
 #include "cinematics/cine_player.h"
 #include "core/config.h"
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 #include "entities/enemies/enemy.h"
 #include "level/events/event_bonus.h"
 #include "level/events/event_enemy.h"
@@ -124,7 +124,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		} else if (type_part[i] == PART_BRIEFING) {
 			showBriefing(fic_names[i].c_str());
 		} else {
-			co_await cine.playScene(fic_names[i].c_str(), primSurface, backSurface);
+			co_await cine.playScene(fic_names[i].c_str(), backSurface);
 		}
 
 		i += 1;
@@ -141,13 +141,13 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		mbk2.open("end.mbk", false);
 		cine.loadPBK("end.gfx");
 		mbk.play(1);
-		co_await cine.playScene("end.cin", primSurface, backSurface);
+		co_await cine.playScene("end.cin", backSurface);
 		mbk.stop();
 
 		pbk[1]->PasteTo(backSurface, 0, 0);
-		DDFlip();
+		graphics.Flip();
 		pbk[1]->PasteTo(backSurface, 0, 0);
-		DDFlip();
+		graphics.Flip();
 
 		if (!in.anyKeyPressed()) mbk2.play(0);
 
@@ -160,9 +160,9 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		co_await showCredits(true);
 
 		pbk[0]->PasteTo(backSurface, 0, 0);
-		DDFlip();
+		graphics.Flip();
 		pbk[0]->PasteTo(backSurface, 0, 0);
-		DDFlip();
+		graphics.Flip();
 
 		co_await in.waitClean();
 		co_await in.waitKey();
@@ -214,9 +214,6 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	hold_fire = false;
 
 	intensite_meteo = 0;
-	dy_tremblement = 0;
-	etape_tremblement = 0;
-	amplitude_tremblement = 0;
 
 	n_cache = 0;
 
@@ -336,27 +333,23 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	next_x = 0;
 
 	for (Chrono pause; pause.elapsed() < 2000 && !app_killed;) {
-		DDFlipV();
+		graphics.Flip();
 		co_await nextFrame();
 	}
 
 	if (briefing) {
-		DDBLTFX ddfx{};
 		Rect r;
-
-		ddfx.dwSize = sizeof(ddfx);
 
 		r.left = 0;
 		r.right = 640;
 		r.top = 0;
 		r.bottom = 480;
 
-		// backSurface->Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL,
 		backSurface->FillRect(&r, 0);
 
 		pbk_briefing[0]->PasteTo(backSurface, 0, 0);
 		fnt_rpg.printC(backSurface, 320, 460, "Press a key to start.");
-		DDFlip();
+		graphics.Flip();
 
 		mbk_inter.play(2);
 		co_await in.waitClean();
@@ -426,7 +419,7 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	// Récapitulatif de fin de niveau
 	if (niveau_fini && !joueurs_morts && type != LVL_END) {
 		drawAll(false);
-		DDFlip();
+		graphics.Flip();
 		drawAll(false);
 
 		if ((type == LVL_BONUS && !skipped && game_flag[FLAG_TIMER] > 0) || type == LVL_COMPLETE || type == LVL_LAST) {
@@ -448,7 +441,7 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	drawAll(false);
 	drawLoading();
-	DDFlipV();
+	graphics.Flip();
 
 	// Libére la mémoire
 	releaseNiveau();
@@ -830,7 +823,6 @@ void Game::updateAll() {
 	if (!no_scroll1 && !no_scroll2) updateScrolling();
 
 	updateCheat();
-	updateTremblements();
 
 	if (game_flag[FLAG_BULLES]) updateBulles();
 
@@ -917,18 +909,14 @@ void Game::drawAll(bool flip) {
 
 	// Virer la bande qui déconne si besoin est
 	if (vbuffer_wide == 640) {
-		DDBLTFX ddfx{};
 		Rect r;
-
-		ddfx.dwSize = sizeof(ddfx);
 
 		r.left = 638;
 		r.right = 640;
 		r.top = 0;
 		r.bottom = 480;
 
-		backSurface->/*Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddfx)*/
-			FillRect(&r, 0);
+		backSurface->FillRect(&r, 0);
 	}
 
 	Rect r;
@@ -939,7 +927,7 @@ void Game::drawAll(bool flip) {
 	r.bottom = 480;
 
 	if (flip) {
-		DDFlip();
+		graphics.Flip();
 	}
 }
 
@@ -1200,7 +1188,7 @@ Task<> Game::updateRPG() {
 	while (continued && !app_killed) {
 		drawAll(false);
 		continued = rpg.drawScene(backSurface);
-		DDFlipV();
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -1267,12 +1255,12 @@ Task<> Game::updateMenu() {
 		debug << "Pause menu\n";
 
 		drawAll(false);
-		DDFlipV();
+		graphics.Flip();
 		drawAll(false);
-		DDFlipV();
+		graphics.Flip();
 
 		menu.Draw(backSurface);
-		DDFlipV();
+		graphics.Flip();
 
 		co_await in.waitClean();
 
@@ -1280,7 +1268,7 @@ Task<> Game::updateMenu() {
 			drawAll(false);
 			menu.Draw(backSurface);
 
-			DDFlipV();
+			graphics.Flip();
 
 			co_await nextFrame();
 		}
@@ -1291,9 +1279,9 @@ Task<> Game::updateMenu() {
 		if (r == 2) skipped = true;
 
 		drawAll(false);
-		DDFlipV();
+		graphics.Flip();
 		drawAll(false);
-		DDFlipV();
+		graphics.Flip();
 
 		update_regulator_.Skip();
 	}
@@ -1424,7 +1412,7 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
 
-	systemSurface->BltFast(0, 0, backSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+	systemSurface->BltFast(0, 0, backSurface, NULL);
 
 	Rect r;
 	r.top = 100;
@@ -1471,7 +1459,7 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 			for (auto& t : totals) t.step(game_flag[FLAG_TIMER]);
 		}
 
-		backSurface->BltFast(0, 0, systemSurface, NULL, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+		backSurface->BltFast(0, 0, systemSurface, NULL);
 
 		fnt_cool.printC(backSurface, 320, 120, fuckOff ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
@@ -1479,7 +1467,7 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 			if (t.fnt) t.draw(game_flag[FLAG_TIMER]);
 		}
 
-		DDFlipV();
+		graphics.Flip();
 
 		co_await nextFrame();
 	} while (!app_killed && (totals[0].calc < 4 || totals[1].calc < 4));
@@ -1566,15 +1554,12 @@ void Game::updateDeformation() {
 }
 
 void Game::drawDeformation() {
-	DDBLTFX ddfx{};
 	Rect r;
 	int pas = 20;
 	int phi = phi_deform;
 	int dphi = 10;
 	int x;
 	int xt;
-
-	ddfx.dwSize = sizeof(ddfx);
 
 	pas = 2;
 	dphi = 1;
@@ -1606,7 +1591,7 @@ void Game::drawDeformation() {
 			r.right = 640 - x;
 		}*/
 
-		backSurface->BltFast(x, y, backSurface, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+		backSurface->BltFast(x, y, backSurface, &r);
 
 		if (xt < 0) {
 			r.left = 640 + xt;
@@ -1616,7 +1601,7 @@ void Game::drawDeformation() {
 			r.right = xt;
 		}
 
-		backSurface->Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddfx);
+		backSurface->FillRect(&r, 0);
 	}
 }
 
@@ -1655,60 +1640,6 @@ void Game::creeBulle(Sprite* s) {
 
 		s->wait_bulle = 0;
 	}
-}
-
-void Game::updateTremblements() {
-	if (amplitude_tremblement == 0) return;
-
-	if (etape_tremblement == 0) {
-		dy_tremblement += ddy_tremblement;
-
-		if (dy_tremblement <= -amplitude_tremblement) {
-			amplitude_tremblement -= 1;
-			ddy_tremblement = (amplitude_tremblement >> 1) + 1;
-			dy_tremblement += 1;
-		} else if (dy_tremblement >= amplitude_tremblement) {
-			amplitude_tremblement -= 1;
-			ddy_tremblement = -(amplitude_tremblement >> 1) - 1;
-			dy_tremblement -= 1;
-		}
-	}
-}
-
-void Game::drawTremblements() {
-	if (amplitude_tremblement == 0 || dy_tremblement == 0) return;
-
-	int y = 0;
-	Rect r;
-	Rect r2;
-
-	r2.left = r.left = 0;
-	r2.right = r.right = 640;
-
-	if (dy_tremblement < 0) {
-		r.top = -dy_tremblement;
-		r.bottom = 480;
-
-		r2.top = 480 + dy_tremblement;
-		r2.bottom = 480;
-
-		y = 0;
-	} else if (dy_tremblement > 0) {
-		r.top = 0;
-		r.bottom = 480 - dy_tremblement;
-
-		r2.top = 0;
-		r2.bottom = dy_tremblement;
-
-		y = dy_tremblement;
-	}
-
-	backSurface->BltFast(0, y, backSurface, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
-
-	DDBLTFX ddfx{};
-	ddfx.dwSize = sizeof(ddfx);
-
-	backSurface->Blt(&r2, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddfx);
 }
 
 bool Game::loadList(const char* fic) {
@@ -1771,7 +1702,7 @@ Task<> Game::getName(Player* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 
-		DDFlipV();
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -1794,7 +1725,7 @@ Task<> Game::getName(Player* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260, name);
-		DDFlipV();
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -1808,7 +1739,7 @@ Task<> Game::getName(Player* joueur, int ijoueur) {
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260 + x, name);
 
-		DDFlipV();	// primSurface->Flip( NULL, 0);
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -1824,7 +1755,7 @@ Task<> Game::showGameOver() {
 
 	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
 		pbk_inter[0]->PasteTo(backSurface, 0, 0);
-		DDFlipV();	// primSurface->Flip( NULL, 0);
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -1848,7 +1779,7 @@ Task<> Game::showHighScores() {
 			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
 		}
 
-		DDFlipV();	// primSurface->Flip( NULL, 0);
+		graphics.Flip();
 		co_await nextFrame();
 	}
 
@@ -1863,7 +1794,7 @@ Task<> Game::showHighScores() {
 			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
 		}
 
-		DDFlipV();	// primSurface->Flip( NULL, 0);
+		graphics.Flip();
 		co_await nextFrame();
 	}
 
@@ -1877,10 +1808,7 @@ Task<> Game::go() {
 
 	// Clear l'écran en noir + LOADING
 	{
-		DDBLTFX ddfx{};
-		ddfx.dwSize = sizeof(ddfx);
-
-		backSurface->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddfx);
+		backSurface->FillRect(nullptr, 0);
 		fnt_cool.printC(backSurface, 320, 240, "PLEASE WAIT");
 	}
 
@@ -1888,7 +1816,7 @@ Task<> Game::go() {
 
 	cine.loadPBK("intro.gfx");
 	mbk_interl.play(0);
-	co_await cine.playScene("intro.cin", primSurface, backSurface, true);
+	co_await cine.playScene("intro.cin", backSurface, true);
 
 	menu.start();
 	debug << "Title menu\n";
@@ -1924,7 +1852,7 @@ Task<> Game::go() {
 					case 3:
 					case 7:
 						cine.loadPBK("intro.gfx");
-						co_await cine.playScene("intro.cin", primSurface, backSurface, true);
+						co_await cine.playScene("intro.cin", backSurface, true);
 						break;
 				}
 
@@ -1943,7 +1871,7 @@ Task<> Game::go() {
 				r = menu.update();
 				menu.draw(backSurface);
 
-				DDFlipV();
+				graphics.Flip();
 			}
 
 			co_await nextFrame();
@@ -1956,7 +1884,7 @@ Task<> Game::go() {
 			while (joined == JoinScreen::Output::Continue && !app_killed) {
 				joined = join.update();
 				join.draw();
-				DDFlipV();
+				graphics.Flip();
 
 				co_await nextFrame();
 			}
@@ -1970,7 +1898,7 @@ Task<> Game::go() {
 				while (selected == CharacterSelection::Output::Continue && !app_killed) {
 					selected = select.update();
 					select.draw();
-					DDFlipV();
+					graphics.Flip();
 
 					co_await nextFrame();
 				}
@@ -1978,7 +1906,7 @@ Task<> Game::go() {
 				co_await in.waitClean();
 
 				drawLoading();
-				DDFlipV();
+				graphics.Flip();
 
 				co_await jouePartie(join.players(), int(selected));
 				mbk_interl.play(0);
@@ -2003,21 +1931,18 @@ void Game::showBriefing(const char* fn) {
 
 	briefing = true;
 
-	DDBLTFX ddfx{};
 	Rect r;
-
-	ddfx.dwSize = sizeof(ddfx);
 
 	r.left = 0;
 	r.right = 640;
 	r.top = 0;
 	r.bottom = 480;
 
-	backSurface->Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddfx);
+	backSurface->FillRect(&r, 0);
 
 	pbk_briefing[0]->PasteTo(backSurface, 0, 0);
 	fnt_rpg.printC(backSurface, 320, 460, "Loading...");
-	DDFlip();
+	graphics.Flip();
 }
 
 Task<> Game::showMainScreen() {
@@ -2025,7 +1950,7 @@ Task<> Game::showMainScreen() {
 
 	while (!in.anyKeyPressed() && !app_killed && t.elapsed() <= 5000) {
 		pbk_inter[1]->PasteTo(backSurface, 0, 0);
-		DDFlipV();	// primSurface->Flip(NULL, DDFLIP_WAIT );
+		graphics.Flip();
 
 		co_await nextFrame();
 	}
@@ -2064,17 +1989,14 @@ Task<> Game::showCredits(bool theEnd) {
 		}
 
 		{
-			DDBLTFX ddfx{};
 			Rect r;
-
-			ddfx.dwSize = sizeof(ddfx);
 
 			r.left = 0;
 			r.right = 640;
 			r.top = 0;
 			r.bottom = 480;
 
-			backSurface->Blt(&r, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddfx);
+			backSurface->FillRect(&r, 0);
 		}
 
 		if (theEnd) {
@@ -2253,7 +2175,7 @@ Task<> Game::showCredits(bool theEnd) {
 			t.Reset();
 		}
 
-		DDFlip();
+		graphics.Flip();
 		co_await nextFrame();
 	}
 }

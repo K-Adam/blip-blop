@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "core/debug.h"
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 #include <json.h>
 #include "core/asset_path.h"
 #include <SDL2/SDL_image.h>

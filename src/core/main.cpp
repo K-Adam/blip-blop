@@ -4,12 +4,12 @@
 
 #include "engine/graphics.h"
 #include <charconv>
+#include <iostream>
 #include <string_view>
 
 #include "core/debug.h"
 #include "core/misc.h"
 #include "core/config.h"
-#include "engine/dd_gfx.h"
 #include "engine/fmod.h"
 #include "engine/font.h"
 #include "core/game.h"
@@ -35,31 +35,6 @@ HWND WinHandle = NULL;
 #endif
 
 static bool safeMode = false;
-
-void ReleaseAll(void) {
-	if (graphicInstance != NULL) {
-		if (videoA != NULL) {
-			videoA->Release();
-			videoA = NULL;
-		}
-
-		if (systemSurface != NULL) {
-			systemSurface->Release();
-			systemSurface = NULL;
-		}
-
-		if (primSurface != NULL) {
-			primSurface->Release();
-			primSurface = NULL;
-		}
-
-		DDCloseDirectDraw();
-	}
-
-	FSOUND_Close();
-
-	in.close();
-}
 
 #if _WIN32
 static void report(const char* txt, const wchar_t* title, UINT icon) {
@@ -138,7 +113,7 @@ static bool InitApp(int nCmdShow) {
 		}
 	}
 
-	DDInitDirectDraw();
+	graphics.Init();
 
 	if (!in.open()) {
 		Bug("Cannot initialise DirectInput. Make sure DirectX 7 or better is "
@@ -156,27 +131,23 @@ static bool InitApp(int nCmdShow) {
 
 	if (safeMode) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
-		DDSetGfxMode(win_size.width, win_size.height, 16, false /* fullscreen */);
+		graphics.SetGfxMode(win_size.width, win_size.height, false);
 	} else {
 		debug << "Trying to create window\n";
-		DDSetGfxMode(win_size.width, win_size.height, 16, fullscreen /* fullscreen */);
+		graphics.SetGfxMode(win_size.width, win_size.height, fullscreen);
 		debug << "Window creation done\n";
 	}
 
-	// Crée la surface primaire avec double buffer
-	debug << "Creating primSurface\n";
-	primSurface = DDCreatePrimary(backSurface);
+	backSurface = graphics.CreateSurface(win_size.width, win_size.height);
 
-	if (primSurface == NULL || backSurface == NULL) {
+	if (backSurface == NULL) {
 		Bug("Cannot get a primary surface. Please reboot your PC and try to "
 			"launch Blip'n Blop again.\nBe sure you have at least 2 Mb of "
 			"video memory on your video card.");
 		return false;
 	}
-	debug << "primSurface created\n";
-
 	debug << "Creating systemSurface\n";
-	systemSurface = DDCreateSurface(win_size.width, win_size.height, DDSURF_SYSTEM);
+	systemSurface = graphics.CreateSurface(win_size.width, win_size.height);
 
 	if (systemSurface == NULL) {
 		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free memory. Try to "
@@ -185,7 +156,7 @@ static bool InitApp(int nCmdShow) {
 	}
 	debug << "systemSurface created\n";
 
-	videoA = DDCreateSurface(WANTED_VBUFFER_WIDE, 480, DDSURF_SYSTEM);
+	videoA = graphics.CreateSurface(WANTED_VBUFFER_WIDE, 480);
 
 	if (videoA == NULL) {
 		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free "

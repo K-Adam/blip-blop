@@ -34,7 +34,7 @@ void drawScrolling() {
 		r.left = xTex;
 		r.right = xTex + 2;
 
-		videoA->BltFast(next_x, 0, pbk_decor[num_decor[n_img]]->Surf(), &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+		videoA->BltFast(next_x, 0, pbk_decor[num_decor[n_img]]->Surf(), &r);
 
 		xTex += 2;
 
@@ -55,17 +55,17 @@ void drawScrolling() {
 		r.left = x1;
 		r.right = x1 + 640;
 
-		backSurface->BltFast(0, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+		backSurface->BltFast(0, 0, videoA, &r);
 	} else {
 		r.left = x1;
 		r.right = vbuffer_wide;
 
-		backSurface->BltFast(0, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+		backSurface->BltFast(0, 0, videoA, &r);
 
 		r.left = 0;
 		r.right = x2;
 
-		backSurface->BltFast(vbuffer_wide - x1, 0, videoA, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+		backSurface->BltFast(vbuffer_wide - x1, 0, videoA, &r);
 	}
 }
 

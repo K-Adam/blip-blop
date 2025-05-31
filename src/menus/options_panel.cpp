@@ -6,7 +6,7 @@
 #include "core/text_data.h"
 #include "menus/txt_defines.h"
 
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 
 OptionsPanel::OptionsPanel() {
 	vsync_on_txt_ = txt_data[TXT_VSYNC] + " " + txt_data[TXT_ON];
@@ -25,7 +25,7 @@ void OptionsPanel::RefreshVsync() { items_.ChangeEntry(0, vSyncOn ? vsync_on_txt
 
 void OptionsPanel::ToggleVsync() {
 	vSyncOn = !vSyncOn;
-	DDSetVSync(vSyncOn);
+	graphics.SetVSync(vSyncOn);
 	RefreshVsync();
 }
 
@@ -41,7 +41,7 @@ int OptionsPanel::ProcessEvent() {
 				break;
 			case 1:
 				fullscreen = !fullscreen;
-				DDToggleFullscreen();
+				graphics.ToggleFullscreen();
 				break;
 			case 2:
 				return MenuType::Keys_Keyboard;

@@ -20,9 +20,6 @@ void ShotSonicLightning::update() {
 			a_detruire = true;
 		}
 	}
-	if (etape == 0 || etape > 30) {
-		tremblement(7);
-	}
 }
 
 void ShotSonicLightning::affiche() {

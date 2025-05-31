@@ -35,13 +35,11 @@
 extern int fps_count;
 extern int fps_current_count;
 
-extern SDL::Surface* primSurface;	 // Surface primaire
 extern SDL::Surface* backSurface;	 // pointeur sur le double buffer supposé
 extern SDL::Surface* systemSurface;	 // Pour optimiser les accès SYSTEM/SYSTEM
 extern SDL::Surface* videoA;		 // cache video
 
-extern int offset;		// offset courant du scroll
-extern int scr_offset;	// = offset % 640
+extern int offset;	// offset courant du scroll
 
 extern int scroll_speed;
 
@@ -134,11 +132,6 @@ extern int nb_ennemis_created;
 extern int intensite_meteo;
 extern int type_meteo;
 
-extern int dy_tremblement;
-extern int etape_tremblement;
-extern int amplitude_tremblement;
-extern int ddy_tremblement;
-
 extern PictureBank pbk_decor;  // pbk des décors
 extern PictureBank pbk_blip;   // pbk de blip
 extern PictureBank pbk_blop;
@@ -150,8 +143,7 @@ extern PictureBank pbk_rpg;		 // Gueules des RPGs du niveau
 extern PictureBank pbk_rpg_bb;	 // Les gueules de Blip et Blop
 extern PictureBank pbk_inter;	 // L'interface
 
-extern SoundBankBB sbk_bb;	 // Sons BB/divers communs à tous les niveaux
-extern SoundBankBB sbk_rpg;	 // Les musiques des scènes RPG
+extern SoundBankBB sbk_bb;	// Sons BB/divers communs à tous les niveaux
 extern SoundBankBB sbk_misc;
 extern SoundBankBB sbk_niveau;
 
@@ -177,7 +169,6 @@ int plat2(int x, int y);
 bool mur_opaque(int x, int y);
 bool mur_sanglant(int x, int y);
 bool grave(int x, int y, Picture* pic);
-void tremblement(int amp);
 
 inline void draw(int x, int y, const Picture* pic) {
 	if (pic != NULL) pic->BlitTo(backSurface, x - offset, y);

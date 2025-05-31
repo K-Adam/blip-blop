@@ -290,9 +290,6 @@ void EnemyDiabolo::onCoupdegenou() {
 	} else {
 		dx = 0;
 		if ((plat(x + dx, y + dy) != 0) && (y > 400)) {
-			if ((ss_etape == 0) && (etape == 0)) {
-				tremblement(7);
-			}
 			ss_etape++;
 			ss_etape %= 8;
 			if (ss_etape == 0) {

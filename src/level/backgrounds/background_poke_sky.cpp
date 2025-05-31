@@ -42,7 +42,7 @@ void BackgroundPokeSky::affiche() {
 	r.right = etape + largeur;
 	r.bottom = ys;
 
-	backSurface->BltFast(x - offset + decalage, y + 50, surf, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+	backSurface->BltFast(x - offset + decalage, y + 50, surf, &r);
 
 	draw(x, y, pbk_niveau[49]);
 }

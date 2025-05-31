@@ -6,7 +6,6 @@
 #include <string>
 
 #include "engine/graphics.h"
-#include "engine/dd_gfx.h"
 #include "engine/picture.h"
 #include "cinematics/rpg_player.h"
 #include "entities/blip.h"
@@ -133,7 +132,6 @@ class Game {
 	void updateEvents();
 	void updateDeformation();
 	void updateBulles();
-	void updateTremblements();
 
 	void updateLock();
 	void updateHoldFire();
@@ -150,7 +148,6 @@ class Game {
 
 	template <class T>
 	void DrawCollection(const T& xs);
-	void drawTremblements();
 	void drawHUB();
 	void drawHUBpv(int x, int y, int pv);
 	void drawTimer();

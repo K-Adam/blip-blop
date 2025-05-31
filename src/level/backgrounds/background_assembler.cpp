@@ -30,5 +30,5 @@ void BackgroundAssembler::affiche() {
 	r.right = largeur;
 	r.bottom = 87 + etape;
 
-	backSurface->BltFast(x - offset, y, surf, &r, DDBLTFAST_WAIT | DDBLTFAST_NOCOLORKEY);
+	backSurface->BltFast(x - offset, y, surf, &r);
 }

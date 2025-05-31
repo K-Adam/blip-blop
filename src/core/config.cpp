@@ -1,4 +1,4 @@
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 #include "core/debug.h"
 #include "core/config.h"
 #include "engine/input.h"

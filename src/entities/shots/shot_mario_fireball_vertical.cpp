@@ -41,10 +41,6 @@ void ShotMarioFireballVertical::update() {
 	}
 
 	colFromPic();
-
-	if ((y_plat[0][0] < y + dy) && (y_plat[0][0] > y)) {
-		tremblement(7);
-	}
 }
 
 void ShotMarioFireballVertical::fireball_tombe() {

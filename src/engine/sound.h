@@ -22,15 +22,3 @@ class Sound {
 	void stop();
 	void close();
 };
-
-/*
-
-bool DSOpenDirectSound(HWND wh, int coop = DSSCL_PRIORITY);
-bool DSCreatePrimary(int f = 44100, int nb = 16);
-void DSCloseDirectSound();
-
-#ifndef BENSOUND_CPP_FILE
-	extern IDirectSound *		dsound;
-	extern IDirectSoundBuffer *	PrimarySBuffer;
-#endif
-*/

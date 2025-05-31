@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 
 #define XPIC_MAX 640  // Représente la largeur de la Primary Surface
 #define YPIC_MAX 480  // Représente la hauteur de la Primary Surface
@@ -25,14 +25,8 @@ class Picture {
 	inline SDL::Surface *Surf() const { return surf; };
 
 	void SetSpot(int x, int y);
-	void SetColorKey(Pixel rgb);
 	void SetSurface(SDL::Surface *s);
 
-	void LoadBMP(char *file);
-	void LoadBMP(char *file, int flags);
-	void LoadBMP(char *file, int xs, int ys);
-	void LoadBMP(char *file, int xs, int ys, int flags);
-	void LoadLGX(char *file, int xs = 0, int ys = 0, int flags = 0);
 	void PasteTo(SDL::Surface *s, int x, int y) const;
 	void BlitTo(SDL::Surface *s, int x, int y) const;
 	// Rotated counterclockwise around the hotspot, in degrees

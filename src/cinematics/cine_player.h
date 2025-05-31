@@ -76,8 +76,6 @@ class CINEPlayer {
 
 	int alpha;
 	int delta_alpha;
-	int color[2];
-	int clip_color[2];
 
 	int delta_vol;
 
@@ -99,5 +97,5 @@ class CINEPlayer {
 
    public:
 	void loadPBK(const char* f);
-	Task<bool> playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2, bool anyInputSkips = false);
+	Task<bool> playScene(const char* file, SDL::Surface* back, bool anyInputSkips = false);
 };

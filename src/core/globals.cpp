@@ -29,13 +29,11 @@
 int fps_count = 0;
 int fps_current_count = 0;
 
-SDL::Surface* primSurface = NULL;	 // Surface primaire
 SDL::Surface* backSurface = NULL;	 // pointeur sur le double buffer supposé
 SDL::Surface* systemSurface = NULL;	 // Pour optimiser les accès SYSTEM/SYSTEM
 SDL::Surface* videoA = NULL;		 // cache video
 
-int offset;		 // offset courant du scroll
-int scr_offset;	 // = offset % 640
+int offset;	 // offset courant du scroll
 
 int scroll_speed;
 
@@ -103,11 +101,6 @@ int nb_ennemis_created;
 int intensite_meteo;
 int type_meteo;
 
-int dy_tremblement = 0;
-int etape_tremblement = 0;
-int amplitude_tremblement = 0;
-int ddy_tremblement = 0;
-
 bool okBonus;
 bool cowBombOn;
 bool okLanceFlame;
@@ -123,8 +116,7 @@ PictureBank pbk_rpg;	  // Gueules des RPGs du niveau
 PictureBank pbk_rpg_bb;	  // Les gueules de Blip et Blop
 PictureBank pbk_inter;	  // L'interface
 
-SoundBankBB sbk_bb;	  // Sons BB/divers communs à tous les niveaux
-SoundBankBB sbk_rpg;  // Les musiques des scènes RPG
+SoundBankBB sbk_bb;	 // Sons BB/divers communs à tous les niveaux
 SoundBankBB sbk_misc;
 SoundBankBB sbk_niveau;
 
@@ -143,13 +135,6 @@ Font fnt_cool;
 Font fnt_rpg;
 Font fnt_menu;
 Font fnt_menus;
-
-void tremblement(int amp) {
-	amplitude_tremblement = amp;
-	ddy_tremblement = (amp >> 1) + 1;
-	dy_tremblement = -amp;
-	etape_tremblement = 0;
-}
 
 // Moving platforms can reach past the level edges
 void set_plat(int n, int x, int y) {
@@ -236,7 +221,7 @@ inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rec
 	else
 		r.bottom = ys;
 
-	surf->BltFast(x1, y1, pic->Surf(), &r, DDBLTFAST_WAIT | DDBLTFAST_SRCCOLORKEY);
+	surf->BltFast(x1, y1, pic->Surf(), &r);
 }
 
 bool grave(int x, int y, Picture* pic) {
@@ -259,7 +244,7 @@ bool grave(int x, int y, Picture* pic) {
 	}
 
 	Rect r;
-	int ni = x / /*640;*/ vbuffer_wide;
+	int ni = x / vbuffer_wide;
 
 	r.top = 0;
 	r.bottom = 480;

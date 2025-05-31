@@ -20,7 +20,6 @@ void ShotBBCow::update() {
 			grave(x, y, pbk_bb[210]);
 		col_on = false;
 		a_detruire = true;
-		tremblement(10);
 
 		GoreSplatter* s;
 

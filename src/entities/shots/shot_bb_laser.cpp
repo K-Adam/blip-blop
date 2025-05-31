@@ -103,7 +103,7 @@ void ShotBBLaser::affiche() {
 
 			r.bottom = hauteur;
 
-			backSurface->BltFast(xx, y, surf, &r, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+			backSurface->BltFast(xx, y, surf, &r);
 			if (y + hauteur < 480) draw(x + 2, y + hauteur, pbk_misc[74 + etape]);
 			break;
 
@@ -128,7 +128,7 @@ void ShotBBLaser::affiche() {
 			else
 				r.right = largeur;
 
-			backSurface->BltFast(xx, y, surf, &r, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+			backSurface->BltFast(xx, y, surf, &r);
 
 			if (xx + largeur < 640) draw(x + largeur, y + 3, pbk_misc[74 + etape]);
 			break;
@@ -156,7 +156,7 @@ void ShotBBLaser::affiche() {
 
 			r.bottom = hauteur;
 
-			backSurface->BltFast(xx, y, surf, &r, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+			backSurface->BltFast(xx, y, surf, &r);
 
 			if (y > 0) draw(x + 3, y, pbk_misc[74 + etape]);
 			break;
@@ -183,7 +183,7 @@ void ShotBBLaser::affiche() {
 			} else
 				r.right = largeur;
 
-			backSurface->BltFast(xx, y, surf, &r, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
+			backSurface->BltFast(xx, y, surf, &r);
 
 			if (xx > 0) draw(x + 2, y + 3, pbk_misc[74 + etape]);
 			break;

@@ -6,7 +6,7 @@
 #include <string_view>
 
 #include "engine/picture.h"
-#include "engine/dd_gfx.h"
+#include "engine/graphics.h"
 
 class /* Poele en */ Font {
    private:

@@ -32,17 +32,15 @@ void CINEPlayer::initPlayer() {
 	clip_y2 = 480;
 	alpha = 0;
 	delta_alpha = 0;
-	color[0] = color[1] = 0;
-	clip_color[0] = clip_color[1] = 0;
 	delta_vol = 0;
 }
 
-Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* s1, SDL::Surface* s2, bool anyInputSkips) {
+Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyInputSkips) {
 	bool skiped = false;
 	initPlayer();
 
 	/*first_surf = s1;*/
-	back_surf = s2;
+	back_surf = back;
 
 	auto dir = asset_path_prefix("cin", file);
 	std::ifstream input(dir + ".json");
@@ -331,25 +329,9 @@ void CINEPlayer::updateState() {
 		} else if (cmd_name == "setdeltaalpha") {
 			delta_alpha = int_arg[0];
 		} else if (cmd_name == "setbackcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1)
-				error("mauvais numéro de calque");
-			else {
-				if (int_arg[1] == 0) {
-					color[int_arg[0]] = 0;
-				} else {
-					color[int_arg[0]] = 0xFFFF;
-				}
-			}
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
 		} else if (cmd_name == "setclipcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1)
-				error("mauvais numéro de calque");
-			else {
-				if (int_arg[1] == 0) {
-					clip_color[int_arg[0]] = 0;
-				} else {
-					clip_color[int_arg[0]] = 0xFFFF;
-				}
-			}
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
 		} else if (cmd_name == "setvolume") {
 			delta_vol = 0;
 		} else if (cmd_name == "setdeltavolume") {
@@ -364,8 +346,6 @@ void CINEPlayer::updateState() {
 }
 
 void CINEPlayer::drawScene() {
-	RenderRect ddfx;
-
 	Rect r;
 
 	back_surf->FillRect(0, 0xFF000000);
@@ -382,8 +362,6 @@ void CINEPlayer::drawScene() {
 	}
 
 	// Clippe le tout
-	ddfx.dwFillColor = clip_color[0];
-
 	r.left = 0;
 	r.right = clip_x1;
 	r.top = 0;
@@ -413,7 +391,7 @@ void CINEPlayer::drawScene() {
 		if (obj[i].show && obj[i].id == OBJ_TEXTE) drawText(i);
 	}
 
-	DDFlip();
+	graphics.Flip();
 }
 
 void CINEPlayer::drawSprite(int n) {
