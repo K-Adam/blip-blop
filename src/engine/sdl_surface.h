@@ -50,7 +50,7 @@ class Surface {
 
 	inline void Release() {
 		SDL_FreeSurface(surface);
-		delete this;  // FIXME: OH MY THAT'S DANGEROUS
+		delete this;
 	}
 
 	inline void FillRect(Rect *r, unsigned int color) {

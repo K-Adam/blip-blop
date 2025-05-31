@@ -4,7 +4,7 @@
 
 namespace SDL {
 
-// DDSURFACEDESC
+// Stands in for DirectDraw's DDSURFACEDESC
 struct SurfaceInfo {
 	unsigned int lPitch;
 	void* lpSurface;

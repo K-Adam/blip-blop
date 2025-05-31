@@ -7,8 +7,6 @@
 #include "core/task.h"
 #include "engine/graphics.h"
 
-/*SDL KEYS*/
-
 #define DIK_ESCAPE SDLK_ESCAPE
 #define DIK_UP SDLK_UP
 #define DIK_DOWN SDLK_DOWN
@@ -91,7 +89,6 @@
 
 #define DIK_SEMICOLON SDLK_SEMICOLON
 #define DIK_APOSTROPHE SDLK_QUOTE
-/*#define DIK_GRAVE SDLK_EXCLAIM*/
 #define DIK_LSHIFT SDLK_LSHIFT
 #define DIK_BACKSLASH SDLK_BACKSLASH
 #define DIK_SCROLL SDLK_SCROLLLOCK

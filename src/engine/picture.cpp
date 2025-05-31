@@ -30,7 +30,6 @@ void Picture::BlitTo(SDL::Surface* s, int x, int y) const {
 	int x2 = x + xsize;
 	int y2 = y + ysize;
 
-	// S'il n'y a rien à afficher, on se casse tout de suite!
 	if (x > XPIC_MAX || x2 < 0 || y > YPIC_MAX || y2 < 0) return;
 
 	Rect r;
@@ -53,7 +52,6 @@ void Picture::PasteTo(SDL::Surface* s, int x, int y) const {
 	int x2 = x + xsize;
 	int y2 = y + ysize;
 
-	// S'il n'y a rien à afficher, on se casse tout de suite!
 	if (x > XPIC_MAX || x2 < 0 || y > YPIC_MAX || y2 < 0) return;
 
 	Rect r;

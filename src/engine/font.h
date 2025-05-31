@@ -8,30 +8,24 @@
 #include "engine/picture.h"
 #include "engine/graphics.h"
 
-class /* Poele en */ Font {
+class Font {
    private:
 	std::vector<std::unique_ptr<Picture>> pictab_;
-	int spc;  // Largeur d'un espace
-	int h;	  // Hauteur d'un saut de ligne
+	int spc;  // Width of a space
+	int h;	  // Line height
 
    public:
 	bool load(const char* f);
 
-	// Affiche du texte normal
 	void print(SDL::Surface* surf, int x, int y, std::string_view txt);
 
-	// Affiche texte justifié à droite
 	void printR(SDL::Surface* surf, int x, int y, std::string_view txt);
 
-	// Affiche texte centré
 	void printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt);
 
-	// Affiche texte multiligne
 	void printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym);
 
-	// Affiche texte multiligne sans couper les mots
 	void printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym);
 
-	// Renvoie la longueur en pixels d'un texte donné
 	int width(std::string_view txt);
 };

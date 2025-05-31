@@ -45,5 +45,5 @@ class MusicBank {
 	bool open(const char* file, bool loop = true);
 	void play(int n);
 	void stop(int n);
-	void stop();  // Stoppe TOUTES les musiques
+	void stop();
 };

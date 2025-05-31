@@ -2,16 +2,16 @@
 
 #include "engine/graphics.h"
 
-#define XPIC_MAX 640  // Représente la largeur de la Primary Surface
-#define YPIC_MAX 480  // Représente la hauteur de la Primary Surface
+#define XPIC_MAX 640
+#define YPIC_MAX 480
 
 class Picture {
    private:
-	SDL::Surface *surf;	 // Surface contenant l'image
-	int xsize;			 // Largeur de l'image
-	int ysize;			 // Hauteur de l'image
-	int xspot;			 // X du point chaud
-	int yspot;			 // Y du point chaud
+	SDL::Surface *surf;
+	int xsize;
+	int ysize;
+	int xspot;
+	int yspot;
 
 	void FindSize();
 
