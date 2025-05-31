@@ -2,5 +2,11 @@
 	"editor.formatOnSave": true,
 	"[cpp]": {
 		"editor.defaultFormatter": "ms-vscode.cpptools"
-	}
+	},
+	"C_Cpp.default.cppStandard": "c++20",
+	"C_Cpp.default.includePath": [
+		"${workspaceFolder}/src",
+		"${workspaceFolder}/include",
+		"${env:VCPKG_ROOT}/installed/x64-windows/include"
+	]
 }
