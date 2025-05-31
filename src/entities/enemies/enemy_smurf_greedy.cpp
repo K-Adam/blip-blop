@@ -41,7 +41,6 @@ void EnemySmurfGreedy::update() {
 void EnemySmurfGreedy::onNormal() {
 	tombe();
 
-	// Tire de temps en temps
 	wait_for_shoot += 1;
 
 	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && tete_turc != NULL) {

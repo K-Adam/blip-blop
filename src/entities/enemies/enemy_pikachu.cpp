@@ -36,7 +36,6 @@ void EnemyPikachu::onAvance() {
 		etape %= 2;
 	}
 
-	// Marche
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))

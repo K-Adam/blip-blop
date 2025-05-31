@@ -7,7 +7,6 @@ class EnemyRaymanHead : public Enemy {
 	int dx;
 
    public:
-	// methodes "habituelles"
 	EnemyRaymanHead();
 	virtual void update();
 	virtual void onAvance();

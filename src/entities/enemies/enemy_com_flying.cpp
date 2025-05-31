@@ -35,7 +35,6 @@ void EnemyCOMFlying::onAvance() {
 		etape %= 2;
 	}
 
-	// vole
 	if ((dir == SENS_GAUCHE) && (x - speed < offset || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		attack = false;
@@ -71,7 +70,7 @@ void EnemyCOMFlying::onAvance() {
 		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
 			y += 1;
 			speed = 4;
-		} else {  // if ((y_cible>y)&&(y>=y_cible-20))
+		} else {
 			y += 1;
 			speed = 5;
 		}

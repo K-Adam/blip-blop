@@ -88,7 +88,6 @@ void EnemyBisouZombie::onAvance() {
 		etape %= 8;
 	}
 
-	// Marche
 	my_phase = !my_phase;
 
 	if (my_phase) {
@@ -258,8 +257,6 @@ void EnemyBisouZombie::onRampe() {
 	}
 
 	tombe();
-
-	// Marche
 
 	etape2 = (etape2 + 1) % 4;
 

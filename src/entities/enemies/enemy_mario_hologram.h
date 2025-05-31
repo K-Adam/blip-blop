@@ -8,9 +8,9 @@
 
 class EnemyMarioHologram : public Enemy {
    private:
-	int speed;		  // vitesse courante
-	int etape_speed;  // delai d'acceleration
-	int fireball;	  // boule de feu dans les mains ou non
+	int speed;
+	int etape_speed;  // Acceleration delay
+	int fireball;	  // Fireball held in hands
 	int wait_for_cligno;
 	int cligno_delay;
 	int decalage_cligno;

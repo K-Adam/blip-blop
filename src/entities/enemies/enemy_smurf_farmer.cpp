@@ -48,7 +48,6 @@ void EnemySmurfFarmer::onMeure() {
 void EnemySmurfFarmer::onAvance() {
 	tombe();
 
-	// Marche
 	if (mur_opaque(x - SMURF_PAYSAN_SPEED, y))
 		dir = SENS_DROITE;
 	else if (mur_opaque(x + SMURF_PAYSAN_SPEED, y))

@@ -21,7 +21,6 @@ class EnemyLara : public Enemy {
 	int tete_rayman;
 
    public:
-	// methodes "habituelles"
 	EnemyLara();
 	virtual void update();
 	virtual void onAvance();

@@ -8,7 +8,7 @@ EnemySpikes::EnemySpikes() : y_origine(0) {
 void EnemySpikes::update() {
 	if ((game_flag[0] == 3) || (game_flag[0] == 2)) {
 		if (-104 > y_origine) {
-			// les pics sont sortis inutiles de les faire monter plus
+			// Fully out, nothing left to raise
 		} else if (-96 > y_origine) {
 			y -= 1;
 			y_origine -= 1;
@@ -52,7 +52,7 @@ void EnemySpikes::update() {
 			y += 1;
 			y_origine += 1;
 		} else {
-			// les pics sont rentrés donc on peut les detruires....
+			// Fully retracted, safe to remove
 			for (int i = 28; i <= 55; i++) murs_opaques[i][108] = false;
 
 			a_detruire = true;

@@ -15,8 +15,8 @@
 class EnemyMarioSwatter : public Enemy {
    private:
 	int aide_luigi;
-	int speed;		  // vitesse courante
-	int etape_speed;  // delai d'acceleration
+	int speed;
+	int etape_speed;  // Acceleration delay
 
 	int attack_delay;
 	int wait_for_attack;

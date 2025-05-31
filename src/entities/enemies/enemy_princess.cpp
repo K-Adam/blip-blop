@@ -30,11 +30,6 @@ void EnemyPrincess::update() {
 }
 
 void EnemyPrincess::onAvance() {
-	// if (game_flag[0])
-	//{
-
-	// pour marcher
-
 	if (game_flag[1]) {
 		if (x > offset + 820) {
 			CoolText* txt = new CoolText();
@@ -83,7 +78,7 @@ void EnemyPrincess::onAvance() {
 			avance = false;
 		}
 	} else {
-		if (/*(x < offset + 680)&&*/ (x < 5760)) {
+		if ((x < 5760)) {
 			ss_etape += 1;
 			ss_etape %= 6;
 			if (ss_etape == 0) {

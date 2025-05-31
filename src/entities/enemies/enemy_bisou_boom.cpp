@@ -34,7 +34,6 @@ void EnemyBisouBoom::onAvance() {
 		etape %= 8;
 	}
 
-	// Marche
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -48,7 +47,6 @@ void EnemyBisouBoom::onAvance() {
 		pic = pbk_ennemis[162 + etape];
 	}
 
-	// Si assez prêt du joueur -> kamikaze!
 	if (tete_turc != NULL) {
 		int ddx = x - tete_turc->x;
 		int ddy = y - tete_turc->y;

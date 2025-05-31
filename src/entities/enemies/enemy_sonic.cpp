@@ -81,15 +81,12 @@ void EnemySonic::update() {
 }
 
 void EnemySonic::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onSaute();
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -235,7 +232,6 @@ void EnemySonic::onSaute() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -246,7 +242,7 @@ void EnemySonic::onSaute() {
 		return;
 	}
 
-	// pour pas que sonic se barre en dehors de l'ecran
+	// A boss off screen could not be hit
 	if ((dir == SENS_GAUCHE) && (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
@@ -459,7 +455,6 @@ void EnemySonic::onAttackvertical() {
 				speed = 0;
 			}
 		} else if (attack_phase == 3) {
-			// y+=dy;
 			if (y + dy > y_plat[0][x]) {
 				tombe();
 				y = y_plat[0][x];

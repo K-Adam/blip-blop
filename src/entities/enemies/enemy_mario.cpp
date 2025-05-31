@@ -109,15 +109,12 @@ void EnemyMario::update() {
 }
 
 void EnemyMario::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onSaute();
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -281,7 +278,7 @@ void EnemyMario::onSaute() {
 		tombe();
 	}
 
-	// pour pas que le mario se tire en dehors de l'ecran...
+	// A boss off screen could not be hit
 	if ((dir == SENS_GAUCHE) && (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
@@ -292,7 +289,6 @@ void EnemyMario::onSaute() {
 		speed = 1;
 	}
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -905,7 +901,6 @@ void EnemyMario::onPluiedefeu() {
 	} else {
 		if (attack_phase < nb_pluie) {
 			if (attack_phase % 2 == 0) {
-				// rafale inverser
 				if ((dir == SENS_DROITE) && (x + (attack_etape - 1) * 100 - 20 < x)) {
 					attack_phase++;
 					attack_ss_etape = 0;
@@ -918,7 +913,6 @@ void EnemyMario::onPluiedefeu() {
 					onRafaleverticaleinverser();
 				}
 			} else {
-				// rafale normale
 				if ((dir == SENS_DROITE) && (x + (attack_etape + 1) * 100 + 20 > 620)) {
 					attack_phase++;
 					attack_ss_etape = 0;

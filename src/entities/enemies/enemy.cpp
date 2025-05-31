@@ -29,7 +29,6 @@ void Enemy::estTouche(Shot* tir) {
 			etat = ETAT_MEURE;
 			tir->aTue();
 
-			// Laisse une trace sur le mur
 			if (pic != NULL) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
 
@@ -42,7 +41,6 @@ void Enemy::estTouche(Shot* tir) {
 			}
 		}
 
-		// Now, ze bonus!
 		if (count()) {
 			wait_for_bonus += tresor;
 
@@ -51,7 +49,6 @@ void Enemy::estTouche(Shot* tir) {
 				wait_for_bonus = 0;
 			}
 
-			// Incrémente le compteur
 			game_flag[FLAG_NB_KILL] += 1;
 		}
 	}

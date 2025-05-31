@@ -23,7 +23,7 @@ void EnemyYoshiAntiair::update() {
 			onCarbonise();
 			break;
 
-		case ETAT_TIRE:	 // YoshiDCA balance des carapaces
+		case ETAT_TIRE:	 // ETAT_TIRE is throwing shells
 			onTire();
 			break;
 	}
@@ -33,7 +33,6 @@ void EnemyYoshiAntiair::update() {
 
 void EnemyYoshiAntiair::onAvance() {
 	tombe();
-	// pour attaquer
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;

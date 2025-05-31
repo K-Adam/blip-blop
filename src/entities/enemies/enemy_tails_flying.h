@@ -7,13 +7,13 @@
 
 class EnemyTailsFlying : public Enemy {
    private:
-	int speed;		  // vitesse courante
-	int etape_speed;  // delai d'acceleration
+	int speed;
+	int etape_speed;  // Acceleration delay
 	int fly_delay;
 	int wait_for_fly;
 	int x_cible;
 	int y_cible;
-	bool attack;  // attaque ou se met a la bonne hauteur
+	bool attack;  // Attacking, otherwise moving to the right height
 	bool fly;
 	int direction;
 	int placer;

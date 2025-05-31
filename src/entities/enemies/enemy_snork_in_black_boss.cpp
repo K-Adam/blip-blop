@@ -5,7 +5,7 @@
 const int anim_snork_in_black_boss_saute_droite[] = {414, 415, 416, 415};
 const int anim_snork_in_black_boss_saute_gauche[] = {417, 418, 419, 418};
 
-const int snork_in_black_position_x[] = {5904, 6351, 5831, 6319};  // 144,591,71,559
+const int snork_in_black_position_x[] = {5904, 6351, 5831, 6319};
 const int snork_in_black_position_y[] = {175, 189, 342, 328};
 
 EnemySnorkInBlackBoss::EnemySnorkInBlackBoss() : position(1), type_attack(0), attack(false), x_shark(5604), y_shark(100), shark(false), saut(false) {

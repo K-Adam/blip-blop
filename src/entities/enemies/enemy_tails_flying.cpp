@@ -52,7 +52,7 @@ void EnemyTailsFlying::update() {
 			onTombe();
 			break;
 
-		case ETAT_TIRE:	 // Tails Volle(ETAT_TIRE)
+		case ETAT_TIRE:	 // ETAT_TIRE is Tails flying
 			onVolle();
 			break;
 	}
@@ -60,7 +60,6 @@ void EnemyTailsFlying::update() {
 }
 
 void EnemyTailsFlying::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -71,8 +70,6 @@ void EnemyTailsFlying::onAvance() {
 		onTombe();
 		return;
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -182,7 +179,7 @@ void EnemyTailsFlying::onMeure() {
 }
 
 void EnemyTailsFlying::onVolle() {
-	if (dir == SENS_GAUCHE && /*attack &&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
+	if (dir == SENS_GAUCHE && (x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
 		etat = ETAT_AVANCE;
@@ -193,7 +190,7 @@ void EnemyTailsFlying::onVolle() {
 		ss_etape = 0;
 		onAvance();
 		return;
-	} else if (dir == SENS_DROITE && /*attack&&*/ (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
+	} else if (dir == SENS_DROITE && (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
 		speed = 1;
 		etat = ETAT_AVANCE;
@@ -232,7 +229,7 @@ void EnemyTailsFlying::onVolle() {
 		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
 			y += 1;
 			speed = 4;
-		} else {  // if ((y_cible>y)&&(y>=y_cible-20))
+		} else {
 			y += 1;
 			speed = 5;
 		}
@@ -261,7 +258,6 @@ void EnemyTailsFlying::onTombe() {
 		etape %= 2;
 	}
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

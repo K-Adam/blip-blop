@@ -62,19 +62,15 @@ void EnemySmurfJokey::onPoseCadeau() {
 	ss_etape += 1;
 	ss_etape %= 5;
 
-	// Le cadeau atterit delicatement sur le sol ...
 	if (ss_etape == 0) decalage_y_cadeau -= 1;
 
-	// Une fois le cadeau posé :
 	if (decalage_y_cadeau < 0) {
-		// On actualise l'état de l'ennemi
 		etat = ETAT_NORMAL;
 		porte_bomb = false;
 		decalage_y_cadeau = 5;
 		wait_for_new_bomb = 0;
 		new_bomb_delay = 50 + rand() % 200;
 
-		// On crée un objet ShotGift
 		ShotGift* tir = new ShotGift();
 		if (dir == SENS_DROITE)
 			tir->x = x + 26;
@@ -83,17 +79,14 @@ void EnemySmurfJokey::onPoseCadeau() {
 		tir->y = y;
 		list_tirs_ennemis.emplace_back(tir);
 
-		// et on réinitialise etape et ss_etape
 		etape = 0;
 		ss_etape = 0;
 	}
 }
 
 void EnemySmurfJokey::onAvance() {
-	// Si pas de sol en dessous, on tombe
 	tombe();
 
-	// Si on porte un cadeau, on le pose au bout d'un moment
 	if (porte_bomb) {
 		wait_for_bomb += 1;
 
@@ -104,9 +97,7 @@ void EnemySmurfJokey::onAvance() {
 			etape = 0;
 			ss_etape = 0;
 		}
-	}
-	// Sinon, on sort un cadeau au bout d'un moment
-	else if (plat(x, y) != 0) {
+	} else if (plat(x, y) != 0) {
 		wait_for_new_bomb += 1;
 		if (wait_for_new_bomb > new_bomb_delay) {
 			wait_for_new_bomb = 0;
@@ -117,14 +108,11 @@ void EnemySmurfJokey::onAvance() {
 		}
 	}
 
-	// On marche
-	// Si obstacle, on fait demi-tour
 	if (x - SMURF_FARCEUR_SPEED < xmin || mur_opaque(x - SMURF_FARCEUR_SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SMURF_FARCEUR_SPEED > offset + 640 || mur_opaque(x + SMURF_FARCEUR_SPEED, y))
 		dir = SENS_GAUCHE;
 
-	// On avance dans le sens ou on regarde
 	if (dir == SENS_DROITE) {
 		marche(SMURF_FARCEUR_SPEED);
 		if (porte_bomb)
@@ -144,7 +132,6 @@ void EnemySmurfJokey::onAvance() {
 void EnemySmurfJokey::onMeure() {
 	tombe();
 
-	// Si on porte un cadeau, alors on meure carbonisé
 	if (porte_bomb) {
 		etat = ETAT_CARBONISE;
 		porte_bomb = false;

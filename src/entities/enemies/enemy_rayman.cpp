@@ -92,18 +92,15 @@ void EnemyRayman::onAvance() {
 			list_ennemis.emplace_back(pika);
 			dorkemon--;
 		}
-	} else if ((game_flag[0] <= 2) && (game_flag[1] == 0) /*&& (game_flag[2]>=0*/) {
+	} else if ((game_flag[0] <= 2) && (game_flag[1] == 0)) {
 		if (game_flag[0] == 2) {
 			if ((pv > PV_SOUS_CRITIQUE) || ((pv > PV_CRITIQUE) && (poing1) && ((x - offset < 80) || (x - offset > 600)))) {
-				// Si plus de plateformes on passe dans l'etat TOMBE
 				if (plat(x, y) == 0) {
 					etat = ETAT_TOMBE;
 					dy = 0;
 					lat_grav = 0;
 					onTombe();
 				}
-
-				// pour marcher
 
 				if (x - RAYMAN_SPEED < xmin || mur_opaque(x - RAYMAN_SPEED, y)) {
 					dir = SENS_DROITE;
@@ -141,7 +138,6 @@ void EnemyRayman::onAvance() {
 			} else if ((pv > PV_CRITIQUE) && (x - offset >= 80) && (x - offset <= 600)) {
 				if (poing1) {
 					Sprite* s;
-					// faire gicler le premier poing
 					if (x - offset > 320) {
 						s = new PieceRayman(230, -1 - rand() % 3, -3 - rand() % 3);
 					} else {
@@ -184,9 +180,8 @@ void EnemyRayman::onAvance() {
 				} else {
 					pic = pbk_ennemis[269];
 				}
-			} else if ((pv > PV_SUR_CRITIQUE)) {  //||((pv<PV_SUR_CRITIQUE)&&((x-offset<80)||(x-offset>600))))
+			} else if ((pv > PV_SUR_CRITIQUE)) {
 				if (poing2) {
-					// faire gicler le second poing
 					Sprite* s;
 					if (x - offset > 320) {
 						s = new PieceRayman(231, -1 - rand() % 3, -3 - rand() % 3);
@@ -203,15 +198,12 @@ void EnemyRayman::onAvance() {
 					poing2 = 0;
 				}
 
-				// Si plus de plateformes on passe dans l'etat TOMBE
 				if (plat(x, y) == 0) {
 					etat = ETAT_TOMBE;
 					dy = 0;
 					lat_grav = 0;
 					onTombe();
 				}
-
-				// pour marcher
 
 				if (x - RAYMAN_SPEED < xmin || mur_opaque(x - RAYMAN_SPEED, y)) {
 					dir = SENS_DROITE;
@@ -235,7 +227,6 @@ void EnemyRayman::onAvance() {
 
 			} else if ((x - offset >= 80) && (x - offset <= 600)) {
 				if (pieds) {
-					// faire gicler les pieds
 					int vy = -3 - rand() % 3;
 
 					Sprite* s = new PieceRayman(270, 1 + rand() % 3, vy);
@@ -281,7 +272,7 @@ void EnemyRayman::onAvance() {
 			pic = pbk_ennemis[209 + etape];
 		}
 
-		if (game_flag[3] == 1) {  // x-offset<450)
+		if (game_flag[3] == 1) {
 			col_on = false;
 		}
 	}
@@ -292,7 +283,6 @@ void EnemyRayman::onMeure() {
 	ss_etape %= 6;
 
 	if ((etape == 0) && (ss_etape == 1)) {
-		// fait gicler la tete
 		Sprite* tete;
 		if (x - offset > 320) {
 			tete = new PieceRaymanHead(-1 - rand() % 3, -3 - rand() % 3);
@@ -456,7 +446,6 @@ void EnemyRayman::onTombe() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

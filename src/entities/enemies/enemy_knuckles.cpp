@@ -30,7 +30,7 @@ void EnemyKnuckles::update() {
 			onTombe();
 			break;
 
-		case ETAT_TIRE:	 // Knukles Charge(ETAT_TIRE)
+		case ETAT_TIRE:	 // ETAT_TIRE is Knuckles charging
 			onCharge();
 			break;
 	}
@@ -38,7 +38,6 @@ void EnemyKnuckles::update() {
 }
 
 void EnemyKnuckles::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -46,8 +45,6 @@ void EnemyKnuckles::onAvance() {
 		onTombe();
 		return;
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -72,7 +69,7 @@ void EnemyKnuckles::onAvance() {
 			speed = 0;
 			etape = 0;
 			ss_etape = 0;
-			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Otherwise jump heights vary
 			dy = 0;
 			sbk_niveau.play(7);
 			onSaute();
@@ -119,7 +116,7 @@ void EnemyKnuckles::onMeure() {
 		if (etape >= 10) {
 			int yy = plat(x, y);
 
-			if (yy != 0 /*&& yy != y_plat[4][x]*/) {
+			if (yy != 0) {
 				grave(x, y, pic);
 				a_detruire = true;
 			} else {
@@ -151,7 +148,6 @@ void EnemyKnuckles::onSaute() {
 	tombe();
 
 	int yp;
-	// Et si on arrêtait de tomber ?
 	if ((dy > 0 && (yp = plat(x, y + dy)) != 0) && etape > 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;
@@ -196,7 +192,7 @@ void EnemyKnuckles::onCharge() {
 
 	if (dir == SENS_GAUCHE) {
 		if (!mur_opaque(x - speed, y)) {
-			marche(-speed);	 // x -= speed;
+			marche(-speed);
 		} else {
 			etat = ETAT_AVANCE;
 			wait_for_charge = 0;
@@ -209,7 +205,7 @@ void EnemyKnuckles::onCharge() {
 		pic = pbk_ennemis[150 + etape];
 	} else {
 		if (!mur_opaque(x + speed, y)) {
-			marche(speed);	// x += speed;
+			marche(speed);
 		} else {
 			etat = ETAT_AVANCE;
 			wait_for_charge = 0;
@@ -229,7 +225,6 @@ void EnemyKnuckles::onTombe() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

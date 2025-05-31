@@ -27,7 +27,7 @@ void EnemyTails::update() {
 			onTombe();
 			break;
 
-		case ETAT_TIRE:	 // Tails Volle(ETAT_TIRE)
+		case ETAT_TIRE:	 // ETAT_TIRE is Tails flying
 			onVolle();
 			break;
 	}
@@ -35,7 +35,6 @@ void EnemyTails::update() {
 }
 
 void EnemyTails::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -46,8 +45,6 @@ void EnemyTails::onAvance() {
 		onTombe();
 		return;
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -208,7 +205,7 @@ void EnemyTails::onVolle() {
 		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
 			y += 1;
 			speed = 4;
-		} else {  // if ((y_cible>y)&&(y>=y_cible-20))
+		} else {
 			y += 1;
 			speed = 5;
 		}
@@ -237,7 +234,6 @@ void EnemyTails::onTombe() {
 		etape %= 2;
 	}
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

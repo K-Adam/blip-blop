@@ -3,9 +3,9 @@
 #include "entities/shots/shot_shaman_column.h"
 #include <cmath>
 
-static const int xtel[] = {8144,   // Haut droite
-						   8082,   // Droite
-						   7653};  // Gauche
+static const int xtel[] = {8144,   // Top right
+						   8082,   // Right
+						   7653};  // Left
 
 static const int ytel[] = {296, 130, 188};
 
@@ -216,7 +216,6 @@ void EnemyBisouShaman::onTire() {
 				int ddx;
 				int ddy;
 
-				// Décide de l'attaque à effectuer
 				if (tete_turc != NULL) {
 					xc = tete_turc->x;
 					yc = tete_turc->y;

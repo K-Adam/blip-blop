@@ -62,7 +62,6 @@ void EnemySmurfHefty::onAvance() {
 
 	dx = 0;
 
-	// Marche
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -180,7 +179,7 @@ void EnemySmurfHefty::onTireHadoken() {
 void EnemySmurfHefty::onTireDragonPunch() {
 	tombe();
 
-	if (etape <= 2) {  // Le départ
+	if (etape <= 2) {  // Takeoff
 		ss_etape += 1;
 		ss_etape %= 4;
 

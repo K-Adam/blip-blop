@@ -27,7 +27,6 @@ void EnemyCOM::onAvance() {
 		etape %= 2;
 	}
 
-	// vole
 	if (x - 1 < offset || mur_opaque(x - 1, y))
 		dir = SENS_DROITE;
 	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))

@@ -11,9 +11,9 @@
 
 class EnemyMario : public Enemy {
    private:
-	int speed;		  // vitesse courante
-	int etape_speed;  // delai d'acceleration
-	int fireball;	  // boule de feu dans les mains ou non
+	int speed;
+	int etape_speed;  // Acceleration delay
+	int fireball;	  // Fireball held in hands
 	int hologramme;
 
 	int attack_delay;
@@ -27,7 +27,6 @@ class EnemyMario : public Enemy {
 	int y_cible;
 
    public:
-	// methodes "habituelles"
 	EnemyMario();
 	virtual void update();
 	virtual void onAvance();
@@ -37,18 +36,15 @@ class EnemyMario : public Enemy {
 	virtual void onCarbonise();
 	virtual void tombe_mario();
 
-	// tirs "standards"
 	virtual void onTirehorizontale();
 	virtual void onTireverticale();
 	virtual void onTirecross();
 
-	// rafales horizontales
 	virtual void onRafalehorizontale();
 	virtual void onRafalehorizontaledouble();
 	virtual void onRafalehorizontaleconstante();
 	virtual void onRafalehorizontalechercheuse();
 
-	// rafales verticales
 	virtual void onRafaleverticale();
 	virtual void onRafaleverticaleinverser();
 	virtual void onRafaleverticaledouble();
@@ -56,12 +52,11 @@ class EnemyMario : public Enemy {
 	virtual void onRafaleverticaleconstante();
 	virtual void onPluiedefeu();
 
-	// rafales des 2 types en meme temps
 	virtual void onRafaleberserker();
 	virtual void onRafalecrosschercheuse();
 	virtual void onRafalecross();
 
-	// balance des boules de feu pour eviter de recopier ca partout(horizontale seulement...)
+	// Fireballs only travel horizontally
 	virtual inline void boule_de_feu(int vitesse);
 
 	virtual void affiche();

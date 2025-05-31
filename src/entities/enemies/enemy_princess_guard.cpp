@@ -28,9 +28,6 @@ void EnemyPrincessGuard::update() {
 }
 
 void EnemyPrincessGuard::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
-
-	// pour marcher
 	if (princesse->a_detruire == true) {
 		a_detruire = true;
 	}

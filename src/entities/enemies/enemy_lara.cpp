@@ -71,8 +71,6 @@ void EnemyLara::onAvance() {
 		pics = true;
 	}
 	if (game_flag[0] == 1) {
-		// cree la tete de rayman et attendre
-
 		if (!tete_rayman) {
 			if (tete_turc != NULL) {
 				Enemy* tete = new EnemyRaymanHead();
@@ -133,14 +131,14 @@ void EnemyLara::onAvance() {
 					tir->traverse = true;
 					list_tirs_ennemis.emplace_back(tir);
 
-					numero_image_buste = 150;  // 127
+					numero_image_buste = 150;
 					ss_etape = 0;
 					etape = 1;
 					etat = ETAT_TIRE;
 					onTire();
 					return;
 				} else if (pente > 30) {
-					numero_image_buste = 132;  // 156
+					numero_image_buste = 132;
 					int dx = tete_turc->x + 20 - x + 58;
 					int dy = tete_turc->y - y + 154;
 
@@ -180,14 +178,14 @@ void EnemyLara::onAvance() {
 					tir->y = y - 165;
 					tir->traverse = true;
 					list_tirs_ennemis.emplace_back(tir);
-					numero_image_buste = 138;  // 150
+					numero_image_buste = 138;
 					ss_etape = 0;
 					etape = 1;
 					etat = ETAT_TIRE;
 					onTire();
 					return;
 				} else if (pente > 5) {
-					numero_image_buste = 144;  // 132
+					numero_image_buste = 144;
 					int dx = tete_turc->x + 20 - x + 53;
 					int dy = tete_turc->y - y + 175;
 
@@ -209,9 +207,9 @@ void EnemyLara::onAvance() {
 					onTire();
 					return;
 				} else if (pente > -15) {
-					// trop pres pour tirer > - 15°
+					// Too close to shoot above -15 degrees
 
-					numero_image_buste = 150;  // 138
+					numero_image_buste = 150;
 				} else if (pente > -40) {
 					int dx = tete_turc->x + 20 - x + 59;
 					int dy = tete_turc->y - y + 129;
@@ -229,7 +227,7 @@ void EnemyLara::onAvance() {
 					tir->y = y - 129;
 					tir->traverse = true;
 					list_tirs_ennemis.emplace_back(tir);
-					// angle de tir: -10°
+					// Frame aimed at -10 degrees
 					numero_image_buste = 156;
 
 					ss_etape = 0;

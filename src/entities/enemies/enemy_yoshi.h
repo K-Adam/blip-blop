@@ -6,7 +6,7 @@
 
 class EnemyYoshi : public Enemy {
    private:
-	bool attack;  // type d'attaque false=carapace, true=contact(langue)
+	bool attack;  // False: shell attack, true: tongue contact
 	int attack_delay;
 	int wait_for_attack;
 

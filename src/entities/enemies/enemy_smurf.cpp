@@ -37,7 +37,6 @@ void EnemySmurf::update() {
 }
 
 void EnemySmurf::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -45,19 +44,17 @@ void EnemySmurf::onAvance() {
 		onSaute();
 	}
 
-	// Saute de temps en temps
 	wait_for_jump += 1;
 
 	if (wait_for_jump > jump_delay) {
 		etat = ETAT_SAUTE;
 		dy = dy_saut;
-		lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+		lat_grav = 0;  // Otherwise jump heights vary
 		wait_for_jump = 0;
 		jump_delay = 50 + rand() % 250;
 		onSaute();
 	}
 
-	// Marche
 	if (x - speed < xmin || mur_opaque(x - speed, y))
 		dir = SENS_DROITE;
 	else if (x + speed > offset + 640 || mur_opaque(x + speed, y))
@@ -79,7 +76,6 @@ void EnemySmurf::onSaute() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

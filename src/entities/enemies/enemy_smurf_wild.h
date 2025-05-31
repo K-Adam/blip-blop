@@ -14,10 +14,9 @@
 
 class EnemySmurfWild : public Enemy {
    public:
-	int shoot_direction;  // direction dans laquelle on pointe l'arme
+	int shoot_direction;
 	int hauteur;
-	int pente;	// coefficient directeur de la droite
-	// passant par tete_turc et le smurfSauvage
+	int pente;	// Slope of the line through tete_turc and this smurf
 	int num_pic;
 	int etape_shoot;
 	int nb_shoot;
@@ -48,7 +47,6 @@ class EnemySmurfWild : public Enemy {
 
 		Enemy::affiche();
 
-		// Si on est pas mort, on affiche l'arme suivant la direction du tir
 		if (pv > 0) {
 			if (shooting) {
 				switch (shoot_direction) {

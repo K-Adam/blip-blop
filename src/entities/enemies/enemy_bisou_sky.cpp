@@ -133,7 +133,6 @@ void EnemyBisouSky::onAvance() {
 		etape %= 8;
 	}
 
-	// Marche
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
@@ -147,9 +146,8 @@ void EnemyBisouSky::onAvance() {
 		pic = pbk_ennemis[16 + etape];
 	}
 
-	// Regarde s'il peut tirer
-	if (wait_for_pisser == 0 && etape == 4) {		 // L'etape 4 est plus jolie
-		if (tete_turc != NULL && plat(x, y) != 0) {	 // ne tire pas en tombant
+	if (wait_for_pisser == 0 && etape == 4) {		 // Frame 4 looks best
+		if (tete_turc != NULL && plat(x, y) != 0) {	 // No shooting while falling
 			int ddx = x - tete_turc->x;
 			int ddy = y - tete_turc->y;
 

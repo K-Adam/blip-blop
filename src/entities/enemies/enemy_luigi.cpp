@@ -52,15 +52,12 @@ void EnemyLuigi::update() {
 }
 
 void EnemyLuigi::onAvance() {
-	// debug<<"a\n";
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onSaute();
 	}
-
-	// pour marcher
 
 	if (x - speed < (xmin + 20) || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -92,7 +89,7 @@ void EnemyLuigi::onAvance() {
 			etape = 0;
 			ss_etape = 0;
 			etat = ETAT_SAUTE;
-			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Otherwise jump heights vary
 			onSaute();
 			return;
 
@@ -104,7 +101,7 @@ void EnemyLuigi::onAvance() {
 			etape = 0;
 			ss_etape = 0;
 			etat = ETAT_SAUTE;
-			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Otherwise jump heights vary
 			onSaute();
 			return;
 		} else if (pv >= 1000) {
@@ -398,7 +395,6 @@ void EnemyLuigi::onAttack() {
 					break;
 			}
 
-			// recul
 			if (x > offset + 30) {
 				x -= 1;
 			}
@@ -507,7 +503,6 @@ void EnemyLuigi::onAttack() {
 					break;
 			}
 
-			// recul
 			if (x < offset + 610) {
 				x += 1;
 			}
@@ -525,18 +520,17 @@ void EnemyLuigi::onSaute() {
 		tombe();
 	}
 
-	// pour pas que le luigi se tire en dehors de l'ecran...
-	if (/*(dir==SENS_GAUCHE)&&*/ (x - speed < xmin || mur_opaque(x - speed, y))) {
+	// A boss off screen could not be hit
+	if ((x - speed < xmin || mur_opaque(x - speed, y))) {
 		dir = SENS_DROITE;
 		speed = 1;
 	}
 
-	else if (/*(dir==SENS_DROITE)&&*/ (x + speed > offset + 600 || mur_opaque(x + speed, y))) {
+	else if ((x + speed > offset + 600 || mur_opaque(x + speed, y))) {
 		dir = SENS_GAUCHE;
 		speed = 1;
 	}
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

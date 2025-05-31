@@ -227,6 +227,6 @@ void EnemySnorkyBase2::estTouche(Shot* tir) {
 	gicle(tir, dx_giclure_snorkbase2, dy_giclure_snorkbase2);
 
 	if (etat == ETAT_MEURE) {
-		sbk_niveau.play(18 /*+rand()%3*/);
+		sbk_niveau.play(18);
 	}
 }

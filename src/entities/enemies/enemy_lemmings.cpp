@@ -8,7 +8,7 @@ EnemyLemmings::EnemyLemmings() : suicide(false) { pv = 100; }
 void EnemyLemmings::update() {
 	if (blood != 0) blood -= 1;
 
-	// Si 200+ lemmings tués, ils se suicident et arrêtent les générateurs
+	// After 200 kills the lemmings suicide and the generators stop
 	if (game_flag[FLAG_NB_KILL] >= 200 && etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 		suicide = true;
 		col_on = false;
@@ -92,7 +92,6 @@ void EnemyLemmings::onMeure() {
 
 	if (ss_etape == 0) etape += 1;
 
-	// Explosion abrégée si plus de plateforme
 	if (etape >= 6 && (plat(x - 80, y) == 0 || plat(x + 80, y) == 0)) a_detruire = true;
 
 	if (etape == 10) {

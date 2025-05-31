@@ -42,7 +42,6 @@ void EnemyBisouJedi::onAvance() {
 		etape %= 8;
 	}
 
-	// Marche
 	if (x - SPEED < offset + 20 || mur_opaque(x - SPEED, y))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 600 || mur_opaque(x + SPEED, y))

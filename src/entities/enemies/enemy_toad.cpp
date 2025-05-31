@@ -39,7 +39,7 @@ void EnemyToad::update() {
 			onSaute();
 			break;
 
-		case ETAT_TIRE:	 // Toad charge(ETAT_TIRE)
+		case ETAT_TIRE:	 // ETAT_TIRE is Toad charging
 			onCharge();
 			break;
 	}
@@ -48,7 +48,6 @@ void EnemyToad::update() {
 }
 
 void EnemyToad::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -57,8 +56,6 @@ void EnemyToad::onAvance() {
 		lat_grav = 0;
 		onSaute();
 	}
-
-	// pour marcher
 
 	if (x - speed < xmin || mur_opaque(x - speed, y)) {
 		dir = SENS_DROITE;
@@ -87,7 +84,7 @@ void EnemyToad::onAvance() {
 			ss_etape = 0;
 			etat = ETAT_SAUTE;
 			dy = -7;
-			lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+			lat_grav = 0;  // Otherwise jump heights vary
 			onSaute();
 			return;
 		}
@@ -191,7 +188,6 @@ void EnemyToad::onSaute() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

@@ -32,7 +32,7 @@ void EnemyYoshi::update() {
 			onTombe();
 			break;
 
-		case ETAT_TIRE:	 // Yoshi tire la langue ou balance des carapaces
+		case ETAT_TIRE:	 // ETAT_TIRE is the tongue or shell attack
 			if (attack) {
 				onTire();
 			} else {
@@ -45,7 +45,6 @@ void EnemyYoshi::update() {
 }
 
 void EnemyYoshi::onAvance() {
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -56,7 +55,6 @@ void EnemyYoshi::onAvance() {
 		return;
 	}
 
-	// pour attaquer
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;
@@ -83,8 +81,6 @@ void EnemyYoshi::onAvance() {
 		return;
 	}
 
-	// pour marcher
-
 	if (x - YOSHI_SPEED < xmin || mur_opaque(x - YOSHI_SPEED, y)) {
 		dir = SENS_DROITE;
 	} else if (x + YOSHI_SPEED > offset + 640 || mur_opaque(x + YOSHI_SPEED, y)) {
@@ -106,7 +102,6 @@ void EnemyYoshi::onTombe() {
 
 	tombe();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		dy = 0;

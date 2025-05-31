@@ -138,7 +138,6 @@ void EnemyBisouStar::onAvance() {
 		etape %= 8;
 	}
 
-	// Marche
 	if (x - SPEED < xmin || mur_opaque(x - SPEED, y) || (plat(x - SPEED, y) == 0 && plat(x - SPEED, y + 5) == 0))
 		dir = SENS_DROITE;
 	else if (x + SPEED > offset + 680 || mur_opaque(x + SPEED, y) || (plat(x + SPEED, y) == 0 && plat(x + SPEED, y + 5) == 0))
