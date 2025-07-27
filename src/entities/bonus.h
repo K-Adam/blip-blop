@@ -1,6 +1,7 @@
 #pragma once
 
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 #include "entities/ball.h"
 #include "entities/sprite.h"
 
@@ -47,7 +48,7 @@ class Bonus : public Sprite {
 		else
 			base = 4;
 
-		int d = sini(8, phi);
+		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
 
 		draw(x - DIST_BITONIO - d, y - DIST_BITONIO - d, pbk_misc[base + 3]);
 		draw(x + DIST_BITONIO + d, y - DIST_BITONIO - d, pbk_misc[base + 2]);

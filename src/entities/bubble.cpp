@@ -1,6 +1,7 @@
 #include "entities/bubble.h"
 
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 
 Bubble::Bubble() : phi(0) {}
 
@@ -10,7 +11,7 @@ void Bubble::update() {
 
 	y += dy;
 
-	x = xbase + cosi(10, phi);
+	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (xbase < offset - 10 || y < -10 || mur_opaque(x, y)) a_detruire = true;
 }

@@ -1,5 +1,7 @@
 #define GAME_CPP_FILE
 
+#include <cmath>
+#include <numbers>
 #include <algorithm>
 
 #include <fcntl.h>
@@ -7,7 +9,6 @@
 #include <fstream>
 
 #include "core/debug.h"
-#include "core/misc.h"
 #include "entities/blip.h"
 #include "entities/blop.h"
 #include "entities/bonus.h"
@@ -1518,7 +1519,7 @@ void Game::drawDeformation() {
 		r.top = y;
 		r.bottom = y + pas;
 
-		x = xt = sini(5, phi);
+		x = xt = int(5 * std::sin(phi * std::numbers::pi / 180));
 
 		// FIXME: the blit overlaps itself and can read rows it already overwrote, a scratch surface or a shader would fix it
 

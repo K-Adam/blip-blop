@@ -1,6 +1,6 @@
 #include "engine/graphics.h"
 
-#include "core/misc.h"
+#include "engine/input.h"
 #include "core/globals.h"
 #include "core/config.h"
 #include "core/debug.h"

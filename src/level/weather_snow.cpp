@@ -1,5 +1,6 @@
 #include "level/weather_snow.h"
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 
 void WeatherSnow::update() {
 	phi += 3;
@@ -7,7 +8,7 @@ void WeatherSnow::update() {
 
 	xbase -= 2;
 
-	x = xbase + cosi(xwide, phi);
+	x = xbase + int(xwide * std::cos(phi * std::numbers::pi / 180));
 	y += dy;
 
 	if (y > -25 && y < -10 && mur_opaque(x, 0)) {

@@ -1,5 +1,6 @@
 #include "level/backgrounds/background_rock_hyperspace.h"
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 
 const int rocher_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0};
 
@@ -37,15 +38,15 @@ void BackgroundRockHyperspace::update() {
 
 	switch (plan_rocher) {
 		case 0:
-			y = y_base + cosi(11, delta);
+			y = y_base + int(11 * std::cos(delta * std::numbers::pi / 180));
 			break;
 
 		case 1:
-			y = y_base + cosi(8, delta);
+			y = y_base + int(8 * std::cos(delta * std::numbers::pi / 180));
 			break;
 
 		case 2:
-			y = y_base + cosi(8, delta);
+			y = y_base + int(8 * std::cos(delta * std::numbers::pi / 180));
 			break;
 	}
 

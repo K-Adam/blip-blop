@@ -3,7 +3,6 @@
 #include <charconv>
 #include <string>
 
-#include "core/misc.h"
 #include "engine/input.h"
 
 #include "core/debug.h"
@@ -11,6 +10,8 @@
 #include "engine/key_translator.h"
 
 Input in;
+bool app_killed = false;
+int autoquit_frames = 0;
 
 // A quarter of the travel, so resting triggers do not register
 static const int TRIGGER_THRESHOLD = 8192;

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 #include "core/globals.h"
 
 class GoArrow {
@@ -76,7 +77,7 @@ class GoArrow {
 		update_anim();
 
 		theta_ = (theta_ + 3) % 360;
-		int x = sini(100, theta_);
+		int x = int(100 * std::sin(theta_ * std::numbers::pi / 180));
 
 		if (x < 0) {
 			x = -x;

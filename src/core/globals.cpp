@@ -2,7 +2,6 @@
 #include <list>
 #include <memory>
 
-#include "core/misc.h"
 #include "engine/picture_bank.h"
 #include "engine/font.h"
 #include "engine/sound_bank_bb.h"

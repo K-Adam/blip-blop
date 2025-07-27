@@ -1,5 +1,6 @@
 #include "entities/shots/shot_bisou_heart.h"
-#include "core/math_utils.h"
+#include <cmath>
+#include <numbers>
 
 ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rand() % 360; }
 
@@ -9,7 +10,7 @@ void ShotBisouHeart::update() {
 	phi += 5;
 	phi %= 360;
 
-	x = xbase + cosi(10, phi);
+	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (!ok) {
 		ss_etape += 1;
