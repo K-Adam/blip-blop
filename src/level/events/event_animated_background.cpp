@@ -1,10 +1,7 @@
-// Configuration
 #include "core/config.h"
 
-// Header classe
 #include "level/events/event_animated_background.h"
 
-// Fonds pokemons
 #include "level/backgrounds/background_bomb.h"
 #include "level/backgrounds/background_poke_alarm.h"
 #include "level/backgrounds/background_poke_arrow.h"
@@ -16,11 +13,9 @@
 #include "level/backgrounds/background_poke_level_2.h"
 #include "level/backgrounds/background_poke_level_3.h"
 
-// Fonds Snorkys
 #include "level/backgrounds/background_snork_airlock.h"
 #include "level/backgrounds/background_fish.h"
 
-// Fonds lemmings
 #include "level/backgrounds/background_fan.h"
 #include "level/backgrounds/background_light.h"
 #include "level/backgrounds/background_light_2.h"

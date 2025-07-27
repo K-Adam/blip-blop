@@ -2,24 +2,20 @@
 #include "level/backgrounds/background_snork_airlock.h"
 #include "entities/enemies/enemy.h"
 
-int BackgroundSnorkAirlock1::etat = 0;	// 0 pour etat du sas 1 ouvert , 1 pour fermé
+int BackgroundSnorkAirlock1::etat = 0;	// 1 once airlock 1 is closed
 
 BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : nb_joueur(0) { etape = 0; }
 
 void BackgroundSnorkAirlock1::update() {
-	if (!etat) {  // si le sas n'est pas fermé..
+	if (!etat) {
 		if ((tete_turc != NULL) && (tete_turc->x > 1400)) {
 			nb_joueur++;
 			if (etape < 222) {
 				if (nb_joueur >= 2) {
 					etape += 2;
 				}
-				/*
-				else
-					il y en a peut etre un autre sous la porte..
-				*/
 			} else {
-				etat = 1;  // Sas 1 fermé...
+				etat = 1;
 			}
 		} else {
 			nb_joueur = 0;
@@ -75,7 +71,6 @@ void BackgroundSnorkAirlock1::affiche() {
 BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { etape = 222; }
 
 void BackgroundSnorkAirlock2::update() {
-	// si le sas 1 est verouillé...
 	if ((BackgroundSnorkAirlock1::etat) && (etape > 0)) {
 		etape--;
 	}

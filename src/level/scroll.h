@@ -8,6 +8,5 @@ extern int xTex;
 extern int n_img;
 extern int n_cache;
 
-// Gère le scroll
 void updateScrolling(bool forceOk = true);
 void drawScrolling();

@@ -1,6 +1,6 @@
 #pragma once
 
-// TODO: REMOVE: Replace event types with strings like "ENNEMI" in json
+// TODO: replace event types with strings like "ENNEMI" in the json
 
 #define EVENTID_ENNEMI 0
 #define EVENTID_ENNEMI_GENERATOR 1

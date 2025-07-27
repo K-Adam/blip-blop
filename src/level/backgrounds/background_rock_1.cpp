@@ -25,10 +25,6 @@ void BackgroundRock1::update() {
 
 	int xtmp;
 
-	// Fait des allers/retour
-
-	// Si un joueur est sur la plateforme, on le déplace
-
 	for (Ball* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
@@ -41,7 +37,6 @@ void BackgroundRock1::update() {
 		}
 	}
 
-	// Déplace la plateforme
 	if (etape_levitation <= 13) {
 		y += monolite_levitation[etape_levitation];
 	} else {

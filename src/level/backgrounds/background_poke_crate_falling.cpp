@@ -19,7 +19,6 @@ void BackgroundPokeCrateFalling::update() {
 			}
 
 			if ((etape == 0) && (ss_etape == 1)) {
-				// les 2 autres en haut a droite de l'ecran...
 				BackgroundPokeCratePlatform* s2 = new BackgroundPokeCratePlatform(180);
 				s2->x = x - 250;
 				s2->y = -150;
@@ -48,7 +47,6 @@ void BackgroundPokeCrateFalling::update() {
 
 					list_fonds_animes.emplace_back(s);
 
-					// plateforme qui bouge...
 					BackgroundPokeCratePlatform2* s3 = new BackgroundPokeCratePlatform2();
 					s3->x = x;
 					s3->y = -150;

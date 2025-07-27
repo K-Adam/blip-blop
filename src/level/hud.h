@@ -21,8 +21,7 @@ class HUD {
 		}
 		DrawWeapon(player->id_arme, location);
 
-		// FIXME: The drawer clearly should be agnostic of what are the base
-		// weapons with unlimited ammo.
+		// FIXME: the drawer should not know which weapons have unlimited ammo
 		if (player->id_arme == ID_M16) {
 			DrawAmmo(-1, false, location);
 		} else {

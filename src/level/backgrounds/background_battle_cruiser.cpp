@@ -26,7 +26,7 @@ void BackgroundBattleCruiser::update() {
 		int dif_y = y_adversaire - y;
 		int dif_x = x_adversaire - x;
 
-		if (dif_y != 0 && (dif_x / dif_y < 2) /*&&(dif_x<600)*/ && (dif_x > 0) && (dif_x != 0)) {
+		if (dif_y != 0 && (dif_x / dif_y < 2) && (dif_x > 0) && (dif_x != 0)) {
 			attack_etape += 1;
 
 			if (attack_etape == 2) attack_etape = -2;
@@ -44,13 +44,13 @@ void BackgroundBattleCruiser::update() {
 
 			if (attack_etape == -2) {
 				s = new ShotCruiserLaser(1, 13 - (dif_x / dif_y));
-				s->x = x + 16;	//+8*rand()%5-16;
+				s->x = x + 16;
 				s->y = y;
 				list_fonds_animes.emplace_back(s);
 			}
 			if (attack_etape == 0) {
 				s = new ShotCruiserLaser(-1, 17 - (dif_x / dif_y));
-				s->x = x_adversaire - 16;  //+8*rand()%5-16;
+				s->x = x_adversaire - 16;
 				s->y = y_adversaire;
 				list_fonds_animes.emplace_back(s);
 			}

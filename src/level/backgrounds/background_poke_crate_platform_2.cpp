@@ -4,7 +4,7 @@
 BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = pbk_niveau[87]; }
 
 void BackgroundPokeCratePlatform2::update() {
-	if (y < 20) {  //-200
+	if (y < 20) {
 		y += 3;
 	} else {
 		etape += 2;

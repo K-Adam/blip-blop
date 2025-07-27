@@ -37,7 +37,6 @@ void BackgroundRockHyperspace::update() {
 
 	switch (plan_rocher) {
 		case 0:
-			// TODO: CHECK THAT 11
 			y = y_base + cosi(11, delta);
 			break;
 

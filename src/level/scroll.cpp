@@ -16,7 +16,6 @@ int n_cache = 0;
 void drawScrolling() {
 	Rect r;
 
-	// Pour éviter les mauvaises surprises
 	if (offset < 0)
 		offset = 0;
 	else if (offset > (int)level_size - 640)
@@ -82,7 +81,7 @@ void updateScrolling(bool forceOk) {
 		}
 
 		x_moy /= (int)list_joueurs.size();
-		x_moy -= 320;  // Pour centrer (320=640/2)
+		x_moy -= 320;  // Half of the 640 screen width
 
 		if (x_moy > offset) {
 			if ((x_moy - offset) >= 2)

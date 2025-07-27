@@ -14,7 +14,6 @@ BackgroundMonolith::BackgroundMonolith() : etape_levitation(0), ss_etape_levitat
 
 void BackgroundMonolith::update() {
 	pic = pbk_niveau[anime(monolite_animation, 36, 3)];
-	// anime36
 	ss_etape_levitation++;
 	ss_etape_levitation %= 4;
 	if (ss_etape_levitation == 0) {
@@ -26,9 +25,6 @@ void BackgroundMonolith::update() {
 
 	int xtmp;
 
-	// Fait des allers/retour
-
-	// Si un joueur est sur la plateforme, on le déplace
 	for (Ball* joueur : list_joueurs) {
 		xtmp = joueur->x;
 
@@ -53,7 +49,6 @@ void BackgroundMonolith::update() {
 		}
 	}
 
-	// Déplace la plateforme
 	if (etape_levitation <= 22) {
 		y += monolite_levitation[etape_levitation];
 	} else {
