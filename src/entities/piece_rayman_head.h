@@ -7,7 +7,6 @@ class PieceRaymanHead : public Sprite {
 	int dx;
 
    public:
-	// methodes "habituelles"
 	PieceRaymanHead(int vx, int vy);
 	virtual void update();
 };

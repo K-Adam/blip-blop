@@ -5,7 +5,7 @@
 class ShotShamanColumn : public Shot {
    public:
 	int duree_vie;
-	int etat;  // 0:cree - 1:normal - 2:detruit
+	int etat;  // 0 created, 1 normal, 2 destroyed
 
 	ShotShamanColumn();
 

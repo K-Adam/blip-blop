@@ -18,14 +18,14 @@ void ShotShell::update() {
 	}
 	pic = pbk_ennemis[58 + etape];
 
-	if (/*x - CARAPACE_SPEED < xmin ||*/ mur_opaque(x - CARAPACE_SPEED, y)) {
+	if (mur_opaque(x - CARAPACE_SPEED, y)) {
 		if (rebond) {
 			a_detruire = true;
 		} else {
 			dir = SENS_DROITE;
 			rebond = true;
 		}
-	} else if (/* x + CARAPACE_SPEED > offset + 640 ||*/ mur_opaque(x + CARAPACE_SPEED, y)) {
+	} else if (mur_opaque(x + CARAPACE_SPEED, y)) {
 		if (rebond) {
 			a_detruire = true;
 		} else {

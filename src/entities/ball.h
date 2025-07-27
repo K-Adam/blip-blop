@@ -33,20 +33,20 @@ class Ball : public Character, public Player {
 	int dir_arme;
 	int ammo;
 
-	int etape_arme;	 // Pour la détonation
+	int etape_arme;	 // Muzzle flash step
 	int ss_etape_arme;
 	int nb_etape_arme;
 	int latence_arme;
 
-	int cadence_arme;  // Latence tir
-	int pruno;		   // Etape tir
+	int cadence_arme;  // Frames between shots
+	int pruno;		   // Shot timer
 
-	int poid_arme;	// Latence tourne arme
+	int poid_arme;	// Gun turning delay
 	int etape_bouge_arme;
 
-	bool tire;	// Est en train de tirer
+	bool tire;	// Currently firing
 
-	int dx_saut;  // Pour l'inertie
+	int dx_saut;  // Jump inertia
 	int dx_glisse;
 	int latence_glisse;
 	int etape_recul;
@@ -61,9 +61,8 @@ class Ball : public Character, public Player {
 	int nb_life;
 	int nb_cow_bomb;
 	int wait_cow_bomb;
-	bool jump_released;	 // Le bouton saut a été relaché
-	int time_down;		 // Temps ecoulé depuis la dernière fois
-						 // que bas a été pressé
+	bool jump_released;
+	int time_down;	// Frames since down was last pressed
 
 	bool locked_fire;
 	bool locked_dir;

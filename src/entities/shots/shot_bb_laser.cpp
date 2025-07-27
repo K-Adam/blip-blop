@@ -14,7 +14,7 @@ void ShotBBLaser::setDir(int d) {
 	int ny = y;
 
 	switch (dir) {
-		case 0:	 // Bas
+		case 0:	 // Down
 
 			if (y < 0) {
 				ny = y = 0;
@@ -32,7 +32,7 @@ void ShotBBLaser::setDir(int d) {
 			col_on = true;
 			break;
 
-		case 2:	 // Droite
+		case 2:	 // Right
 
 			while (nx > offset - 5 && nx < offset + 645 && !mur_opaque(nx, ny)) nx += 8;
 
@@ -46,7 +46,7 @@ void ShotBBLaser::setDir(int d) {
 			col_on = true;
 			break;
 
-		case 4:	 // Haut
+		case 4:	 // Up
 
 			while (ny > -5 && ny < 485 && !mur_opaque(nx, ny)) ny -= 8;
 
@@ -61,7 +61,7 @@ void ShotBBLaser::setDir(int d) {
 			col_on = true;
 			break;
 
-		case 6:	 // Gauche
+		case 6:	 // Left
 
 			while (nx > offset - 5 && nx < offset + 645 && !mur_opaque(nx, ny)) nx -= 8;
 
@@ -94,7 +94,7 @@ void ShotBBLaser::affiche() {
 	int ny = y;
 
 	switch (dir) {
-		case 0:	 // Bas ----------------------------------
+		case 0:	 // Down
 			r.top = 0;
 			r.left = 0;
 			r.right = 6;
@@ -107,7 +107,7 @@ void ShotBBLaser::affiche() {
 			if (y + hauteur < 480) draw(x + 2, y + hauteur, pbk_misc[74 + etape]);
 			break;
 
-		case 1:	 // Bas/droite ---------------------------
+		case 1:	 // Down right
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !mur_opaque(nx, ny)) {
 				draw(nx, ny, pbk_bb[144 + etape]);
@@ -118,7 +118,7 @@ void ShotBBLaser::affiche() {
 			draw(nx, ny + 5, pbk_misc[74 + etape]);
 			break;
 
-		case 2:	 // Droite -------------------------------
+		case 2:	 // Right
 			r.top = 0;
 			r.left = 0;
 			r.bottom = 6;
@@ -133,7 +133,7 @@ void ShotBBLaser::affiche() {
 			if (xx + largeur < 640) draw(x + largeur, y + 3, pbk_misc[74 + etape]);
 			break;
 
-		case 3:	 // Haut/droite --------------------------
+		case 3:	 // Up right
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !mur_opaque(nx, ny)) {
 				draw(nx, ny, pbk_bb[148 + etape]);
@@ -144,7 +144,7 @@ void ShotBBLaser::affiche() {
 			draw(nx - 5, ny + 10, pbk_misc[74 + etape]);
 			break;
 
-		case 4:	 // Haut ---------------------------------
+		case 4:	 // Up
 			r.top = 0;
 			r.left = 0;
 			r.right = 6;
@@ -161,7 +161,7 @@ void ShotBBLaser::affiche() {
 			if (y > 0) draw(x + 3, y, pbk_misc[74 + etape]);
 			break;
 
-		case 5:	 // Haut/gauche --------------------------
+		case 5:	 // Up left
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !mur_opaque(nx, ny)) {
 				draw(nx, ny, pbk_bb[144 + etape]);
@@ -172,7 +172,7 @@ void ShotBBLaser::affiche() {
 			draw(nx + 5, ny + 10, pbk_misc[74 + etape]);
 			break;
 
-		case 6:	 // Gauche --------------------------------
+		case 6:	 // Left
 			r.top = 0;
 			r.left = 0;
 			r.bottom = 6;
@@ -188,7 +188,7 @@ void ShotBBLaser::affiche() {
 			if (xx > 0) draw(x + 2, y + 3, pbk_misc[74 + etape]);
 			break;
 
-		case 7:	 // Bas/gauche ---------------------------
+		case 7:	 // Down left
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !mur_opaque(nx, ny)) {
 				draw(nx, ny, pbk_bb[148 + etape]);
@@ -222,7 +222,7 @@ bool ShotBBLaser::collision(const Sprite* s) const {
 	if (s->col_on == false) return false;
 
 	switch (dir) {
-		case 1:	 // Bas droite
+		case 1:	 // Down right
 			if (xe2 < x || ye2 < y) return false;
 
 			y_laser1 = (xe1 - x) + y;
@@ -230,7 +230,7 @@ bool ShotBBLaser::collision(const Sprite* s) const {
 
 			break;
 
-		case 3:	 // Haut droite
+		case 3:	 // Up right
 			if (xe2 < x || ye1 > y) return false;
 
 			y_laser1 = -(xe1 - x) + y;
@@ -238,7 +238,7 @@ bool ShotBBLaser::collision(const Sprite* s) const {
 
 			break;
 
-		case 5:	 // Haut gauche
+		case 5:	 // Up left
 			if (xe1 > x || ye1 > y) return false;
 
 			y_laser1 = (xe1 - x) + y;
@@ -246,7 +246,7 @@ bool ShotBBLaser::collision(const Sprite* s) const {
 
 			break;
 
-		case 7:	 // Bas gauche
+		case 7:	 // Down left
 			if (xe1 > x || ye2 < y) return false;
 
 			y_laser1 = -(xe1 - x) + y;

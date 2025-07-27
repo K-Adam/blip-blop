@@ -1,7 +1,5 @@
 #include "entities/piece_sonic_ring.h"
 
-// implementation de la classe PieceSonicRing
-
 PieceSonicRing::PieceSonicRing(int vx, int vy) : dx(vx) { dy = vy; }
 
 void PieceSonicRing::update() {

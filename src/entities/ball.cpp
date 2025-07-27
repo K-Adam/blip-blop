@@ -10,8 +10,6 @@
 #include <cmath>
 #include <numbers>
 
-//----- Animations de Blip ----------------------------------------------------
-
 const int anim_blip_marche_droite[] = {0, 1, 2, 1};
 const int anim_blip_marche_gauche[] = {3, 4, 5, 4};
 
@@ -20,13 +18,9 @@ const int anim_blip_saute_gauche[] = {11, 11, 11, 10, 10, 9, 9, 3, 3, 3, 3};
 
 const int anime_sautille[] = {0, 2, 4, 2};
 
-//----- Animations des détonations -------------------------------------------
-
 const int anim_m16_deto[] = {0, 1, 2, 1, 0};
 const int anim_pm_deto[] = {0, 1, 2, 1, 0};
 const int anim_fusil_deto[] = {0, 1, 2, 1, 0};
-
-//----- Coordonnées des armes -------------------------------------------------
 
 const int dx_m16[] = {3, 6, 0, 2, 7, -7, -2, 0, -6, -3};
 const int dy_m16[] = {-15, -9, -12, -10, -10, -10, -10, -12, -9, -15};
@@ -49,8 +43,6 @@ const int dy_laser[] = {-12, -12, -11, -10, -9, -9, -10, -11, -12, -11};
 const int dx_truc_laser[] = {-2, -1, 0, 3, -1, 1, -3, 0, 0, 2};
 const int dy_truc_laser[] = {-6, -5, -8, -13, -15, -15, -13, -8, -5, -5};
 
-//----- Coordonnées des détonation --------------------------------------------
-
 const int dx_m16_deto[] = {-2, 20, 30, 22, -3, 3, -21, -30, -20, 2};
 const int dy_m16_deto[] = {24, 20, -9, -31, -49, -49, -31, -9, 20, 24};
 
@@ -66,8 +58,6 @@ const int dy_fusil_deto[] = {33, 21, -12, -44, -57, -57, -44, -12, 21, 33};
 const int dx_laser_deto[] = {-3, 24, 37, 29, -1, 0, -29, -37, -24, 2};
 const int dy_laser_deto[] = {32, 21, -8, -39, -53, -53, -39, -8, 21, 32};
 
-//----- Coordonnées des tirs -------------------------------------------------
-
 const int dx_tir_m16[] = {-2, 25, 35, 27, -3, 3, -26, -30, -25, 2};
 const int dy_tir_m16[] = {29, 25, -9, -36, -54, -54, -36, -9, 25, 29};
 
@@ -81,8 +71,6 @@ const int dy_tir_laser[] = {52, 33, -10, -71, -73, -73, -71, -10, 33, 52};
 
 const int dx_tir_lf[] = {-2, 32, 44, 31, 0, 1, -31, -44, -32, 2};
 const int dy_tir_lf[] = {46, 33, -7, -46, -63, -63, -46, -7, 33, 46};
-
-//----- Recul des armes ------------------------------------------------------
 
 const int x_recul[][5] = {
 	{0, 0, 0, 0, 0},	 // BBDIR_BAS_B_D
@@ -178,13 +166,10 @@ Ball::Ball(const PictureBank& pbk)
 }
 
 void Ball::affiche() {
-	// On n'est pas mort au moins ?
 	if (nb_life <= 0) return;
 
-	// Si on est invincible, on clignote (2 vitesses)
 	if (invincible > 50 && etape_cli == 0 && phase && !inv_cow) return;
 
-	// Redirigons le travail...
 	switch (etat) {
 		case ETAT_NORMAL:
 		case ETAT_AVANCE:
@@ -212,12 +197,11 @@ void Ball::affiche() {
 }
 
 void Ball::afficheNormal() {
-	int yback = y;	// Sauvegarde la valeur de y
+	int yback = y;
 	y -= anime_sautille[sauti];
 
 	Sprite::affiche();
 
-	// Affiche les accessoires
 	afficheOeil(x, y);
 	afficheArme(x, y);
 
@@ -295,13 +279,13 @@ void Ball::afficheArme(int xtmp, int ytmp) {
 
 		case ID_FUSIL:
 			if (tire) {
-				if (etape_arme < 5) {  // Le recul
+				if (etape_arme < 5) {  // Recoil
 					draw(xtmp + dx_fusil[d_arme] + x_recul[d_arme][etape_arme] * 2, ytmp + dy_fusil[d_arme] + y_recul[d_arme][etape_arme] * 2,
 						 pbk_own[44 + d_arme]);
 
 					draw(xtmp + dx_main_fusil[d_arme] + x_recul_fusil[d_arme][etape_arme], ytmp + dy_main_fusil[d_arme] + y_recul_fusil[d_arme][etape_arme],
 						 pbk_own[104 + d_arme2]);
-				} else {  // Recharge
+				} else {  // Reload
 					int ea = (etape_arme - 5) / 2;
 
 					draw(xtmp + dx_fusil[d_arme], ytmp + dy_fusil[d_arme], pbk_own[44 + d_arme]);
@@ -325,7 +309,6 @@ void Ball::afficheArme(int xtmp, int ytmp) {
 			break;
 	}
 
-	// Affiche la détonation
 	if (tire) {
 		int d_arme2 = d_arme;
 		if (d_arme == 9)
@@ -365,10 +348,9 @@ void Ball::afficheArme(int xtmp, int ytmp) {
 }
 
 void Ball::afficheOeil(int xtmp, int ytmp) {
-	int base;	// Oeil de base (enervé & co)
-	int delta;	// Selon dir
+	int base;
+	int delta;
 
-	// Prend le bon style d'oeil
 	if (a_mal) {
 		if (dir <= BBLIM_DROITE)
 			draw(xtmp + 12, ytmp - 14, pbk_own[22]);
@@ -376,11 +358,10 @@ void Ball::afficheOeil(int xtmp, int ytmp) {
 			draw(xtmp - 12, ytmp - 14, pbk_own[23]);
 	} else {
 		if (tire)
-			base = 6;  // Oeil méchant
+			base = 6;
 		else
-			base = 0;  // Oeil normal
+			base = 0;
 
-		// Prend la bonne direction
 		if (dir <= BBDIR_BAS_DROITE)
 			delta = 0;
 		else if (dir <= BBDIR_DROITE)
@@ -402,14 +383,12 @@ void Ball::afficheOeil(int xtmp, int ytmp) {
 }
 
 void Ball::afficheSaute() {
-	// Affiche le corps
 	Sprite::affiche();
 
-	// Sauter n'est pas tomber
-	if (dy < 0) {  // Saute
+	if (dy < 0) {
 		afficheOeil(x, y + dy - 2);
 		afficheArme(x, y + dy - 2);
-	} else {  // Tombe
+	} else {
 		afficheOeil(x, y);
 		afficheArme(x, y);
 	}
@@ -447,17 +426,14 @@ void Ball::update() {
 		fire_laser = false;
 	}
 
-	// Are we dead ?
 	if (nb_life <= 0) return;
 
-	// Si on tombe trop bas, on meurt direct
 	if (y > 540) {
 		nb_life = 0;
 		perfect = false;
 		a_detruire = true;
 	}
 
-	// Si on est morts, pas la peine de faire le reste
 	if (etat == ETAT_MEURE) {
 		onMeure();
 		return;
@@ -468,7 +444,6 @@ void Ball::update() {
 		return;
 	}
 
-	// Rah! Les cow bombs! =)
 	if (wait_cow_bomb < 100) wait_cow_bomb += 1;
 
 	if (ctrl->super() && wait_cow_bomb == 100 && nb_cow_bomb >= 1) {
@@ -498,7 +473,7 @@ void Ball::update() {
 		sbk_bb.play(5);
 	}
 
-	// Poussé par le scroll
+	// The scroll pushes players along the left edge
 	if (x < offset + 20 && !ctrl->droite() && !mur_opaque(x + 2, y)) {
 		x += 2;
 
@@ -509,7 +484,7 @@ void Ball::update() {
 
 	if (yp != 0) y = yp;
 
-	// Meure si ecrasé
+	// A player pinned against a wall by the scroll dies
 	if (x < offset - 30) {
 		no_scroll1 = true;
 		nb_life -= 1;
@@ -521,7 +496,6 @@ void Ball::update() {
 
 		etat = ETAT_COME_BACK;
 
-		// Cherche un endroit où atterir
 		x = offset + 320;
 		int i = 0;
 
@@ -541,38 +515,34 @@ void Ball::update() {
 		poid_arme = 1;
 		ammo = 0;
 		pic = pbk_own[8];
-		dy = -5;  // Pour bien afficher l'oeil et l'arme
+		dy = -5;  // So the eye and gun are drawn at jump height
 		dx_saut = 0;
 		tire = false;
 	}
 
-	// Retire l'invincibilité
 	if (invincible > 0) {
 		invincible -= 1;
 	} else {
 		inv_cow = false;
 	}
 
-	// Rouvre l'oeil fermé
 	if (a_mal > 0) a_mal -= 1;
 
-	// Gère le sautillement permanent de Blip et Blop
 	if (ss_etape == 0) {
 		sauti++;
 		sauti %= 4;
 	}
 
-	// Gère le "deux fois en bas vite fait"
+	// Detect a quick double tap on down, which drops through the platform
 	if (ctrl->bas()) {
 		if (time_down > 0 && time_down < 10 && etat == ETAT_NORMAL)
-			time_down = -1;	 // Deux fois en bas rapide
+			time_down = -1;
 		else
-			time_down = 0;	// Trop lent, juste en bas
+			time_down = 0;
 	} else {
 		time_down += 1;
 	}
 
-	// Change la direction
 	if (etat != ETAT_LOCKEDV || !locked_dir) manageDirection();
 
 	switch (etat) {
@@ -598,7 +568,7 @@ void Ball::update() {
 			break;
 	}
 
-	// Plateformes glissantes
+	// Ice keeps some momentum
 	if (etat == ETAT_NORMAL || etat == ETAT_AVANCE) {
 		int nplat = plat2(x, y);
 
@@ -648,18 +618,14 @@ void Ball::update() {
 		dx_glisse = latence_glisse = 0;
 	}
 
-	// Pour les collisions
 	colFromPic();
 
-	// On s'occupe de l'arme
-	if (etat != ETAT_SALETO)  // && !( etat == ETAT_LOCKEDV && !locked_fire))
-		updateArme();
+	if (etat != ETAT_SALETO) updateArme();
 
 	return;
 }
 
 void Ball::onNormal() {
-	// Deux fois en bas très vite
 	if (time_down == -1 && !mur_opaque(x, y + 5) && !mur_opaque(x, y + 10) && !mur_opaque(x, y + 15) && !mur_opaque(x, y + 20) && !mur_opaque(x, y + 25)) {
 		y += 10;
 		dy = 5;
@@ -671,11 +637,10 @@ void Ball::onNormal() {
 		return;
 	}
 
-	// Si on appuie sur SAUT on saute ('tain c'est pas con ça!)
 	if (ctrl->saut() && !mur_opaque(x, y - 5)) {
 		etat = ETAT_SAUTE;
 		dy = -5;
-		lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+		lat_grav = 0;  // Otherwise jump heights vary
 
 		dx_saut = dx_glisse;
 
@@ -689,14 +654,12 @@ void Ball::onNormal() {
 		return;
 	}
 
-	// Si on va à gauche ou à droite on passe dans l'etat AVANCE
 	if (ctrl->gauche() || ctrl->droite() || dx_glisse != 0) {
 		etat = ETAT_AVANCE;
 		onAvance();
 		return;
 	}
 
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -711,7 +674,6 @@ void Ball::onNormal() {
 		return;
 	}
 
-	// Pour l'affichage (NORMAL)
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anime(anim_blip_marche_droite, 4, 8)];
 	else
@@ -719,11 +681,10 @@ void Ball::onNormal() {
 }
 
 void Ball::onAvance() {
-	// Si on appuie sur SAUT on saute ('tain c'est pas con ça!)
 	if (ctrl->saut() && !mur_opaque(x, y - 5)) {
 		etat = ETAT_SAUTE;
 		dy = -5;
-		lat_grav = 0;  // Sinon les sauts diffèrent par leur hauteur
+		lat_grav = 0;  // Otherwise jump heights vary
 
 		dx_saut = dx_glisse;
 
@@ -743,18 +704,14 @@ void Ball::onAvance() {
 		marche(dx_glisse);
 	else {
 		if (ctrl->droite() && (!mur_opaque(x + 2, y) && x + 2 < offset + 620)) {
-			// Avance droite
 			marche(2);
 		} else if (ctrl->gauche() && (!mur_opaque(x - 2, y) && x - 2 > offset + 20)) {
-			// Avance gauche
 			marche(-2);
 		} else {
-			// On avance plus
 			etat = ETAT_NORMAL;
 		}
 	}
 
-	// Si plus de plateformes on passe dans l'etat TOMBE
 	if (plat(x, y) == 0) {
 		etat = ETAT_TOMBE;
 		dy = 0;
@@ -770,7 +727,6 @@ void Ball::onAvance() {
 		return;
 	}
 
-	// Pour l'affichage (AVANCE)
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anime(anim_blip_marche_droite, 4, 5)];
 	else
@@ -780,7 +736,7 @@ void Ball::onAvance() {
 void Ball::onSaute() {
 	int yp;
 
-	// Pour gérer le saleto
+	// A somersault needs jump released and pressed again mid jump
 	if (!ctrl->saut()) jump_released = true;
 
 	if (ctrl->saut() && jump_released && etat == ETAT_SAUTE && dy < 3) {
@@ -794,10 +750,9 @@ void Ball::onSaute() {
 		return;
 	}
 
-	// Le classique tombor (cf. classe Sprite)
 	tombe2();
 
-	// Si on ne laisse pas appuyer sur saut on saute moins haut
+	// Releasing jump early makes a shorter jump
 	if (dy < 0 && !ctrl->saut()) {
 		lat_grav += 1;
 		lat_grav %= LATENCE_GRAVITE;
@@ -807,7 +762,6 @@ void Ball::onSaute() {
 		}
 	}
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		latence_glisse = 200 * dx_saut;
@@ -817,7 +771,6 @@ void Ball::onSaute() {
 		return;
 	}
 
-	// Même en tombant on peut se diriger à droite/gauche
 	if (!ctrl->inertia() || (!ctrl->bas() && !ctrl->haut())) {
 		if (ctrl->droite() && dx_saut < 2)
 			dx_saut = 2;
@@ -831,7 +784,6 @@ void Ball::onSaute() {
 
 	if (!mur_opaque(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
 
-	// Pour l'affichage (SAUTE/TOMBE)
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[anim_blip_saute_droite[dy + 5]];
 	else
@@ -856,7 +808,6 @@ void Ball::manageDirection() {
 	if (right && aim_angle_ > 180) aim_angle_ -= 360;
 	if (!right && aim_angle_ < 0) aim_angle_ += 360;
 
-	// Gére la direction de l'arme
 	if (dir <= BBLIM_DROITE && dir_arme > BBLIM_DROITE)
 		dir_arme = BBDIR_BAS_B_G - dir_arme;
 	else if (dir > BBLIM_DROITE && dir_arme <= BBLIM_DROITE)
@@ -876,7 +827,7 @@ void Ball::manageDirection() {
 void Ball::updateArme() {
 	if (etat == ETAT_LOCKEDV) return;
 
-	int yback = y;	// Sauvegarde la valeur de y
+	int yback = y;
 
 	switch (etat) {
 		case ETAT_NORMAL:
@@ -890,7 +841,6 @@ void Ball::updateArme() {
 			break;
 	}
 
-	// Gere les détonations
 	if (tire) {
 		ss_etape_arme += 1;
 		ss_etape_arme %= latence_arme;
@@ -900,7 +850,6 @@ void Ball::updateArme() {
 		if (etape_arme == nb_etape_arme) tire = false;
 	}
 
-	// Si le joueur appuie sur 'FEU' on passe en mode TIR
 	if (!tire && ctrl->fire() && !hold_fire) {
 		tire = true;
 		etape_arme = 0;
@@ -927,11 +876,9 @@ void Ball::updateArme() {
 		pruno = cadence_arme - 1;
 	}
 
-	// Gère le recul
 	etape_recul += 1;
 	etape_recul %= 5;
 
-	// Gère les balles
 	pruno += 1;
 	pruno %= cadence_arme;
 
@@ -1119,7 +1066,7 @@ void Ball::onMeure() {
 		rearme();
 
 		pic = pbk_own[8];
-		dy = -5;  // Pour bien afficher l'oeil et l'arme
+		dy = -5;  // So the eye and gun are drawn at jump height
 		dx_saut = 0;
 		tire = false;
 
@@ -1176,10 +1123,8 @@ void Ball::onSaleto() {
 		etape %= 8;
 	}
 
-	// Le classique tombor (cf. classe Sprite)
 	tombe2();
 
-	// Et si on arrêtait de tomber ?
 	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
 		etat = ETAT_NORMAL;
 		latence_glisse = 200 * dx_saut;
@@ -1189,7 +1134,6 @@ void Ball::onSaleto() {
 		return;
 	}
 
-	// Même en tombant on peut se diriger à droite/gauche
 	if (ctrl->droite() && dx_saut < 2)
 		dx_saut = 2;
 	else if (ctrl->gauche() && dx_saut > -2)
@@ -1199,7 +1143,6 @@ void Ball::onSaleto() {
 
 	if (!mur_opaque(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
 
-	// Pour l'affichage
 	pic = pbk_own[109 + id_arme * 8 + etape];
 }
 
@@ -1275,7 +1218,6 @@ void Ball::unlockVehicule() {
 void Ball::onVehicule() {}
 
 void Ball::afficheVehicule() {
-	// Pour l'affichage (NORMAL)
 	if (dir <= BBLIM_DROITE)
 		pic = pbk_own[0];
 	else

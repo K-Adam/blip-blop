@@ -1,7 +1,5 @@
 #include "entities/gore_splatter.h"
 
-// implementation de la classe GoreSplatter
-
 GoreSplatter::GoreSplatter(int vx, int vy) : dx(vx) {
 	dy = vy;
 

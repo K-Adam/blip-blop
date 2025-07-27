@@ -28,7 +28,7 @@ void ShotBBShotgun::setDir(int d) {
 	n_d_petit %= 10;
 
 	switch (dir / 2) {
-		case 0:	 // Haut et bas
+		case 0:	 // Up and down
 		case 4:
 			latence_x = lat_grande[n_lat_grande];
 			latence_y = 1;
@@ -38,7 +38,7 @@ void ShotBBShotgun::setDir(int d) {
 			ddy = 0;
 			break;
 
-		case 2:	 // Gauche et droite
+		case 2:	 // Left and right
 		case 6:
 			latence_y = lat_grande[n_lat_grande];
 			latence_x = 1;
@@ -48,7 +48,7 @@ void ShotBBShotgun::setDir(int d) {
 			ddy = d_petit[n_d_petit];
 			break;
 
-		case 1:	 // Diagonale haut gauche / bas droite
+		case 1:	 // Up left and down right diagonal
 		case 5:
 			n_lat_tgrande += 1;
 			n_lat_tgrande %= 6;
@@ -74,7 +74,7 @@ void ShotBBShotgun::setDir(int d) {
 			ddy = d_grand[n_d_grand];
 			break;
 
-		case 3:	 // Diagonale bas gauche / haut droite
+		case 3:	 // Down left and up right diagonal
 		case 7:
 			n_lat_tgrande += 1;
 			n_lat_tgrande %= 3;

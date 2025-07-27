@@ -68,10 +68,9 @@ void ShotShamanColumn::deplace() {
 
 	tombe();
 
-	// Marche
-	if (mur_opaque(x - SPEED, y) || x + SPEED < offset /*|| (plat( x-SPEED, y) == 0 && plat( x-SPEED, y+5) == 0)*/)
+	if (mur_opaque(x - SPEED, y) || x + SPEED < offset)
 		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 640 /*|| mur_opaque( x+SPEED, y)  || (plat( x+SPEED, y) == 0 && plat( x+SPEED, y+5) == 0)*/)
+	else if (x + SPEED > offset + 640)
 		dir = SENS_GAUCHE;
 
 	if (dir == SENS_DROITE) {

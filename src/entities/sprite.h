@@ -17,7 +17,7 @@ class Sprite {
 
 	int wait_bulle;
 
-	int x1;	 // Pour les collisions
+	int x1;	 // Collision box
 	int y1;
 	int x2;
 	int y2;
@@ -31,7 +31,7 @@ class Sprite {
 	inline virtual Picture* getPic() const { return pic; };
 	inline virtual bool aDetruire() const { return a_detruire; };
 
-	inline virtual bool estSurMur() const  // (sanglant)
+	inline virtual bool estSurMur() const  // Blood stained wall
 	{
 		return mur_sanglant(x, y);
 	}

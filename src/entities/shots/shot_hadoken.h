@@ -6,14 +6,6 @@
 
 class ShotHadoken : public Shot {
    public:
-	/*
-
-	TODO:Is this method used? where?
-
-	int ShotSnorkyBase();
-
-	*/
-
 	virtual int degats() const { return 1; };
 
 	virtual int enflame() const { return 0; };

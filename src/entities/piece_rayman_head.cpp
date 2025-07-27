@@ -17,7 +17,6 @@ void PieceRaymanHead::update() {
 		pic = pbk_ennemis[496 + etape];
 	}
 
-	// Et si la tete touche le sol? ?
 	if (dy > 0 && (plat(x, y + dy)) != 0) {
 		grave(x, y, pic);
 		a_detruire = true;
