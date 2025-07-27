@@ -39,7 +39,6 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 	bool skiped = false;
 	initPlayer();
 
-	/*first_surf = s1;*/
 	back_surf = back;
 
 	auto dir = asset_path_prefix("cin", file);
@@ -52,7 +51,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 
 	json data = json::parse(input);
 
-	// Reproduce old file format in a string stream
+	// The parser reads the old text format, so the JSON script is rebuilt as that text
 	fic_ = std::stringstream{};
 
 	auto blocks = data["blocks"];
@@ -115,12 +114,10 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 }
 
 void CINEPlayer::updateScene() {
-	// Gére le volume
 	int vol = delta_vol;
 
 	if (vol < 0) vol = 0;
 
-	// Gére l'alpha blending
 	alpha += delta_alpha;
 
 	if (alpha > 255)
@@ -128,7 +125,6 @@ void CINEPlayer::updateScene() {
 	else if (alpha < 0)
 		alpha = 0;
 
-	// Gére les objets
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
 			if (obj[i].time_mov > 0) {
@@ -350,7 +346,6 @@ void CINEPlayer::drawScene() {
 
 	back_surf->FillRect(0, 0xFF000000);
 
-	// Affiche tous les sprites/scrolls
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
 			switch (obj[i].id) {
@@ -361,7 +356,6 @@ void CINEPlayer::drawScene() {
 		}
 	}
 
-	// Clippe le tout
 	r.left = 0;
 	r.right = clip_x1;
 	r.top = 0;
@@ -386,7 +380,6 @@ void CINEPlayer::drawScene() {
 	r.bottom = 480;
 	back_surf->FillRect(&r, 0);
 
-	// Affiche tous les textes
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show && obj[i].id == OBJ_TEXTE) drawText(i);
 	}
@@ -405,7 +398,6 @@ void CINEPlayer::drawText(int n) {
 bool CINEPlayer::getCommand() {
 	std::string line;
 
-	// Esquive les lignes commentées et les lignes vides
 	do {
 		// A script without endscene would otherwise spin forever on EOF
 		if (!std::getline(fic_, line)) {
@@ -415,7 +407,6 @@ bool CINEPlayer::getCommand() {
 		num_ligne += 1;
 	} while (line.empty() || line[0] == ';');
 
-	// Vire les espaces et les " et met tout en minuscule, jusqu'au commentaire
 	std::string clean;
 	for (char c : line) {
 		if (c == ';') break;

@@ -35,7 +35,7 @@ bool RPGPlayer::startPlay(int n) {
 
 	json data = json::parse(input);
 
-	// Reproduce old file format in a string stream
+	// The parser reads the old text format, so the JSON script is rebuilt as that text
 	fic_ = std::stringstream{};
 
 	auto blocks = data["blocks"];
@@ -137,7 +137,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 		not_finished = updateScene();
 	}
 
-	// Assombrissement
 	Rect r;
 
 	if (nimage[0] >= 0) {
@@ -158,7 +157,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 		halfTone(surf, &r);
 	}
 
-	// Affiche les têtes de con
 	if (pic_tab[0] != NULL && nimage[0] >= 0 && (size_t)nimage[0] < (*pic_tab[0]).getSize()) (*pic_tab[0])[nimage[0]]->PasteTo(surf, 0, 120);
 
 	if (vbuffer_wide > 640) {
@@ -167,7 +165,6 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 		if (pic_tab[1] != NULL && nimage[1] >= 0 && (size_t)nimage[1] < (*pic_tab[1]).getSize()) (*pic_tab[1])[nimage[1]]->PasteTo(surf, 538, 300);
 	}
 
-	// Ecrit le texte
 	if (ntxt[0] != -1) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]], 640);
 
 	if (ntxt[1] != -1) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]], 535);
@@ -179,27 +176,21 @@ bool RPGPlayer::updateScene() {
 	bool ready_to_draw = false;
 
 	while (!ready_to_draw && read() && buffer1_ != "stop") {
-		// D'abord, on analyse les cas ou on n'a pas besoin de couper
 		if (buffer1_ == "endif") {
 		} else if (buffer1_ == "bbswap") {
 			cur_joueur += 1;
 			cur_joueur %= nbjoueurs;
 		} else {
-			// Coupe le schnuff en 2 buffer1:txt1 et buffer2:txt2
-			// tel que dans le fichier il y a "txt1=txt2"
 			size_t pos = buffer1_.find('=');
 			buffer2_ = buffer1_.substr(pos + 1);
 			buffer1_ = buffer1_.substr(0, pos);
 
 			if (buffer1_ == "ifnbj") {
 				if (nbjoueurs != std::stoi(buffer2_)) {
-					// Si la condition est fausse on skipe le tout
 					while (read() && buffer1_ != "endif")
 						;
 				}
 			} else if (buffer1_ == "focus") {
-				// Gère le focus
-
 				if (buffer2_ == "haut")
 					focus = 0;
 				else if (buffer2_ == "bas")
@@ -207,8 +198,6 @@ bool RPGPlayer::updateScene() {
 				else
 					error(buffer2_);
 			} else if (buffer1_ == "id") {
-				// Gère l'identité de la PBK de la case
-
 				if (buffer2_ == "joueur") {
 					pic_tab[focus] = &pbk_rpg_bb;
 					id[focus] = ID_JOUEUR;
@@ -218,25 +207,17 @@ bool RPGPlayer::updateScene() {
 				} else
 					error(buffer2_);
 			} else if (buffer1_ == "img") {
-				// Change l'image
-
 				if (id[focus] == ID_JOUEUR)
 					nimage[focus] = std::stoi(buffer2_) + base_joueur[cur_joueur];
 				else
 					nimage[focus] = std::stoi(buffer2_);
 			} else if (buffer1_ == "txt") {
-				// Change le texte
-
 				ntxt[focus] = std::stoi(buffer2_);
 			} else if (buffer1_ == "affiche") {
-				// Près pour l'affichage
-
 				time_.Reset();
 				wait_.Reset(std::stoi(buffer2_));
 				ready_to_draw = true;
 			} else if (buffer1_ == "flag") {
-				// Flag
-
 				size_t pos = buffer2_.find('.');
 				int val = std::stoi(buffer2_.substr(pos + 1));
 				buffer2_ = buffer2_.substr(0, pos);
@@ -254,7 +235,6 @@ bool RPGPlayer::updateScene() {
 bool RPGPlayer::read() {
 	std::getline(fic_, buffer1_);
 
-	// Skip les commentaires
 	while (!fic_.eof() && buffer1_[0] == ';') std::getline(fic_, buffer1_);
 
 	return !fic_.eof();

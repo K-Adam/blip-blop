@@ -50,7 +50,6 @@ class CINEPlayer {
    protected:
 	UpdateRegulator update_regulator_;
 
-	/*SDL::Surface * first_surf;*/
 	SDL::Surface* back_surf;
 
 	std::stringstream fic_;
@@ -79,14 +78,12 @@ class CINEPlayer {
 
 	int delta_vol;
 
-	// Méthodes
 	bool getCommand();
 	void initPlayer();
 	void closePlayer();
 	bool error();
 	bool error(const char* er);
 
-	// Execute toutes les commandes jusqu'à un affichage
 	void updateState();
 
 	void drawScene();

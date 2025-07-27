@@ -19,14 +19,13 @@ class TitleScreen {
 	AbstractMenu* active_menu_;
 
    public:
-	bool start_sound_on;  // Ces deux booléens permettent de savoir si on a
-						  // changé
-	bool start_music_on;  // l'état de sound_on/music_on pour recharger le
-						  // tout à la fin du menu
+	// Compared with sound_on/music_on when the menu ends to reload only what changed
+	bool start_sound_on;
+	bool start_music_on;
 
 	TitleScreen() : active_menu_(&first_menu_) {}
 	void start();
-	int update();  // Retour 0=toujours menu  1=retour jeu  2=quitter
+	int update();  // 0 stays in the menu, 1 resumes the game, 2 quits
 	void stop();
 	void draw(SDL::Surface* surf);
 };

@@ -29,8 +29,8 @@ class RPGPlayer {
 	bool skiped;
 
 	size_t nbjoueurs;
-	int cur_joueur;		 // Player pris en compte à cet instant (0 ou 1)
-	int base_joueur[2];	 // Représente l'image de base du joueur selon qu'il soit Blip ou Blop
+	int cur_joueur;		 // Player the dialog currently refers to (0 or 1)
+	int base_joueur[2];	 // First image of the player, which depends on Blip or Blop
 
 	RPGPlayer();
 

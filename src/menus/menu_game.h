@@ -11,6 +11,6 @@ class MenuGame {
 
    public:
 	MenuGame() : active_(&pause_menu_) {}
-	int Update();  // Retour 0=toujours menu  1=retour jeu  2=quitter
+	int Update();  // 0 stays in the menu, 1 resumes the game, 2 quits
 	void Draw(SDL::Surface* surf) { active_->Draw(surf); }
 };
