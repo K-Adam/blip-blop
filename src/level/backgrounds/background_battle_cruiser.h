@@ -14,6 +14,6 @@ class BackgroundBattleCruiser : public Sprite {
 
 	BackgroundBattleCruiser();
 
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

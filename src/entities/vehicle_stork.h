@@ -8,11 +8,11 @@ class VehicleStork : public Vehicle {
 
 	VehicleStork();
 
-	virtual bool canFire() { return false; };
+	bool canFire() override { return false; };
 
-	virtual bool canChangeDir() { return false; };
+	bool canChangeDir() override { return false; };
 
-	virtual void updateUsed();
-	virtual void updateNotUsed();
-	virtual void affiche();
+	void updateUsed() override;
+	void updateNotUsed() override;
+	void affiche() override;
 };

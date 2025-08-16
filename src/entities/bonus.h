@@ -19,7 +19,7 @@ class Bonus : public Sprite {
 		col_on = false;
 	};
 
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		phi += 12;
@@ -37,7 +37,7 @@ class Bonus : public Sprite {
 		y += 15;
 	};
 
-	virtual void affiche() {
+	void affiche() override {
 		int base;
 
 		y -= 15;
@@ -58,7 +58,7 @@ class Bonus : public Sprite {
 		y += 15;
 	};
 
-	virtual void colFromPic() {
+	void colFromPic() override {
 		Sprite::colFromPic();
 
 		x1 -= 10;

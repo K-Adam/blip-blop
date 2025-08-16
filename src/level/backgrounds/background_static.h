@@ -4,7 +4,7 @@
 
 class BackgroundStatic : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		if (x < 320) a_detruire = true;
 	};
 };

@@ -9,7 +9,7 @@ class EnemySmurfVain : public EnemySmurf {
 		speed = 1 + rand() % 2;
 	}
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		EnemySmurf::affiche();
 		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 			switch (dir) {

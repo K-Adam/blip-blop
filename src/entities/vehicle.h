@@ -13,7 +13,7 @@ class Vehicle : public Sprite {
 
 	Vehicle();
 
-	virtual void update();
+	void update() override;
 	virtual Ball* scanne();
 
 	virtual bool canFire() = 0;

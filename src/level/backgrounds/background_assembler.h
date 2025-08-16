@@ -5,6 +5,6 @@
 class BackgroundAssembler : public Sprite {
    public:
 	BackgroundAssembler();
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

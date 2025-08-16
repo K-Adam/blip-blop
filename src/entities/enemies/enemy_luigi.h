@@ -28,12 +28,12 @@ class EnemyLuigi : public Enemy {
 
    public:
 	EnemyLuigi();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
 	virtual void onAttack();
 	virtual void onCarbonise();
 	virtual void tombe_luigi();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

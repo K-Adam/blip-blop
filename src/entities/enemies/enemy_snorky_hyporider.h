@@ -14,12 +14,12 @@ class EnemySnorkyHyporider : public Enemy {
 
 	EnemySnorkyHyporider();
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCharge();
-	virtual void affiche();
+	void affiche() override;
 	virtual void onCarbonise();
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

@@ -8,5 +8,5 @@ class EventForeground : public Event {
 	int y;
 	int id_fond;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

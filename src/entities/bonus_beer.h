@@ -9,7 +9,7 @@ class BonusBeer : public Bonus {
 		col_on = true;
 	};
 
-	virtual void estPris(Ball* c) {
+	void estPris(Ball* c) override {
 		if (c->pv == 5) return;
 
 		sbk_misc.play(5);

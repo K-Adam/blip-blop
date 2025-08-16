@@ -9,7 +9,7 @@ class GoreFeetBisouStar : public Sprite {
 
 	GoreFeetBisouStar() : etat(0), nb(0) {}
 
-	virtual void update() {
+	void update() override {
 		static const int anim_droite[] = {97, 98, 99, 98};
 		static const int anim_gauche[] = {103, 104, 105, 104};
 

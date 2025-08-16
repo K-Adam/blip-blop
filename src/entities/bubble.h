@@ -9,5 +9,5 @@ class Bubble : public Sprite {
 	int dphi;
 
 	Bubble();
-	virtual void update();
+	void update() override;
 };

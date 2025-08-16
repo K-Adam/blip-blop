@@ -6,7 +6,7 @@ class Blip : public Ball {
    public:
 	Blip() : Ball(pbk_blip) { id_ball = ID_BLIP; }
 
-	virtual void rearme() {
+	void rearme() override {
 		id_arme = ID_PM;
 		ammo = 100;
 		latence_arme = 3;

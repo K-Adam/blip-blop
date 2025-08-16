@@ -5,11 +5,11 @@
 
 class ShotBBCow : public ShotBB {
    public:
-	inline virtual int degats() const { return 50; };
+	inline int degats() const override { return 50; };
 
-	inline virtual int enflame() const { return 2; };
+	inline int enflame() const override { return 2; };
 
-	inline virtual void aTouche(int pts) { joueur->addPoints(pts); };
+	inline void aTouche(int pts) override { joueur->addPoints(pts); };
 
-	virtual void update();
+	void update() override;
 };

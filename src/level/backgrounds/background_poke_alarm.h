@@ -4,7 +4,7 @@
 
 class BackgroundPokeAlarm1 : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 3;
 
@@ -20,7 +20,7 @@ class BackgroundPokeAlarm1 : public Sprite {
 
 class BackgroundPokeAlarm2 : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 3;
 
@@ -36,7 +36,7 @@ class BackgroundPokeAlarm2 : public Sprite {
 
 class BackgroundPokeAlarm3 : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 3;
 

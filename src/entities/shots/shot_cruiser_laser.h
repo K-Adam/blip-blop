@@ -8,5 +8,5 @@ class ShotCruiserLaser : public Sprite {
 	int npic;
 
 	ShotCruiserLaser(int vx, int nb_pic);
-	virtual void update();
+	void update() override;
 };

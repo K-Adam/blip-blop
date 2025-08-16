@@ -6,7 +6,7 @@ class EnemySmurfPeon : public EnemySmurf {
    public:
 	EnemySmurfPeon() { pv = 125; }
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		EnemySmurf::affiche();
 		if ((etat != ETAT_MEURE && etat != ETAT_CARBONISE) || (etat == ETAT_MEURE && etape <= 2)) {
 			switch (dir) {

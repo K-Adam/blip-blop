@@ -5,5 +5,5 @@
 class BackgroundPokeCratePlatform2 : public Sprite {
    public:
 	BackgroundPokeCratePlatform2();
-	virtual void update();
+	void update() override;
 };

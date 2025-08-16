@@ -12,10 +12,10 @@ class EnemyPacman : public Enemy {
 
    public:
 	EnemyPacman();
-	virtual void update();
-	virtual int degats();
-	virtual void affiche();
-	virtual void estTouche(Shot* tir);
+	void update() override;
+	int degats() override;
+	void affiche() override;
+	void estTouche(Shot* tir) override;
 
-	virtual bool count() { return false; };
+	bool count() override { return false; };
 };

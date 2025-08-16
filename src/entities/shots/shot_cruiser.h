@@ -7,5 +7,5 @@ class ShotCruiser : public Sprite {
 	int dx;
 
 	ShotCruiser(int vx, int vy, int nb_pic);
-	virtual void update();
+	void update() override;
 };

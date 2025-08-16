@@ -11,7 +11,7 @@ class EventText : public Event {
 	int val;
 	int cond;
 
-	inline virtual bool aActiver() {
+	inline bool aActiver() override {
 		if (cond == 0)
 			return true;
 		else if (cond == 1)
@@ -20,7 +20,7 @@ class EventText : public Event {
 			return (game_flag[flag] >= val);
 	};
 
-	virtual void doEvent() {
+	void doEvent() override {
 		CoolText* txt = new CoolText();
 
 		txt->ntxt = ntxt;

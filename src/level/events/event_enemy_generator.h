@@ -12,5 +12,5 @@ class EventEnemyGenerator : public Event {
 	int periode;
 	bool tmp;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

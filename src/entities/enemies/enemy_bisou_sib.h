@@ -8,6 +8,6 @@ class EnemyBisouSIB : public Enemy {
 
 	EnemyBisouSIB();
 
-	virtual void update();
-	virtual void estTouche(Shot* tir);
+	void update() override;
+	void estTouche(Shot* tir) override;
 };

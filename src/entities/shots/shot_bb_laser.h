@@ -12,20 +12,20 @@ class ShotBBLaser : public ShotBB {
    public:
 	ShotBBLaser();
 
-	virtual int getGiclureDir() const { return dir; };
+	int getGiclureDir() const override { return dir; };
 
-	inline virtual int degats() const { return 20; };
+	inline int degats() const override { return 20; };
 
-	inline virtual int enflame() const { return 0; };
+	inline int enflame() const override { return 0; };
 
 	inline virtual void setEtape(int e) { etape = e; };
 
-	inline virtual void aTouche(int pts) { joueur->addPoints(pts); };
+	inline void aTouche(int pts) override { joueur->addPoints(pts); };
 
-	inline virtual void aTouche(){};
+	inline void aTouche() override{};
 
-	virtual void affiche();
-	virtual void setDir(int d);
-	virtual void update();
-	virtual bool collision(const Sprite* s) const;
+	void affiche() override;
+	void setDir(int d) override;
+	void update() override;
+	bool collision(const Sprite* s) const override;
 };

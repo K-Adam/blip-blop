@@ -6,7 +6,7 @@ class PieceSnorkyBaseHeadWhole : public Sprite {
    public:
 	PieceSnorkyBaseHeadWhole();
 
-	virtual void update();
+	void update() override;
 };
 
 class PieceSnorkyBaseHeadBackPart : public Sprite {
@@ -15,7 +15,7 @@ class PieceSnorkyBaseHeadBackPart : public Sprite {
 
 	PieceSnorkyBaseHeadBackPart(int vx, int vy);
 
-	virtual void update();
+	void update() override;
 };
 
 class PieceSnorkyHyporiderBody : public Sprite {
@@ -24,7 +24,7 @@ class PieceSnorkyHyporiderBody : public Sprite {
 
 	PieceSnorkyHyporiderBody(int vx);
 
-	virtual void update();
+	void update() override;
 };
 
 class PieceSnorkyBaseTrunk : public Sprite {
@@ -33,5 +33,5 @@ class PieceSnorkyBaseTrunk : public Sprite {
 
 	PieceSnorkyBaseTrunk(int vx, int vy);
 
-	virtual void update();
+	void update() override;
 };

@@ -4,7 +4,7 @@
 
 class GoreFeetBisouZombie : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		if (etape < 3) {

@@ -8,5 +8,5 @@ class Splatter : public Sprite {
 	int deltax;
 	int deltay;
 
-	virtual void update();
+	void update() override;
 };

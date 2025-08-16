@@ -12,13 +12,13 @@ class ShotBBLF : public ShotBB {
 	int speed;
 	int deg;
 
-	virtual void setDir(int d);
+	void setDir(int d) override;
 
-	inline virtual int degats() const { return deg; };
+	inline int degats() const override { return deg; };
 
-	inline virtual int enflame() const { return 2; };
+	inline int enflame() const override { return 2; };
 
-	virtual void update();
+	void update() override;
 
-	virtual void aTouche(int pts);
+	void aTouche(int pts) override;
 };

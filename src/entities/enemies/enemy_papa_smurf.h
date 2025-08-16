@@ -11,7 +11,7 @@ class EnemyPapaSmurf : public Enemy {
 
 	EnemyPapaSmurf();
 	virtual void updateCible();
-	virtual void update();
+	void update() override;
 	virtual void updateChoice();
 	virtual void onAvance();
 	virtual void onAtata();

@@ -10,5 +10,5 @@ class BackgroundLight : public Sprite {
 
 	BackgroundLight();
 
-	virtual void update();
+	void update() override;
 };

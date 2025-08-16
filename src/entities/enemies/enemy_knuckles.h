@@ -16,13 +16,13 @@ class EnemyKnuckles : public Enemy {
 
    public:
 	EnemyKnuckles();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTombe();
 	virtual void onCarbonise();
 	virtual void onCharge();
 	virtual void onSaute();
-	virtual void estTouche(Shot* tir);
-	virtual void tombe();
+	void estTouche(Shot* tir) override;
+	void tombe() override;
 };

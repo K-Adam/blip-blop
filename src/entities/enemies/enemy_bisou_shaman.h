@@ -17,8 +17,8 @@ class EnemyBisouShaman : public Enemy {
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Shot* tir);
-	virtual void update();
-	virtual void affiche();
+	void estTouche(Shot* tir) override;
+	void update() override;
+	void affiche() override;
 	virtual void onTele();
 };

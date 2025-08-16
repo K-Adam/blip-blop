@@ -8,11 +8,11 @@ class EnemySpikes : public Enemy {
 
    public:
 	EnemySpikes();
-	virtual void update();
-	virtual void affiche();
-	virtual void colFromPic();
-	virtual void estTouche(Shot* tir);
-	virtual int degats() { return 5; };
+	void update() override;
+	void affiche() override;
+	void colFromPic() override;
+	void estTouche(Shot* tir) override;
+	int degats() override { return 5; };
 
-	virtual bool count() { return false; };
+	bool count() override { return false; };
 };

@@ -9,7 +9,7 @@ class BonusBarrel : public Bonus {
 		col_on = true;
 	};
 
-	virtual void estPris(Ball* c) {
+	void estPris(Ball* c) override {
 		sbk_misc.play(5);
 
 		c->pv = 5;

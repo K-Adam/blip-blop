@@ -12,7 +12,7 @@ class GoreHeadBisouHeart : public Sprite {
 		dx = -2 + rand() % 5;
 	};
 
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		ss_etape += 1;

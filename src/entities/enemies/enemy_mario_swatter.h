@@ -28,12 +28,12 @@ class EnemyMarioSwatter : public Enemy {
 
    public:
 	EnemyMarioSwatter();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
 	virtual void onCharge();
 	virtual void onCarbonise();
 	virtual void tombe_mario();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

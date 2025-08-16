@@ -10,7 +10,7 @@ class EnemyCOMFlying : public Enemy {
 
    public:
 	EnemyCOMFlying();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 };

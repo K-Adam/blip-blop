@@ -13,7 +13,7 @@ class EnemySmurfFarmer : public Enemy {
 
 	EnemySmurfFarmer();
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		Enemy::affiche();
 		if (etat == ETAT_MEURE && tete_etape < 5) {
 			if (dir == SENS_GAUCHE)
@@ -23,10 +23,10 @@ class EnemySmurfFarmer : public Enemy {
 		}
 	}
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

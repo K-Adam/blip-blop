@@ -22,11 +22,11 @@ class EnemyLara : public Enemy {
 
    public:
 	EnemyLara();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onTire();
 
-	virtual void affiche();
-	virtual void estTouche(Shot* tir);
+	void affiche() override;
+	void estTouche(Shot* tir) override;
 };

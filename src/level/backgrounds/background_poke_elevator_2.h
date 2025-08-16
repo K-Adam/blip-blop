@@ -5,5 +5,5 @@
 class BackgroundPokeElevator2 : public Sprite {
    public:
 	BackgroundPokeElevator2();
-	virtual void update();
+	void update() override;
 };

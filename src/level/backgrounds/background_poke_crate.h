@@ -3,5 +3,5 @@
 class BackgroundPokeCrate : public Sprite {
    public:
 	BackgroundPokeCrate();
-	virtual void update();
+	void update() override;
 };

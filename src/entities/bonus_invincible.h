@@ -9,7 +9,7 @@ class BonusInvincible : public Bonus {
 		col_on = true;
 	};
 
-	virtual void estPris(Ball* c) {
+	void estPris(Ball* c) override {
 		c->invincible = 550;
 
 		Bonus::estPris(c);

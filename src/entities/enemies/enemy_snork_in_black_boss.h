@@ -20,12 +20,12 @@ class EnemySnorkInBlackBoss : public Enemy {
    public:
 	EnemySnorkInBlackBoss();
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onTombe();
 	virtual void onMeure();
 	virtual void onTire();
-	virtual void affiche();
+	void affiche() override;
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

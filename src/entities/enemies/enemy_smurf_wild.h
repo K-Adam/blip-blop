@@ -38,7 +38,7 @@ class EnemySmurfWild : public Enemy {
 
 	EnemySmurfWild();
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		draw(x, y - 50, pbk_ennemis[117]);
 		draw(x, y - 100, pbk_ennemis[117]);
 		draw(x, y - 150, pbk_ennemis[117]);
@@ -94,10 +94,10 @@ class EnemySmurfWild : public Enemy {
 		}
 	}
 
-	virtual void update();
+	void update() override;
 	virtual void onTombe();
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

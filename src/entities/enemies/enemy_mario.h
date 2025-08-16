@@ -28,7 +28,7 @@ class EnemyMario : public Enemy {
 
    public:
 	EnemyMario();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
@@ -59,6 +59,6 @@ class EnemyMario : public Enemy {
 	// Fireballs only travel horizontally
 	virtual inline void boule_de_feu(int vitesse);
 
-	virtual void affiche();
-	virtual void estTouche(Shot* tir);
+	void affiche() override;
+	void estTouche(Shot* tir) override;
 };

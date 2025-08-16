@@ -11,10 +11,10 @@ class ShotCloud : public Shot {
 	int duree_vie;
 
 	ShotCloud();
-	virtual void update();
+	void update() override;
 	virtual void onCreation();
 	virtual void onDestruction();
 	virtual void onNormal();
 	virtual void onTire();
-	virtual void affiche();
+	void affiche() override;
 };

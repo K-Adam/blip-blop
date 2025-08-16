@@ -4,5 +4,5 @@
 
 class EnemyGeneratorTMP : public EnemyGenerator {
    public:
-	virtual void update();
+	void update() override;
 };

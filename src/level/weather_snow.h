@@ -8,5 +8,5 @@ class WeatherSnow : public Sprite {
 	int phi;
 	int xwide;
 
-	void update();
+	void update() override;
 };

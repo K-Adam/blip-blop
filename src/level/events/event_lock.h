@@ -8,5 +8,5 @@ class EventLock : public Event {
 	int flag;
 	int val;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

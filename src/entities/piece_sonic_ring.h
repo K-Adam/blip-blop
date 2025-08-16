@@ -8,5 +8,5 @@ class PieceSonicRing : public Sprite {
 
 	PieceSonicRing(int vx, int vy);
 
-	virtual void update();
+	void update() override;
 };

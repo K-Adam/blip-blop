@@ -4,7 +4,7 @@
 
 class GoreFeetBisouBoom : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		if (etape < 5) {
@@ -36,7 +36,7 @@ class GoreFeetBisouBoom : public Sprite {
 
 class GoreHeadBisouBoom : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		if (etape < 5) {
@@ -68,7 +68,7 @@ class GoreHeadBisouBoom : public Sprite {
 
 class GoreBellyBisouBoom : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		tombe();
 
 		if (etape < 5) {

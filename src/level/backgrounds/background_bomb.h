@@ -20,6 +20,6 @@ class BackgroundBomb : public Sprite {
    public:
 	BackgroundBomb();
 
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

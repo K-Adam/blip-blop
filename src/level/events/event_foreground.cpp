@@ -3,7 +3,7 @@
 
 class PPlan : public Sprite {
    public:
-	virtual void update(){};
+	void update() override{};
 };
 
 void EventForeground::doEvent() {

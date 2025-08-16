@@ -18,6 +18,6 @@ class BackgroundPokeLevel2 : public Sprite {
    public:
 	BackgroundPokeLevel2();
 
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

@@ -9,7 +9,7 @@ class BonusCow : public Bonus {
 		col_on = true;
 	};
 
-	virtual void estPris(Ball* c) {
+	void estPris(Ball* c) override {
 		sbk_misc.play(1);
 
 		c->nb_cow_bomb += 1;

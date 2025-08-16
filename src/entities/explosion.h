@@ -9,5 +9,5 @@ class Explosion : public Sprite {
 	int speed;
 
 	Explosion();
-	virtual void update();
+	void update() override;
 };

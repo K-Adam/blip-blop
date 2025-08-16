@@ -8,7 +8,7 @@ class BackgroundFishRed : public Sprite {
 
    public:
 	BackgroundFishRed();
-	virtual void update();
+	void update() override;
 };
 
 class BackgroundFishPurple : public Sprite {
@@ -17,7 +17,7 @@ class BackgroundFishPurple : public Sprite {
 
    public:
 	BackgroundFishPurple();
-	virtual void update();
+	void update() override;
 };
 
 class BackgroundFishRedCamouflaged : public Sprite {
@@ -26,7 +26,7 @@ class BackgroundFishRedCamouflaged : public Sprite {
 
    public:
 	BackgroundFishRedCamouflaged();
-	virtual void update();
+	void update() override;
 };
 
 class BackgroundFishPurpleCamouflaged : public Sprite {
@@ -35,5 +35,5 @@ class BackgroundFishPurpleCamouflaged : public Sprite {
 
    public:
 	BackgroundFishPurpleCamouflaged();
-	virtual void update();
+	void update() override;
 };

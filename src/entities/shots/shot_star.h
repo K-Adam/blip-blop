@@ -8,7 +8,7 @@ class ShotStar : public Shot {
 
 	ShotStar() : life_time(500){};
 
-	virtual void update() {
+	void update() override {
 		static const int SPEED = 2;
 
 		tombe();

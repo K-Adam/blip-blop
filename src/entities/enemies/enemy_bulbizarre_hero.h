@@ -9,8 +9,8 @@ class EnemyBulbizarreHero : public Enemy {
 
    public:
 	EnemyBulbizarreHero();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

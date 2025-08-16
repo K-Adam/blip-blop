@@ -4,7 +4,7 @@
 
 class EnemySmurfGlasses : public EnemySmurf {
    public:
-	inline virtual void affiche() {
+	inline void affiche() override {
 		EnemySmurf::affiche();
 		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 			switch (dir) {
@@ -18,7 +18,7 @@ class EnemySmurfGlasses : public EnemySmurf {
 		}
 	}
 
-	virtual void update() {
+	void update() override {
 		if (etat == ETAT_SAUTE)
 			speed = 2;
 		else

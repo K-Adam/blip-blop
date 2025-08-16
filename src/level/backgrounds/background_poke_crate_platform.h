@@ -8,5 +8,5 @@ class BackgroundPokeCratePlatform : public Sprite {
 
    public:
 	BackgroundPokeCratePlatform(int niveau_y);
-	virtual void update();
+	void update() override;
 };

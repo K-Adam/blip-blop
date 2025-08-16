@@ -4,5 +4,5 @@
 
 class BackgroundWorldmap : public Sprite {
    public:
-	virtual void update();
+	void update() override;
 };

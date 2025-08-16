@@ -16,6 +16,6 @@ class EnemyBisouZombie : public Enemy {
 	virtual void onMeure();
 	virtual void onCarbonise();
 	virtual void onCarboniseHaut();
-	virtual void estTouche(Shot* tir);
-	virtual void update();
+	void estTouche(Shot* tir) override;
+	void update() override;
 };

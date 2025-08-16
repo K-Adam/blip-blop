@@ -14,6 +14,6 @@ class EnemyBisouStar : public Enemy {
 	virtual void onMeureHaut();
 	virtual void onMeureHautFin();
 	virtual void onCarbonise();
-	virtual void estTouche(Shot* tir);
-	virtual void update();
+	void estTouche(Shot* tir) override;
+	void update() override;
 };

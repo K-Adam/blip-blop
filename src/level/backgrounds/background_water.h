@@ -7,7 +7,7 @@ int water_seed2 = 5;
 
 class BackgroundWater1 : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		pic = pbk_niveau[7 + water_seed];
 
 		if (x < offset - 400) a_detruire = true;
@@ -15,7 +15,7 @@ class BackgroundWater1 : public Sprite {
 };
 
 class BackgroundWater2 : public Sprite {
-	virtual void update() {
+	void update() override {
 		pic = pbk_niveau[7 + water_seed2];
 
 		if (x < offset - 400) a_detruire = true;
@@ -44,7 +44,7 @@ class BackgroundWater : public Sprite {
 		}
 	};
 
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 7;
 

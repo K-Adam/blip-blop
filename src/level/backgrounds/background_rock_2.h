@@ -8,5 +8,5 @@ class BackgroundRock2 : public Sprite {
 	int etape_levitation;
 
 	BackgroundRock2();
-	virtual void update();
+	void update() override;
 };

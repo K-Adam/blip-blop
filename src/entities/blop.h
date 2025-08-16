@@ -6,7 +6,7 @@ class Blop : public Ball {
    public:
 	Blop() : Ball(pbk_blop) { id_ball = ID_BLOP; };
 
-	virtual void rearme() {
+	void rearme() override {
 		id_arme = ID_FUSIL;
 		ammo = 10;
 		latence_arme = 3;

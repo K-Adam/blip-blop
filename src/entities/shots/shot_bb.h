@@ -11,18 +11,18 @@ class ShotBB : public Shot {
 	int dxReferentiel;
 
 	ShotBB() : dxReferentiel(0){};
-	virtual int degats() const = 0;
-	virtual int enflame() const = 0;
+	int degats() const override = 0;
+	int enflame() const override = 0;
 
-	virtual void aTue() { joueur->addKilled(); };
+	void aTue() override { joueur->addKilled(); };
 
-	inline virtual void aTouche(int pts) {
+	inline void aTouche(int pts) override {
 		a_detruire = true;
 		col_on = false;
 		joueur->addPoints(pts);
 	};
 
-	virtual void setDir(int d);
+	void setDir(int d) override;
 	// Exact direction in degrees counterclockwise from the right, the sprite takes the nearest of 16
 	void setAngle(double deg, double speed);
 

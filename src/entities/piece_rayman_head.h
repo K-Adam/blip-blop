@@ -8,5 +8,5 @@ class PieceRaymanHead : public Sprite {
 
    public:
 	PieceRaymanHead(int vx, int vy);
-	virtual void update();
+	void update() override;
 };

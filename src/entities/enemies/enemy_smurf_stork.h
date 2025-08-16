@@ -11,5 +11,5 @@ class EnemySmurfStork : public Enemy {
 
 	EnemySmurfStork();
 
-	virtual void update();
+	void update() override;
 };

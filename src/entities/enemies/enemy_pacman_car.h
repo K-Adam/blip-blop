@@ -12,9 +12,9 @@ class EnemyPacmanCar : public Enemy {
 
    public:
 	EnemyPacmanCar();
-	virtual void update();
-	virtual int degats();
+	void update() override;
+	int degats() override;
 	virtual void tombeVoiture();
-	virtual void affiche();
-	virtual void estTouche(Shot* tir);
+	void affiche() override;
+	void estTouche(Shot* tir) override;
 };

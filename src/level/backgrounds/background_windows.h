@@ -4,7 +4,7 @@
 
 class BackgroundWindows : public Sprite {
    public:
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 180;
 

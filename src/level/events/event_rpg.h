@@ -9,12 +9,12 @@ class EventRPG : public Event {
 	int val;
 	int cond;
 
-	inline virtual bool aActiver() {
+	inline bool aActiver() override {
 		if (cond == 0)
 			return true;
 		else
 			return (game_flag[flag] == val);
 	};
 
-	virtual void doEvent() { rpg_to_play = num; };
+	void doEvent() override { rpg_to_play = num; };
 };

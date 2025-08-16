@@ -10,11 +10,11 @@ class ShotPlunger : public Shot {
 
 	ShotPlunger(int n_pbk_ennemis, int vx, int vy);
 
-	virtual int degats() const { return 1; };
+	int degats() const override { return 1; };
 
-	virtual int enflame() const { return 0; };
+	int enflame() const override { return 0; };
 
-	virtual void setDir(int d) { dir = d; };
+	void setDir(int d) override { dir = d; };
 
-	virtual void update();
+	void update() override;
 };

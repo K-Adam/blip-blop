@@ -8,5 +8,5 @@ class SoundBankBB : public SoundBank {
 	void stop(int n);
 	void setVolume(int n, int vol);
 
-	virtual bool loadSFX(const char* nom_fic);
+	bool loadSFX(const char* nom_fic) override;
 };

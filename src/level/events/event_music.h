@@ -7,5 +7,5 @@ class EventMusic : public Event {
 	int play;
 	int id;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

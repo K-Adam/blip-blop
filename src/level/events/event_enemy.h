@@ -9,5 +9,5 @@ class EventEnemy : public Event {
 	int id_ennemi;
 	int sens;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

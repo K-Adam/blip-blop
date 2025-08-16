@@ -9,5 +9,5 @@ class BackgroundPokeSwitch : public Sprite {
 
    public:
 	BackgroundPokeSwitch();
-	virtual void update();
+	void update() override;
 };

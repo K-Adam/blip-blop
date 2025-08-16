@@ -9,5 +9,5 @@ class GoreSplatter : public Sprite {
 
 	GoreSplatter(int vx, int vy);
 
-	virtual void update();
+	void update() override;
 };

@@ -17,12 +17,12 @@ class EnemySnorkInBlack : public Enemy {
 
 	EnemySnorkInBlack();
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onTombe();
 	virtual void onMeure();
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

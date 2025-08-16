@@ -92,14 +92,14 @@ class Ball : public Character, public Player {
 
 	virtual void rearme() = 0;
 
-	virtual void affiche();
+	void affiche() override;
 	virtual void afficheNormal();
 	virtual void afficheSaute();
 	virtual void afficheMeure();
 	virtual void afficheVehicule();
 	virtual void afficheArme(int xtmp, int ytmp);
 	virtual void afficheOeil(int xtmp, int ytmp);
-	virtual void update();
+	void update() override;
 	virtual void onNormal();
 	virtual void onSaute();
 	virtual void onAvance();
@@ -110,7 +110,7 @@ class Ball : public Character, public Player {
 	virtual void updateArme();
 	virtual void estTouche(const Shot* tir);
 	virtual void estTouche(int degats);
-	virtual void colFromPic();
+	void colFromPic() override;
 
 	virtual void lockVehicule(bool can_fire, bool can_dir);
 	virtual void unlockVehicule();

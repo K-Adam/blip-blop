@@ -6,7 +6,7 @@ class EnemySmurfChilly : public EnemySmurf {
    public:
 	EnemySmurfChilly() { pv = 75; }
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
 			switch (dir) {
 				case SENS_GAUCHE:
@@ -24,7 +24,7 @@ class EnemySmurfChilly : public EnemySmurf {
 			EnemySmurf::affiche();
 	}
 
-	virtual void onAvance() {
+	void onAvance() override {
 		speed = 1 + rand() % 3;
 		EnemySmurf::onAvance();
 	}

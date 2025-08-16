@@ -9,7 +9,7 @@ class EnemyBisouCloud : public Enemy {
 
 	EnemyBisouCloud();
 	virtual void onNormal();
-	virtual void update();
+	void update() override;
 	virtual void onMeureWait();
 	virtual void onMeureTombe();
 	virtual void onMeureFin();

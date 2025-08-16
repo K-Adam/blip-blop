@@ -25,7 +25,7 @@ class EnemyMarioHologram : public Enemy {
 
    public:
 	EnemyMarioHologram();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
@@ -35,6 +35,6 @@ class EnemyMarioHologram : public Enemy {
 	virtual void onTireverticale();
 	virtual void tombe_mario();
 	virtual inline void boule_de_feu();
-	virtual void affiche();
-	virtual void estTouche(Shot* tir);
+	void affiche() override;
+	void estTouche(Shot* tir) override;
 };

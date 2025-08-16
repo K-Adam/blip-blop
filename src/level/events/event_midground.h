@@ -8,5 +8,5 @@ class EventMidground : public Event {
 	int x;
 	int y;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

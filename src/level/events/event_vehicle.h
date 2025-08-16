@@ -9,5 +9,5 @@ class EventVehicle : public Event {
 	int y;
 	int dir;
 
-	virtual void doEvent();
+	void doEvent() override;
 };

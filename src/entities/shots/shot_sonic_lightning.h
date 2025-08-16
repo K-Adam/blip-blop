@@ -6,12 +6,12 @@ class ShotSonicLightning : public Shot {
    public:
 	ShotSonicLightning();
 
-	virtual int degats() const { return 1; };
+	int degats() const override { return 1; };
 
-	virtual int enflame() const { return 0; };
+	int enflame() const override { return 0; };
 
-	virtual void setDir(int d) { dir = d; };
+	void setDir(int d) override { dir = d; };
 
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

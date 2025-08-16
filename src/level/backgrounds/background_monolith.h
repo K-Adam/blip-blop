@@ -8,5 +8,5 @@ class BackgroundMonolith : public Sprite {
 	int etape_levitation;
 
 	BackgroundMonolith();
-	virtual void update();
+	void update() override;
 };

@@ -15,7 +15,7 @@ class EnemyDiabolo : public Enemy {
 
 	EnemyDiabolo();
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onTombe();
 	virtual void onMeure();
@@ -25,7 +25,7 @@ class EnemyDiabolo : public Enemy {
 	virtual void onCoupdegenou();
 	virtual void onCarbonise();
 	virtual void tombe_diabolo();
-	virtual void colFromPic();
+	void colFromPic() override;
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

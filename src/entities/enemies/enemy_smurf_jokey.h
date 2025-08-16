@@ -19,7 +19,7 @@ class EnemySmurfJokey : public Enemy {
 
 	EnemySmurfJokey();
 
-	inline virtual void affiche() {
+	inline void affiche() override {
 		if (porte_bomb) {
 			if (dir == SENS_DROITE)
 				draw(x + 26, y - decalage_y_cadeau, pbk_ennemis[56]);
@@ -30,11 +30,11 @@ class EnemySmurfJokey : public Enemy {
 		draw(x, y, pic);
 	};
 
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 	virtual void onPoseCadeau();
 	virtual void onDegaine();
 };

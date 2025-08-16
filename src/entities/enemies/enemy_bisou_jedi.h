@@ -11,10 +11,10 @@ class EnemyBisouJedi : public Enemy {
 	EnemyBisouJedi();
 	virtual void onAvance();
 	virtual void onMeure();
-	virtual void estTouche(Shot* tir);
-	virtual void update();
+	void estTouche(Shot* tir) override;
+	void update() override;
 	virtual void onCarbonise();
-	virtual void affiche();
+	void affiche() override;
 };
 
 class EnemyBisouJediHero : public EnemyBisouJedi {
@@ -23,7 +23,7 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 
 	EnemyBisouJediHero() : intro(true) { pv = 6000; };
 
-	virtual void update() {
+	void update() override {
 		if (intro) {
 			if (x > offset + 450) {
 				EnemyBisouJedi::onAvance();
@@ -38,7 +38,7 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 		}
 	};
 
-	virtual void estTouche(Shot* tir) {
+	void estTouche(Shot* tir) override {
 		EnemyBisouJedi::estTouche(tir);
 
 		if (pv <= 0) {

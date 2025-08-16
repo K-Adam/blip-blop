@@ -26,7 +26,7 @@ class EnemySonic : public Enemy {
 
    public:
 	EnemySonic();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onSaute();
@@ -38,5 +38,5 @@ class EnemySonic : public Enemy {
 	virtual void onBalancering();
 	virtual void balance_epines();
 	virtual void onCarbonise();
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

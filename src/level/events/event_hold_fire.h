@@ -7,7 +7,7 @@ class EventHoldFire : public Event {
 	int flag;
 	int val;
 
-	virtual void doEvent() {
+	void doEvent() override {
 		hold_fire = true;
 		flag_hold_fire = flag;
 		val_hold_fire = val;

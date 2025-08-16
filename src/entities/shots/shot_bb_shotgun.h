@@ -16,15 +16,15 @@ class ShotBBShotgun : public ShotBB {
 	int duree_vie;
 	int vie;
 
-	inline virtual int degats() const {
+	inline int degats() const override {
 		if (vie < duree_vie)
 			return 40;
 		else
 			return 30;
 	};
 
-	inline virtual int enflame() const { return 0; };
+	inline int enflame() const override { return 0; };
 
-	virtual void setDir(int d);
-	virtual void update();
+	void setDir(int d) override;
+	void update() override;
 };

@@ -8,13 +8,13 @@ class EnemyRaymanHead : public Enemy {
 
    public:
 	EnemyRaymanHead();
-	virtual void update();
+	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
 
-	virtual bool count() { return false; };
+	bool count() override { return false; };
 
-	virtual int degats();
+	int degats() override;
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

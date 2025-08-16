@@ -30,5 +30,5 @@ class Character : public Sprite {
 
 	Character();
 
-	virtual void update();
+	void update() override;
 };

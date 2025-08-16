@@ -8,7 +8,7 @@ class EventBonusGenerator : public Event {
 	int type;
 	int periode;
 
-	virtual void doEvent() {
+	void doEvent() override {
 		BonusGenerator* gb = new BonusGenerator();
 
 		gb->periode = periode;

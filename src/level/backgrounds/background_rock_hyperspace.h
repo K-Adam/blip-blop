@@ -12,6 +12,6 @@ class BackgroundRockHyperspace : public Sprite {
 	int y_base;
 
 	BackgroundRockHyperspace();
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };

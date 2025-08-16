@@ -2,7 +2,7 @@
 
 class ShotRainbow : public Shot {
    public:
-	virtual void update() {
+	void update() override {
 		ss_etape += 1;
 		ss_etape %= 3;
 

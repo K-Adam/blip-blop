@@ -9,5 +9,5 @@ class PieceRayman : public Sprite {
 
 	PieceRayman(int m_pic, int vx, int vy);
 
-	virtual void update();
+	void update() override;
 };

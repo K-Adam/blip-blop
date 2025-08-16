@@ -11,12 +11,12 @@ class EnemySmurfGreedy : public Enemy {
 
 	EnemySmurfGreedy();
 
-	virtual void update();
+	void update() override;
 	virtual void onNormal();
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onHold();
 	virtual void onCarbonise();
 
-	virtual void estTouche(Shot* tir);
+	void estTouche(Shot* tir) override;
 };

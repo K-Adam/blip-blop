@@ -8,7 +8,7 @@ class EventWeather : public Event {
 	int intensite;
 	int type;
 
-	virtual void doEvent() {
+	void doEvent() override {
 		intensite_meteo = intensite;
 		type_meteo = type;
 	};

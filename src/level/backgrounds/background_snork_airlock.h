@@ -10,13 +10,13 @@ class BackgroundSnorkAirlock1 : public Sprite {
 	static int etat;
 
 	BackgroundSnorkAirlock1();
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };
 
 class BackgroundSnorkAirlock2 : public Sprite {
    public:
 	BackgroundSnorkAirlock2();
-	virtual void update();
-	virtual void affiche();
+	void update() override;
+	void affiche() override;
 };
