@@ -22,25 +22,28 @@
       "height": 81
     },
     {
-      "path": "finalbossenn.gfx/003.png",
       "xSpot": 22,
       "ySpot": 83,
       "width": 45,
-      "height": 84
+      "height": 84,
+      "from": 0,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/004.png",
       "xSpot": 25,
       "ySpot": 83,
       "width": 48,
-      "height": 84
+      "height": 84,
+      "from": 1,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/005.png",
       "xSpot": 25,
       "ySpot": 80,
       "width": 48,
-      "height": 81
+      "height": 81,
+      "from": 2,
+      "op": "flip_h"
     },
     {
       "path": "finalbossenn.gfx/006.png",
@@ -57,18 +60,20 @@
       "height": 87
     },
     {
-      "path": "finalbossenn.gfx/008.png",
       "xSpot": 25,
       "ySpot": 92,
       "width": 48,
-      "height": 93
+      "height": 93,
+      "from": 6,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/009.png",
       "xSpot": 25,
       "ySpot": 86,
       "width": 48,
-      "height": 87
+      "height": 87,
+      "from": 7,
+      "op": "flip_h"
     },
     {
       "path": "finalbossenn.gfx/010.png",
@@ -78,11 +83,12 @@
       "height": 84
     },
     {
-      "path": "finalbossenn.gfx/011.png",
       "xSpot": 36,
       "ySpot": 83,
       "width": 59,
-      "height": 84
+      "height": 84,
+      "from": 10,
+      "op": "flip_h"
     },
     {
       "path": "finalbossenn.gfx/012.png",
@@ -148,193 +154,220 @@
       "height": 30
     },
     {
-      "path": "finalbossenn.gfx/021.png",
       "xSpot": 72,
       "ySpot": 16,
       "width": 77,
-      "height": 31
+      "height": 31,
+      "from": 12,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/022.png",
       "xSpot": 77,
       "ySpot": 15,
       "width": 82,
-      "height": 30
+      "height": 30,
+      "from": 14,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/023.png",
       "xSpot": 76,
       "ySpot": 16,
       "width": 81,
-      "height": 31
+      "height": 31,
+      "from": 13,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/024.png",
       "xSpot": 158,
       "ySpot": 15,
       "width": 163,
-      "height": 29
+      "height": 29,
+      "from": 15,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/025.png",
       "xSpot": 129,
       "ySpot": 15,
       "width": 134,
-      "height": 29
+      "height": 29,
+      "from": 16,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/026.png",
       "xSpot": 133,
       "ySpot": 15,
       "width": 138,
-      "height": 29
+      "height": 29,
+      "from": 17,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/027.png",
       "xSpot": 181,
       "ySpot": 16,
       "width": 186,
-      "height": 31
+      "height": 31,
+      "from": 18,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/028.png",
       "xSpot": 165,
       "ySpot": 15,
       "width": 170,
-      "height": 29
+      "height": 29,
+      "from": 19,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/029.png",
       "xSpot": 162,
       "ySpot": 16,
       "width": 167,
-      "height": 30
+      "height": 30,
+      "from": 20,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/030.png",
       "xSpot": 15,
       "ySpot": 3,
       "width": 31,
-      "height": 77
+      "height": 77,
+      "from": 12,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/031.png",
       "xSpot": 14,
       "ySpot": 3,
       "width": 30,
-      "height": 82
+      "height": 82,
+      "from": 14,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/032.png",
       "xSpot": 15,
       "ySpot": 3,
       "width": 31,
-      "height": 81
+      "height": 81,
+      "from": 13,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/033.png",
       "xSpot": 14,
       "ySpot": 3,
       "width": 29,
-      "height": 163
+      "height": 163,
+      "from": 15,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/034.png",
       "xSpot": 14,
       "ySpot": 3,
       "width": 29,
-      "height": 134
+      "height": 134,
+      "from": 16,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/035.png",
       "xSpot": 14,
       "ySpot": 3,
       "width": 29,
-      "height": 138
+      "height": 138,
+      "from": 17,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/036.png",
       "xSpot": 15,
       "ySpot": 3,
       "width": 31,
-      "height": 186
+      "height": 186,
+      "from": 18,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/037.png",
       "xSpot": 14,
       "ySpot": 3,
       "width": 29,
-      "height": 170
+      "height": 170,
+      "from": 19,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/038.png",
       "xSpot": 15,
       "ySpot": 3,
       "width": 30,
-      "height": 167
+      "height": 167,
+      "from": 20,
+      "op": "transpose"
     },
     {
-      "path": "finalbossenn.gfx/039.png",
       "xSpot": 15,
       "ySpot": 73,
       "width": 31,
-      "height": 77
+      "height": 77,
+      "from": 12,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/040.png",
       "xSpot": 15,
       "ySpot": 78,
       "width": 30,
-      "height": 82
+      "height": 82,
+      "from": 14,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/041.png",
       "xSpot": 15,
       "ySpot": 77,
       "width": 31,
-      "height": 81
+      "height": 81,
+      "from": 13,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/042.png",
       "xSpot": 14,
       "ySpot": 159,
       "width": 29,
-      "height": 163
+      "height": 163,
+      "from": 15,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/043.png",
       "xSpot": 14,
       "ySpot": 130,
       "width": 29,
-      "height": 134
+      "height": 134,
+      "from": 16,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/044.png",
       "xSpot": 14,
       "ySpot": 134,
       "width": 29,
-      "height": 138
+      "height": 138,
+      "from": 17,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/045.png",
       "xSpot": 15,
       "ySpot": 182,
       "width": 31,
-      "height": 186
+      "height": 186,
+      "from": 18,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/046.png",
       "xSpot": 14,
       "ySpot": 166,
       "width": 29,
-      "height": 170
+      "height": 170,
+      "from": 19,
+      "op": "transverse"
     },
     {
-      "path": "finalbossenn.gfx/047.png",
       "xSpot": 14,
       "ySpot": 163,
       "width": 30,
-      "height": 167
+      "height": 167,
+      "from": 20,
+      "op": "transverse"
     },
     {
       "path": "finalbossenn.gfx/048.png",
@@ -358,25 +391,28 @@
       "height": 29
     },
     {
-      "path": "finalbossenn.gfx/051.png",
       "xSpot": 17,
       "ySpot": 14,
       "width": 36,
-      "height": 29
+      "height": 29,
+      "from": 48,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/052.png",
       "xSpot": 17,
       "ySpot": 14,
       "width": 36,
-      "height": 29
+      "height": 29,
+      "from": 49,
+      "op": "flip_h"
     },
     {
-      "path": "finalbossenn.gfx/053.png",
       "xSpot": 17,
       "ySpot": 14,
       "width": 36,
-      "height": 29
+      "height": 29,
+      "from": 50,
+      "op": "flip_h"
     },
     {
       "path": "finalbossenn.gfx/054.png",

@@ -78,11 +78,12 @@
       "height": 480
     },
     {
-      "path": "end.gfx/011.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 103,
-      "height": 100
+      "height": 100,
+      "from": 1,
+      "op": "copy"
     },
     {
       "path": "end.gfx/012.png",
@@ -92,11 +93,12 @@
       "height": 480
     },
     {
-      "path": "end.gfx/013.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 640,
-      "height": 480
+      "height": 480,
+      "from": 12,
+      "op": "flip_v"
     },
     {
       "path": "end.gfx/014.png",

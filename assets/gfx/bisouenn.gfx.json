@@ -29,32 +29,36 @@
       "height": 31
     },
     {
-      "path": "bisouenn.gfx/004.png",
       "xSpot": 15,
       "ySpot": 27,
       "width": 32,
-      "height": 29
+      "height": 29,
+      "from": 0,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/005.png",
       "xSpot": 19,
       "ySpot": 30,
       "width": 35,
-      "height": 34
+      "height": 34,
+      "from": 1,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/006.png",
       "xSpot": 18,
       "ySpot": 30,
       "width": 33,
-      "height": 34
+      "height": 34,
+      "from": 2,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/007.png",
       "xSpot": 12,
       "ySpot": 28,
       "width": 30,
-      "height": 31
+      "height": 31,
+      "from": 3,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/008.png",
@@ -113,60 +117,68 @@
       "height": 63
     },
     {
-      "path": "bisouenn.gfx/016.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 8,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/017.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 63
+      "height": 63,
+      "from": 9,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/018.png",
       "xSpot": 17,
       "ySpot": 61,
       "width": 35,
-      "height": 65
+      "height": 65,
+      "from": 10,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/019.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 11,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/020.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 37,
-      "height": 60
+      "height": 60,
+      "from": 12,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/021.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 13,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/022.png",
       "xSpot": 17,
       "ySpot": 61,
       "width": 35,
-      "height": 64
+      "height": 64,
+      "from": 14,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/023.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 63
+      "height": 63,
+      "from": 15,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/024.png",
@@ -197,32 +209,36 @@
       "height": 31
     },
     {
-      "path": "bisouenn.gfx/028.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 24,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/029.png",
       "xSpot": 29,
       "ySpot": 22,
       "width": 56,
-      "height": 28
+      "height": 28,
+      "from": 25,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/030.png",
       "xSpot": 29,
       "ySpot": 22,
       "width": 56,
-      "height": 30
+      "height": 30,
+      "from": 26,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/031.png",
       "xSpot": 33,
       "ySpot": 22,
       "width": 61,
-      "height": 31
+      "height": 31,
+      "from": 27,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/032.png",
@@ -253,32 +269,36 @@
       "height": 60
     },
     {
-      "path": "bisouenn.gfx/036.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 32,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/037.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 33,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/038.png",
       "xSpot": 18,
       "ySpot": 59,
       "width": 38,
-      "height": 60
+      "height": 60,
+      "from": 34,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/039.png",
       "xSpot": 25,
       "ySpot": 59,
       "width": 49,
-      "height": 60
+      "height": 60,
+      "from": 35,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/040.png",
@@ -309,32 +329,36 @@
       "height": 28
     },
     {
-      "path": "bisouenn.gfx/044.png",
       "xSpot": 17,
       "ySpot": 40,
       "width": 29,
-      "height": 49
+      "height": 49,
+      "from": 40,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/045.png",
       "xSpot": 24,
       "ySpot": 37,
       "width": 42,
-      "height": 43
+      "height": 43,
+      "from": 41,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/046.png",
       "xSpot": 28,
       "ySpot": 25,
       "width": 50,
-      "height": 35
+      "height": 35,
+      "from": 42,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/047.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 43,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/048.png",
@@ -442,109 +466,124 @@
       "height": 31
     },
     {
-      "path": "bisouenn.gfx/063.png",
       "xSpot": 18,
       "ySpot": 7,
       "width": 22,
-      "height": 17
+      "height": 17,
+      "from": 48,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/064.png",
       "xSpot": 27,
       "ySpot": 6,
       "width": 31,
-      "height": 15
+      "height": 15,
+      "from": 49,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/065.png",
       "xSpot": 40,
       "ySpot": 4,
       "width": 44,
-      "height": 16
+      "height": 16,
+      "from": 50,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/066.png",
       "xSpot": 45,
       "ySpot": 3,
       "width": 49,
-      "height": 15
+      "height": 15,
+      "from": 51,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/067.png",
       "xSpot": 52,
       "ySpot": 3,
       "width": 56,
-      "height": 19
+      "height": 19,
+      "from": 52,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/068.png",
       "xSpot": 55,
       "ySpot": 3,
       "width": 59,
-      "height": 23
+      "height": 23,
+      "from": 53,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/069.png",
       "xSpot": 57,
       "ySpot": 3,
       "width": 61,
-      "height": 26
+      "height": 26,
+      "from": 54,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/070.png",
       "xSpot": 60,
       "ySpot": 3,
       "width": 63,
-      "height": 28
+      "height": 28,
+      "from": 55,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/071.png",
       "xSpot": 64,
       "ySpot": 3,
       "width": 68,
-      "height": 31
+      "height": 31,
+      "from": 56,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/072.png",
       "xSpot": 74,
       "ySpot": 3,
       "width": 78,
-      "height": 32
+      "height": 32,
+      "from": 57,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/073.png",
       "xSpot": 67,
       "ySpot": 2,
       "width": 70,
-      "height": 31
+      "height": 31,
+      "from": 58,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/074.png",
       "xSpot": 67,
       "ySpot": 2,
       "width": 70,
-      "height": 31
+      "height": 31,
+      "from": 59,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/075.png",
       "xSpot": 67,
       "ySpot": 2,
       "width": 70,
-      "height": 31
+      "height": 31,
+      "from": 60,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/076.png",
       "xSpot": 67,
       "ySpot": 2,
       "width": 70,
-      "height": 31
+      "height": 31,
+      "from": 61,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/077.png",
       "xSpot": 66,
       "ySpot": 2,
       "width": 68,
-      "height": 31
+      "height": 31,
+      "from": 62,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/078.png",
@@ -603,60 +642,68 @@
       "height": 63
     },
     {
-      "path": "bisouenn.gfx/086.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 78,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/087.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 63
+      "height": 63,
+      "from": 79,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/088.png",
       "xSpot": 17,
       "ySpot": 61,
       "width": 35,
-      "height": 65
+      "height": 65,
+      "from": 80,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/089.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 81,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/090.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 37,
-      "height": 60
+      "height": 60,
+      "from": 82,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/091.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 83,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/092.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 35,
-      "height": 64
+      "height": 64,
+      "from": 84,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/093.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 63
+      "height": 63,
+      "from": 85,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/094.png",
@@ -701,46 +748,52 @@
       "height": 29
     },
     {
-      "path": "bisouenn.gfx/100.png",
       "xSpot": 14,
       "ySpot": 27,
       "width": 32,
-      "height": 29
+      "height": 29,
+      "from": 94,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/101.png",
       "xSpot": 18,
       "ySpot": 30,
       "width": 35,
-      "height": 34
+      "height": 34,
+      "from": 95,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/102.png",
       "xSpot": 16,
       "ySpot": 30,
       "width": 33,
-      "height": 34
+      "height": 34,
+      "from": 96,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/103.png",
       "xSpot": 12,
       "ySpot": 28,
       "width": 30,
-      "height": 31
+      "height": 31,
+      "from": 97,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/104.png",
       "xSpot": 15,
       "ySpot": 26,
       "width": 33,
-      "height": 29
+      "height": 29,
+      "from": 98,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/105.png",
       "xSpot": 17,
       "ySpot": 26,
       "width": 35,
-      "height": 29
+      "height": 29,
+      "from": 99,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/106.png",
@@ -771,32 +824,36 @@
       "height": 31
     },
     {
-      "path": "bisouenn.gfx/110.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 106,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/111.png",
       "xSpot": 29,
       "ySpot": 22,
       "width": 56,
-      "height": 28
+      "height": 28,
+      "from": 107,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/112.png",
       "xSpot": 29,
       "ySpot": 22,
       "width": 56,
-      "height": 30
+      "height": 30,
+      "from": 108,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/113.png",
       "xSpot": 33,
       "ySpot": 22,
       "width": 61,
-      "height": 31
+      "height": 31,
+      "from": 109,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/114.png",
@@ -827,32 +884,36 @@
       "height": 60
     },
     {
-      "path": "bisouenn.gfx/118.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 114,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/119.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 115,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/120.png",
       "xSpot": 18,
       "ySpot": 59,
       "width": 38,
-      "height": 60
+      "height": 60,
+      "from": 116,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/121.png",
       "xSpot": 25,
       "ySpot": 59,
       "width": 49,
-      "height": 60
+      "height": 60,
+      "from": 117,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/122.png",
@@ -883,32 +944,36 @@
       "height": 28
     },
     {
-      "path": "bisouenn.gfx/126.png",
       "xSpot": 17,
       "ySpot": 40,
       "width": 29,
-      "height": 49
+      "height": 49,
+      "from": 122,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/127.png",
       "xSpot": 24,
       "ySpot": 37,
       "width": 42,
-      "height": 43
+      "height": 43,
+      "from": 123,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/128.png",
       "xSpot": 28,
       "ySpot": 25,
       "width": 50,
-      "height": 35
+      "height": 35,
+      "from": 124,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/129.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 125,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/130.png",
@@ -953,53 +1018,60 @@
       "height": 23
     },
     {
-      "path": "bisouenn.gfx/136.png",
       "xSpot": 10,
       "ySpot": 10,
       "width": 19,
-      "height": 21
+      "height": 21,
+      "from": 130,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/137.png",
       "xSpot": 10,
       "ySpot": 11,
       "width": 20,
-      "height": 23
+      "height": 23,
+      "from": 131,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/138.png",
       "xSpot": 10,
       "ySpot": 10,
       "width": 21,
-      "height": 21
+      "height": 21,
+      "from": 132,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/139.png",
       "xSpot": 11,
       "ySpot": 11,
       "width": 22,
-      "height": 22
+      "height": 22,
+      "from": 133,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/140.png",
       "xSpot": 10,
       "ySpot": 10,
       "width": 21,
-      "height": 21
+      "height": 21,
+      "from": 134,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/141.png",
       "xSpot": 11,
       "ySpot": 10,
       "width": 23,
-      "height": 20
+      "height": 20,
+      "from": 135,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/142.png",
       "xSpot": 11,
       "ySpot": 9,
       "width": 21,
-      "height": 19
+      "height": 19,
+      "from": 130,
+      "op": "rot180"
     },
     {
       "path": "bisouenn.gfx/143.png",
@@ -1037,46 +1109,52 @@
       "height": 23
     },
     {
-      "path": "bisouenn.gfx/148.png",
       "xSpot": 9,
       "ySpot": 10,
       "width": 19,
-      "height": 21
+      "height": 21,
+      "from": 130,
+      "op": "rot90ccw"
     },
     {
-      "path": "bisouenn.gfx/149.png",
       "xSpot": 10,
       "ySpot": 11,
       "width": 20,
-      "height": 23
+      "height": 23,
+      "from": 143,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/150.png",
       "xSpot": 10,
       "ySpot": 10,
       "width": 21,
-      "height": 21
+      "height": 21,
+      "from": 144,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/151.png",
       "xSpot": 11,
       "ySpot": 11,
       "width": 22,
-      "height": 22
+      "height": 22,
+      "from": 145,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/152.png",
       "xSpot": 10,
       "ySpot": 10,
       "width": 21,
-      "height": 21
+      "height": 21,
+      "from": 146,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/153.png",
       "xSpot": 11,
       "ySpot": 10,
       "width": 23,
-      "height": 20
+      "height": 20,
+      "from": 147,
+      "op": "rot90cw"
     },
     {
       "path": "bisouenn.gfx/154.png",
@@ -1135,60 +1213,68 @@
       "height": 63
     },
     {
-      "path": "bisouenn.gfx/162.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 154,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/163.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 63
+      "height": 63,
+      "from": 155,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/164.png",
       "xSpot": 20,
       "ySpot": 61,
       "width": 38,
-      "height": 65
+      "height": 65,
+      "from": 156,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/165.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 62
+      "height": 62,
+      "from": 157,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/166.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 40,
-      "height": 60
+      "height": 60,
+      "from": 158,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/167.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 62
+      "height": 62,
+      "from": 159,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/168.png",
       "xSpot": 20,
       "ySpot": 61,
       "width": 38,
-      "height": 64
+      "height": 64,
+      "from": 160,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/169.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 63
+      "height": 63,
+      "from": 161,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/170.png",
@@ -1261,74 +1347,84 @@
       "height": 22
     },
     {
-      "path": "bisouenn.gfx/180.png",
       "xSpot": 26,
       "ySpot": 59,
       "width": 54,
-      "height": 60
+      "height": 60,
+      "from": 170,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/181.png",
       "xSpot": 37,
       "ySpot": 60,
       "width": 71,
-      "height": 66
+      "height": 66,
+      "from": 171,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/182.png",
       "xSpot": 50,
       "ySpot": 68,
       "width": 92,
-      "height": 75
+      "height": 75,
+      "from": 172,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/183.png",
       "xSpot": 50,
       "ySpot": 76,
       "width": 94,
-      "height": 90
+      "height": 90,
+      "from": 173,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/184.png",
       "xSpot": 52,
       "ySpot": 82,
       "width": 109,
-      "height": 110
+      "height": 110,
+      "from": 174,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/185.png",
       "xSpot": 56,
       "ySpot": 84,
       "width": 123,
-      "height": 112
+      "height": 112,
+      "from": 175,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/186.png",
       "xSpot": 59,
       "ySpot": 85,
       "width": 131,
-      "height": 112
+      "height": 112,
+      "from": 176,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/187.png",
       "xSpot": 58,
       "ySpot": 82,
       "width": 114,
-      "height": 109
+      "height": 109,
+      "from": 177,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/188.png",
       "xSpot": 42,
       "ySpot": 56,
       "width": 75,
-      "height": 72
+      "height": 72,
+      "from": 178,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/189.png",
       "xSpot": 14,
       "ySpot": 21,
       "width": 22,
-      "height": 22
+      "height": 22,
+      "from": 179,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/190.png",
@@ -1373,46 +1469,52 @@
       "height": 12
     },
     {
-      "path": "bisouenn.gfx/196.png",
       "xSpot": 14,
       "ySpot": 16,
       "width": 25,
-      "height": 18
+      "height": 18,
+      "from": 190,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/197.png",
       "xSpot": 16,
       "ySpot": 16,
       "width": 27,
-      "height": 19
+      "height": 19,
+      "from": 191,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/198.png",
       "xSpot": 16,
       "ySpot": 16,
       "width": 27,
-      "height": 19
+      "height": 19,
+      "from": 192,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/199.png",
       "xSpot": 15,
       "ySpot": 14,
       "width": 26,
-      "height": 17
+      "height": 17,
+      "from": 193,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/200.png",
       "xSpot": 16,
       "ySpot": 11,
       "width": 29,
-      "height": 14
+      "height": 14,
+      "from": 194,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/201.png",
       "xSpot": 17,
       "ySpot": 9,
       "width": 31,
-      "height": 12
+      "height": 12,
+      "from": 195,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/202.png",
@@ -1457,46 +1559,52 @@
       "height": 20
     },
     {
-      "path": "bisouenn.gfx/208.png",
       "xSpot": 14,
       "ySpot": 13,
       "width": 27,
-      "height": 31
+      "height": 31,
+      "from": 202,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/209.png",
       "xSpot": 16,
       "ySpot": 13,
       "width": 31,
-      "height": 30
+      "height": 30,
+      "from": 203,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/210.png",
       "xSpot": 17,
       "ySpot": 16,
       "width": 36,
-      "height": 31
+      "height": 31,
+      "from": 204,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/211.png",
       "xSpot": 16,
       "ySpot": 15,
       "width": 33,
-      "height": 27
+      "height": 27,
+      "from": 205,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/212.png",
       "xSpot": 20,
       "ySpot": 19,
       "width": 38,
-      "height": 28
+      "height": 28,
+      "from": 206,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/213.png",
       "xSpot": 19,
       "ySpot": 11,
       "width": 37,
-      "height": 20
+      "height": 20,
+      "from": 207,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/214.png",
@@ -1541,46 +1649,52 @@
       "height": 11
     },
     {
-      "path": "bisouenn.gfx/220.png",
       "xSpot": 0,
       "ySpot": 20,
       "width": 14,
-      "height": 22
+      "height": 22,
+      "from": 214,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/221.png",
       "xSpot": 4,
       "ySpot": 20,
       "width": 18,
-      "height": 22
+      "height": 22,
+      "from": 215,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/222.png",
       "xSpot": 7,
       "ySpot": 19,
       "width": 24,
-      "height": 21
+      "height": 21,
+      "from": 216,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/223.png",
       "xSpot": 10,
       "ySpot": 15,
       "width": 24,
-      "height": 17
+      "height": 17,
+      "from": 217,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/224.png",
       "xSpot": 10,
       "ySpot": 13,
       "width": 24,
-      "height": 15
+      "height": 15,
+      "from": 218,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/225.png",
       "xSpot": 10,
       "ySpot": 9,
       "width": 24,
-      "height": 11
+      "height": 11,
+      "from": 219,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/226.png",
@@ -1604,25 +1718,28 @@
       "height": 59
     },
     {
-      "path": "bisouenn.gfx/229.png",
       "xSpot": 32,
       "ySpot": 39,
       "width": 68,
-      "height": 57
+      "height": 57,
+      "from": 226,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/230.png",
       "xSpot": 31,
       "ySpot": 40,
       "width": 66,
-      "height": 58
+      "height": 58,
+      "from": 227,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/231.png",
       "xSpot": 31,
       "ySpot": 41,
       "width": 65,
-      "height": 59
+      "height": 59,
+      "from": 228,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/232.png",
@@ -1639,18 +1756,20 @@
       "height": 48
     },
     {
-      "path": "bisouenn.gfx/234.png",
       "xSpot": 27,
       "ySpot": 41,
       "width": 53,
-      "height": 43
+      "height": 43,
+      "from": 232,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/235.png",
       "xSpot": 26,
       "ySpot": 43,
       "width": 53,
-      "height": 48
+      "height": 48,
+      "from": 233,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/236.png",
@@ -1702,53 +1821,60 @@
       "height": 35
     },
     {
-      "path": "bisouenn.gfx/243.png",
       "xSpot": 29,
       "ySpot": 38,
       "width": 55,
-      "height": 40
+      "height": 40,
+      "from": 236,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/244.png",
       "xSpot": 31,
       "ySpot": 35,
       "width": 57,
-      "height": 37
+      "height": 37,
+      "from": 237,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/245.png",
       "xSpot": 33,
       "ySpot": 31,
       "width": 59,
-      "height": 36
+      "height": 36,
+      "from": 238,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/246.png",
       "xSpot": 32,
       "ySpot": 30,
       "width": 58,
-      "height": 34
+      "height": 34,
+      "from": 239,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/247.png",
       "xSpot": 36,
       "ySpot": 30,
       "width": 68,
-      "height": 34
+      "height": 34,
+      "from": 240,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/248.png",
       "xSpot": 32,
       "ySpot": 30,
       "width": 60,
-      "height": 35
+      "height": 35,
+      "from": 241,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/249.png",
       "xSpot": 32,
       "ySpot": 30,
       "width": 62,
-      "height": 35
+      "height": 35,
+      "from": 242,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/250.png",
@@ -1828,11 +1954,12 @@
       "height": 42
     },
     {
-      "path": "bisouenn.gfx/261.png",
       "xSpot": 27,
       "ySpot": 40,
       "width": 50,
-      "height": 42
+      "height": 42,
+      "from": 260,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/262.png",
@@ -1891,60 +2018,68 @@
       "height": 63
     },
     {
-      "path": "bisouenn.gfx/270.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 262,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/271.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 63
+      "height": 63,
+      "from": 263,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/272.png",
       "xSpot": 20,
       "ySpot": 61,
       "width": 38,
-      "height": 65
+      "height": 65,
+      "from": 264,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/273.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 62
+      "height": 62,
+      "from": 265,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/274.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 40,
-      "height": 60
+      "height": 60,
+      "from": 266,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/275.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 62
+      "height": 62,
+      "from": 267,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/276.png",
       "xSpot": 20,
       "ySpot": 61,
       "width": 38,
-      "height": 64
+      "height": 64,
+      "from": 268,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/277.png",
       "xSpot": 20,
       "ySpot": 60,
       "width": 39,
-      "height": 63
+      "height": 63,
+      "from": 269,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/278.png",
@@ -1975,18 +2110,20 @@
       "height": 60
     },
     {
-      "path": "bisouenn.gfx/282.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 278,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/283.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 279,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/284.png",
@@ -1996,11 +2133,12 @@
       "height": 60
     },
     {
-      "path": "bisouenn.gfx/285.png",
       "xSpot": 25,
       "ySpot": 59,
       "width": 49,
-      "height": 60
+      "height": 60,
+      "from": 281,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/286.png",
@@ -2024,25 +2162,28 @@
       "height": 32
     },
     {
-      "path": "bisouenn.gfx/289.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 286,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/290.png",
       "xSpot": 31,
       "ySpot": 26,
       "width": 55,
-      "height": 31
+      "height": 31,
+      "from": 287,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/291.png",
       "xSpot": 30,
       "ySpot": 27,
       "width": 53,
-      "height": 32
+      "height": 32,
+      "from": 288,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/292.png",
@@ -2073,18 +2214,20 @@
       "height": 31
     },
     {
-      "path": "bisouenn.gfx/296.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 292,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/297.png",
       "xSpot": 29,
       "ySpot": 22,
       "width": 56,
-      "height": 28
+      "height": 28,
+      "from": 293,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/298.png",
@@ -2094,11 +2237,12 @@
       "height": 30
     },
     {
-      "path": "bisouenn.gfx/299.png",
       "xSpot": 33,
       "ySpot": 22,
       "width": 61,
-      "height": 31
+      "height": 31,
+      "from": 295,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/300.png",
@@ -2185,32 +2329,36 @@
       "height": 28
     },
     {
-      "path": "bisouenn.gfx/312.png",
       "xSpot": 23,
       "ySpot": 40,
       "width": 40,
-      "height": 49
+      "height": 49,
+      "from": 308,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/313.png",
       "xSpot": 24,
       "ySpot": 37,
       "width": 42,
-      "height": 43
+      "height": 43,
+      "from": 309,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/314.png",
       "xSpot": 27,
       "ySpot": 25,
       "width": 50,
-      "height": 35
+      "height": 35,
+      "from": 310,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/315.png",
       "xSpot": 28,
       "ySpot": 22,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 311,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/316.png",
@@ -2276,53 +2424,60 @@
       "height": 60
     },
     {
-      "path": "bisouenn.gfx/325.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 317,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/326.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 318,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/327.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 319,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/328.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 320,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/329.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 321,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/330.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 322,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/331.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 323,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/332.png",
@@ -2416,95 +2571,108 @@
       "height": 56
     },
     {
-      "path": "bisouenn.gfx/345.png",
       "xSpot": 37,
       "ySpot": 65,
       "width": 57,
-      "height": 66
+      "height": 66,
+      "from": 332,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/346.png",
       "xSpot": 32,
       "ySpot": 71,
       "width": 56,
-      "height": 72
+      "height": 72,
+      "from": 333,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/347.png",
       "xSpot": 25,
       "ySpot": 78,
       "width": 52,
-      "height": 79
+      "height": 79,
+      "from": 334,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/348.png",
       "xSpot": 20,
       "ySpot": 69,
       "width": 44,
-      "height": 71
+      "height": 71,
+      "from": 335,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/349.png",
       "xSpot": 22,
       "ySpot": 69,
       "width": 47,
-      "height": 71
+      "height": 71,
+      "from": 336,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/350.png",
       "xSpot": 33,
       "ySpot": 69,
       "width": 58,
-      "height": 71
+      "height": 71,
+      "from": 337,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/351.png",
       "xSpot": 33,
       "ySpot": 69,
       "width": 58,
-      "height": 71
+      "height": 71,
+      "from": 338,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/352.png",
       "xSpot": 31,
       "ySpot": 70,
       "width": 56,
-      "height": 72
+      "height": 72,
+      "from": 339,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/353.png",
       "xSpot": 30,
       "ySpot": 60,
       "width": 55,
-      "height": 62
+      "height": 62,
+      "from": 340,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/354.png",
       "xSpot": 42,
       "ySpot": 54,
       "width": 67,
-      "height": 56
+      "height": 56,
+      "from": 341,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/355.png",
       "xSpot": 42,
       "ySpot": 54,
       "width": 67,
-      "height": 56
+      "height": 56,
+      "from": 342,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/356.png",
       "xSpot": 42,
       "ySpot": 54,
       "width": 67,
-      "height": 56
+      "height": 56,
+      "from": 343,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/357.png",
       "xSpot": 42,
       "ySpot": 54,
       "width": 67,
-      "height": 56
+      "height": 56,
+      "from": 344,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/358.png",
@@ -2528,25 +2696,28 @@
       "height": 86
     },
     {
-      "path": "bisouenn.gfx/361.png",
       "xSpot": 17,
       "ySpot": 71,
       "width": 36,
-      "height": 72
+      "height": 72,
+      "from": 358,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/362.png",
       "xSpot": 19,
       "ySpot": 76,
       "width": 38,
-      "height": 77
+      "height": 77,
+      "from": 359,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/363.png",
       "xSpot": 21,
       "ySpot": 85,
       "width": 40,
-      "height": 86
+      "height": 86,
+      "from": 360,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/364.png",
@@ -2584,39 +2755,44 @@
       "height": 32
     },
     {
-      "path": "bisouenn.gfx/369.png",
       "xSpot": 4,
       "ySpot": 2,
       "width": 10,
-      "height": 5
+      "height": 5,
+      "from": 364,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/370.png",
       "xSpot": 7,
       "ySpot": 6,
       "width": 19,
-      "height": 12
+      "height": 12,
+      "from": 365,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/371.png",
       "xSpot": 12,
       "ySpot": 9,
       "width": 30,
-      "height": 18
+      "height": 18,
+      "from": 366,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/372.png",
       "xSpot": 14,
       "ySpot": 12,
       "width": 40,
-      "height": 25
+      "height": 25,
+      "from": 367,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/373.png",
       "xSpot": 20,
       "ySpot": 15,
       "width": 50,
-      "height": 32
+      "height": 32,
+      "from": 368,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/374.png",
@@ -2654,39 +2830,44 @@
       "height": 40
     },
     {
-      "path": "bisouenn.gfx/379.png",
       "xSpot": 22,
       "ySpot": 20,
       "width": 62,
-      "height": 39
+      "height": 39,
+      "from": 374,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/380.png",
       "xSpot": 27,
       "ySpot": 21,
       "width": 66,
-      "height": 41
+      "height": 41,
+      "from": 375,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/381.png",
       "xSpot": 27,
       "ySpot": 21,
       "width": 66,
-      "height": 40
+      "height": 40,
+      "from": 376,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/382.png",
       "xSpot": 24,
       "ySpot": 20,
       "width": 64,
-      "height": 40
+      "height": 40,
+      "from": 377,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/383.png",
       "xSpot": 24,
       "ySpot": 20,
       "width": 63,
-      "height": 40
+      "height": 40,
+      "from": 378,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/384.png",
@@ -2724,39 +2905,44 @@
       "height": 49
     },
     {
-      "path": "bisouenn.gfx/389.png",
       "xSpot": 24,
       "ySpot": 22,
       "width": 54,
-      "height": 47
+      "height": 47,
+      "from": 384,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/390.png",
       "xSpot": 22,
       "ySpot": 24,
       "width": 52,
-      "height": 47
+      "height": 47,
+      "from": 385,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/391.png",
       "xSpot": 18,
       "ySpot": 28,
       "width": 43,
-      "height": 60
+      "height": 60,
+      "from": 386,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/392.png",
       "xSpot": 14,
       "ySpot": 29,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 387,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/393.png",
       "xSpot": 14,
       "ySpot": 23,
       "width": 27,
-      "height": 49
+      "height": 49,
+      "from": 388,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/394.png",
@@ -2913,81 +3099,92 @@
       "height": 17
     },
     {
-      "path": "bisouenn.gfx/416.png",
       "xSpot": 3,
       "ySpot": 15,
       "width": 15,
-      "height": 16
+      "height": 16,
+      "from": 405,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/417.png",
       "xSpot": 7,
       "ySpot": 15,
       "width": 22,
-      "height": 16
+      "height": 16,
+      "from": 406,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/418.png",
       "xSpot": 7,
       "ySpot": 15,
       "width": 23,
-      "height": 16
+      "height": 16,
+      "from": 407,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/419.png",
       "xSpot": 6,
       "ySpot": 15,
       "width": 20,
-      "height": 16
+      "height": 16,
+      "from": 408,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/420.png",
       "xSpot": 6,
       "ySpot": 15,
       "width": 20,
-      "height": 16
+      "height": 16,
+      "from": 409,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/421.png",
       "xSpot": 6,
       "ySpot": 15,
       "width": 19,
-      "height": 16
+      "height": 16,
+      "from": 410,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/422.png",
       "xSpot": 5,
       "ySpot": 15,
       "width": 18,
-      "height": 16
+      "height": 16,
+      "from": 411,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/423.png",
       "xSpot": 4,
       "ySpot": 15,
       "width": 18,
-      "height": 16
+      "height": 16,
+      "from": 412,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/424.png",
       "xSpot": 3,
       "ySpot": 15,
       "width": 17,
-      "height": 16
+      "height": 16,
+      "from": 413,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/425.png",
       "xSpot": 5,
       "ySpot": 16,
       "width": 21,
-      "height": 17
+      "height": 17,
+      "from": 414,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/426.png",
       "xSpot": 5,
       "ySpot": 16,
       "width": 21,
-      "height": 17
+      "height": 17,
+      "from": 415,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/427.png",
@@ -3018,32 +3215,36 @@
       "height": 88
     },
     {
-      "path": "bisouenn.gfx/431.png",
       "xSpot": 39,
       "ySpot": 50,
       "width": 75,
-      "height": 85
+      "height": 85,
+      "from": 427,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/432.png",
       "xSpot": 40,
       "ySpot": 50,
       "width": 77,
-      "height": 86
+      "height": 86,
+      "from": 428,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/433.png",
       "xSpot": 42,
       "ySpot": 50,
       "width": 81,
-      "height": 87
+      "height": 87,
+      "from": 429,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/434.png",
       "xSpot": 45,
       "ySpot": 50,
       "width": 86,
-      "height": 88
+      "height": 88,
+      "from": 430,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/435.png",
@@ -3088,46 +3289,52 @@
       "height": 76
     },
     {
-      "path": "bisouenn.gfx/441.png",
       "xSpot": 39,
       "ySpot": 50,
       "width": 75,
-      "height": 85
+      "height": 85,
+      "from": 435,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/442.png",
       "xSpot": 39,
       "ySpot": 50,
       "width": 75,
-      "height": 85
+      "height": 85,
+      "from": 436,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/443.png",
       "xSpot": 39,
       "ySpot": 50,
       "width": 75,
-      "height": 85
+      "height": 85,
+      "from": 437,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/444.png",
       "xSpot": 39,
       "ySpot": 50,
       "width": 75,
-      "height": 85
+      "height": 85,
+      "from": 438,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/445.png",
       "xSpot": 42,
       "ySpot": 43,
       "width": 81,
-      "height": 80
+      "height": 80,
+      "from": 439,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/446.png",
       "xSpot": 42,
       "ySpot": 39,
       "width": 81,
-      "height": 76
+      "height": 76,
+      "from": 440,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/447.png",
@@ -3179,53 +3386,60 @@
       "height": 37
     },
     {
-      "path": "bisouenn.gfx/454.png",
       "xSpot": 16,
       "ySpot": 30,
       "width": 41,
-      "height": 39
+      "height": 39,
+      "from": 447,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/455.png",
       "xSpot": 19,
       "ySpot": 30,
       "width": 38,
-      "height": 42
+      "height": 42,
+      "from": 448,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/456.png",
       "xSpot": 20,
       "ySpot": 29,
       "width": 35,
-      "height": 43
+      "height": 43,
+      "from": 449,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/457.png",
       "xSpot": 22,
       "ySpot": 30,
       "width": 34,
-      "height": 44
+      "height": 44,
+      "from": 450,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/458.png",
       "xSpot": 22,
       "ySpot": 30,
       "width": 37,
-      "height": 35
+      "height": 35,
+      "from": 451,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/459.png",
       "xSpot": 22,
       "ySpot": 30,
       "width": 38,
-      "height": 36
+      "height": 36,
+      "from": 452,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/460.png",
       "xSpot": 24,
       "ySpot": 30,
       "width": 44,
-      "height": 37
+      "height": 37,
+      "from": 453,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/461.png",
@@ -3249,25 +3463,28 @@
       "height": 9
     },
     {
-      "path": "bisouenn.gfx/464.png",
       "xSpot": 2,
       "ySpot": 2,
       "width": 5,
-      "height": 5
+      "height": 5,
+      "from": 461,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/465.png",
       "xSpot": 3,
       "ySpot": 2,
       "width": 7,
-      "height": 7
+      "height": 7,
+      "from": 462,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/466.png",
       "xSpot": 3,
       "ySpot": 3,
       "width": 9,
-      "height": 9
+      "height": 9,
+      "from": 463,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/467.png",
@@ -3326,60 +3543,68 @@
       "height": 64
     },
     {
-      "path": "bisouenn.gfx/475.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 467,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/476.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 35,
-      "height": 64
+      "height": 64,
+      "from": 468,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/477.png",
       "xSpot": 17,
       "ySpot": 61,
       "width": 36,
-      "height": 65
+      "height": 65,
+      "from": 469,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/478.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 39,
-      "height": 62
+      "height": 62,
+      "from": 470,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/479.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 42,
-      "height": 62
+      "height": 62,
+      "from": 471,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/480.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 39,
-      "height": 63
+      "height": 63,
+      "from": 472,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/481.png",
       "xSpot": 17,
       "ySpot": 61,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 473,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/482.png",
       "xSpot": 17,
       "ySpot": 60,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 474,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/483.png",
@@ -3529,151 +3754,172 @@
       "height": 20
     },
     {
-      "path": "bisouenn.gfx/504.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 483,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/505.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 484,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/506.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 485,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/507.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 486,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/508.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 487,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/509.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 488,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/510.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 489,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/511.png",
       "xSpot": 17,
       "ySpot": 57,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 490,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/512.png",
       "xSpot": 15,
       "ySpot": 57,
       "width": 34,
-      "height": 62
+      "height": 62,
+      "from": 491,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/513.png",
       "xSpot": 15,
       "ySpot": 59,
       "width": 34,
-      "height": 64
+      "height": 64,
+      "from": 492,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/514.png",
       "xSpot": 15,
       "ySpot": 65,
       "width": 34,
-      "height": 70
+      "height": 70,
+      "from": 493,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/515.png",
       "xSpot": 12,
       "ySpot": 69,
       "width": 31,
-      "height": 74
+      "height": 74,
+      "from": 494,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/516.png",
       "xSpot": 13,
       "ySpot": 77,
       "width": 32,
-      "height": 82
+      "height": 82,
+      "from": 495,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/517.png",
       "xSpot": 14,
       "ySpot": 83,
       "width": 33,
-      "height": 88
+      "height": 88,
+      "from": 496,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/518.png",
       "xSpot": 11,
       "ySpot": 85,
       "width": 30,
-      "height": 90
+      "height": 90,
+      "from": 497,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/519.png",
       "xSpot": 6,
       "ySpot": 36,
       "width": 25,
-      "height": 41
+      "height": 41,
+      "from": 498,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/520.png",
       "xSpot": 8,
       "ySpot": 31,
       "width": 27,
-      "height": 37
+      "height": 37,
+      "from": 499,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/521.png",
       "xSpot": 8,
       "ySpot": 30,
       "width": 27,
-      "height": 35
+      "height": 35,
+      "from": 500,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/522.png",
       "xSpot": 8,
       "ySpot": 27,
       "width": 27,
-      "height": 32
+      "height": 32,
+      "from": 501,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/523.png",
       "xSpot": 8,
       "ySpot": 20,
       "width": 27,
-      "height": 26
+      "height": 26,
+      "from": 502,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/524.png",
       "xSpot": 8,
       "ySpot": 14,
       "width": 33,
-      "height": 20
+      "height": 20,
+      "from": 503,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/525.png",
@@ -3704,25 +3950,28 @@
       "height": 6
     },
     {
-      "path": "bisouenn.gfx/529.png",
       "xSpot": 30,
       "ySpot": 10,
       "width": 58,
-      "height": 20
+      "height": 20,
+      "from": 527,
+      "op": "flip_v"
     },
     {
-      "path": "bisouenn.gfx/530.png",
       "xSpot": 29,
       "ySpot": 19,
       "width": 54,
-      "height": 33
+      "height": 33,
+      "from": 526,
+      "op": "flip_v"
     },
     {
-      "path": "bisouenn.gfx/531.png",
       "xSpot": 26,
       "ySpot": 25,
       "width": 45,
-      "height": 45
+      "height": 45,
+      "from": 525,
+      "op": "flip_v"
     },
     {
       "path": "bisouenn.gfx/532.png",
@@ -3739,109 +3988,124 @@
       "height": 59
     },
     {
-      "path": "bisouenn.gfx/534.png",
       "xSpot": 3,
       "ySpot": 32,
       "width": 6,
-      "height": 58
+      "height": 58,
+      "from": 528,
+      "op": "rot90cw"
     },
     {
-      "path": "bisouenn.gfx/535.png",
       "xSpot": 8,
       "ySpot": 33,
       "width": 19,
-      "height": 59
+      "height": 59,
+      "from": 533,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/536.png",
       "xSpot": 14,
       "ySpot": 31,
       "width": 32,
-      "height": 54
+      "height": 54,
+      "from": 532,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/537.png",
       "xSpot": 18,
       "ySpot": 27,
       "width": 45,
-      "height": 45
+      "height": 45,
+      "from": 525,
+      "op": "rot180"
     },
     {
-      "path": "bisouenn.gfx/538.png",
       "xSpot": 20,
       "ySpot": 20,
       "width": 54,
-      "height": 33
+      "height": 33,
+      "from": 526,
+      "op": "rot180"
     },
     {
-      "path": "bisouenn.gfx/539.png",
       "xSpot": 23,
       "ySpot": 11,
       "width": 58,
-      "height": 20
+      "height": 20,
+      "from": 527,
+      "op": "rot180"
     },
     {
-      "path": "bisouenn.gfx/540.png",
       "xSpot": 24,
       "ySpot": 3,
       "width": 58,
-      "height": 6
+      "height": 6,
+      "from": 528,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/541.png",
       "xSpot": 25,
       "ySpot": 9,
       "width": 58,
-      "height": 20
+      "height": 20,
+      "from": 527,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/542.png",
       "xSpot": 24,
       "ySpot": 14,
       "width": 54,
-      "height": 33
+      "height": 33,
+      "from": 526,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/543.png",
       "xSpot": 19,
       "ySpot": 20,
       "width": 45,
-      "height": 45
+      "height": 45,
+      "from": 525,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/544.png",
       "xSpot": 14,
       "ySpot": 24,
       "width": 32,
-      "height": 54
+      "height": 54,
+      "from": 532,
+      "op": "rot180"
     },
     {
-      "path": "bisouenn.gfx/545.png",
       "xSpot": 8,
       "ySpot": 25,
       "width": 19,
-      "height": 59
+      "height": 59,
+      "from": 533,
+      "op": "rot180"
     },
     {
-      "path": "bisouenn.gfx/546.png",
       "xSpot": 3,
       "ySpot": 22,
       "width": 6,
-      "height": 58
+      "height": 58,
+      "from": 528,
+      "op": "transverse"
     },
     {
-      "path": "bisouenn.gfx/547.png",
       "xSpot": 11,
       "ySpot": 25,
       "width": 19,
-      "height": 59
+      "height": 59,
+      "from": 533,
+      "op": "flip_v"
     },
     {
-      "path": "bisouenn.gfx/548.png",
       "xSpot": 16,
       "ySpot": 26,
       "width": 32,
-      "height": 54
+      "height": 54,
+      "from": 532,
+      "op": "flip_v"
     },
     {
       "path": "bisouenn.gfx/549.png",
@@ -3879,39 +4143,44 @@
       "height": 20
     },
     {
-      "path": "bisouenn.gfx/554.png",
       "xSpot": 37,
       "ySpot": 37,
       "width": 45,
-      "height": 45
+      "height": 45,
+      "from": 549,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/555.png",
       "xSpot": 45,
       "ySpot": 25,
       "width": 54,
-      "height": 33
+      "height": 33,
+      "from": 550,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/556.png",
       "xSpot": 49,
       "ySpot": 15,
       "width": 58,
-      "height": 20
+      "height": 20,
+      "from": 551,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/557.png",
       "xSpot": 49,
       "ySpot": 2,
       "width": 58,
-      "height": 8
+      "height": 8,
+      "from": 552,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/558.png",
       "xSpot": 48,
       "ySpot": 4,
       "width": 58,
-      "height": 20
+      "height": 20,
+      "from": 553,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/559.png",
@@ -3963,53 +4232,60 @@
       "height": 47
     },
     {
-      "path": "bisouenn.gfx/566.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 60
+      "height": 60,
+      "from": 559,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/567.png",
       "xSpot": 18,
       "ySpot": 61,
       "width": 38,
-      "height": 62
+      "height": 62,
+      "from": 560,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/568.png",
       "xSpot": 18,
       "ySpot": 66,
       "width": 36,
-      "height": 67
+      "height": 67,
+      "from": 561,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/569.png",
       "xSpot": 18,
       "ySpot": 73,
       "width": 35,
-      "height": 74
+      "height": 74,
+      "from": 562,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/570.png",
       "xSpot": 14,
       "ySpot": 72,
       "width": 26,
-      "height": 73
+      "height": 73,
+      "from": 563,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/571.png",
       "xSpot": 10,
       "ySpot": 55,
       "width": 19,
-      "height": 56
+      "height": 56,
+      "from": 564,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/572.png",
       "xSpot": 10,
       "ySpot": 46,
       "width": 19,
-      "height": 47
+      "height": 47,
+      "from": 565,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/573.png",
@@ -4054,74 +4330,84 @@
       "height": 72
     },
     {
-      "path": "bisouenn.gfx/579.png",
       "xSpot": 10,
       "ySpot": 55,
       "width": 19,
-      "height": 56
+      "height": 56,
+      "from": 564,
+      "op": "copy"
     },
     {
-      "path": "bisouenn.gfx/580.png",
       "xSpot": 9,
       "ySpot": 46,
       "width": 19,
-      "height": 47
+      "height": 47,
+      "from": 565,
+      "op": "copy"
     },
     {
-      "path": "bisouenn.gfx/581.png",
       "xSpot": 41,
       "ySpot": 59,
       "width": 60,
-      "height": 60
+      "height": 60,
+      "from": 573,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/582.png",
       "xSpot": 34,
       "ySpot": 59,
       "width": 52,
-      "height": 60
+      "height": 60,
+      "from": 574,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/583.png",
       "xSpot": 31,
       "ySpot": 62,
       "width": 49,
-      "height": 63
+      "height": 63,
+      "from": 575,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/584.png",
       "xSpot": 21,
       "ySpot": 68,
       "width": 39,
-      "height": 69
+      "height": 69,
+      "from": 576,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/585.png",
       "xSpot": 19,
       "ySpot": 75,
       "width": 35,
-      "height": 76
+      "height": 76,
+      "from": 577,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/586.png",
       "xSpot": 14,
       "ySpot": 71,
       "width": 27,
-      "height": 72
+      "height": 72,
+      "from": 578,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/587.png",
       "xSpot": 11,
       "ySpot": 55,
       "width": 19,
-      "height": 56
+      "height": 56,
+      "from": 564,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/588.png",
       "xSpot": 11,
       "ySpot": 46,
       "width": 19,
-      "height": 47
+      "height": 47,
+      "from": 565,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/589.png",
@@ -4180,60 +4466,68 @@
       "height": 68
     },
     {
-      "path": "bisouenn.gfx/597.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 589,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/598.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 590,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/599.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 64
+      "height": 64,
+      "from": 591,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/600.png",
       "xSpot": 17,
       "ySpot": 59,
       "width": 36,
-      "height": 62
+      "height": 62,
+      "from": 592,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/601.png",
       "xSpot": 11,
       "ySpot": 57,
       "width": 30,
-      "height": 59
+      "height": 59,
+      "from": 593,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/602.png",
       "xSpot": 12,
       "ySpot": 57,
       "width": 31,
-      "height": 61
+      "height": 61,
+      "from": 594,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/603.png",
       "xSpot": 17,
       "ySpot": 64,
       "width": 35,
-      "height": 74
+      "height": 74,
+      "from": 595,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/604.png",
       "xSpot": 12,
       "ySpot": 60,
       "width": 23,
-      "height": 68
+      "height": 68,
+      "from": 596,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/605.png",
@@ -4285,53 +4579,60 @@
       "height": 73
     },
     {
-      "path": "bisouenn.gfx/612.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 605,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/613.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 39,
-      "height": 60
+      "height": 60,
+      "from": 606,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/614.png",
       "xSpot": 20,
       "ySpot": 57,
       "width": 36,
-      "height": 58
+      "height": 58,
+      "from": 607,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/615.png",
       "xSpot": 19,
       "ySpot": 57,
       "width": 36,
-      "height": 58
+      "height": 58,
+      "from": 608,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/616.png",
       "xSpot": 19,
       "ySpot": 57,
       "width": 34,
-      "height": 58
+      "height": 58,
+      "from": 609,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/617.png",
       "xSpot": 19,
       "ySpot": 73,
       "width": 34,
-      "height": 74
+      "height": 74,
+      "from": 610,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/618.png",
       "xSpot": 13,
       "ySpot": 72,
       "width": 24,
-      "height": 73
+      "height": 73,
+      "from": 611,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/619.png",
@@ -4390,60 +4691,68 @@
       "height": 35
     },
     {
-      "path": "bisouenn.gfx/627.png",
       "xSpot": 26,
       "ySpot": 23,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 619,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/628.png",
       "xSpot": 25,
       "ySpot": 23,
       "width": 55,
-      "height": 28
+      "height": 28,
+      "from": 620,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/629.png",
       "xSpot": 24,
       "ySpot": 23,
       "width": 51,
-      "height": 28
+      "height": 28,
+      "from": 621,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/630.png",
       "xSpot": 21,
       "ySpot": 28,
       "width": 45,
-      "height": 33
+      "height": 33,
+      "from": 622,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/631.png",
       "xSpot": 19,
       "ySpot": 34,
       "width": 36,
-      "height": 37
+      "height": 37,
+      "from": 623,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/632.png",
       "xSpot": 13,
       "ySpot": 36,
       "width": 27,
-      "height": 40
+      "height": 40,
+      "from": 624,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/633.png",
       "xSpot": 8,
       "ySpot": 34,
       "width": 19,
-      "height": 38
+      "height": 38,
+      "from": 625,
+      "op": "flip_h"
     },
     {
-      "path": "bisouenn.gfx/634.png",
       "xSpot": 8,
       "ySpot": 31,
       "width": 16,
-      "height": 35
+      "height": 35,
+      "from": 626,
+      "op": "flip_h"
     },
     {
       "path": "bisouenn.gfx/635.png",

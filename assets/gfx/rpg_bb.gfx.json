@@ -8,11 +8,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/001.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 0,
+      "op": "flip_h"
     },
     {
       "path": "rpg_bb.gfx/002.png",
@@ -22,11 +23,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/003.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 2,
+      "op": "flip_h"
     },
     {
       "path": "rpg_bb.gfx/004.png",
@@ -36,11 +38,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/005.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 4,
+      "op": "flip_h"
     },
     {
       "path": "rpg_bb.gfx/006.png",
@@ -50,11 +53,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/007.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 6,
+      "op": "flip_h"
     },
     {
       "path": "rpg_bb.gfx/008.png",
@@ -64,11 +68,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/009.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 8,
+      "op": "flip_h"
     },
     {
       "path": "rpg_bb.gfx/010.png",
@@ -78,11 +83,12 @@
       "height": 100
     },
     {
-      "path": "rpg_bb.gfx/011.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 100,
-      "height": 100
+      "height": 100,
+      "from": 10,
+      "op": "flip_h"
     }
   ]
 }

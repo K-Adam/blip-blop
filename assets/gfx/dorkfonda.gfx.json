@@ -561,11 +561,12 @@
       "height": 7
     },
     {
-      "path": "dorkfonda.gfx/080.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 4,
-      "height": 7
+      "height": 7,
+      "from": 77,
+      "op": "rot180"
     },
     {
       "path": "dorkfonda.gfx/081.png",
@@ -729,11 +730,12 @@
       "height": 9
     },
     {
-      "path": "dorkfonda.gfx/104.png",
       "xSpot": 34,
       "ySpot": 0,
       "width": 57,
-      "height": 9
+      "height": 9,
+      "from": 100,
+      "op": "copy"
     },
     {
       "path": "dorkfonda.gfx/105.png",
@@ -848,67 +850,76 @@
       "height": 21
     },
     {
-      "path": "dorkfonda.gfx/121.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 62,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/122.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 63,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/123.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 64,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/124.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 65,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/125.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 66,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/126.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 67,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/127.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 68,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/128.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 69,
+      "op": "copy"
     },
     {
-      "path": "dorkfonda.gfx/129.png",
       "xSpot": 35,
       "ySpot": 50,
       "width": 81,
-      "height": 52
+      "height": 52,
+      "from": 70,
+      "op": "copy"
     },
     {
       "path": "dorkfonda.gfx/130.png",

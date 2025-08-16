@@ -113,11 +113,12 @@
       "height": 32
     },
     {
-      "path": "videofonda.gfx/016.png",
       "xSpot": 12,
       "ySpot": 0,
       "width": 24,
-      "height": 32
+      "height": 32,
+      "from": 14,
+      "op": "flip_h"
     },
     {
       "path": "videofonda.gfx/017.png",

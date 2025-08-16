@@ -57,11 +57,12 @@
       "height": 80
     },
     {
-      "path": "intro.gfx/008.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 640,
-      "height": 80
+      "height": 80,
+      "from": 7,
+      "op": "flip_h"
     },
     {
       "path": "intro.gfx/009.png",
@@ -92,11 +93,12 @@
       "height": 480
     },
     {
-      "path": "intro.gfx/013.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 640,
-      "height": 480
+      "height": 480,
+      "from": 12,
+      "op": "flip_v"
     },
     {
       "path": "intro.gfx/014.png",
@@ -113,11 +115,12 @@
       "height": 240
     },
     {
-      "path": "intro.gfx/016.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 640,
-      "height": 240
+      "height": 240,
+      "from": 15,
+      "op": "flip_h"
     },
     {
       "path": "intro.gfx/017.png",
@@ -162,11 +165,12 @@
       "height": 480
     },
     {
-      "path": "intro.gfx/023.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 388,
-      "height": 480
+      "height": 480,
+      "from": 22,
+      "op": "flip_v"
     },
     {
       "path": "intro.gfx/024.png",
@@ -183,11 +187,12 @@
       "height": 480
     },
     {
-      "path": "intro.gfx/026.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 388,
-      "height": 480
+      "height": 480,
+      "from": 25,
+      "op": "flip_v"
     },
     {
       "path": "intro.gfx/027.png",

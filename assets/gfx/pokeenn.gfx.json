@@ -15,18 +15,20 @@
       "height": 70
     },
     {
-      "path": "pokeenn.gfx/002.png",
       "xSpot": 29,
       "ySpot": 61,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 0,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/003.png",
       "xSpot": 40,
       "ySpot": 66,
       "width": 79,
-      "height": 70
+      "height": 70,
+      "from": 1,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/004.png",
@@ -99,60 +101,68 @@
       "height": 73
     },
     {
-      "path": "pokeenn.gfx/014.png",
       "xSpot": 29,
       "ySpot": 61,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 4,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/015.png",
       "xSpot": 30,
       "ySpot": 61,
       "width": 79,
-      "height": 64
+      "height": 64,
+      "from": 5,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/016.png",
       "xSpot": 38,
       "ySpot": 61,
       "width": 87,
-      "height": 64
+      "height": 64,
+      "from": 6,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/017.png",
       "xSpot": 40,
       "ySpot": 65,
       "width": 117,
-      "height": 68
+      "height": 68,
+      "from": 7,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/018.png",
       "xSpot": 48,
       "ySpot": 67,
       "width": 114,
-      "height": 70
+      "height": 70,
+      "from": 8,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/019.png",
       "xSpot": 54,
       "ySpot": 68,
       "width": 123,
-      "height": 71
+      "height": 71,
+      "from": 9,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/020.png",
       "xSpot": 57,
       "ySpot": 66,
       "width": 120,
-      "height": 69
+      "height": 69,
+      "from": 10,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/021.png",
       "xSpot": 58,
       "ySpot": 59,
       "width": 110,
-      "height": 63
+      "height": 63,
+      "from": 11,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/022.png",
@@ -162,11 +172,12 @@
       "height": 66
     },
     {
-      "path": "pokeenn.gfx/023.png",
       "xSpot": 58,
       "ySpot": 59,
       "width": 110,
-      "height": 73
+      "height": 73,
+      "from": 13,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/024.png",
@@ -183,18 +194,20 @@
       "height": 81
     },
     {
-      "path": "pokeenn.gfx/026.png",
       "xSpot": 32,
       "ySpot": 70,
       "width": 76,
-      "height": 72
+      "height": 72,
+      "from": 24,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/027.png",
       "xSpot": 36,
       "ySpot": 74,
       "width": 73,
-      "height": 81
+      "height": 81,
+      "from": 25,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/028.png",
@@ -253,60 +266,68 @@
       "height": 79
     },
     {
-      "path": "pokeenn.gfx/036.png",
       "xSpot": 34,
       "ySpot": 70,
       "width": 77,
-      "height": 73
+      "height": 73,
+      "from": 28,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/037.png",
       "xSpot": 40,
       "ySpot": 70,
       "width": 83,
-      "height": 73
+      "height": 73,
+      "from": 29,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/038.png",
       "xSpot": 54,
       "ySpot": 70,
       "width": 97,
-      "height": 73
+      "height": 73,
+      "from": 30,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/039.png",
       "xSpot": 65,
       "ySpot": 70,
       "width": 108,
-      "height": 73
+      "height": 73,
+      "from": 31,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/040.png",
       "xSpot": 70,
       "ySpot": 71,
       "width": 112,
-      "height": 74
+      "height": 74,
+      "from": 32,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/041.png",
       "xSpot": 70,
       "ySpot": 70,
       "width": 110,
-      "height": 73
+      "height": 73,
+      "from": 33,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/042.png",
       "xSpot": 70,
       "ySpot": 68,
       "width": 110,
-      "height": 79
+      "height": 79,
+      "from": 34,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/043.png",
       "xSpot": 70,
       "ySpot": 66,
       "width": 110,
-      "height": 79
+      "height": 79,
+      "from": 35,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/044.png",
@@ -323,11 +344,12 @@
       "height": 78
     },
     {
-      "path": "pokeenn.gfx/046.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 44,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/047.png",
@@ -435,102 +457,116 @@
       "height": 106
     },
     {
-      "path": "pokeenn.gfx/062.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 48,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/063.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 49,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/064.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 50,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/065.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 51,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/066.png",
       "xSpot": 28,
       "ySpot": 75,
       "width": 71,
-      "height": 80
+      "height": 80,
+      "from": 52,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/067.png",
       "xSpot": 28,
       "ySpot": 83,
       "width": 71,
-      "height": 88
+      "height": 88,
+      "from": 53,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/068.png",
       "xSpot": 28,
       "ySpot": 97,
       "width": 71,
-      "height": 102
+      "height": 102,
+      "from": 54,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/069.png",
       "xSpot": 28,
       "ySpot": 104,
       "width": 70,
-      "height": 109
+      "height": 109,
+      "from": 55,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/070.png",
       "xSpot": 26,
       "ySpot": 105,
       "width": 67,
-      "height": 110
+      "height": 110,
+      "from": 56,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/071.png",
       "xSpot": 26,
       "ySpot": 105,
       "width": 69,
-      "height": 110
+      "height": 110,
+      "from": 57,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/072.png",
       "xSpot": 27,
       "ySpot": 100,
       "width": 70,
-      "height": 105
+      "height": 105,
+      "from": 58,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/073.png",
       "xSpot": 19,
       "ySpot": 100,
       "width": 57,
-      "height": 105
+      "height": 105,
+      "from": 59,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/074.png",
       "xSpot": 18,
       "ySpot": 100,
       "width": 45,
-      "height": 105
+      "height": 105,
+      "from": 60,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/075.png",
       "xSpot": 17,
       "ySpot": 101,
       "width": 32,
-      "height": 106
+      "height": 106,
+      "from": 61,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/076.png",
@@ -694,11 +730,12 @@
       "height": 63
     },
     {
-      "path": "pokeenn.gfx/099.png",
       "xSpot": 58,
       "ySpot": 40,
       "width": 114,
-      "height": 63
+      "height": 63,
+      "from": 98,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/100.png",
@@ -799,102 +836,116 @@
       "height": 99
     },
     {
-      "path": "pokeenn.gfx/114.png",
       "xSpot": 29,
       "ySpot": 62,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 100,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/115.png",
       "xSpot": 29,
       "ySpot": 62,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 101,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/116.png",
       "xSpot": 29,
       "ySpot": 62,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 102,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/117.png",
       "xSpot": 29,
       "ySpot": 62,
       "width": 78,
-      "height": 64
+      "height": 64,
+      "from": 103,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/118.png",
       "xSpot": 29,
       "ySpot": 67,
       "width": 78,
-      "height": 69
+      "height": 69,
+      "from": 104,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/119.png",
       "xSpot": 29,
       "ySpot": 81,
       "width": 78,
-      "height": 83
+      "height": 83,
+      "from": 105,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/120.png",
       "xSpot": 25,
       "ySpot": 92,
       "width": 74,
-      "height": 94
+      "height": 94,
+      "from": 106,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/121.png",
       "xSpot": 24,
       "ySpot": 98,
       "width": 73,
-      "height": 100
+      "height": 100,
+      "from": 107,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/122.png",
       "xSpot": 22,
       "ySpot": 97,
       "width": 71,
-      "height": 99
+      "height": 99,
+      "from": 108,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/123.png",
       "xSpot": 22,
       "ySpot": 97,
       "width": 61,
-      "height": 99
+      "height": 99,
+      "from": 109,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/124.png",
       "xSpot": 21,
       "ySpot": 97,
       "width": 61,
-      "height": 99
+      "height": 99,
+      "from": 110,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/125.png",
       "xSpot": 22,
       "ySpot": 97,
       "width": 61,
-      "height": 99
+      "height": 99,
+      "from": 111,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/126.png",
       "xSpot": 22,
       "ySpot": 95,
       "width": 59,
-      "height": 97
+      "height": 97,
+      "from": 112,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/127.png",
       "xSpot": 22,
       "ySpot": 97,
       "width": 42,
-      "height": 99
+      "height": 99,
+      "from": 113,
+      "op": "flip_h"
     },
     {
       "path": "pokeenn.gfx/128.png",
@@ -1002,109 +1053,124 @@
       "height": 89
     },
     {
-      "path": "pokeenn.gfx/143.png",
       "xSpot": 32,
       "ySpot": 70,
       "width": 76,
-      "height": 72
+      "height": 72,
+      "from": 128,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/144.png",
       "xSpot": 32,
       "ySpot": 70,
       "width": 76,
-      "height": 72
+      "height": 72,
+      "from": 129,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/145.png",
       "xSpot": 32,
       "ySpot": 70,
       "width": 76,
-      "height": 72
+      "height": 72,
+      "from": 130,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/146.png",
       "xSpot": 32,
       "ySpot": 70,
       "width": 76,
-      "height": 72
+      "height": 72,
+      "from": 131,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/147.png",
       "xSpot": 32,
       "ySpot": 76,
       "width": 76,
-      "height": 78
+      "height": 78,
+      "from": 132,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/148.png",
       "xSpot": 32,
       "ySpot": 92,
       "width": 76,
-      "height": 94
+      "height": 94,
+      "from": 133,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/149.png",
       "xSpot": 32,
       "ySpot": 97,
       "width": 76,
-      "height": 99
+      "height": 99,
+      "from": 134,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/150.png",
       "xSpot": 31,
       "ySpot": 97,
       "width": 75,
-      "height": 99
+      "height": 99,
+      "from": 135,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/151.png",
       "xSpot": 30,
       "ySpot": 97,
       "width": 72,
-      "height": 99
+      "height": 99,
+      "from": 136,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/152.png",
       "xSpot": 30,
       "ySpot": 97,
       "width": 72,
-      "height": 99
+      "height": 99,
+      "from": 137,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/153.png",
       "xSpot": 29,
       "ySpot": 96,
       "width": 70,
-      "height": 98
+      "height": 98,
+      "from": 138,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/154.png",
       "xSpot": 26,
       "ySpot": 98,
       "width": 66,
-      "height": 100
+      "height": 100,
+      "from": 139,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/155.png",
       "xSpot": 29,
       "ySpot": 97,
       "width": 69,
-      "height": 99
+      "height": 99,
+      "from": 140,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/156.png",
       "xSpot": 28,
       "ySpot": 97,
       "width": 68,
-      "height": 100
+      "height": 100,
+      "from": 141,
+      "op": "flip_h"
     },
     {
-      "path": "pokeenn.gfx/157.png",
       "xSpot": 26,
       "ySpot": 86,
       "width": 65,
-      "height": 89
+      "height": 89,
+      "from": 142,
+      "op": "flip_h"
     }
   ]
 }

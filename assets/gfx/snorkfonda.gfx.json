@@ -106,11 +106,12 @@
       "height": 96
     },
     {
-      "path": "snorkfonda.gfx/015.png",
       "xSpot": 0,
       "ySpot": 0,
       "width": 120,
-      "height": 58
+      "height": 58,
+      "from": 8,
+      "op": "flip_h"
     }
   ]
 }

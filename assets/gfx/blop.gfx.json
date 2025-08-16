@@ -162,11 +162,12 @@
       "height": 9
     },
     {
-      "path": "blop.gfx/023.png",
       "xSpot": 6,
       "ySpot": 7,
       "width": 9,
-      "height": 9
+      "height": 9,
+      "from": 22,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/024.png",
@@ -190,53 +191,60 @@
       "height": 14
     },
     {
-      "path": "blop.gfx/027.png",
       "xSpot": 19,
       "ySpot": 23,
       "width": 39,
-      "height": 45
+      "height": 45,
+      "from": 25,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/028.png",
       "xSpot": 13,
       "ySpot": 31,
       "width": 14,
-      "height": 54
+      "height": 54,
+      "from": 24,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/029.png",
       "xSpot": 0,
       "ySpot": 31,
       "width": 14,
-      "height": 54
+      "height": 54,
+      "from": 24,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/030.png",
       "xSpot": 19,
       "ySpot": 23,
       "width": 39,
-      "height": 45
+      "height": 45,
+      "from": 25,
+      "op": "transverse"
     },
     {
-      "path": "blop.gfx/031.png",
       "xSpot": 31,
       "ySpot": 0,
       "width": 54,
-      "height": 14
+      "height": 14,
+      "from": 24,
+      "op": "transverse"
     },
     {
-      "path": "blop.gfx/032.png",
       "xSpot": 21,
       "ySpot": 15,
       "width": 45,
-      "height": 39
+      "height": 39,
+      "from": 25,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/033.png",
       "xSpot": 0,
       "ySpot": 14,
       "width": 14,
-      "height": 54
+      "height": 54,
+      "from": 24,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/034.png",
@@ -267,46 +275,52 @@
       "height": 47
     },
     {
-      "path": "blop.gfx/038.png",
       "xSpot": 2,
       "ySpot": 44,
       "width": 17,
-      "height": 60
+      "height": 60,
+      "from": 34,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/039.png",
       "xSpot": 14,
       "ySpot": 44,
       "width": 17,
-      "height": 60
+      "height": 60,
+      "from": 34,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/040.png",
       "xSpot": 34,
       "ySpot": 30,
       "width": 42,
-      "height": 47
+      "height": 47,
+      "from": 35,
+      "op": "transverse"
     },
     {
-      "path": "blop.gfx/041.png",
       "xSpot": 44,
       "ySpot": 2,
       "width": 60,
-      "height": 17
+      "height": 17,
+      "from": 34,
+      "op": "transverse"
     },
     {
-      "path": "blop.gfx/042.png",
       "xSpot": 30,
       "ySpot": 7,
       "width": 47,
-      "height": 42
+      "height": 42,
+      "from": 35,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/043.png",
       "xSpot": 2,
       "ySpot": 15,
       "width": 17,
-      "height": 60
+      "height": 60,
+      "from": 34,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/044.png",
@@ -323,11 +337,12 @@
       "height": 45
     },
     {
-      "path": "blop.gfx/046.png",
       "xSpot": 14,
       "ySpot": 2,
       "width": 66,
-      "height": 14
+      "height": 14,
+      "from": 44,
+      "op": "rot90ccw"
     },
     {
       "path": "blop.gfx/047.png",
@@ -337,32 +352,36 @@
       "height": 55
     },
     {
-      "path": "blop.gfx/048.png",
       "xSpot": 2,
       "ySpot": 52,
       "width": 14,
-      "height": 66
+      "height": 66,
+      "from": 44,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/049.png",
       "xSpot": 11,
       "ySpot": 51,
       "width": 14,
-      "height": 66
+      "height": 66,
+      "from": 44,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/050.png",
       "xSpot": 38,
       "ySpot": 37,
       "width": 45,
-      "height": 55
+      "height": 55,
+      "from": 47,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/051.png",
       "xSpot": 51,
       "ySpot": 2,
       "width": 66,
-      "height": 14
+      "height": 14,
+      "from": 44,
+      "op": "transverse"
     },
     {
       "path": "blop.gfx/052.png",
@@ -414,39 +433,44 @@
       "height": 63
     },
     {
-      "path": "blop.gfx/059.png",
       "xSpot": 18,
       "ySpot": 45,
       "width": 30,
-      "height": 63
+      "height": 63,
+      "from": 58,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/060.png",
       "xSpot": 41,
       "ySpot": 31,
       "width": 54,
-      "height": 50
+      "height": 50,
+      "from": 57,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/061.png",
       "xSpot": 51,
       "ySpot": 9,
       "width": 65,
-      "height": 24
+      "height": 24,
+      "from": 56,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/062.png",
       "xSpot": 43,
       "ySpot": 9,
       "width": 56,
-      "height": 50
+      "height": 50,
+      "from": 55,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/063.png",
       "xSpot": 15,
       "ySpot": 9,
       "width": 27,
-      "height": 61
+      "height": 61,
+      "from": 54,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/064.png",
@@ -484,39 +508,44 @@
       "height": 55
     },
     {
-      "path": "blop.gfx/069.png",
       "xSpot": 0,
       "ySpot": 47,
       "width": 15,
-      "height": 55
+      "height": 55,
+      "from": 68,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/070.png",
       "xSpot": 28,
       "ySpot": 23,
       "width": 39,
-      "height": 42
+      "height": 42,
+      "from": 67,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/071.png",
       "xSpot": 38,
       "ySpot": 2,
       "width": 55,
-      "height": 15
+      "height": 15,
+      "from": 66,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/072.png",
       "xSpot": 23,
       "ySpot": 10,
       "width": 42,
-      "height": 39
+      "height": 39,
+      "from": 65,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/073.png",
       "xSpot": 0,
       "ySpot": 11,
       "width": 15,
-      "height": 55
+      "height": 55,
+      "from": 64,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/074.png",
@@ -589,11 +618,12 @@
       "height": 22
     },
     {
-      "path": "blop.gfx/084.png",
       "xSpot": 2,
       "ySpot": 23,
       "width": 26,
-      "height": 27
+      "height": 27,
+      "from": 78,
+      "op": "rot90ccw"
     },
     {
       "path": "blop.gfx/085.png",
@@ -603,53 +633,60 @@
       "height": 30
     },
     {
-      "path": "blop.gfx/086.png",
       "xSpot": 1,
       "ySpot": 30,
       "width": 10,
-      "height": 31
+      "height": 31,
+      "from": 74,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/087.png",
       "xSpot": 1,
       "ySpot": 35,
       "width": 10,
-      "height": 36
+      "height": 36,
+      "from": 75,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/088.png",
       "xSpot": 2,
       "ySpot": 38,
       "width": 12,
-      "height": 39
+      "height": 39,
+      "from": 76,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/089.png",
       "xSpot": 8,
       "ySpot": 30,
       "width": 10,
-      "height": 31
+      "height": 31,
+      "from": 74,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/090.png",
       "xSpot": 8,
       "ySpot": 35,
       "width": 10,
-      "height": 36
+      "height": 36,
+      "from": 75,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/091.png",
       "xSpot": 9,
       "ySpot": 38,
       "width": 12,
-      "height": 39
+      "height": 39,
+      "from": 76,
+      "op": "flip_v"
     },
     {
-      "path": "blop.gfx/092.png",
       "xSpot": 19,
       "ySpot": 18,
       "width": 22,
-      "height": 22
+      "height": 22,
+      "from": 83,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/093.png",
@@ -659,11 +696,12 @@
       "height": 27
     },
     {
-      "path": "blop.gfx/094.png",
       "xSpot": 26,
       "ySpot": 26,
       "width": 29,
-      "height": 30
+      "height": 30,
+      "from": 85,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/095.png",
@@ -673,60 +711,68 @@
       "height": 12
     },
     {
-      "path": "blop.gfx/096.png",
       "xSpot": 35,
       "ySpot": 1,
       "width": 36,
-      "height": 12
+      "height": 12,
+      "from": 81,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/097.png",
       "xSpot": 38,
       "ySpot": 2,
       "width": 39,
-      "height": 13
+      "height": 13,
+      "from": 82,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/098.png",
       "xSpot": 18,
       "ySpot": 2,
       "width": 22,
-      "height": 22
+      "height": 22,
+      "from": 83,
+      "op": "transpose"
     },
     {
-      "path": "blop.gfx/099.png",
       "xSpot": 23,
       "ySpot": 2,
       "width": 27,
-      "height": 26
+      "height": 26,
+      "from": 93,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/100.png",
       "xSpot": 26,
       "ySpot": 2,
       "width": 30,
-      "height": 29
+      "height": 29,
+      "from": 85,
+      "op": "transpose"
     },
     {
-      "path": "blop.gfx/101.png",
       "xSpot": 1,
       "ySpot": 0,
       "width": 10,
-      "height": 31
+      "height": 31,
+      "from": 74,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/102.png",
       "xSpot": 1,
       "ySpot": 0,
       "width": 10,
-      "height": 36
+      "height": 36,
+      "from": 75,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/103.png",
       "xSpot": 2,
       "ySpot": 0,
       "width": 12,
-      "height": 39
+      "height": 39,
+      "from": 76,
+      "op": "flip_h"
     },
     {
       "path": "blop.gfx/104.png",
@@ -750,18 +796,20 @@
       "height": 8
     },
     {
-      "path": "blop.gfx/107.png",
       "xSpot": 4,
       "ySpot": 3,
       "width": 12,
-      "height": 11
+      "height": 11,
+      "from": 105,
+      "op": "flip_h"
     },
     {
-      "path": "blop.gfx/108.png",
       "xSpot": 0,
       "ySpot": 6,
       "width": 8,
-      "height": 14
+      "height": 14,
+      "from": 104,
+      "op": "rot180"
     },
     {
       "path": "blop.gfx/109.png",
@@ -778,46 +826,52 @@
       "height": 45
     },
     {
-      "path": "blop.gfx/111.png",
       "xSpot": 23,
       "ySpot": 41,
       "width": 37,
-      "height": 54
+      "height": 54,
+      "from": 109,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/112.png",
       "xSpot": 21,
       "ySpot": 39,
       "width": 45,
-      "height": 46
+      "height": 46,
+      "from": 110,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/113.png",
       "xSpot": 31,
       "ySpot": 32,
       "width": 54,
-      "height": 37
+      "height": 37,
+      "from": 109,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/114.png",
       "xSpot": 26,
       "ySpot": 40,
       "width": 46,
-      "height": 45
+      "height": 45,
+      "from": 110,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/115.png",
       "xSpot": 17,
       "ySpot": 38,
       "width": 37,
-      "height": 54
+      "height": 54,
+      "from": 109,
+      "op": "rot90cw"
     },
     {
-      "path": "blop.gfx/116.png",
       "xSpot": 25,
       "ySpot": 36,
       "width": 45,
-      "height": 46
+      "height": 46,
+      "from": 110,
+      "op": "rot90cw"
     },
     {
       "path": "blop.gfx/117.png",
@@ -834,46 +888,52 @@
       "height": 55
     },
     {
-      "path": "blop.gfx/119.png",
       "xSpot": 23,
       "ySpot": 54,
       "width": 37,
-      "height": 66
+      "height": 66,
+      "from": 117,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/120.png",
       "xSpot": 28,
       "ySpot": 46,
       "width": 55,
-      "height": 54
+      "height": 54,
+      "from": 118,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/121.png",
       "xSpot": 43,
       "ySpot": 29,
       "width": 66,
-      "height": 37
+      "height": 37,
+      "from": 117,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/122.png",
       "xSpot": 35,
       "ySpot": 39,
       "width": 54,
-      "height": 55
+      "height": 55,
+      "from": 118,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/123.png",
       "xSpot": 16,
       "ySpot": 37,
       "width": 37,
-      "height": 66
+      "height": 66,
+      "from": 117,
+      "op": "rot90cw"
     },
     {
-      "path": "blop.gfx/124.png",
       "xSpot": 24,
       "ySpot": 33,
       "width": 55,
-      "height": 54
+      "height": 54,
+      "from": 118,
+      "op": "rot90cw"
     },
     {
       "path": "blop.gfx/125.png",
@@ -890,46 +950,52 @@
       "height": 42
     },
     {
-      "path": "blop.gfx/127.png",
       "xSpot": 22,
       "ySpot": 47,
       "width": 38,
-      "height": 56
+      "height": 56,
+      "from": 125,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/128.png",
       "xSpot": 21,
       "ySpot": 42,
       "width": 42,
-      "height": 52
+      "height": 52,
+      "from": 126,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/129.png",
       "xSpot": 37,
       "ySpot": 32,
       "width": 56,
-      "height": 38
+      "height": 38,
+      "from": 125,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/130.png",
       "xSpot": 33,
       "ySpot": 33,
       "width": 52,
-      "height": 42
+      "height": 42,
+      "from": 126,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/131.png",
       "xSpot": 17,
       "ySpot": 32,
       "width": 38,
-      "height": 56
+      "height": 56,
+      "from": 125,
+      "op": "rot90cw"
     },
     {
-      "path": "blop.gfx/132.png",
       "xSpot": 20,
       "ySpot": 33,
       "width": 42,
-      "height": 52
+      "height": 52,
+      "from": 126,
+      "op": "rot90cw"
     },
     {
       "path": "blop.gfx/133.png",
@@ -946,46 +1012,52 @@
       "height": 50
     },
     {
-      "path": "blop.gfx/135.png",
       "xSpot": 22,
       "ySpot": 52,
       "width": 40,
-      "height": 65
+      "height": 65,
+      "from": 133,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/136.png",
       "xSpot": 25,
       "ySpot": 46,
       "width": 50,
-      "height": 57
+      "height": 57,
+      "from": 134,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/137.png",
       "xSpot": 42,
       "ySpot": 32,
       "width": 65,
-      "height": 40
+      "height": 40,
+      "from": 133,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/138.png",
       "xSpot": 38,
       "ySpot": 38,
       "width": 57,
-      "height": 50
+      "height": 50,
+      "from": 134,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/139.png",
       "xSpot": 19,
       "ySpot": 34,
       "width": 40,
-      "height": 65
+      "height": 65,
+      "from": 133,
+      "op": "rot90cw"
     },
     {
-      "path": "blop.gfx/140.png",
       "xSpot": 26,
       "ySpot": 32,
       "width": 50,
-      "height": 57
+      "height": 57,
+      "from": 134,
+      "op": "rot90cw"
     },
     {
       "path": "blop.gfx/141.png",
@@ -1002,46 +1074,52 @@
       "height": 47
     },
     {
-      "path": "blop.gfx/143.png",
       "xSpot": 22,
       "ySpot": 49,
       "width": 38,
-      "height": 60
+      "height": 60,
+      "from": 141,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/144.png",
       "xSpot": 23,
       "ySpot": 44,
       "width": 47,
-      "height": 53
+      "height": 53,
+      "from": 142,
+      "op": "rot90ccw"
     },
     {
-      "path": "blop.gfx/145.png",
       "xSpot": 39,
       "ySpot": 31,
       "width": 60,
-      "height": 38
+      "height": 38,
+      "from": 141,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/146.png",
       "xSpot": 33,
       "ySpot": 34,
       "width": 53,
-      "height": 47
+      "height": 47,
+      "from": 142,
+      "op": "rot180"
     },
     {
-      "path": "blop.gfx/147.png",
       "xSpot": 17,
       "ySpot": 34,
       "width": 38,
-      "height": 60
+      "height": 60,
+      "from": 141,
+      "op": "rot90cw"
     },
     {
-      "path": "blop.gfx/148.png",
       "xSpot": 23,
       "ySpot": 32,
       "width": 47,
-      "height": 53
+      "height": 53,
+      "from": 142,
+      "op": "rot90cw"
     }
   ]
 }

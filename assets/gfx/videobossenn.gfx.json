@@ -22,25 +22,28 @@
       "height": 81
     },
     {
-      "path": "videobossenn.gfx/003.png",
       "xSpot": 23,
       "ySpot": 83,
       "width": 45,
-      "height": 84
+      "height": 84,
+      "from": 0,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/004.png",
       "xSpot": 26,
       "ySpot": 83,
       "width": 48,
-      "height": 84
+      "height": 84,
+      "from": 1,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/005.png",
       "xSpot": 26,
       "ySpot": 80,
       "width": 48,
-      "height": 81
+      "height": 81,
+      "from": 2,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/006.png",
@@ -57,18 +60,20 @@
       "height": 87
     },
     {
-      "path": "videobossenn.gfx/008.png",
       "xSpot": 26,
       "ySpot": 92,
       "width": 48,
-      "height": 93
+      "height": 93,
+      "from": 6,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/009.png",
       "xSpot": 26,
       "ySpot": 86,
       "width": 48,
-      "height": 87
+      "height": 87,
+      "from": 7,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/010.png",
@@ -92,25 +97,28 @@
       "height": 84
     },
     {
-      "path": "videobossenn.gfx/013.png",
       "xSpot": 23,
       "ySpot": 83,
       "width": 59,
-      "height": 84
+      "height": 84,
+      "from": 10,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/014.png",
       "xSpot": 21,
       "ySpot": 83,
       "width": 57,
-      "height": 84
+      "height": 84,
+      "from": 11,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/015.png",
       "xSpot": 24,
       "ySpot": 83,
       "width": 60,
-      "height": 84
+      "height": 84,
+      "from": 12,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/016.png",
@@ -162,53 +170,60 @@
       "height": 31
     },
     {
-      "path": "videobossenn.gfx/023.png",
       "xSpot": 57,
       "ySpot": 1,
       "width": 58,
-      "height": 31
+      "height": 31,
+      "from": 16,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/024.png",
       "xSpot": 56,
       "ySpot": 6,
       "width": 57,
-      "height": 30
+      "height": 30,
+      "from": 17,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/025.png",
       "xSpot": 55,
       "ySpot": 11,
       "width": 56,
-      "height": 31
+      "height": 31,
+      "from": 18,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/026.png",
       "xSpot": 55,
       "ySpot": 15,
       "width": 56,
-      "height": 31
+      "height": 31,
+      "from": 19,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/027.png",
       "xSpot": 55,
       "ySpot": 20,
       "width": 56,
-      "height": 31
+      "height": 31,
+      "from": 20,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/028.png",
       "xSpot": 56,
       "ySpot": 25,
       "width": 57,
-      "height": 30
+      "height": 30,
+      "from": 21,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/029.png",
       "xSpot": 56,
       "ySpot": 29,
       "width": 58,
-      "height": 31
+      "height": 31,
+      "from": 22,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/030.png",
@@ -267,60 +282,68 @@
       "height": 80
     },
     {
-      "path": "videobossenn.gfx/038.png",
       "xSpot": 40,
       "ySpot": 76,
       "width": 79,
-      "height": 77
+      "height": 77,
+      "from": 30,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/039.png",
       "xSpot": 24,
       "ySpot": 76,
       "width": 53,
-      "height": 77
+      "height": 77,
+      "from": 31,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/040.png",
       "xSpot": 28,
       "ySpot": 79,
       "width": 58,
-      "height": 80
+      "height": 80,
+      "from": 32,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/041.png",
       "xSpot": 38,
       "ySpot": 79,
       "width": 75,
-      "height": 80
+      "height": 80,
+      "from": 33,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/042.png",
       "xSpot": 39,
       "ySpot": 76,
       "width": 77,
-      "height": 77
+      "height": 77,
+      "from": 34,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/043.png",
       "xSpot": 22,
       "ySpot": 75,
       "width": 53,
-      "height": 76
+      "height": 76,
+      "from": 35,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/044.png",
       "xSpot": 23,
       "ySpot": 79,
       "width": 53,
-      "height": 80
+      "height": 80,
+      "from": 36,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/045.png",
       "xSpot": 37,
       "ySpot": 79,
       "width": 78,
-      "height": 80
+      "height": 80,
+      "from": 37,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/046.png",
@@ -358,39 +381,44 @@
       "height": 62
     },
     {
-      "path": "videobossenn.gfx/051.png",
       "xSpot": 31,
       "ySpot": 59,
       "width": 62,
-      "height": 60
+      "height": 60,
+      "from": 46,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/052.png",
       "xSpot": 31,
       "ySpot": 59,
       "width": 62,
-      "height": 60
+      "height": 60,
+      "from": 47,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/053.png",
       "xSpot": 31,
       "ySpot": 59,
       "width": 62,
-      "height": 60
+      "height": 60,
+      "from": 48,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/054.png",
       "xSpot": 31,
       "ySpot": 59,
       "width": 62,
-      "height": 60
+      "height": 60,
+      "from": 49,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/055.png",
       "xSpot": 31,
       "ySpot": 61,
       "width": 62,
-      "height": 62
+      "height": 62,
+      "from": 50,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/056.png",
@@ -477,25 +505,28 @@
       "height": 5
     },
     {
-      "path": "videobossenn.gfx/068.png",
       "xSpot": 11,
       "ySpot": 1,
       "width": 13,
-      "height": 8
+      "height": 8,
+      "from": 66,
+      "op": "flip_v"
     },
     {
-      "path": "videobossenn.gfx/069.png",
       "xSpot": 8,
       "ySpot": 1,
       "width": 10,
-      "height": 11
+      "height": 11,
+      "from": 65,
+      "op": "flip_v"
     },
     {
-      "path": "videobossenn.gfx/070.png",
       "xSpot": 4,
       "ySpot": 1,
       "width": 6,
-      "height": 12
+      "height": 12,
+      "from": 64,
+      "op": "flip_v"
     },
     {
       "path": "videobossenn.gfx/071.png",
@@ -505,25 +536,28 @@
       "height": 15
     },
     {
-      "path": "videobossenn.gfx/072.png",
       "xSpot": 1,
       "ySpot": 1,
       "width": 6,
-      "height": 12
+      "height": 12,
+      "from": 64,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/073.png",
       "xSpot": 1,
       "ySpot": 1,
       "width": 10,
-      "height": 11
+      "height": 11,
+      "from": 65,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/074.png",
       "xSpot": 1,
       "ySpot": 1,
       "width": 13,
-      "height": 8
+      "height": 8,
+      "from": 66,
+      "op": "rot180"
     },
     {
       "path": "videobossenn.gfx/075.png",
@@ -547,25 +581,28 @@
       "height": 81
     },
     {
-      "path": "videobossenn.gfx/078.png",
       "xSpot": 23,
       "ySpot": 83,
       "width": 45,
-      "height": 84
+      "height": 84,
+      "from": 75,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/079.png",
       "xSpot": 26,
       "ySpot": 83,
       "width": 48,
-      "height": 84
+      "height": 84,
+      "from": 76,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/080.png",
       "xSpot": 26,
       "ySpot": 80,
       "width": 48,
-      "height": 81
+      "height": 81,
+      "from": 77,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/081.png",
@@ -582,18 +619,20 @@
       "height": 87
     },
     {
-      "path": "videobossenn.gfx/083.png",
       "xSpot": 26,
       "ySpot": 92,
       "width": 48,
-      "height": 93
+      "height": 93,
+      "from": 81,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/084.png",
       "xSpot": 26,
       "ySpot": 86,
       "width": 48,
-      "height": 87
+      "height": 87,
+      "from": 82,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/085.png",
@@ -638,46 +677,52 @@
       "height": 52
     },
     {
-      "path": "videobossenn.gfx/091.png",
       "xSpot": 38,
       "ySpot": 51,
       "width": 58,
-      "height": 52
+      "height": 52,
+      "from": 85,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/092.png",
       "xSpot": 38,
       "ySpot": 51,
       "width": 58,
-      "height": 52
+      "height": 52,
+      "from": 86,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/093.png",
       "xSpot": 38,
       "ySpot": 51,
       "width": 59,
-      "height": 52
+      "height": 52,
+      "from": 87,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/094.png",
       "xSpot": 38,
       "ySpot": 51,
       "width": 58,
-      "height": 52
+      "height": 52,
+      "from": 88,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/095.png",
       "xSpot": 38,
       "ySpot": 51,
       "width": 58,
-      "height": 52
+      "height": 52,
+      "from": 89,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/096.png",
       "xSpot": 40,
       "ySpot": 51,
       "width": 60,
-      "height": 52
+      "height": 52,
+      "from": 90,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/097.png",
@@ -757,81 +802,92 @@
       "height": 96
     },
     {
-      "path": "videobossenn.gfx/108.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 97,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/109.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 98,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/110.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 99,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/111.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 100,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/112.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 101,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/113.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 102,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/114.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 103,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/115.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 104,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/116.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 105,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/117.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 106,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/118.png",
       "xSpot": 31,
       "ySpot": 95,
       "width": 58,
-      "height": 96
+      "height": 96,
+      "from": 107,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/119.png",
@@ -855,11 +911,12 @@
       "height": 32
     },
     {
-      "path": "videobossenn.gfx/122.png",
       "xSpot": 13,
       "ySpot": 16,
       "width": 24,
-      "height": 32
+      "height": 32,
+      "from": 120,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/123.png",
@@ -1163,18 +1220,20 @@
       "height": 57
     },
     {
-      "path": "videobossenn.gfx/166.png",
       "xSpot": 20,
       "ySpot": 59,
       "width": 42,
-      "height": 60
+      "height": 60,
+      "from": 164,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/167.png",
       "xSpot": 23,
       "ySpot": 56,
       "width": 45,
-      "height": 57
+      "height": 57,
+      "from": 165,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/168.png",
@@ -1212,46 +1271,52 @@
       "height": 26
     },
     {
-      "path": "videobossenn.gfx/173.png",
       "xSpot": 11,
       "ySpot": 13,
       "width": 26,
-      "height": 24
+      "height": 24,
+      "from": 171,
+      "op": "rot90cw"
     },
     {
-      "path": "videobossenn.gfx/174.png",
       "xSpot": 11,
       "ySpot": 11,
       "width": 26,
-      "height": 25
+      "height": 25,
+      "from": 172,
+      "op": "rot90cw"
     },
     {
-      "path": "videobossenn.gfx/175.png",
       "xSpot": 11,
       "ySpot": 12,
       "width": 24,
-      "height": 26
+      "height": 26,
+      "from": 171,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/176.png",
       "xSpot": 13,
       "ySpot": 12,
       "width": 25,
-      "height": 26
+      "height": 26,
+      "from": 172,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/177.png",
       "xSpot": 14,
       "ySpot": 11,
       "width": 26,
-      "height": 24
+      "height": 24,
+      "from": 171,
+      "op": "rot90ccw"
     },
     {
-      "path": "videobossenn.gfx/178.png",
       "xSpot": 14,
       "ySpot": 14,
       "width": 26,
-      "height": 25
+      "height": 25,
+      "from": 172,
+      "op": "rot90ccw"
     },
     {
       "path": "videobossenn.gfx/179.png",
@@ -1345,53 +1410,60 @@
       "height": 17
     },
     {
-      "path": "videobossenn.gfx/192.png",
       "xSpot": 6,
       "ySpot": 1,
       "width": 8,
-      "height": 14
+      "height": 14,
+      "from": 185,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/193.png",
       "xSpot": 8,
       "ySpot": 1,
       "width": 10,
-      "height": 12
+      "height": 12,
+      "from": 186,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/194.png",
       "xSpot": 10,
       "ySpot": 1,
       "width": 12,
-      "height": 8
+      "height": 8,
+      "from": 187,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/195.png",
       "xSpot": 15,
       "ySpot": 2,
       "width": 17,
-      "height": 6
+      "height": 6,
+      "from": 188,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/196.png",
       "xSpot": 14,
       "ySpot": 6,
       "width": 16,
-      "height": 8
+      "height": 8,
+      "from": 189,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/197.png",
       "xSpot": 9,
       "ySpot": 11,
       "width": 11,
-      "height": 13
+      "height": 13,
+      "from": 190,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/198.png",
       "xSpot": 6,
       "ySpot": 15,
       "width": 9,
-      "height": 17
+      "height": 17,
+      "from": 191,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/199.png",
@@ -1492,25 +1564,28 @@
       "height": 88
     },
     {
-      "path": "videobossenn.gfx/213.png",
       "xSpot": 31,
       "ySpot": 83,
       "width": 53,
-      "height": 84
+      "height": 84,
+      "from": 205,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/214.png",
       "xSpot": 31,
       "ySpot": 83,
       "width": 53,
-      "height": 84
+      "height": 84,
+      "from": 206,
+      "op": "flip_h"
     },
     {
-      "path": "videobossenn.gfx/215.png",
       "xSpot": 31,
       "ySpot": 82,
       "width": 53,
-      "height": 83
+      "height": 83,
+      "from": 207,
+      "op": "flip_h"
     },
     {
       "path": "videobossenn.gfx/216.png",
@@ -1590,25 +1665,28 @@
       "height": 62
     },
     {
-      "path": "videobossenn.gfx/227.png",
       "xSpot": 39,
       "ySpot": 68,
       "width": 92,
-      "height": 81
+      "height": 81,
+      "from": 223,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/228.png",
       "xSpot": 24,
       "ySpot": 66,
       "width": 62,
-      "height": 79
+      "height": 79,
+      "from": 224,
+      "op": "rot180"
     },
     {
-      "path": "videobossenn.gfx/229.png",
       "xSpot": 35,
       "ySpot": 62,
       "width": 81,
-      "height": 92
+      "height": 92,
+      "from": 225,
+      "op": "rot180"
     },
     {
       "path": "videobossenn.gfx/230.png",

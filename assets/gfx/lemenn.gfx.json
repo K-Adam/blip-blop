@@ -99,102 +99,116 @@
       "height": 45
     },
     {
-      "path": "lemenn.gfx/014.png",
       "xSpot": 13,
       "ySpot": 43,
       "width": 25,
-      "height": 45
+      "height": 45,
+      "from": 0,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/015.png",
       "xSpot": 16,
       "ySpot": 43,
       "width": 29,
-      "height": 45
+      "height": 45,
+      "from": 1,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/016.png",
       "xSpot": 15,
       "ySpot": 42,
       "width": 29,
-      "height": 44
+      "height": 44,
+      "from": 2,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/017.png",
       "xSpot": 17,
       "ySpot": 40,
       "width": 31,
-      "height": 42
+      "height": 42,
+      "from": 3,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/018.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 4,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/019.png",
       "xSpot": 14,
       "ySpot": 41,
       "width": 28,
-      "height": 43
+      "height": 43,
+      "from": 5,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/020.png",
       "xSpot": 11,
       "ySpot": 41,
       "width": 23,
-      "height": 43
+      "height": 43,
+      "from": 6,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/021.png",
       "xSpot": 13,
       "ySpot": 42,
       "width": 25,
-      "height": 45
+      "height": 45,
+      "from": 7,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/022.png",
       "xSpot": 16,
       "ySpot": 44,
       "width": 29,
-      "height": 46
+      "height": 46,
+      "from": 8,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/023.png",
       "xSpot": 15,
       "ySpot": 43,
       "width": 29,
-      "height": 45
+      "height": 45,
+      "from": 9,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/024.png",
       "xSpot": 13,
       "ySpot": 41,
       "width": 28,
-      "height": 44
+      "height": 44,
+      "from": 10,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/025.png",
       "xSpot": 14,
       "ySpot": 40,
       "width": 30,
-      "height": 43
+      "height": 43,
+      "from": 11,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/026.png",
       "xSpot": 12,
       "ySpot": 41,
       "width": 27,
-      "height": 43
+      "height": 43,
+      "from": 12,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/027.png",
       "xSpot": 10,
       "ySpot": 43,
       "width": 23,
-      "height": 45
+      "height": 45,
+      "from": 13,
+      "op": "flip_h"
     },
     {
       "path": "lemenn.gfx/028.png",
@@ -267,11 +281,12 @@
       "height": 14
     },
     {
-      "path": "lemenn.gfx/038.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 28,
+      "op": "flip_h"
     },
     {
       "path": "lemenn.gfx/039.png",
@@ -281,60 +296,68 @@
       "height": 43
     },
     {
-      "path": "lemenn.gfx/040.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 30,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/041.png",
       "xSpot": 19,
       "ySpot": 48,
       "width": 43,
-      "height": 50
+      "height": 50,
+      "from": 31,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/042.png",
       "xSpot": 43,
       "ySpot": 61,
       "width": 83,
-      "height": 63
+      "height": 63,
+      "from": 32,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/043.png",
       "xSpot": 73,
       "ySpot": 81,
       "width": 139,
-      "height": 83
+      "height": 83,
+      "from": 33,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/044.png",
       "xSpot": 93,
       "ySpot": 82,
       "width": 186,
-      "height": 84
+      "height": 84,
+      "from": 34,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/045.png",
       "xSpot": 88,
       "ySpot": 86,
       "width": 187,
-      "height": 88
+      "height": 88,
+      "from": 35,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/046.png",
       "xSpot": 93,
       "ySpot": 84,
       "width": 195,
-      "height": 86
+      "height": 86,
+      "from": 36,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/047.png",
       "xSpot": 88,
       "ySpot": 12,
       "width": 187,
-      "height": 14
+      "height": 14,
+      "from": 37,
+      "op": "flip_h"
     },
     {
       "path": "lemenn.gfx/048.png",
@@ -435,102 +458,116 @@
       "height": 60
     },
     {
-      "path": "lemenn.gfx/062.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 48,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/063.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 49,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/064.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 50,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/065.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 51,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/066.png",
       "xSpot": 15,
       "ySpot": 41,
       "width": 31,
-      "height": 43
+      "height": 43,
+      "from": 52,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/067.png",
       "xSpot": 15,
       "ySpot": 45,
       "width": 31,
-      "height": 47
+      "height": 47,
+      "from": 53,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/068.png",
       "xSpot": 15,
       "ySpot": 54,
       "width": 31,
-      "height": 56
+      "height": 56,
+      "from": 54,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/069.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 55,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/070.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 56,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/071.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 57,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/072.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 58,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/073.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 59,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/074.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 60,
+      "op": "flip_h"
     },
     {
-      "path": "lemenn.gfx/075.png",
       "xSpot": 15,
       "ySpot": 58,
       "width": 31,
-      "height": 60
+      "height": 60,
+      "from": 61,
+      "op": "flip_h"
     }
   ]
 }
