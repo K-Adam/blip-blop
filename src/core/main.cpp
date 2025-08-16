@@ -13,7 +13,7 @@
 #include "engine/font.h"
 #include "core/game.h"
 #include "core/task.h"
-#include "core/globals.h"
+#include "core/assets.h"
 #include "engine/input.h"
 #include "engine/music_bank.h"
 #include "engine/picture.h"

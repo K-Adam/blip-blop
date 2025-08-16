@@ -1,6 +1,7 @@
 #include "engine/graphics.h"
 #include "entities/sprite.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "level/scroll.h"
 #include "core/debug.h"
 #include <SDL2/SDL.h>
@@ -8,6 +9,7 @@
 #include "entities/ball.h"
 
 int vbuffer_wide = WANTED_VBUFFER_WIDE;
+SDL::Surface* videoA = nullptr;
 int next_x = 0;
 int xTex = 0;
 int n_img = 0;

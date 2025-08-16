@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "engine/input.h"
-#include "core/globals.h"
 #include "core/config.h"
 #include "core/debug.h"
 #include "engine/chrono.h"
@@ -11,6 +10,8 @@
 
 // Never destroyed, global picture banks free their textures at exit and need the renderer alive
 Graphics& graphics = *new Graphics;
+SDL::Surface* backSurface = nullptr;
+SDL::Surface* systemSurface = nullptr;
 
 void Graphics::Init() {
 	if (SDL_Init((SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC)) == -1) {

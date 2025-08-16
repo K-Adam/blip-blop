@@ -1,4 +1,5 @@
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "level/backgrounds/background_snork_airlock.h"
 #include "entities/enemies/enemy.h"
 

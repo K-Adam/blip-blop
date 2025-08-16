@@ -6,7 +6,7 @@
 #include "core/debug.h"
 #include "engine/input.h"
 #include "core/text_data.h"
-#include "core/globals.h"
+#include "core/assets.h"
 #include "core/config.h"
 #include <json.h>
 #include "core/asset_path.h"

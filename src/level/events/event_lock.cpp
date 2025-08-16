@@ -1,5 +1,5 @@
 #include "level/events/event_lock.h"
-#include "core/globals.h"
+#include "level/world.h"
 #include "core/debug.h"
 
 void EventLock::doEvent() {

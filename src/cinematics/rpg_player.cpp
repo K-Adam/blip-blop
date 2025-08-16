@@ -1,7 +1,8 @@
 #include <fstream>
 #include "cinematics/rpg_player.h"
 #include "engine/input.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "core/text_data.h"
 #include "entities/ball.h"
 #include "level/scroll.h"

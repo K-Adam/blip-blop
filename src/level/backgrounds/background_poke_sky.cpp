@@ -1,4 +1,5 @@
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "level/backgrounds/background_poke_sky.h"
 
 BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_niveau[48]; }

@@ -36,3 +36,7 @@ class Graphics {
 };
 
 extern Graphics& graphics;
+
+// The frame being drawn, and a spare full screen copy
+extern SDL::Surface* backSurface;
+extern SDL::Surface* systemSurface;

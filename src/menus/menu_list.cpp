@@ -1,6 +1,6 @@
 #include "menus/menu_list.h"
 
-#include "core/globals.h"
+#include "core/assets.h"
 #include "engine/control_alias.h"
 #include "engine/half_tone.h"
 #include "engine/input.h"

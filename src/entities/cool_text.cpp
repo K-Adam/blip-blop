@@ -1,6 +1,7 @@
 #define TEXTE_COOL_CPP
 
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "entities/cool_text.h"
 #include "core/text_data.h"
 

@@ -41,7 +41,8 @@
 #include "core/game.h"
 #include "level/bonus_generator.h"
 #include "level/enemy_generator.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 #include "entities/make_bonus.h"
@@ -67,6 +68,9 @@ Character dummyPlayer;
 #define TXT_TIME 828
 
 Game::Game() : next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
+
+// Out of line so the owned entity types are complete here
+Game::~Game() = default;
 
 Task<> Game::jouePartie(int nbj, int idj) {
 	if (app_killed) co_return;

@@ -33,6 +33,11 @@
 #define LVL_COMPLETE 4
 #define LVL_END 5
 
+class Bubble;
+class Event;
+class Explosion;
+class Sprite;
+
 class Game {
    protected:
 	HUD hud_;
@@ -90,8 +95,18 @@ class Game {
 	WeatherRain pluie[NB_GOUTTES];
 	int next_goutte;
 
+	int fps_count = 0;
+	int fps_current_count = 0;
+	bool slow_phase = false;
+	std::list<std::unique_ptr<Explosion>> list_impacts;
+	std::list<std::unique_ptr<Event>> list_event_endormis;
+	std::list<std::unique_ptr<Event>> list_event;
+	std::list<Sprite*> list_meteo;
+	std::list<std::unique_ptr<Bubble>> list_bulles;
+
    public:
 	Game();
+	~Game();
 
 	// Controls of the players who joined, the balls point at them during a game
 	SchemeController controllers_[2];

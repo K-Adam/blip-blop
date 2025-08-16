@@ -1,4 +1,5 @@
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "level/backgrounds/background_bomb.h"
 #include "entities/bonus_weapon.h"
 #include "entities/enemies/enemy.h"

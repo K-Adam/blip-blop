@@ -2,7 +2,8 @@
 
 #include <string>
 
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "engine/half_tone.h"
 #include "engine/key_translator.h"
 

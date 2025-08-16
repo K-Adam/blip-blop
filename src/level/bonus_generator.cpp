@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "core/globals.h"
+#include "level/world.h"
 #include "level/bonus_generator.h"
 #include "entities/make_bonus.h"
 

@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <numbers>
-#include "core/globals.h"
+#include "core/assets.h"
 
 class GoArrow {
 	enum class Phase { Coming, Bouncing, Leaving, No };

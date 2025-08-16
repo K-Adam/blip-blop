@@ -1,4 +1,3 @@
-#include "core/globals.h"
 #include "level/events/event_bonus.h"
 
 #define BONUS_SEED 20

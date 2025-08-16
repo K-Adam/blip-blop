@@ -1,7 +1,6 @@
 #pragma once
 
 #include "level/events/event.h"
-#include "core/globals.h"
 
 class EventEnemy : public Event {
    public:

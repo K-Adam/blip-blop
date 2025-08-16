@@ -1,7 +1,8 @@
 #include "menus/character_selection.h"
 
 #include "core/config.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "engine/control_alias.h"
 #include "engine/input.h"
 

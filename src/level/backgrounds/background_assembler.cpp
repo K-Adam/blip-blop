@@ -1,4 +1,5 @@
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "level/backgrounds/background_assembler.h"
 
 BackgroundAssembler::BackgroundAssembler() {}

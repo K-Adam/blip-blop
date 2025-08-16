@@ -1,5 +1,6 @@
 #include "entities/enemies/enemy.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 #include "entities/make_bonus.h"
 #include "entities/splatter.h"
 

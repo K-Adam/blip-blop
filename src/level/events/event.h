@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/globals.h"
+#include "level/world.h"
 
 class Event {
    public:

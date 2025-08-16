@@ -1,5 +1,5 @@
 #include "level/events/event_music.h"
-#include "core/globals.h"
+#include "core/assets.h"
 
 void EventMusic::doEvent() {
 	if (play) {

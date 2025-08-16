@@ -1,7 +1,6 @@
 #include "menus/menu_game.h"
 #include "core/config.h"
 #include "engine/control_alias.h"
-#include "core/globals.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 #include "menus/txt_defines.h"

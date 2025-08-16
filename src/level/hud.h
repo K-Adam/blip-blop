@@ -4,7 +4,8 @@
 #include <sstream>
 
 #include "entities/ball.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 
 class HUD {
    public:

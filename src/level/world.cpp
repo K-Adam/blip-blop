@@ -2,16 +2,11 @@
 #include <list>
 #include <memory>
 
-#include "engine/picture_bank.h"
-#include "engine/font.h"
-#include "engine/sound_bank_bb.h"
-#include "engine/music_bank.h"
+#include "level/world.h"
 #include "level/scroll.h"
 #include "level/backgrounds/background_static.h"
 #include "entities/shots/shot_bb_cow.h"
-#include "entities/explosion.h"
 #include "entities/vehicle.h"
-#include "level/events/event.h"
 #include "entities/enemies/enemy.h"
 #include "level/enemy_generator.h"
 #include "entities/bonus.h"
@@ -19,18 +14,8 @@
 #include "entities/sprite.h"
 #include "entities/cool_text.h"
 #include "entities/splatter.h"
-#include "entities/bubble.h"
 
 #include "core/debug.h"
-
-#define NB_MAX_PLAT 8
-
-int fps_count = 0;
-int fps_current_count = 0;
-
-SDL::Surface* backSurface = NULL;
-SDL::Surface* systemSurface = NULL;
-SDL::Surface* videoA = NULL;
 
 int offset;
 
@@ -57,12 +42,8 @@ std::vector<std::vector<char>> murs_sanglants;
 std::vector<Ball*> list_joueurs;
 std::list<ShotBB*> list_tirs_bb;
 std::list<std::unique_ptr<ShotBBCow>> list_cow;
-std::list<std::unique_ptr<Explosion>> list_impacts;
 
 std::list<std::unique_ptr<Vehicle>> list_vehicules;
-
-std::list<std::unique_ptr<Event>> list_event_endormis;
-std::list<std::unique_ptr<Event>> list_event;
 
 std::list<std::unique_ptr<Enemy>> list_ennemis;
 std::list<std::unique_ptr<Shot>> list_tirs_ennemis;
@@ -81,11 +62,7 @@ std::list<std::unique_ptr<CoolText>> list_txt_cool;
 std::list<std::unique_ptr<Sprite>> list_giclures;
 std::list<std::unique_ptr<Sprite>> list_gore;
 
-std::list<Sprite*> list_meteo;
-std::list<std::unique_ptr<Bubble>> list_bulles;
-
 bool phase;
-bool slow_phase;
 
 int game_flag[11];
 
@@ -103,37 +80,6 @@ int type_meteo;
 bool okBonus;
 bool cowBombOn;
 bool okLanceFlame;
-
-PictureBank pbk_decor;
-PictureBank pbk_blip;
-PictureBank pbk_blop;
-PictureBank pbk_bb;
-PictureBank pbk_misc;
-PictureBank pbk_ennemis;
-PictureBank pbk_niveau;
-PictureBank pbk_rpg;
-PictureBank pbk_rpg_bb;
-PictureBank pbk_inter;
-
-SoundBankBB sbk_bb;
-SoundBankBB sbk_misc;
-SoundBankBB sbk_niveau;
-
-MusicBank mbk_niveau;
-MusicBank mbk_inter;
-MusicBank mbk_interl;
-
-std::string current_mbk;
-int current_zik;
-
-Font fnt_score_blip;
-Font fnt_score_blop;
-Font fnt_ammo;
-Font fnt_ammo_used;
-Font fnt_cool;
-Font fnt_rpg;
-Font fnt_menu;
-Font fnt_menus;
 
 // Moving platforms can reach past the level edges
 void set_plat(int n, int x, int y) {

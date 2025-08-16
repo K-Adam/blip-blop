@@ -3,7 +3,8 @@
 #include "entities/shots/shot_sonic_lightning.h"
 #include "entities/piece_sonic_ring.h"
 #include "core/debug.h"
-#include "core/globals.h"
+#include "level/world.h"
+#include "core/assets.h"
 
 const int sonic_anim_boule_droite[] = {46, 47, 50, 48, 49, 50};
 const int sonic_anim_boule_gauche[] = {51, 52, 55, 53, 54, 55};
