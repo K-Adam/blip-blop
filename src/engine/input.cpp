@@ -7,6 +7,7 @@
 
 #include "core/debug.h"
 #include "engine/chrono.h"
+#include "engine/graphics.h"
 #include "engine/key_translator.h"
 
 Input in;
@@ -51,6 +52,10 @@ void Input::update() {
 		switch (e.type) {
 			case SDL_QUIT:
 				app_killed = true;
+				break;
+
+			case SDL_RENDER_TARGETS_RESET:
+				graphics.MarkTargetsLost();
 				break;
 
 			case SDL_KEYDOWN:

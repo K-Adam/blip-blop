@@ -1521,17 +1521,14 @@ void Game::drawDeformation() {
 
 		x = xt = int(5 * std::sin(phi * std::numbers::pi / 180));
 
-		// FIXME: the blit overlaps itself and can read rows it already overwrote, a scratch surface or a shader would fix it
-
 		if (x < 0) {
 			r.left = -x;
 			r.right = 640;
 			x = 0;
-		} /*else {
-			// I'm overwriting my own mem!
+		} else {
 			r.left = 0;
 			r.right = 640 - x;
-		}*/
+		}
 
 		backSurface->BltFast(x, y, backSurface, &r);
 

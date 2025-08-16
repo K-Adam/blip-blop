@@ -13,9 +13,13 @@ class Graphics {
 	void SetGfxMode(int width, int height, bool fullscreen);
 	void ToggleFullscreen();
 	void SetVSync(bool on);
-	// Opaque black, like a cleared screen
 	SDL::Surface* CreateSurface(int width, int height);
 	void Flip();
+	SDL_Renderer* renderer() const { return renderer_.get(); }
+
+	// Some drivers wipe render targets, the scroll cache then has to be rebuilt
+	void MarkTargetsLost() { targets_lost_ = true; }
+	bool TakeTargetsLost();
 
    private:
 	struct WindowDeleter {
@@ -24,14 +28,11 @@ class Graphics {
 	struct RendererDeleter {
 		void operator()(SDL_Renderer* ptr) { SDL_DestroyRenderer(ptr); }
 	};
-	struct TextureDeleter {
-		void operator()(SDL_Texture* ptr) { SDL_DestroyTexture(ptr); }
-	};
 
 	std::unique_ptr<SDL_Window, WindowDeleter> window_;
 	std::unique_ptr<SDL_Renderer, RendererDeleter> renderer_;
-	std::unique_ptr<SDL_Texture, TextureDeleter> screen_;
 	bool fullscreen_ = false;
+	bool targets_lost_ = false;
 };
 
-extern Graphics graphics;
+extern Graphics& graphics;

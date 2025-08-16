@@ -16,6 +16,14 @@ int n_cache = 0;
 void drawScrolling() {
 	Rect r;
 
+	// The cache lives in a render target, rebuild it from the first screen if the driver wiped it
+	if (graphics.TakeTargetsLost()) {
+		n_img = 0;
+		xTex = 0;
+		n_cache = 0;
+		next_x = 0;
+	}
+
 	if (offset < 0)
 		offset = 0;
 	else if (offset > (int)level_size - 640)
