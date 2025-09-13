@@ -45,7 +45,7 @@ void BackgroundSnorkAirlock1::render() {
 	int ys;
 	Rect r;
 	int width_px;
-	int shift = 0;
+	int pic_offset = 0;
 
 	surf = pbk_level[1]->Surf();
 	xs = pbk_level[1]->xSize();
@@ -59,14 +59,14 @@ void BackgroundSnorkAirlock1::render() {
 	else if (x < offset) {
 		width_px = 53;
 		r.left = offset - x;
-		shift = offset - x;
+		pic_offset = offset - x;
 	} else
 		width_px = 53;
 
 	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + shift, y, surf, &r);
+	backSurface->BltFast(x - offset + pic_offset, y, surf, &r);
 }
 
 BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { anim_step = 222; }
@@ -92,7 +92,7 @@ void BackgroundSnorkAirlock2::render() {
 	int ys;
 	Rect r;
 	int width_px;
-	int shift = 0;
+	int pic_offset = 0;
 
 	surf = pbk_level[1]->Surf();
 	xs = pbk_level[1]->xSize();
@@ -106,12 +106,12 @@ void BackgroundSnorkAirlock2::render() {
 	else if (x < offset) {
 		width_px = 53;
 		r.left = offset - x;
-		shift = offset - x;
+		pic_offset = offset - x;
 	} else
 		width_px = 53;
 
 	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + shift, y, surf, &r);
+	backSurface->BltFast(x - offset + pic_offset, y, surf, &r);
 }

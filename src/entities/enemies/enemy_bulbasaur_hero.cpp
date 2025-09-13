@@ -1,12 +1,12 @@
-#include "entities/enemies/enemy_bulbizarre_hero.h"
+#include "entities/enemies/enemy_bulbasaur_hero.h"
 
-EnemyBulbizarreHero::EnemyBulbizarreHero() : dorkeball(2) {
+EnemyBulbasaurHero::EnemyBulbasaurHero() : dorkeball(2) {
 	hp = 1500;
 	dy = -8;
 	dx = -2;
 }
 
-void EnemyBulbizarreHero::update() {
+void EnemyBulbasaurHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		fall();
@@ -61,7 +61,7 @@ void EnemyBulbizarreHero::update() {
 	}
 }
 
-void EnemyBulbizarreHero::onWalk() {
+void EnemyBulbasaurHero::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -87,7 +87,7 @@ void EnemyBulbizarreHero::onWalk() {
 	colFromPic();
 }
 
-void EnemyBulbizarreHero::onDie() {
+void EnemyBulbasaurHero::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -110,7 +110,7 @@ void EnemyBulbizarreHero::onDie() {
 	}
 }
 
-void EnemyBulbizarreHero::takeHit(Shot* shot) {
+void EnemyBulbasaurHero::takeHit(Shot* shot) {
 	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 

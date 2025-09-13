@@ -283,7 +283,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 			player1->weapon_anim_delay = 3;
 			player1->nb_weapon_steps = 5;
 			player1->fire_interval = 10;
-			player1->gun_weight = 1;
+			player1->gun_turn_delay = 1;
 			player1->perfect = true;
 			player1->hp = 5;
 
@@ -305,7 +305,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 			player2->weapon_anim_delay = 3;
 			player2->nb_weapon_steps = 5;
 			player2->fire_interval = 10;
-			player2->gun_weight = 1;
+			player2->gun_turn_delay = 1;
 			player2->perfect = true;
 			player2->hp = 5;
 
@@ -751,7 +751,7 @@ void Game::releaseLevel() {
 	list_event_dormant.clear();
 	list_event.clear();
 
-	list_shots_bb.clear();
+	list_bb_shots.clear();
 	list_cow.clear();
 	list_impacts.clear();
 
@@ -804,14 +804,14 @@ void Game::updateAll() {
 
 	if (game_flag[FLAG_BUBBLES]) updateBubbles();
 
-	if (weather_type == WEATHER_RAIN_ID || weather_type == WEATHER_SNOW_ID) updateWeather();
+	if (weather_type == WEATHER_RAIN || weather_type == WEATHER_SNOW) updateWeather();
 
 	UpdateCollection(list_static_bgs);
 	UpdateCollection(list_animated_bgs);
 	UpdateCollection(list_moving_platforms);
 	UpdateCollection(list_vehicles);
 	UpdateCollection(list_players);
-	UpdateCollection(list_shots_bb);
+	UpdateCollection(list_bb_shots);
 	UpdateCollection(list_cow);
 	UpdateCollection(list_impacts);
 	UpdateCollection(list_enemies);
@@ -866,7 +866,7 @@ void Game::drawAll(bool flip) {
 	DrawCollection(list_enemies);
 	DrawCollection(list_enemy_shots);
 	DrawCollection(list_bonus);
-	DrawCollection(list_shots_bb);
+	DrawCollection(list_bb_shots);
 	DrawCollection(list_players);
 	DrawCollection(list_vehicles);
 	DrawCollection(list_impacts);
@@ -994,7 +994,7 @@ void Game::RemoveDestroyed(T& xs) {
 void Game::cleanLists() {
 	RemoveDestroyed(list_players);
 	RemoveDestroyed(list_static_bgs);
-	RemoveDestroyed(list_shots_bb);
+	RemoveDestroyed(list_bb_shots);
 	RemoveDestroyed(list_cow);
 	RemoveDestroyed(list_bubbles);
 	RemoveDestroyed(list_impacts);
@@ -1035,7 +1035,7 @@ void Game::updateEvents() {
 }
 
 void Game::manageCollisions() {
-	for (Shot* shot : list_shots_bb) {
+	for (Shot* shot : list_bb_shots) {
 		for (auto& enemy : list_enemies) {
 			if (shot->collision(enemy.get())) {
 				enemy->takeHit(shot);
@@ -1359,7 +1359,7 @@ struct PlayerTotals {
 };
 }  // namespace
 
-Task<> Game::showPE(bool bonus, bool failed) {
+Task<> Game::showPE(bool bonus, bool bonus_failed) {
 	PlayerTotals totals[2];
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
@@ -1394,9 +1394,9 @@ Task<> Game::showPE(bool bonus, bool failed) {
 		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !players_dead)) t.obj = 50000;
 		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
 		t.total = t.player->getScore();
-		if (failed) t.perfect = t.obj = t.killed = 0;
+		if (bonus_failed) t.perfect = t.obj = t.killed = 0;
 	}
-	if (failed) game_flag[FLAG_TIMER] = 0;
+	if (bonus_failed) game_flag[FLAG_TIMER] = 0;
 
 	int tally_tick = 0;
 
@@ -1413,7 +1413,7 @@ Task<> Game::showPE(bool bonus, bool failed) {
 
 		backSurface->BltFast(0, 0, systemSurface, NULL);
 
-		fnt_cool.printC(backSurface, 320, 120, failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
+		fnt_cool.printC(backSurface, 320, 120, bonus_failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
 		for (auto& t : totals) {
 			if (t.fnt) t.draw(game_flag[FLAG_TIMER]);
@@ -1444,7 +1444,7 @@ void Game::updateWeather() {
 	}
 
 	while (list_weather.size() < (size_t)weather_intensity) {
-		if (weather_type == WEATHER_SNOW_ID) {
+		if (weather_type == WEATHER_SNOW) {
 			next_snowflake = (next_snowflake + 1) % NB_SNOWFLAKES;
 			WeatherSnow* snowflake = &snow[next_snowflake];
 
@@ -1466,7 +1466,7 @@ void Game::updateWeather() {
 			if (solid_wall(snowflake->xbase, 0)) snowflake->y -= 550;
 
 			list_weather.emplace_back(snowflake);
-		} else if (weather_type == WEATHER_RAIN_ID) {
+		} else if (weather_type == WEATHER_RAIN) {
 			next_raindrop = (next_raindrop + 1) % NB_RAINDROPS;
 			WeatherRain* raindrop = &rain[next_raindrop];
 
@@ -1898,9 +1898,9 @@ Task<> Game::showMainScreen() {
 
 Task<> Game::showCredits(bool theEnd) {
 	static const int NB_PAGE = 6;
-	static const int ILINE = 20;
-	static const int ITITLE = 40;
-	static const int ISECTION = 120;
+	static const int LINE_GAP = 20;
+	static const int TITLE_GAP = 40;
+	static const int SECTION_GAP = 120;
 	static const int SSPEED = 2;
 
 	int npage = 0;
@@ -1945,169 +1945,169 @@ Task<> Game::showCredits(bool theEnd) {
 			pbk_inter[1]->BlitTo(backSurface, 0, 0);
 		}
 
-		fnt_rpg.printC(backSurface, xcred, y + ILINE, "Credits");
+		fnt_rpg.printC(backSurface, xcred, y + LINE_GAP, "Credits");
 
-		int y1 = y + ILINE + ISECTION;
+		int y1 = y + LINE_GAP + SECTION_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y1, "CODE");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 0, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 1, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 3, "2019 REVAMP");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 4, "Guillaume Sanchez");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 6, "Web port");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 7, "Adam Kecskes");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 0, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 1, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 3, "2019 REVAMP");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 4, "Guillaume Sanchez");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 6, "Web port");
+		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 7, "Adam Kecskes");
 
-		int y2 = y1 + 4 * ILINE + ISECTION + ITITLE;
+		int y2 = y1 + 4 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y2, "MUSIC AND SOUND");
-		fnt_rpg.printC(backSurface, xcred, y2 + ILINE, "DESIGN");
-		fnt_rpg.printC(backSurface, xcred, y2 + ITITLE + ILINE, "Gerard Kelly");
+		fnt_rpg.printC(backSurface, xcred, y2 + LINE_GAP, "DESIGN");
+		fnt_rpg.printC(backSurface, xcred, y2 + TITLE_GAP + LINE_GAP, "Gerard Kelly");
 
-		int y3 = y2 + 2 * ILINE + ISECTION + ITITLE;
+		int y3 = y2 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y3, "ADDITIONAL MUSIC");
-		fnt_rpg.printC(backSurface, xcred, y3 + ITITLE + 0 * ILINE, "El Mobo");
-		fnt_rpg.printC(backSurface, xcred, y3 + ITITLE + 1 * ILINE, "Rik Ede");
+		fnt_rpg.printC(backSurface, xcred, y3 + TITLE_GAP + 0 * LINE_GAP, "El Mobo");
+		fnt_rpg.printC(backSurface, xcred, y3 + TITLE_GAP + 1 * LINE_GAP, "Rik Ede");
 
-		int y4 = y3 + 2 * ILINE + ISECTION + ITITLE;
+		int y4 = y3 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y4, "ARTWORK");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 0, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 1, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 2, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 3, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 4, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 0, "Laurent Schneider");
+		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 1, "Jérémie Comarmond");
+		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 2, "Jérôme Karaban");
+		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 3, "Didier Colin");
+		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 4, "Sylvain Bugat");
 
-		int y5 = y4 + 5 * ILINE + ISECTION + ITITLE;
+		int y5 = y4 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y5, "ADDITIONAL SOUND");
-		fnt_rpg.printC(backSurface, xcred, y5 + ILINE, "AND VOCAL EFFECTS");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 1 * ILINE, "Eric Khodja");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 2 * ILINE, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 3 * ILINE, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 4 * ILINE, "Vincent Lagarrigue");
+		fnt_rpg.printC(backSurface, xcred, y5 + LINE_GAP, "AND VOCAL EFFECTS");
+		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
+		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 2 * LINE_GAP, "Jérôme Karaban");
+		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 3 * LINE_GAP, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 4 * LINE_GAP, "Vincent Lagarrigue");
 
-		int y6 = y5 + 5 * ILINE + ISECTION + ITITLE;
+		int y6 = y5 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y6, "STORYLINE");
-		fnt_rpg.printC(backSurface, xcred, y6 + ITITLE + 0 * ILINE, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y6 + ITITLE + 1 * ILINE, "Eric Khodja");
+		fnt_rpg.printC(backSurface, xcred, y6 + TITLE_GAP + 0 * LINE_GAP, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y6 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
 
-		int y7 = y6 + 2 * ILINE + ISECTION + ITITLE;
+		int y7 = y6 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y7, "ORIGINAL CONCEPT");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 0 * ILINE, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 1 * ILINE, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 2 * ILINE, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 3 * ILINE, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 4 * ILINE, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 0 * LINE_GAP, "Laurent Schneider");
+		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 1 * LINE_GAP, "Jérémie Comarmond");
+		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 2 * LINE_GAP, "Didier Colin");
+		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 3 * LINE_GAP, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 4 * LINE_GAP, "Benjamin Karaban");
 
-		int y8 = y7 + 5 * ILINE + ISECTION + ITITLE;
+		int y8 = y7 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 		fnt_rpg.printC(backSurface, xcred, y8, "BETA TEST");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 0 * ILINE, "Jérémie Khodja");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 1 * ILINE, "Julien Areas");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 2 * ILINE, "Carlos Sédille");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 3 * ILINE, "Juliette Karaban");
+		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 0 * LINE_GAP, "Jérémie Khodja");
+		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 1 * LINE_GAP, "Julien Areas");
+		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 2 * LINE_GAP, "Carlos Sédille");
+		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 3 * LINE_GAP, "Juliette Karaban");
 
-		int y9 = y8 + 4 * ILINE + ISECTION + ITITLE;
+		int y9 = y8 + 4 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 		int y10 = y9;
 		int y11 = y10;
 
 		if (theEnd) {
 			fnt_rpg.printC(backSurface, xcred, y9, "THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 0 * ILINE, "Arnaud Dubois");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 1 * ILINE, "Carole Schmitt");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 2 * ILINE, "Aasterion staff");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 3 * ILINE, "Aurore Anger");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 4 * ILINE, "Cécile Baudoncourt");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 5 * ILINE, "Nicolas Clément");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 6 * ILINE, "Nathalie Morin");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 7 * ILINE, "Florent and Thomas");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 8 * ILINE, "Bruno Singer");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 9 * ILINE, "Francois Deschamps");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 10 * ILINE, "Colin Auger");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 11 * ILINE, "TP122 students");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 12 * ILINE, "Jeff");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 13 * ILINE, "Flavy");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 0 * LINE_GAP, "Arnaud Dubois");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 1 * LINE_GAP, "Carole Schmitt");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 2 * LINE_GAP, "Aasterion staff");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 3 * LINE_GAP, "Aurore Anger");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 4 * LINE_GAP, "Cécile Baudoncourt");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 5 * LINE_GAP, "Nicolas Clément");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 6 * LINE_GAP, "Nathalie Morin");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 7 * LINE_GAP, "Florent and Thomas");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 8 * LINE_GAP, "Bruno Singer");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 9 * LINE_GAP, "Francois Deschamps");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 10 * LINE_GAP, "Colin Auger");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 11 * LINE_GAP, "TP122 students");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 12 * LINE_GAP, "Jeff");
+			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 13 * LINE_GAP, "Flavy");
 
-			y10 = y9 + 14 * ILINE + ISECTION + ITITLE;
+			y10 = y9 + 14 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
 			fnt_rpg.printC(backSurface, xcred, y10, "SPECIAL THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 0 * ILINE, "La Guinguette Pirate");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 1 * ILINE, "TiPunch power!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 0 * LINE_GAP, "La Guinguette Pirate");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 1 * LINE_GAP, "TiPunch power!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 3 * ILINE, "La Pirogue");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 4 * ILINE, "I love you Séverine!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 3 * LINE_GAP, "La Pirogue");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 4 * LINE_GAP, "I love you Séverine!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 6 * ILINE, "Le Montbauron");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 7 * ILINE, "mind the 8 ball!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 6 * LINE_GAP, "Le Montbauron");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 7 * LINE_GAP, "mind the 8 ball!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 9 * ILINE, "La Fleche d'Or");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 10 * ILINE, "avoid the toilets!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 9 * LINE_GAP, "La Fleche d'Or");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 10 * LINE_GAP, "avoid the toilets!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 12 * ILINE, "Hippochine Restaurant");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 13 * ILINE, "great music!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 12 * LINE_GAP, "Hippochine Restaurant");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 13 * LINE_GAP, "great music!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 15 * ILINE, "Vitigno Pizzeria");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 16 * ILINE, "pizza! good!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 15 * LINE_GAP, "Vitigno Pizzeria");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 16 * LINE_GAP, "pizza! good!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 18 * ILINE, "Max Linder Theatre");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 19 * ILINE, "THX rules!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 18 * LINE_GAP, "Max Linder Theatre");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 19 * LINE_GAP, "THX rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 21 * ILINE, "UNEF");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 22 * ILINE, "cheap beer 4 all!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 21 * LINE_GAP, "UNEF");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 22 * LINE_GAP, "cheap beer 4 all!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 24 * ILINE, "Hayao Myazaki");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 25 * ILINE, "Totoro! To-to-ro!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 24 * LINE_GAP, "Hayao Myazaki");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 25 * LINE_GAP, "Totoro! To-to-ro!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 27 * ILINE, "Kevin Smith");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 28 * ILINE, "thirty seven?");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 27 * LINE_GAP, "Kevin Smith");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 28 * LINE_GAP, "thirty seven?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 30 * ILINE, "Peter Jackson");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 31 * ILINE, "Bad Taste rules!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 30 * LINE_GAP, "Peter Jackson");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 31 * LINE_GAP, "Bad Taste rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 33 * ILINE, "Monty Python");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 34 * ILINE, "behind the rabbit?");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 33 * LINE_GAP, "Monty Python");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 34 * LINE_GAP, "behind the rabbit?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 36 * ILINE, "John Boorman");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 37 * ILINE, "Zardoz has spoken!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 36 * LINE_GAP, "John Boorman");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 37 * LINE_GAP, "Zardoz has spoken!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 39 * ILINE, "Luc Besson");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 40 * ILINE, "nah... just kidding!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 39 * LINE_GAP, "Luc Besson");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 40 * LINE_GAP, "nah... just kidding!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 42 * ILINE, "Christopher Lambert");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 43 * ILINE, "watch your back!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 42 * LINE_GAP, "Christopher Lambert");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 43 * LINE_GAP, "watch your back!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 45 * ILINE, "Jeremy Irons");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 46 * ILINE, "lord Profion!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 45 * LINE_GAP, "Jeremy Irons");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 46 * LINE_GAP, "lord Profion!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 48 * ILINE, "Wayne Scott");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 49 * ILINE, "Rambo! Rambo!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 48 * LINE_GAP, "Wayne Scott");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 49 * LINE_GAP, "Rambo! Rambo!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 51 * ILINE, "Les Joyeux Urbains");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 52 * ILINE, "va chez ta mère!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 51 * LINE_GAP, "Les Joyeux Urbains");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 52 * LINE_GAP, "va chez ta mère!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 54 * ILINE, "Toss");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 55 * ILINE, "da! da! da!");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 54 * LINE_GAP, "Toss");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 55 * LINE_GAP, "da! da! da!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 57 * ILINE, "Le cassoulet");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 58 * ILINE, "best served at 4 AM");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 57 * LINE_GAP, "Le cassoulet");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 58 * LINE_GAP, "best served at 4 AM");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 60 * ILINE, "Gamedev.net");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 61 * ILINE, "DirectX vs hamsters");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 60 * LINE_GAP, "Gamedev.net");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 61 * LINE_GAP, "DirectX vs hamsters");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 64 * ILINE, "THANK");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 65 * ILINE, "YOU");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 66 * ILINE, "FOR PLAYING");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 64 * LINE_GAP, "THANK");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 65 * LINE_GAP, "YOU");
+			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 66 * LINE_GAP, "FOR PLAYING");
 
-			y11 = y10 + 72 * ILINE + ISECTION + ITITLE;
+			y11 = y10 + 72 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 		}
 
 		fnt_rpg.printC(backSurface, xcred, y11, "LOADED Studio");
-		fnt_rpg.printC(backSurface, xcred, y11 + ILINE, "May 2002");
+		fnt_rpg.printC(backSurface, xcred, y11 + LINE_GAP, "May 2002");
 
-		last_y = y11 + 2 * ILINE;
+		last_y = y11 + 2 * LINE_GAP;
 
 		if (t.elapsed() >= 12500 && theEnd) {
 			npage++;

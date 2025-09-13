@@ -16,7 +16,7 @@ void BackgroundPokeSky::render() {
 
 	SDL::Surface* surf;
 	int xs;
-	int shift = 0;
+	int pic_offset = 0;
 	int ys;
 	Rect r;
 	int width_px;
@@ -35,7 +35,7 @@ void BackgroundPokeSky::render() {
 	else if (x < offset) {
 		width_px = 192;
 		r.left = offset - x + anim_step;
-		shift = offset - x;
+		pic_offset = offset - x;
 	} else {
 		width_px = 192;
 	}
@@ -43,7 +43,7 @@ void BackgroundPokeSky::render() {
 	r.right = anim_step + width_px;
 	r.bottom = ys;
 
-	backSurface->BltFast(x - offset + shift, y + 50, surf, &r);
+	backSurface->BltFast(x - offset + pic_offset, y + 50, surf, &r);
 
 	draw(x, y, pbk_level[49]);
 }

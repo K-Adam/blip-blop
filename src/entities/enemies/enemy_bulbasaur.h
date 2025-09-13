@@ -2,15 +2,12 @@
 
 #include "entities/enemies/enemy.h"
 
-class EnemyBulbizarreHero : public Enemy {
-   private:
-	int dx;
-	int dorkeball;
-
+class EnemyBulbasaur : public Enemy {
    public:
-	EnemyBulbizarreHero();
+	EnemyBulbasaur();
 	void update() override;
 	virtual void onWalk();
 	virtual void onDie();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 };

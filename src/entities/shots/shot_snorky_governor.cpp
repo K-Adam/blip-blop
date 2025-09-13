@@ -1,6 +1,6 @@
 #include "entities/shots/shot_snorky_governor.h"
 
-ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : target_player(target), dx(vx), dx_tick(0), dy_tick(0), time(0) { dy = vy; }
+ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : homing_target(target), dx(vx), dx_tick(0), dy_tick(0), time(0) { dy = vy; }
 
 void ShotSnorkyGovernor::update() {
 	anim_tick++;
@@ -15,8 +15,8 @@ void ShotSnorkyGovernor::update() {
 
 	time++;
 
-	if ((time < TIME_MAX || ((dx < 2 && dx > -2) && (dy < 2 && dy > -2))) && (target_player->destroyed == false)) {
-		if (x < target_player->x && dx < SPEED_MAX) {
+	if ((time < TIME_MAX || ((dx < 2 && dx > -2) && (dy < 2 && dy > -2))) && (homing_target->destroyed == false)) {
+		if (x < homing_target->x && dx < SPEED_MAX) {
 			dx_tick += 1;
 
 			if (dx_tick > SHOT_INERTIA) {
@@ -25,7 +25,7 @@ void ShotSnorkyGovernor::update() {
 			}
 		}
 
-		else if (x > target_player->x && dx > (-SPEED_MAX)) {
+		else if (x > homing_target->x && dx > (-SPEED_MAX)) {
 			dx_tick -= 1;
 
 			if (dx_tick < (-SHOT_INERTIA)) {
@@ -34,7 +34,7 @@ void ShotSnorkyGovernor::update() {
 			}
 		}
 
-		if (y < target_player->y && dy < SPEED_MAX) {
+		if (y < homing_target->y && dy < SPEED_MAX) {
 			dy_tick += 1;
 
 			if (dy_tick > SHOT_INERTIA) {
@@ -43,7 +43,7 @@ void ShotSnorkyGovernor::update() {
 			}
 		}
 
-		else if (y > target_player->y && dy > (-SPEED_MAX)) {
+		else if (y > homing_target->y && dy > (-SPEED_MAX)) {
 			dy_tick -= 1;
 
 			if (dy_tick < (-SHOT_INERTIA)) {

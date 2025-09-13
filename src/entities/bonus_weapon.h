@@ -5,7 +5,7 @@
 #include "entities/bonus.h"
 
 struct WeaponSpec {
-	int pic, sound, id, ammo, max_ammo, anim_steps, interval, weight;
+	int pic, sound, id, ammo, max_ammo, anim_steps, shot_interval, turn_delay;
 	bool light;
 };
 
@@ -29,8 +29,8 @@ class BonusWeapon : public Bonus {
 			c->ammo = w_.ammo;
 			c->weapon_anim_delay = 3;
 			c->nb_weapon_steps = w_.anim_steps;
-			c->fire_interval = w_.interval;
-			c->gun_weight = w_.weight;
+			c->fire_interval = w_.shot_interval;
+			c->gun_turn_delay = w_.turn_delay;
 
 			c->weapon_step = 0;
 			c->weapon_tick = 0;

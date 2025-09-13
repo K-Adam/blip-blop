@@ -40,7 +40,7 @@ std::vector<std::vector<char>> solid_walls;
 std::vector<std::vector<char>> bloody_walls;
 
 std::vector<Ball*> list_players;
-std::list<ShotBB*> list_shots_bb;
+std::list<ShotBB*> list_bb_shots;
 std::list<std::unique_ptr<ShotBBCow>> list_cow;
 
 std::list<std::unique_ptr<Vehicle>> list_vehicles;

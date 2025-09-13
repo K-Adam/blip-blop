@@ -13,8 +13,8 @@
 
 #define NB_MAX_PLATFORMS 8
 
-#define WEATHER_RAIN_ID 0
-#define WEATHER_SNOW_ID 1
+#define WEATHER_RAIN 0
+#define WEATHER_SNOW 1
 #define WEATHER_DISTORT 2
 
 #define FLAG_USER0 0
@@ -61,7 +61,7 @@ extern std::vector<Ball*> list_players;	 // FIXME: make it owning?
 // Lists rather than vectors because entries get appended while iterating
 // and must not relocate
 class ShotBB;
-extern std::list<ShotBB*> list_shots_bb;
+extern std::list<ShotBB*> list_bb_shots;
 class ShotBBCow;
 extern std::list<std::unique_ptr<ShotBBCow>> list_cow;
 

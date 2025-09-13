@@ -70,16 +70,16 @@ void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 	list_splatters.emplace_back(splatter);
 }
 
-void Enemy::lobShot(int xshot, int yshot, int xtgt, int ytgt, int& xspeed, int& yspeed) const {
+void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int& yspeed) const {
 	int nsteps = 0;
-	int ddx = xtgt - xshot;
+	int ddx = xdest - xshot;
 
-	if (yshot < ytgt) {
+	if (yshot < ydest) {
 		yspeed = rand() % 3 - 5;
 
 		int ddy = yspeed;
 
-		while (yshot < ytgt && nsteps < 40) {
+		while (yshot < ydest && nsteps < 40) {
 			yshot += ddy * GRAVITY_DELAY;
 
 			if (ddy < GRAVITY_MAX) ddy += 1;
@@ -91,7 +91,7 @@ void Enemy::lobShot(int xshot, int yshot, int xtgt, int ytgt, int& xspeed, int& 
 
 		int ddy = yspeed;
 
-		while (yshot > ytgt && nsteps < 40) {
+		while (yshot > ydest && nsteps < 40) {
 			yshot += ddy * GRAVITY_DELAY;
 
 			if (ddy < GRAVITY_MAX) ddy += 1;

@@ -164,7 +164,7 @@ class Game {
 	void drawDeformation();
 
 	void cleanLists();
-	Task<> showPE(bool bonus, bool failed = false);
+	Task<> showPE(bool bonus, bool bonus_failed = false);
 	void drawLoading();
 	Task<> getHiscore();
 	Task<> getName(Player* hero, int i);

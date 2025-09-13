@@ -12,7 +12,7 @@ class Blip : public Ball {
 		weapon_anim_delay = 3;
 		nb_weapon_steps = 5;
 		fire_interval = 5;
-		gun_weight = 5;
+		gun_turn_delay = 5;
 
 		weapon_step = 0;
 		weapon_tick = 0;

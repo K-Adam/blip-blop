@@ -241,7 +241,7 @@ void EnemyLuigi::onDie() {
 		}
 	} else if (game_flag[1] == 3) {
 		attack_delay++;
-		if (attack_delay >= SPLATTER_COUNT) {
+		if (attack_delay >= NB_SPLATTERS) {
 			Enemy* sonic = new EnemyPacmanCar();
 
 			sonic->x = 1960;

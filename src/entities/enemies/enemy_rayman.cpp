@@ -2,7 +2,7 @@
 #include "entities/shots/shot_rayman_fist.h"
 #include "entities/piece_rayman.h"
 #include "entities/enemies/enemy_pikachu_hero.h"
-#include "entities/enemies/enemy_bulbizarre_hero.h"
+#include "entities/enemies/enemy_bulbasaur_hero.h"
 #include "entities/enemies/enemy_com_hero.h"
 #include "entities/enemies/enemy_ember_hero.h"
 #include "entities/piece_rayman_head.h"
@@ -49,12 +49,12 @@ void EnemyRayman::update() {
 void EnemyRayman::onWalk() {
 	if ((game_flag[1] <= dorkemon) && (game_flag[0] == 2) && (game_flag[1] > 0)) {
 		if (game_flag[1] == 4) {
-			EnemyBulbizarreHero* bulbizarre = new EnemyBulbizarreHero();
+			EnemyBulbasaurHero* bulbasaur = new EnemyBulbasaurHero();
 
-			bulbizarre->x = x - 10;
-			bulbizarre->y = y - 25;
-			bulbizarre->dir = FACING_LEFT;
-			list_enemies.emplace_back(bulbizarre);
+			bulbasaur->x = x - 10;
+			bulbasaur->y = y - 25;
+			bulbasaur->dir = FACING_LEFT;
+			list_enemies.emplace_back(bulbasaur);
 
 			nb_enemies_created++;
 

@@ -12,7 +12,7 @@ class Blop : public Ball {
 		weapon_anim_delay = 3;
 		nb_weapon_steps = 15;
 		fire_interval = 45;
-		gun_weight = 1;
+		gun_turn_delay = 1;
 
 		weapon_step = 0;
 		weapon_tick = 0;

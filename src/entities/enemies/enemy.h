@@ -23,5 +23,5 @@ class Enemy : public Character {
 
 	virtual void splatter(const Shot* shot, const int* dxg, const int* dyg);
 
-	void lobShot(int xshot, int yshot, int xtgt, int ytgt, int& xspeed, int& yspeed) const;
+	void lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int& yspeed) const;
 };

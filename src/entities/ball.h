@@ -39,10 +39,10 @@ class Ball : public Character, public Player {
 	int weapon_anim_delay;
 
 	int fire_interval;	// Frames between shots
-	int shot_timer;		// Shot timer
+	int gun_fire_tick;	// Shot timer
 
-	int gun_weight;	 // Gun turning delay
-	int gun_turn_step;
+	int gun_turn_delay;	 // Gun turning delay
+	int gun_turn_tick;
 
 	bool is_firing;	 // Currently firing
 

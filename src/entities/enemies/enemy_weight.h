@@ -2,7 +2,7 @@
 
 #include "entities/enemies/enemy.h"
 
-#define MOVE_DELAY 1
+#define HITS_PER_MOVE 1
 
 class EnemyWeight : public Enemy {
    private:

@@ -131,7 +131,7 @@ Ball::Ball(const PictureBank& pbk)
 	  is_firing(false),
 	  recoil_step(0),
 	  weapon_dir(0),
-	  gun_weight(1),
+	  gun_turn_delay(1),
 	  fire_interval(10),
 	  ammo(0),
 	  dx_jump(0),
@@ -157,7 +157,7 @@ Ball::Ball(const PictureBank& pbk)
 	  blink_step(0),
 	  inv_cow(false),
 	  mod_life(0),
-	  gun_turn_step(0),
+	  gun_turn_tick(0),
 	  fire_laser(0),
 	  pbk_own(pbk) {
 	dir = BBDIR_RIGHT;
@@ -514,7 +514,7 @@ void Ball::update() {
 		weapon_anim_delay = 3;
 		nb_weapon_steps = 5;
 		fire_interval = 10;
-		gun_weight = 1;
+		gun_turn_delay = 1;
 		ammo = 0;
 		pic = pbk_own[8];
 		dy = -5;  // So the eye and gun are drawn at jump height
@@ -815,10 +815,10 @@ void Ball::manageDirection() {
 	else if (dir > BBLIM_RIGHT && weapon_dir <= BBLIM_RIGHT)
 		weapon_dir = 17 - weapon_dir;
 
-	gun_turn_step += 1;
-	gun_turn_step %= gun_weight;
+	gun_turn_tick += 1;
+	gun_turn_tick %= gun_turn_delay;
 
-	if (gun_turn_step == 0) {
+	if (gun_turn_tick == 0) {
 		if (weapon_dir < dir)
 			weapon_dir += 1;
 		else if (weapon_dir > dir)
@@ -875,16 +875,16 @@ void Ball::updateWeapon() {
 				break;
 		}
 
-		shot_timer = fire_interval - 1;
+		gun_fire_tick = fire_interval - 1;
 	}
 
 	recoil_step += 1;
 	recoil_step %= 5;
 
-	shot_timer += 1;
-	shot_timer %= fire_interval;
+	gun_fire_tick += 1;
+	gun_fire_tick %= fire_interval;
 
-	if (is_firing && shot_timer == 0 && !(gun_weight <= 1 && weapon_dir != dir)) {
+	if (is_firing && gun_fire_tick == 0 && !(gun_turn_delay <= 1 && weapon_dir != dir)) {
 		int gun_sector;
 		double rot;
 		gunSector(gun_sector, rot);
@@ -916,7 +916,7 @@ void Ball::updateWeapon() {
 					t->dxScroll = 0;
 
 				t->setAngle(gunAngle(), 9);
-				list_shots_bb.push_back(t);
+				list_bb_shots.push_back(t);
 				break;
 
 			case ID_PM:
@@ -934,7 +934,7 @@ void Ball::updateWeapon() {
 					t->dxScroll = 0;
 
 				t->setAngle(gunAngle(), 12);
-				list_shots_bb.push_back(t);
+				list_bb_shots.push_back(t);
 				break;
 
 			case ID_SHOTGUN:
@@ -956,7 +956,7 @@ void Ball::updateWeapon() {
 						t->dxScroll = 0;
 
 					t->setDir(dir);
-					list_shots_bb.push_back(t);
+					list_bb_shots.push_back(t);
 				}
 				break;
 
@@ -971,7 +971,7 @@ void Ball::updateWeapon() {
 				t->y = y + dy_shot_laser[gun_sector] + y_recoil[gun_sector][recoil_step];
 				t->setDir(dir);
 				t->anim_step = weapon_step;
-				list_shots_bb.push_back(t);
+				list_bb_shots.push_back(t);
 				break;
 
 			case ID_LF:
@@ -984,7 +984,7 @@ void Ball::updateWeapon() {
 				muzzle(t, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step], dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
 				t->setDir(weapon_dir);
 
-				list_shots_bb.push_back(t);
+				list_bb_shots.push_back(t);
 
 				next_lf = (next_lf + 1) % NB_SHOTS_LF;
 				t = &shots_lf[next_lf];
@@ -995,7 +995,7 @@ void Ball::updateWeapon() {
 				muzzle(t, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step], dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
 				t->setDir(weapon_dir);
 
-				list_shots_bb.push_back(t);
+				list_bb_shots.push_back(t);
 				break;
 		}
 
@@ -1007,7 +1007,7 @@ void Ball::updateWeapon() {
 				weapon_anim_delay = 3;
 				nb_weapon_steps = 5;
 				fire_interval = 10;
-				gun_weight = 1;
+				gun_turn_delay = 1;
 				is_firing = false;
 			}
 		}
@@ -1160,7 +1160,7 @@ void Ball::setSuperWeapon() {
 		weapon_anim_delay = 3;
 		nb_weapon_steps = 4;
 		fire_interval = 1;
-		gun_weight = 1;
+		gun_turn_delay = 1;
 
 		weapon_step = 0;
 		weapon_tick = 0;
@@ -1172,7 +1172,7 @@ void Ball::setSuperWeapon() {
 		weapon_anim_delay = 3;
 		nb_weapon_steps = 5;
 		fire_interval = 1;
-		gun_weight = 5;
+		gun_turn_delay = 5;
 
 		weapon_step = 0;
 		weapon_tick = 0;

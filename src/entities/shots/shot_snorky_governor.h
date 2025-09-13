@@ -13,7 +13,7 @@ class ShotSnorkyGovernor : public Shot {
 	int dx_tick;
 	int dy_tick;
 	int time;
-	Character* target_player;
+	Character* homing_target;
 
 	ShotSnorkyGovernor(Character* target, int vx, int vy);
 

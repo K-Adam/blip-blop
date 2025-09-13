@@ -9,51 +9,51 @@ GoreSplatter::GoreSplatter(int vx, int vy) : dx(vx) {
 		dx = 2;
 	}
 
-	int shift;
+	int pic_offset;
 	if (dx < 0) {
-		shift = 0;
+		pic_offset = 0;
 	} else {
-		shift = 7;
+		pic_offset = 7;
 	}
 	if (dy >= 6) {
-		pic = pbk_misc[92 + shift];
+		pic = pbk_misc[92 + pic_offset];
 	} else if (dy >= 4) {
-		pic = pbk_misc[91 + shift];
+		pic = pbk_misc[91 + pic_offset];
 	} else if (dy >= 1) {
-		pic = pbk_misc[90 + shift];
+		pic = pbk_misc[90 + pic_offset];
 	} else if (dy >= 0) {
-		pic = pbk_misc[89 + shift];
+		pic = pbk_misc[89 + pic_offset];
 	} else if (dy >= -2) {
-		pic = pbk_misc[88 + shift];
+		pic = pbk_misc[88 + pic_offset];
 	} else if (dy >= -4) {
-		pic = pbk_misc[87 + shift];
+		pic = pbk_misc[87 + pic_offset];
 	} else {
-		pic = pbk_misc[86 + shift];
+		pic = pbk_misc[86 + pic_offset];
 	}
 }
 
 void GoreSplatter::update() {
-	int shift;
+	int pic_offset;
 	if (dx < 0) {
-		shift = 0;
+		pic_offset = 0;
 	} else {
-		shift = 7;
+		pic_offset = 7;
 	}
 
 	if (dy >= 6) {
-		pic = pbk_misc[92 + shift];
+		pic = pbk_misc[92 + pic_offset];
 	} else if (dy >= 4) {
-		pic = pbk_misc[91 + shift];
+		pic = pbk_misc[91 + pic_offset];
 	} else if (dy >= 1) {
-		pic = pbk_misc[90 + shift];
+		pic = pbk_misc[90 + pic_offset];
 	} else if (dy >= 0) {
-		pic = pbk_misc[89 + shift];
+		pic = pbk_misc[89 + pic_offset];
 	} else if (dy >= -2) {
-		pic = pbk_misc[88 + shift];
+		pic = pbk_misc[88 + pic_offset];
 	} else if (dy >= -4) {
-		pic = pbk_misc[87 + shift];
+		pic = pbk_misc[87 + pic_offset];
 	} else {
-		pic = pbk_misc[86 + shift];
+		pic = pbk_misc[86 + pic_offset];
 	}
 	x += dx;
 	fall();

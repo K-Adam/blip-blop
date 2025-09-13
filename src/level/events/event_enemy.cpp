@@ -17,7 +17,7 @@
 #include "entities/enemies/enemy_smurf_stork.h"
 
 #include "entities/enemies/enemy_pikachu.h"
-#include "entities/enemies/enemy_bulbizarre.h"
+#include "entities/enemies/enemy_bulbasaur.h"
 #include "entities/enemies/enemy_ember.h"
 #include "entities/enemies/enemy_com.h"
 #include "entities/enemies/enemy_com_flying.h"
@@ -74,7 +74,7 @@
 #define ENEMYID_PAPA_SMURF 8
 
 #define ENEMYID_PIKACHU 100
-#define ENEMYID_BULBIZARRE 101
+#define ENEMYID_BULBASAUR 101
 #define ENEMYID_EMBER 102
 #define ENEMYID_COM 103
 #define ENEMYID_COM_FLYING 104
@@ -184,8 +184,8 @@ void EventEnemy::doEvent() {
 			new_enemy = new EnemyPikachu();
 			break;
 
-		case ENEMYID_BULBIZARRE:
-			new_enemy = new EnemyBulbizarre();
+		case ENEMYID_BULBASAUR:
+			new_enemy = new EnemyBulbasaur();
 			break;
 
 		case ENEMYID_EMBER:

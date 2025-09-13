@@ -26,9 +26,9 @@ void EnemyWeight::update() {
 			}
 		}
 
-		if (nb_collisions >= MOVE_DELAY) {
+		if (nb_collisions >= HITS_PER_MOVE) {
 			x += 3;
-			nb_collisions -= MOVE_DELAY;
+			nb_collisions -= HITS_PER_MOVE;
 		}
 		colFromPic();
 	}

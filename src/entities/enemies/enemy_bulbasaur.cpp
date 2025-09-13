@@ -1,8 +1,8 @@
-#include "entities/enemies/enemy_bulbizarre.h"
+#include "entities/enemies/enemy_bulbasaur.h"
 
-EnemyBulbizarre::EnemyBulbizarre() { hp = 100; }
+EnemyBulbasaur::EnemyBulbasaur() { hp = 100; }
 
-void EnemyBulbizarre::update() {
+void EnemyBulbasaur::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
@@ -23,7 +23,7 @@ void EnemyBulbizarre::update() {
 	updateDestroyed();
 }
 
-void EnemyBulbizarre::onWalk() {
+void EnemyBulbasaur::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -50,7 +50,7 @@ void EnemyBulbizarre::onWalk() {
 	colFromPic();
 }
 
-void EnemyBulbizarre::onDie() {
+void EnemyBulbasaur::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -72,7 +72,7 @@ void EnemyBulbizarre::onDie() {
 	}
 }
 
-void EnemyBulbizarre::onCharred() {
+void EnemyBulbasaur::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -88,7 +88,7 @@ void EnemyBulbizarre::onCharred() {
 	}
 }
 
-void EnemyBulbizarre::takeHit(Shot* shot) {
+void EnemyBulbasaur::takeHit(Shot* shot) {
 	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
