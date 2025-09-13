@@ -5,11 +5,11 @@
 
 class EventWeather : public Event {
    public:
-	int intensite;
+	int intensity;
 	int type;
 
 	void doEvent() override {
-		intensite_meteo = intensite;
-		type_meteo = type;
+		weather_intensity = intensity;
+		weather_type = type;
 	};
 };

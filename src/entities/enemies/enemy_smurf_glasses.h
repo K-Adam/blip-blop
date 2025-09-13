@@ -4,22 +4,22 @@
 
 class EnemySmurfGlasses : public EnemySmurf {
    public:
-	inline void affiche() override {
-		EnemySmurf::affiche();
-		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
+	inline void render() override {
+		EnemySmurf::render();
+		if (status != ETAT_MEURE && status != ETAT_CARBONISE) {
 			switch (dir) {
-				case SENS_GAUCHE:
-					draw(x - 4, y - 27, pbk_ennemis[145]);
+				case FACING_LEFT:
+					draw(x - 4, y - 27, pbk_enemies[145]);
 					break;
-				case SENS_DROITE:
-					draw(x + 4, y - 27, pbk_ennemis[146]);
+				case FACING_RIGHT:
+					draw(x + 4, y - 27, pbk_enemies[146]);
 					break;
 			}
 		}
 	}
 
 	void update() override {
-		if (etat == ETAT_SAUTE)
+		if (status == ETAT_SAUTE)
 			speed = 2;
 		else
 			speed = 1;

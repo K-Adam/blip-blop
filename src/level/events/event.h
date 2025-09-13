@@ -7,9 +7,9 @@ class Event {
 	virtual ~Event() = default;
 	int x_activation;
 
-	inline virtual bool aReveiller() { return (x_activation <= offset); };
+	inline virtual bool shouldWake() { return (x_activation <= offset); };
 
-	inline virtual bool aActiver() { return true; };
+	inline virtual bool shouldActivate() { return true; };
 
 	virtual void doEvent() = 0;
 };

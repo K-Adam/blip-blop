@@ -11,7 +11,7 @@ void EventForeground::doEvent() {
 
 	s->x = x;
 	s->y = y;
-	s->pic = pbk_niveau[id_fond];
+	s->pic = pbk_level[bg_id];
 
-	list_premiers_plans.emplace_back(s);
+	list_foregrounds.emplace_back(s);
 }

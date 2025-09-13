@@ -4,7 +4,7 @@ const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_smurf_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
 EnemySmurf::EnemySmurf() : wait_for_jump(0) {
-	pv = 100;
+	hp = 100;
 	jump_delay = 50 + rand() % 250;
 	dy_saut = -5;
 	speed = 1;
@@ -13,9 +13,9 @@ EnemySmurf::EnemySmurf() : wait_for_jump(0) {
 void EnemySmurf::update() {
 	if (blood != 0) blood -= 1;
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_AVANCE:
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 			onAvance();
 			break;
 
@@ -33,12 +33,12 @@ void EnemySmurf::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurf::onAvance() {
-	if (plat(x, y) == 0) {
-		etat = ETAT_TOMBE;
+	if (platform_y(x, y) == 0) {
+		status = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onSaute();
@@ -47,7 +47,7 @@ void EnemySmurf::onAvance() {
 	wait_for_jump += 1;
 
 	if (wait_for_jump > jump_delay) {
-		etat = ETAT_SAUTE;
+		status = ETAT_SAUTE;
 		dy = dy_saut;
 		lat_grav = 0;  // Otherwise jump heights vary
 		wait_for_jump = 0;
@@ -55,17 +55,17 @@ void EnemySmurf::onAvance() {
 		onSaute();
 	}
 
-	if (x - speed < xmin || mur_opaque(x - speed, y))
-		dir = SENS_DROITE;
-	else if (x + speed > offset + 640 || mur_opaque(x + speed, y))
-		dir = SENS_GAUCHE;
+	if (x - speed < xmin || solid_wall(x - speed, y))
+		dir = FACING_RIGHT;
+	else if (x + speed > offset + 640 || solid_wall(x + speed, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(speed);
-		pic = pbk_ennemis[anime(anim_smurf_marche_droite, 8, 5)];
+		pic = pbk_enemies[animate(anim_smurf_marche_droite, 8, 5)];
 	} else {
 		marche(-speed);
-		pic = pbk_ennemis[anime(anim_smurf_marche_gauche, 8, 5)];
+		pic = pbk_enemies[animate(anim_smurf_marche_gauche, 8, 5)];
 	}
 
 	colFromPic();
@@ -74,73 +74,73 @@ void EnemySmurf::onAvance() {
 void EnemySmurf::onSaute() {
 	int yp;
 
-	tombe();
+	fall();
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
-		etat = ETAT_NORMAL;
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
 		onAvance();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_ennemis[10];
+		pic = pbk_enemies[10];
 	} else {
 		x -= speed;
-		pic = pbk_ennemis[11];
+		pic = pbk_enemies[11];
 	}
 
 	colFromPic();
 }
 
 void EnemySmurf::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape > 10) {
-		a_detruire = true;
+	if (anim_step > 10) {
+		destroyed = true;
 		return;
 	}
 
-	if (dir == SENS_GAUCHE) {
-		if (!mur_opaque(x - speed, y) && plat(x, y) == 0) x -= speed;
+	if (dir == FACING_LEFT) {
+		if (!solid_wall(x - speed, y) && platform_y(x, y) == 0) x -= speed;
 
-		pic = pbk_ennemis[23 + etape];
+		pic = pbk_enemies[23 + anim_step];
 	} else {
-		if (!mur_opaque(x + speed, y) && plat(x, y) == 0) x += speed;
+		if (!solid_wall(x + speed, y) && platform_y(x, y) == 0) x += speed;
 
-		pic = pbk_ennemis[12 + etape];
+		pic = pbk_enemies[12 + anim_step];
 	}
 }
 
-void EnemySmurf::estTouche(Shot* tir) {
+void EnemySmurf::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
 
-	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
+	if (status == ETAT_MEURE) sbk_level.play(4 + rand() % 10);
 }
 
 void EnemySmurf::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 6) {
-		a_detruire = true;
+	if (anim_step == 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[34 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[34 + anim_step];
 		else
-			pic = pbk_ennemis[40 + etape];
+			pic = pbk_enemies[40 + anim_step];
 	}
 }

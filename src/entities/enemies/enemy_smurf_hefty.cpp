@@ -7,7 +7,7 @@
 
 EnemySmurfHefty::EnemySmurfHefty() : etape_shoot(0), dx(0) {
 	wait_shoot = 50 + rand() % 50;
-	pv = 2000;
+	hp = 2000;
 }
 
 void EnemySmurfHefty::update() {
@@ -17,14 +17,14 @@ void EnemySmurfHefty::update() {
 		etape_shoot += 1;
 
 		if (game_flag[2] == 0) {
-			mbk_niveau.play(2);
+			mbk_level.play(2);
 			game_flag[2] = 1;
 			game_flag[FLAG_TIMER] = 40;
 		}
 	}
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -50,7 +50,7 @@ void EnemySmurfHefty::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurfHefty::onAvance() {
@@ -58,24 +58,24 @@ void EnemySmurfHefty::onAvance() {
 	static const int marche_gauche[] = {269, 270, 271, 272, 271, 270};
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
 	dx = 0;
 
-	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
-		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
-		dir = SENS_GAUCHE;
+	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+		dir = FACING_RIGHT;
+	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
-		pic = pbk_ennemis[anime(marche_droite, 6, 6)];
+		pic = pbk_enemies[animate(marche_droite, 6, 6)];
 	} else {
 		marche(-SPEED);
-		pic = pbk_ennemis[anime(marche_gauche, 6, 6)];
+		pic = pbk_enemies[animate(marche_gauche, 6, 6)];
 	}
 
-	if (etape_shoot >= wait_shoot && plat(x, y) != 0) {
+	if (etape_shoot >= wait_shoot && platform_y(x, y) != 0) {
 		onTire();
 		return;
 	}
@@ -83,84 +83,84 @@ void EnemySmurfHefty::onAvance() {
 	colFromPic();
 }
 
-void EnemySmurfHefty::estTouche(Shot* tir) {
+void EnemySmurfHefty::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
 
-	if (pv <= 0) {
+	if (hp <= 0) {
 		game_flag[1]++;
 	}
 }
 
 void EnemySmurfHefty::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 6) {
-		a_detruire = true;
+	if (anim_step >= 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[253 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[253 + anim_step];
 		else
-			pic = pbk_ennemis[259 + etape];
+			pic = pbk_enemies[259 + anim_step];
 	}
 }
 
 void EnemySmurfHefty::onMeure() {
-	tombe();
+	fall();
 
 	int x2;
 
-	if (plat(x, y) == 0)
+	if (platform_y(x, y) == 0)
 		x2 = x + dx;
 	else
 		x2 = x;
 
-	if (!mur_opaque(x2, y)) x = x2;
+	if (!solid_wall(x2, y)) x = x2;
 
-	if (etape < 13) {
-		ss_etape += 1;
-		ss_etape %= 3;
+	if (anim_step < 13) {
+		anim_tick += 1;
+		anim_tick %= 3;
 
-		if (ss_etape == 0) etape += 1;
+		if (anim_tick == 0) anim_step += 1;
 	}
 
-	if (etape >= 14 && plat(x, y) != 0) {
-		a_detruire = true;
-		grave(x, y, pic);
+	if (anim_step >= 14 && platform_y(x, y) != 0) {
+		destroyed = true;
+		engrave(x, y, pic);
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[273 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[273 + anim_step];
 		else
-			pic = pbk_ennemis[287 + etape];
+			pic = pbk_enemies[287 + anim_step];
 	}
 }
 
 void EnemySmurfHefty::onTireHadoken() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape == 4) {
+		if (anim_step == 4) {
 			ShotHadoken* t = new ShotHadoken();
 
 			t->x = x;
 			t->y = y - 30;
 			t->setDir(dir);
 
-			list_tirs_ennemis.emplace_back(t);
+			list_enemy_shots.emplace_back(t);
 		}
 
-		if (etape > 7) {
-			etape = ss_etape = 0;
-			etat = ETAT_AVANCE;
+		if (anim_step > 7) {
+			anim_step = anim_tick = 0;
+			status = ETAT_AVANCE;
 			wait_shoot = 100 + rand() % 50;
 			etape_shoot = 0;
 			onAvance();
@@ -168,117 +168,117 @@ void EnemySmurfHefty::onTireHadoken() {
 		}
 	}
 
-	if (etape <= 4) {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[237 + etape];
+	if (anim_step <= 4) {
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[237 + anim_step];
 		else
-			pic = pbk_ennemis[242 + etape];
+			pic = pbk_enemies[242 + anim_step];
 	}
 }
 
 void EnemySmurfHefty::onTireDragonPunch() {
-	tombe();
+	fall();
 
-	if (etape <= 2) {  // Takeoff
-		ss_etape += 1;
-		ss_etape %= 4;
+	if (anim_step <= 2) {  // Takeoff
+		anim_tick += 1;
+		anim_tick %= 4;
 
-		if (ss_etape == 0) {
-			etape += 1;
+		if (anim_tick == 0) {
+			anim_step += 1;
 
-			if (etape > 2) dy = dypunch;
+			if (anim_step > 2) dy = dypunch;
 		}
 	} else if (dy < 0) {
-		if (dir == SENS_DROITE && x < offset + 640 && !mur_opaque(x + 1, y))
+		if (dir == FACING_RIGHT && x < offset + 640 && !solid_wall(x + 1, y))
 			x += 1;
-		else if (dir == SENS_GAUCHE && x > xmin && !mur_opaque(x - 1, y))
+		else if (dir == FACING_LEFT && x > xmin && !solid_wall(x - 1, y))
 			x -= 1;
 	} else {
-		if (etape < 6) {
-			ss_etape += 1;
-			ss_etape %= 12;
+		if (anim_step < 6) {
+			anim_tick += 1;
+			anim_tick %= 12;
 
-			if (ss_etape == 0) etape += 1;
+			if (anim_tick == 0) anim_step += 1;
 		}
 
-		if (plat(x, y) != 0) {
-			ss_etape = etape = 0;
+		if (platform_y(x, y) != 0) {
+			anim_tick = anim_step = 0;
 			wait_shoot = 100 + rand() % 50;
 			etape_shoot = 0;
-			etat = ETAT_NORMAL;
+			status = STATE_NORMAL;
 			onAvance();
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[223 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[223 + anim_step];
 	else
-		pic = pbk_ennemis[230 + etape];
+		pic = pbk_enemies[230 + anim_step];
 
 	colFromPic();
 }
 
 void EnemySmurfHefty::onTireHurricanKick() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 6;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 6;
 	}
 
 	int x2 = x + dx;
 
-	if (!mur_opaque(x2, y) && x2 > xmin && x2 < offset + 740) x = x2;
+	if (!solid_wall(x2, y) && x2 > xmin && x2 < offset + 740) x = x2;
 
-	if (dy > 0 && plat(x, y) != 0) {
-		ss_etape = etape = 0;
+	if (dy > 0 && platform_y(x, y) != 0) {
+		anim_tick = anim_step = 0;
 		wait_shoot = 100 + rand() % 50;
 		etape_shoot = 0;
-		etat = ETAT_NORMAL;
+		status = STATE_NORMAL;
 		onAvance();
 		return;
 	}
 
-	pic = pbk_ennemis[247 + etape];
+	pic = pbk_enemies[247 + anim_step];
 
 	colFromPic();
 }
 
 void EnemySmurfHefty::onTire() {
-	if (tete_turc == NULL) return;
+	if (targeted_player == NULL) return;
 
-	etape = ss_etape = 0;
+	anim_step = anim_tick = 0;
 
-	int xc = tete_turc->x;
-	int yc = tete_turc->y;
+	int xc = targeted_player->x;
+	int yc = targeted_player->y;
 
 	int ddx = xc - x;
 	int ddy = yc - y;
 
 	if (ddx > 0)
-		dir = SENS_DROITE;
+		dir = FACING_RIGHT;
 	else
-		dir = SENS_GAUCHE;
+		dir = FACING_LEFT;
 
 	if (ddy > -50 && ddy < 50 && x > offset && x < offset + 640) {
-		etat = ETAT_TIRE_HADOKEN;
-		sbk_niveau.play(19);
+		status = ETAT_TIRE_HADOKEN;
+		sbk_level.play(19);
 		onTireHadoken();
 	} else if (ddx < 150 && ddx > -150 && ddy < 0) {
-		etat = ETAT_TIRE_DPUNCH;
+		status = ETAT_TIRE_DPUNCH;
 		dypunch = ddy / 10;
 
 		if (dypunch < -10) dypunch = -10;
 
-		sbk_niveau.play(20);
+		sbk_level.play(20);
 		onTireDragonPunch();
 	} else {
 		tirEnCloche(x, y - 5, xc, yc, dx, dy);
-		etat = ETAT_TIRE_HKICK;
+		status = ETAT_TIRE_HKICK;
 		onTireHurricanKick();
 	}
 }

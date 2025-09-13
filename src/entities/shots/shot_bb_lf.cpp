@@ -1,20 +1,20 @@
 #include "entities/shots/shot_bb_lf.h"
 
 void ShotBBLF::aTouche(int pts) {
-	if (!a_detruire) {
+	if (!destroyed) {
 		ShotBB::aTouche(pts);
-		a_detruire = false;
+		destroyed = false;
 	}
 }
 
 void ShotBBLF::setDir(int d) {
 	ShotBB::setDir(d);
 
-	etape = 0;
-	ss_etape = 0;
+	anim_step = 0;
+	anim_tick = 0;
 	latence = 0;
 	type = rand() % 2;
-	fini = false;
+	finished = false;
 	pic = NULL;
 
 	if (type == 1)
@@ -108,47 +108,47 @@ void ShotBBLF::setDir(int d) {
 }
 
 void ShotBBLF::update() {
-	ss_etape += 1;
-	ss_etape %= speed;
+	anim_tick += 1;
+	anim_tick %= speed;
 
-	if (ss_etape == 0) {
-		if (fini) {
-			etape -= 1;
+	if (anim_tick == 0) {
+		if (finished) {
+			anim_step -= 1;
 
 			if (type == 0) {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[212 + etape];
+					pic = pbk_bb[212 + anim_step];
 			} else if (type == 1) {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[219 + etape];
+					pic = pbk_bb[219 + anim_step];
 			} else {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[231 + etape];
+					pic = pbk_bb[231 + anim_step];
 			}
 		} else {
-			etape += 1;
+			anim_step += 1;
 
 			if (type == 0) {
-				if (etape >= 5)
-					fini = true;
+				if (anim_step >= 5)
+					finished = true;
 				else
-					pic = pbk_bb[212 + etape];
+					pic = pbk_bb[212 + anim_step];
 			} else if (type == 1) {
-				if (etape >= 10)
-					fini = true;
+				if (anim_step >= 10)
+					finished = true;
 				else
-					pic = pbk_bb[219 + etape];
+					pic = pbk_bb[219 + anim_step];
 			} else {
-				if (etape >= 5)
-					fini = true;
+				if (anim_step >= 5)
+					finished = true;
 				else
-					pic = pbk_bb[231 + etape];
+					pic = pbk_bb[231 + anim_step];
 			}
 		}
 	}
@@ -162,5 +162,5 @@ void ShotBBLF::update() {
 	if (latence == 0 && dy > -3) dy--;
 
 	colFromPic();
-	updateADetruire();
+	updateDestroyed();
 }

@@ -10,12 +10,12 @@ void EventEnemyGenerator::doEvent() {
 	else
 		gen = new EnemyGenerator();
 
-	gen->id_ennemi = id_ennemi;
+	gen->enemy_id = enemy_id;
 	gen->x = x;
 	gen->y = y;
-	gen->sens = sens;
-	gen->periode = periode;
-	gen->capacite = capacite;
+	gen->facing = facing;
+	gen->period = period;
+	gen->capacity = capacity;
 
-	list_gen_ennemis.emplace_back(gen);
+	list_enemy_gens.emplace_back(gen);
 }

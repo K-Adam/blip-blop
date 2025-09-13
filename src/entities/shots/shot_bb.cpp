@@ -4,9 +4,9 @@
 #include <numbers>
 
 void ShotBB::setDir(int d) {
-	if (d == BBDIR_BAS_B_G)
+	if (d == BBDIR_DOWN_D_L)
 		dir = 0;
-	else if (d > BBLIM_DROITE)
+	else if (d > BBLIM_RIGHT)
 		dir = d - 1;
 	else
 		dir = d;

@@ -3,7 +3,7 @@
 #include "entities/ball.h"
 
 BackgroundPokeElevator::BackgroundPokeElevator() {
-	pic = pbk_niveau[51];
+	pic = pbk_level[51];
 	dy = 1;
 }
 
@@ -16,10 +16,10 @@ void BackgroundPokeElevator::update() {
 		else if (y >= 387)
 			dy = -1;
 
-		for (Ball* joueur : list_joueurs) {
-			xtmp = joueur->x;
+		for (Ball* hero : list_players) {
+			xtmp = hero->x;
 
-			if (xtmp > x && xtmp < x + pic->xSize() && plat(xtmp, joueur->y) == y + 20) joueur->y += dy;
+			if (xtmp > x && xtmp < x + pic->xSize() && platform_y(xtmp, hero->y) == y + 20) hero->y += dy;
 		}
 
 		y += dy;
@@ -28,6 +28,6 @@ void BackgroundPokeElevator::update() {
 
 		colFromPic();
 
-		if (x < offset - 400) a_detruire = true;
+		if (x < offset - 400) destroyed = true;
 	}
 }

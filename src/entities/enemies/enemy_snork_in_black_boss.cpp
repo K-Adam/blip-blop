@@ -8,19 +8,19 @@ const int anim_snork_in_black_boss_saute_gauche[] = {417, 418, 419, 418};
 const int snork_in_black_position_x[] = {5904, 6351, 5831, 6319};
 const int snork_in_black_position_y[] = {175, 189, 342, 328};
 
-EnemySnorkInBlackBoss::EnemySnorkInBlackBoss() : position(1), type_attack(0), attack(false), x_shark(5604), y_shark(100), shark(false), saut(false) {
-	pv = 15000;
+EnemySnorkInBlackBoss::EnemySnorkInBlackBoss() : position(1), type_attack(0), attack(false), x_shark(5604), y_shark(100), shark(false), jump(false) {
+	hp = 15000;
 	dy = 0;
-	dir = SENS_GAUCHE;
-	pic = pbk_ennemis[380];
+	dir = FACING_LEFT;
+	pic = pbk_enemies[380];
 }
 
 void EnemySnorkInBlackBoss::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_AVANCE:
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 			onAvance();
 			break;
 
@@ -39,56 +39,56 @@ void EnemySnorkInBlackBoss::update() {
 			break;
 	}
 
-	if (x > offset + 1000) a_detruire = true;
+	if (x > offset + 1000) destroyed = true;
 }
 
 void EnemySnorkInBlackBoss::onAvance() {
 	if (game_flag[0] == 1) {
-		if (ss_etape == 0 && etape == 0) {
-			sbk_niveau.play(0);
+		if (anim_tick == 0 && anim_step == 0) {
+			sbk_level.play(0);
 		}
 
-		ss_etape++;
-		ss_etape %= 8;
+		anim_tick++;
+		anim_tick %= 8;
 
-		if (ss_etape == 0) {
-			etape++;
+		if (anim_tick == 0) {
+			anim_step++;
 		}
 
-		if (etape >= 18) {
+		if (anim_step >= 18) {
 			game_flag[0] = 2;
-			etape = 0;
-			ss_etape = 0;
-			mbk_niveau.play(1);
+			anim_step = 0;
+			anim_tick = 0;
+			mbk_level.play(1);
 			game_flag[FLAG_TIMER] = 50;
 		} else {
-			pic = pbk_ennemis[383 + etape];
+			pic = pbk_enemies[383 + anim_step];
 		}
 	} else if (game_flag[0] == 2) {
-		etape++;
-		if (etape > 20) {
+		anim_step++;
+		if (anim_step > 20) {
 			if (attack) {
 				attack = false;
-				ss_etape = 0;
+				anim_tick = 0;
 
 				int destination = rand() % 4;
 
-				if (tete_turc->x > 6200 && tete_turc->y > 200) {
+				if (targeted_player->x > 6200 && targeted_player->y > 200) {
 					destination = 2;
-				} else if (tete_turc->x < 5950 && tete_turc->y > 200) {
+				} else if (targeted_player->x < 5950 && targeted_player->y > 200) {
 					destination = 3;
-				} else if (tete_turc->x > 6200 && tete_turc->y < 200) {
+				} else if (targeted_player->x > 6200 && targeted_player->y < 200) {
 					destination = 0;
-				} else if (tete_turc->x < 5950 && tete_turc->y < 200) {
+				} else if (targeted_player->x < 5950 && targeted_player->y < 200) {
 					destination = 1;
 				}
 
 				if (destination == position) {
-					etape = 15;
+					anim_step = 15;
 				} else {
 					switch (position) {
 						case 0:
-							dir = SENS_DROITE;
+							dir = FACING_RIGHT;
 							switch (destination) {
 								case 1:
 									dx = 4;
@@ -109,7 +109,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 1:
-							dir = SENS_GAUCHE;
+							dir = FACING_LEFT;
 							switch (destination) {
 								case 0:
 									dx = -6;
@@ -129,7 +129,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 2:
-							dir = SENS_DROITE;
+							dir = FACING_RIGHT;
 							switch (destination) {
 								case 0:
 									dx = 1;
@@ -149,7 +149,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 3:
-							dir = SENS_GAUCHE;
+							dir = FACING_LEFT;
 							switch (destination) {
 								case 0:
 									dx = -6;
@@ -169,23 +169,23 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 					}
 					position = destination;
-					etape = 0;
-					etat = ETAT_TOMBE;
+					anim_step = 0;
+					status = ETAT_TOMBE;
 
 					lat_grav = 0;
-					saut = true;
+					jump = true;
 					onTombe();
 					return;
 				}
 			} else {
-				etat = ETAT_TIRE;
-				etape = 0;
-				ss_etape = 0;
+				status = ETAT_TIRE;
+				anim_step = 0;
+				anim_tick = 0;
 
-				if (tete_turc != NULL) {
+				if (targeted_player != NULL) {
 					switch (position) {
 						case 0:
-							if (tete_turc->x > x && (y < tete_turc->y) && (y > tete_turc->y - 50)) {
+							if (targeted_player->x > x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -193,7 +193,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 1:
-							if (tete_turc->x < x && (y < tete_turc->y) && (y > tete_turc->y - 50)) {
+							if (targeted_player->x < x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -201,7 +201,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 2:
-							if (tete_turc->x > x && (y < tete_turc->y) && (y > tete_turc->y - 50)) {
+							if (targeted_player->x > x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -209,7 +209,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 							break;
 
 						case 3:
-							if (tete_turc->x < x && (y < tete_turc->y) && (y > tete_turc->y - 50)) {
+							if (targeted_player->x < x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -219,9 +219,9 @@ void EnemySnorkInBlackBoss::onAvance() {
 				}
 
 				if (type_attack == 0) {
-					sbk_niveau.play(2);
+					sbk_level.play(2);
 				} else {
-					sbk_niveau.play(3);
+					sbk_level.play(3);
 				}
 
 				attack = true;
@@ -231,11 +231,11 @@ void EnemySnorkInBlackBoss::onAvance() {
 		}
 
 		if (position == 0 || position == 2) {
-			dir = SENS_DROITE;
-			pic = pbk_ennemis[401];
+			dir = FACING_RIGHT;
+			pic = pbk_enemies[401];
 		} else {
-			dir = SENS_GAUCHE;
-			pic = pbk_ennemis[400];
+			dir = FACING_LEFT;
+			pic = pbk_enemies[400];
 		}
 	}
 
@@ -244,9 +244,9 @@ void EnemySnorkInBlackBoss::onAvance() {
 
 void EnemySnorkInBlackBoss::onTombe() {
 	lat_grav += 1;
-	lat_grav %= LATENCE_GRAVITE;
+	lat_grav %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
+	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	y += dy;
 
@@ -258,20 +258,20 @@ void EnemySnorkInBlackBoss::onTombe() {
 
 	if ((x > (snork_in_black_position_x[position] - tolerance)) && (x < (snork_in_black_position_x[position] + tolerance)) &&
 		(y > (snork_in_black_position_y[position] - tolerance)) && (y < (snork_in_black_position_y[position] + tolerance))) {
-		etat = ETAT_AVANCE;
-		etape = 0;
-		ss_etape = 0;
+		status = ETAT_AVANCE;
+		anim_step = 0;
+		anim_tick = 0;
 		x = snork_in_black_position_x[position];
 		y = snork_in_black_position_y[position];
-		saut = false;
+		jump = false;
 		onAvance();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[anime(anim_snork_in_black_boss_saute_droite, 4, 6)];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_droite, 4, 6)];
 	} else {
-		pic = pbk_ennemis[anime(anim_snork_in_black_boss_saute_gauche, 4, 6)];
+		pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_gauche, 4, 6)];
 	}
 
 	colFromPic();
@@ -279,23 +279,23 @@ void EnemySnorkInBlackBoss::onTombe() {
 
 void EnemySnorkInBlackBoss::onMeure() {
 	col_on = false;
-	if (game_flag[0] == 2 && !saut) {
+	if (game_flag[0] == 2 && !jump) {
 		int destination = 0;
 
 		if (destination == position) {
 			game_flag[0] = 3;
 
 			if (position == 0 || position == 2) {
-				dir = SENS_DROITE;
-				pic = pbk_ennemis[401];
+				dir = FACING_RIGHT;
+				pic = pbk_enemies[401];
 			} else {
-				dir = SENS_GAUCHE;
-				pic = pbk_ennemis[400];
+				dir = FACING_LEFT;
+				pic = pbk_enemies[400];
 			}
 		} else {
 			switch (position) {
 				case 0:
-					dir = SENS_DROITE;
+					dir = FACING_RIGHT;
 					switch (destination) {
 						case 1:
 							dx = 4;
@@ -316,7 +316,7 @@ void EnemySnorkInBlackBoss::onMeure() {
 					break;
 
 				case 1:
-					dir = SENS_GAUCHE;
+					dir = FACING_LEFT;
 					switch (destination) {
 						case 0:
 							dx = -6;
@@ -336,7 +336,7 @@ void EnemySnorkInBlackBoss::onMeure() {
 					break;
 
 				case 2:
-					dir = SENS_DROITE;
+					dir = FACING_RIGHT;
 					switch (destination) {
 						case 0:
 							dx = 1;
@@ -356,7 +356,7 @@ void EnemySnorkInBlackBoss::onMeure() {
 					break;
 
 				case 3:
-					dir = SENS_GAUCHE;
+					dir = FACING_LEFT;
 					switch (destination) {
 						case 0:
 							dx = -6;
@@ -376,17 +376,17 @@ void EnemySnorkInBlackBoss::onMeure() {
 					break;
 			}
 			position = destination;
-			etape = 0;
-			saut = true;
+			anim_step = 0;
+			jump = true;
 
 			lat_grav = 0;
 			return;
 		}
-	} else if (game_flag[0] == 2 && saut) {
+	} else if (game_flag[0] == 2 && jump) {
 		lat_grav += 1;
-		lat_grav %= LATENCE_GRAVITE;
+		lat_grav %= GRAVITY_DELAY;
 
-		if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
+		if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
 
 		y += dy;
 
@@ -399,18 +399,18 @@ void EnemySnorkInBlackBoss::onMeure() {
 
 		if ((x > (snork_in_black_position_x[position] - tolerance)) && (x < (snork_in_black_position_x[position] + tolerance)) &&
 			(y > (snork_in_black_position_y[position] - tolerance)) && (y < (snork_in_black_position_y[position] + tolerance))) {
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			x = snork_in_black_position_x[position];
 			y = snork_in_black_position_y[position];
-			saut = false;
+			jump = false;
 			return;
 		}
 
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[anime(anim_snork_in_black_boss_saute_droite, 4, 6)];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_droite, 4, 6)];
 		} else {
-			pic = pbk_ennemis[anime(anim_snork_in_black_boss_saute_gauche, 4, 6)];
+			pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_gauche, 4, 6)];
 		}
 	} else if (game_flag[0] == 3) {
 		shark = true;
@@ -432,206 +432,206 @@ void EnemySnorkInBlackBoss::onMeure() {
 
 void EnemySnorkInBlackBoss::onTire() {
 	if (type_attack == 0) {
-		ss_etape++;
-		ss_etape %= 6;
-		if (ss_etape == 0) {
-			etape++;
+		anim_tick++;
+		anim_tick %= 6;
+		if (anim_tick == 0) {
+			anim_step++;
 		}
 
-		if (etape > 5) {
-			etat = ETAT_NORMAL;
-			etape = 0;
-			ss_etape = 0;
+		if (anim_step > 5) {
+			status = STATE_NORMAL;
+			anim_step = 0;
+			anim_tick = 0;
 			onAvance();
 			return;
-		} else if (ss_etape == 1) {
-			if (dir == SENS_DROITE) {
-				ShotThorn* tir;
-				switch (etape) {
+		} else if (anim_tick == 1) {
+			if (dir == FACING_RIGHT) {
+				ShotThorn* shot;
+				switch (anim_step) {
 					case 0:
-						tir = new ShotThorn(425, 4, -6);
-						tir->setDir(dir);
-						tir->x = x + 36;
-						tir->y = y - 51;
+						shot = new ShotThorn(425, 4, -6);
+						shot->setDir(dir);
+						shot->x = x + 36;
+						shot->y = y - 51;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 
 						break;
 
 					case 1:
-						tir = new ShotThorn(426, 5, -5);
-						tir->setDir(dir);
-						tir->x = x + 36;
-						tir->y = y - 51;
+						shot = new ShotThorn(426, 5, -5);
+						shot->setDir(dir);
+						shot->x = x + 36;
+						shot->y = y - 51;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 
 						break;
 
 					case 2:
-						tir = new ShotThorn(427, 6, -4);
-						tir->setDir(dir);
-						tir->x = x + 52;
-						tir->y = y - 16;
+						shot = new ShotThorn(427, 6, -4);
+						shot->setDir(dir);
+						shot->x = x + 52;
+						shot->y = y - 16;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 3:
-						tir = new ShotThorn(428, 7, 0);
-						tir->setDir(dir);
-						tir->x = x + 52;
-						tir->y = y - 16;
+						shot = new ShotThorn(428, 7, 0);
+						shot->setDir(dir);
+						shot->x = x + 52;
+						shot->y = y - 16;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 4:
-						tir = new ShotThorn(429, 6, 4);
-						tir->setDir(dir);
-						tir->x = x + 35;
-						tir->y = y + 25;
+						shot = new ShotThorn(429, 6, 4);
+						shot->setDir(dir);
+						shot->x = x + 35;
+						shot->y = y + 25;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 5:
-						tir = new ShotThorn(430, 5, 5);
-						tir->setDir(dir);
-						tir->x = x + 35;
-						tir->y = y + 25;
+						shot = new ShotThorn(430, 5, 5);
+						shot->setDir(dir);
+						shot->x = x + 35;
+						shot->y = y + 25;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 				}
 			} else {
-				ShotThorn* tir;
+				ShotThorn* shot;
 
-				switch (etape) {
+				switch (anim_step) {
 					case 0:
-						tir = new ShotThorn(439, -4, -6);
-						tir->setDir(dir);
-						tir->x = x - 36;
-						tir->y = y - 51;
+						shot = new ShotThorn(439, -4, -6);
+						shot->setDir(dir);
+						shot->x = x - 36;
+						shot->y = y - 51;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 
 						break;
 
 					case 1:
-						tir = new ShotThorn(438, -5, -5);
-						tir->setDir(dir);
-						tir->x = x - 36;
-						tir->y = y - 51;
+						shot = new ShotThorn(438, -5, -5);
+						shot->setDir(dir);
+						shot->x = x - 36;
+						shot->y = y - 51;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 
 						break;
 
 					case 2:
-						tir = new ShotThorn(437, -6, -4);
-						tir->setDir(dir);
-						tir->x = x - 52;
-						tir->y = y - 16;
+						shot = new ShotThorn(437, -6, -4);
+						shot->setDir(dir);
+						shot->x = x - 52;
+						shot->y = y - 16;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 3:
-						tir = new ShotThorn(436, -7, 0);
-						tir->setDir(dir);
-						tir->x = x - 52;
-						tir->y = y - 16;
+						shot = new ShotThorn(436, -7, 0);
+						shot->setDir(dir);
+						shot->x = x - 52;
+						shot->y = y - 16;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 4:
-						tir = new ShotThorn(435, -6, 4);
-						tir->setDir(dir);
-						tir->x = x - 35;
-						tir->y = y + 25;
+						shot = new ShotThorn(435, -6, 4);
+						shot->setDir(dir);
+						shot->x = x - 35;
+						shot->y = y + 25;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 
 					case 5:
-						tir = new ShotThorn(434, -5, 5);
-						tir->setDir(dir);
-						tir->x = x - 35;
-						tir->y = y + 25;
+						shot = new ShotThorn(434, -5, 5);
+						shot->setDir(dir);
+						shot->x = x - 35;
+						shot->y = y + 25;
 
-						list_tirs_ennemis.emplace_back(tir);
+						list_enemy_shots.emplace_back(shot);
 						break;
 				}
 			}
 		}
 
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[402 + 2 * (etape / 2) + ss_etape / 3];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[402 + 2 * (anim_step / 2) + anim_tick / 3];
 		} else {
-			pic = pbk_ennemis[408 + 2 * (etape / 2) + ss_etape / 3];
+			pic = pbk_enemies[408 + 2 * (anim_step / 2) + anim_tick / 3];
 		}
 	} else {
-		ss_etape++;
-		ss_etape %= 5;
+		anim_tick++;
+		anim_tick %= 5;
 
-		if (ss_etape == 0) {
-			etape++;
+		if (anim_tick == 0) {
+			anim_step++;
 		}
 
-		if (etape >= 1) {
-			if (dir == SENS_DROITE) {
-				ShotThorn* tir = new ShotThorn(422, 14, 0);
+		if (anim_step >= 1) {
+			if (dir == FACING_RIGHT) {
+				ShotThorn* shot = new ShotThorn(422, 14, 0);
 
-				tir->setDir(dir);
-				tir->x = x + 77;
-				tir->y = y - 2;
+				shot->setDir(dir);
+				shot->x = x + 77;
+				shot->y = y - 2;
 
-				list_tirs_ennemis.emplace_back(tir);
+				list_enemy_shots.emplace_back(shot);
 			} else {
-				ShotThorn* tir = new ShotThorn(423, -14, 0);
+				ShotThorn* shot = new ShotThorn(423, -14, 0);
 
-				tir->setDir(dir);
-				tir->x = x - 77;
-				tir->y = y - 2;
+				shot->setDir(dir);
+				shot->x = x - 77;
+				shot->y = y - 2;
 
-				list_tirs_ennemis.emplace_back(tir);
+				list_enemy_shots.emplace_back(shot);
 			}
 
-			etat = ETAT_NORMAL;
-			etape = 0;
-			ss_etape = 0;
+			status = STATE_NORMAL;
+			anim_step = 0;
+			anim_tick = 0;
 			onAvance();
 			return;
 		} else {
-			if (dir == SENS_DROITE) {
-				pic = pbk_ennemis[421];
+			if (dir == FACING_RIGHT) {
+				pic = pbk_enemies[421];
 			} else {
-				pic = pbk_ennemis[420];
+				pic = pbk_enemies[420];
 			}
 		}
 	}
 	colFromPic();
 }
 
-void EnemySnorkInBlackBoss::estTouche(Shot* tir) {
+void EnemySnorkInBlackBoss::takeHit(Shot* shot) {
 	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
 }
 
-void EnemySnorkInBlackBoss::affiche() {
+void EnemySnorkInBlackBoss::render() {
 	if (x_shark < 5904) {
-		Sprite::affiche();
+		Sprite::render();
 	}
 	if (shark) {
 		if (x_shark < 5904) {
-			draw(x_shark, y_shark, pbk_ennemis[441]);
+			draw(x_shark, y_shark, pbk_enemies[441]);
 		} else {
-			draw(x_shark, y_shark, pbk_ennemis[440]);
+			draw(x_shark, y_shark, pbk_enemies[440]);
 		}
 	}
 }

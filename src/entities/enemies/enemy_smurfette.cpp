@@ -3,7 +3,7 @@
 
 EnemySmurfette::EnemySmurfette() : etape_shoot(0) {
 	wait_shoot = 100 + rand() % 100;
-	pv = 200;
+	hp = 200;
 }
 
 void EnemySmurfette::update() {
@@ -11,8 +11,8 @@ void EnemySmurfette::update() {
 
 	etape_shoot += 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -30,9 +30,9 @@ void EnemySmurfette::update() {
 			break;
 	}
 
-	if (x < offset - 20) a_detruire = true;
+	if (x < offset - 20) destroyed = true;
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurfette::onAvance() {
@@ -40,24 +40,24 @@ void EnemySmurfette::onAvance() {
 	static const int marche_gauche[] = {320, 321, 322, 323, 324, 323, 322, 321};
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
-	if (x - SPEED < xmin || mur_opaque(x - SPEED, y) || (plat(x - SPEED, y) == 0 && plat(x - SPEED, y + 5) == 0))
-		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y) || (plat(x + SPEED, y) == 0 && plat(x + SPEED, y + 5) == 0))
-		dir = SENS_GAUCHE;
+	if (x - SPEED < xmin || solid_wall(x - SPEED, y) || (platform_y(x - SPEED, y) == 0 && platform_y(x - SPEED, y + 5) == 0))
+		dir = FACING_RIGHT;
+	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y) || (platform_y(x + SPEED, y) == 0 && platform_y(x + SPEED, y + 5) == 0))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
-		pic = pbk_ennemis[anime(marche_droite, 8, 6)];
+		pic = pbk_enemies[animate(marche_droite, 8, 6)];
 	} else {
 		marche(-SPEED);
-		pic = pbk_ennemis[anime(marche_gauche, 8, 6)];
+		pic = pbk_enemies[animate(marche_gauche, 8, 6)];
 	}
 
 	if (etape_shoot >= wait_shoot && x > offset + 10 && x < offset + 630) {
-		etape = ss_etape = 0;
-		etat = ETAT_TIRE;
+		anim_step = anim_tick = 0;
+		status = ETAT_TIRE;
 		onTire();
 		return;
 	}
@@ -66,85 +66,85 @@ void EnemySmurfette::onAvance() {
 }
 
 void EnemySmurfette::onMeure() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape >= 11) {
-			a_detruire = true;
-			grave(x, y, pic);
+		if (anim_step >= 11) {
+			destroyed = true;
+			engrave(x, y, pic);
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[325 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[325 + anim_step];
 	else
-		pic = pbk_ennemis[337 + etape];
+		pic = pbk_enemies[337 + anim_step];
 }
 
 void EnemySmurfette::onTire() {
 	static const int tire_droite[] = {301, 302, 303, 304, 305, 304, 303, 302, 301};
 	static const int tire_gauche[] = {306, 307, 308, 309, 310, 309, 308, 307, 306};
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape == 4 && ss_etape == 0 && tete_turc != NULL) {
+		if (anim_step == 4 && anim_tick == 0 && targeted_player != NULL) {
 			ShotBisouDeadly* t = new ShotBisouDeadly();
 
 			t->x = x;
 			t->y = y - 25;
 			t->setDir(dir);
-			t->cible = tete_turc;
+			t->cible = targeted_player;
 
-			list_tirs_ennemis.emplace_back(t);
-		} else if (etape >= 9) {
-			etat = ETAT_AVANCE;
-			etape = ss_etape = etape_shoot = 0;
+			list_enemy_shots.emplace_back(t);
+		} else if (anim_step >= 9) {
+			status = ETAT_AVANCE;
+			anim_step = anim_tick = etape_shoot = 0;
 			wait_shoot = 200 + rand() % 100;
 			onAvance();
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[tire_droite[etape]];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[tire_droite[anim_step]];
 	else
-		pic = pbk_ennemis[tire_gauche[etape]];
+		pic = pbk_enemies[tire_gauche[anim_step]];
 
 	colFromPic();
 }
 
-void EnemySmurfette::estTouche(Shot* tir) {
+void EnemySmurfette::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
 
-	if (etat == ETAT_MEURE) {
-		sbk_niveau.play(21);
+	if (status == ETAT_MEURE) {
+		sbk_level.play(21);
 	}
 }
 
 void EnemySmurfette::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 6) {
-		a_detruire = true;
+	if (anim_step == 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[34 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[34 + anim_step];
 		else
-			pic = pbk_ennemis[40 + etape];
+			pic = pbk_enemies[40 + anim_step];
 	}
 }

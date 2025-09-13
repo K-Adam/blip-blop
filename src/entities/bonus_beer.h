@@ -9,15 +9,15 @@ class BonusBeer : public Bonus {
 		col_on = true;
 	};
 
-	void estPris(Ball* c) override {
-		if (c->pv == 5) return;
+	void onPickup(Ball* c) override {
+		if (c->hp == 5) return;
 
 		sbk_misc.play(5);
 
-		c->pv += 2;
+		c->hp += 2;
 
-		if (c->pv > 5) c->pv = 5;
+		if (c->hp > 5) c->hp = 5;
 
-		Bonus::estPris(c);
+		Bonus::onPickup(c);
 	};
 };

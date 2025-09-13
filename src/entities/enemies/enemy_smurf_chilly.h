@@ -4,24 +4,24 @@
 
 class EnemySmurfChilly : public EnemySmurf {
    public:
-	EnemySmurfChilly() { pv = 75; }
+	EnemySmurfChilly() { hp = 75; }
 
-	inline void affiche() override {
-		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
+	inline void render() override {
+		if (status != ETAT_MEURE && status != ETAT_CARBONISE) {
 			switch (dir) {
-				case SENS_GAUCHE:
-					draw(x + 7, y - 18, pbk_ennemis[147]);
-					EnemySmurf::affiche();
-					draw(x, y - 20, pbk_ennemis[149]);
+				case FACING_LEFT:
+					draw(x + 7, y - 18, pbk_enemies[147]);
+					EnemySmurf::render();
+					draw(x, y - 20, pbk_enemies[149]);
 					break;
-				case SENS_DROITE:
-					draw(x - 7, y - 18, pbk_ennemis[148]);
-					EnemySmurf::affiche();
-					draw(x, y - 20, pbk_ennemis[150]);
+				case FACING_RIGHT:
+					draw(x - 7, y - 18, pbk_enemies[148]);
+					EnemySmurf::render();
+					draw(x, y - 20, pbk_enemies[150]);
 					break;
 			}
 		} else
-			EnemySmurf::affiche();
+			EnemySmurf::render();
 	}
 
 	void onAvance() override {

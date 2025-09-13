@@ -4,7 +4,7 @@
 
 class ShotCloud : public Shot {
    public:
-	int etat;
+	int status;
 	int etape_shoot;
 	int delta_eclair;
 	int eclair;
@@ -16,5 +16,5 @@ class ShotCloud : public Shot {
 	virtual void onDestruction();
 	virtual void onNormal();
 	virtual void onTire();
-	void affiche() override;
+	void render() override;
 };

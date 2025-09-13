@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_bulbizarre.h"
 
-EnemyBulbizarre::EnemyBulbizarre() { pv = 100; }
+EnemyBulbizarre::EnemyBulbizarre() { hp = 100; }
 
 void EnemyBulbizarre::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -20,82 +20,82 @@ void EnemyBulbizarre::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBulbizarre::onAvance() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if (x - 1 < xmin || mur_opaque(x - 1, y))
-		dir = SENS_DROITE;
-	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))
-		dir = SENS_GAUCHE;
+	if (x - 1 < xmin || solid_wall(x - 1, y))
+		dir = FACING_RIGHT;
+	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(1);
-		pic = pbk_ennemis[24 + etape];
+		pic = pbk_enemies[24 + anim_step];
 	} else {
 		marche(-1);
-		pic = pbk_ennemis[26 + etape];
+		pic = pbk_enemies[26 + anim_step];
 	}
 
 	colFromPic();
 }
 
 void EnemyBulbizarre::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0 && etape < 8) etape += 1;
+	if (anim_tick == 0 && anim_step < 8) anim_step += 1;
 
-	if (etape >= 8) {
-		int yy = plat(x, y);
+	if (anim_step >= 8) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
+		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[36 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[36 + anim_step];
 		else
-			pic = pbk_ennemis[28 + etape];
+			pic = pbk_enemies[28 + anim_step];
 	}
 }
 
 void EnemyBulbizarre::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 14)
-		a_detruire = true;
+	if (anim_step >= 14)
+		destroyed = true;
 	else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[128 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[128 + anim_step];
 		else
-			pic = pbk_ennemis[143 + etape];
+			pic = pbk_enemies[143 + anim_step];
 	}
 }
 
-void EnemyBulbizarre::estTouche(Shot* tir) {
+void EnemyBulbizarre::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		sbk_misc.play(8 + rand() % 2);
 	}
 }

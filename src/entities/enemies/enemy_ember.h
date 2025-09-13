@@ -8,5 +8,5 @@ class EnemyEmber : public Enemy {
 	void update() override;
 	virtual void onAvance();
 	virtual void onMeure();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

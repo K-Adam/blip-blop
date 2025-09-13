@@ -38,56 +38,56 @@ class EnemySmurfWild : public Enemy {
 
 	EnemySmurfWild();
 
-	inline void affiche() override {
-		draw(x, y - 50, pbk_ennemis[117]);
-		draw(x, y - 100, pbk_ennemis[117]);
-		draw(x, y - 150, pbk_ennemis[117]);
-		draw(x, y - 200, pbk_ennemis[117]);
-		draw(x, y - 250, pbk_ennemis[117]);
+	inline void render() override {
+		draw(x, y - 50, pbk_enemies[117]);
+		draw(x, y - 100, pbk_enemies[117]);
+		draw(x, y - 150, pbk_enemies[117]);
+		draw(x, y - 200, pbk_enemies[117]);
+		draw(x, y - 250, pbk_enemies[117]);
 
-		Enemy::affiche();
+		Enemy::render();
 
-		if (pv > 0) {
+		if (hp > 0) {
 			if (shooting) {
 				switch (shoot_direction) {
 					case DIAGONALE_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[137 + etape]);
+						draw(x + 8, y + 38, pbk_enemies[137 + anim_step]);
 						break;
 					case DIAGONALE_BAS_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[133 + etape]);
+						draw(x + 8, y + 38, pbk_enemies[133 + anim_step]);
 						break;
 					case BAS_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[129 + etape]);
+						draw(x + 8, y + 38, pbk_enemies[129 + anim_step]);
 						break;
 					case BAS_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[127 + etape]);
+						draw(x - 5, y + 38, pbk_enemies[127 + anim_step]);
 						break;
 					case DIAGONALE_BAS_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[131 + etape]);
+						draw(x - 5, y + 38, pbk_enemies[131 + anim_step]);
 						break;
 					case DIAGONALE_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[135 + etape]);
+						draw(x - 5, y + 38, pbk_enemies[135 + anim_step]);
 						break;
 				}
 			} else {
 				switch (shoot_direction) {
 					case DIAGONALE_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[352]);
+						draw(x + 8, y + 38, pbk_enemies[352]);
 						break;
 					case DIAGONALE_BAS_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[350]);
+						draw(x + 8, y + 38, pbk_enemies[350]);
 						break;
 					case BAS_GAUCHE:
-						draw(x + 8, y + 38, pbk_ennemis[354]);
+						draw(x + 8, y + 38, pbk_enemies[354]);
 						break;
 					case BAS_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[353]);
+						draw(x - 5, y + 38, pbk_enemies[353]);
 						break;
 					case DIAGONALE_BAS_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[349]);
+						draw(x - 5, y + 38, pbk_enemies[349]);
 						break;
 					case DIAGONALE_DROITE:
-						draw(x - 5, y + 38, pbk_ennemis[351]);
+						draw(x - 5, y + 38, pbk_enemies[351]);
 						break;
 				}
 			}
@@ -99,5 +99,5 @@ class EnemySmurfWild : public Enemy {
 	virtual void onTire();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

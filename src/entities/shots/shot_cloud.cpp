@@ -1,10 +1,10 @@
 #include "entities/enemies/enemy.h"
 #include "entities/shots/shot_cloud.h"
 
-ShotCloud::ShotCloud() : etape_shoot(0), etat(0), eclair(0), delta_eclair(0) { duree_vie = 600 + rand() % 400; }
+ShotCloud::ShotCloud() : etape_shoot(0), status(0), eclair(0), delta_eclair(0) { duree_vie = 600 + rand() % 400; }
 
 void ShotCloud::update() {
-	switch (etat) {
+	switch (status) {
 		case 0:
 			onCreation();
 			break;
@@ -22,33 +22,33 @@ void ShotCloud::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void ShotCloud::onCreation() {
 	static const int SPEED = 1;
 
-	ss_etape += 1;
-	ss_etape %= 10;
+	anim_tick += 1;
+	anim_tick %= 10;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = SENS_GAUCHE;
+		if (x > offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = SENS_DROITE;
+		if (x < offset + 30) dir = FACING_RIGHT;
 	}
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape >= 3) {
-			ss_etape = etape = 0;
-			etat = 1;
+		if (anim_step >= 3) {
+			anim_tick = anim_step = 0;
+			status = 1;
 		} else {
-			pic = pbk_ennemis[250 + etape];
+			pic = pbk_enemies[250 + anim_step];
 		}
 	}
 
@@ -58,21 +58,21 @@ void ShotCloud::onCreation() {
 void ShotCloud::onDestruction() {
 	static const int SPEED = 1;
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (dir == SENS_DROITE)
+	if (dir == FACING_RIGHT)
 		x += SPEED;
 	else
 		x -= SPEED;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape >= 3)
-			a_detruire = true;
+		if (anim_step >= 3)
+			destroyed = true;
 		else
-			pic = pbk_ennemis[252 - etape];
+			pic = pbk_enemies[252 - anim_step];
 	}
 
 	noCol();
@@ -85,29 +85,29 @@ void ShotCloud::onNormal() {
 	duree_vie -= 1;
 
 	if (duree_vie <= 0) {
-		etape = ss_etape = 0;
-		etat = 2;
+		anim_step = anim_tick = 0;
+		status = 2;
 	}
 
-	pic = pbk_ennemis[anime(anim, 4, 9)];
+	pic = pbk_enemies[animate(anim, 4, 9)];
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = SENS_GAUCHE;
+		if (x > offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = SENS_DROITE;
+		if (x < offset + 30) dir = FACING_RIGHT;
 	}
 
 	if (etape_shoot == 0) {
-		if (tete_turc != NULL && tete_turc->y > y) {
-			int ddx = x - tete_turc->x;
+		if (targeted_player != NULL && targeted_player->y > y) {
+			int ddx = x - targeted_player->x;
 
 			if (ddx > -10 && ddx < 10) {
 				etape_shoot = 0;
-				etat = 3;
+				status = 3;
 			}
 		}
 	} else {
@@ -132,20 +132,20 @@ void ShotCloud::onTire() {
 	duree_vie -= 1;
 
 	if (duree_vie <= 0) {
-		etape = ss_etape = 0;
-		etat = 2;
+		anim_step = anim_tick = 0;
+		status = 2;
 	}
 
-	pic = pbk_ennemis[anime(anim, 4, 9)];
+	pic = pbk_enemies[animate(anim, 4, 9)];
 
 	etape_shoot += 1;
 
 	if (etape_shoot == 50) {
-		sbk_niveau.play(24);
+		sbk_level.play(24);
 	}
 
 	if (etape_shoot >= 100) {
-		etat = 1;
+		status = 1;
 		etape_shoot = 100;
 		colFromPic();
 	} else if (etape_shoot > 50) {
@@ -159,16 +159,16 @@ void ShotCloud::onTire() {
 	dy = rand() % 20;
 }
 
-void ShotCloud::affiche() {
+void ShotCloud::render() {
 	int de = eclair;
 
-	if (etat == 3 && etape_shoot > 50) {
+	if (status == 3 && etape_shoot > 50) {
 		for (int yy = y - 10 + dy; yy < 480; yy += 100) {
-			draw(x, yy, pbk_ennemis[256 + de]);
+			draw(x, yy, pbk_enemies[256 + de]);
 
 			de = (de + 1) % 4;
 		}
 	}
 
-	Sprite::affiche();
+	Sprite::render();
 }

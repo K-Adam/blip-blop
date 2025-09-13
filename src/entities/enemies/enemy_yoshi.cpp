@@ -8,14 +8,14 @@ const int anim_yoshi_attaque_gauche[] = {44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
 
 EnemyYoshi::EnemyYoshi() : attack_delay(50 + rand() % 250), wait_for_attack(0) {
 	tresor = 10;
-	pv = 500;
+	hp = 500;
 }
 
 void EnemyYoshi::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -41,16 +41,16 @@ void EnemyYoshi::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyYoshi::onAvance() {
-	if (plat(x, y) == 0) {
-		etat = ETAT_TOMBE;
+	if (platform_y(x, y) == 0) {
+		status = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
-		etape = 0;
-		ss_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		onTombe();
 		return;
 	}
@@ -59,40 +59,41 @@ void EnemyYoshi::onAvance() {
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
-		etape = 0;
-		etat = ETAT_TIRE;
+		anim_step = 0;
+		status = ETAT_TIRE;
 		attack = true;
-		etape = 0;
-		ss_etape = 0;
-		sbk_niveau.play(35);
+		anim_step = 0;
+		anim_tick = 0;
+		sbk_level.play(35);
 		onTire();
 		return;
 	}
 
-	if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) && (((dir == SENS_DROITE) && (x > (tete_turc->x - 150)) && (tete_turc->x > x)) ||
-															   ((dir == SENS_GAUCHE) && (x < (tete_turc->x + 150)) && (tete_turc->x < x)))) {
-		etape = 0;
-		etat = ETAT_TIRE;
+	if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
+		(((dir == FACING_RIGHT) && (x > (targeted_player->x - 150)) && (targeted_player->x > x)) ||
+		 ((dir == FACING_LEFT) && (x < (targeted_player->x + 150)) && (targeted_player->x < x)))) {
+		anim_step = 0;
+		status = ETAT_TIRE;
 		attack = false;
-		etape = 0;
-		ss_etape = 0;
-		sbk_niveau.play(37);
+		anim_step = 0;
+		anim_tick = 0;
+		sbk_level.play(37);
 		onAttaque();
 		return;
 	}
 
-	if (x - YOSHI_SPEED < xmin || mur_opaque(x - YOSHI_SPEED, y)) {
-		dir = SENS_DROITE;
-	} else if (x + YOSHI_SPEED > offset + 640 || mur_opaque(x + YOSHI_SPEED, y)) {
-		dir = SENS_GAUCHE;
+	if (x - YOSHI_SPEED < xmin || solid_wall(x - YOSHI_SPEED, y)) {
+		dir = FACING_RIGHT;
+	} else if (x + YOSHI_SPEED > offset + 640 || solid_wall(x + YOSHI_SPEED, y)) {
+		dir = FACING_LEFT;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(YOSHI_SPEED);
-		pic = pbk_ennemis[anime(anim_yoshi_marche_droite, 3, 3)];
+		pic = pbk_enemies[animate(anim_yoshi_marche_droite, 3, 3)];
 	} else {
 		marche(-YOSHI_SPEED);
-		pic = pbk_ennemis[anime(anim_yoshi_marche_gauche, 3, 3)];
+		pic = pbk_enemies[animate(anim_yoshi_marche_gauche, 3, 3)];
 	}
 	colFromPic();
 }
@@ -100,61 +101,61 @@ void EnemyYoshi::onAvance() {
 void EnemyYoshi::onTombe() {
 	int yp;
 
-	tombe();
+	fall();
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
-		etat = ETAT_NORMAL;
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
-		etape = 0;
-		ss_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		onAvance();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x++;
-		pic = pbk_ennemis[28];
+		pic = pbk_enemies[28];
 	} else {
 		x--;
-		pic = pbk_ennemis[31];
+		pic = pbk_enemies[31];
 	}
 
 	colFromPic();
 }
 
 void EnemyYoshi::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 9) etape += 1;
+	if (anim_tick == 0 && anim_step < 9) anim_step += 1;
 
-	if (etape >= 9) {
-		int yy = plat(x, y);
+	if (anim_step >= 9) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
+		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[71 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[71 + anim_step];
 		else
-			pic = pbk_ennemis[62 + etape];
+			pic = pbk_enemies[62 + anim_step];
 	}
 }
 
 void EnemyYoshi::onAttaque() {
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[anime(anim_yoshi_attaque_droite, 18, 2)];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[animate(anim_yoshi_attaque_droite, 18, 2)];
 	} else {
-		pic = pbk_ennemis[anime(anim_yoshi_attaque_gauche, 18, 1)];
+		pic = pbk_enemies[animate(anim_yoshi_attaque_gauche, 18, 1)];
 	}
-	if (etape >= 17) {
-		etat = ETAT_AVANCE;
-		etape = 0;
-		ss_etape = 0;
+	if (anim_step >= 17) {
+		status = ETAT_AVANCE;
+		anim_step = 0;
+		anim_tick = 0;
 		onAvance();
 		return;
 	}
@@ -162,66 +163,66 @@ void EnemyYoshi::onAttaque() {
 }
 
 void EnemyYoshi::onTire() {
-	ss_etape += 1;
-	ss_etape %= 15;
+	anim_tick += 1;
+	anim_tick %= 15;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 2) {
-		ShotShell* tir = new ShotShell();
+	if (anim_step >= 2) {
+		ShotShell* shot = new ShotShell();
 
-		tir->setDir(dir);
+		shot->setDir(dir);
 
-		if (dir == SENS_GAUCHE)
-			tir->x = x - 23;
+		if (dir == FACING_LEFT)
+			shot->x = x - 23;
 		else
-			tir->x = x + 23;
+			shot->x = x + 23;
 
-		tir->y = y - 23;
+		shot->y = y - 23;
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 
-		etat = ETAT_AVANCE;
-		etape = 0;
-		ss_etape = 0;
+		status = ETAT_AVANCE;
+		anim_step = 0;
+		anim_tick = 0;
 		onAvance();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[54 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[54 + anim_step];
 	} else {
-		pic = pbk_ennemis[56 + etape];
+		pic = pbk_enemies[56 + anim_step];
 	}
 
 	colFromPic();
 }
 
 void EnemyYoshi::onCarbonise() {
-	tombe();
-	ss_etape++;
-	ss_etape %= 5;
+	fall();
+	anim_tick++;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape++;
+	if (anim_tick == 0) anim_step++;
 
-	if (etape >= 14)
-		a_detruire = true;
+	if (anim_step >= 14)
+		destroyed = true;
 	else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[460 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[460 + anim_step];
 		else
-			pic = pbk_ennemis[474 + etape];
+			pic = pbk_enemies[474 + anim_step];
 	}
 }
 
-void EnemyYoshi::estTouche(Shot* tir) {
+void EnemyYoshi::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		sbk_misc.play(6 + rand() % 3);
 	}
 }

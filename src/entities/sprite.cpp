@@ -4,9 +4,9 @@ Sprite::Sprite()
 	: pic(NULL),
 	  dy(0),
 	  dir(0),
-	  a_detruire(false),
-	  etape(0),
-	  ss_etape(0),
+	  destroyed(false),
+	  anim_step(0),
+	  anim_tick(0),
 	  lat_grav(0),
 	  x(0),
 	  y(0),
@@ -15,17 +15,17 @@ Sprite::Sprite()
 	  x2(-2000),
 	  y2(-2000),
 	  col_on(false),
-	  wait_bulle(0) {}
+	  wait_bubble(0) {}
 
-void Sprite::tombe() {
+void Sprite::fall() {
 	lat_grav += 1;
-	lat_grav %= LATENCE_GRAVITE;
+	lat_grav %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
+	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = plat(x, y + dy);
+	int ny = platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;
@@ -35,15 +35,15 @@ void Sprite::tombe() {
 
 void Sprite::tombe2() {
 	lat_grav += 1;
-	lat_grav %= LATENCE_GRAVITE;
+	lat_grav %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
+	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = plat(x, y + dy);
+	int ny = platform_y(x, y + dy);
 
-	if (ny != 0 && dy > 0 && plat(x, y) == 0)
+	if (ny != 0 && dy > 0 && platform_y(x, y) == 0)
 		y = ny;
 	else
 		y += dy;
@@ -52,17 +52,17 @@ void Sprite::tombe2() {
 void Sprite::marche(int ndx) {
 	x += ndx;
 
-	int ny = plat(x, y);
+	int ny = platform_y(x, y);
 
 	if (ny != 0) {
 		y = ny;
 	} else {
-		ny = plat(x, y + 5);
+		ny = platform_y(x, y + 5);
 
 		if (ny != 0) {
 			y = ny;
 		} else {
-			ny = plat(x, y - 5);
+			ny = platform_y(x, y - 5);
 
 			if (ny != 0) y = ny;
 		}

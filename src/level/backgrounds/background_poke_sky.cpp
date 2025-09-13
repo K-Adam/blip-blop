@@ -2,48 +2,48 @@
 #include "core/assets.h"
 #include "level/backgrounds/background_poke_sky.h"
 
-BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_niveau[48]; }
+BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_level[48]; }
 
 void BackgroundPokeSky::update() {
-	etape += 4;
-	etape %= 384;
+	anim_step += 4;
+	anim_step %= 384;
 
 	colFromPic();
 }
 
-void BackgroundPokeSky::affiche() {
-	Sprite::affiche();
+void BackgroundPokeSky::render() {
+	Sprite::render();
 
 	SDL::Surface* surf;
 	int xs;
-	int decalage = 0;
+	int shift = 0;
 	int ys;
 	Rect r;
-	int largeur;
+	int width_px;
 
-	surf = pbk_niveau[50]->Surf();
-	xs = pbk_niveau[50]->xSize();
-	ys = pbk_niveau[50]->ySize();
+	surf = pbk_level[50]->Surf();
+	xs = pbk_level[50]->xSize();
+	ys = pbk_level[50]->ySize();
 
 	r.top = 0;
-	r.left = etape;
+	r.left = anim_step;
 
 	if (x + 192 > offset + 640) {
-		largeur = offset + 640 - x;
+		width_px = offset + 640 - x;
 	}
 
 	else if (x < offset) {
-		largeur = 192;
-		r.left = offset - x + etape;
-		decalage = offset - x;
+		width_px = 192;
+		r.left = offset - x + anim_step;
+		shift = offset - x;
 	} else {
-		largeur = 192;
+		width_px = 192;
 	}
 
-	r.right = etape + largeur;
+	r.right = anim_step + width_px;
 	r.bottom = ys;
 
-	backSurface->BltFast(x - offset + decalage, y + 50, surf, &r);
+	backSurface->BltFast(x - offset + shift, y + 50, surf, &r);
 
-	draw(x, y, pbk_niveau[49]);
+	draw(x, y, pbk_level[49]);
 }

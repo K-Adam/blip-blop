@@ -8,7 +8,7 @@ class Vehicle : public Sprite {
    public:
 	bool can_be_used;
 
-	Ball* joueur;
+	Ball* hero;
 	Controller* ctrl;
 
 	Vehicle();

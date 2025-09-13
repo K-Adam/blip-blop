@@ -1,10 +1,10 @@
 #include "entities/enemies/enemy_com.h"
 
-EnemyCOM::EnemyCOM() { pv = 100; }
+EnemyCOM::EnemyCOM() { hp = 100; }
 
 void EnemyCOM::update() {
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -15,46 +15,46 @@ void EnemyCOM::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyCOM::onAvance() {
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if (x - 1 < offset || mur_opaque(x - 1, y))
-		dir = SENS_DROITE;
-	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))
-		dir = SENS_GAUCHE;
+	if (x - 1 < offset || solid_wall(x - 1, y))
+		dir = FACING_RIGHT;
+	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE)
+	if (dir == FACING_RIGHT)
 		x += 1;
 	else
 		x -= 1;
 
-	pic = pbk_ennemis[98 + etape];
+	pic = pbk_enemies[98 + anim_step];
 
 	colFromPic();
 }
 
 void EnemyCOM::onMeure() {
-	if (ss_etape == 0 && etape == 0) {
-		sbk_niveau.play(6);
+	if (anim_tick == 0 && anim_step == 0) {
+		sbk_level.play(6);
 	}
 
-	ss_etape += 1;
-	ss_etape %= 3;
+	anim_tick += 1;
+	anim_tick %= 3;
 
-	if (ss_etape == 0 && etape < 22) etape += 1;
+	if (anim_tick == 0 && anim_step < 22) anim_step += 1;
 
-	if (etape >= 22) {
-		a_detruire = true;
+	if (anim_step >= 22) {
+		destroyed = true;
 	} else {
-		pic = pbk_ennemis[76 + etape];
+		pic = pbk_enemies[76 + anim_step];
 	}
 }

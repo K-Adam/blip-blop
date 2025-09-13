@@ -11,7 +11,7 @@ class EventText : public Event {
 	int val;
 	int cond;
 
-	inline bool aActiver() override {
+	inline bool shouldActivate() override {
 		if (cond == 0)
 			return true;
 		else if (cond == 1)

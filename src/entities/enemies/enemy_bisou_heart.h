@@ -8,6 +8,6 @@ class EnemyBisouHeart : public Enemy {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onPart();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	void update() override;
 };

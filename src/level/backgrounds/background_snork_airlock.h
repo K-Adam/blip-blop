@@ -7,16 +7,16 @@ class BackgroundSnorkAirlock1 : public Sprite {
 	int nb_joueur;
 
    public:
-	static int etat;
+	static int status;
 
 	BackgroundSnorkAirlock1();
 	void update() override;
-	void affiche() override;
+	void render() override;
 };
 
 class BackgroundSnorkAirlock2 : public Sprite {
    public:
 	BackgroundSnorkAirlock2();
 	void update() override;
-	void affiche() override;
+	void render() override;
 };

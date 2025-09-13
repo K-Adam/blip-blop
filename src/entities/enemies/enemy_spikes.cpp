@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_spikes.h"
 
 EnemySpikes::EnemySpikes() : y_origine(0) {
-	pv = 1;
-	pic = pbk_ennemis[168];
+	hp = 1;
+	pic = pbk_enemies[168];
 }
 
 void EnemySpikes::update() {
@@ -53,23 +53,23 @@ void EnemySpikes::update() {
 			y_origine += 1;
 		} else {
 			// Fully retracted, safe to remove
-			for (int i = 28; i <= 55; i++) murs_opaques[i][108] = false;
+			for (int i = 28; i <= 55; i++) solid_walls[i][108] = false;
 
-			a_detruire = true;
+			destroyed = true;
 		}
 		colFromPic();
 	}
 }
 
-void EnemySpikes::affiche() {
+void EnemySpikes::render() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;
 	Rect r;
 
-	surf = pbk_ennemis[168]->Surf();
-	xs = pbk_ennemis[168]->xSize();
-	ys = pbk_ennemis[168]->ySize();
+	surf = pbk_enemies[168]->Surf();
+	xs = pbk_enemies[168]->xSize();
+	ys = pbk_enemies[168]->ySize();
 
 	r.top = 0;
 	r.left = 0;
@@ -87,4 +87,4 @@ void EnemySpikes::colFromPic() {
 	x1 += 25;
 }
 
-void EnemySpikes::estTouche(Shot* tir) {}
+void EnemySpikes::takeHit(Shot* shot) {}

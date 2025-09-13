@@ -14,34 +14,34 @@ class Bonus : public Sprite {
 
 	Bonus() : phi(0), local_phase(0){};
 
-	virtual void estPris(Ball* c) {
-		a_detruire = true;
+	virtual void onPickup(Ball* c) {
+		destroyed = true;
 		col_on = false;
 	};
 
 	void update() override {
-		tombe();
+		fall();
 
 		phi += 12;
 		phi %= 360;
 
-		etape += 1;
-		etape %= 10;
+		anim_step += 1;
+		anim_step %= 10;
 
-		if (etape == 0) local_phase = !local_phase;
+		if (anim_step == 0) local_phase = !local_phase;
 
-		if (x < offset - 50) a_detruire = true;
+		if (x < offset - 50) destroyed = true;
 
 		y -= 15;
 		colFromPic();
 		y += 15;
 	};
 
-	void affiche() override {
+	void render() override {
 		int base;
 
 		y -= 15;
-		Sprite::affiche();
+		Sprite::render();
 
 		if (local_phase)
 			base = 0;

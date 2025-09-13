@@ -2,15 +2,15 @@
 #include "entities/enemies/enemy_pacman.h"
 
 EnemyPacmanCar::EnemyPacmanCar() : invoc_pacman(false) {
-	pv = 1000;
-	pic = pbk_ennemis[216];
+	hp = 1000;
+	pic = pbk_enemies[216];
 	wait_end = 0;
 }
 
 void EnemyPacmanCar::update() {
 	if ((game_flag[2] == 1) || (game_flag[2] == 2)) {
-		etape++;
-		if (etape > 160) {
+		anim_step++;
+		if (anim_step > 160) {
 			tombeVoiture();
 			if (x < 1350) {
 				x += 5;
@@ -20,13 +20,13 @@ void EnemyPacmanCar::update() {
 				x += 3;
 			} else if (x < 1600) {
 				x += 2;
-			} else if (plat2(x, y + dy) == 1) {
-				y = plat(x, y + dy);
+			} else if (platform_y2(x, y + dy) == 1) {
+				y = platform_y(x, y + dy);
 
 				game_flag[2] = 3;
 
-				etape = 0;
-				ss_etape = 0;
+				anim_step = 0;
+				anim_tick = 0;
 			}
 		}
 	} else if (game_flag[2] == 3) {
@@ -47,23 +47,23 @@ void EnemyPacmanCar::tombeVoiture() {
 
 	if (lat_grav == 0 && dy < GRAVITE_MAX_VOITURE) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = plat(x, y + dy);
+	int ny = platform_y(x, y + dy);
 
-	if (ny != 0 && dy > 0 && plat(x, y) == 0)
+	if (ny != 0 && dy > 0 && platform_y(x, y) == 0)
 		y = ny;
 	else
 		y += dy;
 }
 
-int EnemyPacmanCar::degats() { return 0; };
+int EnemyPacmanCar::damage() { return 0; };
 
-void EnemyPacmanCar::affiche() {
+void EnemyPacmanCar::render() {
 	if (game_flag[2] >= 4) {
-		draw(x + 48, y - 82, pbk_ennemis[217 + etape]);
+		draw(x + 48, y - 82, pbk_enemies[217 + anim_step]);
 	}
-	Sprite::affiche();
+	Sprite::render();
 }
 
-void EnemyPacmanCar::estTouche(Shot* tir) {}
+void EnemyPacmanCar::takeHit(Shot* shot) {}

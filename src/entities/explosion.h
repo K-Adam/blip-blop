@@ -5,7 +5,7 @@
 class Explosion : public Sprite {
    public:
 	int type;
-	bool fini;
+	bool finished;
 	int speed;
 
 	Explosion();

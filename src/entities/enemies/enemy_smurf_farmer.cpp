@@ -7,8 +7,8 @@ const int smurf_paysan_decapite_droite[] = {174, 175, 176, 177};
 const int smurf_paysan_decapite_gauche[] = {178, 179, 180, 180};
 
 EnemySmurfFarmer::EnemySmurfFarmer() {
-	pv = 200;
-	etat = ETAT_AVANCE;
+	hp = 200;
+	status = ETAT_AVANCE;
 	tete_etape = 0;
 	tete_ss_etape = 0;
 }
@@ -16,10 +16,10 @@ EnemySmurfFarmer::EnemySmurfFarmer() {
 void EnemySmurfFarmer::update() {
 	if (blood != 0) blood -= 1;
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_MEURE:
 			onMeure();
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -28,7 +28,7 @@ void EnemySmurfFarmer::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurfFarmer::onMeure() {
@@ -46,55 +46,55 @@ void EnemySmurfFarmer::onMeure() {
 }
 
 void EnemySmurfFarmer::onAvance() {
-	tombe();
+	fall();
 
-	if (mur_opaque(x - SMURF_PAYSAN_SPEED, y))
-		dir = SENS_DROITE;
-	else if (mur_opaque(x + SMURF_PAYSAN_SPEED, y))
-		dir = SENS_GAUCHE;
+	if (solid_wall(x - SMURF_PAYSAN_SPEED, y))
+		dir = FACING_RIGHT;
+	else if (solid_wall(x + SMURF_PAYSAN_SPEED, y))
+		dir = FACING_LEFT;
 
-	if (etat == ETAT_MEURE) {
-		if (dir == SENS_DROITE) {
+	if (status == ETAT_MEURE) {
+		if (dir == FACING_RIGHT) {
 			marche(SMURF_PAYSAN_SPEED);
-			pic = pbk_ennemis[anime(smurf_paysan_decapite_droite, 4, 3)];
+			pic = pbk_enemies[animate(smurf_paysan_decapite_droite, 4, 3)];
 		} else {
 			marche(-SMURF_PAYSAN_SPEED);
-			pic = pbk_ennemis[anime(smurf_paysan_decapite_gauche, 4, 3)];
+			pic = pbk_enemies[animate(smurf_paysan_decapite_gauche, 4, 3)];
 		}
 	} else {
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			marche(SMURF_PAYSAN_SPEED);
-			pic = pbk_ennemis[anime(smurf_paysan_charge_droite, 4, 3)];
+			pic = pbk_enemies[animate(smurf_paysan_charge_droite, 4, 3)];
 		} else {
 			marche(-SMURF_PAYSAN_SPEED);
-			pic = pbk_ennemis[anime(smurf_paysan_charge_gauche, 4, 3)];
+			pic = pbk_enemies[animate(smurf_paysan_charge_gauche, 4, 3)];
 		}
 		colFromPic();
 	}
 }
 
 void EnemySmurfFarmer::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 6) {
-		a_detruire = true;
+	if (anim_step == 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[34 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[34 + anim_step];
 		else
-			pic = pbk_ennemis[40 + etape];
+			pic = pbk_enemies[40 + anim_step];
 	}
 }
 
-void EnemySmurfFarmer::estTouche(Shot* tir) {
+void EnemySmurfFarmer::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf_paysan[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf_paysan[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_smurf_paysan, dy_giclure_smurf_paysan);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_smurf_paysan, dy_giclure_smurf_paysan);
 
-	if (etat == ETAT_MEURE) sbk_misc.play(8 + rand() % 3);
+	if (status == ETAT_MEURE) sbk_misc.play(8 + rand() % 3);
 }

@@ -5,53 +5,53 @@
 
 const int anim_lock[] = {88, 89, 90, 91, 92, 93, 92, 91, 90, 89};
 
-BackgroundPokeCrateFalling::BackgroundPokeCrateFalling() { pic = pbk_niveau[87]; }
+BackgroundPokeCrateFalling::BackgroundPokeCrateFalling() { pic = pbk_level[87]; }
 
 void BackgroundPokeCrateFalling::update() {
 	if (game_flag[2] > 2) {
-		if ((y < 100) && (etape <= UNLOCK_DELAY)) {
+		if ((y < 100) && (anim_step <= UNLOCK_DELAY)) {
 			y += 2;
 		} else {
-			ss_etape++;
-			ss_etape %= 5;
-			if (ss_etape == 0) {
-				etape++;
+			anim_tick++;
+			anim_tick %= 5;
+			if (anim_tick == 0) {
+				anim_step++;
 			}
 
-			if ((etape == 0) && (ss_etape == 1)) {
+			if ((anim_step == 0) && (anim_tick == 1)) {
 				BackgroundPokeCratePlatform* s2 = new BackgroundPokeCratePlatform(180);
 				s2->x = x - 250;
 				s2->y = -150;
 
-				list_plateformes_mobiles.emplace_back(s2);
+				list_moving_platforms.emplace_back(s2);
 
 				s2 = new BackgroundPokeCratePlatform(180);
 				s2->x = x - 470;
 				s2->y = -150;
 
-				list_plateformes_mobiles.emplace_back(s2);
+				list_moving_platforms.emplace_back(s2);
 			}
 
-			if (etape > UNLOCK_DELAY + 4) {
+			if (anim_step > UNLOCK_DELAY + 4) {
 				y -= 3;
 				if (y < -160) {
-					a_detruire = true;
+					destroyed = true;
 				}
 
-				if ((etape == UNLOCK_DELAY + 5) && (ss_etape == 0)) {
-					pic = pbk_niveau[116];
+				if ((anim_step == UNLOCK_DELAY + 5) && (anim_tick == 0)) {
+					pic = pbk_level[116];
 
 					BackgroundPokeCrate* s = new BackgroundPokeCrate();
 					s->x = x;
 					s->y = y + 150;
 
-					list_fonds_animes.emplace_back(s);
+					list_animated_bgs.emplace_back(s);
 
 					BackgroundPokeCratePlatform2* s3 = new BackgroundPokeCratePlatform2();
 					s3->x = x;
 					s3->y = -150;
 
-					list_plateformes_mobiles.emplace_back(s3);
+					list_moving_platforms.emplace_back(s3);
 				}
 			}
 		}
@@ -60,15 +60,15 @@ void BackgroundPokeCrateFalling::update() {
 	}
 }
 
-void BackgroundPokeCrateFalling::affiche() {
-	Sprite::affiche();
-	if (etape > UNLOCK_DELAY + 4) {
-		draw(x, y, pbk_niveau[94]);
-		draw(x, y + 63, pbk_niveau[115]);
-	} else if (etape > UNLOCK_DELAY - 1) {
-		draw(x, y + 63, pbk_niveau[111 + etape - UNLOCK_DELAY]);
-	} else if (etape > 0) {
-		draw(x, y, pbk_niveau[anim_lock[etape % 10]]);
-		draw(x, y + 63, pbk_niveau[95 + etape % 16]);
+void BackgroundPokeCrateFalling::render() {
+	Sprite::render();
+	if (anim_step > UNLOCK_DELAY + 4) {
+		draw(x, y, pbk_level[94]);
+		draw(x, y + 63, pbk_level[115]);
+	} else if (anim_step > UNLOCK_DELAY - 1) {
+		draw(x, y + 63, pbk_level[111 + anim_step - UNLOCK_DELAY]);
+	} else if (anim_step > 0) {
+		draw(x, y, pbk_level[anim_lock[anim_step % 10]]);
+		draw(x, y + 63, pbk_level[95 + anim_step % 16]);
 	}
 }

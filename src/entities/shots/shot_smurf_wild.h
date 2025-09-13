@@ -8,7 +8,7 @@ class ShotSmurfWild : public Shot {
 	int dy;
 
 	ShotSmurfWild();
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 

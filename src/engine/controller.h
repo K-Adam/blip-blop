@@ -7,18 +7,18 @@ class Controller {
    public:
 	Controller() : inertia_on(true){};
 
-	virtual int gauche() const = 0;
-	virtual int haut() const = 0;
-	virtual int droite() const = 0;
-	virtual int bas() const = 0;
+	virtual int leftHeld() const = 0;
+	virtual int upHeld() const = 0;
+	virtual int rightHeld() const = 0;
+	virtual int downHeld() const = 0;
 	virtual int fire() const = 0;
-	virtual int saut() const = 0;
+	virtual int jump() const = 0;
 	virtual int super() const = 0;
 
 	// Aim vector of any length from the player's screen position, the move keys give 8 directions
 	virtual void aim(int px, int py, int& vx, int& vy) const {
-		vx = droite() ? 1 : gauche() ? -1 : 0;
-		vy = haut() ? -1 : bas() ? 1 : 0;
+		vx = rightHeld() ? 1 : leftHeld() ? -1 : 0;
+		vy = upHeld() ? -1 : downHeld() ? 1 : 0;
 	}
 
 	virtual bool inertia() const { return inertia_on; };

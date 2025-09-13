@@ -4,14 +4,14 @@ class BonusGenerator {
    public:
 	virtual ~BonusGenerator() = default;
 	int x;
-	int periode;
+	int period;
 	int t;
 	int type;
-	bool a_detruire;
+	bool destroyed;
 
 	BonusGenerator();
 
 	virtual void update();
 
-	inline virtual bool aDetruire() { return a_detruire; };
+	inline virtual bool isDestroyed() { return destroyed; };
 };

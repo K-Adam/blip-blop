@@ -5,7 +5,7 @@
 class BackgroundRockHyperspace : public Sprite {
    public:
 	int plan_rocher;
-	int placer;
+	int placed;
 	int delta;
 	int x_delay;
 	int sinusoide_delay;
@@ -13,5 +13,5 @@ class BackgroundRockHyperspace : public Sprite {
 
 	BackgroundRockHyperspace();
 	void update() override;
-	void affiche() override;
+	void render() override;
 };

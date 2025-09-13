@@ -9,15 +9,15 @@ class EnemySmurfVain : public EnemySmurf {
 		speed = 1 + rand() % 2;
 	}
 
-	inline void affiche() override {
-		EnemySmurf::affiche();
-		if (etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
+	inline void render() override {
+		EnemySmurf::render();
+		if (status != ETAT_MEURE && status != ETAT_CARBONISE) {
 			switch (dir) {
-				case SENS_GAUCHE:
-					draw(x + 3, y - 31, pbk_ennemis[151]);
+				case FACING_LEFT:
+					draw(x + 3, y - 31, pbk_enemies[151]);
 					break;
-				case SENS_DROITE:
-					draw(x - 3, y - 31, pbk_ennemis[151]);
+				case FACING_RIGHT:
+					draw(x - 3, y - 31, pbk_enemies[151]);
 					break;
 			}
 		}

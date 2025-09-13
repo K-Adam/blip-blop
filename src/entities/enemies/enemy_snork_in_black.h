@@ -8,7 +8,7 @@
 class EnemySnorkInBlack : public Enemy {
    private:
 	int x_cible;
-	int y_cible;
+	int y_target;
 	int nb_tir;
 
    public:
@@ -24,5 +24,5 @@ class EnemySnorkInBlack : public Enemy {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

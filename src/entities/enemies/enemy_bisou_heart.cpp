@@ -2,13 +2,13 @@
 #include "entities/gore_head_bisou_heart.h"
 #include "entities/shots/shot_bisou_heart.h"
 
-EnemyBisouHeart::EnemyBisouHeart() { pv = 300; }
+EnemyBisouHeart::EnemyBisouHeart() { hp = 300; }
 
 void EnemyBisouHeart::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -25,7 +25,7 @@ void EnemyBisouHeart::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouHeart::onAvance() {
@@ -34,31 +34,31 @@ void EnemyBisouHeart::onAvance() {
 	static const int anim_gauche[] = {431, 432, 433, 434, 433, 432};
 	static const int anim_droite[] = {427, 428, 429, 430, 429, 428};
 
-	if (dir == SENS_GAUCHE) {
+	if (dir == FACING_LEFT) {
 		x -= SPEED;
 
-		if (mur_opaque(x, y) || x < xmin) dir = SENS_DROITE;
+		if (solid_wall(x, y) || x < xmin) dir = FACING_RIGHT;
 
-		pic = pbk_ennemis[anime(anim_gauche, 6, 7)];
+		pic = pbk_enemies[animate(anim_gauche, 6, 7)];
 	} else {
 		x += SPEED;
 
-		if (mur_opaque(x, y) || x > offset + 600) dir = SENS_GAUCHE;
+		if (solid_wall(x, y) || x > offset + 600) dir = FACING_LEFT;
 
-		pic = pbk_ennemis[anime(anim_droite, 6, 7)];
+		pic = pbk_enemies[animate(anim_droite, 6, 7)];
 	}
 
-	if (etape == 3 && ss_etape == 0) {
-		ShotBisouHeart* tir = new ShotBisouHeart();
+	if (anim_step == 3 && anim_tick == 0) {
+		ShotBisouHeart* shot = new ShotBisouHeart();
 
-		if (dir == SENS_DROITE)
-			tir->xbase = x + 10;
+		if (dir == FACING_RIGHT)
+			shot->xbase = x + 10;
 		else
-			tir->xbase = x - 10;
+			shot->xbase = x - 10;
 
-		tir->y = y;
+		shot->y = y;
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 	}
 
 	colFromPic();
@@ -67,24 +67,24 @@ void EnemyBisouHeart::onAvance() {
 void EnemyBisouHeart::onMeure() {
 	static const int SPEED = 2;
 
-	ss_etape += 1;
-	ss_etape %= 3;
+	anim_tick += 1;
+	anim_tick %= 3;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 5) {
-			etat = ETAT_MEURE_2;
+		if (anim_step > 5) {
+			status = ETAT_MEURE_2;
 			return;
 		}
 
-		if (etape == 4) {
+		if (anim_step == 4) {
 			GoreHeadBisouHeart* tete = new GoreHeadBisouHeart();
 
 			tete->y = y - 20;
 			tete->dir = dir;
 
-			if (dir == SENS_DROITE)
+			if (dir == FACING_RIGHT)
 				tete->x = x + 11;
 			else
 				tete->x = x - 11;
@@ -93,11 +93,11 @@ void EnemyBisouHeart::onMeure() {
 		}
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[435 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[435 + anim_step];
 		x += SPEED;
 	} else {
-		pic = pbk_ennemis[441 + etape];
+		pic = pbk_enemies[441 + anim_step];
 		x -= SPEED;
 	}
 }
@@ -105,18 +105,18 @@ void EnemyBisouHeart::onMeure() {
 void EnemyBisouHeart::onPart() {
 	static const int SPEED = 10;
 
-	if (dir == SENS_DROITE)
+	if (dir == FACING_RIGHT)
 		x += SPEED;
 	else
 		x -= SPEED;
 }
 
-void EnemyBisouHeart::estTouche(Shot* tir) {
+void EnemyBisouHeart::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));
+	if (status == ETAT_MEURE) sbk_level.play((rand() % 9));
 }

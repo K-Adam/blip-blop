@@ -13,20 +13,20 @@ class HUD {
 	enum class Color { Blue, Orange };
 
 	void Draw(Ball* player, Location location, Color color, bool bonus_stage) {
-		DrawHealth(player->pv, location);
+		DrawHealth(player->hp, location);
 		DrawScore(player->getScore(), location, color);
 		if (bonus_stage) {
 			DrawBonusStage(location);
 		} else {
 			DrawLives(player->nb_life, location);
 		}
-		DrawWeapon(player->id_arme, location);
+		DrawWeapon(player->weapon_id, location);
 
 		// FIXME: the drawer should not know which weapons have unlimited ammo
-		if (player->id_arme == ID_M16) {
+		if (player->weapon_id == ID_M16) {
 			DrawAmmo(-1, false, location);
 		} else {
-			DrawAmmo(player->ammo, player->tire, location);
+			DrawAmmo(player->ammo, player->is_firing, location);
 		}
 		DrawCowBomb(player->nb_cow_bomb, location);
 	}
@@ -68,7 +68,7 @@ class HUD {
 			case ID_LF:
 				pic = pbk_misc[11];
 				break;
-			case ID_FUSIL:
+			case ID_SHOTGUN:
 				pic = pbk_misc[9];
 				break;
 			case ID_LASER:

@@ -10,7 +10,7 @@ class EnemySnorkyHyporider : public Enemy {
 	int wait_for_charge;
 	int charge_delay;
 	int nageoire;
-	int attack_etape;
+	int attack_step;
 
 	EnemySnorkyHyporider();
 
@@ -18,8 +18,8 @@ class EnemySnorkyHyporider : public Enemy {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCharge();
-	void affiche() override;
+	void render() override;
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

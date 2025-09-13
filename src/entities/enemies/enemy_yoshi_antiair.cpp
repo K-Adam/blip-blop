@@ -3,14 +3,14 @@
 
 EnemyYoshiAntiair::EnemyYoshiAntiair() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
 	tresor = 12;
-	pv = 400;
+	hp = 400;
 }
 
 void EnemyYoshiAntiair::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -28,117 +28,117 @@ void EnemyYoshiAntiair::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyYoshiAntiair::onAvance() {
-	tombe();
+	fall();
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 150;
-		if (tete_turc->x > x) {
-			dir = SENS_DROITE;
+		if (targeted_player->x > x) {
+			dir = FACING_RIGHT;
 		} else {
-			dir = SENS_GAUCHE;
+			dir = FACING_LEFT;
 		}
-		etape = 0;
-		etat = ETAT_TIRE;
-		sbk_niveau.play(35);
+		anim_step = 0;
+		status = ETAT_TIRE;
+		sbk_level.play(35);
 		onTire();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[28];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[28];
 	} else {
-		pic = pbk_ennemis[31];
+		pic = pbk_enemies[31];
 	}
 
 	colFromPic();
 }
 
 void EnemyYoshiAntiair::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 9) etape += 1;
+	if (anim_tick == 0 && anim_step < 9) anim_step += 1;
 
-	if (etape >= 9) {
-		int yy = plat(x, y);
+	if (anim_step >= 9) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
+		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[71 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[71 + anim_step];
 		else
-			pic = pbk_ennemis[62 + etape];
+			pic = pbk_enemies[62 + anim_step];
 	}
 }
 
 void EnemyYoshiAntiair::onTire() {
-	ss_etape += 1;
-	ss_etape %= 15;
+	anim_tick += 1;
+	anim_tick %= 15;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 2) {
-		ShotShell* tir = new ShotShell();
+	if (anim_step >= 2) {
+		ShotShell* shot = new ShotShell();
 
-		tir->setDir(dir);
+		shot->setDir(dir);
 
-		if (dir == SENS_GAUCHE)
-			tir->x = x - 23;
+		if (dir == FACING_LEFT)
+			shot->x = x - 23;
 		else
-			tir->x = x + 23;
+			shot->x = x + 23;
 
-		tir->y = y - 23;
+		shot->y = y - 23;
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 
-		etape = 0;
-		etat = ETAT_AVANCE;
+		anim_step = 0;
+		status = ETAT_AVANCE;
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[54 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[54 + anim_step];
 	} else {
-		pic = pbk_ennemis[56 + etape];
+		pic = pbk_enemies[56 + anim_step];
 	}
 
 	colFromPic();
 }
 
 void EnemyYoshiAntiair::onCarbonise() {
-	tombe();
-	ss_etape++;
-	ss_etape %= 5;
+	fall();
+	anim_tick++;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape++;
+	if (anim_tick == 0) anim_step++;
 
-	if (etape >= 14)
-		a_detruire = true;
+	if (anim_step >= 14)
+		destroyed = true;
 	else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[460 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[460 + anim_step];
 		else
-			pic = pbk_ennemis[474 + etape];
+			pic = pbk_enemies[474 + anim_step];
 	}
 }
 
-void EnemyYoshiAntiair::estTouche(Shot* tir) {
+void EnemyYoshiAntiair::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		sbk_misc.play(6 + rand() % 3);
 	}
 }

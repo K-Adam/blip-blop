@@ -5,7 +5,7 @@
 
 class ShotBBPM : public ShotBB {
    public:
-	inline int degats() const override { return 75; };
+	inline int damage() const override { return 75; };
 
 	inline int enflame() const override { return 0; };
 

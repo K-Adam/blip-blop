@@ -4,40 +4,40 @@
 #include "entities/make_bonus.h"
 #include "entities/splatter.h"
 
-Character* tete_turc;
+Character* targeted_player;
 int wait_for_bonus;
 int num_giclure;
 
 Enemy::Enemy() : xmin(offset), blood(0), tresor(5) {}
 
-void Enemy::estTouche(Shot* tir) {
-	int blessure = tir->degats();
+void Enemy::takeHit(Shot* shot) {
+	int blessure = shot->damage();
 
-	if (blessure < pv) {
-		tir->aTouche(blessure);
-		pv -= blessure;
+	if (blessure < hp) {
+		shot->aTouche(blessure);
+		hp -= blessure;
 	} else {
-		tir->aTouche(pv);
-		pv = 0;
-		etape = 0;
-		ss_etape = 0;
+		shot->aTouche(hp);
+		hp = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		col_on = false;
 
-		if (tir->enflame() == 2) {
-			etat = ETAT_CARBONISE;
-			tir->aTue();
+		if (shot->enflame() == 2) {
+			status = ETAT_CARBONISE;
+			shot->aTue();
 		} else {
-			etat = ETAT_MEURE;
-			tir->aTue();
+			status = ETAT_MEURE;
+			shot->aTue();
 
 			if (pic != NULL) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
 
-				if (mur_sanglant(x, y_trace)) {
+				if (bloody_wall(x, y_trace)) {
 					num_giclure += 1;
 					num_giclure %= 14;
 
-					grave(x, y_trace, pbk_misc[50 + num_giclure]);
+					engrave(x, y_trace, pbk_misc[50 + num_giclure]);
 				}
 			}
 		}
@@ -55,19 +55,19 @@ void Enemy::estTouche(Shot* tir) {
 	}
 }
 
-void Enemy::gicle(const Shot* tir, const int* dxg, const int* dyg) {
-	if (blood > 0 || tir->enflame()) return;
+void Enemy::gicle(const Shot* shot, const int* dxg, const int* dyg) {
+	if (blood > 0 || shot->enflame()) return;
 
 	Splatter* gicle = new Splatter();
 
 	gicle->pere = this;
-	int d = gicle->dir = tir->getGiclureDir();
+	int d = gicle->dir = shot->getGiclureDir();
 	gicle->deltax = dxg[d];
 	gicle->deltay = dyg[d];
 
 	blood = 20;
 
-	list_giclures.emplace_back(gicle);
+	list_splatters.emplace_back(gicle);
 }
 
 void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const {
@@ -80,9 +80,9 @@ void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& 
 		int ddy = yspeed;
 
 		while (ytir < yci && netape < 40) {
-			ytir += ddy * LATENCE_GRAVITE;
+			ytir += ddy * GRAVITY_DELAY;
 
-			if (ddy < GRAVITE_MAX) ddy += 1;
+			if (ddy < GRAVITY_MAX) ddy += 1;
 
 			netape += 1;
 		};
@@ -92,9 +92,9 @@ void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& 
 		int ddy = yspeed;
 
 		while (ytir > yci && netape < 40) {
-			ytir += ddy * LATENCE_GRAVITE;
+			ytir += ddy * GRAVITY_DELAY;
 
-			if (ddy < GRAVITE_MAX) ddy += 1;
+			if (ddy < GRAVITY_MAX) ddy += 1;
 
 			netape += 1;
 		};
@@ -105,7 +105,7 @@ void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& 
 	if (netape == 0)
 		xspeed = 0;
 	else {
-		xspeed = ddx / (netape * LATENCE_GRAVITE);
+		xspeed = ddx / (netape * GRAVITY_DELAY);
 
 		if (ddx < -20)
 			xspeed -= 1;

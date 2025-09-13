@@ -12,7 +12,7 @@ class EnemySmurfette : public Enemy {
 	void update() override;
 	virtual void onAvance();
 	virtual void onTire();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	virtual void onCarbonise();
 	virtual void onMeure();
 };

@@ -1,35 +1,35 @@
 #include "entities/shots/shot_cruiser_laser.h"
 
 ShotCruiserLaser::ShotCruiserLaser(int vx, int nb_pic) : dx(vx) {
-	pic = pbk_niveau[nb_pic];
-	etape = 0;
-	ss_etape = 2;
+	pic = pbk_level[nb_pic];
+	anim_step = 0;
+	anim_tick = 2;
 }
 
 void ShotCruiserLaser::update() {
-	ss_etape++;
-	ss_etape %= 4;
-	if (ss_etape == 0) etape++;
-	if (etape == 4) {
-		a_detruire = true;
+	anim_tick++;
+	anim_tick %= 4;
+	if (anim_tick == 0) anim_step++;
+	if (anim_step == 4) {
+		destroyed = true;
 	} else {
 		switch (npic) {
 			case 10:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x += 36;
 					y += 19;
 				}
 				break;
 
 			case 11:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x += 19;
 					y += 19;
 				}
 				break;
 
 			case 12:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x += 10;
 					y += 19;
 				}
@@ -37,26 +37,26 @@ void ShotCruiserLaser::update() {
 
 			case 13:
 
-				if ((etape == 1) && (ss_etape == 0)) y += 19;
+				if ((anim_step == 1) && (anim_tick == 0)) y += 19;
 
 				break;
 
 			case 14:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x -= 36;
 					y -= 19;
 				}
 				break;
 
 			case 15:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x -= 19;
 					y -= 19;
 				}
 				break;
 
 			case 16:
-				if ((etape == 1) && (ss_etape == 0)) {
+				if ((anim_step == 1) && (anim_tick == 0)) {
 					x -= 10;
 					y -= 19;
 				}
@@ -64,16 +64,16 @@ void ShotCruiserLaser::update() {
 
 			case 17:
 
-				if ((etape == 1) && (ss_etape == 0)) y -= 19;
+				if ((anim_step == 1) && (anim_tick == 0)) y -= 19;
 
 				break;
 		}
 
-		if (etape > 0) {
+		if (anim_step > 0) {
 			if (dx > 0) {
-				pic = pbk_niveau[20 + etape];
+				pic = pbk_level[20 + anim_step];
 			} else {
-				pic = pbk_niveau[17 + etape];
+				pic = pbk_level[17 + anim_step];
 			}
 		}
 	}

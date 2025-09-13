@@ -2,7 +2,7 @@
 
 class BackgroundPokeSwitch : public Sprite {
    private:
-	bool etat;
+	bool status;
 	bool wait_msg;
 	bool ascenc_msg;
 	bool bravo;

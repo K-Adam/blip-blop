@@ -4,7 +4,7 @@
 
 class EventVehicle : public Event {
    public:
-	int id_vehicule;
+	int vehicle_id;
 	int x;
 	int y;
 	int dir;

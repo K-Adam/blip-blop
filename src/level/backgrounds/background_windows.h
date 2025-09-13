@@ -5,17 +5,17 @@
 class BackgroundWindows : public Sprite {
    public:
 	void update() override {
-		ss_etape += 1;
-		ss_etape %= 180;
+		anim_tick += 1;
+		anim_tick %= 180;
 
-		if (ss_etape == 0) {
-			etape += 1;
-			etape %= 4;
+		if (anim_tick == 0) {
+			anim_step += 1;
+			anim_step %= 4;
 		}
 
 		int i = 54;
 
-		switch (etape) {
+		switch (anim_step) {
 			case 1:
 			case 2:
 				i = 56;
@@ -25,8 +25,8 @@ class BackgroundWindows : public Sprite {
 				break;
 		}
 
-		pic = pbk_niveau[i];
+		pic = pbk_level[i];
 
-		updateADetruire();
+		updateDestroyed();
 	};
 };

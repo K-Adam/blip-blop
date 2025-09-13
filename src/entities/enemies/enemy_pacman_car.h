@@ -13,8 +13,8 @@ class EnemyPacmanCar : public Enemy {
    public:
 	EnemyPacmanCar();
 	void update() override;
-	int degats() override;
+	int damage() override;
 	virtual void tombeVoiture();
-	void affiche() override;
-	void estTouche(Shot* tir) override;
+	void render() override;
+	void takeHit(Shot* shot) override;
 };

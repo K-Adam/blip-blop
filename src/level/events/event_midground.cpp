@@ -8,7 +8,7 @@ void EventMidground::doEvent() {
 
 	s->x = x;
 	s->y = y;
-	s->pic = pbk_niveau[id];
+	s->pic = pbk_level[id];
 
-	list_fonds_statiques.emplace_back(s);
+	list_static_bgs.emplace_back(s);
 }

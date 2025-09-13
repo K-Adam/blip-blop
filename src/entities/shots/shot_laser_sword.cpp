@@ -3,21 +3,21 @@
 
 ShotLaserSword::ShotLaserSword() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1) {
 	duree_vie = 200 + rand() % 100;
-	sbk_niveau.play(13, SOUND_LOOP);
+	sbk_level.play(13, SOUND_LOOP);
 }
 
-ShotLaserSword::~ShotLaserSword() { sbk_niveau.stop(13); }
+ShotLaserSword::~ShotLaserSword() { sbk_level.stop(13); }
 
 void ShotLaserSword::update() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 24;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 24;
 	}
 
-	pic = pbk_ennemis[525 + etape];
+	pic = pbk_enemies[525 + anim_step];
 
 	x += dx / 10;
 	y += dy / 10;
@@ -26,13 +26,13 @@ void ShotLaserSword::update() {
 	int yc = 240;
 
 	if (!isdead) {
-		if (lanceur->a_detruire || ((Enemy*)lanceur)->etat == ETAT_MEURE) {
+		if (lanceur->destroyed || ((Enemy*)lanceur)->status == ETAT_MEURE) {
 			isdead = true;
 		}
 	}
 
 	if (isdead) {
-		updateADetruire();
+		updateDestroyed();
 	} else if (retour) {
 		xc = lanceur->x;
 		yc = lanceur->y - 25;
@@ -41,13 +41,13 @@ void ShotLaserSword::update() {
 		int ddy = yc - y;
 
 		if (ddx > -10 && ddx < 10 && ddy > -10 && ddy < 10) {
-			a_detruire = true;
+			destroyed = true;
 			((EnemyBisouJedi*)lanceur)->a_epee = true;
 		}
 	} else {
 		duree_vie -= 1;
 
-		if (cible->a_detruire || duree_vie < 0) {
+		if (cible->destroyed || duree_vie < 0) {
 			accel = 4;
 			retour = true;
 		} else {

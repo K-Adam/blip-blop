@@ -3,18 +3,18 @@
 class EnemyGenerator {
    public:
 	virtual ~EnemyGenerator() = default;
-	int id_ennemi;
-	int sens;
+	int enemy_id;
+	int facing;
 	int x;
 	int y;
-	int periode;
-	int capacite;
+	int period;
+	int capacity;
 	int t;
-	bool a_detruire;
+	bool destroyed;
 
 	EnemyGenerator();
 
 	virtual void update();
 
-	inline virtual bool aDetruire() { return a_detruire; };
+	inline virtual bool isDestroyed() { return destroyed; };
 };

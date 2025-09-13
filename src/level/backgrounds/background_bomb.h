@@ -21,5 +21,5 @@ class BackgroundBomb : public Sprite {
 	BackgroundBomb();
 
 	void update() override;
-	void affiche() override;
+	void render() override;
 };

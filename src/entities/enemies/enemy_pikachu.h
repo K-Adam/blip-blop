@@ -9,5 +9,5 @@ class EnemyPikachu : public Enemy {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

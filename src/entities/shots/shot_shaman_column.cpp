@@ -1,79 +1,79 @@
 #include "entities/shots/shot_shaman_column.h"
 
-ShotShamanColumn::ShotShamanColumn() : etat(0) { duree_vie = 250 + rand() % 100; }
+ShotShamanColumn::ShotShamanColumn() : status(0) { duree_vie = 250 + rand() % 100; }
 
 void ShotShamanColumn::update() {
 	deplace();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	switch (etat) {
+	switch (status) {
 		case 0:
 
-			if (ss_etape == 0) {
-				etape += 1;
+			if (anim_tick == 0) {
+				anim_step += 1;
 
-				if (etape > 4) {
-					etat = 1;
+				if (anim_step > 4) {
+					status = 1;
 					return;
 				}
 			}
 
-			pic = pbk_ennemis[398 - etape];
+			pic = pbk_enemies[398 - anim_step];
 
 			break;
 
 		case 1:
 
-			if (ss_etape == 0) {
-				etape += 1;
-				etape %= 6;
+			if (anim_tick == 0) {
+				anim_step += 1;
+				anim_step %= 6;
 			}
 
 			duree_vie -= 1;
 
 			if (duree_vie <= 0) {
-				etat = 2;
-				etape = ss_etape = 0;
+				status = 2;
+				anim_step = anim_tick = 0;
 				return;
 			}
 
-			pic = pbk_ennemis[399 + etape];
+			pic = pbk_enemies[399 + anim_step];
 
 			break;
 
 		case 2:
 
-			if (ss_etape == 0) {
-				etape += 1;
+			if (anim_tick == 0) {
+				anim_step += 1;
 
-				if (etape > 4) {
-					a_detruire = true;
+				if (anim_step > 4) {
+					destroyed = true;
 					return;
 				}
 			}
 
-			pic = pbk_ennemis[394 + etape];
+			pic = pbk_enemies[394 + anim_step];
 
 			break;
 	}
 
 	colFromPic();
-	updateADetruire();
+	updateDestroyed();
 }
 
 void ShotShamanColumn::deplace() {
 	static const int SPEED = 4;
 
-	tombe();
+	fall();
 
-	if (mur_opaque(x - SPEED, y) || x + SPEED < offset)
-		dir = SENS_DROITE;
+	if (solid_wall(x - SPEED, y) || x + SPEED < offset)
+		dir = FACING_RIGHT;
 	else if (x + SPEED > offset + 640)
-		dir = SENS_GAUCHE;
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
 	} else {
 		marche(-SPEED);

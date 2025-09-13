@@ -4,16 +4,16 @@
 const int anim_guard_marche_gauche[] = {135, 136, 137, 136};
 
 EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princesse, int distance) : princesse(Princesse), distance_couverture(distance) {
-	pv = 2500;
+	hp = 2500;
 	tresor = 100;
-	dir = SENS_GAUCHE;
+	dir = FACING_LEFT;
 }
 
 void EnemyPrincessGuard::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -24,62 +24,62 @@ void EnemyPrincessGuard::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyPrincessGuard::onAvance() {
-	if (princesse->a_detruire == true) {
-		a_detruire = true;
+	if (princesse->destroyed == true) {
+		destroyed = true;
 	}
 
 	if (game_flag[2]) {
-		etat = ETAT_MEURE;
+		status = ETAT_MEURE;
 		onMeure();
 		return;
 	}
-	tombe();
+	fall();
 	if (princesse != NULL) {
 		if ((x + distance_couverture + GUARD_SPEED) < princesse->x) {
 			marche(GUARD_SPEED);
-			pic = pbk_ennemis[anime(anim_guard_marche_gauche, 4, 6)];
+			pic = pbk_enemies[animate(anim_guard_marche_gauche, 4, 6)];
 		} else if ((x + distance_couverture - GUARD_SPEED) > princesse->x) {
 			marche(-GUARD_SPEED * 3);
-			pic = pbk_ennemis[anime(anim_guard_marche_gauche, 4, 6)];
+			pic = pbk_enemies[animate(anim_guard_marche_gauche, 4, 6)];
 		} else {
-			pic = pbk_ennemis[135];
+			pic = pbk_enemies[135];
 		}
 	} else {
-		a_detruire = true;
+		destroyed = true;
 	}
 
 	colFromPic();
 }
 
 void EnemyPrincessGuard::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 10) etape += 1;
+	if (anim_tick == 0 && anim_step < 10) anim_step += 1;
 
-	if (etape >= 10) {
-		int yy = plat(x, y);
+	if (anim_step >= 10) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) {
-			grave(x, y, pic);
-			a_detruire = true;
+		if (yy != 0 && yy != y_platform[4][x]) {
+			engrave(x, y, pic);
+			destroyed = true;
 			game_flag[3] -= 1;
 		}
 	} else {
-		pic = pbk_ennemis[138 + etape];
+		pic = pbk_enemies[138 + anim_step];
 	}
 }
 
-void EnemyPrincessGuard::estTouche(Shot* tir) {
+void EnemyPrincessGuard::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 }

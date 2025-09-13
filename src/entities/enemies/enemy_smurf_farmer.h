@@ -13,13 +13,13 @@ class EnemySmurfFarmer : public Enemy {
 
 	EnemySmurfFarmer();
 
-	inline void affiche() override {
-		Enemy::affiche();
-		if (etat == ETAT_MEURE && tete_etape < 5) {
-			if (dir == SENS_GAUCHE)
-				draw(x_mort, y_mort, pbk_ennemis[169 + tete_etape]);
+	inline void render() override {
+		Enemy::render();
+		if (status == ETAT_MEURE && tete_etape < 5) {
+			if (dir == FACING_LEFT)
+				draw(x_mort, y_mort, pbk_enemies[169 + tete_etape]);
 			else
-				draw(x_mort, y_mort, pbk_ennemis[164 + tete_etape]);
+				draw(x_mort, y_mort, pbk_enemies[164 + tete_etape]);
 		}
 	}
 
@@ -28,5 +28,5 @@ class EnemySmurfFarmer : public Enemy {
 	virtual void onMeure();
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

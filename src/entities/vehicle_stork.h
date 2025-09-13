@@ -14,5 +14,5 @@ class VehicleStork : public Vehicle {
 
 	void updateUsed() override;
 	void updateNotUsed() override;
-	void affiche() override;
+	void render() override;
 };

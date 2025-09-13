@@ -6,7 +6,7 @@ class EnemyCOMFlying : public Enemy {
    private:
 	int speed;
 	bool attack;
-	int y_cible;
+	int y_target;
 
    public:
 	EnemyCOMFlying();

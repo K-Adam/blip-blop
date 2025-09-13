@@ -13,33 +13,33 @@ class GoreHeadBisouHeart : public Sprite {
 	};
 
 	void update() override {
-		tombe();
+		fall();
 
-		ss_etape += 1;
-		ss_etape %= 5;
+		anim_tick += 1;
+		anim_tick %= 5;
 
-		if (plat(x, y) == 0) {
+		if (platform_y(x, y) == 0) {
 			x += dx;
 		}
 
-		if (ss_etape == 0 && (etape < 3 || plat(x, y) != 0)) {
-			if (!joue_son && plat(x, y) != 0) {
+		if (anim_tick == 0 && (anim_step < 3 || platform_y(x, y) != 0)) {
+			if (!joue_son && platform_y(x, y) != 0) {
 				sbk_misc.play(6 + (rand() % 2));
 				joue_son = true;
 			}
 
-			etape += 1;
+			anim_step += 1;
 
-			if (etape > 6) {
-				grave(x, y, pic);
-				a_detruire = true;
+			if (anim_step > 6) {
+				engrave(x, y, pic);
+				destroyed = true;
 				return;
 			}
 		}
 
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[447 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[447 + anim_step];
 		else
-			pic = pbk_ennemis[454 + etape];
+			pic = pbk_enemies[454 + anim_step];
 	};
 };

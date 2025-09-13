@@ -156,7 +156,7 @@ class Game {
 	template <class T>
 	void DrawCollection(const T& xs);
 	void drawHUB();
-	void drawHUBpv(int x, int y, int pv);
+	void drawHUBpv(int x, int y, int hp);
 	void drawTimer();
 
 	void drawDebugInfos();
@@ -167,7 +167,7 @@ class Game {
 	Task<> showPE(bool bonus, bool fuckOff = false);
 	void drawLoading();
 	Task<> getHiscore();
-	Task<> getName(Player* joueur, int i);
+	Task<> getName(Player* hero, int i);
 	Task<> showGameOver();
 	Task<> showHighScores();
 

@@ -14,7 +14,7 @@ static const int ytel[] = {296, 130, 188};
 #define ETAT_TELE 32
 
 EnemyBisouShaman::EnemyBisouShaman() : etape_shoot(0), nb_touch(0), n_pos(1) {
-	pv = 11000;
+	hp = 11000;
 	wait_shoot = 250 + rand() % 50;
 	tresor = 0;
 }
@@ -23,7 +23,7 @@ void EnemyBisouShaman::update() {
 	game_flag[2] = 1;
 
 	if (game_flag[0] == 1) {
-		mbk_niveau.play(1);
+		mbk_level.play(1);
 		game_flag[0] = 2;
 		game_flag[FLAG_TIMER] = 50;
 	}
@@ -32,8 +32,8 @@ void EnemyBisouShaman::update() {
 
 	etape_shoot += 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -60,42 +60,42 @@ void EnemyBisouShaman::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouShaman::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape > 12) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step > 12) {
+		engrave(x, y, pic);
+		destroyed = true;
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[332 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[332 + anim_step];
 		else
-			pic = pbk_ennemis[345 + etape];
+			pic = pbk_enemies[345 + anim_step];
 	}
 }
 
 void EnemyBisouShaman::onTele() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape == 8) {
+		if (anim_step == 8) {
 			int new_pos;
 
-			if (tete_turc->x > offset + 320) {
+			if (targeted_player->x > offset + 320) {
 				new_pos = 2;
 			} else {
-				if (tete_turc->y < 280)
+				if (targeted_player->y < 280)
 					new_pos = 0;
 				else
 					new_pos = 1;
@@ -110,40 +110,40 @@ void EnemyBisouShaman::onTele() {
 
 			x = xtel[n_pos];
 			y = ytel[n_pos];
-		} else if (etape == 19) {
-			etat = ETAT_NORMAL;
+		} else if (anim_step == 19) {
+			status = STATE_NORMAL;
 			nb_touch = 0;
 			return;
 		}
 	}
 
-	if (etape <= 7) {
+	if (anim_step <= 7) {
 		if (x < offset + 320) {
-			pic = pbk_ennemis[316 + etape];
-			dir = SENS_DROITE;
+			pic = pbk_enemies[316 + anim_step];
+			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_ennemis[324 + etape];
-			dir = SENS_GAUCHE;
+			pic = pbk_enemies[324 + anim_step];
+			dir = FACING_LEFT;
 		}
-	} else if (etape <= 10) {
-		if (ss_etape % 2 == 0) {
+	} else if (anim_step <= 10) {
+		if (anim_tick % 2 == 0) {
 			if (x < offset + 320) {
-				pic = pbk_ennemis[323];
-				dir = SENS_DROITE;
+				pic = pbk_enemies[323];
+				dir = FACING_RIGHT;
 			} else {
-				pic = pbk_ennemis[331];
-				dir = SENS_GAUCHE;
+				pic = pbk_enemies[331];
+				dir = FACING_LEFT;
 			}
 		} else {
 			pic = NULL;
 		}
 	} else {
 		if (x < offset + 320) {
-			pic = pbk_ennemis[323 - (etape - 11)];
-			dir = SENS_DROITE;
+			pic = pbk_enemies[323 - (anim_step - 11)];
+			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_ennemis[331 - (etape - 11)];
-			dir = SENS_GAUCHE;
+			pic = pbk_enemies[331 - (anim_step - 11)];
+			dir = FACING_LEFT;
 		}
 	}
 
@@ -151,62 +151,62 @@ void EnemyBisouShaman::onTele() {
 }
 
 void EnemyBisouShaman::onLeveBaton() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 2) {
-			etape = ss_etape = 0;
-			etat = ETAT_TIRE;
+		if (anim_step > 2) {
+			anim_step = anim_tick = 0;
+			status = ETAT_TIRE;
 			nb_lueurs = 0;
 			onTire();
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[358 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[358 + anim_step];
 	else
-		pic = pbk_ennemis[361 + etape];
+		pic = pbk_enemies[361 + anim_step];
 
 	colFromPic();
 }
 
 void EnemyBisouShaman::onBaisseBaton() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 2) {
-			etape = ss_etape = 0;
-			etat = ETAT_AVANCE;
+		if (anim_step > 2) {
+			anim_step = anim_tick = 0;
+			status = ETAT_AVANCE;
 			wait_shoot = 100 + rand() % 50;
 			etape_shoot = 0;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[360 - etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[360 - anim_step];
 	else
-		pic = pbk_ennemis[363 - etape];
+		pic = pbk_enemies[363 - anim_step];
 
 	colFromPic();
 }
 
 void EnemyBisouShaman::onTire() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 11;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 11;
 
-		if (etape == 0) {
+		if (anim_step == 0) {
 			nb_lueurs += 1;
 
 			if (nb_lueurs >= 3) {
@@ -216,9 +216,9 @@ void EnemyBisouShaman::onTire() {
 				int ddx;
 				int ddy;
 
-				if (tete_turc != NULL) {
-					xc = tete_turc->x;
-					yc = tete_turc->y;
+				if (targeted_player != NULL) {
+					xc = targeted_player->x;
+					yc = targeted_player->y;
 
 					ddx = xc - x;
 					ddy = yc - (y - 72);
@@ -242,7 +242,7 @@ void EnemyBisouShaman::onTire() {
 
 					s->y = y - 72;
 
-					if (dir == SENS_DROITE)
+					if (dir == FACING_RIGHT)
 						s->x = x + 18;
 					else
 						s->x = x - 18;
@@ -250,24 +250,24 @@ void EnemyBisouShaman::onTire() {
 					s->dx = (ddx * 4) / 3;
 					s->dy = (ddy * 4) / 3;
 
-					list_tirs_ennemis.emplace_back(s);
+					list_enemy_shots.emplace_back(s);
 				} else {
 					ShotShamanColumn* s = new ShotShamanColumn();
 
 					s->y = y - 72;
 
-					if (dir == SENS_DROITE)
+					if (dir == FACING_RIGHT)
 						s->x = x + 18;
 					else
 						s->x = x - 18;
 
 					s->setDir(dir);
 
-					list_tirs_ennemis.emplace_back(s);
+					list_enemy_shots.emplace_back(s);
 				}
 
-				etape = ss_etape = 0;
-				etat = ETAT_BAISSEBATON;
+				anim_step = anim_tick = 0;
+				status = ETAT_BAISSEBATON;
 			}
 		}
 	}
@@ -275,84 +275,84 @@ void EnemyBisouShaman::onTire() {
 	colFromPic();
 }
 
-void EnemyBisouShaman::affiche() {
-	Sprite::affiche();
+void EnemyBisouShaman::render() {
+	Sprite::render();
 
-	if (etat == ETAT_TIRE) {
-		if (dir == SENS_DROITE)
-			draw(x + 18, y - 70, pbk_ennemis[405 + etape]);
+	if (status == ETAT_TIRE) {
+		if (dir == FACING_RIGHT)
+			draw(x + 18, y - 70, pbk_enemies[405 + anim_step]);
 		else
-			draw(x - 18, y - 70, pbk_ennemis[416 + etape]);
+			draw(x - 18, y - 70, pbk_enemies[416 + anim_step]);
 	}
 }
 
 void EnemyBisouShaman::onAvance() {
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
 	if (x < offset + 320) {
-		pic = pbk_ennemis[316];
-		dir = SENS_DROITE;
+		pic = pbk_enemies[316];
+		dir = FACING_RIGHT;
 	} else {
-		pic = pbk_ennemis[324];
-		dir = SENS_GAUCHE;
+		pic = pbk_enemies[324];
+		dir = FACING_LEFT;
 	}
 
-	if (etape_shoot > wait_shoot && etape == 0) {
-		etat = ETAT_LEVEBATON;
-		ss_etape = 0;
+	if (etape_shoot > wait_shoot && anim_step == 0) {
+		status = ETAT_LEVEBATON;
+		anim_tick = 0;
 		onLeveBaton();
 	}
 
 	if (nb_touch >= 10) {
-		etape = ss_etape = 0;
-		etat = ETAT_TELE;
-		sbk_niveau.play(16);
+		anim_step = anim_tick = 0;
+		status = ETAT_TELE;
+		sbk_level.play(16);
 	}
 
 	colFromPic();
 }
 
 void EnemyBisouShaman::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 7) {
-			a_detruire = true;
+		if (anim_step > 7) {
+			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[573 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[573 + anim_step];
 	else
-		pic = pbk_ennemis[581 + etape];
+		pic = pbk_enemies[581 + anim_step];
 }
 
-void EnemyBisouShaman::estTouche(Shot* tir) {
+void EnemyBisouShaman::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
 	nb_touch++;
 
-	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE) {
+	if (status == ETAT_MEURE || status == ETAT_CARBONISE) {
 		game_flag[0] = 7;
 		game_flag[FLAG_GEN_OFF] = 1;
-		sbk_niveau.play(19);
+		sbk_level.play(19);
 	}
 }

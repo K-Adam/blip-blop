@@ -13,6 +13,6 @@ class EnemyBisouSky : public Enemy {
 	virtual void onMeureHaut();
 	virtual void onMeureHautFin();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	void update() override;
 };

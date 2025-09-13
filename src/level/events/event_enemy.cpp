@@ -124,7 +124,7 @@
 void EventEnemy::doEvent() {
 	Enemy* enn = NULL;
 
-	switch (id_ennemi) {
+	switch (enemy_id) {
 		case IDENNEMI_SMURF:
 			switch (rand() % 6) {
 				case 0:
@@ -344,12 +344,12 @@ void EventEnemy::doEvent() {
 	if (enn != NULL) {
 		enn->x = x;
 		enn->y = y;
-		enn->dir = sens;
+		enn->dir = facing;
 
-		list_ennemis.emplace_back(enn);
+		list_enemies.emplace_back(enn);
 
-		if (enn->count()) nb_ennemis_created += 1;
+		if (enn->count()) nb_enemies_created += 1;
 	} else {
-		debug << "Erreur : identité d'ennemi inconnue (" << id_ennemi << ")\n";
+		debug << "Erreur : identité d'ennemi inconnue (" << enemy_id << ")\n";
 	}
 }

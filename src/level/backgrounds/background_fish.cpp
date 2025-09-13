@@ -4,95 +4,95 @@
 BackgroundFishRed::BackgroundFishRed() { dir = rand() % 2; }
 
 void BackgroundFishRed::update() {
-	ss_etape++;
-	ss_etape %= 9;
+	anim_tick++;
+	anim_tick %= 9;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
 	if (dir) {
 		x += POISSON_SPEED;
-		pic = pbk_niveau[2 + etape];
+		pic = pbk_level[2 + anim_step];
 	} else {
 		x -= POISSON_SPEED;
-		pic = pbk_niveau[5 + etape];
+		pic = pbk_level[5 + anim_step];
 	}
 
 	if ((x < offset - 100) || (x > offset + 740)) {
-		a_detruire = true;
+		destroyed = true;
 	}
 }
 
 BackgroundFishPurple::BackgroundFishPurple() { dir = rand() % 2; }
 
 void BackgroundFishPurple::update() {
-	ss_etape++;
-	ss_etape %= 9;
+	anim_tick++;
+	anim_tick %= 9;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
 	if (dir) {
 		x += POISSON_SPEED;
-		pic = pbk_niveau[14 + etape];
+		pic = pbk_level[14 + anim_step];
 	} else {
 		x -= POISSON_SPEED;
-		pic = pbk_niveau[17 + etape];
+		pic = pbk_level[17 + anim_step];
 	}
 
 	if ((x < offset - 100) || (x > offset + 740)) {
-		a_detruire = true;
+		destroyed = true;
 	}
 };
 
 BackgroundFishRedCamouflaged::BackgroundFishRedCamouflaged() { dir = rand() % 2; }
 
 void BackgroundFishRedCamouflaged::update() {
-	ss_etape++;
-	ss_etape %= 9;
+	anim_tick++;
+	anim_tick %= 9;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
 	if (dir) {
 		x += POISSON_SPEED;
-		pic = pbk_niveau[8 + etape];
+		pic = pbk_level[8 + anim_step];
 	} else {
 		x -= POISSON_SPEED;
-		pic = pbk_niveau[11 + etape];
+		pic = pbk_level[11 + anim_step];
 	}
 
 	if ((x < offset - 100) || (x > offset + 740)) {
-		a_detruire = true;
+		destroyed = true;
 	}
 }
 
 BackgroundFishPurpleCamouflaged::BackgroundFishPurpleCamouflaged() { dir = rand() % 2; }
 
 void BackgroundFishPurpleCamouflaged::update() {
-	ss_etape++;
-	ss_etape %= 9;
+	anim_tick++;
+	anim_tick %= 9;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
 	if (dir) {
 		x += POISSON_SPEED;
-		pic = pbk_niveau[20 + etape];
+		pic = pbk_level[20 + anim_step];
 	} else {
 		x -= POISSON_SPEED;
-		pic = pbk_niveau[23 + etape];
+		pic = pbk_level[23 + anim_step];
 	}
 
 	if ((x < offset - 100) || (x > offset + 740)) {
-		a_detruire = true;
+		destroyed = true;
 	}
 }

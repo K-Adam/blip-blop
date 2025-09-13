@@ -33,7 +33,7 @@ struct OBJECT {
 	int speed_anim;
 	int wait_anim;
 	bool loop_anim;
-	int etape;
+	int anim_step;
 
 	bool x_warp;
 	int x_warp1;
@@ -65,7 +65,7 @@ class CINEPlayer {
 	std::string str_arg[NB_ARG];
 
 	int num_ligne;
-	bool fini;
+	bool finished;
 	int frame_to_draw;
 
 	int clip_x1;

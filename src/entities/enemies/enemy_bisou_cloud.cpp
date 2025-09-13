@@ -2,7 +2,7 @@
 #include "entities/shots/shot_cloud.h"
 
 EnemyBisouCloud::EnemyBisouCloud() : etape_shoot(0) {
-	pv = 250;
+	hp = 250;
 	wait_shoot = 150 + rand() % 150;
 }
 
@@ -11,8 +11,8 @@ void EnemyBisouCloud::update() {
 
 	etape_shoot += 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onNormal();
 			break;
@@ -31,60 +31,60 @@ void EnemyBisouCloud::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouCloud::onMeureFin() {
-	if (etape < 6) {
-		ss_etape += 1;
-		ss_etape %= 3;
+	if (anim_step < 6) {
+		anim_tick += 1;
+		anim_tick %= 3;
 
-		if (ss_etape == 0) etape += 1;
+		if (anim_tick == 0) anim_step += 1;
 
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[236 + etape];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[236 + anim_step];
 		} else {
-			pic = pbk_ennemis[243 + etape];
+			pic = pbk_enemies[243 + anim_step];
 		}
 	} else {
-		grave(x, y, pic);
-		a_detruire = true;
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }
 
 void EnemyBisouCloud::onMeureTombe() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if (dir == SENS_GAUCHE)
-		pic = pbk_ennemis[234 + etape];
+	if (dir == FACING_LEFT)
+		pic = pbk_enemies[234 + anim_step];
 	else
-		pic = pbk_ennemis[232 + etape];
+		pic = pbk_enemies[232 + anim_step];
 
-	if (plat(x, y) != 0) {
-		etape = ss_etape = 0;
-		etat = ETAT_MEURE_4;
+	if (platform_y(x, y) != 0) {
+		anim_step = anim_tick = 0;
+		status = ETAT_MEURE_4;
 	}
 }
 
 void EnemyBisouCloud::onMeureWait() {
-	etape += 1;
+	anim_step += 1;
 
-	if (dir == SENS_GAUCHE)
-		pic = pbk_ennemis[261];
+	if (dir == FACING_LEFT)
+		pic = pbk_enemies[261];
 	else
-		pic = pbk_ennemis[260];
+		pic = pbk_enemies[260];
 
-	if (etape >= 30) {
-		etape = ss_etape = 0;
-		etat = ETAT_MEURE_2;
+	if (anim_step >= 30) {
+		anim_step = anim_tick = 0;
+		status = ETAT_MEURE_2;
 	}
 }
 
@@ -93,11 +93,11 @@ void EnemyBisouCloud::onNormal() {
 	static const int anim_droite[] = {226, 227, 228, 227};
 
 	if (x > (offset + 320)) {
-		dir = SENS_GAUCHE;
-		pic = pbk_ennemis[anime(anim_gauche, 4, 10)];
+		dir = FACING_LEFT;
+		pic = pbk_enemies[animate(anim_gauche, 4, 10)];
 	} else {
-		dir = SENS_DROITE;
-		pic = pbk_ennemis[anime(anim_droite, 4, 10)];
+		dir = FACING_RIGHT;
+		pic = pbk_enemies[animate(anim_droite, 4, 10)];
 	}
 
 	if (etape_shoot >= wait_shoot && x <= offset + 640) {
@@ -107,7 +107,7 @@ void EnemyBisouCloud::onNormal() {
 		s->y = y - 17;
 		s->dir = dir;
 
-		list_tirs_ennemis.emplace_back(s);
+		list_enemy_shots.emplace_back(s);
 
 		etape_shoot = 0;
 		wait_shoot = 250 + rand() % 250;

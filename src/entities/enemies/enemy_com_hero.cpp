@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_com_hero.h"
 
 EnemyCOMHero::EnemyCOMHero() : dorkeball(2) {
-	pv = 1000;
+	hp = 1000;
 	dy = -8;
 	dx = -2;
 }
@@ -9,44 +9,44 @@ EnemyCOMHero::EnemyCOMHero() : dorkeball(2) {
 void EnemyCOMHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
-		tombe();
+		fall();
 		int yp;
-		if ((dy > 0) && (yp = plat(x, y + dy)) != 0) {
-			etat = ETAT_NORMAL;
+		if ((dy > 0) && (yp = platform_y(x, y + dy)) != 0) {
+			status = STATE_NORMAL;
 			dy = 0;
 			y = yp;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			dorkeball = 1;
 			return;
 		} else {
-			ss_etape++;
-			ss_etape %= 5;
-			if (ss_etape == 0) {
-				etape++;
-				etape %= 4;
+			anim_tick++;
+			anim_tick %= 5;
+			if (anim_tick == 0) {
+				anim_step++;
+				anim_step %= 4;
 			}
-			pic = pbk_ennemis[272 + etape];
+			pic = pbk_enemies[272 + anim_step];
 		}
 	} else if (dorkeball == 1) {
-		ss_etape++;
-		ss_etape %= 8;
-		if (ss_etape == 0) {
-			etape++;
-			if (etape > 3) {
+		anim_tick++;
+		anim_tick %= 8;
+		if (anim_tick == 0) {
+			anim_step++;
+			if (anim_step > 3) {
 				dorkeball = 0;
-				etape = 0;
-				ss_etape = 0;
+				anim_step = 0;
+				anim_tick = 0;
 			} else {
-				pic = pbk_ennemis[388 + etape];
+				pic = pbk_enemies[388 + anim_step];
 			}
 		}
 
 	} else {
 		if (blood > 0) blood -= 1;
 
-		switch (etat) {
-			case ETAT_NORMAL:
+		switch (status) {
+			case STATE_NORMAL:
 			case ETAT_AVANCE:
 				onAvance();
 				break;
@@ -57,51 +57,51 @@ void EnemyCOMHero::update() {
 				break;
 		}
 
-		updateADetruire();
+		updateDestroyed();
 	}
 }
 
 void EnemyCOMHero::onAvance() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if (x - 1 < xmin || mur_opaque(x - 1, y))
-		dir = SENS_DROITE;
-	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))
-		dir = SENS_GAUCHE;
+	if (x - 1 < xmin || solid_wall(x - 1, y))
+		dir = FACING_RIGHT;
+	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(2);
 	} else {
 		marche(-2);
 	}
 
-	pic = pbk_ennemis[304 + etape];
+	pic = pbk_enemies[304 + anim_step];
 
 	colFromPic();
 }
 
 void EnemyCOMHero::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0 && etape < 22) etape += 1;
+	if (anim_tick == 0 && anim_step < 22) anim_step += 1;
 
-	if (etape >= 22) {
+	if (anim_step >= 22) {
 		game_flag[1]--;
-		a_detruire = true;
+		destroyed = true;
 	} else {
-		pic = pbk_ennemis[358 + etape];
+		pic = pbk_enemies[358 + anim_step];
 	}
 }
 
-void EnemyCOMHero::estTouche(Shot* tir) { Enemy::estTouche(tir); }
+void EnemyCOMHero::takeHit(Shot* shot) { Enemy::takeHit(shot); }

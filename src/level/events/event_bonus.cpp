@@ -13,7 +13,7 @@ void EventBonus::doEvent() {
 			bonus = new BonusPM();
 			break;
 
-		case BFUSIL:
+		case BSHOTGUN:
 			bonus = new BonusShotgun();
 			break;
 
@@ -33,7 +33,7 @@ void EventBonus::doEvent() {
 			bonus = new BonusInvincible();
 			break;
 
-		case BTONNO:
+		case BBARREL:
 			bonus = new BonusBarrel();
 			break;
 

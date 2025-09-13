@@ -24,7 +24,7 @@ void CINEPlayer::initPlayer() {
 
 	num_ligne = 0;
 	frame_to_draw = 0;
-	fini = false;
+	finished = false;
 	clip_x1 = 0;
 	clip_y1 = 0;
 	clip_x2 = 640;
@@ -90,16 +90,16 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 		}
 	}
 
-	while (!fini && !app_killed) {
+	while (!finished && !app_killed) {
 		updateState();
 		update_regulator_.Skip();
 
-		while (frame_to_draw > 0 && !fini && !app_killed) {
+		while (frame_to_draw > 0 && !finished && !app_killed) {
 			renderLoop();
 
 			// Enter also reads a click or pad A, a fresh press so fire held from the level does not skip
 			if (anyInputSkips ? in.anyNewPress() : in.scanKey(DIK_ESCAPE) || in.pressedKey(DIK_RETURN)) {
-				fini = true;
+				finished = true;
 				skiped = true;
 			}
 
@@ -136,14 +136,14 @@ void CINEPlayer::updateScene() {
 				obj[i].wait_anim += 1;
 				obj[i].wait_anim %= obj[i].speed_anim;
 
-				obj[i].pic = pbk[obj[i].anim[obj[i].etape]];
+				obj[i].pic = pbk[obj[i].anim[obj[i].anim_step]];
 
 				if (obj[i].wait_anim == 0) {
-					obj[i].etape += 1;
+					obj[i].anim_step += 1;
 
-					if (obj[i].etape >= obj[i].nb_anim) {
+					if (obj[i].anim_step >= obj[i].nb_anim) {
 						if (obj[i].loop_anim) {
-							obj[i].etape = 0;
+							obj[i].anim_step = 0;
 							obj[i].pic = pbk[obj[i].anim[0]];
 						} else {
 							obj[i].nb_anim = 0;
@@ -180,9 +180,9 @@ void CINEPlayer::updateState() {
 	int n2;
 	int i;
 
-	while (!fini && !to_draw && getCommand()) {
+	while (!finished && !to_draw && getCommand()) {
 		if (cmd_name == "endscene") {
-			fini = true;
+			finished = true;
 		} else if (cmd_name == "loadgfx") {
 			if (!pbk.loadGFX(str_arg[0].c_str())) error("ne peut pas charger le fichier GFX");
 		} else if (cmd_name == "loadmbk") {
@@ -283,7 +283,7 @@ void CINEPlayer::updateState() {
 				obj[n].id = OBJ_SPRITE;
 				obj[n].pic = pbk[int_arg[3]];
 				obj[n].wait_anim = 0;
-				obj[n].etape = 0;
+				obj[n].anim_step = 0;
 				obj[n].nb_anim = nb_args - 3;
 
 				for (i = 3; i < nb_args; i++) {
@@ -400,7 +400,7 @@ bool CINEPlayer::getCommand() {
 	do {
 		// A script without endscene would otherwise spin forever on EOF
 		if (!std::getline(fic_, line)) {
-			fini = true;
+			finished = true;
 			return false;
 		}
 		num_ligne += 1;
@@ -439,12 +439,12 @@ void CINEPlayer::closePlayer() { fic_ = std::stringstream{}; }
 
 bool CINEPlayer::error() {
 	debug << "CINEPlayer -> Syntax error line " << num_ligne << "\n";
-	fini = true;
+	finished = true;
 	return false;
 }
 
 bool CINEPlayer::error(const char* er) {
 	debug << "CINEPlayer -> Error line  " << num_ligne << " : " << er << "\n";
-	fini = true;
+	finished = true;
 	return false;
 }

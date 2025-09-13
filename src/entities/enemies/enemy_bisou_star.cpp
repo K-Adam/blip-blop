@@ -3,7 +3,7 @@
 #include "entities/shots/shot_star.h"
 
 EnemyBisouStar::EnemyBisouStar() : etape_shoot(0) {
-	pv = 200;
+	hp = 200;
 	wait_shoot = 200 + rand() % 250;
 }
 
@@ -12,8 +12,8 @@ void EnemyBisouStar::update() {
 
 	etape_shoot += 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -39,18 +39,18 @@ void EnemyBisouStar::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouStar::onMeureEntier() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 4) {
+	if (anim_step == 4) {
 		GoreFeetBisouStar* pieds = new GoreFeetBisouStar();
 
 		pieds->x = x;
@@ -61,24 +61,24 @@ void EnemyBisouStar::onMeureEntier() {
 
 		y -= 19;
 		dy = 0;
-		etape = 0;
-		ss_etape = 0;
-		etat = ETAT_MEURE_2;
+		anim_step = 0;
+		anim_tick = 0;
+		status = ETAT_MEURE_2;
 		onMeureHaut();
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[114 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[114 + anim_step];
 		else
-			pic = pbk_ennemis[118 + etape];
+			pic = pbk_enemies[118 + anim_step];
 	}
 }
 
 void EnemyBisouStar::onTire() {
-	ss_etape += 1;
+	anim_tick += 1;
 
-	if (ss_etape >= 60) {
-		ss_etape = 0;
-		etat = ETAT_AVANCE;
+	if (anim_tick >= 60) {
+		anim_tick = 0;
+		status = ETAT_AVANCE;
 		wait_shoot = 200 + rand() % 500;
 		;
 		etape_shoot = 0;
@@ -86,114 +86,114 @@ void EnemyBisouStar::onTire() {
 }
 
 void EnemyBisouStar::onMeureHaut() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[122 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[122 + anim_step];
 		x += 1;
 	} else {
-		pic = pbk_ennemis[126 + etape];
+		pic = pbk_enemies[126 + anim_step];
 		x -= 1;
 	}
 
-	tombe();
+	fall();
 
-	if (plat(x, y) != 0 && etape >= 3) {
-		etape = ss_etape = 0;
-		etat = ETAT_MEURE_3;
+	if (platform_y(x, y) != 0 && anim_step >= 3) {
+		anim_step = anim_tick = 0;
+		status = ETAT_MEURE_3;
 		onMeureHautFin();
 	}
 }
 
 void EnemyBisouStar::onMeureHautFin() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[106 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[106 + anim_step];
 	else
-		pic = pbk_ennemis[110 + etape];
+		pic = pbk_enemies[110 + anim_step];
 
-	if (etape >= 3) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step >= 3) {
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }
 
 void EnemyBisouStar::onAvance() {
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
-	if (x - SPEED < xmin || mur_opaque(x - SPEED, y) || (plat(x - SPEED, y) == 0 && plat(x - SPEED, y + 5) == 0))
-		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 680 || mur_opaque(x + SPEED, y) || (plat(x + SPEED, y) == 0 && plat(x + SPEED, y + 5) == 0))
-		dir = SENS_GAUCHE;
+	if (x - SPEED < xmin || solid_wall(x - SPEED, y) || (platform_y(x - SPEED, y) == 0 && platform_y(x - SPEED, y + 5) == 0))
+		dir = FACING_RIGHT;
+	else if (x + SPEED > offset + 680 || solid_wall(x + SPEED, y) || (platform_y(x + SPEED, y) == 0 && platform_y(x + SPEED, y + 5) == 0))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
-		pic = pbk_ennemis[78 + etape];
+		pic = pbk_enemies[78 + anim_step];
 	} else {
 		marche(-SPEED);
-		pic = pbk_ennemis[86 + etape];
+		pic = pbk_enemies[86 + anim_step];
 	}
 
 	etape_shoot += 1;
 
-	if (etape == 4 && etape_shoot >= wait_shoot && x > offset) {
+	if (anim_step == 4 && etape_shoot >= wait_shoot && x > offset) {
 		ShotStar* s = new ShotStar();
 
 		s->x = x;
 		s->y = y - 30;
 		s->dir = dir;
 
-		list_tirs_ennemis.emplace_back(s);
+		list_enemy_shots.emplace_back(s);
 
-		ss_etape = 0;
-		etat = ETAT_TIRE;
+		anim_tick = 0;
+		status = ETAT_TIRE;
 	}
 
 	colFromPic();
 }
 
 void EnemyBisouStar::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 6) {
-			a_detruire = true;
+		if (anim_step > 6) {
+			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[559 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[559 + anim_step];
 	else
-		pic = pbk_ennemis[566 + etape];
+		pic = pbk_enemies[566 + anim_step];
 }
 
-void EnemyBisouStar::estTouche(Shot* tir) {
+void EnemyBisouStar::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));
+	if (status == ETAT_MEURE) sbk_level.play((rand() % 9));
 }

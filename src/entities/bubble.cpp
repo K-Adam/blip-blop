@@ -13,5 +13,5 @@ void Bubble::update() {
 
 	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
 
-	if (xbase < offset - 10 || y < -10 || mur_opaque(x, y)) a_detruire = true;
+	if (xbase < offset - 10 || y < -10 || solid_wall(x, y)) destroyed = true;
 }

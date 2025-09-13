@@ -8,12 +8,12 @@ class BackgroundBattleCruiser : public Sprite {
    public:
 	int x_adversaire;
 	int y_adversaire;
-	int attack_etape;
+	int attack_step;
 	int feu_etape;
 	int feu_ss_etape;
 
 	BackgroundBattleCruiser();
 
 	void update() override;
-	void affiche() override;
+	void render() override;
 };

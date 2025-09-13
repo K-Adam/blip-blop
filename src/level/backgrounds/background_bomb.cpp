@@ -12,13 +12,13 @@ const int anim_nuke[] = {53, 53, 53, 54, 54, 54, 55, 55, 56, 57, 58, 59, 59, 60,
 						 61, 61, 60, 60, 60, 59, 59, 58, 57, 56, 55, 55, 54, 54, 54, 53, 53};
 
 BackgroundBomb::BackgroundBomb() : etape_compteur(0), etape_warning(0), ss_etape_warning(0), etape_nuke(0), ss_etape_nuke(0), armed(true) {
-	pic = pbk_niveau[52];
+	pic = pbk_level[52];
 }
 
 void BackgroundBomb::update() {
 	if (armed) {
-		if (tete_turc != NULL) {
-			if ((tete_turc->x > x - 50) && (tete_turc->x < x + 50) && (tete_turc->y > y - 10) && (tete_turc->y < y + 51)) {
+		if (targeted_player != NULL) {
+			if ((targeted_player->x > x - 50) && (targeted_player->x < x + 50) && (targeted_player->y > y - 10) && (targeted_player->y < y + 51)) {
 				game_flag[0]++;
 				armed = false;
 				Bonus* bonus = nullptr;
@@ -44,14 +44,14 @@ void BackgroundBomb::update() {
 					list_bonus.emplace_back(bonus);
 				}
 
-				sbk_niveau.play(1);
+				sbk_level.play(1);
 			}
 		}
-		ss_etape++;
-		ss_etape %= 4;
-		if (ss_etape == 0) {
-			etape++;
-			etape %= 9;
+		anim_tick++;
+		anim_tick %= 4;
+		if (anim_tick == 0) {
+			anim_step++;
+			anim_step %= 9;
 		}
 
 		ss_etape_nuke++;
@@ -87,35 +87,35 @@ void BackgroundBomb::update() {
 	}
 }
 
-void BackgroundBomb::affiche() {
-	Sprite::affiche();
+void BackgroundBomb::render() {
+	Sprite::render();
 	if (armed) {
-		draw(x, y, pbk_niveau[121 + etape]);
+		draw(x, y, pbk_level[121 + anim_step]);
 
-		draw(x, y, pbk_niveau[anim_nuke[etape_nuke]]);
+		draw(x, y, pbk_level[anim_nuke[etape_nuke]]);
 
 		if (game_flag[FLAG_TIMER] >= 100) {
-			draw(x + 6, y - 27, pbk_niveau[80]);
-			draw(x + 11, y - 27, pbk_niveau[80]);
-			draw(x + 16, y - 27, pbk_niveau[80]);
-			draw(x + 21, y - 27, pbk_niveau[80]);
+			draw(x + 6, y - 27, pbk_level[80]);
+			draw(x + 11, y - 27, pbk_level[80]);
+			draw(x + 16, y - 27, pbk_level[80]);
+			draw(x + 21, y - 27, pbk_level[80]);
 		} else {
-			draw(x + 6, y - 27, pbk_niveau[71 + game_flag[FLAG_TIMER] / 10]);
-			draw(x + 11, y - 27, pbk_niveau[71 + game_flag[FLAG_TIMER] % 10]);
-			draw(x + 16, y - 27, pbk_niveau[80 - etape_compteur / 10]);
-			draw(x + 21, y - 27, pbk_niveau[80 - etape_compteur % 10]);
+			draw(x + 6, y - 27, pbk_level[71 + game_flag[FLAG_TIMER] / 10]);
+			draw(x + 11, y - 27, pbk_level[71 + game_flag[FLAG_TIMER] % 10]);
+			draw(x + 16, y - 27, pbk_level[80 - etape_compteur / 10]);
+			draw(x + 21, y - 27, pbk_level[80 - etape_compteur % 10]);
 		}
 
 		if (game_flag[FLAG_TIMER] < 40) {
-			draw(x, y - 35, pbk_niveau[anim_warning[etape_warning]]);
+			draw(x, y - 35, pbk_level[anim_warning[etape_warning]]);
 		} else if (game_flag[FLAG_TIMER] < 60) {
-			draw(x, y - 35, pbk_niveau[118]);
+			draw(x, y - 35, pbk_level[118]);
 		}
 	} else {
-		draw(x, y, pbk_niveau[anim_nuke[etape_nuke]]);
-		draw(x + 6, y - 27, pbk_niveau[71 + seconde / 10]);
-		draw(x + 11, y - 27, pbk_niveau[71 + seconde % 10]);
-		draw(x + 16, y - 27, pbk_niveau[80 - centieme / 10]);
-		draw(x + 21, y - 27, pbk_niveau[80 - centieme % 10]);
+		draw(x, y, pbk_level[anim_nuke[etape_nuke]]);
+		draw(x + 6, y - 27, pbk_level[71 + seconde / 10]);
+		draw(x + 11, y - 27, pbk_level[71 + seconde % 10]);
+		draw(x + 16, y - 27, pbk_level[80 - centieme / 10]);
+		draw(x + 21, y - 27, pbk_level[80 - centieme % 10]);
 	}
 }

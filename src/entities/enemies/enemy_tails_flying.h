@@ -12,11 +12,11 @@ class EnemyTailsFlying : public Enemy {
 	int fly_delay;
 	int wait_for_fly;
 	int x_cible;
-	int y_cible;
+	int y_target;
 	bool attack;  // Attacking, otherwise moving to the right height
 	bool fly;
 	int direction;
-	int placer;
+	int placed;
 
    public:
 	EnemyTailsFlying();
@@ -26,5 +26,5 @@ class EnemyTailsFlying : public Enemy {
 	virtual void onTombe();
 	virtual void onVolle();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

@@ -11,7 +11,7 @@ class ShotShell : public Shot {
 
 	ShotShell();
 
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 

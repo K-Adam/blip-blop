@@ -20,7 +20,7 @@ class EnemyMarioSwatter : public Enemy {
 
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int nabo_delay;
 
 	int nabo;
@@ -35,5 +35,5 @@ class EnemyMarioSwatter : public Enemy {
 	virtual void onCharge();
 	virtual void onCarbonise();
 	virtual void tombe_mario();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

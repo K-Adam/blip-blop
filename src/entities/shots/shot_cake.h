@@ -8,7 +8,7 @@ class ShotCake : public Shot {
 
 	ShotCake();
 
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 

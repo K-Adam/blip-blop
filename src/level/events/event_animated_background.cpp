@@ -94,7 +94,7 @@ void EventAnimatedBackground::doEvent() {
 	Sprite* s = NULL;
 	bool plat_mobile = false;
 
-	switch (id_fond) {
+	switch (bg_id) {
 		case IDFOND_VENTILO:
 			s = new BackgroundFan();
 			break;
@@ -307,10 +307,10 @@ void EventAnimatedBackground::doEvent() {
 		s->y = y;
 
 		if (plat_mobile)
-			list_plateformes_mobiles.emplace_back(s);
+			list_moving_platforms.emplace_back(s);
 		else
-			list_fonds_animes.emplace_back(s);
+			list_animated_bgs.emplace_back(s);
 	} else {
-		debug << "Erreur : identité de fond animé inconnue (" << id_fond << ")\n";
+		debug << "Erreur : identité de fond animé inconnue (" << bg_id << ")\n";
 	}
 }

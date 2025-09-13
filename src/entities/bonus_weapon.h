@@ -16,29 +16,29 @@ class BonusWeapon : public Bonus {
 		col_on = true;
 	}
 
-	void estPris(Ball* c) override {
+	void onPickup(Ball* c) override {
 		// A light weapon must not replace a well stocked flamethrower or laser
-		if (w_.light && (c->id_arme == ID_LF || c->id_arme == ID_LASER) && c->ammo >= 100) return;
+		if (w_.light && (c->weapon_id == ID_LF || c->weapon_id == ID_LASER) && c->ammo >= 100) return;
 
 		sbk_misc.play(w_.sound);
 
-		if (c->id_arme == w_.id) {
+		if (c->weapon_id == w_.id) {
 			c->ammo = std::min(c->ammo + w_.ammo, w_.max_ammo);
 		} else {
-			c->id_arme = w_.id;
+			c->weapon_id = w_.id;
 			c->ammo = w_.ammo;
-			c->latence_arme = 3;
-			c->nb_etape_arme = w_.nb_etape;
-			c->cadence_arme = w_.cadence;
-			c->poid_arme = w_.poid;
+			c->weapon_anim_delay = 3;
+			c->nb_weapon_steps = w_.nb_etape;
+			c->fire_interval = w_.cadence;
+			c->gun_weight = w_.poid;
 
 			c->etape_arme = 0;
 			c->ss_etape_arme = 0;
 			c->etape_recul = 0;
-			c->tire = false;
+			c->is_firing = false;
 		}
 
-		Bonus::estPris(c);
+		Bonus::onPickup(c);
 	}
 
    private:
@@ -52,7 +52,7 @@ class BonusPM : public BonusWeapon {
 
 class BonusShotgun : public BonusWeapon {
    public:
-	BonusShotgun() : BonusWeapon({9, 0, ID_FUSIL, 20, 40, 15, 45, 1, true}) {}
+	BonusShotgun() : BonusWeapon({9, 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
 };
 
 class BonusLaser : public BonusWeapon {

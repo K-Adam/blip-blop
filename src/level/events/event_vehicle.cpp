@@ -8,7 +8,7 @@
 void EventVehicle::doEvent() {
 	Vehicle* v = NULL;
 
-	switch (id_vehicule) {
+	switch (vehicle_id) {
 		case IDVEHICULE_CIGO:
 			v = new VehicleStork();
 			break;
@@ -19,8 +19,8 @@ void EventVehicle::doEvent() {
 		v->y = y;
 		v->dir = dir;
 
-		list_vehicules.push_back(std::unique_ptr<Vehicle>(v));
+		list_vehicles.push_back(std::unique_ptr<Vehicle>(v));
 	} else {
-		debug << "Unknown vehicle ID : " << id_vehicule << "\n";
+		debug << "Unknown vehicle ID : " << vehicle_id << "\n";
 	}
 }

@@ -8,17 +8,17 @@ int water_seed2 = 5;
 class BackgroundWater1 : public Sprite {
    public:
 	void update() override {
-		pic = pbk_niveau[7 + water_seed];
+		pic = pbk_level[7 + water_seed];
 
-		if (x < offset - 400) a_detruire = true;
+		if (x < offset - 400) destroyed = true;
 	};
 };
 
 class BackgroundWater2 : public Sprite {
 	void update() override {
-		pic = pbk_niveau[7 + water_seed2];
+		pic = pbk_level[7 + water_seed2];
 
-		if (x < offset - 400) a_detruire = true;
+		if (x < offset - 400) destroyed = true;
 	};
 };
 
@@ -28,7 +28,7 @@ class BackgroundWater : public Sprite {
 		Sprite* ptr;
 		bool b = false;
 
-		for (int i = 0; i < ((((int)level_size) / pbk_niveau[7]->xSize()) + 1); i++) {
+		for (int i = 0; i < ((((int)level_size) / pbk_level[7]->xSize()) + 1); i++) {
 			if (b)
 				ptr = new BackgroundWater1();
 			else
@@ -40,15 +40,15 @@ class BackgroundWater : public Sprite {
 			x += 376;
 			b = !b;
 
-			list_fonds_animes.emplace_back(ptr);
+			list_animated_bgs.emplace_back(ptr);
 		}
 	};
 
 	void update() override {
-		ss_etape += 1;
-		ss_etape %= 7;
+		anim_tick += 1;
+		anim_tick %= 7;
 
-		if (ss_etape == 0) {
+		if (anim_tick == 0) {
 			water_seed += 1;
 			water_seed %= 10;
 

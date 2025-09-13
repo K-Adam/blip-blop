@@ -5,95 +5,95 @@
 class GoreFeetBisouBoom : public Sprite {
    public:
 	void update() override {
-		tombe();
+		fall();
 
-		if (etape < 5) {
-			ss_etape += 1;
-			ss_etape %= 8;
+		if (anim_step < 5) {
+			anim_tick += 1;
+			anim_tick %= 8;
 
-			if (ss_etape == 0) etape += 1;
+			if (anim_tick == 0) anim_step += 1;
 
-			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[190 + etape];
+			if (dir == FACING_RIGHT)
+				pic = pbk_enemies[190 + anim_step];
 			else
-				pic = pbk_ennemis[196 + etape];
+				pic = pbk_enemies[196 + anim_step];
 		}
 
-		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
-			grave(x, y, pic);
-			a_detruire = true;
+		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
+			engrave(x, y, pic);
+			destroyed = true;
 			sbk_misc.play(6 + (rand() % 2));
 		} else {
-			if (dir == SENS_DROITE)
+			if (dir == FACING_RIGHT)
 				x -= 2;
 			else
 				x += 2;
 		}
 
-		updateADetruire();
+		updateDestroyed();
 	};
 };
 
 class GoreHeadBisouBoom : public Sprite {
    public:
 	void update() override {
-		tombe();
+		fall();
 
-		if (etape < 5) {
-			ss_etape += 1;
-			ss_etape %= 8;
+		if (anim_step < 5) {
+			anim_tick += 1;
+			anim_tick %= 8;
 
-			if (ss_etape == 0) etape += 1;
+			if (anim_tick == 0) anim_step += 1;
 
-			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[202 + etape];
+			if (dir == FACING_RIGHT)
+				pic = pbk_enemies[202 + anim_step];
 			else
-				pic = pbk_ennemis[208 + etape];
+				pic = pbk_enemies[208 + anim_step];
 		}
 
-		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
-			grave(x, y, pic);
-			a_detruire = true;
+		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
+			engrave(x, y, pic);
+			destroyed = true;
 			sbk_misc.play(6 + (rand() % 2));
 		} else {
-			if (dir == SENS_DROITE)
+			if (dir == FACING_RIGHT)
 				x += 2;
 			else
 				x -= 2;
 		}
 
-		updateADetruire();
+		updateDestroyed();
 	};
 };
 
 class GoreBellyBisouBoom : public Sprite {
    public:
 	void update() override {
-		tombe();
+		fall();
 
-		if (etape < 5) {
-			ss_etape += 1;
-			ss_etape %= 8;
+		if (anim_step < 5) {
+			anim_tick += 1;
+			anim_tick %= 8;
 
-			if (ss_etape == 0) etape += 1;
+			if (anim_tick == 0) anim_step += 1;
 
-			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[214 + etape];
+			if (dir == FACING_RIGHT)
+				pic = pbk_enemies[214 + anim_step];
 			else
-				pic = pbk_ennemis[220 + etape];
+				pic = pbk_enemies[220 + anim_step];
 		}
 
-		if ((plat(x, y) != 0 && etape >= 5) || mur_opaque(x, y)) {
-			grave(x, y, pic);
+		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
+			engrave(x, y, pic);
 			sbk_misc.play(6 + (rand() % 2));
-			a_detruire = true;
+			destroyed = true;
 		} else {
-			if (dir == SENS_DROITE)
+			if (dir == FACING_RIGHT)
 				x += 1;
 			else
 				x -= 1;
 		}
 
-		updateADetruire();
+		updateDestroyed();
 	};
 };

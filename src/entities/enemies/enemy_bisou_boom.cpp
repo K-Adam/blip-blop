@@ -1,13 +1,13 @@
 #include "entities/enemies/enemy_bisou_boom.h"
 #include "entities/gore_bisou_boom.h"
 
-EnemyBisouBoom::EnemyBisouBoom() { pv = 200; }
+EnemyBisouBoom::EnemyBisouBoom() { hp = 200; }
 
 void EnemyBisouBoom::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -18,42 +18,42 @@ void EnemyBisouBoom::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouBoom::onAvance() {
 	static const int SPEED = 3;
 
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 3;
+	anim_tick += 1;
+	anim_tick %= 3;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
-	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
-		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
-		dir = SENS_GAUCHE;
+	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+		dir = FACING_RIGHT;
+	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
-		pic = pbk_ennemis[154 + etape];
+		pic = pbk_enemies[154 + anim_step];
 	} else {
 		marche(-SPEED);
-		pic = pbk_ennemis[162 + etape];
+		pic = pbk_enemies[162 + anim_step];
 	}
 
-	if (tete_turc != NULL) {
-		int ddx = x - tete_turc->x;
-		int ddy = y - tete_turc->y;
+	if (targeted_player != NULL) {
+		int ddx = x - targeted_player->x;
+		int ddy = y - targeted_player->y;
 
 		if (ddx > -60 && ddx < 60 && ddy > -40 && ddy < 20) {
-			ss_etape = etape = 0;
-			etat = ETAT_MEURE;
+			anim_tick = anim_step = 0;
+			status = ETAT_MEURE;
 			sbk_misc.play(11);
 			onMeure();
 		}
@@ -63,15 +63,15 @@ void EnemyBisouBoom::onAvance() {
 }
 
 void EnemyBisouBoom::onMeure() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 7 && ss_etape == 0) {
+	if (anim_step == 7 && anim_tick == 0) {
 		Sprite* s = new GoreFeetBisouBoom();
 
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s->x = x - 60;
 			s->y = y - 22;
 			s->dir = dir;
@@ -87,7 +87,7 @@ void EnemyBisouBoom::onMeure() {
 
 		s = new GoreHeadBisouBoom();
 
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s->x = x + 46;
 			s->y = y - 70;
 			s->dir = dir;
@@ -100,10 +100,10 @@ void EnemyBisouBoom::onMeure() {
 		}
 
 		list_gore.emplace_back(s);
-	} else if (etape == 8 && ss_etape == 0) {
+	} else if (anim_step == 8 && anim_tick == 0) {
 		Sprite* s = new GoreBellyBisouBoom();
 
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s->x = x + 59;
 			s->y = y - 3;
 			s->dir = dir;
@@ -116,26 +116,26 @@ void EnemyBisouBoom::onMeure() {
 		}
 
 		list_gore.emplace_back(s);
-	} else if (etape >= 10) {
-		a_detruire = true;
+	} else if (anim_step >= 10) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[170 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[170 + anim_step];
 		else
-			pic = pbk_ennemis[180 + etape];
+			pic = pbk_enemies[180 + anim_step];
 
 		colFromPic();
 	}
 }
 
-void EnemyBisouBoom::estTouche(Shot* tir) {
+void EnemyBisouBoom::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE) return;
+	if (status == ETAT_MEURE || status == ETAT_CARBONISE) return;
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE || etat == ETAT_CARBONISE) sbk_misc.play(11);
+	if (status == ETAT_MEURE || status == ETAT_CARBONISE) sbk_misc.play(11);
 }

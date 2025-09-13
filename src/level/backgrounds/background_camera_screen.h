@@ -5,5 +5,5 @@
 class BackgroundCameraScreen : public BackgroundAnimated {
    public:
 	BackgroundCameraScreen() : BackgroundAnimated(50, 3, 87, false) {}
-	void affiche() override;
+	void render() override;
 };

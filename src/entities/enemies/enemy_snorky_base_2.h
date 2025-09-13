@@ -8,7 +8,7 @@ class EnemySnorkyBase2 : public Enemy {
    public:
 	int wait_for_shoot;
 	int shoot_delay;
-	int y_cible;
+	int y_target;
 	int x_cible;
 
 	EnemySnorkyBase2();
@@ -20,5 +20,5 @@ class EnemySnorkyBase2 : public Enemy {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

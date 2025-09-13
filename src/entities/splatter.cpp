@@ -1,20 +1,20 @@
 #include "entities/splatter.h"
 
 void Splatter::update() {
-	if (pere->a_detruire || pere->etat == ETAT_MEURE) {
-		a_detruire = true;
+	if (pere->destroyed || pere->status == ETAT_MEURE) {
+		destroyed = true;
 		return;
 	}
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 4)
-		a_detruire = true;
+	if (anim_step == 4)
+		destroyed = true;
 	else
-		pic = pbk_misc[15 + dir * 4 + etape];
+		pic = pbk_misc[15 + dir * 4 + anim_step];
 
 	x = pere->x + deltax;
 	y = pere->y + deltay;

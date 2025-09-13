@@ -7,12 +7,12 @@ const int monolite_animation[] = {50, 51, 51, 52, 52, 52, 53, 53, 53, 53, 53, 52
 								  50, 54, 54, 55, 55, 55, 56, 56, 56, 56, 56, 55, 55, 55, 54, 54};
 
 BackgroundRock1::BackgroundRock1() : etape_levitation(0), ss_etape_levitation(0) {
-	pic = pbk_niveau[31];
+	pic = pbk_level[31];
 	dy = 0;
 }
 
 void BackgroundRock1::update() {
-	pic = pbk_niveau[anime(monolite_animation, 32, 3)];
+	pic = pbk_level[animate(monolite_animation, 32, 3)];
 
 	ss_etape_levitation++;
 	ss_etape_levitation %= 4;
@@ -25,14 +25,14 @@ void BackgroundRock1::update() {
 
 	int xtmp;
 
-	for (Ball* joueur : list_joueurs) {
-		xtmp = joueur->x;
+	for (Ball* hero : list_players) {
+		xtmp = hero->x;
 
-		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && plat(xtmp, joueur->y) == y - 30) {
+		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && platform_y(xtmp, hero->y) == y - 30) {
 			if (etape_levitation <= 13) {
-				joueur->y += monolite_levitation[etape_levitation];
+				hero->y += monolite_levitation[etape_levitation];
 			} else {
-				joueur->y -= monolite_levitation[etape_levitation - 13];
+				hero->y -= monolite_levitation[etape_levitation - 13];
 			}
 		}
 	}

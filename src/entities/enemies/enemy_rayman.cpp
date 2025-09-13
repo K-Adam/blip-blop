@@ -8,7 +8,7 @@
 #include "entities/piece_rayman_head.h"
 
 EnemyRayman::EnemyRayman() : dorkemon(4), attack_delay(100 + rand() % 250), wait_for_attack(0), tir_poing(NULL), poing1(1), poing2(1), pieds(1) {
-	pv = 15000;
+	hp = 15000;
 	xmin = 10428;
 	tresor = 0;
 }
@@ -20,8 +20,8 @@ void EnemyRayman::update() {
 		game_flag[3] = 1;
 	}
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			if (game_flag[0] > 0) {
 				onAvance();
@@ -43,7 +43,7 @@ void EnemyRayman::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyRayman::onAvance() {
@@ -53,12 +53,12 @@ void EnemyRayman::onAvance() {
 
 			bulbizarre->x = x - 10;
 			bulbizarre->y = y - 25;
-			bulbizarre->dir = SENS_GAUCHE;
-			list_ennemis.emplace_back(bulbizarre);
+			bulbizarre->dir = FACING_LEFT;
+			list_enemies.emplace_back(bulbizarre);
 
-			nb_ennemis_created++;
+			nb_enemies_created++;
 
-			mbk_niveau.play(1);
+			mbk_level.play(1);
 			game_flag[FLAG_TIMER] = 70;
 
 			dorkemon--;
@@ -67,75 +67,75 @@ void EnemyRayman::onAvance() {
 
 			flameche->x = x - 10;
 			flameche->y = y - 25;
-			flameche->dir = SENS_GAUCHE;
-			list_ennemis.emplace_back(flameche);
+			flameche->dir = FACING_LEFT;
+			list_enemies.emplace_back(flameche);
 
-			nb_ennemis_created++;
+			nb_enemies_created++;
 
 			EnemyCOMHero* Com = new EnemyCOMHero();
 
 			Com->x = x - 10;
 			Com->y = y - 25;
-			Com->dir = SENS_GAUCHE;
-			list_ennemis.emplace_back(Com);
+			Com->dir = FACING_LEFT;
+			list_enemies.emplace_back(Com);
 
 			dorkemon -= 2;
 
 		} else if (game_flag[1] == 1) {
 			EnemyPikachuHero* pika = new EnemyPikachuHero();
 
-			nb_ennemis_created++;
+			nb_enemies_created++;
 
 			pika->x = x - 10;
 			pika->y = y - 25;
-			pika->dir = SENS_GAUCHE;
-			list_ennemis.emplace_back(pika);
+			pika->dir = FACING_LEFT;
+			list_enemies.emplace_back(pika);
 			dorkemon--;
 		}
 	} else if ((game_flag[0] <= 2) && (game_flag[1] == 0)) {
 		if (game_flag[0] == 2) {
-			if ((pv > PV_SOUS_CRITIQUE) || ((pv > PV_CRITIQUE) && (poing1) && ((x - offset < 80) || (x - offset > 600)))) {
-				if (plat(x, y) == 0) {
-					etat = ETAT_TOMBE;
+			if ((hp > PV_SOUS_CRITIQUE) || ((hp > PV_CRITIQUE) && (poing1) && ((x - offset < 80) || (x - offset > 600)))) {
+				if (platform_y(x, y) == 0) {
+					status = ETAT_TOMBE;
 					dy = 0;
 					lat_grav = 0;
 					onTombe();
 				}
 
-				if (x - RAYMAN_SPEED < xmin || mur_opaque(x - RAYMAN_SPEED, y)) {
-					dir = SENS_DROITE;
-				} else if (x + RAYMAN_SPEED > offset + 600 || mur_opaque(x + RAYMAN_SPEED, y)) {
-					dir = SENS_GAUCHE;
+				if (x - RAYMAN_SPEED < xmin || solid_wall(x - RAYMAN_SPEED, y)) {
+					dir = FACING_RIGHT;
+				} else if (x + RAYMAN_SPEED > offset + 600 || solid_wall(x + RAYMAN_SPEED, y)) {
+					dir = FACING_LEFT;
 				}
 				wait_for_attack++;
-				if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
-					if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) &&
-						(((dir == SENS_DROITE) && (x < tete_turc->x)) || ((dir == SENS_GAUCHE) && (x > tete_turc->x)))) {
-						x_cible = tete_turc->x;
+				if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
+					if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
+						(((dir == FACING_RIGHT) && (x < targeted_player->x)) || ((dir == FACING_LEFT) && (x > targeted_player->x)))) {
+						x_cible = targeted_player->x;
 						dy = 0;
-						etat = ETAT_TIRE;
+						status = ETAT_TIRE;
 						range_poing = 0;
-						etape = 0;
-						ss_etape = 0;
-						attack_etape = 0;
+						anim_step = 0;
+						anim_tick = 0;
+						attack_step = 0;
 						onTire();
 						return;
 					}
 				}
-				ss_etape++;
-				ss_etape %= 3;
-				if (ss_etape == 0) {
-					etape++;
-					etape %= 21;
+				anim_tick++;
+				anim_tick %= 3;
+				if (anim_tick == 0) {
+					anim_step++;
+					anim_step %= 21;
 				}
-				if (dir == SENS_DROITE) {
+				if (dir == FACING_RIGHT) {
 					marche(RAYMAN_SPEED);
-					pic = pbk_ennemis[188 + etape];
+					pic = pbk_enemies[188 + anim_step];
 				} else {
 					marche(-RAYMAN_SPEED);
-					pic = pbk_ennemis[209 + etape];
+					pic = pbk_enemies[209 + anim_step];
 				}
-			} else if ((pv > PV_CRITIQUE) && (x - offset >= 80) && (x - offset <= 600)) {
+			} else if ((hp > PV_CRITIQUE) && (x - offset >= 80) && (x - offset <= 600)) {
 				if (poing1) {
 					Sprite* s;
 					if (x - offset > 320) {
@@ -148,39 +148,39 @@ void EnemyRayman::onAvance() {
 					s->y = y - 22;
 					s->x = x;
 
-					list_giclures.emplace_back(s);
+					list_splatters.emplace_back(s);
 
 					game_flag[0] = 1;
 					poing1 = 0;
 				}
 				wait_for_attack++;
-				if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
-					if (plat2(tete_turc->x, tete_turc->y) == plat2(x, y))
+				if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
+					if (platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y))
 
 					{
-						if (x < tete_turc->x) {
-							dir = SENS_DROITE;
+						if (x < targeted_player->x) {
+							dir = FACING_RIGHT;
 
 						} else {
-							dir = SENS_GAUCHE;
+							dir = FACING_LEFT;
 						}
-						x_cible = tete_turc->x;
+						x_cible = targeted_player->x;
 						dy = 0;
-						etat = ETAT_TIRE;
+						status = ETAT_TIRE;
 						range_poing = 0;
-						etape = 0;
-						ss_etape = 0;
-						attack_etape = 0;
+						anim_step = 0;
+						anim_tick = 0;
+						attack_step = 0;
 						onTire();
 						return;
 					}
 				}
-				if (dir == SENS_DROITE) {
-					pic = pbk_ennemis[268];
+				if (dir == FACING_RIGHT) {
+					pic = pbk_enemies[268];
 				} else {
-					pic = pbk_ennemis[269];
+					pic = pbk_enemies[269];
 				}
-			} else if ((pv > PV_SUR_CRITIQUE)) {
+			} else if ((hp > PV_SUR_CRITIQUE)) {
 				if (poing2) {
 					Sprite* s;
 					if (x - offset > 320) {
@@ -193,36 +193,36 @@ void EnemyRayman::onAvance() {
 					s->y = y - 22;
 					s->x = x;
 
-					list_giclures.emplace_back(s);
+					list_splatters.emplace_back(s);
 					game_flag[0] = 1;
 					poing2 = 0;
 				}
 
-				if (plat(x, y) == 0) {
-					etat = ETAT_TOMBE;
+				if (platform_y(x, y) == 0) {
+					status = ETAT_TOMBE;
 					dy = 0;
 					lat_grav = 0;
 					onTombe();
 				}
 
-				if (x - RAYMAN_SPEED < xmin || mur_opaque(x - RAYMAN_SPEED, y)) {
-					dir = SENS_DROITE;
-				} else if (x + RAYMAN_SPEED > offset + 600 || mur_opaque(x + RAYMAN_SPEED, y)) {
-					dir = SENS_GAUCHE;
+				if (x - RAYMAN_SPEED < xmin || solid_wall(x - RAYMAN_SPEED, y)) {
+					dir = FACING_RIGHT;
+				} else if (x + RAYMAN_SPEED > offset + 600 || solid_wall(x + RAYMAN_SPEED, y)) {
+					dir = FACING_LEFT;
 				}
 
-				ss_etape++;
-				ss_etape %= 3;
-				if (ss_etape == 0) {
-					etape++;
-					etape %= 8;
+				anim_tick++;
+				anim_tick %= 3;
+				if (anim_tick == 0) {
+					anim_step++;
+					anim_step %= 8;
 				}
-				if (dir == SENS_DROITE) {
+				if (dir == FACING_RIGHT) {
 					marche(RAYMAN_CRITICAL_SPEED);
-					pic = pbk_ennemis[250 + etape];
+					pic = pbk_enemies[250 + anim_step];
 				} else {
 					marche(-RAYMAN_CRITICAL_SPEED);
-					pic = pbk_ennemis[258 + etape];
+					pic = pbk_enemies[258 + anim_step];
 				}
 
 			} else if ((x - offset >= 80) && (x - offset <= 600)) {
@@ -235,7 +235,7 @@ void EnemyRayman::onAvance() {
 					s->y = y - 22;
 					s->x = x + 10;
 
-					list_giclures.emplace_back(s);
+					list_splatters.emplace_back(s);
 
 					s = new PieceRayman(271, -1 - rand() % 3, vy);
 
@@ -243,33 +243,33 @@ void EnemyRayman::onAvance() {
 					s->y = y - 22;
 					s->x = x - 10;
 
-					list_giclures.emplace_back(s);
+					list_splatters.emplace_back(s);
 
 					game_flag[0] = 1;
 					pieds = 0;
 				}
 
-				if (dir == SENS_DROITE) {
-					pic = pbk_ennemis[266];
+				if (dir == FACING_RIGHT) {
+					pic = pbk_enemies[266];
 				} else {
-					pic = pbk_ennemis[267];
+					pic = pbk_enemies[267];
 				}
 			}
 		}
 		colFromPic();
 	} else if (x - offset > 445) {
-		ss_etape++;
-		ss_etape %= 3;
-		if (ss_etape == 0) {
-			etape++;
-			etape %= 21;
+		anim_tick++;
+		anim_tick %= 3;
+		if (anim_tick == 0) {
+			anim_step++;
+			anim_step %= 21;
 		}
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			marche(RAYMAN_SPEED);
-			pic = pbk_ennemis[188 + etape];
+			pic = pbk_enemies[188 + anim_step];
 		} else {
 			marche(-RAYMAN_SPEED);
-			pic = pbk_ennemis[209 + etape];
+			pic = pbk_enemies[209 + anim_step];
 		}
 
 		if (game_flag[3] == 1) {
@@ -279,10 +279,10 @@ void EnemyRayman::onAvance() {
 }
 
 void EnemyRayman::onMeure() {
-	ss_etape++;
-	ss_etape %= 6;
+	anim_tick++;
+	anim_tick %= 6;
 
-	if ((etape == 0) && (ss_etape == 1)) {
+	if ((anim_step == 0) && (anim_tick == 1)) {
 		Sprite* tete;
 		if (x - offset > 320) {
 			tete = new PieceRaymanHead(-1 - rand() % 3, -3 - rand() % 3);
@@ -291,150 +291,150 @@ void EnemyRayman::onMeure() {
 		}
 		tete->x = x;
 		tete->y = y - 60;
-		list_giclures.emplace_back(tete);
+		list_splatters.emplace_back(tete);
 		game_flag[3] = 2;
 	}
 
-	if (ss_etape == 0) {
-		etape++;
-		if (etape >= 6) {
-			a_detruire = true;
+	if (anim_tick == 0) {
+		anim_step++;
+		if (anim_step >= 6) {
+			destroyed = true;
 		} else {
-			if ((etape < 2) && (dir == SENS_DROITE)) {
-				pic = pbk_ennemis[494 + etape];
+			if ((anim_step < 2) && (dir == FACING_RIGHT)) {
+				pic = pbk_enemies[494 + anim_step];
 			} else {
-				pic = pbk_ennemis[488 + etape];
+				pic = pbk_enemies[488 + anim_step];
 			}
 		}
 	}
 }
 
 void EnemyRayman::onTire() {
-	if (pv > PV_SOUS_CRITIQUE) {
-		if (attack_etape == 0) {
-			ss_etape++;
-			ss_etape %= 3;
-			if (ss_etape == 0) {
-				etape++;
-				etape %= 6;
+	if (hp > PV_SOUS_CRITIQUE) {
+		if (attack_step == 0) {
+			anim_tick++;
+			anim_tick %= 3;
+			if (anim_tick == 0) {
+				anim_step++;
+				anim_step %= 6;
 				range_poing += 30;
-				if ((dir == SENS_DROITE) && (x_cible - x < range_poing)) {
+				if ((dir == FACING_RIGHT) && (x_cible - x < range_poing)) {
 					tir_poing = new ShotRaymanFist(RAYMAN_POING1_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x + 13;
 					tir_poing->y = y - 13;
-					list_tirs_ennemis.emplace_back(tir_poing);
+					list_enemy_shots.emplace_back(tir_poing);
 
-					attack_etape = 1;
-					ss_etape = 0;
-					etape = 6;
-				} else if ((dir == SENS_GAUCHE) && (x - x_cible < range_poing)) {
+					attack_step = 1;
+					anim_tick = 0;
+					anim_step = 6;
+				} else if ((dir == FACING_LEFT) && (x - x_cible < range_poing)) {
 					tir_poing = new ShotRaymanFist(-RAYMAN_POING1_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x - 13;
 					tir_poing->y = y - 13;
-					list_tirs_ennemis.emplace_back(tir_poing);
+					list_enemy_shots.emplace_back(tir_poing);
 
-					attack_etape = 1;
-					ss_etape = 0;
-					etape = 6;
+					attack_step = 1;
+					anim_tick = 0;
+					anim_step = 6;
 				}
 			}
 
-		} else if (attack_etape == 1) {
-			ss_etape++;
-			if (ss_etape == 20) {
-				etape = 7;
+		} else if (attack_step == 1) {
+			anim_tick++;
+			if (anim_tick == 20) {
+				anim_step = 7;
 			}
 
-			if ((dir == SENS_DROITE) && (tir_poing->x < x)) {
-				etat = ETAT_AVANCE;
-				etape = 0;
-				ss_etape = 0;
+			if ((dir == FACING_RIGHT) && (tir_poing->x < x)) {
+				status = ETAT_AVANCE;
+				anim_step = 0;
+				anim_tick = 0;
 				wait_for_attack = 0;
-				tir_poing->a_detruire = true;
+				tir_poing->destroyed = true;
 				attack_delay = 50 + rand() % 150;
 				onAvance();
 				return;
-			} else if ((dir == SENS_GAUCHE) && (tir_poing->x > x)) {
-				etat = ETAT_AVANCE;
-				etape = 0;
-				ss_etape = 0;
+			} else if ((dir == FACING_LEFT) && (tir_poing->x > x)) {
+				status = ETAT_AVANCE;
+				anim_step = 0;
+				anim_tick = 0;
 				wait_for_attack = 0;
-				tir_poing->a_detruire = true;
+				tir_poing->destroyed = true;
 				attack_delay = 50 + rand() % 150;
 				onAvance();
 				return;
 			}
 		}
 
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[172 + etape];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[172 + anim_step];
 		} else {
-			pic = pbk_ennemis[180 + etape];
+			pic = pbk_enemies[180 + anim_step];
 		}
 	} else {
-		if (attack_etape == 0) {
-			ss_etape++;
-			ss_etape %= 3;
-			if (ss_etape == 0) {
-				etape++;
-				etape %= 7;
+		if (attack_step == 0) {
+			anim_tick++;
+			anim_tick %= 3;
+			if (anim_tick == 0) {
+				anim_step++;
+				anim_step %= 7;
 				range_poing += 30;
-				if ((dir == SENS_DROITE) && (x_cible - x < range_poing)) {
+				if ((dir == FACING_RIGHT) && (x_cible - x < range_poing)) {
 					tir_poing = new ShotRaymanFist(RAYMAN_POING2_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x + 13;
 					tir_poing->y = y - 13;
-					list_tirs_ennemis.emplace_back(tir_poing);
+					list_enemy_shots.emplace_back(tir_poing);
 
-					attack_etape = 1;
-					ss_etape = 0;
-					etape = 7;
-				} else if ((dir == SENS_GAUCHE) && (x - x_cible < range_poing)) {
+					attack_step = 1;
+					anim_tick = 0;
+					anim_step = 7;
+				} else if ((dir == FACING_LEFT) && (x - x_cible < range_poing)) {
 					tir_poing = new ShotRaymanFist(-RAYMAN_POING2_SPEED, x_cible);
 					tir_poing->setDir(dir);
 					tir_poing->x = x - 13;
 					tir_poing->y = y - 13;
-					list_tirs_ennemis.emplace_back(tir_poing);
+					list_enemy_shots.emplace_back(tir_poing);
 
-					attack_etape = 1;
-					ss_etape = 0;
-					etape = 7;
+					attack_step = 1;
+					anim_tick = 0;
+					anim_step = 7;
 				}
 			}
 
-		} else if (attack_etape == 1) {
-			ss_etape++;
-			if (ss_etape == 20) {
-				etape = 8;
+		} else if (attack_step == 1) {
+			anim_tick++;
+			if (anim_tick == 20) {
+				anim_step = 8;
 			}
 
-			if ((dir == SENS_DROITE) && (tir_poing->x < x)) {
-				etat = ETAT_AVANCE;
-				etape = 0;
-				ss_etape = 0;
+			if ((dir == FACING_RIGHT) && (tir_poing->x < x)) {
+				status = ETAT_AVANCE;
+				anim_step = 0;
+				anim_tick = 0;
 				wait_for_attack = 0;
-				tir_poing->a_detruire = true;
+				tir_poing->destroyed = true;
 				attack_delay = 10 + rand() % 50;
 				onAvance();
 				return;
-			} else if ((dir == SENS_GAUCHE) && (tir_poing->x > x)) {
-				etat = ETAT_AVANCE;
-				etape = 0;
-				ss_etape = 0;
+			} else if ((dir == FACING_LEFT) && (tir_poing->x > x)) {
+				status = ETAT_AVANCE;
+				anim_step = 0;
+				anim_tick = 0;
 				wait_for_attack = 0;
-				tir_poing->a_detruire = true;
+				tir_poing->destroyed = true;
 				attack_delay = 10 + rand() % 50;
 				onAvance();
 				return;
 			}
 		}
 
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[232 + etape];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[232 + anim_step];
 		} else {
-			pic = pbk_ennemis[241 + etape];
+			pic = pbk_enemies[241 + anim_step];
 		}
 	}
 
@@ -444,10 +444,10 @@ void EnemyRayman::onTire() {
 void EnemyRayman::onTombe() {
 	int yp;
 
-	tombe();
+	fall();
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
-		etat = ETAT_NORMAL;
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
 		onAvance();
@@ -457,12 +457,12 @@ void EnemyRayman::onTombe() {
 	colFromPic();
 }
 
-void EnemyRayman::estTouche(Shot* tir) {
+void EnemyRayman::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	if (game_flag[1] == 0) {
-		Enemy::estTouche(tir);
-		gicle(tir, dx_giclure, dy_giclure);
+		Enemy::takeHit(shot);
+		gicle(shot, dx_giclure, dy_giclure);
 	}
 }

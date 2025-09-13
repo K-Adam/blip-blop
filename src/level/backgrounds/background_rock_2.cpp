@@ -7,12 +7,12 @@ const int rocher2_animation[] = {57, 58, 58, 59, 59, 59, 60, 60, 60, 60, 60, 59,
 								 57, 61, 61, 62, 62, 62, 63, 63, 63, 63, 63, 62, 62, 62, 61, 61};
 
 BackgroundRock2::BackgroundRock2() : etape_levitation(0), ss_etape_levitation(0) {
-	pic = pbk_niveau[38];
+	pic = pbk_level[38];
 	dy = 0;
 }
 
 void BackgroundRock2::update() {
-	pic = pbk_niveau[anime(rocher2_animation, 32, 4)];
+	pic = pbk_level[animate(rocher2_animation, 32, 4)];
 
 	ss_etape_levitation++;
 	ss_etape_levitation %= 6;
@@ -25,14 +25,14 @@ void BackgroundRock2::update() {
 
 	int xtmp;
 
-	for (Ball* joueur : list_joueurs) {
-		xtmp = joueur->x;
+	for (Ball* hero : list_players) {
+		xtmp = hero->x;
 
-		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && plat(xtmp, joueur->y) == y - 25) {
+		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && platform_y(xtmp, hero->y) == y - 25) {
 			if (etape_levitation <= 9) {
-				joueur->y += rocher2_levitation[etape_levitation];
+				hero->y += rocher2_levitation[etape_levitation];
 			} else {
-				joueur->y -= rocher2_levitation[etape_levitation - 9];
+				hero->y -= rocher2_levitation[etape_levitation - 9];
 			}
 		}
 	}

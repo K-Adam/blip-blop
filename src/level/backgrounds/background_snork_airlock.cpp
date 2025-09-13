@@ -3,115 +3,115 @@
 #include "level/backgrounds/background_snork_airlock.h"
 #include "entities/enemies/enemy.h"
 
-int BackgroundSnorkAirlock1::etat = 0;	// 1 once airlock 1 is closed
+int BackgroundSnorkAirlock1::status = 0;  // 1 once airlock 1 is closed
 
-BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : nb_joueur(0) { etape = 0; }
+BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : nb_joueur(0) { anim_step = 0; }
 
 void BackgroundSnorkAirlock1::update() {
-	if (!etat) {
-		if ((tete_turc != NULL) && (tete_turc->x > 1400)) {
+	if (!status) {
+		if ((targeted_player != NULL) && (targeted_player->x > 1400)) {
 			nb_joueur++;
-			if (etape < 222) {
+			if (anim_step < 222) {
 				if (nb_joueur >= 2) {
-					etape += 2;
+					anim_step += 2;
 				}
 			} else {
-				etat = 1;
+				status = 1;
 			}
 		} else {
 			nb_joueur = 0;
 		}
 
-		if (etape % 8 == 0) {
-			murs_opaques[(y + etape) / 8][(x + 8) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 16) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 24) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 32) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 40) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 48) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 56) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 64) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 72) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 80) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 88) / 8] = true;
-			murs_opaques[(y + etape) / 8][(x + 96) / 8] = true;
+		if (anim_step % 8 == 0) {
+			solid_walls[(y + anim_step) / 8][(x + 8) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 16) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 24) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 32) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 40) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 48) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 56) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 64) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 72) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 80) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 88) / 8] = true;
+			solid_walls[(y + anim_step) / 8][(x + 96) / 8] = true;
 		}
 	}
 }
 
-void BackgroundSnorkAirlock1::affiche() {
+void BackgroundSnorkAirlock1::render() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;
 	Rect r;
-	int largeur;
-	int decalage = 0;
+	int width_px;
+	int shift = 0;
 
-	surf = pbk_niveau[1]->Surf();
-	xs = pbk_niveau[1]->xSize();
-	ys = pbk_niveau[1]->ySize();
+	surf = pbk_level[1]->Surf();
+	xs = pbk_level[1]->xSize();
+	ys = pbk_level[1]->ySize();
 
-	r.top = 222 - etape;
+	r.top = 222 - anim_step;
 	r.left = 0;
 
 	if (x + 53 > offset + 640)
-		largeur = offset + 640 - x;
+		width_px = offset + 640 - x;
 	else if (x < offset) {
-		largeur = 53;
+		width_px = 53;
 		r.left = offset - x;
-		decalage = offset - x;
+		shift = offset - x;
 	} else
-		largeur = 53;
+		width_px = 53;
 
-	r.right = largeur;
+	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + decalage, y, surf, &r);
+	backSurface->BltFast(x - offset + shift, y, surf, &r);
 }
 
-BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { etape = 222; }
+BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { anim_step = 222; }
 
 void BackgroundSnorkAirlock2::update() {
-	if ((BackgroundSnorkAirlock1::etat) && (etape > 0)) {
-		etape--;
+	if ((BackgroundSnorkAirlock1::status) && (anim_step > 0)) {
+		anim_step--;
 	}
 
-	if (etape % 8 == 0) {
-		murs_opaques[(y + etape) / 8][(x + 8) / 8] = false;
-		murs_opaques[(y + etape) / 8][(x + 16) / 8] = false;
-		murs_opaques[(y + etape) / 8][(x + 24) / 8] = false;
-		murs_opaques[(y + etape) / 8][(x + 32) / 8] = false;
-		murs_opaques[(y + etape) / 8][(x + 40) / 8] = false;
-		murs_opaques[(y + etape) / 8][(x + 48) / 8] = false;
+	if (anim_step % 8 == 0) {
+		solid_walls[(y + anim_step) / 8][(x + 8) / 8] = false;
+		solid_walls[(y + anim_step) / 8][(x + 16) / 8] = false;
+		solid_walls[(y + anim_step) / 8][(x + 24) / 8] = false;
+		solid_walls[(y + anim_step) / 8][(x + 32) / 8] = false;
+		solid_walls[(y + anim_step) / 8][(x + 40) / 8] = false;
+		solid_walls[(y + anim_step) / 8][(x + 48) / 8] = false;
 	}
 }
 
-void BackgroundSnorkAirlock2::affiche() {
+void BackgroundSnorkAirlock2::render() {
 	SDL::Surface* surf;
 	int xs;
 	int ys;
 	Rect r;
-	int largeur;
-	int decalage = 0;
+	int width_px;
+	int shift = 0;
 
-	surf = pbk_niveau[1]->Surf();
-	xs = pbk_niveau[1]->xSize();
-	ys = pbk_niveau[1]->ySize();
+	surf = pbk_level[1]->Surf();
+	xs = pbk_level[1]->xSize();
+	ys = pbk_level[1]->ySize();
 
-	r.top = 222 - etape;
+	r.top = 222 - anim_step;
 	r.left = 0;
 
 	if (x + 53 > offset + 640)
-		largeur = offset + 640 - x;
+		width_px = offset + 640 - x;
 	else if (x < offset) {
-		largeur = 53;
+		width_px = 53;
 		r.left = offset - x;
-		decalage = offset - x;
+		shift = offset - x;
 	} else
-		largeur = 53;
+		width_px = 53;
 
-	r.right = largeur;
+	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + decalage, y, surf, &r);
+	backSurface->BltFast(x - offset + shift, y, surf, &r);
 }

@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_pikachu_hero.h"
 
 EnemyPikachuHero::EnemyPikachuHero() : dorkeball(2) {
-	pv = 1500;
+	hp = 1500;
 	dy = -8;
 	dx = -2;
 	tresor = 100;
@@ -10,45 +10,45 @@ EnemyPikachuHero::EnemyPikachuHero() : dorkeball(2) {
 void EnemyPikachuHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
-		tombe();
+		fall();
 		int yp;
-		if ((dy > 0) && (yp = plat(x, y + dy)) != 0) {
-			sbk_niveau.play(15);
-			etat = ETAT_NORMAL;
+		if ((dy > 0) && (yp = platform_y(x, y + dy)) != 0) {
+			sbk_level.play(15);
+			status = STATE_NORMAL;
 			dy = 0;
 			y = yp;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			dorkeball = 1;
 			return;
 		} else {
-			ss_etape++;
-			ss_etape %= 5;
-			if (ss_etape == 0) {
-				etape++;
-				etape %= 4;
+			anim_tick++;
+			anim_tick %= 5;
+			if (anim_tick == 0) {
+				anim_step++;
+				anim_step %= 4;
 			}
-			pic = pbk_ennemis[272 + etape];
+			pic = pbk_enemies[272 + anim_step];
 		}
 	} else if (dorkeball == 1) {
-		ss_etape++;
-		ss_etape %= 8;
-		if (ss_etape == 0) {
-			etape++;
-			if (etape > 3) {
+		anim_tick++;
+		anim_tick %= 8;
+		if (anim_tick == 0) {
+			anim_step++;
+			if (anim_step > 3) {
 				dorkeball = 0;
-				etape = 0;
-				ss_etape = 0;
+				anim_step = 0;
+				anim_tick = 0;
 			} else {
-				pic = pbk_ennemis[300 + etape];
+				pic = pbk_enemies[300 + anim_step];
 			}
 		}
 
 	} else {
 		if (blood > 0) blood -= 1;
 
-		switch (etat) {
-			case ETAT_NORMAL:
+		switch (status) {
+			case STATE_NORMAL:
 			case ETAT_AVANCE:
 				onAvance();
 				break;
@@ -59,65 +59,65 @@ void EnemyPikachuHero::update() {
 				break;
 		}
 
-		updateADetruire();
+		updateDestroyed();
 	}
 }
 
 void EnemyPikachuHero::onAvance() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if (x - 1 < xmin || mur_opaque(x - 1, y))
-		dir = SENS_DROITE;
-	else if (x + 1 > offset + 640 || mur_opaque(x + 1, y))
-		dir = SENS_GAUCHE;
+	if (x - 1 < xmin || solid_wall(x - 1, y))
+		dir = FACING_RIGHT;
+	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(3);
-		pic = pbk_ennemis[276 + etape];
+		pic = pbk_enemies[276 + anim_step];
 	} else {
 		marche(-3);
-		pic = pbk_ennemis[278 + etape];
+		pic = pbk_enemies[278 + anim_step];
 	}
 	colFromPic();
 }
 
 void EnemyPikachuHero::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0 && etape < 10) etape += 1;
+	if (anim_tick == 0 && anim_step < 10) anim_step += 1;
 
-	if (etape >= 10) {
-		int yy = plat(x, y);
+	if (anim_step >= 10) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) grave(x, y, pic);
+		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 		game_flag[1]--;
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[280 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[280 + anim_step];
 		else
-			pic = pbk_ennemis[290 + etape];
+			pic = pbk_enemies[290 + anim_step];
 	}
 }
 
-void EnemyPikachuHero::estTouche(Shot* tir) {
+void EnemyPikachuHero::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (dorkeball == 0) {
-		Enemy::estTouche(tir);
-		gicle(tir, dx_giclure, dy_giclure);
+		Enemy::takeHit(shot);
+		gicle(shot, dx_giclure, dy_giclure);
 	}
 }

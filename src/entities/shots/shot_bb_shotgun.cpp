@@ -126,10 +126,10 @@ void ShotBBShotgun::update() {
 
 	x += dxReferentiel;
 
-	if (mur_opaque(x, y) || x < offset - 20 || x > offset + 660 || y < -20 || y > 500) {
+	if (solid_wall(x, y) || x < offset - 20 || x > offset + 660 || y < -20 || y > 500) {
 		pic = NULL;
 		noCol();
-		a_detruire = true;
+		destroyed = true;
 	} else {
 		if (vie < duree_vie)
 			pic = pbk_bb[88 + dir];

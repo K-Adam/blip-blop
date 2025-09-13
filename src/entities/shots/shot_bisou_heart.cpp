@@ -13,20 +13,20 @@ void ShotBisouHeart::update() {
 	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (!ok) {
-		ss_etape += 1;
-		ss_etape %= 6;
+		anim_tick += 1;
+		anim_tick %= 6;
 
-		if (ss_etape == 0) {
-			etape += 1;
+		if (anim_tick == 0) {
+			anim_step += 1;
 
-			if (etape >= 2) ok = true;
+			if (anim_step >= 2) ok = true;
 		}
 
-		pic = pbk_ennemis[461 + etape];
+		pic = pbk_enemies[461 + anim_step];
 	}
 
-	if (mur_opaque(x, y)) a_detruire = true;
+	if (solid_wall(x, y)) destroyed = true;
 
 	colFromPic();
-	updateADetruire();
+	updateDestroyed();
 }

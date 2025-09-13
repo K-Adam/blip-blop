@@ -3,10 +3,10 @@
 void ShotBBPM::update() {
 	moveAlongAngle();
 
-	if (mur_opaque(x, y) || x < offset - 20 || x > offset + 690 || y < -20 || y > 500) {
+	if (solid_wall(x, y) || x < offset - 20 || x > offset + 690 || y < -20 || y > 500) {
 		pic = NULL;
 		noCol();
-		a_detruire = true;
+		destroyed = true;
 	} else {
 		pic = pbk_bb[88 + dir];
 		colFromPic();

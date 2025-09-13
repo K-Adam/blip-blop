@@ -3,11 +3,11 @@
 #include "level/events/event.h"
 
 #define BPM 0
-#define BFUSIL 1
+#define BSHOTGUN 1
 #define BLASER 2
 #define BBEER 3
 #define BINV 4
-#define BTONNO 5
+#define BBARREL 5
 #define BCOW 6
 #define BLF 7
 

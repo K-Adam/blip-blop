@@ -91,7 +91,7 @@ bool RPGPlayer::startPlay(int n) {
 	ntxt[0] = -1;
 	ntxt[1] = -1;
 
-	nbjoueurs = list_joueurs.size();
+	nbjoueurs = list_players.size();
 	key_released = false;
 	skiped = false;
 	focus = 0;
@@ -100,7 +100,7 @@ bool RPGPlayer::startPlay(int n) {
 
 	int i = 0;
 
-	for (Ball* c : list_joueurs) {
+	for (Ball* c : list_players) {
 		if (c->id_ball == ID_BLIP)
 			base_joueur[i] = 0;
 		else

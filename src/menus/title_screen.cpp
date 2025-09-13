@@ -44,16 +44,16 @@ void TitleScreen::stop() {
 	if (music_on != start_music_on) {
 		if (music_on) {
 			if (!current_mbk.empty()) {
-				if (!mbk_niveau.open(current_mbk.c_str()))
+				if (!mbk_level.open(current_mbk.c_str()))
 					music_on = false;
 				else {
-					if (current_zik >= 0) {
-						mbk_niveau.play(current_zik);
+					if (current_track >= 0) {
+						mbk_level.play(current_track);
 					}
 				}
 			}
 		} else {
-			mbk_niveau.stop();
+			mbk_level.stop();
 		}
 	}
 }

@@ -1,30 +1,30 @@
 #include "level/enemy_generator_tmp.h"
 #include "level/events/event_enemy.h"
 
-#ifndef SENS_GAUCHE
-#define SENS_GAUCHE 0
-#define SENS_DROITE 1
+#ifndef FACING_LEFT
+#define FACING_LEFT 0
+#define FACING_RIGHT 1
 #endif
 
 void EnemyGeneratorTMP::update() {
 	if (game_flag[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
-	t %= periode;
+	t %= period;
 
 	if (t == 0) {
 		EventEnemy e;
 
-		e.id_ennemi = id_ennemi;
-		e.sens = sens;
+		e.enemy_id = enemy_id;
+		e.facing = facing;
 		e.x = x;
 		e.y = y;
 		e.doEvent();
 
-		capacite -= 1;
+		capacity -= 1;
 
-		if (capacite <= 0) a_detruire = true;
+		if (capacity <= 0) destroyed = true;
 	}
 
-	if ((sens == SENS_DROITE && x < offset - 200) || (sens == SENS_GAUCHE && x < offset + 690)) a_detruire = true;
+	if ((facing == FACING_RIGHT && x < offset - 200) || (facing == FACING_LEFT && x < offset + 690)) destroyed = true;
 }

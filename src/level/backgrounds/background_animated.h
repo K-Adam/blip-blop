@@ -7,11 +7,11 @@ class BackgroundAnimated : public Sprite {
 	BackgroundAnimated(int first, int frames, int latency, bool expire) : first_(first), frames_(frames), latency_(latency), expire_(expire) {}
 
 	void update() override {
-		ss_etape = (ss_etape + 1) % latency_;
-		if (ss_etape == 0) etape = (etape + 1) % frames_;
+		anim_tick = (anim_tick + 1) % latency_;
+		if (anim_tick == 0) anim_step = (anim_step + 1) % frames_;
 
-		pic = pbk_niveau[first_ + etape];
-		if (expire_) updateADetruire();
+		pic = pbk_level[first_ + anim_step];
+		if (expire_) updateDestroyed();
 	}
 
    private:
@@ -70,8 +70,8 @@ class BackgroundSynced : public Sprite {
 			if (ss_etape_ == 0) etape_ = (etape_ + 1) % FRAMES;
 		}
 
-		pic = pbk_niveau[FIRST + etape_];
-		if (x < offset - 100) a_detruire = true;
+		pic = pbk_level[FIRST + etape_];
+		if (x < offset - 100) destroyed = true;
 	}
 
    private:

@@ -15,7 +15,7 @@ class EnemySnorkInBlackBoss : public Enemy {
 	int x_shark;
 	int y_shark;
 	bool shark;
-	bool saut;
+	bool jump;
 
    public:
 	EnemySnorkInBlackBoss();
@@ -25,7 +25,7 @@ class EnemySnorkInBlackBoss : public Enemy {
 	virtual void onTombe();
 	virtual void onMeure();
 	virtual void onTire();
-	void affiche() override;
+	void render() override;
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

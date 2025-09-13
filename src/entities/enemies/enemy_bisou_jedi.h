@@ -11,17 +11,17 @@ class EnemyBisouJedi : public Enemy {
 	EnemyBisouJedi();
 	virtual void onAvance();
 	virtual void onMeure();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	void update() override;
 	virtual void onCarbonise();
-	void affiche() override;
+	void render() override;
 };
 
 class EnemyBisouJediHero : public EnemyBisouJedi {
    public:
 	bool intro;
 
-	EnemyBisouJediHero() : intro(true) { pv = 6000; };
+	EnemyBisouJediHero() : intro(true) { hp = 6000; };
 
 	void update() override {
 		if (intro) {
@@ -38,10 +38,10 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 		}
 	};
 
-	void estTouche(Shot* tir) override {
-		EnemyBisouJedi::estTouche(tir);
+	void takeHit(Shot* shot) override {
+		EnemyBisouJedi::takeHit(shot);
 
-		if (pv <= 0) {
+		if (hp <= 0) {
 			game_flag[FLAG_USER1] = 2;
 			game_flag[FLAG_GEN_OFF] = 1;
 		}

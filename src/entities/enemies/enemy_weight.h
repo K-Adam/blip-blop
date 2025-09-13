@@ -11,8 +11,8 @@ class EnemyWeight : public Enemy {
    public:
 	EnemyWeight();
 	void update() override;
-	int degats() override;
+	int damage() override;
 	virtual void onMeure();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	bool count() override { return false; };
 };

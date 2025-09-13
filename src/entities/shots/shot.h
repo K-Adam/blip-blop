@@ -1,15 +1,15 @@
 #pragma once
 
 #ifndef SENS
-#define SENS_GAUCHE 0
-#define SENS_DROITE 1
+#define FACING_LEFT 0
+#define FACING_RIGHT 1
 #endif
 
 #include "entities/sprite.h"
 
 class Shot : public Sprite {
    public:
-	virtual int degats() const { return 1; };
+	virtual int damage() const { return 1; };
 
 	virtual int enflame() const { return 0; };
 
@@ -20,13 +20,13 @@ class Shot : public Sprite {
 	virtual int getGiclureDir() const { return dir / 2; };
 
 	inline virtual void aTouche() {
-		a_detruire = true;
+		destroyed = true;
 		col_on = false;
 	};
 
 	inline virtual void aTouche(int pts) {
 		(void)pts;
-		a_detruire = true;
+		destroyed = true;
 		col_on = false;
 	};
 

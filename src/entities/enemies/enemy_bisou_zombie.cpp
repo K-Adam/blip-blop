@@ -11,20 +11,20 @@ static int num_moan = 0;
 static bool local_phase;
 
 EnemyBisouZombie::EnemyBisouZombie() : etape2(0) {
-	pv = 1000;
+	hp = 1000;
 	tresor = 10;
 }
 
 void EnemyBisouZombie::update() {
 	if (blood > 0) blood -= 1;
 
-	if (game_flag[0] == 7 && etat != ETAT_CARBONISE && etat != ETAT_CARBONISE_HAUT) {
-		etape = ss_etape = 0;
+	if (game_flag[0] == 7 && status != ETAT_CARBONISE && status != ETAT_CARBONISE_HAUT) {
+		anim_step = anim_tick = 0;
 
-		if (etat == ETAT_COUPE)
-			etat = ETAT_CARBONISE_HAUT;
+		if (status == ETAT_COUPE)
+			status = ETAT_CARBONISE_HAUT;
 		else
-			etat = ETAT_CARBONISE;
+			status = ETAT_CARBONISE;
 	}
 
 	if (local_phase != phase && game_flag[2] == 0) {
@@ -35,14 +35,14 @@ void EnemyBisouZombie::update() {
 			num_moan += 1;
 			num_moan %= 3;
 
-			sbk_niveau.play(10 + num_moan);
+			sbk_level.play(10 + num_moan);
 		}
 
 		local_phase = phase;
 	}
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -72,155 +72,155 @@ void EnemyBisouZombie::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouZombie::onAvance() {
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 15;
+	anim_tick += 1;
+	anim_tick %= 15;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
 	my_phase = !my_phase;
 
 	if (my_phase) {
-		if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
-			dir = SENS_DROITE;
-		else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
-			dir = SENS_GAUCHE;
+		if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+			dir = FACING_RIGHT;
+		else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+			dir = FACING_LEFT;
 
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			marche(SPEED);
-			pic = pbk_ennemis[262 + etape];
+			pic = pbk_enemies[262 + anim_step];
 		} else {
 			marche(-SPEED);
-			pic = pbk_ennemis[270 + etape];
+			pic = pbk_enemies[270 + anim_step];
 		}
 	}
 
 	colFromPic();
 }
 
-void EnemyBisouZombie::estTouche(Shot* tir) {
+void EnemyBisouZombie::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	static const int dy_giclure2[] = {0, -10, -10, -10, -20, -10, -10, -10};
 
-	int back_etat = etat;
-	int back_etape = etape;
-	int back_ss_etape = ss_etape;
+	int back_etat = status;
+	int back_etape = anim_step;
+	int back_ss_etape = anim_tick;
 
-	int blessure = tir->degats();
+	int blessure = shot->damage();
 
-	if (blessure < pv) {
-		tir->aTouche(blessure);
-		pv -= blessure;
+	if (blessure < hp) {
+		shot->aTouche(blessure);
+		hp -= blessure;
 
-		if (pv < 500 && (etat == ETAT_NORMAL || etat == ETAT_AVANCE) && !tir->enflame()) {
-			etape = ss_etape = 0;
+		if (hp < 500 && (status == STATE_NORMAL || status == ETAT_AVANCE) && !shot->enflame()) {
+			anim_step = anim_tick = 0;
 			col_on = false;
-			etat = ETAT_COUPE;
+			status = ETAT_COUPE;
 		}
 	} else {
-		tir->aTouche(pv);
-		tir->aTue();
-		pv = 0;
+		shot->aTouche(hp);
+		shot->aTue();
+		hp = 0;
 		col_on = false;
 
 		game_flag[FLAG_NB_KILL] += 1;
 
-		if (etat == ETAT_RAMPE) {
-			etape = 0;
-			ss_etape = 0;
+		if (status == ETAT_RAMPE) {
+			anim_step = 0;
+			anim_tick = 0;
 
-			if (tir->enflame() == 2) {
-				etape = ss_etape = 0;
+			if (shot->enflame() == 2) {
+				anim_step = anim_tick = 0;
 				col_on = false;
-				etat = ETAT_CARBONISE_HAUT;
+				status = ETAT_CARBONISE_HAUT;
 			} else {
-				etape = ss_etape = 0;
+				anim_step = anim_tick = 0;
 				col_on = false;
-				etat = ETAT_MEURE;
+				status = ETAT_MEURE;
 			}
 		} else {
-			if (tir->enflame()) {
-				etape = ss_etape = 0;
+			if (shot->enflame()) {
+				anim_step = anim_tick = 0;
 				col_on = false;
-				etat = ETAT_CARBONISE;
-			} else if (etat != ETAT_COUPE) {
-				etape = ss_etape = 0;
+				status = ETAT_CARBONISE;
+			} else if (status != ETAT_COUPE) {
+				anim_step = anim_tick = 0;
 				col_on = false;
-				etat = ETAT_COUPE;
+				status = ETAT_COUPE;
 			}
 		}
 	}
 
-	if (etat == ETAT_RAMPE)
-		gicle(tir, dx_giclure, dy_giclure2);
+	if (status == ETAT_RAMPE)
+		gicle(shot, dx_giclure, dy_giclure2);
 	else
-		gicle(tir, dx_giclure, dy_giclure);
+		gicle(shot, dx_giclure, dy_giclure);
 }
 
 void EnemyBisouZombie::onTombe() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[308 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[308 + anim_step];
 		x += 1;
 	} else {
-		pic = pbk_ennemis[312 + etape];
+		pic = pbk_enemies[312 + anim_step];
 		x -= 1;
 	}
 
-	tombe();
+	fall();
 
-	if (plat(x, y) != 0 && etape >= 3) {
-		etape = ss_etape = 0;
-		etat = ETAT_RAMPE;
+	if (platform_y(x, y) != 0 && anim_step >= 3) {
+		anim_step = anim_tick = 0;
+		status = ETAT_RAMPE;
 		col_on = true;
 		onRampe();
 	}
 }
 
 void EnemyBisouZombie::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[292 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[292 + anim_step];
 	else
-		pic = pbk_ennemis[296 + etape];
+		pic = pbk_enemies[296 + anim_step];
 
-	if (etape >= 3) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step >= 3) {
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }
 
 void EnemyBisouZombie::onCoupe() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 4) {
+	if (anim_step == 4) {
 		GoreFeetBisouZombie* pieds = new GoreFeetBisouZombie();
 
 		pieds->x = x;
@@ -231,15 +231,15 @@ void EnemyBisouZombie::onCoupe() {
 
 		y -= 19;
 		dy = 0;
-		etape = 0;
-		ss_etape = 0;
-		etat = ETAT_TOMBE;
+		anim_step = 0;
+		anim_tick = 0;
+		status = ETAT_TOMBE;
 		onTombe();
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[278 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[278 + anim_step];
 		else
-			pic = pbk_ennemis[282 + etape];
+			pic = pbk_enemies[282 + anim_step];
 	}
 }
 
@@ -248,25 +248,25 @@ void EnemyBisouZombie::onRampe() {
 	static const int anim_gauche[] = {289, 290, 291, 290};
 	static const int SPEED = 1;
 
-	if (pv <= 0) {
-		etape = ss_etape = 0;
-		etat = ETAT_MEURE;
+	if (hp <= 0) {
+		anim_step = anim_tick = 0;
+		status = ETAT_MEURE;
 		col_on = false;
 		onMeure();
 		return;
 	}
 
-	tombe();
+	fall();
 
 	etape2 = (etape2 + 1) % 4;
 
 	if (etape2 == 0) {
-		if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
-			dir = SENS_DROITE;
-		else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
-			dir = SENS_GAUCHE;
+		if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+			dir = FACING_RIGHT;
+		else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+			dir = FACING_LEFT;
 
-		if (dir == SENS_DROITE)
+		if (dir == FACING_RIGHT)
 			marche(SPEED);
 		else
 			marche(-SPEED);
@@ -274,46 +274,46 @@ void EnemyBisouZombie::onRampe() {
 		colFromPic();
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[anime(anim_droite, 4, 16)];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[animate(anim_droite, 4, 16)];
 	else
-		pic = pbk_ennemis[anime(anim_gauche, 4, 16)];
+		pic = pbk_enemies[animate(anim_gauche, 4, 16)];
 }
 
 void EnemyBisouZombie::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 6) {
-			a_detruire = true;
+		if (anim_step > 6) {
+			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[605 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[605 + anim_step];
 	else
-		pic = pbk_ennemis[612 + etape];
+		pic = pbk_enemies[612 + anim_step];
 }
 
 void EnemyBisouZombie::onCarboniseHaut() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 7) {
-			a_detruire = true;
+		if (anim_step > 7) {
+			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[619 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[619 + anim_step];
 	else
-		pic = pbk_ennemis[627 + etape];
+		pic = pbk_enemies[627 + anim_step];
 }

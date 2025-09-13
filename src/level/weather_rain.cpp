@@ -3,5 +3,5 @@
 void WeatherRain::update() {
 	y += dy;
 
-	if (x < offset || (y > -100 && mur_opaque(x, 0)) || mur_opaque(x, y) || y > 540) a_detruire = true;
+	if (x < offset || (y > -100 && solid_wall(x, 0)) || solid_wall(x, y) || y > 540) destroyed = true;
 }

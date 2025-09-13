@@ -6,7 +6,7 @@ void PieceSonicRing::update() {
 	x += dx;
 	tombe2();
 
-	if (plat(x + dx, y + dy) != 0) {
+	if (platform_y(x + dx, y + dy) != 0) {
 		if (dy > 2) {
 			dy = -dy + 1;
 		} else if ((dy == 2) || (dy == 1)) {
@@ -14,14 +14,14 @@ void PieceSonicRing::update() {
 		}
 	}
 
-	ss_etape++;
-	ss_etape %= 4;
+	anim_tick++;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 4;
 	}
 
-	pic = pbk_ennemis[119 + etape];
-	updateADetruire();
+	pic = pbk_enemies[119 + anim_step];
+	updateDestroyed();
 }

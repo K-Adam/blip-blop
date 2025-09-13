@@ -17,7 +17,7 @@ class EnemySmurfHefty : public Enemy {
 	virtual void onTireHadoken();
 	virtual void onTireDragonPunch();
 	virtual void onTireHurricanKick();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	virtual void onCarbonise();
 	virtual void onMeure();
 };

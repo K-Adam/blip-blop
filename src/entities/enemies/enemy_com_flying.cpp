@@ -1,18 +1,18 @@
 #include "entities/enemies/enemy_com_flying.h"
 
 EnemyCOMFlying::EnemyCOMFlying() : speed(0), attack(true) {
-	pv = 100;
-	if (tete_turc != NULL) {
-		y_cible = tete_turc->y;
+	hp = 100;
+	if (targeted_player != NULL) {
+		y_target = targeted_player->y;
 	} else {
-		y_cible = 100 + rand() % 200;
+		y_target = 100 + rand() % 200;
 		;
 	}
 }
 
 void EnemyCOMFlying::update() {
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -23,51 +23,51 @@ void EnemyCOMFlying::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyCOMFlying::onAvance() {
-	ss_etape += 1;
-	ss_etape %= 8;
+	anim_tick += 1;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 2;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 2;
 	}
 
-	if ((dir == SENS_GAUCHE) && (x - speed < offset || mur_opaque(x - speed, y))) {
-		dir = SENS_DROITE;
+	if ((dir == FACING_LEFT) && (x - speed < offset || solid_wall(x - speed, y))) {
+		dir = FACING_RIGHT;
 		attack = false;
-		if (tete_turc != NULL) {
-			y_cible = tete_turc->y;
+		if (targeted_player != NULL) {
+			y_target = targeted_player->y;
 		} else {
-			y_cible = 100 + rand() % 200;
+			y_target = 100 + rand() % 200;
 			;
 		}
-	} else if ((dir == SENS_DROITE) && (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
-		dir = SENS_GAUCHE;
+	} else if ((dir == FACING_RIGHT) && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+		dir = FACING_LEFT;
 		attack = false;
-		if (tete_turc != NULL) {
-			y_cible = tete_turc->y;
+		if (targeted_player != NULL) {
+			y_target = targeted_player->y;
 		} else {
-			y_cible = 100 + rand() % 200;
+			y_target = 100 + rand() % 200;
 			;
 		}
 	}
 
 	if (attack) {
-		if (y_cible <= y) {
+		if (y_target <= y) {
 			speed = 6;
-		} else if ((y_cible - 80 > y) && (y > y_cible - 110)) {
+		} else if ((y_target - 80 > y) && (y > y_target - 110)) {
 			y += 4;
 			speed = 1;
-		} else if ((y_cible - 60 > y) && (y >= y_cible - 80)) {
+		} else if ((y_target - 60 > y) && (y >= y_target - 80)) {
 			y += 3;
 			speed = 2;
-		} else if ((y_cible - 40 > y) && (y >= y_cible - 60)) {
+		} else if ((y_target - 40 > y) && (y >= y_target - 60)) {
 			y += 2;
 			speed = 3;
-		} else if ((y_cible - 20 > y) && (y >= y_cible - 40)) {
+		} else if ((y_target - 20 > y) && (y >= y_target - 40)) {
 			y += 1;
 			speed = 4;
 		} else {
@@ -75,38 +75,38 @@ void EnemyCOMFlying::onAvance() {
 			speed = 5;
 		}
 	} else {
-		if (y < (y_cible - 110)) {
+		if (y < (y_target - 110)) {
 			y += 5;
-		} else if (y > (y_cible - 100)) {
+		} else if (y > (y_target - 100)) {
 			y -= 3;
 		} else {
 			attack = true;
 		}
 	}
 
-	if (dir == SENS_DROITE)
+	if (dir == FACING_RIGHT)
 		x += speed;
 	else
 		x -= speed;
 
-	pic = pbk_ennemis[98 + etape];
+	pic = pbk_enemies[98 + anim_step];
 
 	colFromPic();
 }
 
 void EnemyCOMFlying::onMeure() {
-	if (ss_etape == 0 && etape == 0) {
-		sbk_niveau.play(6);
+	if (anim_tick == 0 && anim_step == 0) {
+		sbk_level.play(6);
 	}
 
-	ss_etape += 1;
-	ss_etape %= 3;
+	anim_tick += 1;
+	anim_tick %= 3;
 
-	if (ss_etape == 0 && etape < 22) etape += 1;
+	if (anim_tick == 0 && anim_step < 22) anim_step += 1;
 
-	if (etape >= 22) {
-		a_detruire = true;
+	if (anim_step >= 22) {
+		destroyed = true;
 	} else {
-		pic = pbk_ennemis[76 + etape];
+		pic = pbk_enemies[76 + anim_step];
 	}
 }

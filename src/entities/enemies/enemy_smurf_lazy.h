@@ -6,5 +6,5 @@ class EnemySmurfLazy : public EnemySmurf {
    public:
 	EnemySmurfLazy() { dy_saut = -4; }
 
-	inline void affiche() override { EnemySmurf::affiche(); }
+	inline void render() override { EnemySmurf::render(); }
 };

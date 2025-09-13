@@ -87,7 +87,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 	}
 
 	wait_for_death = 0;
-	current_zik = -1;
+	current_track = -1;
 
 	if (idj == 0)
 		player1 = std::make_unique<Blip>();
@@ -95,7 +95,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		player1 = std::make_unique<Blop>();
 
 	player1->ctrl = &controllers_[0];
-	list_joueurs.push_back(player1.get());
+	list_players.push_back(player1.get());
 
 	if (nbj == 2) {
 		if (idj == 0)
@@ -104,7 +104,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 			player2 = std::make_unique<Blip>();
 
 		player2->ctrl = &controllers_[1];
-		list_joueurs.push_back(player2.get());
+		list_players.push_back(player2.get());
 	}
 
 	cowBombOn = false;
@@ -213,30 +213,30 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	hold_fire = false;
 
-	intensite_meteo = 0;
+	weather_intensity = 0;
 
 	n_cache = 0;
 
 	for (int i = 0; i <= 10; i++) game_flag[i] = 0;
 
-	clearTexteCool();
+	clearCoolText();
 
 	if (!chargeNiveau(nom_niveau)) co_return false;
 
 	if (std::string_view(nom_niveau) == "lvl/snorkniv.lvl" || std::string_view(nom_niveau) == "lvl/snorkniv2.lvl") {
-		okLanceFlame = false;
+		okFlamethrower = false;
 	} else {
-		okLanceFlame = true;
+		okFlamethrower = true;
 	}
 
 	if (player1 != NULL && player1->nb_life > 0) {
 		player1->x = xstart1;
 		player1->y = ystart1;
-		player1->etat = ETAT_NORMAL;
-		player1->etape = 0;
-		player1->ss_etape = 0;
-		player1->dir = BBDIR_DROITE;
-		player1->tire = false;
+		player1->status = STATE_NORMAL;
+		player1->anim_step = 0;
+		player1->anim_tick = 0;
+		player1->dir = BBDIR_RIGHT;
+		player1->is_firing = false;
 
 		if (type == LVL_BONUS) {
 			p1_life = player1->nb_life;
@@ -251,11 +251,11 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	if (player2 != NULL && player2->nb_life > 0) {
 		player2->x = xstart2;
 		player2->y = ystart2;
-		player2->etat = ETAT_NORMAL;
-		player2->etape = 0;
-		player2->ss_etape = 0;
-		player2->dir = BBDIR_DROITE;
-		player2->tire = false;
+		player2->status = STATE_NORMAL;
+		player2->anim_step = 0;
+		player2->anim_tick = 0;
+		player2->dir = BBDIR_RIGHT;
+		player2->is_firing = false;
 
 		if (type == LVL_BONUS) {
 			p2_life = player2->nb_life;
@@ -268,24 +268,24 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	}
 
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
-		nb_ennemis_created = 0;
+		nb_enemies_created = 0;
 
 		if (player1 != NULL) {
 			player1->setKilled(0);
 
 			if (type != LVL_END) {
-				player1->etat = ETAT_COME_BACK;
+				player1->status = STATE_COME_BACK;
 				player1->y = -50;
 				player1->y_to_go = ystart1;
 			}
 
-			player1->id_arme = ID_M16;
-			player1->latence_arme = 3;
-			player1->nb_etape_arme = 5;
-			player1->cadence_arme = 10;
-			player1->poid_arme = 1;
+			player1->weapon_id = ID_M16;
+			player1->weapon_anim_delay = 3;
+			player1->nb_weapon_steps = 5;
+			player1->fire_interval = 10;
+			player1->gun_weight = 1;
 			player1->perfect = true;
-			player1->pv = 5;
+			player1->hp = 5;
 
 			if (last_perfect1) {
 				player1->setSuperWeapon();
@@ -296,18 +296,18 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 			player2->setKilled(0);
 
 			if (type != LVL_END) {
-				player2->etat = ETAT_COME_BACK;
+				player2->status = STATE_COME_BACK;
 				player2->y = -50;
 				player2->y_to_go = ystart2;
 			}
 
-			player2->id_arme = ID_M16;
-			player2->latence_arme = 3;
-			player2->nb_etape_arme = 5;
-			player2->cadence_arme = 10;
-			player2->poid_arme = 1;
+			player2->weapon_id = ID_M16;
+			player2->weapon_anim_delay = 3;
+			player2->nb_weapon_steps = 5;
+			player2->fire_interval = 10;
+			player2->gun_weight = 1;
 			player2->perfect = true;
-			player2->pv = 5;
+			player2->hp = 5;
 
 			if (last_perfect2) {
 				player2->setSuperWeapon();
@@ -319,7 +319,7 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	niveau_bonus = type == LVL_BONUS;
 
-	Sprite* s = list_joueurs[0];
+	Sprite* s = list_players[0];
 	offset = s->x;
 	offset -= (offset % 640);
 
@@ -380,24 +380,24 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 		player2->endLevel();
 	}
 
-	current_zik = -1;
-	if (music_on) mbk_niveau.stop();
+	current_track = -1;
+	if (music_on) mbk_level.stop();
 
 	// A bonus level gives the lives back and cannot be lost
 	if (type == LVL_BONUS && !skipped && !app_killed) {
 		if (player1 != NULL && p1_bringBack) {
-			if (player1->a_detruire && p1_life > 0) {
-				player1->a_detruire = false;
-				list_joueurs.push_back(player1.get());
+			if (player1->destroyed && p1_life > 0) {
+				player1->destroyed = false;
+				list_players.push_back(player1.get());
 			}
 
 			player1->nb_life = p1_life;
 		}
 
 		if (player2 != NULL && p2_bringBack) {
-			if (player2->a_detruire && p2_life > 0) {
-				player2->a_detruire = false;
-				list_joueurs.push_back(player2.get());
+			if (player2->destroyed && p2_life > 0) {
+				player2->destroyed = false;
+				list_players.push_back(player2.get());
 			}
 
 			player2->nb_life = p2_life;
@@ -468,13 +468,13 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	};
 
 	bool loaded = load("gfx_decors", "gfx/", "background", true, [](const char* f) { return pbk_decor.loadGFX(f); }) &&
-				  load("gfx_niveau", "gfx/", "level stuff", false, [](const char* f) { return pbk_niveau.loadGFX(f); }) &&
-				  load("gfx_ennemis", "gfx/", "ennemies", false, [](const char* f) { return pbk_ennemis.loadGFX(f); }) &&
-				  load("sbk_ennemis", "sfx/", "SBK", false, [](const char* f) { return sbk_niveau.loadSFX(f); }) &&
+				  load("gfx_niveau", "gfx/", "level stuff", false, [](const char* f) { return pbk_level.loadGFX(f); }) &&
+				  load("gfx_ennemis", "gfx/", "ennemies", false, [](const char* f) { return pbk_enemies.loadGFX(f); }) &&
+				  load("sbk_ennemis", "sfx/", "SBK", false, [](const char* f) { return sbk_level.loadSFX(f); }) &&
 				  load("fichier_mbk", "mbk/", "MBK", false,
 					   [](const char* f) {
 						   current_mbk = f;
-						   return !music_on || mbk_niveau.open(f);
+						   return !music_on || mbk_level.open(f);
 					   }) &&
 				  load("fichier_rpg", "rpg/", "RPG file", false,
 					   [&](const char* f) {
@@ -492,7 +492,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	auto murs_opaques_str = from_base64(data["murs_opaques"]);
 	auto murs_sanglants_str = from_base64(data["murs_sanglants"]);
 	size_t level_size_8 = level_size / 8;
-	if (plat_str.size() < NB_MAX_PLAT * level_size * sizeof(int32_t) || murs_opaques_str.size() < 60 * level_size_8 ||
+	if (plat_str.size() < NB_MAX_PLATFORMS * level_size * sizeof(int32_t) || murs_opaques_str.size() < 60 * level_size_8 ||
 		murs_sanglants_str.size() < 60 * level_size_8) {
 		debug << "Game::chargeNiveau() -> Truncated collision data in <" << json_path << ">\n";
 		return false;
@@ -514,19 +514,19 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	vic_flag2 = data["vic_flag2"];
 	vic_val2 = data["vic_val2"];
 
-	y_plat.assign(NB_MAX_PLAT, std::vector<int32_t>(level_size));
-	for (int i = 0; i < NB_MAX_PLAT; i++) {
-		std::memcpy(y_plat[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
+	y_platform.assign(NB_MAX_PLATFORMS, std::vector<int32_t>(level_size));
+	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
+		std::memcpy(y_platform[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
-	murs_opaques.resize(60);
+	solid_walls.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		murs_opaques[i].assign(murs_opaques_str.begin() + i * level_size_8, murs_opaques_str.begin() + (i + 1) * level_size_8);
+		solid_walls[i].assign(murs_opaques_str.begin() + i * level_size_8, murs_opaques_str.begin() + (i + 1) * level_size_8);
 	}
 
-	murs_sanglants.resize(60);
+	bloody_walls.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		murs_sanglants[i].assign(murs_sanglants_str.begin() + i * level_size_8, murs_sanglants_str.begin() + (i + 1) * level_size_8);
+		bloody_walls[i].assign(murs_sanglants_str.begin() + i * level_size_8, murs_sanglants_str.begin() + (i + 1) * level_size_8);
 	}
 
 	size_t nb_events = data["events"].size();
@@ -535,29 +535,29 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 		int event_id = event["event_id"];
 		switch (event_id) {
-			case EVENTID_ENNEMI: {
+			case EVENTID_ENEMY: {
 				auto event_ennemi = std::make_unique<EventEnemy>();
 
 				event_ennemi->x_activation = event["x_activation"];
-				event_ennemi->id_ennemi = event["id_ennemi"];
+				event_ennemi->enemy_id = event["id_ennemi"];
 				event_ennemi->x = event["x"];
 				event_ennemi->y = event["y"];
-				event_ennemi->sens = event["sens"];
+				event_ennemi->facing = event["sens"];
 
 				list_event_endormis.push_back(std::move(event_ennemi));
 				break;
 			}
 
-			case EVENTID_ENNEMI_GENERATOR: {
+			case EVENTID_ENEMY_GENERATOR: {
 				auto event_gennemi = std::make_unique<EventEnemyGenerator>();
 
 				event_gennemi->x_activation = event["x_activation"];
-				event_gennemi->id_ennemi = event["id_ennemi"];
+				event_gennemi->enemy_id = event["id_ennemi"];
 				event_gennemi->x = event["x"];
 				event_gennemi->y = event["y"];
-				event_gennemi->sens = event["sens"];
-				event_gennemi->capacite = event["capacite"];
-				event_gennemi->periode = event["periode"];
+				event_gennemi->facing = event["sens"];
+				event_gennemi->capacity = event["capacite"];
+				event_gennemi->period = event["periode"];
 				event_gennemi->tmp = event["tmp"];
 
 				list_event_endormis.push_back(std::move(event_gennemi));
@@ -613,7 +613,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 				event_gen_bonus->x_activation = event["x_activation"];
 				event_gen_bonus->type = event["type"];
-				event_gen_bonus->periode = event["periode"];
+				event_gen_bonus->period = event["periode"];
 
 				list_event_endormis.push_back(std::move(event_gen_bonus));
 				break;
@@ -632,11 +632,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				break;
 			}
 
-			case EVENTID_FOND_ANIME: {
+			case EVENTID_ANIMATED_BG: {
 				auto event_fond_anime = std::make_unique<EventAnimatedBackground>();
 
 				event_fond_anime->x_activation = event["x_activation"];
-				event_fond_anime->id_fond = event["id_fond"];
+				event_fond_anime->bg_id = event["id_fond"];
 				event_fond_anime->x = event["x"];
 				event_fond_anime->y = event["y"];
 
@@ -644,7 +644,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				break;
 			}
 
-			case EVENTID_MIFOND: {
+			case EVENTID_MIDGROUND: {
 				auto event_mi_fond = std::make_unique<EventMidground>();
 
 				event_mi_fond->x_activation = event["x_activation"];
@@ -656,10 +656,10 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				break;
 			}
 
-			case EVENTID_PREMIER_PLAN: {
+			case EVENTID_FOREGROUND: {
 				auto event_pplan = std::make_unique<EventForeground>();
 
-				event_pplan->id_fond = event["id_fond"];
+				event_pplan->bg_id = event["id_fond"];
 				event_pplan->x_activation = event["x_activation"];
 				event_pplan->x = event["x"];
 				event_pplan->y = event["y"];
@@ -692,11 +692,11 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				break;
 			}
 
-			case EVENTID_METEO: {
+			case EVENTID_WEATHER: {
 				auto event_meteo = std::make_unique<EventWeather>();
 
 				event_meteo->x_activation = event["x_activation"];
-				event_meteo->intensite = event["intensite"];
+				event_meteo->intensity = event["intensite"];
 				event_meteo->type = event["type"];
 
 				list_event_endormis.push_back(std::move(event_meteo));
@@ -717,7 +717,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 			case EVENTID_TURRET: {
 				auto event_vehicule = std::make_unique<EventVehicle>();
 				event_vehicule->x_activation = event["x_activation"];
-				event_vehicule->id_vehicule = event["id_vehicule"];
+				event_vehicule->vehicle_id = event["id_vehicule"];
 				event_vehicule->x = event["x"];
 				event_vehicule->y = event["y"];
 				event_vehicule->dir = event["dir"];
@@ -726,7 +726,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				break;
 			}
 
-			case EVENTID_SON: {
+			case EVENTID_SOUND: {
 				auto event_son = std::make_unique<EventSound>();
 				event_son->x_activation = event["x_activation"];
 				event_son->nsnd = event["nsnd"];
@@ -744,34 +744,34 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 void Game::releaseNiveau() {
 	num_decor.clear();
-	y_plat.clear();
-	murs_sanglants.clear();
-	murs_opaques.clear();
+	y_platform.clear();
+	bloody_walls.clear();
+	solid_walls.clear();
 
 	list_event_endormis.clear();
 	list_event.clear();
 
-	list_tirs_bb.clear();
+	list_shots_bb.clear();
 	list_cow.clear();
 	list_impacts.clear();
 
-	list_vehicules.clear();
+	list_vehicles.clear();
 
-	list_ennemis.clear();
-	list_tirs_ennemis.clear();
-	list_gen_ennemis.clear();
+	list_enemies.clear();
+	list_enemy_shots.clear();
+	list_enemy_gens.clear();
 
 	list_bonus.clear();
 	list_gen_bonus.clear();
 
 	list_txt_cool.clear();
 
-	list_fonds_animes.clear();
-	list_fonds_statiques.clear();
-	list_premiers_plans.clear();
-	list_plateformes_mobiles.clear();
+	list_animated_bgs.clear();
+	list_static_bgs.clear();
+	list_foregrounds.clear();
+	list_moving_platforms.clear();
 
-	list_giclures.clear();
+	list_splatters.clear();
 	list_gore.clear();
 
 	list_meteo.clear();
@@ -802,27 +802,27 @@ void Game::updateAll() {
 
 	updateCheat();
 
-	if (game_flag[FLAG_BULLES]) updateBulles();
+	if (game_flag[FLAG_BUBBLES]) updateBulles();
 
-	if (type_meteo == METEO_PLUIE || type_meteo == METEO_NEIGE) updateMeteo();
+	if (weather_type == WEATHER_RAIN_ID || weather_type == WEATHER_SNOW_ID) updateMeteo();
 
-	UpdateCollection(list_fonds_statiques);
-	UpdateCollection(list_fonds_animes);
-	UpdateCollection(list_plateformes_mobiles);
-	UpdateCollection(list_vehicules);
-	UpdateCollection(list_joueurs);
-	UpdateCollection(list_tirs_bb);
+	UpdateCollection(list_static_bgs);
+	UpdateCollection(list_animated_bgs);
+	UpdateCollection(list_moving_platforms);
+	UpdateCollection(list_vehicles);
+	UpdateCollection(list_players);
+	UpdateCollection(list_shots_bb);
 	UpdateCollection(list_cow);
 	UpdateCollection(list_impacts);
-	UpdateCollection(list_ennemis);
+	UpdateCollection(list_enemies);
 	UpdateCollection(list_gore);
-	UpdateCollection(list_tirs_ennemis);
-	UpdateCollection(list_giclures);
+	UpdateCollection(list_enemy_shots);
+	UpdateCollection(list_splatters);
 	UpdateCollection(list_bonus);
-	UpdateCollection(list_premiers_plans);
+	UpdateCollection(list_foregrounds);
 
 	UpdateCollection(list_txt_cool);
-	UpdateCollection(list_gen_ennemis);
+	UpdateCollection(list_enemy_gens);
 	UpdateCollection(list_gen_bonus);
 	updateLock();
 	updateHoldFire();
@@ -830,7 +830,7 @@ void Game::updateAll() {
 	updateFlags();
 	updateFlecheGo();
 
-	if (type_meteo == METEO_DEFORME && intensite_meteo != 0) updateDeformation();
+	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) updateDeformation();
 
 	manageCollisions();
 
@@ -852,29 +852,29 @@ void Game::drawAll(bool flip) {
 	}
 
 	drawScrolling();
-	DrawCollection(list_fonds_statiques);
-	DrawCollection(list_fonds_animes);
+	DrawCollection(list_static_bgs);
+	DrawCollection(list_animated_bgs);
 
-	if (game_flag[FLAG_BULLES]) {
+	if (game_flag[FLAG_BUBBLES]) {
 		DrawCollection(list_bulles);
 	}
 
-	DrawCollection(list_plateformes_mobiles);
+	DrawCollection(list_moving_platforms);
 	DrawCollection(list_impacts);
 	DrawCollection(list_gore);
 
-	DrawCollection(list_ennemis);
-	DrawCollection(list_tirs_ennemis);
+	DrawCollection(list_enemies);
+	DrawCollection(list_enemy_shots);
 	DrawCollection(list_bonus);
-	DrawCollection(list_tirs_bb);
-	DrawCollection(list_joueurs);
-	DrawCollection(list_vehicules);
+	DrawCollection(list_shots_bb);
+	DrawCollection(list_players);
+	DrawCollection(list_vehicles);
 	DrawCollection(list_impacts);
 	DrawCollection(list_cow);
 	DrawCollection(list_meteo);
-	DrawCollection(list_premiers_plans);
+	DrawCollection(list_foregrounds);
 
-	if (type_meteo == METEO_DEFORME && intensite_meteo != 0) drawDeformation();
+	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) drawDeformation();
 
 	drawHUB();
 	drawTimer();
@@ -920,7 +920,7 @@ Task<> Game::gameLoop() {
 	drawAll();
 }
 
-void Game::releasePartie() { list_joueurs.clear(); }
+void Game::releasePartie() { list_players.clear(); }
 
 bool Game::chargePartie() {
 	debug << "---------------------------------------------------------------\n";
@@ -982,41 +982,41 @@ bool Game::chargePartie() {
 template <class T>
 void Game::DrawCollection(const T& xs) {
 	for (auto& pl : xs) {
-		pl->affiche();
+		pl->render();
 	}
 }
 
 template <class T>
 void Game::RemoveDestroyed(T& xs) {
-	xs.erase(std::remove_if(xs.begin(), xs.end(), [](auto& x) { return x->aDetruire(); }), xs.end());
+	xs.erase(std::remove_if(xs.begin(), xs.end(), [](auto& x) { return x->isDestroyed(); }), xs.end());
 }
 
 void Game::cleanLists() {
-	RemoveDestroyed(list_joueurs);
-	RemoveDestroyed(list_fonds_statiques);
-	RemoveDestroyed(list_tirs_bb);
+	RemoveDestroyed(list_players);
+	RemoveDestroyed(list_static_bgs);
+	RemoveDestroyed(list_shots_bb);
 	RemoveDestroyed(list_cow);
 	RemoveDestroyed(list_bulles);
 	RemoveDestroyed(list_impacts);
-	RemoveDestroyed(list_ennemis);
+	RemoveDestroyed(list_enemies);
 	RemoveDestroyed(list_bonus);
-	RemoveDestroyed(list_gen_ennemis);
+	RemoveDestroyed(list_enemy_gens);
 	RemoveDestroyed(list_gen_bonus);
 	RemoveDestroyed(list_txt_cool);
-	RemoveDestroyed(list_fonds_animes);
-	RemoveDestroyed(list_premiers_plans);
-	RemoveDestroyed(list_giclures);
-	RemoveDestroyed(list_tirs_ennemis);
+	RemoveDestroyed(list_animated_bgs);
+	RemoveDestroyed(list_foregrounds);
+	RemoveDestroyed(list_splatters);
+	RemoveDestroyed(list_enemy_shots);
 	RemoveDestroyed(list_meteo);
 	RemoveDestroyed(list_gore);
-	RemoveDestroyed(list_plateformes_mobiles);
+	RemoveDestroyed(list_moving_platforms);
 }
 
 void Game::updateEvents() {
 	// Sleeping events move to the pending list when they are about to fire
 	for (auto it = list_event_endormis.rbegin(); it != list_event_endormis.rend(); ++it) {
 		auto& event = *it;
-		if (!event->aReveiller()) {
+		if (!event->shouldWake()) {
 			break;
 		}
 		list_event.push_back(std::move(event));
@@ -1026,7 +1026,7 @@ void Game::updateEvents() {
 							  list_event_endormis.end());
 
 	for (auto& event : list_event) {
-		if (event->aActiver()) {
+		if (event->shouldActivate()) {
 			event->doEvent();
 			event.reset(nullptr);
 		}
@@ -1035,41 +1035,41 @@ void Game::updateEvents() {
 }
 
 void Game::manageCollisions() {
-	for (Shot* tir : list_tirs_bb) {
-		for (auto& ennemi : list_ennemis) {
-			if (tir->collision(ennemi.get())) {
-				ennemi->estTouche(tir);
+	for (Shot* shot : list_shots_bb) {
+		for (auto& ennemi : list_enemies) {
+			if (shot->collision(ennemi.get())) {
+				ennemi->takeHit(shot);
 			}
 		}
 	}
 
-	for (auto& tir : list_cow) {
-		for (auto& ennemi : list_ennemis) {
-			if (tir->collision(ennemi.get())) {
-				ennemi->estTouche(tir.get());
+	for (auto& shot : list_cow) {
+		for (auto& ennemi : list_enemies) {
+			if (shot->collision(ennemi.get())) {
+				ennemi->takeHit(shot.get());
 			}
 		}
 	}
 
 	for (auto& bonus : list_bonus) {
-		for (Ball* ball : list_joueurs) {
+		for (Ball* ball : list_players) {
 			if (bonus->collision(ball)) {
-				bonus->estPris(ball);
+				bonus->onPickup(ball);
 			}
 		}
 	}
 
 	if (wait_for_victory <= 0) {
-		for (auto& ennemi : list_ennemis) {
-			for (Ball* joueur : list_joueurs) {
-				if (ennemi->collision(joueur)) joueur->estTouche(ennemi->degats());
+		for (auto& ennemi : list_enemies) {
+			for (Ball* hero : list_players) {
+				if (ennemi->collision(hero)) hero->takeHit(ennemi->damage());
 			}
 		}
 
-		for (auto& tir : list_tirs_ennemis) {
-			for (Ball* joueur : list_joueurs) {
-				if (tir->collision(joueur)) {
-					joueur->estTouche(tir->degats());
+		for (auto& shot : list_enemy_shots) {
+			for (Ball* hero : list_players) {
+				if (shot->collision(hero)) {
+					hero->takeHit(shot->damage());
 				}
 			}
 		}
@@ -1079,7 +1079,7 @@ void Game::manageCollisions() {
 void Game::updateLock() {
 	if (!scroll_locked) return;
 
-	if ((cond_end_lock == 0 && list_ennemis.empty()) || (cond_end_lock == 1 && list_gen_ennemis.empty()) ||
+	if ((cond_end_lock == 0 && list_enemies.empty()) || (cond_end_lock == 1 && list_enemy_gens.empty()) ||
 		(cond_end_lock == 2 && game_flag[flag_end_lock] == val_end_lock) || (cond_end_lock == 3 && game_flag[flag_end_lock] >= val_end_lock)) {
 		scroll_locked = false;
 		go_.Come();
@@ -1104,13 +1104,13 @@ void Game::drawHUB() {
 	}
 }
 
-void Game::drawHUBpv(int x, int y, int pv) {
+void Game::drawHUBpv(int x, int y, int hp) {
 	static const int x_pv[] = {3, 0, 13, 44, 31};
 	static const int y_pv[] = {0, 21, 48, 21, 0};
 
-	for (int i = 0; i < pv; i++) pbk_bb[201 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
+	for (int i = 0; i < hp; i++) pbk_bb[201 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
 
-	for (int i = pv; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
+	for (int i = hp; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
 }
 
 void Game::drawDebugInfos() {
@@ -1122,16 +1122,16 @@ void Game::drawDebugInfos() {
 void Game::updateTeteTurc() {
 	static int ntete_turc = 0;
 
-	if (list_joueurs.empty()) {
+	if (list_players.empty()) {
 		dummyPlayer.x = offset + 320;
-		dummyPlayer.y = y_plat[0][offset + 320];
-		tete_turc = &dummyPlayer;
+		dummyPlayer.y = y_platform[0][offset + 320];
+		targeted_player = &dummyPlayer;
 		return;
 	}
 
 	ntete_turc += 1;
-	ntete_turc %= list_joueurs.size();
-	tete_turc = list_joueurs[ntete_turc];
+	ntete_turc %= list_players.size();
+	targeted_player = list_players[ntete_turc];
 }
 
 Task<> Game::updateRPG() {
@@ -1156,7 +1156,7 @@ Task<> Game::updateRPG() {
 }
 
 void Game::updateVictoryAndDefeat() {
-	if (list_joueurs.empty()) {
+	if (list_players.empty()) {
 		wait_for_death += 1;
 
 		if (wait_for_death >= 200) joueurs_morts = true;
@@ -1177,8 +1177,8 @@ void Game::updateVictoryAndDefeat() {
 }
 
 void Game::updateFlags() {
-	game_flag[FLAG_NB_GEN] = (int)list_gen_ennemis.size();
-	game_flag[FLAG_NB_ENN] = (int)list_ennemis.size();
+	game_flag[FLAG_NB_GEN] = (int)list_enemy_gens.size();
+	game_flag[FLAG_NB_ENEMIES] = (int)list_enemies.size();
 	makeb_current_mode = game_flag[FLAG_BONUS];
 
 	if (game_flag[FLAG_TIMER] > 0 && wait_for_victory == -1) {
@@ -1375,7 +1375,7 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 
 	mbk_inter.play(0);
 
-	if (list_joueurs.size() == 2) {
+	if (list_players.size() == 2) {
 		totals[0].calc = totals[1].calc = 0;
 		totals[0].xbase = 80;
 		totals[1].xbase = 350;
@@ -1390,7 +1390,7 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 	for (auto& t : totals) {
 		if (t.calc == 4) continue;
 		t.fnt = t.player->id_ball == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
-		if (nb_ennemis_created > 0) t.killed = (100 * t.player->getKilled()) / nb_ennemis_created;
+		if (nb_enemies_created > 0) t.killed = (100 * t.player->getKilled()) / nb_enemies_created;
 		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !joueurs_morts)) t.obj = 50000;
 		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
 		t.total = t.player->getScore();
@@ -1443,14 +1443,14 @@ void Game::updateMeteo() {
 		pl->update();
 	}
 
-	while (list_meteo.size() < (size_t)intensite_meteo) {
-		if (type_meteo == METEO_NEIGE) {
+	while (list_meteo.size() < (size_t)weather_intensity) {
+		if (weather_type == WEATHER_SNOW_ID) {
 			next_flocon = (next_flocon + 1) % NB_FLOCONS;
 			WeatherSnow* flocon = &neige[next_flocon];
 
 			int d = rand() % 3;
 
-			flocon->a_detruire = false;
+			flocon->destroyed = false;
 			flocon->xbase = offset + rand() % 800;
 			flocon->y = rand() % 480 - 500;
 
@@ -1459,26 +1459,26 @@ void Game::updateMeteo() {
 			else
 				flocon->pic = pbk_misc[72];
 
-			flocon->dy = intensite_meteo / 20 + d;
+			flocon->dy = weather_intensity / 20 + d;
 			flocon->phi = rand() % 360;
 			flocon->xwide = 10 + d * 4;
 
-			if (mur_opaque(flocon->xbase, 0)) flocon->y -= 550;
+			if (solid_wall(flocon->xbase, 0)) flocon->y -= 550;
 
 			list_meteo.emplace_back(flocon);
-		} else if (type_meteo == METEO_PLUIE) {
+		} else if (weather_type == WEATHER_RAIN_ID) {
 			next_goutte = (next_goutte + 1) % NB_GOUTTES;
 			WeatherRain* goutte = &pluie[next_goutte];
 
 			int d = rand() % 4;
 
-			goutte->a_detruire = false;
+			goutte->destroyed = false;
 			goutte->x = offset + rand() % 800;
 			goutte->y = rand() % 480 - 480;
 			goutte->pic = pbk_misc[65 + d];
 			goutte->dy = 7 + d * 2;
 
-			if (mur_opaque(goutte->x, 0)) goutte->y -= 550;
+			if (solid_wall(goutte->x, 0)) goutte->y -= 550;
 
 			list_meteo.emplace_back(goutte);
 		}
@@ -1549,11 +1549,11 @@ void Game::drawDeformation() {
 }
 
 void Game::updateBulles() {
-	for (Ball* pl : list_joueurs) {
+	for (Ball* pl : list_players) {
 		creeBulle(pl);
 	}
 
-	for (auto& pl : list_ennemis) {
+	for (auto& pl : list_enemies) {
 		if (list_bulles.size() < 15) {
 			break;
 		}
@@ -1566,9 +1566,9 @@ void Game::updateBulles() {
 }
 
 void Game::creeBulle(Sprite* s) {
-	s->wait_bulle += rand() % 10;
+	s->wait_bubble += rand() % 10;
 
-	if (s->wait_bulle > 300) {
+	if (s->wait_bubble > 300) {
 		Bubble* b = new Bubble();
 
 		b->xbase = s->x;
@@ -1579,7 +1579,7 @@ void Game::creeBulle(Sprite* s) {
 
 		list_bulles.emplace_back(b);
 
-		s->wait_bulle = 0;
+		s->wait_bubble = 0;
 	}
 }
 
@@ -1629,7 +1629,7 @@ Task<> Game::getHiscore() {
 	if (player2 != NULL && hi_scores.isGood(player2->getScore())) co_await getName(player2.get(), 2);
 }
 
-Task<> Game::getName(Player* joueur, int ijoueur) {
+Task<> Game::getName(Player* hero, int ijoueur) {
 	const std::string title = "PLAYER " + std::to_string(ijoueur) + " GOT A HIGH SCORE!";
 	std::string name;
 	int key = -1;
@@ -1685,7 +1685,7 @@ Task<> Game::getName(Player* joueur, int ijoueur) {
 		co_await nextFrame();
 	}
 
-	hi_scores.add(joueur->getScore(), name);
+	hi_scores.add(hero->getScore(), name);
 	save_settings();
 }
 

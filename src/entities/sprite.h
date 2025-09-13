@@ -9,14 +9,14 @@ class Sprite {
 	int x;
 	int y;
 	int dy;
-	int etape;
-	int ss_etape;
+	int anim_step;
+	int anim_tick;
 	Picture* pic;
-	bool a_detruire;
+	bool destroyed;
 	int dir;
 	int lat_grav;
 
-	int wait_bulle;
+	int wait_bubble;
 
 	int x1;	 // Collision box
 	int y1;
@@ -28,36 +28,36 @@ class Sprite {
 
 	inline virtual int getX() const { return x; };
 	inline virtual int getY() const { return y; };
-	inline virtual int getEtape() const { return etape; };
+	inline virtual int getEtape() const { return anim_step; };
 	inline virtual Picture* getPic() const { return pic; };
-	inline virtual bool aDetruire() const { return a_detruire; };
+	inline virtual bool isDestroyed() const { return destroyed; };
 
 	inline virtual bool estSurMur() const  // Blood stained wall
 	{
-		return mur_sanglant(x, y);
+		return bloody_wall(x, y);
 	}
 
-	inline virtual int anime(const int* tab, int nb_etapes, int latence) {
-		ss_etape += 1;
-		ss_etape %= latence;
+	inline virtual int animate(const int* tab, int nb_etapes, int latence) {
+		anim_tick += 1;
+		anim_tick %= latence;
 
-		if (ss_etape == 0) etape += 1;
+		if (anim_tick == 0) anim_step += 1;
 
-		if (etape < 0) etape = 0;
+		if (anim_step < 0) anim_step = 0;
 
-		etape %= nb_etapes;
-		return tab[etape];
+		anim_step %= nb_etapes;
+		return tab[anim_step];
 	};
 
-	inline virtual void affiche() { draw(x, y, pic); };
+	inline virtual void render() { draw(x, y, pic); };
 
-	inline virtual void updateADetruire() {
-		if (x < offset - 250 || x > offset + 900 || y < -200 || y > 600) a_detruire = true;
+	inline virtual void updateDestroyed() {
+		if (x < offset - 250 || x > offset + 900 || y < -200 || y > 600) destroyed = true;
 	};
 
 	virtual void update() = 0;
 
-	virtual void tombe();
+	virtual void fall();
 	virtual void tombe2();
 	virtual void marche(int speed);
 	virtual void colFromPic();

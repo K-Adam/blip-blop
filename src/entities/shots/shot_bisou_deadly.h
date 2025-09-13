@@ -10,7 +10,7 @@ class ShotBisouDeadly : public Shot {
 
 	ShotBisouDeadly() : dx(0), duree_vie(235){};
 
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 
@@ -19,31 +19,31 @@ class ShotBisouDeadly : public Shot {
 	void update() override {
 		static const int ACCEL = 1;
 
-		ss_etape += 1;
-		ss_etape %= 5;
+		anim_tick += 1;
+		anim_tick %= 5;
 
-		if (ss_etape == 0) {
-			etape += 1;
-			etape %= 2;
+		if (anim_tick == 0) {
+			anim_step += 1;
+			anim_step %= 2;
 		}
 
 		if (dx > 0)
-			dir = SENS_DROITE;
+			dir = FACING_RIGHT;
 		else
-			dir = SENS_GAUCHE;
+			dir = FACING_LEFT;
 
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[311 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[311 + anim_step];
 		else
-			pic = pbk_ennemis[313 + etape];
+			pic = pbk_enemies[313 + anim_step];
 
 		x += dx / 13;
 		y += dy / 13;
 
 		duree_vie -= 1;
 
-		if (duree_vie <= 0 || cible->a_detruire) {
-			a_detruire = true;
+		if (duree_vie <= 0 || cible->destroyed) {
+			destroyed = true;
 			return;
 		}
 
@@ -61,6 +61,6 @@ class ShotBisouDeadly : public Shot {
 			dy -= ACCEL;
 
 		colFromPic();
-		updateADetruire();
+		updateDestroyed();
 	};
 };

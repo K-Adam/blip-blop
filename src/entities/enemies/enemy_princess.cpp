@@ -4,16 +4,16 @@
 #include "entities/bonus_cow.h"
 
 EnemyPrincess::EnemyPrincess() : avance(false), aide(false) {
-	pv = 3700;
+	hp = 3700;
 	tresor = 0;
-	pic = pbk_ennemis[128];
+	pic = pbk_enemies[128];
 }
 
 void EnemyPrincess::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -25,7 +25,7 @@ void EnemyPrincess::update() {
 	}
 
 	if (game_flag[1]) {
-		updateADetruire();
+		updateDestroyed();
 	}
 }
 
@@ -36,7 +36,7 @@ void EnemyPrincess::onAvance() {
 			txt->ntxt = 517;
 			list_txt_cool.emplace_back(txt);
 
-			a_detruire = true;
+			destroyed = true;
 		}
 		if (!aide) {
 			aide = true;
@@ -47,72 +47,72 @@ void EnemyPrincess::onAvance() {
 
 				guard->x = offset + 720 - i * 20;
 				guard->y = y - 20;
-				guard->dir = SENS_GAUCHE;
-				list_ennemis.emplace_back(guard);
+				guard->dir = FACING_LEFT;
+				list_enemies.emplace_back(guard);
 			}
-			nb_ennemis_created += 3;
+			nb_enemies_created += 3;
 		}
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			if (x - offset > 400) {
-				ss_etape += 1;
-				ss_etape %= 6;
-				if (ss_etape == 0) {
-					etape += 1;
-					etape %= 2;
+				anim_tick += 1;
+				anim_tick %= 6;
+				if (anim_tick == 0) {
+					anim_step += 1;
+					anim_step %= 2;
 				}
 				marche(PRINCESSE_SPEED);
-				pic = pbk_ennemis[126 + etape];
+				pic = pbk_enemies[126 + anim_step];
 			} else {
-				ss_etape += 1;
-				ss_etape %= 6;
-				if (ss_etape == 0) {
-					etape += 1;
-					etape %= 2;
+				anim_tick += 1;
+				anim_tick %= 6;
+				if (anim_tick == 0) {
+					anim_step += 1;
+					anim_step %= 2;
 				}
 				marche(2);
-				pic = pbk_ennemis[126 + etape];
+				pic = pbk_enemies[126 + anim_step];
 			}
-		} else if (dir == SENS_GAUCHE) {
-			dir = SENS_DROITE;
+		} else if (dir == FACING_LEFT) {
+			dir = FACING_RIGHT;
 		} else {
 			avance = false;
 		}
 	} else {
 		if ((x < 5760)) {
-			ss_etape += 1;
-			ss_etape %= 6;
-			if (ss_etape == 0) {
-				etape += 1;
-				etape %= 2;
+			anim_tick += 1;
+			anim_tick %= 6;
+			if (anim_tick == 0) {
+				anim_step += 1;
+				anim_step %= 2;
 			}
 			marche(PRINCESSE_SPEED);
-			pic = pbk_ennemis[126 + etape];
+			pic = pbk_enemies[126 + anim_step];
 		} else if (x > 7500) {
-			pic = pbk_ennemis[126];
+			pic = pbk_enemies[126];
 		} else {
-			pic = pbk_ennemis[128];
+			pic = pbk_enemies[128];
 		}
 	}
 	colFromPic();
 }
 
 void EnemyPrincess::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 6) etape += 1;
+	if (anim_tick == 0 && anim_step < 6) anim_step += 1;
 
-	if (etape >= 5) {
-		int yy = plat(x, y);
+	if (anim_step >= 5) {
+		int yy = platform_y(x, y);
 
-		if (yy != 0 && yy != y_plat[4][x]) {
-			grave(x, y, pic);
+		if (yy != 0 && yy != y_platform[4][x]) {
+			engrave(x, y, pic);
 			CoolText* txt = new CoolText();
 			txt->ntxt = 519;
 			list_txt_cool.emplace_back(txt);
-			a_detruire = true;
+			destroyed = true;
 			if (game_flag[3] > 0) {
 				game_flag[2] = 1;
 			}
@@ -123,16 +123,16 @@ void EnemyPrincess::onMeure() {
 			list_bonus.emplace_back(bonus);
 		}
 	} else {
-		pic = pbk_ennemis[130 + etape];
+		pic = pbk_enemies[130 + anim_step];
 	}
 }
 
-void EnemyPrincess::estTouche(Shot* tir) {
+void EnemyPrincess::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (game_flag[1]) {
-		Enemy::estTouche(tir);
+		Enemy::takeHit(shot);
 	}
-	gicle(tir, dx_giclure, dy_giclure);
+	gicle(shot, dx_giclure, dy_giclure);
 }

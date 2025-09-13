@@ -15,9 +15,9 @@ class CoolText {
 	CoolText();
 
 	void update();
-	void affiche();
+	void render();
 
-	bool aDetruire() { return x <= -320; };
+	bool isDestroyed() { return x <= -320; };
 };
 
-void clearTexteCool();
+void clearCoolText();

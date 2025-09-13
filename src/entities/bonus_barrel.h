@@ -9,11 +9,11 @@ class BonusBarrel : public Bonus {
 		col_on = true;
 	};
 
-	void estPris(Ball* c) override {
+	void onPickup(Ball* c) override {
 		sbk_misc.play(5);
 
-		c->pv = 5;
+		c->hp = 5;
 
-		Bonus::estPris(c);
+		Bonus::onPickup(c);
 	};
 };

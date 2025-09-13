@@ -4,17 +4,17 @@
 
 class EnemySmurfPeon : public EnemySmurf {
    public:
-	EnemySmurfPeon() { pv = 125; }
+	EnemySmurfPeon() { hp = 125; }
 
-	inline void affiche() override {
-		EnemySmurf::affiche();
-		if ((etat != ETAT_MEURE && etat != ETAT_CARBONISE) || (etat == ETAT_MEURE && etape <= 2)) {
+	inline void render() override {
+		EnemySmurf::render();
+		if ((status != ETAT_MEURE && status != ETAT_CARBONISE) || (status == ETAT_MEURE && anim_step <= 2)) {
 			switch (dir) {
-				case SENS_GAUCHE:
-					draw(x, y - 32, pbk_ennemis[153]);
+				case FACING_LEFT:
+					draw(x, y - 32, pbk_enemies[153]);
 					break;
-				case SENS_DROITE:
-					draw(x, y - 32, pbk_ennemis[154]);
+				case FACING_RIGHT:
+					draw(x, y - 32, pbk_enemies[154]);
 					break;
 			}
 		}

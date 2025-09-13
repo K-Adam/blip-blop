@@ -5,26 +5,26 @@
 class GoreFeetBisouZombie : public Sprite {
    public:
 	void update() override {
-		tombe();
+		fall();
 
-		if (etape < 3) {
-			ss_etape += 1;
-			ss_etape %= 6;
+		if (anim_step < 3) {
+			anim_tick += 1;
+			anim_tick %= 6;
 
-			if (ss_etape == 0) etape += 1;
+			if (anim_tick == 0) anim_step += 1;
 		}
 
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			marche(-1);
-			pic = pbk_ennemis[300 + etape];
+			pic = pbk_enemies[300 + anim_step];
 		} else {
 			marche(1);
-			pic = pbk_ennemis[304 + etape];
+			pic = pbk_enemies[304 + anim_step];
 		}
 
-		if (etape == 3 && plat(x, y) != 0) {
-			grave(x, y, pic);
-			a_detruire = true;
+		if (anim_step == 3 && platform_y(x, y) != 0) {
+			engrave(x, y, pic);
+			destroyed = true;
 		}
 	};
 };

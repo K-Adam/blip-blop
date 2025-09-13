@@ -2,15 +2,15 @@
 #include "entities/gore_splatter.h"
 
 EnemyWeight::EnemyWeight() : nb_colision(0) {
-	pv = 1000;
-	pic = pbk_ennemis[169];
+	hp = 1000;
+	pic = pbk_enemies[169];
 }
 
 void EnemyWeight::update() {
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		onMeure();
 	} else {
-		pic = pbk_ennemis[169];
+		pic = pbk_enemies[169];
 		if (game_flag[0] < 3) {
 			y = -100;
 			x = 565;
@@ -22,7 +22,7 @@ void EnemyWeight::update() {
 				dy = 0;
 			}
 			if (x > 950) {
-				etat = ETAT_MEURE;
+				status = ETAT_MEURE;
 			}
 		}
 
@@ -35,85 +35,85 @@ void EnemyWeight::update() {
 }
 
 void EnemyWeight::onMeure() {
-	if ((mur_opaque(x, y + dy))) {
+	if ((solid_wall(x, y + dy))) {
 		game_flag[0] = 7;
-		ss_etape++;
-		ss_etape %= 15;
-		if (ss_etape == 0) {
-			etape++;
-			if (etape >= 3) {
-				grave(x, y, pic);
-				a_detruire = true;
+		anim_tick++;
+		anim_tick %= 15;
+		if (anim_tick == 0) {
+			anim_step++;
+			if (anim_step >= 3) {
+				engrave(x, y, pic);
+				destroyed = true;
 			}
 		}
-		if (etape < 3) {
-			pic = pbk_ennemis[202 + etape];
+		if (anim_step < 3) {
+			pic = pbk_enemies[202 + anim_step];
 		}
 	} else {
 		tombe2();
-		if (mur_opaque(x, y + dy * 10)) {
-			pic = pbk_ennemis[201];
+		if (solid_wall(x, y + dy * 10)) {
+			pic = pbk_enemies[201];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 8; i++) {
 				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
-				list_giclures.emplace_back(s);
+				list_splatters.emplace_back(s);
 			}
-		} else if (mur_opaque(x, y + dy * 15)) {
-			pic = pbk_ennemis[200];
+		} else if (solid_wall(x, y + dy * 15)) {
+			pic = pbk_enemies[200];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 6; i++) {
 				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
-				list_giclures.emplace_back(s);
+				list_splatters.emplace_back(s);
 			}
-		} else if (mur_opaque(x, y + dy * 20)) {
-			pic = pbk_ennemis[200];
+		} else if (solid_wall(x, y + dy * 20)) {
+			pic = pbk_enemies[200];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 5; i++) {
 				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
-				list_giclures.emplace_back(s);
+				list_splatters.emplace_back(s);
 			}
-		} else if (mur_opaque(x, y + dy * 25)) {
+		} else if (solid_wall(x, y + dy * 25)) {
 			game_flag[0] = 6;
-			pic = pbk_ennemis[199];
+			pic = pbk_enemies[199];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 4; i++) {
 				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
-				list_giclures.emplace_back(s);
+				list_splatters.emplace_back(s);
 			}
-		} else if (mur_opaque(x, y + dy * 30)) {
-			pic = pbk_ennemis[199];
+		} else if (solid_wall(x, y + dy * 30)) {
+			pic = pbk_enemies[199];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 3; i++) {
 				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
 				s->x = x + rand() % 80 - 40;
 				s->y = y - rand() % 30 - 10;
-				list_giclures.emplace_back(s);
+				list_splatters.emplace_back(s);
 			}
 		} else {
-			pic = pbk_ennemis[170];
+			pic = pbk_enemies[170];
 		}
 	}
 }
 
-int EnemyWeight::degats() { return 0; };
+int EnemyWeight::damage() { return 0; };
 
-void EnemyWeight::estTouche(Shot* tir) {
-	if ((tir->dir >= 2) && (tir->dir <= 6)) {
+void EnemyWeight::takeHit(Shot* shot) {
+	if ((shot->dir >= 2) && (shot->dir <= 6)) {
 		nb_colision++;
 	}
 
-	tir->aTouche(0);
+	shot->aTouche(0);
 }

@@ -7,19 +7,19 @@
 
 class ShotBB : public Shot {
    public:
-	Player* joueur;
+	Player* hero;
 	int dxReferentiel;
 
 	ShotBB() : dxReferentiel(0){};
-	int degats() const override = 0;
+	int damage() const override = 0;
 	int enflame() const override = 0;
 
-	void aTue() override { joueur->addKilled(); };
+	void aTue() override { hero->addKilled(); };
 
 	inline void aTouche(int pts) override {
-		a_detruire = true;
+		destroyed = true;
 		col_on = false;
-		joueur->addPoints(pts);
+		hero->addPoints(pts);
 	};
 
 	void setDir(int d) override;

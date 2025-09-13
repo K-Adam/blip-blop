@@ -3,16 +3,16 @@
 ShotSnorkyBase2::ShotSnorkyBase2(int vx, int vy) {
 	dy = vy;
 	dx = vx;
-	pic = pbk_ennemis[182];
+	pic = pbk_enemies[182];
 }
 
 void ShotSnorkyBase2::update() {
 	x += dx;
 	y += dy;
 
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 
-	if (mur_opaque(x, y) != 0) a_detruire = true;
+	if (solid_wall(x, y) != 0) destroyed = true;
 
 	colFromPic();
 }

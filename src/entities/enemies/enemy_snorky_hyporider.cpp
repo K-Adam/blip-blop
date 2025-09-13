@@ -1,18 +1,18 @@
 #include "entities/enemies/enemy_snorky_hyporider.h"
 #include "entities/piece_snorky_head.h"
 
-EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_etape(0) {
-	pv = 350;
+EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_step(0) {
+	hp = 350;
 	dy = 0;
 }
 
 void EnemySnorkyHyporider::update() {
-	switch (etat) {
+	switch (status) {
 		case ETAT_TOMBE:
 		case ETAT_SAUTE:
 
 		case ETAT_AVANCE:
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 			onAvance();
 			break;
 
@@ -29,58 +29,58 @@ void EnemySnorkyHyporider::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySnorkyHyporider::onAvance() {
 	wait_for_charge++;
-	if ((wait_for_charge > charge_delay) && ((dir == SENS_DROITE && x > offset + 80) || (dir == SENS_GAUCHE && x < offset + 560))) {
+	if ((wait_for_charge > charge_delay) && ((dir == FACING_RIGHT && x > offset + 80) || (dir == FACING_LEFT && x < offset + 560))) {
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 200;
-		etape = 0;
-		ss_etape = 0;
-		etat = ETAT_TIRE;
-		attack_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
+		status = ETAT_TIRE;
+		attack_step = 0;
 		onCharge();
 		return;
 	}
 
-	ss_etape++;
-	ss_etape %= 6;
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 4;
+	anim_tick++;
+	anim_tick %= 6;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 4;
 	}
 
-	if (dir == SENS_GAUCHE) {
+	if (dir == FACING_LEFT) {
 		x -= HYPORIDER_SPEED;
-		pic = pbk_ennemis[291];
+		pic = pbk_enemies[291];
 
-		if (mur_opaque(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin)) dir = SENS_DROITE;
+		if (solid_wall(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		x += HYPORIDER_SPEED;
 
-		pic = pbk_ennemis[286];
+		pic = pbk_enemies[286];
 
-		if (mur_opaque(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) dir = SENS_GAUCHE;
+		if (solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
 }
 
 void EnemySnorkyHyporider::onMeure() {
-	ss_etape += 1;
-	if (etape < 7) {
-		ss_etape %= 3;
+	anim_tick += 1;
+	if (anim_step < 7) {
+		anim_tick %= 3;
 	} else {
-		ss_etape %= 5;
+		anim_tick %= 5;
 	}
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 7 && ss_etape == 0) {
+	if (anim_step == 7 && anim_tick == 0) {
 		Sprite* s;
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s = new PieceSnorkyHyporiderBody(-1);
 		} else {
 			s = new PieceSnorkyHyporiderBody(1);
@@ -90,76 +90,76 @@ void EnemySnorkyHyporider::onMeure() {
 		s->y = y;
 		s->x = x;
 
-		list_giclures.emplace_back(s);
+		list_splatters.emplace_back(s);
 
-		sbk_niveau.play(8);
+		sbk_level.play(8);
 		dy = 0;
 	}
-	if (etape >= 7) {
+	if (anim_step >= 7) {
 		nageoire = 0;
-		if (dir == SENS_GAUCHE) {
+		if (dir == FACING_LEFT) {
 			x -= 4;
-			pic = pbk_ennemis[325];
+			pic = pbk_enemies[325];
 		} else {
 			x += 4;
-			pic = pbk_ennemis[312];
+			pic = pbk_enemies[312];
 		}
 	} else {
-		if (dir == SENS_GAUCHE) {
+		if (dir == FACING_LEFT) {
 			x -= HYPORIDER_SPEED;
-			pic = pbk_ennemis[313 + etape];
+			pic = pbk_enemies[313 + anim_step];
 		} else {
 			x += HYPORIDER_SPEED;
-			pic = pbk_ennemis[300 + etape];
+			pic = pbk_enemies[300 + anim_step];
 		}
 	}
 }
 
 void EnemySnorkyHyporider::onCharge() {
-	ss_etape++;
-	ss_etape %= 2;
+	anim_tick++;
+	anim_tick %= 2;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 4;
 	}
 
-	attack_etape++;
+	attack_step++;
 
-	if (attack_etape > 40) {
+	if (attack_step > 40) {
 		nageoire = 0;
-		if (dir == SENS_DROITE) {
-			if (mur_opaque(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) {
-				etape = 0;
-				ss_etape = 0;
-				etat = ETAT_AVANCE;
+		if (dir == FACING_RIGHT) {
+			if (solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) {
+				anim_step = 0;
+				anim_tick = 0;
+				status = ETAT_AVANCE;
 				nageoire = 1;
 				onAvance();
 				return;
-				dir = SENS_DROITE;
+				dir = FACING_RIGHT;
 			}
 
 			x += HYPORIDER_CHARGE_SPEED;
-			pic = pbk_ennemis[297];
+			pic = pbk_enemies[297];
 		} else {
-			if (mur_opaque(x - HYPORIDER_CHARGE_SPEED, y) || (x - HYPORIDER_CHARGE_SPEED < xmin)) {
-				etape = 0;
-				ss_etape = 0;
-				etat = ETAT_AVANCE;
+			if (solid_wall(x - HYPORIDER_CHARGE_SPEED, y) || (x - HYPORIDER_CHARGE_SPEED < xmin)) {
+				anim_step = 0;
+				anim_tick = 0;
+				status = ETAT_AVANCE;
 				nageoire = 1;
 				onAvance();
 				return;
-				dir = SENS_DROITE;
+				dir = FACING_RIGHT;
 			}
 
 			x -= HYPORIDER_CHARGE_SPEED;
-			pic = pbk_ennemis[299];
+			pic = pbk_enemies[299];
 		}
 	} else {
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[296];
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[296];
 		} else {
-			pic = pbk_ennemis[298];
+			pic = pbk_enemies[298];
 		}
 	}
 	colFromPic();
@@ -167,52 +167,52 @@ void EnemySnorkyHyporider::onCharge() {
 
 void EnemySnorkyHyporider::onCarbonise() {
 	nageoire = 0;
-	ss_etape++;
-	ss_etape %= 4;
+	anim_tick++;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) etape++;
+	if (anim_tick == 0) anim_step++;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += 6;
-		pic = pbk_ennemis[312];
+		pic = pbk_enemies[312];
 	} else {
 		x -= 6;
-		pic = pbk_ennemis[325];
+		pic = pbk_enemies[325];
 	}
 
 	if ((x - 6 < xmin) || (x + 6 > offset + 640)) {
-		a_detruire = true;
+		destroyed = true;
 	}
 }
 
-void EnemySnorkyHyporider::affiche() {
-	Sprite::affiche();
+void EnemySnorkyHyporider::render() {
+	Sprite::render();
 
-	if ((etat == ETAT_CARBONISE) && (etape < 9)) {
-		if (dir == SENS_DROITE) {
-			draw(x, y, pbk_ennemis[326 + etape]);
+	if ((status == ETAT_CARBONISE) && (anim_step < 9)) {
+		if (dir == FACING_RIGHT) {
+			draw(x, y, pbk_enemies[326 + anim_step]);
 		} else {
-			draw(x, y, pbk_ennemis[335 + etape]);
+			draw(x, y, pbk_enemies[335 + anim_step]);
 		}
 	}
 
 	if (nageoire) {
-		if (dir == SENS_DROITE) {
-			draw(x + 15, y + 20, pbk_ennemis[287 + etape % 4]);
+		if (dir == FACING_RIGHT) {
+			draw(x + 15, y + 20, pbk_enemies[287 + anim_step % 4]);
 		} else {
-			draw(x - 15, y + 20, pbk_ennemis[292 + etape % 4]);
+			draw(x - 15, y + 20, pbk_enemies[292 + anim_step % 4]);
 		}
 	}
 }
 
-void EnemySnorkyHyporider::estTouche(Shot* tir) {
+void EnemySnorkyHyporider::takeHit(Shot* shot) {
 	static const int dx_giclure_hyporider[] = {0, 0, 7, 3, 0, -3, -7, 0};
 	static const int dy_giclure_hyporider[] = {-15, -15, -15, -25, -25, -25, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_hyporider, dy_giclure_hyporider);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_hyporider, dy_giclure_hyporider);
 
-	if (etat == ETAT_MEURE) {
-		sbk_niveau.play(7);
+	if (status == ETAT_MEURE) {
+		sbk_level.play(7);
 	}
 }

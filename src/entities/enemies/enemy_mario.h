@@ -18,13 +18,13 @@ class EnemyMario : public Enemy {
 
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int attack_ss_etape;
 	int attack_type;
 	int attack_phase;
 	int nb_pluie;
 	int x_cible;
-	int y_cible;
+	int y_target;
 
    public:
 	EnemyMario();
@@ -59,6 +59,6 @@ class EnemyMario : public Enemy {
 	// Fireballs only travel horizontally
 	virtual inline void boule_de_feu(int vitesse);
 
-	void affiche() override;
-	void estTouche(Shot* tir) override;
+	void render() override;
+	void takeHit(Shot* shot) override;
 };

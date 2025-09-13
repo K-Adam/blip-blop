@@ -8,55 +8,55 @@ void ShotShamanBall::update() {
 		y += dy;
 	}
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
 	if (boom) {
-		if (ss_etape == 0) {
-			etape += 1;
+		if (anim_tick == 0) {
+			anim_step += 1;
 
-			if (etape > 4) {
-				a_detruire = true;
+			if (anim_step > 4) {
+				destroyed = true;
 				return;
 			}
 		}
 
 		if (dx > 0)
-			pic = pbk_ennemis[384 + etape];
+			pic = pbk_enemies[384 + anim_step];
 		else
-			pic = pbk_ennemis[389 + etape];
+			pic = pbk_enemies[389 + anim_step];
 
 	} else if (ok) {
-		if (ss_etape == 0) {
-			etape += 1;
-			etape %= 5;
+		if (anim_tick == 0) {
+			anim_step += 1;
+			anim_step %= 5;
 		}
 
-		if (mur_opaque(x, y)) {
-			etape = ss_etape = 0;
+		if (solid_wall(x, y)) {
+			anim_step = anim_tick = 0;
 			boom = true;
 		}
 
 		if (dx > 0)
-			pic = pbk_ennemis[374 + etape];
+			pic = pbk_enemies[374 + anim_step];
 		else
-			pic = pbk_ennemis[379 + etape];
+			pic = pbk_enemies[379 + anim_step];
 	} else {
-		if (ss_etape == 0) {
-			etape += 1;
+		if (anim_tick == 0) {
+			anim_step += 1;
 
-			if (etape > 4) {
+			if (anim_step > 4) {
 				ok = true;
 				return;
 			}
 		}
 
 		if (dx > 0)
-			pic = pbk_ennemis[364 + etape];
+			pic = pbk_enemies[364 + anim_step];
 		else
-			pic = pbk_ennemis[369 + etape];
+			pic = pbk_enemies[369 + anim_step];
 	}
 
 	colFromPic();
-	updateADetruire();
+	updateDestroyed();
 }

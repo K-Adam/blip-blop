@@ -3,18 +3,18 @@
 class ShotRainbow : public Shot {
    public:
 	void update() override {
-		ss_etape += 1;
-		ss_etape %= 3;
+		anim_tick += 1;
+		anim_tick %= 3;
 
-		if (ss_etape == 0) etape += 1;
+		if (anim_tick == 0) anim_step += 1;
 
-		if (etape >= 15) {
-			a_detruire = true;
+		if (anim_step >= 15) {
+			destroyed = true;
 		} else {
-			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[48 + etape];
+			if (dir == FACING_RIGHT)
+				pic = pbk_enemies[48 + anim_step];
 			else
-				pic = pbk_ennemis[63 + etape];
+				pic = pbk_enemies[63 + anim_step];
 
 			colFromPic();
 		}

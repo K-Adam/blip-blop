@@ -1,29 +1,29 @@
 #include "entities/shots/shot_sonic_lightning.h"
 
 ShotSonicLightning::ShotSonicLightning() {
-	ss_etape = 0;
-	etape = 0;
+	anim_tick = 0;
+	anim_step = 0;
 }
 
 void ShotSonicLightning::update() {
-	ss_etape += 1;
-	ss_etape %= 3;
+	anim_tick += 1;
+	anim_tick %= 3;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 	}
-	pic = pbk_ennemis[56 + ss_etape];
+	pic = pbk_enemies[56 + anim_tick];
 
-	if (etape > 30) {
+	if (anim_step > 30) {
 		colFromPic();
-		if (etape > 36) {
-			a_detruire = true;
+		if (anim_step > 36) {
+			destroyed = true;
 		}
 	}
 }
 
-void ShotSonicLightning::affiche() {
-	if (etape == 0 || etape > 30) {
-		Sprite::affiche();
+void ShotSonicLightning::render() {
+	if (anim_step == 0 || anim_step > 30) {
+		Sprite::render();
 	}
 }

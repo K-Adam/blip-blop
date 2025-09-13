@@ -12,27 +12,27 @@ int EnemySmurfWild::etape_wait;
 
 EnemySmurfWild::EnemySmurfWild() : etape_shoot(0), position(false) {
 	first_loop = true;
-	pv = 150;
-	etape = 1;
+	hp = 150;
+	anim_step = 1;
 	nb_shoot = 0;
 	mort = false;
-	cible = tete_turc;
+	cible = targeted_player;
 	ss_etape_angle = angle = 0;
 	sensAngle = true;
 
 	wait_shoot = 100 + rand() % 100;
 	etape_wait = 0;
-	etat = ETAT_ATTENDS;
+	status = ETAT_ATTENDS;
 
 	switch (dir) {
-		case SENS_DROITE:
+		case FACING_RIGHT:
 			num_pic = 139;
-			pic = pbk_ennemis[140];
+			pic = pbk_enemies[140];
 			shoot_direction = BAS_DROITE;
 			break;
-		case SENS_GAUCHE:
+		case FACING_LEFT:
 			num_pic = 141;
-			pic = pbk_ennemis[142];
+			pic = pbk_enemies[142];
 			shoot_direction = BAS_GAUCHE;
 			break;
 	}
@@ -48,11 +48,11 @@ void EnemySmurfWild::update() {
 		first_loop = false;
 	}
 
-	if (cible == NULL || cible->aDetruire()) {
-		cible = tete_turc;
+	if (cible == NULL || cible->isDestroyed()) {
+		cible = targeted_player;
 	}
 
-	if (etat != ETAT_MEURE) {
+	if (status != ETAT_MEURE) {
 		if (cible != NULL && x != cible->x)
 			pente = (abs(cible->y - y) * 10) / (x - cible->x);
 		else
@@ -60,7 +60,7 @@ void EnemySmurfWild::update() {
 	}
 
 	if (pente > 0) {
-		dir = SENS_GAUCHE;
+		dir = FACING_LEFT;
 		num_pic = 141;
 
 		if (pente <= 15)
@@ -70,7 +70,7 @@ void EnemySmurfWild::update() {
 		else
 			shoot_direction = BAS_GAUCHE;
 	} else if (pente < 0) {
-		dir = SENS_DROITE;
+		dir = FACING_RIGHT;
 		num_pic = 139;
 
 		if (pente >= -15)
@@ -81,22 +81,22 @@ void EnemySmurfWild::update() {
 			shoot_direction = BAS_DROITE;
 	}
 
-	if (etat != ETAT_MEURE) pic = pbk_ennemis[num_pic + etape];
+	if (status != ETAT_MEURE) pic = pbk_enemies[num_pic + anim_step];
 
 	if (blood != 0) blood -= 1;
 
-	if (!mort && pv < 0) {
+	if (!mort && hp < 0) {
 		mort = true;
-		etape = 0;
-		etat = 0;
+		anim_step = 0;
+		status = 0;
 	}
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_ATTENDS:
 			if (++etape_wait >= wait_shoot) {
-				etat = ETAT_TOMBE;
+				status = ETAT_TOMBE;
 
-				sbk_niveau.play(17);
+				sbk_level.play(17);
 
 				if (rand() % 2 == 0)
 					x = offset + 320 - rand() % 150;
@@ -105,7 +105,7 @@ void EnemySmurfWild::update() {
 
 				int j = 100 + rand() % 140;
 
-				while (mur_opaque(x, j)) j = 100 + rand() % 140;
+				while (solid_wall(x, j)) j = 100 + rand() % 140;
 
 				nb_shoot = 0;
 				hauteur = j;
@@ -124,8 +124,8 @@ void EnemySmurfWild::update() {
 
 			if (y <= -100) {
 				wait_shoot = 100 + rand() % 100;
-				etat = ETAT_ATTENDS;
-				a_detruire = true;
+				status = ETAT_ATTENDS;
+				destroyed = true;
 				cible = NULL;
 			} else {
 				y -= 2;
@@ -141,14 +141,14 @@ void EnemySmurfWild::update() {
 			onCarbonise();
 			break;
 	}
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurfWild::onTombe() {
 	if (y < hauteur) {
 		y += 3;
 	} else {
-		etat = ETAT_TIRE;
+		status = ETAT_TIRE;
 	}
 
 	etape_wait = 0;
@@ -158,90 +158,90 @@ void EnemySmurfWild::onTombe() {
 void EnemySmurfWild::onTire() {
 	shooting = true;
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape > 2) etape = 1;
+	if (anim_step > 2) anim_step = 1;
 
 	etape_shoot += 1;
 	etape_shoot %= 10;
 
 	if (etape_shoot == 0) {
-		ShotSmurfWild* tir = new ShotSmurfWild();
-		tir->x = x + tir_position_depart_x[shoot_direction];
-		tir->y = y + tir_position_depart_y[shoot_direction];
-		tir->dx = tir_dx[shoot_direction];
-		tir->dy = tir_dy[shoot_direction];
-		list_tirs_ennemis.emplace_back(tir);
+		ShotSmurfWild* shot = new ShotSmurfWild();
+		shot->x = x + tir_position_depart_x[shoot_direction];
+		shot->y = y + tir_position_depart_y[shoot_direction];
+		shot->dx = tir_dx[shoot_direction];
+		shot->dy = tir_dy[shoot_direction];
+		list_enemy_shots.emplace_back(shot);
 
-		if (nb_shoot == 0) sbk_niveau.play(18);
+		if (nb_shoot == 0) sbk_level.play(18);
 		nb_shoot += 1;
 	}
 
-	if (nb_shoot >= 5) etat = ETAT_MONTE;
+	if (nb_shoot >= 5) status = ETAT_MONTE;
 
 	colFromPic();
 }
 
-void EnemySmurfWild::estTouche(Shot* tir) {
+void EnemySmurfWild::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf_sauvage[] = {0, 0, 6, 0, 0, 0, -6, 0};
 	static const int dy_giclure_smurf_sauvage[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	if (etat == ETAT_MEURE) sbk_niveau.play(4 + rand() % 10);
+	Enemy::takeHit(shot);
+	if (status == ETAT_MEURE) sbk_level.play(4 + rand() % 10);
 }
 
 void EnemySmurfWild::onMeure() {
-	if (etape >= 5) {
+	if (anim_step >= 5) {
 		bool ok = true;
 
 		colFromPic();
 		y1 = 0;
 
-		for (auto& s : list_fonds_statiques) {
+		for (auto& s : list_static_bgs) {
 			ok = ok && !collision(s.get());
 		}
 
 		col_on = false;
 
 		if (ok) {
-			grave(x, y - 50, pbk_ennemis[117]);
-			grave(x, y - 100, pbk_ennemis[117]);
-			grave(x, y - 150, pbk_ennemis[117]);
-			grave(x, y - 200, pbk_ennemis[117]);
-			grave(x, y - 250, pbk_ennemis[117]);
-			grave(x, y, pic);
-			a_detruire = true;
+			engrave(x, y - 50, pbk_enemies[117]);
+			engrave(x, y - 100, pbk_enemies[117]);
+			engrave(x, y - 150, pbk_enemies[117]);
+			engrave(x, y - 200, pbk_enemies[117]);
+			engrave(x, y - 250, pbk_enemies[117]);
+			engrave(x, y, pic);
+			destroyed = true;
 		}
 	} else {
-		ss_etape += 1;
-		ss_etape %= 4;
+		anim_tick += 1;
+		anim_tick %= 4;
 
-		if (ss_etape == 0) {
-			etape += 1;
-			if (dir == SENS_DROITE)
-				pic = pbk_ennemis[117 + etape];
+		if (anim_tick == 0) {
+			anim_step += 1;
+			if (dir == FACING_RIGHT)
+				pic = pbk_enemies[117 + anim_step];
 			else
-				pic = pbk_ennemis[122 + etape];
+				pic = pbk_enemies[122 + anim_step];
 		}
 	}
 }
 
 void EnemySmurfWild::onCarbonise() {
-	y = hauteur + 50 - etape;
-	ss_etape += 1;
-	ss_etape %= 6;
+	y = hauteur + 50 - anim_step;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 6) {
-		a_detruire = true;
+	if (anim_step == 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[34 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[34 + anim_step];
 		else
-			pic = pbk_ennemis[40 + etape];
+			pic = pbk_enemies[40 + anim_step];
 	}
 }

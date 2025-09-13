@@ -9,9 +9,9 @@ class BonusInvincible : public Bonus {
 		col_on = true;
 	};
 
-	void estPris(Ball* c) override {
+	void onPickup(Ball* c) override {
 		c->invincible = 550;
 
-		Bonus::estPris(c);
+		Bonus::onPickup(c);
 	};
 };

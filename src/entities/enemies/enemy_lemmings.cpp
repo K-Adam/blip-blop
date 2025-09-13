@@ -3,29 +3,29 @@
 
 static int wait_no = 0;
 
-EnemyLemmings::EnemyLemmings() : suicide(false) { pv = 100; }
+EnemyLemmings::EnemyLemmings() : suicide(false) { hp = 100; }
 
 void EnemyLemmings::update() {
 	if (blood != 0) blood -= 1;
 
 	// After 200 kills the lemmings suicide and the generators stop
-	if (game_flag[FLAG_NB_KILL] >= 200 && etat != ETAT_MEURE && etat != ETAT_CARBONISE) {
+	if (game_flag[FLAG_NB_KILL] >= 200 && status != ETAT_MEURE && status != ETAT_CARBONISE) {
 		suicide = true;
 		col_on = false;
-		ss_etape = 0;
-		etape = 0;
-		etat = ETAT_MEURE;
+		anim_tick = 0;
+		anim_step = 0;
+		status = ETAT_MEURE;
 		game_flag[FLAG_GEN_OFF] = 1;
 	}
 
 	if (game_flag[3] == 1) {
-		sbk_niveau.play(5);
+		sbk_level.play(5);
 		game_flag[3] = 0;
 	}
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_AVANCE:
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 			onAvance();
 			break;
 
@@ -43,61 +43,61 @@ void EnemyLemmings::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyLemmings::onAvance() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 14;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 14;
 	}
 
-	if (dir == SENS_GAUCHE) {
+	if (dir == FACING_LEFT) {
 		x -= LEM_SPEED;
 
-		tombe();
+		fall();
 
-		pic = pbk_ennemis[14 + etape];
+		pic = pbk_enemies[14 + anim_step];
 
-		if (mur_opaque(x, y) || x < 5) dir = SENS_DROITE;
+		if (solid_wall(x, y) || x < 5) dir = FACING_RIGHT;
 	} else {
 		x += LEM_SPEED;
 
-		tombe();
+		fall();
 
-		pic = pbk_ennemis[etape];
+		pic = pbk_enemies[anim_step];
 
-		if (mur_opaque(x, y)) dir = SENS_GAUCHE;
+		if (solid_wall(x, y)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
 }
 
 void EnemyLemmings::onTombe() {
-	tombe();
+	fall();
 
-	if (plat(x, y) != 0) etat = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
 
 	colFromPic();
 }
 
 void EnemyLemmings::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 6 && (plat(x - 80, y) == 0 || plat(x + 80, y) == 0)) a_detruire = true;
+	if (anim_step >= 6 && (platform_y(x - 80, y) == 0 || platform_y(x + 80, y) == 0)) destroyed = true;
 
-	if (etape == 10) {
-		if (plat(x, y) != 0 && plat(x - 80, y) != 0 && plat(x + 80, y) != 0) grave(x, y, pic);
+	if (anim_step == 10) {
+		if (platform_y(x, y) != 0 && platform_y(x - 80, y) != 0 && platform_y(x + 80, y) != 0) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 
 		if (suicide && game_flag[0] == 0) {
 			Bonus* bonus = new BonusCow();
@@ -108,42 +108,42 @@ void EnemyLemmings::onMeure() {
 			game_flag[0] = 1;
 		}
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[38 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[38 + anim_step];
 		else
-			pic = pbk_ennemis[28 + etape];
+			pic = pbk_enemies[28 + anim_step];
 	}
 }
 
 void EnemyLemmings::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 14) {
-		a_detruire = true;
+	if (anim_step == 14) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[62 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[62 + anim_step];
 		else
-			pic = pbk_ennemis[48 + etape];
+			pic = pbk_enemies[48 + anim_step];
 	}
 }
 
-void EnemyLemmings::estTouche(Shot* tir) {
+void EnemyLemmings::takeHit(Shot* shot) {
 	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_lem, dy_giclure_lem);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_lem, dy_giclure_lem);
 
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		wait_no += 1;
 		wait_no %= 20;
 
 		if (wait_no == 0) {
-			sbk_niveau.play(1);
+			sbk_level.play(1);
 		} else {
 			sbk_misc.play(7 + rand() % 3);
 		}

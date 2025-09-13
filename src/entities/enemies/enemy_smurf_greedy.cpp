@@ -4,15 +4,15 @@
 #define ETAT_HOLD 15
 
 EnemySmurfGreedy::EnemySmurfGreedy() : wait_for_shoot(0) {
-	pv = 150;
+	hp = 150;
 	shoot_delay = 50 + rand() % 100;
 }
 
 void EnemySmurfGreedy::update() {
 	if (blood != 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 			onNormal();
 			break;
 
@@ -33,148 +33,148 @@ void EnemySmurfGreedy::update() {
 			break;
 	}
 
-	if (x < offset - 20) a_detruire = true;
+	if (x < offset - 20) destroyed = true;
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySmurfGreedy::onNormal() {
-	tombe();
+	fall();
 
 	wait_for_shoot += 1;
 
-	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && tete_turc != NULL) {
-		sbk_niveau.play(14 + rand() % 2);
-		etat = ETAT_TIRE;
+	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && targeted_player != NULL) {
+		sbk_level.play(14 + rand() % 2);
+		status = ETAT_TIRE;
 		wait_for_shoot = 0;
 		shoot_delay = 100 + rand() % 250;
-		etape = 0;
-		ss_etape = 0;
-		xcible = tete_turc->x;
-		ycible = tete_turc->y;
+		anim_step = 0;
+		anim_tick = 0;
+		xcible = targeted_player->x;
+		ycible = targeted_player->y;
 
 		if (xcible > x)
-			dir = SENS_DROITE;
+			dir = FACING_RIGHT;
 		else
-			dir = SENS_GAUCHE;
+			dir = FACING_LEFT;
 
 		onTire();
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[182];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[182];
 	} else {
-		pic = pbk_ennemis[188];
+		pic = pbk_enemies[188];
 	}
 
 	colFromPic();
 }
 
 void EnemySmurfGreedy::onTire() {
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape >= 5) {
-		ShotCake* tir = new ShotCake();
+	if (anim_step >= 5) {
+		ShotCake* shot = new ShotCake();
 
-		tir->setDir(dir);
+		shot->setDir(dir);
 
-		if (dir == SENS_GAUCHE)
-			tir->x = x - 13;
+		if (dir == FACING_LEFT)
+			shot->x = x - 13;
 		else
-			tir->x = x + 13;
+			shot->x = x + 13;
 
-		tir->y = y - 28;
+		shot->y = y - 28;
 
-		tirEnCloche(tir->x, tir->y, xcible, ycible, tir->dx, tir->dy);
+		tirEnCloche(shot->x, shot->y, xcible, ycible, shot->dx, shot->dy);
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 
-		etape = 0;
-		etat = ETAT_HOLD;
+		anim_step = 0;
+		status = ETAT_HOLD;
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[182 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[182 + anim_step];
 	} else {
-		pic = pbk_ennemis[188 + etape];
+		pic = pbk_enemies[188 + anim_step];
 	}
 
 	colFromPic();
 }
 
 void EnemySmurfGreedy::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 11) etape += 1;
+	if (anim_tick == 0 && anim_step < 11) anim_step += 1;
 
-	if (dir == SENS_DROITE) {
-		if (!mur_opaque(x - 2, y)) x -= 2;
+	if (dir == FACING_RIGHT) {
+		if (!solid_wall(x - 2, y)) x -= 2;
 
-		pic = pbk_ennemis[195 + etape];
+		pic = pbk_enemies[195 + anim_step];
 	} else {
-		if (!mur_opaque(x + 2, y)) x += 2;
+		if (!solid_wall(x + 2, y)) x += 2;
 
-		pic = pbk_ennemis[207 + etape];
+		pic = pbk_enemies[207 + anim_step];
 	}
 
-	if (etape >= 11 && plat(x, y) != 0) {
-		a_detruire = true;
-		grave(x, y, pic);
+	if (anim_step >= 11 && platform_y(x, y) != 0) {
+		destroyed = true;
+		engrave(x, y, pic);
 	}
 }
 
-void EnemySmurfGreedy::estTouche(Shot* tir) {
+void EnemySmurfGreedy::takeHit(Shot* shot) {
 	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_smurf, dy_giclure_smurf);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
 
-	if (tir->getGiclureDir() < 4)
-		dir = SENS_GAUCHE;
+	if (shot->getGiclureDir() < 4)
+		dir = FACING_LEFT;
 	else
-		dir = SENS_DROITE;
+		dir = FACING_RIGHT;
 
-	if (etat == ETAT_MEURE) sbk_niveau.play(rand() % 4);
+	if (status == ETAT_MEURE) sbk_level.play(rand() % 4);
 }
 
 void EnemySmurfGreedy::onHold() {
-	etape += 1;
+	anim_step += 1;
 
-	if (etape >= 50) {
-		etape = 0;
-		etat = ETAT_NORMAL;
+	if (anim_step >= 50) {
+		anim_step = 0;
+		status = STATE_NORMAL;
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[187];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[187];
 	} else {
-		pic = pbk_ennemis[193];
+		pic = pbk_enemies[193];
 	}
 
 	colFromPic();
 }
 
 void EnemySmurfGreedy::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 6) {
-		a_detruire = true;
+	if (anim_step == 6) {
+		destroyed = true;
 	} else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[34 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[34 + anim_step];
 		else
-			pic = pbk_ennemis[40 + etape];
+			pic = pbk_enemies[40 + anim_step];
 	}
 }

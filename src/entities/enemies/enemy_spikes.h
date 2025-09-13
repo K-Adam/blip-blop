@@ -9,10 +9,10 @@ class EnemySpikes : public Enemy {
    public:
 	EnemySpikes();
 	void update() override;
-	void affiche() override;
+	void render() override;
 	void colFromPic() override;
-	void estTouche(Shot* tir) override;
-	int degats() override { return 5; };
+	void takeHit(Shot* shot) override;
+	int damage() override { return 5; };
 
 	bool count() override { return false; };
 };

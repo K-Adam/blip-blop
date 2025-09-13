@@ -5,11 +5,11 @@
 class ShotShamanColumn : public Shot {
    public:
 	int duree_vie;
-	int etat;  // 0 created, 1 normal, 2 destroyed
+	int status;	 // 0 created, 1 normal, 2 destroyed
 
 	ShotShamanColumn();
 
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 

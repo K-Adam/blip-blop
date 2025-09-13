@@ -6,31 +6,31 @@
 const int anim_interupteur_on[] = {84, 85, 86, 84};
 const int anim_interupteur_off[] = {81, 82, 83, 82};
 
-BackgroundPokeSwitch::BackgroundPokeSwitch() : etat(false), wait_msg(false), ascenc_msg(false), bravo(false) {}
+BackgroundPokeSwitch::BackgroundPokeSwitch() : status(false), wait_msg(false), ascenc_msg(false), bravo(false) {}
 
 void BackgroundPokeSwitch::update() {
-	ss_etape++;
-	ss_etape %= 8;
+	anim_tick++;
+	anim_tick %= 8;
 
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 4;
 	}
 
-	if (etat) {
-		pic = pbk_niveau[anim_interupteur_on[etape]];
+	if (status) {
+		pic = pbk_level[anim_interupteur_on[anim_step]];
 	} else {
-		if (tete_turc != NULL) {
-			if ((tete_turc->x > x - 10) && (tete_turc->x < x + 33) && (tete_turc->y > y - 10) && (tete_turc->y < y + 51)) {
+		if (targeted_player != NULL) {
+			if ((targeted_player->x > x - 10) && (targeted_player->x < x + 33) && (targeted_player->y > y - 10) && (targeted_player->y < y + 51)) {
 				game_flag[2]++;
-				etat = true;
-				sbk_niveau.play(2);
+				status = true;
+				sbk_level.play(2);
 			}
 		}
-		pic = pbk_niveau[anim_interupteur_off[etape]];
+		pic = pbk_level[anim_interupteur_off[anim_step]];
 	}
 
-	if (x < offset - 100) a_detruire = true;
+	if (x < offset - 100) destroyed = true;
 
 	if (game_flag[0] == 0) {
 		if (wait_msg || game_flag[2] == 0) {

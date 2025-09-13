@@ -10,15 +10,15 @@ const int anim_lara_bouton[] = {123, 123, 124, 125, 126, 126, 126, 125, 124, 123
 const int anim_lara_degaine[] = {127, 127, 127, 128, 128, 129, 130, 130, 131, 131, 131};
 
 EnemyLara::EnemyLara() : numero_image_buste(127), wait_for_attack(0), pics(0), tete_rayman(0) {
-	pv = 15000;
-	pic = pbk_ennemis[162];
+	hp = 15000;
+	pic = pbk_enemies[162];
 }
 
 void EnemyLara::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 		case ETAT_SAUTE:
 		case ETAT_TOMBE:
@@ -63,8 +63,8 @@ void EnemyLara::onAvance() {
 						break;
 				}
 
-				pic->dir = SENS_GAUCHE;
-				list_ennemis.emplace_back(pic);
+				pic->dir = FACING_LEFT;
+				list_enemies.emplace_back(pic);
 			}
 		}
 
@@ -72,138 +72,138 @@ void EnemyLara::onAvance() {
 	}
 	if (game_flag[0] == 1) {
 		if (!tete_rayman) {
-			if (tete_turc != NULL) {
+			if (targeted_player != NULL) {
 				Enemy* tete = new EnemyRaymanHead();
-				tete->x = tete_turc->x + 10;
-				tete->y = tete_turc->y - 30;
+				tete->x = targeted_player->x + 10;
+				tete->y = targeted_player->y - 30;
 				tete->dy = -8;
-				tete->dir = SENS_GAUCHE;
-				list_ennemis.emplace_back(tete);
+				tete->dir = FACING_LEFT;
+				list_enemies.emplace_back(tete);
 				tete_rayman = true;
 			}
 		}
 	} else if (game_flag[0] == 2) {
-		ss_etape++;
-		ss_etape %= 6;
-		if (ss_etape == 0) {
-			etape++;
-			if (etape > 9) {
+		anim_tick++;
+		anim_tick %= 6;
+		if (anim_tick == 0) {
+			anim_step++;
+			if (anim_step > 9) {
 				game_flag[0] = 3;
-				etape = 0;
+				anim_step = 0;
 				game_flag[FLAG_TIMER] = 180;
 			} else {
-				numero_image_buste = anim_lara_bouton[etape];
+				numero_image_buste = anim_lara_bouton[anim_step];
 			}
 		}
 	} else if (game_flag[0] == 3) {
-		ss_etape++;
-		ss_etape %= 6;
-		if (ss_etape == 0) {
-			etape++;
-			if (etape > 10) {
+		anim_tick++;
+		anim_tick %= 6;
+		if (anim_tick == 0) {
+			anim_step++;
+			if (anim_step > 10) {
 				game_flag[0] = 4;
-				etape = 0;
+				anim_step = 0;
 			} else {
-				numero_image_buste = anim_lara_degaine[etape];
+				numero_image_buste = anim_lara_degaine[anim_step];
 			}
 		}
 	} else if (game_flag[0] == 4) {
 		wait_for_attack++;
-		if ((wait_for_attack > ATTACK_DELAY) && (tete_turc != NULL)) {
-			int dif_y = y - 102 - tete_turc->y;
-			int dif_x = x - tete_turc->x;
+		if ((wait_for_attack > ATTACK_DELAY) && (targeted_player != NULL)) {
+			int dif_y = y - 102 - targeted_player->y;
+			int dif_x = x - targeted_player->x;
 
 			if (dif_y != 0) {
 				int pente = (dif_x * 10) / dif_y;
 				if (pente > 40) {
-					int dx = tete_turc->x + 20 - x + 60;
-					int dy = tete_turc->y - y + 144;
+					int dx = targeted_player->x + 20 - x + 60;
+					int dy = targeted_player->y - y + 144;
 
 					int dist = (int)(sqrt((dx * dx) + (dy * dy)));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
-					tir->x = x - 60;
-					tir->y = y - 144;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
+					ShotThorn* shot;
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot->x = x - 60;
+					shot->y = y - 144;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
 
 					numero_image_buste = 150;
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 				} else if (pente > 30) {
 					numero_image_buste = 132;
-					int dx = tete_turc->x + 20 - x + 58;
-					int dy = tete_turc->y - y + 154;
+					int dx = targeted_player->x + 20 - x + 58;
+					int dy = targeted_player->y - y + 154;
 
 					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
+					ShotThorn* shot;
 
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
-					tir->x = x - 58;
-					tir->y = y - 154;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					shot->x = x - 58;
+					shot->y = y - 154;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 
 				} else if (pente > 20) {
-					int dx = tete_turc->x + 20 - x + 57;
-					int dy = tete_turc->y - y + 165;
+					int dx = targeted_player->x + 20 - x + 57;
+					int dy = targeted_player->y - y + 165;
 
 					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
+					ShotThorn* shot;
 
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
-					tir->x = x - 57;
-					tir->y = y - 165;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
+					shot->x = x - 57;
+					shot->y = y - 165;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
 					numero_image_buste = 138;
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 				} else if (pente > 5) {
 					numero_image_buste = 144;
-					int dx = tete_turc->x + 20 - x + 53;
-					int dy = tete_turc->y - y + 175;
+					int dx = targeted_player->x + 20 - x + 53;
+					int dy = targeted_player->y - y + 175;
 
 					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
+					ShotThorn* shot;
 
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
-					tir->x = x - 53;
-					tir->y = y - 175;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot->x = x - 53;
+					shot->y = y - 175;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 				} else if (pente > -15) {
@@ -211,51 +211,51 @@ void EnemyLara::onAvance() {
 
 					numero_image_buste = 150;
 				} else if (pente > -40) {
-					int dx = tete_turc->x + 20 - x + 59;
-					int dy = tete_turc->y - y + 129;
+					int dx = targeted_player->x + 20 - x + 59;
+					int dy = targeted_player->y - y + 129;
 
 					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
+					ShotThorn* shot;
 
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
-					tir->x = x - 59;
-					tir->y = y - 129;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
+					shot->x = x - 59;
+					shot->y = y - 129;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
 					// Frame aimed at -10 degrees
 					numero_image_buste = 156;
 
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 				} else {
-					int dx = tete_turc->x - x + 60;
-					int dy = tete_turc->y - y + 144;
+					int dx = targeted_player->x - x + 60;
+					int dy = targeted_player->y - y + 144;
 
 					int dist = (int)sqrt((dx * dx) + (dy * dy));
 
 					dx = (dx * LARA_TIR_SPEED) / dist;
 					dy = (dy * LARA_TIR_SPEED) / dist;
 
-					ShotThorn* tir;
+					ShotThorn* shot;
 
-					tir = new ShotThorn(163, dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(163, dx, dy + rand() % 3 - 1);
 
-					tir->x = x - 60;
-					tir->y = y - 144;
-					tir->traverse = true;
-					list_tirs_ennemis.emplace_back(tir);
+					shot->x = x - 60;
+					shot->y = y - 144;
+					shot->traverse = true;
+					list_enemy_shots.emplace_back(shot);
 					numero_image_buste = 150;
-					ss_etape = 0;
-					etape = 1;
-					etat = ETAT_TIRE;
+					anim_tick = 0;
+					anim_step = 1;
+					status = ETAT_TIRE;
 					onTire();
 					return;
 				}
@@ -263,20 +263,20 @@ void EnemyLara::onAvance() {
 			}
 		}
 	} else if (game_flag[0] == 7) {
-		a_detruire = true;
+		destroyed = true;
 		game_flag[FLAG_NB_KILL]++;
 	}
 }
 
 void EnemyLara::onTire() {
-	ss_etape++;
-	ss_etape %= etape;
-	if (ss_etape == 0) {
-		etape++;
-		if (etape >= 7) {
-			etat = ETAT_AVANCE;
-			ss_etape = 0;
-			etape = 0;
+	anim_tick++;
+	anim_tick %= anim_step;
+	if (anim_tick == 0) {
+		anim_step++;
+		if (anim_step >= 7) {
+			status = ETAT_AVANCE;
+			anim_tick = 0;
+			anim_step = 0;
 			numero_image_buste -= 5;
 			wait_for_attack = 0;
 			onAvance();
@@ -289,15 +289,15 @@ void EnemyLara::onTire() {
 
 void EnemyLara::onMeure() {
 	game_flag[0] = 5;
-	a_detruire = true;
+	destroyed = true;
 }
 
-void EnemyLara::affiche() {
+void EnemyLara::render() {
 	if (game_flag[0] < 6) {
-		draw(x, y - 102, pbk_ennemis[numero_image_buste]);
+		draw(x, y - 102, pbk_enemies[numero_image_buste]);
 	}
 
-	Sprite::affiche();
+	Sprite::render();
 }
 
-void EnemyLara::estTouche(Shot* tir) { Enemy::estTouche(tir); }
+void EnemyLara::takeHit(Shot* shot) { Enemy::takeHit(shot); }

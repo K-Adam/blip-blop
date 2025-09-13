@@ -10,13 +10,13 @@ class EnemyLara : public Enemy {
 	int numero_image_buste;
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int attack_ss_etape;
 	int attack_type;
 	int attack_phase;
 	int nb_pluie;
 	int x_cible;
-	int y_cible;
+	int y_target;
 	int pics;
 	int tete_rayman;
 
@@ -27,6 +27,6 @@ class EnemyLara : public Enemy {
 	virtual void onMeure();
 	virtual void onTire();
 
-	void affiche() override;
-	void estTouche(Shot* tir) override;
+	void render() override;
+	void takeHit(Shot* shot) override;
 };

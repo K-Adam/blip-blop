@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacman::EnemyPacman() : ss_etape_tir(0), etape_tir(0), tir(false), dx(-2) {
-	pv = 1000;
-	pic = pbk_ennemis[223];
+EnemyPacman::EnemyPacman() : ss_etape_tir(0), etape_tir(0), shot(false), dx(-2) {
+	hp = 1000;
+	pic = pbk_enemies[223];
 	col_on = false;
 	dy = -8;
 }
@@ -10,23 +10,23 @@ EnemyPacman::EnemyPacman() : ss_etape_tir(0), etape_tir(0), tir(false), dx(-2) {
 void EnemyPacman::update() {
 	if (game_flag[2] == 5) {
 		x += dx;
-		tombe();
-		ss_etape++;
-		ss_etape %= 5;
-		if (ss_etape == 0) {
-			etape++;
-			etape %= 7;
+		fall();
+		anim_tick++;
+		anim_tick %= 5;
+		if (anim_tick == 0) {
+			anim_step++;
+			anim_step %= 7;
 		}
 
-		pic = pbk_ennemis[223 + etape];
+		pic = pbk_enemies[223 + anim_step];
 
-		if (tir) {
+		if (shot) {
 			ss_etape_tir++;
 			ss_etape_tir %= 4;
 			if (ss_etape_tir == 0) {
 				etape_tir++;
 				if (etape_tir >= 3) {
-					tir = false;
+					shot = false;
 					ss_etape_tir = 0;
 					etape_tir = 0;
 				}
@@ -34,60 +34,60 @@ void EnemyPacman::update() {
 		} else {
 			ss_etape_tir++;
 			if (ss_etape_tir >= 13) {
-				tir = true;
+				shot = true;
 				ss_etape_tir = 0;
 				etape_tir = 0;
 			}
 		}
 
-		if (plat2(x, y) == 3) {
-			etape = 0;
-			ss_etape = 0;
+		if (platform_y2(x, y) == 3) {
+			anim_step = 0;
+			anim_tick = 0;
 			game_flag[2] = 6;
 		}
 	} else if (game_flag[2] == 6) {
-		pic = pbk_ennemis[230];
-		etape++;
-		if (etape > 40) {
+		pic = pbk_enemies[230];
+		anim_step++;
+		if (anim_step > 40) {
 			game_flag[2] = 7;
 			dy = 0;
 		}
 	} else if (game_flag[2] == 7) {
-		pic = pbk_ennemis[223];
+		pic = pbk_enemies[223];
 		tombe2();
-		if (y + 2 * dy > y_plat[0][x]) {
-			y = y_plat[0][x];
+		if (y + 2 * dy > y_platform[0][x]) {
+			y = y_platform[0][x];
 			game_flag[2] = 8;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 		}
 	} else if (game_flag[2] == 8) {
-		ss_etape++;
-		ss_etape %= 40;
-		if (ss_etape == 0) {
-			etape++;
+		anim_tick++;
+		anim_tick %= 40;
+		if (anim_tick == 0) {
+			anim_step++;
 		}
 
-		if (etape >= 2) {
+		if (anim_step >= 2) {
 			game_flag[2] = 9;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 		} else {
-			pic = pbk_ennemis[230 + etape];
+			pic = pbk_enemies[230 + anim_step];
 		}
 	} else if (game_flag[2] == 9) {
-		pic = pbk_ennemis[230];
+		pic = pbk_enemies[230];
 	}
 }
 
-int EnemyPacman::degats() { return 0; };
+int EnemyPacman::damage() { return 0; };
 
-void EnemyPacman::affiche() {
-	if (tir) {
-		draw(x + 30, y - 20, pbk_ennemis[232 + etape_tir]);
+void EnemyPacman::render() {
+	if (shot) {
+		draw(x + 30, y - 20, pbk_enemies[232 + etape_tir]);
 	}
 
-	Sprite::affiche();
+	Sprite::render();
 }
 
-void EnemyPacman::estTouche(Shot* tir) {}
+void EnemyPacman::takeHit(Shot* shot) {}

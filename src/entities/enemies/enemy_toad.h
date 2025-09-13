@@ -22,5 +22,5 @@ class EnemyToad : public Enemy {
 	virtual void onSaute();
 	virtual void onCharge();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

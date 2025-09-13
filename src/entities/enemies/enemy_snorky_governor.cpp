@@ -5,17 +5,17 @@ const int anim_gouverneur_marche_droite[] = {183, 184, 185, 186, 185, 184};
 const int anim_gouverneur_marche_gauche[] = {187, 188, 189, 190, 189, 188};
 
 EnemySnorkyGovernor::EnemySnorkyGovernor() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
-	pv = 150;
-	pic = pbk_ennemis[0];
+	hp = 150;
+	pic = pbk_enemies[0];
 	dy = 0;
 }
 
 void EnemySnorkyGovernor::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_AVANCE:
-		case ETAT_NORMAL:
+		case STATE_NORMAL:
 			onAvance();
 			break;
 
@@ -37,12 +37,12 @@ void EnemySnorkyGovernor::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemySnorkyGovernor::onAvance() {
-	if (plat(x, y) == 0) {
-		etat = ETAT_TOMBE;
+	if (platform_y(x, y) == 0) {
+		status = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onTombe();
@@ -50,133 +50,133 @@ void EnemySnorkyGovernor::onAvance() {
 	}
 
 	wait_for_shoot++;
-	if ((wait_for_shoot > shoot_delay) && ((dir == SENS_DROITE && x > offset + 40) || (dir == SENS_GAUCHE && x < offset + 600))) {
+	if ((wait_for_shoot > shoot_delay) && ((dir == FACING_RIGHT && x > offset + 40) || (dir == FACING_LEFT && x < offset + 600))) {
 		wait_for_shoot = 0;
 		shoot_delay = 50 + rand() % 200;
-		etape = 0;
-		ss_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		nb_tir = 0;
-		etat = ETAT_TIRE;
+		status = ETAT_TIRE;
 		onTire();
 		return;
 	}
 
-	if (dir == SENS_GAUCHE) {
+	if (dir == FACING_LEFT) {
 		marche(-GOUVERNEUR_SPEED);
 
-		pic = pbk_ennemis[anime(anim_gouverneur_marche_gauche, 6, 4)];
+		pic = pbk_enemies[animate(anim_gouverneur_marche_gauche, 6, 4)];
 
-		if (mur_opaque(x - GOUVERNEUR_SPEED, y) || (x - GOUVERNEUR_SPEED < xmin)) dir = SENS_DROITE;
+		if (solid_wall(x - GOUVERNEUR_SPEED, y) || (x - GOUVERNEUR_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		marche(GOUVERNEUR_SPEED);
 
-		pic = pbk_ennemis[anime(anim_gouverneur_marche_droite, 6, 4)];
+		pic = pbk_enemies[animate(anim_gouverneur_marche_droite, 6, 4)];
 
-		if (mur_opaque(x + GOUVERNEUR_SPEED, y) || (x + GOUVERNEUR_SPEED > offset + 640)) dir = SENS_GAUCHE;
+		if (solid_wall(x + GOUVERNEUR_SPEED, y) || (x + GOUVERNEUR_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
 }
 
 void EnemySnorkyGovernor::onTombe() {
-	tombe();
+	fall();
 
-	if (plat(x, y) != 0) etat = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
 
 	colFromPic();
 }
 
 void EnemySnorkyGovernor::onMeure() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 5) {
-		if (plat(x, y) != 0) grave(x, y, pic);
+	if (anim_step == 5) {
+		if (platform_y(x, y) != 0) engrave(x, y, pic);
 
-		a_detruire = true;
+		destroyed = true;
 	}
 
-	if (dir == SENS_GAUCHE) {
-		pic = pbk_ennemis[210 + etape];
+	if (dir == FACING_LEFT) {
+		pic = pbk_enemies[210 + anim_step];
 	} else {
-		pic = pbk_ennemis[205 + etape];
+		pic = pbk_enemies[205 + anim_step];
 	}
 }
 
 void EnemySnorkyGovernor::onTire() {
-	ss_etape++;
-	ss_etape %= 6;
-	if (ss_etape == 0) {
-		etape++;
+	anim_tick++;
+	anim_tick %= 6;
+	if (anim_tick == 0) {
+		anim_step++;
 	}
 
-	if (etape == 10) {
-		etape = 0;
-		ss_etape = 0;
-		etat = ETAT_AVANCE;
+	if (anim_step == 10) {
+		anim_step = 0;
+		anim_tick = 0;
+		status = ETAT_AVANCE;
 		onAvance();
 		return;
 	}
 
-	if (etape == 6 && ss_etape == 0) {
-		if (tete_turc != NULL) {
-			ShotSnorkyGovernor* tir = new ShotSnorkyGovernor(tete_turc, rand() % 6 - 2, -5 - rand() % 5);
+	if (anim_step == 6 && anim_tick == 0) {
+		if (targeted_player != NULL) {
+			ShotSnorkyGovernor* shot = new ShotSnorkyGovernor(targeted_player, rand() % 6 - 2, -5 - rand() % 5);
 
-			tir->setDir(dir);
-			tir->x = x;
-			tir->y = y - 71;
+			shot->setDir(dir);
+			shot->x = x;
+			shot->y = y - 71;
 
-			list_tirs_ennemis.emplace_back(tir);
+			list_enemy_shots.emplace_back(shot);
 			nb_tir++;
 		}
 
 		if (nb_tir == 0) {
-			sbk_niveau.play(6);
+			sbk_level.play(6);
 		}
 	}
-	if ((etape == 7) && (nb_tir < 5) && (ss_etape == 0)) {
-		etape -= 4;
+	if ((anim_step == 7) && (nb_tir < 5) && (anim_tick == 0)) {
+		anim_step -= 4;
 	}
 
-	if (etape < 7) {
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[191 + etape];
+	if (anim_step < 7) {
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[191 + anim_step];
 		} else {
-			pic = pbk_ennemis[198 + etape];
+			pic = pbk_enemies[198 + anim_step];
 		}
 	}
 }
 
 void EnemySnorkyGovernor::onCarbonise() {
-	ss_etape++;
-	ss_etape %= 6;
+	anim_tick++;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) etape++;
+	if (anim_tick == 0) anim_step++;
 
-	if (etape == 8)
-		a_detruire = true;
+	if (anim_step == 8)
+		destroyed = true;
 
 	else {
-		if (dir == SENS_GAUCHE)
-			pic = pbk_ennemis[224 + etape];
+		if (dir == FACING_LEFT)
+			pic = pbk_enemies[224 + anim_step];
 
 		else
-			pic = pbk_ennemis[215 + etape];
+			pic = pbk_enemies[215 + anim_step];
 	}
 }
 
-void EnemySnorkyGovernor::estTouche(Shot* tir) {
+void EnemySnorkyGovernor::takeHit(Shot* shot) {
 	static const int dx_giclure_gouverneur[] = {0, 0, 4, 0, 0, 0, -4, 0};
 	static const int dy_giclure_gouverneur[] = {-15, -15, -15, -15, -35, -15, -15, -15};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure_gouverneur, dy_giclure_gouverneur);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure_gouverneur, dy_giclure_gouverneur);
 
-	if (etat == ETAT_MEURE) {
-		sbk_niveau.play(4 + rand() % 2);
+	if (status == ETAT_MEURE) {
+		sbk_level.play(4 + rand() % 2);
 	}
 }

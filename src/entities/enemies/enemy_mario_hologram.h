@@ -11,17 +11,17 @@ class EnemyMarioHologram : public Enemy {
 	int speed;
 	int etape_speed;  // Acceleration delay
 	int fireball;	  // Fireball held in hands
-	int wait_for_cligno;
+	int wait_for_blink;
 	int cligno_delay;
 	int decalage_cligno;
 
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int attack_type;
 	int attack_phase;
 	int x_cible;
-	int y_cible;
+	int y_target;
 
    public:
 	EnemyMarioHologram();
@@ -35,6 +35,6 @@ class EnemyMarioHologram : public Enemy {
 	virtual void onTireverticale();
 	virtual void tombe_mario();
 	virtual inline void boule_de_feu();
-	void affiche() override;
-	void estTouche(Shot* tir) override;
+	void render() override;
+	void takeHit(Shot* shot) override;
 };

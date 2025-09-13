@@ -19,7 +19,7 @@ class EnemyLuigi : public Enemy {
 
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int attack_type;
 	int ss_etape_attack;
 	int etape_attack;
@@ -35,5 +35,5 @@ class EnemyLuigi : public Enemy {
 	virtual void onAttack();
 	virtual void onCarbonise();
 	virtual void tombe_luigi();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

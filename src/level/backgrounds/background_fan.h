@@ -5,16 +5,16 @@
 class BackgroundFan : public Sprite {
    public:
 	void update() override {
-		ss_etape += 1;
-		ss_etape %= 3;
+		anim_tick += 1;
+		anim_tick %= 3;
 
-		if (ss_etape == 0) {
-			etape += 1;
-			etape %= 4;
+		if (anim_tick == 0) {
+			anim_step += 1;
+			anim_step %= 4;
 		}
 
-		pic = pbk_niveau[3 + etape];
+		pic = pbk_level[3 + anim_step];
 
-		if (x < offset - 100) a_detruire = true;
+		if (x < offset - 100) destroyed = true;
 	};
 };

@@ -34,32 +34,32 @@ size_t scr_level_size;
 size_t level_size;
 std::vector<int> num_decor;
 
-std::vector<std::vector<int32_t>> y_plat;
+std::vector<std::vector<int32_t>> y_platform;
 
-std::vector<std::vector<char>> murs_opaques;
-std::vector<std::vector<char>> murs_sanglants;
+std::vector<std::vector<char>> solid_walls;
+std::vector<std::vector<char>> bloody_walls;
 
-std::vector<Ball*> list_joueurs;
-std::list<ShotBB*> list_tirs_bb;
+std::vector<Ball*> list_players;
+std::list<ShotBB*> list_shots_bb;
 std::list<std::unique_ptr<ShotBBCow>> list_cow;
 
-std::list<std::unique_ptr<Vehicle>> list_vehicules;
+std::list<std::unique_ptr<Vehicle>> list_vehicles;
 
-std::list<std::unique_ptr<Enemy>> list_ennemis;
-std::list<std::unique_ptr<Shot>> list_tirs_ennemis;
-std::list<std::unique_ptr<EnemyGenerator>> list_gen_ennemis;
+std::list<std::unique_ptr<Enemy>> list_enemies;
+std::list<std::unique_ptr<Shot>> list_enemy_shots;
+std::list<std::unique_ptr<EnemyGenerator>> list_enemy_gens;
 
 std::list<std::unique_ptr<Bonus>> list_bonus;
 std::list<std::unique_ptr<BonusGenerator>> list_gen_bonus;
 
-std::list<std::unique_ptr<Sprite>> list_fonds_animes;
-std::list<std::unique_ptr<Sprite>> list_fonds_statiques;
-std::list<std::unique_ptr<Sprite>> list_premiers_plans;
-std::list<std::unique_ptr<Sprite>> list_plateformes_mobiles;
+std::list<std::unique_ptr<Sprite>> list_animated_bgs;
+std::list<std::unique_ptr<Sprite>> list_static_bgs;
+std::list<std::unique_ptr<Sprite>> list_foregrounds;
+std::list<std::unique_ptr<Sprite>> list_moving_platforms;
 
 std::list<std::unique_ptr<CoolText>> list_txt_cool;
 
-std::list<std::unique_ptr<Sprite>> list_giclures;
+std::list<std::unique_ptr<Sprite>> list_splatters;
 std::list<std::unique_ptr<Sprite>> list_gore;
 
 bool phase;
@@ -72,40 +72,40 @@ int val_hold_fire;
 
 int rpg_to_play = -1;
 
-int nb_ennemis_created;
+int nb_enemies_created;
 
-int intensite_meteo;
-int type_meteo;
+int weather_intensity;
+int weather_type;
 
 bool okBonus;
 bool cowBombOn;
-bool okLanceFlame;
+bool okFlamethrower;
 
 // Moving platforms can reach past the level edges
 void set_plat(int n, int x, int y) {
-	if (x >= 0 && size_t(x) < level_size) y_plat[n][x] = y;
+	if (x >= 0 && size_t(x) < level_size) y_platform[n][x] = y;
 }
 
-int plat(int x, int y) {
+int platform_y(int x, int y) {
 	if (x < 0 || x >= (int)level_size || y >= 480) return 0;
 
 	int tmp;
 
-	for (int i = 0; i < NB_MAX_PLAT; i++) {
-		tmp = y_plat[i][x];
+	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
+		tmp = y_platform[i][x];
 
 		if (y >= tmp && y <= tmp + 10) return tmp;
 	}
 	return 0;
 }
 
-int plat2(int x, int y) {
+int platform_y2(int x, int y) {
 	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return -1;
 
 	int tmp;
 
-	for (int i = 0; i < NB_MAX_PLAT; i++) {
-		tmp = y_plat[i][x];
+	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
+		tmp = y_platform[i][x];
 
 		if (y >= tmp && y <= tmp + 10) return i;
 	}
@@ -113,16 +113,16 @@ int plat2(int x, int y) {
 	return -1;
 }
 
-bool mur_opaque(int x, int y) {
+bool solid_wall(int x, int y) {
 	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return false;
 
-	return murs_opaques[y / 8][x / 8];
+	return solid_walls[y / 8][x / 8];
 }
 
-bool mur_sanglant(int x, int y) {
+bool bloody_wall(int x, int y) {
 	if (x < 0 || x >= (int)level_size || y < 0 || y >= 480) return false;
 
-	return murs_sanglants[y / 8][x / 8];
+	return bloody_walls[y / 8][x / 8];
 }
 
 inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rect* clip) {
@@ -169,7 +169,7 @@ inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rec
 	surf->BltFast(x1, y1, pic->Surf(), &r);
 }
 
-bool grave(int x, int y, Picture* pic) {
+bool engrave(int x, int y, Picture* pic) {
 	if (pic == NULL || x > (offset + vbuffer_wide - pic->xSize())) return false;
 
 	BackgroundStatic s;
@@ -180,11 +180,11 @@ bool grave(int x, int y, Picture* pic) {
 
 	s.colFromPic();
 
-	for (auto& s2 : list_fonds_animes) {
+	for (auto& s2 : list_animated_bgs) {
 		if (s.collision(s2.get())) return false;
 	}
 
-	for (auto& s2 : list_plateformes_mobiles) {
+	for (auto& s2 : list_moving_platforms) {
 		if (s.collision(s2.get())) return false;
 	}
 

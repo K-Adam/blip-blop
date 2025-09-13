@@ -15,7 +15,7 @@ class EnemyRayman : public Enemy {
    private:
 	int attack_delay;
 	int wait_for_attack;
-	int attack_etape;
+	int attack_step;
 	int x_cible;
 	int range_poing;
 	int poing1;
@@ -32,5 +32,5 @@ class EnemyRayman : public Enemy {
 	virtual void onMeure();
 	virtual void onTombe();
 	virtual void onTire();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

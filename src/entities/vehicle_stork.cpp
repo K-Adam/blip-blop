@@ -3,12 +3,12 @@
 static bool first;
 
 VehicleStork::VehicleStork() {
-	pic = pbk_ennemis[66];
+	pic = pbk_enemies[66];
 	hasBeenUsed = false;
 	first = true;
 };
 
-void VehicleStork::affiche() { Sprite::affiche(); }
+void VehicleStork::render() { Sprite::render(); }
 
 void VehicleStork::updateUsed() {
 	static const int bas_ailes[] = {0, 1, 2, 3, 2, 1};
@@ -17,19 +17,19 @@ void VehicleStork::updateUsed() {
 	can_be_used = false;
 	x += SPEED;
 
-	joueur->dir = BBDIR_DROITE;
-	joueur->dir_arme = BBDIR_DROITE;
-	joueur->x = x;
-	joueur->y = y - 20;
+	hero->dir = BBDIR_RIGHT;
+	hero->dir_arme = BBDIR_RIGHT;
+	hero->x = x;
+	hero->y = y - 20;
 
 	if (x >= 1480) {
 		if (first)
-			joueur->y = y - 80;
+			hero->y = y - 80;
 		else
-			joueur->y = y - 40;
+			hero->y = y - 40;
 
-		joueur->unlockVehicule();
-		joueur = NULL;
+		hero->unlockVehicule();
+		hero = NULL;
 		hasBeenUsed = true;
 		first = false;
 	}

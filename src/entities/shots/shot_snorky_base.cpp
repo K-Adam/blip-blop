@@ -8,12 +8,12 @@ ShotSnorkyBase::ShotSnorkyBase(int vx) : speed_etape(0), oscilation_etape(0) {
 }
 
 void ShotSnorkyBase::update() {
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	speed_etape++;
 	speed_etape %= DELAY_ACCELERATION;
 	if (speed_etape == 0) {
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			dx++;
 		} else {
 			dx--;
@@ -29,20 +29,20 @@ void ShotSnorkyBase::update() {
 	} else {
 		y += tir_snorky_oscilation[oscilation_etape];
 	}
-	ss_etape++;
-	ss_etape %= 4;
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	anim_tick++;
+	anim_tick %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[32 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[32 + anim_step];
 	} else {
-		pic = pbk_ennemis[35 + etape];
+		pic = pbk_enemies[35 + anim_step];
 	}
 
-	if (mur_opaque(x, y) != 0) a_detruire = true;
+	if (solid_wall(x, y) != 0) destroyed = true;
 
 	colFromPic();
 }

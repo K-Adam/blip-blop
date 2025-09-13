@@ -1,21 +1,21 @@
 #include "entities/shots/shot_rayman_fist.h"
 #include "core/debug.h"
 
-ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_cible(xc) { ss_etape = 1; }
+ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_cible(xc) { anim_tick = 1; }
 
 void ShotRaymanFist::update() {
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[230];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[230];
 	} else {
-		pic = pbk_ennemis[231];
+		pic = pbk_enemies[231];
 	}
 
-	if ((dx != 0) && (((dir == SENS_DROITE) && (x > x_cible)) || ((dir == SENS_GAUCHE) && (x < x_cible)))) {
-		ss_etape++;
-		ss_etape %= abs(dx);
+	if ((dx != 0) && (((dir == FACING_RIGHT) && (x > x_cible)) || ((dir == FACING_LEFT) && (x < x_cible)))) {
+		anim_tick++;
+		anim_tick %= abs(dx);
 	}
-	if (ss_etape == 0) {
-		if (dir == SENS_DROITE) {
+	if (anim_tick == 0) {
+		if (dir == FACING_RIGHT) {
 			dx -= 2;
 		} else {
 			dx += 2;

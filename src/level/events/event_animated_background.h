@@ -6,7 +6,7 @@ class EventAnimatedBackground : public Event {
    public:
 	int x;
 	int y;
-	int id_fond;
+	int bg_id;
 
 	void doEvent() override;
 };

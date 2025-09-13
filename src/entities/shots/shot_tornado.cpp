@@ -3,13 +3,13 @@
 ShotTornado::ShotTornado(int vx) : dx(vx), etape_speed(0), nb_tour(0) { dy = 0; }
 
 void ShotTornado::update() {
-	ss_etape++;
-	ss_etape %= 6;
+	anim_tick++;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) {
-		etape++;
-		if ((etape > 5) && (nb_tour < TOUR_MAX)) {
-			etape = 0;
+	if (anim_tick == 0) {
+		anim_step++;
+		if ((anim_step > 5) && (nb_tour < TOUR_MAX)) {
+			anim_step = 0;
 			nb_tour++;
 		}
 	}
@@ -27,17 +27,17 @@ void ShotTornado::update() {
 
 	y += dy;
 
-	if (etape == 10) {
-		a_detruire = true;
+	if (anim_step == 10) {
+		destroyed = true;
 		return;
 	}
 
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	etape_speed++;
 	etape_speed %= TORNADE_ACCELERATION;
 	if ((etape_speed == 0) && (abs(dx) < SPEED_MAX)) {
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			dx++;
 		} else {
 			dx--;
@@ -47,11 +47,11 @@ void ShotTornado::update() {
 	x += dx;
 
 	if (dx <= 0) {
-		pic = pbk_ennemis[80 + etape];
+		pic = pbk_enemies[80 + anim_step];
 	} else {
-		pic = pbk_ennemis[63 + etape];
+		pic = pbk_enemies[63 + anim_step];
 	}
-	if (etape <= 8) {
+	if (anim_step <= 8) {
 		colFromPic();
 	}
 }

@@ -19,12 +19,12 @@ class SchemeController : public Controller {
 		return scheme_ == SCHEME_PAD && c ? PAD_CODE(pad_, c & 0x3FF) : c;
 	}
 
-	int gauche() const override { return in.scanCode(code(ACTION_LEFT)); }
-	int haut() const override { return in.scanCode(code(ACTION_UP)); }
-	int droite() const override { return in.scanCode(code(ACTION_RIGHT)); }
-	int bas() const override { return in.scanCode(code(ACTION_DOWN)); }
+	int leftHeld() const override { return in.scanCode(code(ACTION_LEFT)); }
+	int upHeld() const override { return in.scanCode(code(ACTION_UP)); }
+	int rightHeld() const override { return in.scanCode(code(ACTION_RIGHT)); }
+	int downHeld() const override { return in.scanCode(code(ACTION_DOWN)); }
 	int fire() const override { return in.scanCode(code(ACTION_FIRE)); }
-	int saut() const override { return in.scanCode(code(ACTION_JUMP)); }
+	int jump() const override { return in.scanCode(code(ACTION_JUMP)); }
 	int super() const override { return in.scanCode(code(ACTION_SUPER)); }
 
 	void aim(int px, int py, int& vx, int& vy) const override {

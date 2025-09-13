@@ -4,7 +4,7 @@
 
 class EnemyPacman : public Enemy {
    private:
-	int tir;
+	int shot;
 	int etape_tir;
 	int ss_etape_tir;
 
@@ -13,9 +13,9 @@ class EnemyPacman : public Enemy {
    public:
 	EnemyPacman();
 	void update() override;
-	int degats() override;
-	void affiche() override;
-	void estTouche(Shot* tir) override;
+	int damage() override;
+	void render() override;
+	void takeHit(Shot* shot) override;
 
 	bool count() override { return false; };
 };

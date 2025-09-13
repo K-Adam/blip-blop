@@ -2,15 +2,15 @@
 #include "entities/gore_feet_bisou_sky.h"
 #include "entities/shots/shot_rainbow.h"
 
-EnemyBisouSky::EnemyBisouSky() : wait_for_pisser(0) { pv = 175; }
+EnemyBisouSky::EnemyBisouSky() : wait_for_pisser(0) { hp = 175; }
 
 void EnemyBisouSky::update() {
 	if (blood > 0) blood -= 1;
 
 	if (wait_for_pisser > 0) wait_for_pisser -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -36,18 +36,18 @@ void EnemyBisouSky::update() {
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyBisouSky::onMeureEntier() {
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 5;
+	anim_tick += 1;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape += 1;
+	if (anim_tick == 0) anim_step += 1;
 
-	if (etape == 4) {
+	if (anim_step == 4) {
 		GoreFeetBisouSky* pieds = new GoreFeetBisouSky();
 
 		pieds->x = x;
@@ -58,125 +58,125 @@ void EnemyBisouSky::onMeureEntier() {
 
 		y -= 19;
 		dy = 0;
-		etape = 0;
-		ss_etape = 0;
-		etat = ETAT_MEURE_2;
+		anim_step = 0;
+		anim_tick = 0;
+		status = ETAT_MEURE_2;
 		onMeureHaut();
 	} else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[32 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[32 + anim_step];
 		else
-			pic = pbk_ennemis[36 + etape];
+			pic = pbk_enemies[36 + anim_step];
 	}
 }
 
 void EnemyBisouSky::onTire() {
-	ss_etape += 1;
+	anim_tick += 1;
 
-	if (ss_etape >= 60) {
-		ss_etape = 0;
-		etat = ETAT_AVANCE;
+	if (anim_tick >= 60) {
+		anim_tick = 0;
+		status = ETAT_AVANCE;
 		wait_for_pisser = 150;
 	}
 }
 
 void EnemyBisouSky::onMeureHaut() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[40 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[40 + anim_step];
 		x += 1;
 	} else {
-		pic = pbk_ennemis[44 + etape];
+		pic = pbk_enemies[44 + anim_step];
 		x -= 1;
 	}
 
-	tombe();
+	fall();
 
-	if (plat(x, y) != 0 && etape >= 3) {
-		etape = ss_etape = 0;
-		etat = ETAT_MEURE_3;
+	if (platform_y(x, y) != 0 && anim_step >= 3) {
+		anim_step = anim_tick = 0;
+		status = ETAT_MEURE_3;
 		onMeureHautFin();
 	}
 }
 
 void EnemyBisouSky::onMeureHautFin() {
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0 && etape < 3) etape += 1;
+	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[24 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[24 + anim_step];
 	else
-		pic = pbk_ennemis[28 + etape];
+		pic = pbk_enemies[28 + anim_step];
 
-	if (etape >= 3) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step >= 3) {
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }
 
 void EnemyBisouSky::onAvance() {
 	static const int SPEED = 1;
 
-	tombe();
+	fall();
 
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
-	if (x - SPEED < xmin || mur_opaque(x - SPEED, y))
-		dir = SENS_DROITE;
-	else if (x + SPEED > offset + 640 || mur_opaque(x + SPEED, y))
-		dir = SENS_GAUCHE;
+	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+		dir = FACING_RIGHT;
+	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+		dir = FACING_LEFT;
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(SPEED);
-		pic = pbk_ennemis[8 + etape];
+		pic = pbk_enemies[8 + anim_step];
 	} else {
 		marche(-SPEED);
-		pic = pbk_ennemis[16 + etape];
+		pic = pbk_enemies[16 + anim_step];
 	}
 
-	if (wait_for_pisser == 0 && etape == 4) {		 // Frame 4 looks best
-		if (tete_turc != NULL && plat(x, y) != 0) {	 // No shooting while falling
-			int ddx = x - tete_turc->x;
-			int ddy = y - tete_turc->y;
+	if (wait_for_pisser == 0 && anim_step == 4) {				 // Frame 4 looks best
+		if (targeted_player != NULL && platform_y(x, y) != 0) {	 // No shooting while falling
+			int ddx = x - targeted_player->x;
+			int ddy = y - targeted_player->y;
 
 			if (ddy > -10 && ddy < 20) {
-				if (dir == SENS_GAUCHE) {
+				if (dir == FACING_LEFT) {
 					if (ddx > 0 && ddx < 90) {
-						sbk_niveau.play(9);
+						sbk_level.play(9);
 						ShotRainbow* s = new ShotRainbow();
 						s->x = x - 15;
 						s->y = y - 25;
-						s->dir = SENS_GAUCHE;
+						s->dir = FACING_LEFT;
 
-						list_tirs_ennemis.emplace_back(s);
+						list_enemy_shots.emplace_back(s);
 
-						ss_etape = 0;
-						etat = ETAT_TIRE;
+						anim_tick = 0;
+						status = ETAT_TIRE;
 					}
 				} else {
 					if (ddx < 0 && ddx > -90) {
-						sbk_niveau.play(9);
+						sbk_level.play(9);
 						ShotRainbow* s = new ShotRainbow();
 						s->x = x + 15;
 						s->y = y - 25;
-						s->dir = SENS_DROITE;
+						s->dir = FACING_RIGHT;
 
-						list_tirs_ennemis.emplace_back(s);
+						list_enemy_shots.emplace_back(s);
 
-						ss_etape = 0;
-						etat = ETAT_TIRE;
+						anim_tick = 0;
+						status = ETAT_TIRE;
 					}
 				}
 			}
@@ -187,30 +187,30 @@ void EnemyBisouSky::onAvance() {
 }
 
 void EnemyBisouSky::onCarbonise() {
-	ss_etape += 1;
-	ss_etape %= 4;
+	anim_tick += 1;
+	anim_tick %= 4;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape > 6) {
-			a_detruire = true;
+		if (anim_step > 6) {
+			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[559 + etape];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[559 + anim_step];
 	else
-		pic = pbk_ennemis[566 + etape];
+		pic = pbk_enemies[566 + anim_step];
 }
 
-void EnemyBisouSky::estTouche(Shot* tir) {
+void EnemyBisouSky::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) sbk_niveau.play((rand() % 9));
+	if (status == ETAT_MEURE) sbk_level.play((rand() % 9));
 }

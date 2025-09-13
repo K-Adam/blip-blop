@@ -10,7 +10,7 @@ class ShotPlunger : public Shot {
 
 	ShotPlunger(int n_pbk_ennemis, int vx, int vy);
 
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 

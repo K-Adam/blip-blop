@@ -29,22 +29,22 @@ class Ball : public Character, public Player {
 	Controller* ctrl;
 	int sauti;
 
-	int id_arme;
+	int weapon_id;
 	int dir_arme;
 	int ammo;
 
 	int etape_arme;	 // Muzzle flash step
 	int ss_etape_arme;
-	int nb_etape_arme;
-	int latence_arme;
+	int nb_weapon_steps;
+	int weapon_anim_delay;
 
-	int cadence_arme;  // Frames between shots
-	int pruno;		   // Shot timer
+	int fire_interval;	// Frames between shots
+	int pruno;			// Shot timer
 
-	int poid_arme;	// Gun turning delay
+	int gun_weight;	 // Gun turning delay
 	int etape_bouge_arme;
 
-	bool tire;	// Currently firing
+	bool is_firing;	 // Currently firing
 
 	int dx_saut;  // Jump inertia
 	int dx_glisse;
@@ -92,7 +92,7 @@ class Ball : public Character, public Player {
 
 	virtual void rearme() = 0;
 
-	void affiche() override;
+	void render() override;
 	virtual void afficheNormal();
 	virtual void afficheSaute();
 	virtual void afficheMeure();
@@ -108,8 +108,8 @@ class Ball : public Character, public Player {
 	virtual void onSaleto();
 	virtual void onVehicule();
 	virtual void updateArme();
-	virtual void estTouche(const Shot* tir);
-	virtual void estTouche(int degats);
+	virtual void takeHit(const Shot* shot);
+	virtual void takeHit(int damage);
 	void colFromPic() override;
 
 	virtual void lockVehicule(bool can_fire, bool can_dir);

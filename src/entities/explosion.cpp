@@ -1,6 +1,6 @@
 #include "entities/explosion.h"
 
-Explosion::Explosion() : fini(false) {
+Explosion::Explosion() : finished(false) {
 	type = rand() % 2;
 
 	if (type == 1)
@@ -10,47 +10,47 @@ Explosion::Explosion() : fini(false) {
 }
 
 void Explosion::update() {
-	ss_etape += 1;
-	ss_etape %= speed;
+	anim_tick += 1;
+	anim_tick %= speed;
 
-	if (ss_etape == 0) {
-		if (fini) {
-			etape -= 1;
+	if (anim_tick == 0) {
+		if (finished) {
+			anim_step -= 1;
 
 			if (type == 0) {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[212 + etape];
+					pic = pbk_bb[212 + anim_step];
 			} else if (type == 1) {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[219 + etape];
+					pic = pbk_bb[219 + anim_step];
 			} else {
-				if (etape < 0)
-					a_detruire = true;
+				if (anim_step < 0)
+					destroyed = true;
 				else
-					pic = pbk_bb[231 + etape];
+					pic = pbk_bb[231 + anim_step];
 			}
 		} else {
-			etape += 1;
+			anim_step += 1;
 
 			if (type == 0) {
-				if (etape >= 5)
-					fini = true;
+				if (anim_step >= 5)
+					finished = true;
 				else
-					pic = pbk_bb[212 + etape];
+					pic = pbk_bb[212 + anim_step];
 			} else if (type == 1) {
-				if (etape >= 10)
-					fini = true;
+				if (anim_step >= 10)
+					finished = true;
 				else
-					pic = pbk_bb[219 + etape];
+					pic = pbk_bb[219 + anim_step];
 			} else {
-				if (etape >= 5)
-					fini = true;
+				if (anim_step >= 5)
+					finished = true;
 				else
-					pic = pbk_bb[231 + etape];
+					pic = pbk_bb[231 + anim_step];
 			}
 		}
 	}

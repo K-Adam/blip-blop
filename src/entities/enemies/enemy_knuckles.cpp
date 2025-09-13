@@ -2,14 +2,14 @@
 
 EnemyKnuckles::EnemyKnuckles() : speed(1), etape_speed(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
 	tresor = 7;
-	pv = 150;
+	hp = 150;
 }
 
 void EnemyKnuckles::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -34,44 +34,45 @@ void EnemyKnuckles::update() {
 			onCharge();
 			break;
 	}
-	updateADetruire();
+	updateDestroyed();
 }
 
 void EnemyKnuckles::onAvance() {
-	if (plat(x, y) == 0) {
-		etat = ETAT_TOMBE;
+	if (platform_y(x, y) == 0) {
+		status = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onTombe();
 		return;
 	}
 
-	if (x - speed < xmin || mur_opaque(x - speed, y)) {
-		dir = SENS_DROITE;
+	if (x - speed < xmin || solid_wall(x - speed, y)) {
+		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 640 || mur_opaque(x + speed, y)) {
-		dir = SENS_GAUCHE;
+	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
+		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_charge++;
-	if (wait_for_charge >= charge_delay && tete_turc != NULL) {
-		if ((plat2(tete_turc->x, tete_turc->y) == plat2(x, y)) && (((dir == SENS_DROITE) && (x > (tete_turc->x - 200)) && (tete_turc->x > x)) ||
-																   ((dir == SENS_GAUCHE) && (x < (tete_turc->x + 200)) && (tete_turc->x < x)))) {
-			etat = ETAT_TIRE;
-			sbk_niveau.play(6);
+	if (wait_for_charge >= charge_delay && targeted_player != NULL) {
+		if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
+			(((dir == FACING_RIGHT) && (x > (targeted_player->x - 200)) && (targeted_player->x > x)) ||
+			 ((dir == FACING_LEFT) && (x < (targeted_player->x + 200)) && (targeted_player->x < x)))) {
+			status = ETAT_TIRE;
+			sbk_level.play(6);
 			speed = KNUKLES_CHARGE_SPEED;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			onCharge();
 			return;
-		} else if ((tete_turc->y < y) && (tete_turc->x > x - 30) && (tete_turc->x < x + 30)) {
-			etat = ETAT_SAUTE;
+		} else if ((targeted_player->y < y) && (targeted_player->x > x - 30) && (targeted_player->x < x + 30)) {
+			status = ETAT_SAUTE;
 			speed = 0;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			lat_grav = 0;  // Otherwise jump heights vary
 			dy = 0;
-			sbk_niveau.play(7);
+			sbk_level.play(7);
 			onSaute();
 			return;
 		} else {
@@ -80,20 +81,20 @@ void EnemyKnuckles::onAvance() {
 		}
 	}
 
-	ss_etape += 1;
-	ss_etape %= 10 - 2 * speed;
+	anim_tick += 1;
+	anim_tick %= 10 - 2 * speed;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 8;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 8;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(speed);
-		pic = pbk_ennemis[etape + 152];
+		pic = pbk_enemies[anim_step + 152];
 	} else {
 		marche(-speed);
-		pic = pbk_ennemis[etape + 160];
+		pic = pbk_enemies[anim_step + 160];
 	}
 	if (speed < KNUKLES_SPEED) {
 		etape_speed++;
@@ -106,116 +107,116 @@ void EnemyKnuckles::onAvance() {
 }
 
 void EnemyKnuckles::onMeure() {
-	tombe();
+	fall();
 	{
-		ss_etape += 1;
-		ss_etape %= 6;
+		anim_tick += 1;
+		anim_tick %= 6;
 
-		if (ss_etape == 0 && etape < 10) etape += 1;
+		if (anim_tick == 0 && anim_step < 10) anim_step += 1;
 
-		if (etape >= 10) {
-			int yy = plat(x, y);
+		if (anim_step >= 10) {
+			int yy = platform_y(x, y);
 
 			if (yy != 0) {
-				grave(x, y, pic);
-				a_detruire = true;
+				engrave(x, y, pic);
+				destroyed = true;
 			} else {
-				if (dir == SENS_GAUCHE && !mur_opaque(x - speed, y))
+				if (dir == FACING_LEFT && !solid_wall(x - speed, y))
 					x -= speed;
-				else if (!mur_opaque(x + speed, y))
+				else if (!solid_wall(x + speed, y))
 					x += speed;
 			}
 		} else {
-			if (dir == SENS_GAUCHE) {
-				if (!mur_opaque(x - speed, y)) x -= speed;
-				pic = pbk_ennemis[514 + etape];
+			if (dir == FACING_LEFT) {
+				if (!solid_wall(x - speed, y)) x -= speed;
+				pic = pbk_enemies[514 + anim_step];
 			} else {
-				if (!mur_opaque(x + speed, y)) x += speed;
-				pic = pbk_ennemis[504 + etape];
+				if (!solid_wall(x + speed, y)) x += speed;
+				pic = pbk_enemies[504 + anim_step];
 			}
 		}
 	}
 }
 
 void EnemyKnuckles::onSaute() {
-	ss_etape++;
-	ss_etape %= 60;
-	if ((ss_etape == 0) && (etape == 0)) {
-		etape++;
+	anim_tick++;
+	anim_tick %= 60;
+	if ((anim_tick == 0) && (anim_step == 0)) {
+		anim_step++;
 		dy = -KNUKLES_JUMP_SPEED;
 	}
 
-	tombe();
+	fall();
 
 	int yp;
-	if ((dy > 0 && (yp = plat(x, y + dy)) != 0) && etape > 0) {
-		etat = ETAT_NORMAL;
+	if ((dy > 0 && (yp = platform_y(x, y + dy)) != 0) && anim_step > 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
 		speed = 1;
 		wait_for_charge = 0;
-		etape = 0;
-		ss_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		charge_delay = 50 + rand() % 150;
 		onAvance();
 		return;
 	}
-	if (dir == SENS_GAUCHE) {
-		pic = pbk_ennemis[170 + etape];
+	if (dir == FACING_LEFT) {
+		pic = pbk_enemies[170 + anim_step];
 	} else {
-		pic = pbk_ennemis[168 + etape];
+		pic = pbk_enemies[168 + anim_step];
 	}
 	colFromPic();
 }
 
 void EnemyKnuckles::onCharge() {
-	tombe();
-	ss_etape++;
-	ss_etape %= 40;
-	if (ss_etape % 10 == 0) {
+	fall();
+	anim_tick++;
+	anim_tick %= 40;
+	if (anim_tick % 10 == 0) {
 		speed--;
 	}
-	if (etape == 2) {
-		etat = ETAT_AVANCE;
+	if (anim_step == 2) {
+		status = ETAT_AVANCE;
 		speed = 1;
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 150;
-		etape = 0;
-		ss_etape = 0;
+		anim_step = 0;
+		anim_tick = 0;
 		onAvance();
 		return;
 	}
-	if (ss_etape == 0) {
-		etape++;
+	if (anim_tick == 0) {
+		anim_step++;
 		speed = KNUKLES_CHARGE_SPEED - 1;
 	}
 
-	if (dir == SENS_GAUCHE) {
-		if (!mur_opaque(x - speed, y)) {
+	if (dir == FACING_LEFT) {
+		if (!solid_wall(x - speed, y)) {
 			marche(-speed);
 		} else {
-			etat = ETAT_AVANCE;
+			status = ETAT_AVANCE;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			onAvance();
 			return;
 		}
-		pic = pbk_ennemis[150 + etape];
+		pic = pbk_enemies[150 + anim_step];
 	} else {
-		if (!mur_opaque(x + speed, y)) {
+		if (!solid_wall(x + speed, y)) {
 			marche(speed);
 		} else {
-			etat = ETAT_AVANCE;
+			status = ETAT_AVANCE;
 			wait_for_charge = 0;
 			charge_delay = 50 + rand() % 150;
-			etape = 0;
-			ss_etape = 0;
+			anim_step = 0;
+			anim_tick = 0;
 			onAvance();
 			return;
 		}
-		pic = pbk_ennemis[148 + etape];
+		pic = pbk_enemies[148 + anim_step];
 	}
 	colFromPic();
 }
@@ -223,10 +224,10 @@ void EnemyKnuckles::onCharge() {
 void EnemyKnuckles::onTombe() {
 	int yp;
 
-	tombe();
+	fall();
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
-		etat = ETAT_NORMAL;
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
 
@@ -234,55 +235,55 @@ void EnemyKnuckles::onTombe() {
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_ennemis[152];
+		pic = pbk_enemies[152];
 	} else {
 		x -= speed;
-		pic = pbk_ennemis[160];
+		pic = pbk_enemies[160];
 	}
 
 	colFromPic();
 }
 
 void EnemyKnuckles::onCarbonise() {
-	tombe();
-	ss_etape++;
-	ss_etape %= 5;
+	fall();
+	anim_tick++;
+	anim_tick %= 5;
 
-	if (ss_etape == 0) etape++;
+	if (anim_tick == 0) anim_step++;
 
-	if (etape >= 10)
-		a_detruire = true;
+	if (anim_step >= 10)
+		destroyed = true;
 	else {
-		if (dir == SENS_DROITE)
-			pic = pbk_ennemis[392 + etape];
+		if (dir == FACING_RIGHT)
+			pic = pbk_enemies[392 + anim_step];
 		else
-			pic = pbk_ennemis[402 + etape];
+			pic = pbk_enemies[402 + anim_step];
 	}
 }
 
-void EnemyKnuckles::estTouche(Shot* tir) {
+void EnemyKnuckles::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	gicle(shot, dx_giclure, dy_giclure);
 
-	if (etat == ETAT_MEURE) {
+	if (status == ETAT_MEURE) {
 		sbk_misc.play(10);
 	}
 }
 
-void EnemyKnuckles::tombe() {
+void EnemyKnuckles::fall() {
 	lat_grav += 1;
-	lat_grav %= LATENCE_GRAVITE;
+	lat_grav %= GRAVITY_DELAY;
 
 	if (lat_grav == 0 && dy < KNUKLES_GRAVITE_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy)) dy = KNUKLES_GRAVITE_MAX;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = KNUKLES_GRAVITE_MAX;
 
-	int ny = plat(x, y + dy);
+	int ny = platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;

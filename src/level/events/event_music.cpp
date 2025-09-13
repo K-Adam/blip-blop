@@ -3,12 +3,12 @@
 
 void EventMusic::doEvent() {
 	if (play) {
-		if (current_zik != -1) mbk_niveau.stop(current_zik);
+		if (current_track != -1) mbk_level.stop(current_track);
 
-		mbk_niveau.play(id);
-		current_zik = id;
+		mbk_level.play(id);
+		current_track = id;
 	} else {
-		mbk_niveau.stop(id);
-		current_zik = -1;
+		mbk_level.stop(id);
+		current_track = -1;
 	}
 }

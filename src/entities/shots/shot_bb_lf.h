@@ -8,13 +8,13 @@ class ShotBBLF : public ShotBB {
 	int type;
 	int dx;
 	int latence;
-	bool fini;
+	bool finished;
 	int speed;
 	int deg;
 
 	void setDir(int d) override;
 
-	inline int degats() const override { return deg; };
+	inline int damage() const override { return deg; };
 
 	inline int enflame() const override { return 2; };
 

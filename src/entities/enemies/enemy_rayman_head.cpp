@@ -1,15 +1,15 @@
 #include "entities/enemies/enemy_rayman_head.h"
 
 EnemyRaymanHead::EnemyRaymanHead() : dx(3) {
-	pv = 1;
-	pic = pbk_ennemis[171];
+	hp = 1;
+	pic = pbk_enemies[171];
 }
 
 void EnemyRaymanHead::update() {
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 		case ETAT_SAUTE:
 		case ETAT_TOMBE:
@@ -25,45 +25,45 @@ void EnemyRaymanHead::update() {
 
 void EnemyRaymanHead::onAvance() {
 	x += dx;
-	tombe();
+	fall();
 	colFromPic();
 
-	ss_etape++;
-	ss_etape %= 4;
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 8;
-		pic = pbk_ennemis[171 + etape];
+	anim_tick++;
+	anim_tick %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 8;
+		pic = pbk_enemies[171 + anim_step];
 	}
 
-	if (dy > 0 && (plat(x, y + dy)) != 0) {
-		grave(x, y, pic);
+	if (dy > 0 && (platform_y(x, y + dy)) != 0) {
+		engrave(x, y, pic);
 		game_flag[0] = 2;
-		a_detruire = true;
+		destroyed = true;
 	}
 }
 
 void EnemyRaymanHead::onMeure() {
-	ss_etape++;
-	ss_etape %= 6;
-	if (ss_etape == 0) {
-		etape++;
-		if (etape >= 6) {
+	anim_tick++;
+	anim_tick %= 6;
+	if (anim_tick == 0) {
+		anim_step++;
+		if (anim_step >= 6) {
 			game_flag[0] = 2;
-			a_detruire = true;
+			destroyed = true;
 		} else {
-			pic = pbk_ennemis[179 + etape];
+			pic = pbk_enemies[179 + anim_step];
 		}
 	}
 }
 
-int EnemyRaymanHead::degats() { return 0; };
+int EnemyRaymanHead::damage() { return 0; };
 
-void EnemyRaymanHead::estTouche(Shot* tir) {
+void EnemyRaymanHead::takeHit(Shot* shot) {
 	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	Enemy::estTouche(tir);
-	tir->aTouche(9999);
-	gicle(tir, dx_giclure, dy_giclure);
+	Enemy::takeHit(shot);
+	shot->aTouche(9999);
+	gicle(shot, dx_giclure, dy_giclure);
 }

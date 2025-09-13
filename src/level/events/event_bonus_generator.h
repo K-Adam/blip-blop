@@ -6,12 +6,12 @@
 class EventBonusGenerator : public Event {
    public:
 	int type;
-	int periode;
+	int period;
 
 	void doEvent() override {
 		BonusGenerator* gb = new BonusGenerator();
 
-		gb->periode = periode;
+		gb->period = period;
 		gb->type = type;
 		gb->x = x_activation;
 

@@ -5,7 +5,7 @@
 
 class ShotBBLaser : public ShotBB {
    protected:
-	int largeur;
+	int width_px;
 	int hauteur;
 	int base;
 
@@ -14,17 +14,17 @@ class ShotBBLaser : public ShotBB {
 
 	int getGiclureDir() const override { return dir; };
 
-	inline int degats() const override { return 20; };
+	inline int damage() const override { return 20; };
 
 	inline int enflame() const override { return 0; };
 
-	inline virtual void setEtape(int e) { etape = e; };
+	inline virtual void setEtape(int e) { anim_step = e; };
 
-	inline void aTouche(int pts) override { joueur->addPoints(pts); };
+	inline void aTouche(int pts) override { hero->addPoints(pts); };
 
 	inline void aTouche() override{};
 
-	void affiche() override;
+	void render() override;
 	void setDir(int d) override;
 	void update() override;
 	bool collision(const Sprite* s) const override;

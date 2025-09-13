@@ -2,44 +2,44 @@
 #include "core/debug.h"
 
 ShotShell::ShotShell() {
-	pic = pbk_ennemis[58];
+	pic = pbk_enemies[58];
 	rebond = false;
 }
 
 void ShotShell::update() {
-	tombe();
+	fall();
 
-	ss_etape++;
-	ss_etape %= 3;
+	anim_tick++;
+	anim_tick %= 3;
 
-	if (ss_etape == 0) {
-		etape += 1;
-		etape %= 4;
+	if (anim_tick == 0) {
+		anim_step += 1;
+		anim_step %= 4;
 	}
-	pic = pbk_ennemis[58 + etape];
+	pic = pbk_enemies[58 + anim_step];
 
-	if (mur_opaque(x - CARAPACE_SPEED, y)) {
+	if (solid_wall(x - CARAPACE_SPEED, y)) {
 		if (rebond) {
-			a_detruire = true;
+			destroyed = true;
 		} else {
-			dir = SENS_DROITE;
+			dir = FACING_RIGHT;
 			rebond = true;
 		}
-	} else if (mur_opaque(x + CARAPACE_SPEED, y)) {
+	} else if (solid_wall(x + CARAPACE_SPEED, y)) {
 		if (rebond) {
-			a_detruire = true;
+			destroyed = true;
 		} else {
-			dir = SENS_GAUCHE;
+			dir = FACING_LEFT;
 			rebond = true;
 		}
 	}
 
-	if (dir == SENS_GAUCHE) {
+	if (dir == FACING_LEFT) {
 		x -= CARAPACE_SPEED;
 	} else {
 		x += CARAPACE_SPEED;
 	}
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) a_detruire = true;
+	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	colFromPic();
 }

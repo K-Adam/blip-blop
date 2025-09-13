@@ -14,7 +14,7 @@ class EnemySonic : public Enemy {
 	int attack_phase;
 	int attack_type;
 	int x_cible;
-	int y_cible;
+	int y_target;
 	int ss_etape_attack;
 	int etape_attack;
 	int nb_tir;
@@ -38,5 +38,5 @@ class EnemySonic : public Enemy {
 	virtual void onBalancering();
 	virtual void balance_epines();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

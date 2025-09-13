@@ -16,7 +16,7 @@ class ShotBBShotgun : public ShotBB {
 	int duree_vie;
 	int vie;
 
-	inline int degats() const override {
+	inline int damage() const override {
 		if (vie < duree_vie)
 			return 40;
 		else

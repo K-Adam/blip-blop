@@ -18,5 +18,5 @@ class EnemySmurfGreedy : public Enemy {
 	virtual void onHold();
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

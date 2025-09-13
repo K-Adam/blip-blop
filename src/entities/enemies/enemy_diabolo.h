@@ -27,5 +27,5 @@ class EnemyDiabolo : public Enemy {
 	virtual void tombe_diabolo();
 	void colFromPic() override;
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

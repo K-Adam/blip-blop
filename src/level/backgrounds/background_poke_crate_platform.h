@@ -4,7 +4,7 @@
 
 class BackgroundPokeCratePlatform : public Sprite {
    private:
-	int y_cible;
+	int y_target;
 
    public:
 	BackgroundPokeCratePlatform(int niveau_y);

@@ -9,48 +9,48 @@ static const int anim_cours[] = {640, 641, 642, 641};
 
 EnemyBisouSIB::EnemyBisouSIB() {
 	if (game_flag[FLAG_USER1] != 0) {
-		etat = ETAT_ATTENDS_MAL;
+		status = ETAT_ATTENDS_MAL;
 		game_flag[FLAG_USER1] = 0;
 	} else {
-		etat = ETAT_ATTENDS;
+		status = ETAT_ATTENDS;
 	}
 
-	ss_etape = etape = 0;
+	anim_tick = anim_step = 0;
 	encaisse = 0;
 }
 
 void EnemyBisouSIB::update() {
-	tombe();
+	fall();
 
-	switch (etat) {
+	switch (status) {
 		case ETAT_ATTENDS_MAL:
-			pic = pbk_ennemis[635];
+			pic = pbk_enemies[635];
 			colFromPic();
 
-			if (x < offset + 440 || game_flag[1] == 0) etat = ETAT_RENTRE_MAL;
+			if (x < offset + 440 || game_flag[1] == 0) status = ETAT_RENTRE_MAL;
 
 			break;
 
 		case ETAT_ATTENDS:
-			pic = pbk_ennemis[639];
+			pic = pbk_enemies[639];
 			colFromPic();
 
-			if (x - tete_turc->x < 200) etat = ETAT_COURS_FOREST;
+			if (x - targeted_player->x < 200) status = ETAT_COURS_FOREST;
 
 			break;
 
 		case ETAT_RENTRE_MAL:
-			ss_etape += 1;
-			ss_etape %= 9;
+			anim_tick += 1;
+			anim_tick %= 9;
 
-			if (ss_etape == 0) {
-				etape += 1;
+			if (anim_tick == 0) {
+				anim_step += 1;
 
-				if (etape == 5) {
-					etape = ss_etape = 0;
-					etat = ETAT_COURS_FOREST;
+				if (anim_step == 5) {
+					anim_step = anim_tick = 0;
+					status = ETAT_COURS_FOREST;
 				} else {
-					pic = pbk_ennemis[635 + etape];
+					pic = pbk_enemies[635 + anim_step];
 				}
 			}
 
@@ -58,21 +58,21 @@ void EnemyBisouSIB::update() {
 			break;
 
 		case ETAT_COURS_FOREST:
-			pic = pbk_ennemis[anime(anim_cours, 4, 5)];
+			pic = pbk_enemies[animate(anim_cours, 4, 5)];
 			marche(3);
 			noCol();
 			break;
 	}
 
-	updateADetruire();
+	updateDestroyed();
 }
 
-void EnemyBisouSIB::estTouche(Shot* tir) {
+void EnemyBisouSIB::takeHit(Shot* shot) {
 	if (++encaisse > 300) {
-		if (etat == ETAT_ATTENDS_MAL)
-			etat = ETAT_RENTRE_MAL;
-		else if (etat == ETAT_ATTENDS)
-			etat = ETAT_COURS_FOREST;
+		if (status == ETAT_ATTENDS_MAL)
+			status = ETAT_RENTRE_MAL;
+		else if (status == ETAT_ATTENDS)
+			status = ETAT_COURS_FOREST;
 
 		noCol();
 	}

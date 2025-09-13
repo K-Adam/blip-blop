@@ -6,7 +6,7 @@
 
 class ShotHadoken : public Shot {
    public:
-	int degats() const override { return 1; };
+	int damage() const override { return 1; };
 
 	int enflame() const override { return 0; };
 
@@ -15,29 +15,29 @@ class ShotHadoken : public Shot {
 	void update() override {
 		static const int SPEED = 8;
 
-		ss_etape += 1;
-		ss_etape %= 2;
+		anim_tick += 1;
+		anim_tick %= 2;
 
-		if (ss_etape == 0) {
-			etape += 1;
-			etape %= 3;
+		if (anim_tick == 0) {
+			anim_step += 1;
+			anim_step %= 3;
 		}
 
-		if (etape == 2) {
+		if (anim_step == 2) {
 			pic = NULL;
 		} else {
-			if (dir == SENS_DROITE) {
+			if (dir == FACING_RIGHT) {
 				x += SPEED;
-				pic = pbk_ennemis[219 + etape];
+				pic = pbk_enemies[219 + anim_step];
 			} else {
 				x -= SPEED;
-				pic = pbk_ennemis[221 + etape];
+				pic = pbk_enemies[221 + anim_step];
 			}
 		}
 
-		if (mur_opaque(x, y)) a_detruire = true;
+		if (solid_wall(x, y)) destroyed = true;
 
-		updateADetruire();
+		updateDestroyed();
 		colFromPic();
 	};
 };

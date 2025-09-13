@@ -7,18 +7,18 @@ const int anim_mario_marche_gauche[] = {3, 4, 5, 4};
 const int recul_mario[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 EnemyMarioHologram::EnemyMarioHologram()
-	: speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_cligno(0), cligno_delay(10 + rand() % 10) {
-	pv = 1;
-	pic = pbk_ennemis[0];
+	: speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_blink(0), cligno_delay(10 + rand() % 10) {
+	hp = 1;
+	pic = pbk_enemies[0];
 }
 
 void EnemyMarioHologram::update() {
-	wait_for_cligno++;
-	if (wait_for_cligno > cligno_delay + NB_CLIGNO) {
+	wait_for_blink++;
+	if (wait_for_blink > cligno_delay + NB_CLIGNO) {
 		decalage_cligno = 54;
-		wait_for_cligno = 0;
+		wait_for_blink = 0;
 		cligno_delay = 50 + rand() % 50;
-	} else if (wait_for_cligno > cligno_delay) {
+	} else if (wait_for_blink > cligno_delay) {
 		decalage_cligno = 54;
 	} else {
 		decalage_cligno = 0;
@@ -26,8 +26,8 @@ void EnemyMarioHologram::update() {
 
 	if (blood > 0) blood -= 1;
 
-	switch (etat) {
-		case ETAT_NORMAL:
+	switch (status) {
+		case STATE_NORMAL:
 		case ETAT_AVANCE:
 			onAvance();
 			break;
@@ -60,33 +60,33 @@ void EnemyMarioHologram::update() {
 }
 
 void EnemyMarioHologram::onAvance() {
-	if (plat(x, y) == 0) {
-		etat = ETAT_TOMBE;
+	if (platform_y(x, y) == 0) {
+		status = ETAT_TOMBE;
 		dy = 0;
 		lat_grav = 0;
 		onSaute();
 	}
 
-	if (x - speed < xmin || mur_opaque(x - speed, y)) {
-		dir = SENS_DROITE;
+	if (x - speed < xmin || solid_wall(x - speed, y)) {
+		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 600 || mur_opaque(x + speed, y)) {
-		dir = SENS_GAUCHE;
+	} else if (x + speed > offset + 600 || solid_wall(x + speed, y)) {
+		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_attack++;
-	if ((wait_for_attack >= attack_delay) && (tete_turc != NULL)) {
-		if (((dir == SENS_DROITE) && (tete_turc->x > x)) || ((dir == SENS_GAUCHE) && (tete_turc->x < x))) {
-			etape = 0;
-			ss_etape = 0;
+	if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
+		if (((dir == FACING_RIGHT) && (targeted_player->x > x)) || ((dir == FACING_LEFT) && (targeted_player->x < x))) {
+			anim_step = 0;
+			anim_tick = 0;
 			speed = 0;
 			dy = -6;
 			wait_for_attack = 0;
 			attack_delay = 50 + rand() % 50;
-			etat = ETAT_TIRE;
-			y_cible = tete_turc->y;
-			x_cible = tete_turc->x;
-			attack_etape = 0;
+			status = ETAT_TIRE;
+			y_target = targeted_player->y;
+			x_cible = targeted_player->x;
+			attack_step = 0;
 			fireball = 1;
 			attack_type = rand() % 2;
 			switch (attack_type) {
@@ -101,12 +101,12 @@ void EnemyMarioHologram::onAvance() {
 			return;
 		}
 	}
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		marche(speed);
-		pic = pbk_ennemis[anime(anim_mario_marche_droite, 4, 16 - (3 * speed)) + decalage_cligno];
+		pic = pbk_enemies[animate(anim_mario_marche_droite, 4, 16 - (3 * speed)) + decalage_cligno];
 	} else {
 		marche(-speed);
-		pic = pbk_ennemis[anime(anim_mario_marche_gauche, 4, 16 - (3 * speed)) + decalage_cligno];
+		pic = pbk_enemies[animate(anim_mario_marche_gauche, 4, 16 - (3 * speed)) + decalage_cligno];
 	}
 	if (speed < MARIO_SPEED) {
 		etape_speed++;
@@ -118,7 +118,7 @@ void EnemyMarioHologram::onAvance() {
 	colFromPic();
 }
 
-void EnemyMarioHologram::onMeure() { a_detruire = true; }
+void EnemyMarioHologram::onMeure() { destroyed = true; }
 
 void EnemyMarioHologram::onCharge() {}
 
@@ -128,120 +128,120 @@ void EnemyMarioHologram::onSaute() {
 	if (dy < 0) {
 		tombe_mario();
 	} else {
-		tombe();
+		fall();
 	}
 
 	// A boss off screen could not be hit
-	if ((dir == SENS_GAUCHE) && (x - speed < xmin || mur_opaque(x - speed, y))) {
-		dir = SENS_DROITE;
+	if ((dir == FACING_LEFT) && (x - speed < xmin || solid_wall(x - speed, y))) {
+		dir = FACING_RIGHT;
 		speed = 1;
 	}
 
-	else if ((dir == SENS_DROITE) && (x + speed > offset + 640 || mur_opaque(x + speed, y))) {
-		dir = SENS_GAUCHE;
+	else if ((dir == FACING_RIGHT) && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+		dir = FACING_LEFT;
 		speed = 1;
 	}
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
-		etat = ETAT_NORMAL;
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
 		onAvance();
 		return;
 	}
 
-	if (dir == SENS_DROITE) {
+	if (dir == FACING_RIGHT) {
 		x += speed;
 		if (dy < 0) {
-			pic = pbk_ennemis[6 + decalage_cligno];
+			pic = pbk_enemies[6 + decalage_cligno];
 		} else {
-			pic = pbk_ennemis[7 + decalage_cligno];
+			pic = pbk_enemies[7 + decalage_cligno];
 		}
 	} else {
 		x -= speed;
 		if (dy < 0) {
-			pic = pbk_ennemis[8 + decalage_cligno];
+			pic = pbk_enemies[8 + decalage_cligno];
 		} else {
-			pic = pbk_ennemis[9 + decalage_cligno];
+			pic = pbk_enemies[9 + decalage_cligno];
 		}
 	}
 
 	colFromPic();
 }
 
-void EnemyMarioHologram::onCarbonise() { a_detruire = true; }
+void EnemyMarioHologram::onCarbonise() { destroyed = true; }
 
-void EnemyMarioHologram::affiche() {
-	Sprite::affiche();
+void EnemyMarioHologram::render() {
+	Sprite::render();
 	if (fireball) {
-		if (dir == SENS_DROITE) {
-			draw(x + 29, y - 33, pbk_ennemis[48 + etape]);
+		if (dir == FACING_RIGHT) {
+			draw(x + 29, y - 33, pbk_enemies[48 + anim_step]);
 		} else {
-			draw(x - 29, y - 33, pbk_ennemis[51 + etape]);
+			draw(x - 29, y - 33, pbk_enemies[51 + anim_step]);
 		}
 	}
 }
 
 void EnemyMarioHologram::onTire() {
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[10 + decalage_cligno];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[10 + decalage_cligno];
 
 	else
-		pic = pbk_ennemis[11 + decalage_cligno];
+		pic = pbk_enemies[11 + decalage_cligno];
 
-	if ((y - 25 < y_cible) && (y_cible < 400)) {
-		if (y > y_cible - 60) {
+	if ((y - 25 < y_target) && (y_target < 400)) {
+		if (y > y_target - 60) {
 			dy = 2;
-		} else if (y > y_cible - 120) {
+		} else if (y > y_target - 120) {
 			dy = 3;
-		} else if (y > y_cible - 180) {
+		} else if (y > y_target - 180) {
 			dy = 4;
-		} else if (y > y_cible - 240) {
+		} else if (y > y_target - 240) {
 			dy = 5;
 		} else {
 			dy = 6;
 		}
 		y += dy;
-	} else if ((y - 30 > y_cible) && (y_cible < 400)) {
-		if (y < y_cible + 60) {
+	} else if ((y - 30 > y_target) && (y_target < 400)) {
+		if (y < y_target + 60) {
 			dy = -2;
-		} else if (y < y_cible + 120) {
+		} else if (y < y_target + 120) {
 			dy = -3;
-		} else if (y < y_cible + 180) {
+		} else if (y < y_target + 180) {
 			dy = -4;
-		} else if (y < y_cible + 240) {
+		} else if (y < y_target + 240) {
 			dy = -5;
 		} else {
 			dy = -6;
 		}
 		y += dy;
 	} else {
-		ss_etape++;
-		ss_etape %= 4;
-		if (ss_etape == 0) {
-			etape++;
-			etape %= 3;
+		anim_tick++;
+		anim_tick %= 4;
+		if (anim_tick == 0) {
+			anim_step++;
+			anim_step %= 3;
 		}
 
-		attack_etape++;
-		if (attack_etape == 60) {
-			etat = ETAT_AVANCE;
-			etape = 0;
-			ss_etape = 0;
+		attack_step++;
+		if (attack_step == 60) {
+			status = ETAT_AVANCE;
+			anim_step = 0;
+			anim_tick = 0;
 			speed = 1;
 			onAvance();
 			return;
 			fireball = 0;
 			boule_de_feu();
-		} else if (attack_etape >= 40) {
-			if (attack_etape == 40) {
+		} else if (attack_step >= 40) {
+			if (attack_step == 40) {
 				fireball = 0;
 				boule_de_feu();
 			}
-			if ((dir == SENS_DROITE) && (x > 10)) {
-				x -= recul_mario[attack_etape - 40];
-			} else if ((dir == SENS_GAUCHE) && (x < 630)) {
-				x += recul_mario[attack_etape - 40];
+			if ((dir == FACING_RIGHT) && (x > 10)) {
+				x -= recul_mario[attack_step - 40];
+			} else if ((dir == FACING_LEFT) && (x < 630)) {
+				x += recul_mario[attack_step - 40];
 			}
 		}
 	}
@@ -249,37 +249,37 @@ void EnemyMarioHologram::onTire() {
 }
 
 void EnemyMarioHologram::onTireverticale() {
-	if (dir == SENS_DROITE)
-		pic = pbk_ennemis[10];
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies[10];
 
 	else
-		pic = pbk_ennemis[11];
+		pic = pbk_enemies[11];
 
-	ss_etape++;
-	ss_etape %= 4;
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 3;
+	anim_tick++;
+	anim_tick %= 4;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 3;
 	}
 
-	attack_etape++;
-	if (attack_etape == 40) {
+	attack_step++;
+	if (attack_step == 40) {
 		fireball = 0;
-		ShotMarioFireballVertical* tir = new ShotMarioFireballVertical(0, x_cible);
+		ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(0, x_cible);
 
-		tir->setDir(dir);
-		if (dir == SENS_DROITE) {
-			tir->x = x + 38;
+		shot->setDir(dir);
+		if (dir == FACING_RIGHT) {
+			shot->x = x + 38;
 		} else {
-			tir->x = x - 38;
+			shot->x = x - 38;
 		}
-		tir->y = y - 38;
+		shot->y = y - 38;
 
-		list_tirs_ennemis.emplace_back(tir);
-	} else if (attack_etape == 80) {
-		etat = ETAT_AVANCE;
-		etape = 0;
-		ss_etape = 0;
+		list_enemy_shots.emplace_back(shot);
+	} else if (attack_step == 80) {
+		status = ETAT_AVANCE;
+		anim_step = 0;
+		anim_tick = 0;
 		speed = 1;
 		onAvance();
 		return;
@@ -288,22 +288,22 @@ void EnemyMarioHologram::onTireverticale() {
 }
 
 inline void EnemyMarioHologram::boule_de_feu() {
-	if (dir == SENS_DROITE) {
-		ShotMarioFireball* tir = new ShotMarioFireball(1);
+	if (dir == FACING_RIGHT) {
+		ShotMarioFireball* shot = new ShotMarioFireball(1);
 
-		tir->setDir(dir);
-		tir->x = x + 38;
-		tir->y = y - 31;
+		shot->setDir(dir);
+		shot->x = x + 38;
+		shot->y = y - 31;
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 	} else {
-		ShotMarioFireball* tir = new ShotMarioFireball(-1);
+		ShotMarioFireball* shot = new ShotMarioFireball(-1);
 
-		tir->setDir(dir);
-		tir->x = x - 38;
-		tir->y = y - 31;
+		shot->setDir(dir);
+		shot->x = x - 38;
+		shot->y = y - 31;
 
-		list_tirs_ennemis.emplace_back(tir);
+		list_enemy_shots.emplace_back(shot);
 	}
 }
 
@@ -311,11 +311,11 @@ void EnemyMarioHologram::tombe_mario() {
 	lat_grav += 1;
 	lat_grav %= LATENCE_MARIO_GRAVITE;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX) dy += 1;
+	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && mur_opaque(x, y + dy)) dy = GRAVITE_MAX;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = plat(x, y + dy);
+	int ny = platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;
@@ -323,4 +323,4 @@ void EnemyMarioHologram::tombe_mario() {
 		y += dy;
 }
 
-void EnemyMarioHologram::estTouche(Shot* tir) {}
+void EnemyMarioHologram::takeHit(Shot* shot) {}

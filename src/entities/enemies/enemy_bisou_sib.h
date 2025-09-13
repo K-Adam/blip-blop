@@ -9,5 +9,5 @@ class EnemyBisouSIB : public Enemy {
 	EnemyBisouSIB();
 
 	void update() override;
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

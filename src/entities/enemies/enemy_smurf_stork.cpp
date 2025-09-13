@@ -3,7 +3,7 @@
 #include <numbers>
 
 EnemySmurfStork::EnemySmurfStork() {
-	pic = pbk_ennemis[355];
+	pic = pbk_enemies[355];
 	noCol();
 	first = true;
 }

@@ -4,7 +4,7 @@
 #include "entities/shots/shot.h"
 
 #ifndef ENNEMI_CPP
-extern Character* tete_turc;
+extern Character* targeted_player;
 #endif
 
 class Enemy : public Character {
@@ -17,11 +17,11 @@ class Enemy : public Character {
 
 	virtual bool count() { return true; };
 
-	virtual void estTouche(Shot* tir);
+	virtual void takeHit(Shot* shot);
 
-	virtual int degats() { return 1; };
+	virtual int damage() { return 1; };
 
-	virtual void gicle(const Shot* tir, const int* dxg, const int* dyg);
+	virtual void gicle(const Shot* shot, const int* dxg, const int* dyg);
 
 	void tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const;
 };

@@ -8,12 +8,12 @@ const int monolite_animation[] = {41, 42, 43, 43, 44, 44, 44, 45, 45, 45, 45, 45
 								  41, 46, 47, 47, 48, 48, 48, 49, 49, 49, 49, 49, 48, 48, 48, 47, 47, 46};
 
 BackgroundMonolith::BackgroundMonolith() : etape_levitation(0), ss_etape_levitation(0) {
-	pic = pbk_niveau[22];
+	pic = pbk_level[22];
 	dy = 0;
 }
 
 void BackgroundMonolith::update() {
-	pic = pbk_niveau[anime(monolite_animation, 36, 3)];
+	pic = pbk_level[animate(monolite_animation, 36, 3)];
 	ss_etape_levitation++;
 	ss_etape_levitation %= 4;
 	if (ss_etape_levitation == 0) {
@@ -25,22 +25,22 @@ void BackgroundMonolith::update() {
 
 	int xtmp;
 
-	for (Ball* joueur : list_joueurs) {
-		xtmp = joueur->x;
+	for (Ball* hero : list_players) {
+		xtmp = hero->x;
 
-		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && plat(xtmp, joueur->y) == y - 20) {
+		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, hero->y) == y - 20) {
 			if (etape_levitation <= 22) {
-				joueur->y += monolite_levitation[etape_levitation];
+				hero->y += monolite_levitation[etape_levitation];
 			} else {
-				joueur->y -= monolite_levitation[etape_levitation - 22];
+				hero->y -= monolite_levitation[etape_levitation - 22];
 			}
 		}
 	}
 
-	for (auto& ennemis : list_ennemis) {
+	for (auto& ennemis : list_enemies) {
 		xtmp = ennemis->x;
 
-		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && plat(xtmp, ennemis->y) == y - 20) {
+		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, ennemis->y) == y - 20) {
 			if (etape_levitation <= 22) {
 				ennemis->y += monolite_levitation[etape_levitation];
 			} else {

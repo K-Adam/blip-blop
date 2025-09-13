@@ -23,6 +23,6 @@ class EnemyKnuckles : public Enemy {
 	virtual void onCarbonise();
 	virtual void onCharge();
 	virtual void onSaute();
-	void estTouche(Shot* tir) override;
-	void tombe() override;
+	void takeHit(Shot* shot) override;
+	void fall() override;
 };

@@ -19,12 +19,12 @@ class EnemySmurfJokey : public Enemy {
 
 	EnemySmurfJokey();
 
-	inline void affiche() override {
+	inline void render() override {
 		if (porte_bomb) {
-			if (dir == SENS_DROITE)
-				draw(x + 26, y - decalage_y_cadeau, pbk_ennemis[56]);
+			if (dir == FACING_RIGHT)
+				draw(x + 26, y - decalage_y_cadeau, pbk_enemies[56]);
 			else
-				draw(x - 26, y - decalage_y_cadeau, pbk_ennemis[56]);
+				draw(x - 26, y - decalage_y_cadeau, pbk_enemies[56]);
 		}
 
 		draw(x, y, pic);
@@ -34,7 +34,7 @@ class EnemySmurfJokey : public Enemy {
 	virtual void onAvance();
 	virtual void onMeure();
 	virtual void onCarbonise();
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 	virtual void onPoseCadeau();
 	virtual void onDegaine();
 };

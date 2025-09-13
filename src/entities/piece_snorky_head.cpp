@@ -4,15 +4,15 @@
 PieceSnorkyBaseHeadWhole::PieceSnorkyBaseHeadWhole() { dy = 0; }
 
 void PieceSnorkyBaseHeadWhole::update() {
-	ss_etape++;
-	ss_etape %= 5;
-	if (ss_etape == 0) {
-		etape++;
+	anim_tick++;
+	anim_tick %= 5;
+	if (anim_tick == 0) {
+		anim_step++;
 	}
 
-	if (etape == 2 && ss_etape == 0) {
+	if (anim_step == 2 && anim_tick == 0) {
 		Sprite* s;
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s = new PieceSnorkyBaseTrunk(1 + rand() % 2, -1 + rand() % 2);
 			s->x = x + 19;
 		} else {
@@ -23,12 +23,12 @@ void PieceSnorkyBaseHeadWhole::update() {
 		s->dir = dir;
 		s->y = y - 26;
 
-		list_giclures.emplace_back(s);
+		list_splatters.emplace_back(s);
 	}
 
-	if (etape == 3 && ss_etape == 0) {
+	if (anim_step == 3 && anim_tick == 0) {
 		Sprite* s;
-		if (dir == SENS_DROITE) {
+		if (dir == FACING_RIGHT) {
 			s = new PieceSnorkyBaseHeadBackPart(1, 0);
 			s->x = x + 0;
 		} else {
@@ -39,33 +39,33 @@ void PieceSnorkyBaseHeadWhole::update() {
 		s->dir = dir;
 		s->y = y + 10;
 
-		list_giclures.emplace_back(s);
+		list_splatters.emplace_back(s);
 	}
 
-	if (etape == 6) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step == 6) {
+		engrave(x, y, pic);
+		destroyed = true;
 	} else {
-		tombe();
-		if (dir == SENS_DROITE) {
+		fall();
+		if (dir == FACING_RIGHT) {
 			x += 1;
-			pic = pbk_ennemis[52 + etape];
-			if (etape >= 3) {
-				tombe();
+			pic = pbk_enemies[52 + anim_step];
+			if (anim_step >= 3) {
+				fall();
 				x += 1;
 			}
-			if ((plat(x, y) != 0) && (x > 0)) {
-				x -= 6 - etape;
+			if ((platform_y(x, y) != 0) && (x > 0)) {
+				x -= 6 - anim_step;
 			}
 		} else {
 			x -= 1;
-			pic = pbk_ennemis[85 + etape];
-			if (etape >= 3) {
-				tombe();
+			pic = pbk_enemies[85 + anim_step];
+			if (anim_step >= 3) {
+				fall();
 				x -= 1;
 			}
-			if ((plat(x, y) != 0) && (x < 0)) {
-				x += 6 - etape;
+			if ((platform_y(x, y) != 0) && (x < 0)) {
+				x += 6 - anim_step;
 			}
 		}
 	}
@@ -77,33 +77,33 @@ PieceSnorkyHyporiderBody::PieceSnorkyHyporiderBody(int vx) {
 }
 
 void PieceSnorkyHyporiderBody::update() {
-	tombe();
+	fall();
 	x += dx;
-	ss_etape++;
-	ss_etape %= 6;
-	if ((ss_etape == 0) && (etape < 3)) {
-		etape++;
+	anim_tick++;
+	anim_tick %= 6;
+	if ((anim_tick == 0) && (anim_step < 3)) {
+		anim_step++;
 	}
 
-	if (etape < 3) {
-		if (dir == SENS_DROITE) {
-			pic = pbk_ennemis[307 + etape];
+	if (anim_step < 3) {
+		if (dir == FACING_RIGHT) {
+			pic = pbk_enemies[307 + anim_step];
 		} else {
-			pic = pbk_ennemis[320 + etape];
+			pic = pbk_enemies[320 + anim_step];
 		}
-	} else if (plat(x, y) != 0) {
-		if (ss_etape == 0) {
-			etape++;
+	} else if (platform_y(x, y) != 0) {
+		if (anim_tick == 0) {
+			anim_step++;
 		}
-		if (etape < 5) {
-			if (dir == SENS_DROITE) {
-				pic = pbk_ennemis[307 + etape];
+		if (anim_step < 5) {
+			if (dir == FACING_RIGHT) {
+				pic = pbk_enemies[307 + anim_step];
 			} else {
-				pic = pbk_ennemis[320 + etape];
+				pic = pbk_enemies[320 + anim_step];
 			}
 		} else {
-			grave(x, y, pic);
-			a_detruire = true;
+			engrave(x, y, pic);
+			destroyed = true;
 		}
 	}
 }
@@ -114,23 +114,23 @@ PieceSnorkyBaseHeadBackPart::PieceSnorkyBaseHeadBackPart(int vx, int vy) {
 }
 
 void PieceSnorkyBaseHeadBackPart::update() {
-	tombe();
+	fall();
 	x += dx;
-	ss_etape++;
-	ss_etape %= 6;
-	if ((ss_etape == 0) && (etape < 3)) {
-		etape++;
+	anim_tick++;
+	anim_tick %= 6;
+	if ((anim_tick == 0) && (anim_step < 3)) {
+		anim_step++;
 	}
 
-	if (dir == SENS_DROITE) {
-		pic = pbk_ennemis[59 + etape];
+	if (dir == FACING_RIGHT) {
+		pic = pbk_enemies[59 + anim_step];
 	} else {
-		pic = pbk_ennemis[92 + etape];
+		pic = pbk_enemies[92 + anim_step];
 	}
 
-	if (etape == 3 && (plat(x, y) != 0)) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (anim_step == 3 && (platform_y(x, y) != 0)) {
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }
 
@@ -140,19 +140,19 @@ PieceSnorkyBaseTrunk::PieceSnorkyBaseTrunk(int vx, int vy) {
 }
 
 void PieceSnorkyBaseTrunk::update() {
-	tombe();
+	fall();
 	x += dx;
-	ss_etape++;
-	ss_etape %= 3;
-	if (ss_etape == 0) {
-		etape++;
-		etape %= 8;
+	anim_tick++;
+	anim_tick %= 3;
+	if (anim_tick == 0) {
+		anim_step++;
+		anim_step %= 8;
 	}
 
-	pic = pbk_ennemis[63 + etape];
+	pic = pbk_enemies[63 + anim_step];
 
-	if (plat(x, y) != 0) {
-		grave(x, y, pic);
-		a_detruire = true;
+	if (platform_y(x, y) != 0) {
+		engrave(x, y, pic);
+		destroyed = true;
 	}
 }

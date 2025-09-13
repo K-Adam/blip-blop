@@ -1,5 +1,5 @@
 #include "entities/character.h"
 
-Character::Character() : etat(ETAT_NORMAL) {}
+Character::Character() : status(STATE_NORMAL) {}
 
 void Character::update() {}

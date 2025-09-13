@@ -20,5 +20,5 @@ class EnemySnorkyMage : public Enemy {
 	virtual void onTire();
 	virtual void onCarbonise();
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

@@ -1,16 +1,16 @@
 #include "entities/sprite.h"
 #include "level/backgrounds/background_poke_crate.h"
 
-BackgroundPokeCrate::BackgroundPokeCrate() { pic = pbk_niveau[117]; }
+BackgroundPokeCrate::BackgroundPokeCrate() { pic = pbk_level[117]; }
 
 void BackgroundPokeCrate::update() {
 	int yp;
 
-	tombe();
+	fall();
 
-	if (dy > 0 && (yp = plat(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
 		y = yp;
-		grave(x, y - 10, pic);
+		engrave(x, y - 10, pic);
 
 		int i;
 
@@ -20,6 +20,6 @@ void BackgroundPokeCrate::update() {
 
 		colFromPic();
 
-		a_detruire = true;
+		destroyed = true;
 	}
 };

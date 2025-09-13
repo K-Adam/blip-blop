@@ -1,32 +1,32 @@
 #include "entities/shots/shot_gift.h"
 
 ShotGift::ShotGift() {
-	pic = pbk_ennemis[56];
+	pic = pbk_enemies[56];
 	noCol();
 }
 
 void ShotGift::update() {
-	if (!mur_opaque(x, y)) tombe();
+	if (!solid_wall(x, y)) fall();
 
-	ss_etape += 1;
-	ss_etape %= 6;
+	anim_tick += 1;
+	anim_tick %= 6;
 
-	if (ss_etape == 0) {
-		etape += 1;
+	if (anim_tick == 0) {
+		anim_step += 1;
 
-		if (etape == 20) {
+		if (anim_step == 20) {
 			sbk_misc.play(11);
 		}
 	}
 
-	if (etape >= 20) {
+	if (anim_step >= 20) {
 		col_on = true;
-		pic = pbk_ennemis[80 + etape];
+		pic = pbk_enemies[80 + anim_step];
 	}
 
-	if (etape > 35) a_detruire = true;
+	if (anim_step > 35) destroyed = true;
 
 	colFromPic();
 
-	if (etape >= 30) noCol();
+	if (anim_step >= 30) noCol();
 }

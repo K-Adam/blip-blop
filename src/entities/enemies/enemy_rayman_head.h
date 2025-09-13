@@ -14,7 +14,7 @@ class EnemyRaymanHead : public Enemy {
 
 	bool count() override { return false; };
 
-	int degats() override;
+	int damage() override;
 
-	void estTouche(Shot* tir) override;
+	void takeHit(Shot* shot) override;
 };

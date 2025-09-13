@@ -8,5 +8,5 @@ class BackgroundPokeCrateFalling : public Sprite {
    public:
 	BackgroundPokeCrateFalling();
 	void update() override;
-	void affiche() override;
+	void render() override;
 };

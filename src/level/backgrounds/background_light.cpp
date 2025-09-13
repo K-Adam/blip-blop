@@ -3,32 +3,32 @@
 
 #define ETAT_CLIGNOTE 100
 
-BackgroundLight::BackgroundLight() : allume(false), wait_for_cligno(0) {
+BackgroundLight::BackgroundLight() : allume(false), wait_for_blink(0) {
 	delai_cligno = 50 + rand() % 200;
-	pic = pbk_niveau[0];
+	pic = pbk_level[0];
 }
 
 void BackgroundLight::update() {
 	static const int anim_cligno[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
 									  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
 
-	wait_for_cligno += 1;
+	wait_for_blink += 1;
 
 	if (allume) {
-		if (wait_for_cligno >= delai_cligno) {
+		if (wait_for_blink >= delai_cligno) {
 			allume = false;
-			ss_etape = 0;
-			etape = 0;
+			anim_tick = 0;
+			anim_step = 0;
 		}
 	} else {
-		pic = pbk_niveau[anime(anim_cligno, 58, 3)];
+		pic = pbk_level[animate(anim_cligno, 58, 3)];
 
-		if (etape == 57) {
+		if (anim_step == 57) {
 			allume = true;
-			wait_for_cligno = 0;
+			wait_for_blink = 0;
 			delai_cligno = 50 + rand() % 200;
 		}
 	}
 
-	if (x < offset - 300) a_detruire = true;
+	if (x < offset - 300) destroyed = true;
 }
