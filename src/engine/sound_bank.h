@@ -15,7 +15,7 @@ class SoundBank {
 	inline Sound* operator[](int n) const { return tab_[n].get(); };
 	inline size_t getSize() const { return tab_.size(); };
 
-	virtual bool loadSFX(const char* nom_fic);
+	virtual bool loadSFX(const char* file_name);
 
 	void reload();
 	void reinit();

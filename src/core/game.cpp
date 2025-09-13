@@ -67,12 +67,12 @@ Character dummyPlayer;
 
 #define TXT_TIME 828
 
-Game::Game() : next_goutte(0), next_flocon(0), show_fps(false), show_lists(false) { briefing = false; }
+Game::Game() : next_raindrop(0), next_snowflake(0), show_fps(false), show_lists(false) { briefing = false; }
 
 // Out of line so the owned entity types are complete here
 Game::~Game() = default;
 
-Task<> Game::jouePartie(int nbj, int idj) {
+Task<> Game::playGame(int player_count, int player_idx) {
 	if (app_killed) co_return;
 
 	CINEPlayer cine;
@@ -81,15 +81,15 @@ Task<> Game::jouePartie(int nbj, int idj) {
 
 	mbk_interl.stop();
 
-	if (!chargePartie()) {
-		releasePartie();
+	if (!loadGame()) {
+		releaseGame();
 		co_return;
 	}
 
 	wait_for_death = 0;
 	current_track = -1;
 
-	if (idj == 0)
+	if (player_idx == 0)
 		player1 = std::make_unique<Blip>();
 	else
 		player1 = std::make_unique<Blop>();
@@ -97,8 +97,8 @@ Task<> Game::jouePartie(int nbj, int idj) {
 	player1->ctrl = &controllers_[0];
 	list_players.push_back(player1.get());
 
-	if (nbj == 2) {
-		if (idj == 0)
+	if (player_count == 2) {
+		if (player_idx == 0)
 			player2 = std::make_unique<Blop>();
 		else
 			player2 = std::make_unique<Blip>();
@@ -109,12 +109,12 @@ Task<> Game::jouePartie(int nbj, int idj) {
 
 	cowBombOn = false;
 	last_perfect1 = last_perfect2 = false;
-	int nbNiv = 0;
+	int nbLevels = 0;
 	i = 0;
 
 	while (i < nb_part && letsgo && !app_killed) {
 		if (type_part[i] == PART_LEVEL) {
-			letsgo = co_await joueNiveau(fic_names[i].c_str(), type_lvl[i]);
+			letsgo = co_await playLevel(file_names[i].c_str(), type_lvl[i]);
 
 			if (!cowBombOn) {
 				if (player1 != NULL) player1->nb_cow_bomb = 1;
@@ -124,9 +124,9 @@ Task<> Game::jouePartie(int nbj, int idj) {
 				cowBombOn = true;
 			}
 		} else if (type_part[i] == PART_BRIEFING) {
-			showBriefing(fic_names[i].c_str());
+			showBriefing(file_names[i].c_str());
 		} else {
-			co_await cine.playScene(fic_names[i].c_str(), backSurface);
+			co_await cine.playScene(file_names[i].c_str(), backSurface);
 		}
 
 		i += 1;
@@ -175,7 +175,7 @@ Task<> Game::jouePartie(int nbj, int idj) {
 		co_await showPE(false);
 	}
 
-	releasePartie();
+	releaseGame();
 
 	pbk_inter.loadGFX("inter.gfx");
 
@@ -192,18 +192,18 @@ Task<> Game::jouePartie(int nbj, int idj) {
 	player2.reset();
 }
 
-Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
+Task<bool> Game::playLevel(const char* level_name, int type) {
 	int p1_life;  // Restored after a bonus level
 	bool p1_bringBack;
 	int p2_life;
 	bool p2_bringBack;
 
-	joueurs_morts = false;
-	niveau_fini = false;
+	players_dead = false;
+	level_done = false;
 	skipped = false;
 	wait_for_victory = -1;
 
-	etape_timer = 0;
+	timer_tick = 0;
 	go_.Reset();
 
 	scroll_locked = false;
@@ -221,9 +221,9 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	clearCoolText();
 
-	if (!chargeNiveau(nom_niveau)) co_return false;
+	if (!loadLevel(level_name)) co_return false;
 
-	if (std::string_view(nom_niveau) == "lvl/snorkniv.lvl" || std::string_view(nom_niveau) == "lvl/snorkniv2.lvl") {
+	if (std::string_view(level_name) == "lvl/snorkniv.lvl" || std::string_view(level_name) == "lvl/snorkniv2.lvl") {
 		okFlamethrower = false;
 	} else {
 		okFlamethrower = true;
@@ -317,7 +317,7 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	last_perfect1 = last_perfect2 = false;
 
-	niveau_bonus = type == LVL_BONUS;
+	bonus_level = type == LVL_BONUS;
 
 	Sprite* s = list_players[0];
 	offset = s->x;
@@ -360,15 +360,15 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 
 	update_regulator_.Skip();
 
-	while (!joueurs_morts && !niveau_fini && !skipped && !app_killed) {
+	while (!players_dead && !level_done && !skipped && !app_killed) {
 		co_await gameLoop();
 		updateVictoryAndDefeat();
 
 		co_await nextFrame();
 	}
 
-	if (joueurs_morts) debug << "Players died\n";
-	if (niveau_fini) debug << "Level complete\n";
+	if (players_dead) debug << "Players died\n";
+	if (level_done) debug << "Level complete\n";
 	if (skipped) debug << "User skipped\n";
 	if (app_killed) debug << "Application killed\n";
 
@@ -403,10 +403,10 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 			player2->nb_life = p2_life;
 		}
 
-		niveau_fini = true;
+		level_done = true;
 	}
 
-	if (niveau_fini && !joueurs_morts && type != LVL_END) {
+	if (level_done && !players_dead && type != LVL_END) {
 		drawAll(false);
 		graphics.Flip();
 		drawAll(false);
@@ -432,13 +432,13 @@ Task<bool> Game::joueNiveau(const char* nom_niveau, int type) {
 	drawLoading();
 	graphics.Flip();
 
-	releaseNiveau();
+	releaseLevel();
 
-	co_return niveau_fini;
+	co_return level_done;
 }
 
-bool Game::chargeNiveau(const char* nom_niveau) {
-	auto dirname = asset_path(nom_niveau);
+bool Game::loadLevel(const char* level_name) {
+	auto dirname = asset_path(level_name);
 	auto json_path = dirname + ".json";
 
 	std::ifstream input(json_path);
@@ -450,7 +450,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	json data = json::parse(input);
 
 	debug << "---------------------------------------------------------------\n";
-	debug << "Loading level <" << nom_niveau << ">\n";
+	debug << "Loading level <" << level_name << ">\n";
 	debug << "---------------------------------------------------------------\n";
 
 	// Every asset but the background is optional, an empty name means the level has none
@@ -488,12 +488,12 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	scr_level_size = data["num_decor"].size();
 	level_size = scr_level_size * 640;
 
-	auto plat_str = from_base64(data["y_plat"]);
-	auto murs_opaques_str = from_base64(data["murs_opaques"]);
-	auto murs_sanglants_str = from_base64(data["murs_sanglants"]);
+	auto platform_str = from_base64(data["y_plat"]);
+	auto solid_walls_str = from_base64(data["murs_opaques"]);
+	auto bloody_walls_str = from_base64(data["murs_sanglants"]);
 	size_t level_size_8 = level_size / 8;
-	if (plat_str.size() < NB_MAX_PLATFORMS * level_size * sizeof(int32_t) || murs_opaques_str.size() < 60 * level_size_8 ||
-		murs_sanglants_str.size() < 60 * level_size_8) {
+	if (platform_str.size() < NB_MAX_PLATFORMS * level_size * sizeof(int32_t) || solid_walls_str.size() < 60 * level_size_8 ||
+		bloody_walls_str.size() < 60 * level_size_8) {
 		debug << "Game::chargeNiveau() -> Truncated collision data in <" << json_path << ">\n";
 		return false;
 	}
@@ -516,17 +516,17 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 
 	y_platform.assign(NB_MAX_PLATFORMS, std::vector<int32_t>(level_size));
 	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
-		std::memcpy(y_platform[i].data(), &plat_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
+		std::memcpy(y_platform[i].data(), &platform_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
 	}
 
 	solid_walls.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		solid_walls[i].assign(murs_opaques_str.begin() + i * level_size_8, murs_opaques_str.begin() + (i + 1) * level_size_8);
+		solid_walls[i].assign(solid_walls_str.begin() + i * level_size_8, solid_walls_str.begin() + (i + 1) * level_size_8);
 	}
 
 	bloody_walls.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		bloody_walls[i].assign(murs_sanglants_str.begin() + i * level_size_8, murs_sanglants_str.begin() + (i + 1) * level_size_8);
+		bloody_walls[i].assign(bloody_walls_str.begin() + i * level_size_8, bloody_walls_str.begin() + (i + 1) * level_size_8);
 	}
 
 	size_t nb_events = data["events"].size();
@@ -536,31 +536,31 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 		int event_id = event["event_id"];
 		switch (event_id) {
 			case EVENTID_ENEMY: {
-				auto event_ennemi = std::make_unique<EventEnemy>();
+				auto event_enemy = std::make_unique<EventEnemy>();
 
-				event_ennemi->x_activation = event["x_activation"];
-				event_ennemi->enemy_id = event["id_ennemi"];
-				event_ennemi->x = event["x"];
-				event_ennemi->y = event["y"];
-				event_ennemi->facing = event["sens"];
+				event_enemy->x_activation = event["x_activation"];
+				event_enemy->enemy_id = event["id_ennemi"];
+				event_enemy->x = event["x"];
+				event_enemy->y = event["y"];
+				event_enemy->facing = event["sens"];
 
-				list_event_endormis.push_back(std::move(event_ennemi));
+				list_event_dormant.push_back(std::move(event_enemy));
 				break;
 			}
 
 			case EVENTID_ENEMY_GENERATOR: {
-				auto event_gennemi = std::make_unique<EventEnemyGenerator>();
+				auto event_enemy_gen = std::make_unique<EventEnemyGenerator>();
 
-				event_gennemi->x_activation = event["x_activation"];
-				event_gennemi->enemy_id = event["id_ennemi"];
-				event_gennemi->x = event["x"];
-				event_gennemi->y = event["y"];
-				event_gennemi->facing = event["sens"];
-				event_gennemi->capacity = event["capacite"];
-				event_gennemi->period = event["periode"];
-				event_gennemi->tmp = event["tmp"];
+				event_enemy_gen->x_activation = event["x_activation"];
+				event_enemy_gen->enemy_id = event["id_ennemi"];
+				event_enemy_gen->x = event["x"];
+				event_enemy_gen->y = event["y"];
+				event_enemy_gen->facing = event["sens"];
+				event_enemy_gen->capacity = event["capacite"];
+				event_enemy_gen->period = event["periode"];
+				event_enemy_gen->tmp = event["tmp"];
 
-				list_event_endormis.push_back(std::move(event_gennemi));
+				list_event_dormant.push_back(std::move(event_enemy_gen));
 				break;
 			}
 
@@ -572,7 +572,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_lock->flag = event["flag"];
 				event_lock->val = event["val"];
 
-				list_event_endormis.push_back(std::move(event_lock));
+				list_event_dormant.push_back(std::move(event_lock));
 				break;
 			}
 
@@ -582,7 +582,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_scroll_speed->x_activation = event["x_activation"];
 				event_scroll_speed->speed = event["speed"];
 
-				list_event_endormis.push_back(std::move(event_scroll_speed));
+				list_event_dormant.push_back(std::move(event_scroll_speed));
 				break;
 			}
 
@@ -593,7 +593,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_set_flag->flag = event["flag"];
 				event_set_flag->val = event["val"];
 
-				list_event_endormis.push_back(std::move(event_set_flag));
+				list_event_dormant.push_back(std::move(event_set_flag));
 				break;
 			}
 
@@ -604,7 +604,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_hold_fire->flag = event["flag"];
 				event_hold_fire->val = event["val"];
 
-				list_event_endormis.push_back(std::move(event_hold_fire));
+				list_event_dormant.push_back(std::move(event_hold_fire));
 				break;
 			}
 
@@ -615,56 +615,56 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_gen_bonus->type = event["type"];
 				event_gen_bonus->period = event["periode"];
 
-				list_event_endormis.push_back(std::move(event_gen_bonus));
+				list_event_dormant.push_back(std::move(event_gen_bonus));
 				break;
 			}
 
 			case EVENTID_TEXT: {
-				auto event_texte = std::make_unique<EventText>();
+				auto event_text = std::make_unique<EventText>();
 
-				event_texte->x_activation = event["x_activation"];
-				event_texte->ntxt = event["ntxt"];
-				event_texte->cond = event["cond"];
-				event_texte->flag = event["flag"];
-				event_texte->val = event["val"];
+				event_text->x_activation = event["x_activation"];
+				event_text->ntxt = event["ntxt"];
+				event_text->cond = event["cond"];
+				event_text->flag = event["flag"];
+				event_text->val = event["val"];
 
-				list_event_endormis.push_back(std::move(event_texte));
+				list_event_dormant.push_back(std::move(event_text));
 				break;
 			}
 
 			case EVENTID_ANIMATED_BG: {
-				auto event_fond_anime = std::make_unique<EventAnimatedBackground>();
+				auto event_animated_bg = std::make_unique<EventAnimatedBackground>();
 
-				event_fond_anime->x_activation = event["x_activation"];
-				event_fond_anime->bg_id = event["id_fond"];
-				event_fond_anime->x = event["x"];
-				event_fond_anime->y = event["y"];
+				event_animated_bg->x_activation = event["x_activation"];
+				event_animated_bg->bg_id = event["id_fond"];
+				event_animated_bg->x = event["x"];
+				event_animated_bg->y = event["y"];
 
-				list_event_endormis.push_back(std::move(event_fond_anime));
+				list_event_dormant.push_back(std::move(event_animated_bg));
 				break;
 			}
 
 			case EVENTID_MIDGROUND: {
-				auto event_mi_fond = std::make_unique<EventMidground>();
+				auto event_midground = std::make_unique<EventMidground>();
 
-				event_mi_fond->x_activation = event["x_activation"];
-				event_mi_fond->id = event["id"];
-				event_mi_fond->x = event["x"];
-				event_mi_fond->y = event["y"];
+				event_midground->x_activation = event["x_activation"];
+				event_midground->id = event["id"];
+				event_midground->x = event["x"];
+				event_midground->y = event["y"];
 
-				list_event_endormis.push_back(std::move(event_mi_fond));
+				list_event_dormant.push_back(std::move(event_midground));
 				break;
 			}
 
 			case EVENTID_FOREGROUND: {
-				auto event_pplan = std::make_unique<EventForeground>();
+				auto event_foreground = std::make_unique<EventForeground>();
 
-				event_pplan->bg_id = event["id_fond"];
-				event_pplan->x_activation = event["x_activation"];
-				event_pplan->x = event["x"];
-				event_pplan->y = event["y"];
+				event_foreground->bg_id = event["id_fond"];
+				event_foreground->x_activation = event["x_activation"];
+				event_foreground->x = event["x"];
+				event_foreground->y = event["y"];
 
-				list_event_endormis.push_back(std::move(event_pplan));
+				list_event_dormant.push_back(std::move(event_foreground));
 				break;
 			}
 
@@ -677,7 +677,7 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_rpg->flag = event["flag"];
 				event_rpg->val = event["val"];
 
-				list_event_endormis.push_back(std::move(event_rpg));
+				list_event_dormant.push_back(std::move(event_rpg));
 				break;
 			}
 
@@ -688,18 +688,18 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_music->id = event["id"];
 				event_music->play = event["play"];
 
-				list_event_endormis.push_back(std::move(event_music));
+				list_event_dormant.push_back(std::move(event_music));
 				break;
 			}
 
 			case EVENTID_WEATHER: {
-				auto event_meteo = std::make_unique<EventWeather>();
+				auto event_weather = std::make_unique<EventWeather>();
 
-				event_meteo->x_activation = event["x_activation"];
-				event_meteo->intensity = event["intensite"];
-				event_meteo->type = event["type"];
+				event_weather->x_activation = event["x_activation"];
+				event_weather->intensity = event["intensite"];
+				event_weather->type = event["type"];
 
-				list_event_endormis.push_back(std::move(event_meteo));
+				list_event_dormant.push_back(std::move(event_weather));
 				break;
 			}
 
@@ -710,28 +710,28 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 				event_bonus->x = event["x"];
 				event_bonus->y = event["y"];
 
-				list_event_endormis.push_back(std::move(event_bonus));
+				list_event_dormant.push_back(std::move(event_bonus));
 				break;
 			}
 
 			case EVENTID_TURRET: {
-				auto event_vehicule = std::make_unique<EventVehicle>();
-				event_vehicule->x_activation = event["x_activation"];
-				event_vehicule->vehicle_id = event["id_vehicule"];
-				event_vehicule->x = event["x"];
-				event_vehicule->y = event["y"];
-				event_vehicule->dir = event["dir"];
+				auto event_vehicle = std::make_unique<EventVehicle>();
+				event_vehicle->x_activation = event["x_activation"];
+				event_vehicle->vehicle_id = event["id_vehicule"];
+				event_vehicle->x = event["x"];
+				event_vehicle->y = event["y"];
+				event_vehicle->dir = event["dir"];
 
-				list_event_endormis.push_back(std::move(event_vehicule));
+				list_event_dormant.push_back(std::move(event_vehicle));
 				break;
 			}
 
 			case EVENTID_SOUND: {
-				auto event_son = std::make_unique<EventSound>();
-				event_son->x_activation = event["x_activation"];
-				event_son->nsnd = event["nsnd"];
+				auto event_sound = std::make_unique<EventSound>();
+				event_sound->x_activation = event["x_activation"];
+				event_sound->nsnd = event["nsnd"];
 
-				list_event_endormis.push_back(std::move(event_son));
+				list_event_dormant.push_back(std::move(event_sound));
 				break;
 			}
 		}
@@ -742,13 +742,13 @@ bool Game::chargeNiveau(const char* nom_niveau) {
 	return true;
 }
 
-void Game::releaseNiveau() {
+void Game::releaseLevel() {
 	num_decor.clear();
 	y_platform.clear();
 	bloody_walls.clear();
 	solid_walls.clear();
 
-	list_event_endormis.clear();
+	list_event_dormant.clear();
 	list_event.clear();
 
 	list_shots_bb.clear();
@@ -774,8 +774,8 @@ void Game::releaseNiveau() {
 	list_splatters.clear();
 	list_gore.clear();
 
-	list_meteo.clear();
-	list_bulles.clear();
+	list_weather.clear();
+	list_bubbles.clear();
 }
 
 void Game::updateAll() {
@@ -802,9 +802,9 @@ void Game::updateAll() {
 
 	updateCheat();
 
-	if (game_flag[FLAG_BUBBLES]) updateBulles();
+	if (game_flag[FLAG_BUBBLES]) updateBubbles();
 
-	if (weather_type == WEATHER_RAIN_ID || weather_type == WEATHER_SNOW_ID) updateMeteo();
+	if (weather_type == WEATHER_RAIN_ID || weather_type == WEATHER_SNOW_ID) updateWeather();
 
 	UpdateCollection(list_static_bgs);
 	UpdateCollection(list_animated_bgs);
@@ -826,9 +826,9 @@ void Game::updateAll() {
 	UpdateCollection(list_gen_bonus);
 	updateLock();
 	updateHoldFire();
-	updateTeteTurc();
+	updateTargetedPlayer();
 	updateFlags();
-	updateFlecheGo();
+	updateGoArrow();
 
 	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) updateDeformation();
 
@@ -856,7 +856,7 @@ void Game::drawAll(bool flip) {
 	DrawCollection(list_animated_bgs);
 
 	if (game_flag[FLAG_BUBBLES]) {
-		DrawCollection(list_bulles);
+		DrawCollection(list_bubbles);
 	}
 
 	DrawCollection(list_moving_platforms);
@@ -871,7 +871,7 @@ void Game::drawAll(bool flip) {
 	DrawCollection(list_vehicles);
 	DrawCollection(list_impacts);
 	DrawCollection(list_cow);
-	DrawCollection(list_meteo);
+	DrawCollection(list_weather);
 	DrawCollection(list_foregrounds);
 
 	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) drawDeformation();
@@ -920,9 +920,9 @@ Task<> Game::gameLoop() {
 	drawAll();
 }
 
-void Game::releasePartie() { list_players.clear(); }
+void Game::releaseGame() { list_players.clear(); }
 
-bool Game::chargePartie() {
+bool Game::loadGame() {
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading global game files...\n";
 	debug << "---------------------------------------------------------------\n";
@@ -996,7 +996,7 @@ void Game::cleanLists() {
 	RemoveDestroyed(list_static_bgs);
 	RemoveDestroyed(list_shots_bb);
 	RemoveDestroyed(list_cow);
-	RemoveDestroyed(list_bulles);
+	RemoveDestroyed(list_bubbles);
 	RemoveDestroyed(list_impacts);
 	RemoveDestroyed(list_enemies);
 	RemoveDestroyed(list_bonus);
@@ -1007,14 +1007,14 @@ void Game::cleanLists() {
 	RemoveDestroyed(list_foregrounds);
 	RemoveDestroyed(list_splatters);
 	RemoveDestroyed(list_enemy_shots);
-	RemoveDestroyed(list_meteo);
+	RemoveDestroyed(list_weather);
 	RemoveDestroyed(list_gore);
 	RemoveDestroyed(list_moving_platforms);
 }
 
 void Game::updateEvents() {
 	// Sleeping events move to the pending list when they are about to fire
-	for (auto it = list_event_endormis.rbegin(); it != list_event_endormis.rend(); ++it) {
+	for (auto it = list_event_dormant.rbegin(); it != list_event_dormant.rend(); ++it) {
 		auto& event = *it;
 		if (!event->shouldWake()) {
 			break;
@@ -1022,8 +1022,8 @@ void Game::updateEvents() {
 		list_event.push_back(std::move(event));
 	}
 
-	list_event_endormis.erase(std::remove_if(list_event_endormis.begin(), list_event_endormis.end(), [](auto& ev) { return !ev.get(); }),
-							  list_event_endormis.end());
+	list_event_dormant.erase(std::remove_if(list_event_dormant.begin(), list_event_dormant.end(), [](auto& ev) { return !ev.get(); }),
+							 list_event_dormant.end());
 
 	for (auto& event : list_event) {
 		if (event->shouldActivate()) {
@@ -1036,17 +1036,17 @@ void Game::updateEvents() {
 
 void Game::manageCollisions() {
 	for (Shot* shot : list_shots_bb) {
-		for (auto& ennemi : list_enemies) {
-			if (shot->collision(ennemi.get())) {
-				ennemi->takeHit(shot);
+		for (auto& enemy : list_enemies) {
+			if (shot->collision(enemy.get())) {
+				enemy->takeHit(shot);
 			}
 		}
 	}
 
 	for (auto& shot : list_cow) {
-		for (auto& ennemi : list_enemies) {
-			if (shot->collision(ennemi.get())) {
-				ennemi->takeHit(shot.get());
+		for (auto& enemy : list_enemies) {
+			if (shot->collision(enemy.get())) {
+				enemy->takeHit(shot.get());
 			}
 		}
 	}
@@ -1060,9 +1060,9 @@ void Game::manageCollisions() {
 	}
 
 	if (wait_for_victory <= 0) {
-		for (auto& ennemi : list_enemies) {
+		for (auto& enemy : list_enemies) {
 			for (Ball* hero : list_players) {
-				if (ennemi->collision(hero)) hero->takeHit(ennemi->damage());
+				if (enemy->collision(hero)) hero->takeHit(enemy->damage());
 			}
 		}
 
@@ -1095,22 +1095,22 @@ void Game::updateHoldFire() {
 void Game::drawHUB() {
 	if (player1 != NULL && player1->nb_life > 0) {
 		auto color = player1->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
-		hud_.Draw(player1.get(), HUD::Location::Left, color, niveau_bonus);
+		hud_.Draw(player1.get(), HUD::Location::Left, color, bonus_level);
 	}
 
 	if (player2 != NULL && player2->nb_life > 0) {
 		auto color = player2->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
-		hud_.Draw(player2.get(), HUD::Location::Right, color, niveau_bonus);
+		hud_.Draw(player2.get(), HUD::Location::Right, color, bonus_level);
 	}
 }
 
-void Game::drawHUBpv(int x, int y, int hp) {
-	static const int x_pv[] = {3, 0, 13, 44, 31};
-	static const int y_pv[] = {0, 21, 48, 21, 0};
+void Game::drawHUBhp(int x, int y, int hp) {
+	static const int x_hp[] = {3, 0, 13, 44, 31};
+	static const int y_hp[] = {0, 21, 48, 21, 0};
 
-	for (int i = 0; i < hp; i++) pbk_bb[201 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
+	for (int i = 0; i < hp; i++) pbk_bb[201 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 
-	for (int i = hp; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_pv[i], y + y_pv[i]);
+	for (int i = hp; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 }
 
 void Game::drawDebugInfos() {
@@ -1119,8 +1119,8 @@ void Game::drawDebugInfos() {
 	}
 }
 
-void Game::updateTeteTurc() {
-	static int ntete_turc = 0;
+void Game::updateTargetedPlayer() {
+	static int targeted_idx = 0;
 
 	if (list_players.empty()) {
 		dummyPlayer.x = offset + 320;
@@ -1129,9 +1129,9 @@ void Game::updateTeteTurc() {
 		return;
 	}
 
-	ntete_turc += 1;
-	ntete_turc %= list_players.size();
-	targeted_player = list_players[ntete_turc];
+	targeted_idx += 1;
+	targeted_idx %= list_players.size();
+	targeted_player = list_players[targeted_idx];
 }
 
 Task<> Game::updateRPG() {
@@ -1159,7 +1159,7 @@ void Game::updateVictoryAndDefeat() {
 	if (list_players.empty()) {
 		wait_for_death += 1;
 
-		if (wait_for_death >= 200) joueurs_morts = true;
+		if (wait_for_death >= 200) players_dead = true;
 
 		return;
 	}
@@ -1170,7 +1170,7 @@ void Game::updateVictoryAndDefeat() {
 
 		if (game_flag[1] == 999) wait_for_victory = 200;
 
-		if (wait_for_victory >= 200) niveau_fini = true;
+		if (wait_for_victory >= 200) level_done = true;
 	} else {
 		if (wait_for_victory > 0) wait_for_victory = 0;
 	}
@@ -1182,13 +1182,13 @@ void Game::updateFlags() {
 	makeb_current_mode = game_flag[FLAG_BONUS];
 
 	if (game_flag[FLAG_TIMER] > 0 && wait_for_victory == -1) {
-		etape_timer += 1;
-		etape_timer %= 80;
+		timer_tick += 1;
+		timer_tick %= 80;
 
-		if (etape_timer == 0) {
+		if (timer_tick == 0) {
 			game_flag[FLAG_TIMER] -= 1;
 
-			if (game_flag[FLAG_TIMER] == 0 && niveau_bonus) niveau_fini = true;
+			if (game_flag[FLAG_TIMER] == 0 && bonus_level) level_done = true;
 		}
 	}
 }
@@ -1276,7 +1276,7 @@ void Game::updateCheat() {
 		}
 	}
 
-	if (in.scanKey(DIK_F9)) niveau_fini = true;
+	if (in.scanKey(DIK_F9)) level_done = true;
 
 	if (wait_cheat < 20) return;
 
@@ -1359,7 +1359,7 @@ struct PlayerTotals {
 };
 }  // namespace
 
-Task<> Game::showPE(bool bonus, bool fuckOff) {
+Task<> Game::showPE(bool bonus, bool failed) {
 	PlayerTotals totals[2];
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
@@ -1391,29 +1391,29 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 		if (t.calc == 4) continue;
 		t.fnt = t.player->id_ball == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
 		if (nb_enemies_created > 0) t.killed = (100 * t.player->getKilled()) / nb_enemies_created;
-		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !joueurs_morts)) t.obj = 50000;
+		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !players_dead)) t.obj = 50000;
 		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
 		t.total = t.player->getScore();
-		if (fuckOff) t.perfect = t.obj = t.killed = 0;
+		if (failed) t.perfect = t.obj = t.killed = 0;
 	}
-	if (fuckOff) game_flag[FLAG_TIMER] = 0;
+	if (failed) game_flag[FLAG_TIMER] = 0;
 
-	int delai = 0;
+	int tally_tick = 0;
 
 	// Runs at least once so the screen shows even when no player is left to tally
 	do {
-		delai += 1;
-		delai %= 3;
+		tally_tick += 1;
+		tally_tick %= 3;
 
-		if (in.anyKeyPressed()) delai = 0;
+		if (in.anyKeyPressed()) tally_tick = 0;
 
-		if (delai == 0) {
+		if (tally_tick == 0) {
 			for (auto& t : totals) t.step(game_flag[FLAG_TIMER]);
 		}
 
 		backSurface->BltFast(0, 0, systemSurface, NULL);
 
-		fnt_cool.printC(backSurface, 320, 120, fuckOff ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
+		fnt_cool.printC(backSurface, 320, 120, failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
 		for (auto& t : totals) {
 			if (t.fnt) t.draw(game_flag[FLAG_TIMER]);
@@ -1436,51 +1436,51 @@ Task<> Game::showPE(bool bonus, bool fuckOff) {
 	mbk_inter.stop();
 }
 
-void Game::updateMeteo() {
-	const static int speed_gouttes[] = {3, 5, 7, 8, 9, 10};
+void Game::updateWeather() {
+	const static int raindrop_speeds[] = {3, 5, 7, 8, 9, 10};
 
-	for (auto& pl : list_meteo) {
+	for (auto& pl : list_weather) {
 		pl->update();
 	}
 
-	while (list_meteo.size() < (size_t)weather_intensity) {
+	while (list_weather.size() < (size_t)weather_intensity) {
 		if (weather_type == WEATHER_SNOW_ID) {
-			next_flocon = (next_flocon + 1) % NB_FLOCONS;
-			WeatherSnow* flocon = &neige[next_flocon];
+			next_snowflake = (next_snowflake + 1) % NB_SNOWFLAKES;
+			WeatherSnow* snowflake = &snow[next_snowflake];
 
 			int d = rand() % 3;
 
-			flocon->destroyed = false;
-			flocon->xbase = offset + rand() % 800;
-			flocon->y = rand() % 480 - 500;
+			snowflake->destroyed = false;
+			snowflake->xbase = offset + rand() % 800;
+			snowflake->y = rand() % 480 - 500;
 
 			if (d <= 1)
-				flocon->pic = pbk_misc[71];
+				snowflake->pic = pbk_misc[71];
 			else
-				flocon->pic = pbk_misc[72];
+				snowflake->pic = pbk_misc[72];
 
-			flocon->dy = weather_intensity / 20 + d;
-			flocon->phi = rand() % 360;
-			flocon->xwide = 10 + d * 4;
+			snowflake->dy = weather_intensity / 20 + d;
+			snowflake->phi = rand() % 360;
+			snowflake->xwide = 10 + d * 4;
 
-			if (solid_wall(flocon->xbase, 0)) flocon->y -= 550;
+			if (solid_wall(snowflake->xbase, 0)) snowflake->y -= 550;
 
-			list_meteo.emplace_back(flocon);
+			list_weather.emplace_back(snowflake);
 		} else if (weather_type == WEATHER_RAIN_ID) {
-			next_goutte = (next_goutte + 1) % NB_GOUTTES;
-			WeatherRain* goutte = &pluie[next_goutte];
+			next_raindrop = (next_raindrop + 1) % NB_RAINDROPS;
+			WeatherRain* raindrop = &rain[next_raindrop];
 
 			int d = rand() % 4;
 
-			goutte->destroyed = false;
-			goutte->x = offset + rand() % 800;
-			goutte->y = rand() % 480 - 480;
-			goutte->pic = pbk_misc[65 + d];
-			goutte->dy = 7 + d * 2;
+			raindrop->destroyed = false;
+			raindrop->x = offset + rand() % 800;
+			raindrop->y = rand() % 480 - 480;
+			raindrop->pic = pbk_misc[65 + d];
+			raindrop->dy = 7 + d * 2;
 
-			if (solid_wall(goutte->x, 0)) goutte->y -= 550;
+			if (solid_wall(raindrop->x, 0)) raindrop->y -= 550;
 
-			list_meteo.emplace_back(goutte);
+			list_weather.emplace_back(raindrop);
 		}
 	}
 }
@@ -1492,7 +1492,7 @@ void Game::UpdateCollection(const T& xs) {
 	}
 }
 
-void Game::updateFlecheGo() {
+void Game::updateGoArrow() {
 	go_.Update();
 	if (last_x_go_ != offset) {
 		last_x_go_ = offset;
@@ -1507,21 +1507,21 @@ void Game::updateDeformation() {
 
 void Game::drawDeformation() {
 	Rect r;
-	int pas = 20;
+	int stride = 20;
 	int phi = phi_deform;
 	int dphi = 10;
 	int x;
 	int xt;
 
-	pas = 2;
+	stride = 2;
 	dphi = 1;
 
-	for (int y = 0; y < 480; y += pas) {
+	for (int y = 0; y < 480; y += stride) {
 		phi += dphi;
 		phi %= 360;
 
 		r.top = y;
-		r.bottom = y + pas;
+		r.bottom = y + stride;
 
 		x = xt = int(5 * std::sin(phi * std::numbers::pi / 180));
 
@@ -1548,24 +1548,24 @@ void Game::drawDeformation() {
 	}
 }
 
-void Game::updateBulles() {
+void Game::updateBubbles() {
 	for (Ball* pl : list_players) {
-		creeBulle(pl);
+		spawnBubble(pl);
 	}
 
 	for (auto& pl : list_enemies) {
-		if (list_bulles.size() < 15) {
+		if (list_bubbles.size() < 15) {
 			break;
 		}
-		creeBulle(pl.get());
+		spawnBubble(pl.get());
 	}
 
-	for (auto& pl : list_bulles) {
+	for (auto& pl : list_bubbles) {
 		pl->update();
 	}
 }
 
-void Game::creeBulle(Sprite* s) {
+void Game::spawnBubble(Sprite* s) {
 	s->wait_bubble += rand() % 10;
 
 	if (s->wait_bubble > 300) {
@@ -1577,16 +1577,16 @@ void Game::creeBulle(Sprite* s) {
 		b->dphi = 5 + rand() % 3;
 		b->dy = -(2 + rand() % 2);
 
-		list_bulles.emplace_back(b);
+		list_bubbles.emplace_back(b);
 
 		s->wait_bubble = 0;
 	}
 }
 
-bool Game::loadList(const char* fic) {
-	std::ifstream input(fic);
+bool Game::loadList(const char* file_path) {
+	std::ifstream input(file_path);
 	if (!input.good()) {
-		debug << "Cannot open " << fic << "\n";
+		debug << "Cannot open " << file_path << "\n";
 		return false;
 	}
 
@@ -1604,7 +1604,7 @@ bool Game::loadList(const char* fic) {
 			assert(false);
 		}
 
-		fic_names[nb_part] = item["path"].get<std::string>();
+		file_names[nb_part] = item["path"].get<std::string>();
 
 		nb_part++;
 	}
@@ -1629,8 +1629,8 @@ Task<> Game::getHiscore() {
 	if (player2 != NULL && hi_scores.isGood(player2->getScore())) co_await getName(player2.get(), 2);
 }
 
-Task<> Game::getName(Player* hero, int ijoueur) {
-	const std::string title = "PLAYER " + std::to_string(ijoueur) + " GOT A HIGH SCORE!";
+Task<> Game::getName(Player* hero, int player_num) {
+	const std::string title = "PLAYER " + std::to_string(player_num) + " GOT A HIGH SCORE!";
 	std::string name;
 	int key = -1;
 	int x = 640;
@@ -1848,7 +1848,7 @@ Task<> Game::go() {
 				drawLoading();
 				graphics.Flip();
 
-				co_await jouePartie(join.players(), int(selected));
+				co_await playGame(join.players(), int(selected));
 				mbk_interl.play(0);
 			}
 
@@ -1898,9 +1898,9 @@ Task<> Game::showMainScreen() {
 
 Task<> Game::showCredits(bool theEnd) {
 	static const int NB_PAGE = 6;
-	static const int ILIGNE = 20;
-	static const int ITITRE = 40;
-	static const int IPARTI = 120;
+	static const int ILINE = 20;
+	static const int ITITLE = 40;
+	static const int ISECTION = 120;
 	static const int SSPEED = 2;
 
 	int npage = 0;
@@ -1945,169 +1945,169 @@ Task<> Game::showCredits(bool theEnd) {
 			pbk_inter[1]->BlitTo(backSurface, 0, 0);
 		}
 
-		fnt_rpg.printC(backSurface, xcred, y + ILIGNE, "Credits");
+		fnt_rpg.printC(backSurface, xcred, y + ILINE, "Credits");
 
-		int y1 = y + ILIGNE + IPARTI;
+		int y1 = y + ILINE + ISECTION;
 
 		fnt_rpg.printC(backSurface, xcred, y1, "CODE");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 0, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 1, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 3, "2019 REVAMP");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 4, "Guillaume Sanchez");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 6, "Web port");
-		fnt_rpg.printC(backSurface, xcred, y1 + ITITRE + ILIGNE * 7, "Adam Kecskes");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 0, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 1, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 3, "2019 REVAMP");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 4, "Guillaume Sanchez");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 6, "Web port");
+		fnt_rpg.printC(backSurface, xcred, y1 + ITITLE + ILINE * 7, "Adam Kecskes");
 
-		int y2 = y1 + 4 * ILIGNE + IPARTI + ITITRE;
+		int y2 = y1 + 4 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y2, "MUSIC AND SOUND");
-		fnt_rpg.printC(backSurface, xcred, y2 + ILIGNE, "DESIGN");
-		fnt_rpg.printC(backSurface, xcred, y2 + ITITRE + ILIGNE, "Gerard Kelly");
+		fnt_rpg.printC(backSurface, xcred, y2 + ILINE, "DESIGN");
+		fnt_rpg.printC(backSurface, xcred, y2 + ITITLE + ILINE, "Gerard Kelly");
 
-		int y3 = y2 + 2 * ILIGNE + IPARTI + ITITRE;
+		int y3 = y2 + 2 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y3, "ADDITIONAL MUSIC");
-		fnt_rpg.printC(backSurface, xcred, y3 + ITITRE + 0 * ILIGNE, "El Mobo");
-		fnt_rpg.printC(backSurface, xcred, y3 + ITITRE + 1 * ILIGNE, "Rik Ede");
+		fnt_rpg.printC(backSurface, xcred, y3 + ITITLE + 0 * ILINE, "El Mobo");
+		fnt_rpg.printC(backSurface, xcred, y3 + ITITLE + 1 * ILINE, "Rik Ede");
 
-		int y4 = y3 + 2 * ILIGNE + IPARTI + ITITRE;
+		int y4 = y3 + 2 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y4, "ARTWORK");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITRE + ILIGNE * 0, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITRE + ILIGNE * 1, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITRE + ILIGNE * 2, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITRE + ILIGNE * 3, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y4 + ITITRE + ILIGNE * 4, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 0, "Laurent Schneider");
+		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 1, "Jérémie Comarmond");
+		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 2, "Jérôme Karaban");
+		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 3, "Didier Colin");
+		fnt_rpg.printC(backSurface, xcred, y4 + ITITLE + ILINE * 4, "Sylvain Bugat");
 
-		int y5 = y4 + 5 * ILIGNE + IPARTI + ITITRE;
+		int y5 = y4 + 5 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y5, "ADDITIONAL SOUND");
-		fnt_rpg.printC(backSurface, xcred, y5 + ILIGNE, "AND VOCAL EFFECTS");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITRE + 1 * ILIGNE, "Eric Khodja");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITRE + 2 * ILIGNE, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITRE + 3 * ILIGNE, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + ITITRE + 4 * ILIGNE, "Vincent Lagarrigue");
+		fnt_rpg.printC(backSurface, xcred, y5 + ILINE, "AND VOCAL EFFECTS");
+		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 1 * ILINE, "Eric Khodja");
+		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 2 * ILINE, "Jérôme Karaban");
+		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 3 * ILINE, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y5 + ITITLE + 4 * ILINE, "Vincent Lagarrigue");
 
-		int y6 = y5 + 5 * ILIGNE + IPARTI + ITITRE;
+		int y6 = y5 + 5 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y6, "STORYLINE");
-		fnt_rpg.printC(backSurface, xcred, y6 + ITITRE + 0 * ILIGNE, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y6 + ITITRE + 1 * ILIGNE, "Eric Khodja");
+		fnt_rpg.printC(backSurface, xcred, y6 + ITITLE + 0 * ILINE, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y6 + ITITLE + 1 * ILINE, "Eric Khodja");
 
-		int y7 = y6 + 2 * ILIGNE + IPARTI + ITITRE;
+		int y7 = y6 + 2 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y7, "ORIGINAL CONCEPT");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITRE + 0 * ILIGNE, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITRE + 1 * ILIGNE, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITRE + 2 * ILIGNE, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITRE + 3 * ILIGNE, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y7 + ITITRE + 4 * ILIGNE, "Benjamin Karaban");
+		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 0 * ILINE, "Laurent Schneider");
+		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 1 * ILINE, "Jérémie Comarmond");
+		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 2 * ILINE, "Didier Colin");
+		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 3 * ILINE, "Sylvain Bugat");
+		fnt_rpg.printC(backSurface, xcred, y7 + ITITLE + 4 * ILINE, "Benjamin Karaban");
 
-		int y8 = y7 + 5 * ILIGNE + IPARTI + ITITRE;
+		int y8 = y7 + 5 * ILINE + ISECTION + ITITLE;
 
 		fnt_rpg.printC(backSurface, xcred, y8, "BETA TEST");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITRE + 0 * ILIGNE, "Jérémie Khodja");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITRE + 1 * ILIGNE, "Julien Areas");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITRE + 2 * ILIGNE, "Carlos Sédille");
-		fnt_rpg.printC(backSurface, xcred, y8 + ITITRE + 3 * ILIGNE, "Juliette Karaban");
+		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 0 * ILINE, "Jérémie Khodja");
+		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 1 * ILINE, "Julien Areas");
+		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 2 * ILINE, "Carlos Sédille");
+		fnt_rpg.printC(backSurface, xcred, y8 + ITITLE + 3 * ILINE, "Juliette Karaban");
 
-		int y9 = y8 + 4 * ILIGNE + IPARTI + ITITRE;
+		int y9 = y8 + 4 * ILINE + ISECTION + ITITLE;
 		int y10 = y9;
 		int y11 = y10;
 
 		if (theEnd) {
 			fnt_rpg.printC(backSurface, xcred, y9, "THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 0 * ILIGNE, "Arnaud Dubois");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 1 * ILIGNE, "Carole Schmitt");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 2 * ILIGNE, "Aasterion staff");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 3 * ILIGNE, "Aurore Anger");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 4 * ILIGNE, "Cécile Baudoncourt");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 5 * ILIGNE, "Nicolas Clément");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 6 * ILIGNE, "Nathalie Morin");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 7 * ILIGNE, "Florent and Thomas");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 8 * ILIGNE, "Bruno Singer");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 9 * ILIGNE, "Francois Deschamps");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 10 * ILIGNE, "Colin Auger");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 11 * ILIGNE, "TP122 students");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 12 * ILIGNE, "Jeff");
-			fnt_rpg.printC(backSurface, xcred, y9 + ITITRE + 13 * ILIGNE, "Flavy");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 0 * ILINE, "Arnaud Dubois");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 1 * ILINE, "Carole Schmitt");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 2 * ILINE, "Aasterion staff");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 3 * ILINE, "Aurore Anger");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 4 * ILINE, "Cécile Baudoncourt");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 5 * ILINE, "Nicolas Clément");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 6 * ILINE, "Nathalie Morin");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 7 * ILINE, "Florent and Thomas");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 8 * ILINE, "Bruno Singer");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 9 * ILINE, "Francois Deschamps");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 10 * ILINE, "Colin Auger");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 11 * ILINE, "TP122 students");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 12 * ILINE, "Jeff");
+			fnt_rpg.printC(backSurface, xcred, y9 + ITITLE + 13 * ILINE, "Flavy");
 
-			y10 = y9 + 14 * ILIGNE + IPARTI + ITITRE;
+			y10 = y9 + 14 * ILINE + ISECTION + ITITLE;
 
 			fnt_rpg.printC(backSurface, xcred, y10, "SPECIAL THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 0 * ILIGNE, "La Guinguette Pirate");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 1 * ILIGNE, "TiPunch power!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 0 * ILINE, "La Guinguette Pirate");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 1 * ILINE, "TiPunch power!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 3 * ILIGNE, "La Pirogue");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 4 * ILIGNE, "I love you Séverine!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 3 * ILINE, "La Pirogue");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 4 * ILINE, "I love you Séverine!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 6 * ILIGNE, "Le Montbauron");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 7 * ILIGNE, "mind the 8 ball!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 6 * ILINE, "Le Montbauron");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 7 * ILINE, "mind the 8 ball!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 9 * ILIGNE, "La Fleche d'Or");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 10 * ILIGNE, "avoid the toilets!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 9 * ILINE, "La Fleche d'Or");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 10 * ILINE, "avoid the toilets!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 12 * ILIGNE, "Hippochine Restaurant");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 13 * ILIGNE, "great music!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 12 * ILINE, "Hippochine Restaurant");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 13 * ILINE, "great music!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 15 * ILIGNE, "Vitigno Pizzeria");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 16 * ILIGNE, "pizza! good!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 15 * ILINE, "Vitigno Pizzeria");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 16 * ILINE, "pizza! good!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 18 * ILIGNE, "Max Linder Theatre");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 19 * ILIGNE, "THX rules!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 18 * ILINE, "Max Linder Theatre");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 19 * ILINE, "THX rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 21 * ILIGNE, "UNEF");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 22 * ILIGNE, "cheap beer 4 all!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 21 * ILINE, "UNEF");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 22 * ILINE, "cheap beer 4 all!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 24 * ILIGNE, "Hayao Myazaki");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 25 * ILIGNE, "Totoro! To-to-ro!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 24 * ILINE, "Hayao Myazaki");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 25 * ILINE, "Totoro! To-to-ro!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 27 * ILIGNE, "Kevin Smith");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 28 * ILIGNE, "thirty seven?");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 27 * ILINE, "Kevin Smith");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 28 * ILINE, "thirty seven?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 30 * ILIGNE, "Peter Jackson");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 31 * ILIGNE, "Bad Taste rules!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 30 * ILINE, "Peter Jackson");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 31 * ILINE, "Bad Taste rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 33 * ILIGNE, "Monty Python");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 34 * ILIGNE, "behind the rabbit?");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 33 * ILINE, "Monty Python");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 34 * ILINE, "behind the rabbit?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 36 * ILIGNE, "John Boorman");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 37 * ILIGNE, "Zardoz has spoken!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 36 * ILINE, "John Boorman");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 37 * ILINE, "Zardoz has spoken!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 39 * ILIGNE, "Luc Besson");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 40 * ILIGNE, "nah... just kidding!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 39 * ILINE, "Luc Besson");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 40 * ILINE, "nah... just kidding!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 42 * ILIGNE, "Christopher Lambert");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 43 * ILIGNE, "watch your back!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 42 * ILINE, "Christopher Lambert");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 43 * ILINE, "watch your back!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 45 * ILIGNE, "Jeremy Irons");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 46 * ILIGNE, "lord Profion!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 45 * ILINE, "Jeremy Irons");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 46 * ILINE, "lord Profion!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 48 * ILIGNE, "Wayne Scott");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 49 * ILIGNE, "Rambo! Rambo!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 48 * ILINE, "Wayne Scott");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 49 * ILINE, "Rambo! Rambo!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 51 * ILIGNE, "Les Joyeux Urbains");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 52 * ILIGNE, "va chez ta mère!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 51 * ILINE, "Les Joyeux Urbains");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 52 * ILINE, "va chez ta mère!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 54 * ILIGNE, "Toss");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 55 * ILIGNE, "da! da! da!");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 54 * ILINE, "Toss");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 55 * ILINE, "da! da! da!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 57 * ILIGNE, "Le cassoulet");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 58 * ILIGNE, "best served at 4 AM");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 57 * ILINE, "Le cassoulet");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 58 * ILINE, "best served at 4 AM");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 60 * ILIGNE, "Gamedev.net");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 61 * ILIGNE, "DirectX vs hamsters");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 60 * ILINE, "Gamedev.net");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 61 * ILINE, "DirectX vs hamsters");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 64 * ILIGNE, "THANK");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 65 * ILIGNE, "YOU");
-			fnt_rpg.printC(backSurface, xcred, y10 + ITITRE + 66 * ILIGNE, "FOR PLAYING");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 64 * ILINE, "THANK");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 65 * ILINE, "YOU");
+			fnt_rpg.printC(backSurface, xcred, y10 + ITITLE + 66 * ILINE, "FOR PLAYING");
 
-			y11 = y10 + 72 * ILIGNE + IPARTI + ITITRE;
+			y11 = y10 + 72 * ILINE + ISECTION + ITITLE;
 		}
 
 		fnt_rpg.printC(backSurface, xcred, y11, "LOADED Studio");
-		fnt_rpg.printC(backSurface, xcred, y11 + ILIGNE, "May 2002");
+		fnt_rpg.printC(backSurface, xcred, y11 + ILINE, "May 2002");
 
-		last_y = y11 + 2 * ILIGNE;
+		last_y = y11 + 2 * ILINE;
 
 		if (t.elapsed() >= 12500 && theEnd) {
 			npage++;

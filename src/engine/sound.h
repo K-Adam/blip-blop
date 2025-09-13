@@ -9,14 +9,14 @@ class Sound {
 	FSOUND_SAMPLE* sample;
 
 	int channel;
-	int cpt_loop;
+	int loop_count;
 
    public:
 	Sound();
 	~Sound();
 
-	bool load(const char* fic);
-	bool loadFromMem(void* ptr, int taille);
+	bool load(const char* file_path);
+	bool loadFromMem(void* ptr, int length);
 	void play(int flags = 0);
 	void setVolume(int v);
 	void stop();

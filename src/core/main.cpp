@@ -54,7 +54,7 @@ void Bug(const char* txt) { std::cerr << "Bug: " << txt << "\n"; }
 void Warning(const char* txt) { std::cerr << "Warning: " << txt << "\n"; }
 #endif
 
-static void analyseCmdLine(int argc, char** argv) {
+static void parseCmdLine(int argc, char** argv) {
 	for (int i = 1; i < argc; i++) {
 		std::string_view arg = argv[i];
 		if (arg == "/safe") safeMode = true;
@@ -216,7 +216,7 @@ void cleanup() {
 int main(int argc, char** argv) {
 	int nCmdShow = 0;
 
-	analyseCmdLine(argc, argv);
+	parseCmdLine(argc, argv);
 
 	try {
 		if (!InitApp(nCmdShow)) return -1;

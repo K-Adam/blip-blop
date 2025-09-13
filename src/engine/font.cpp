@@ -11,8 +11,8 @@
 
 using json = nlohmann::json;
 
-bool Font::load(const char* fic) {
-	auto font_path = asset_path_prefix("lft", fic);
+bool Font::load(const char* file_path) {
+	auto font_path = asset_path_prefix("lft", file_path);
 	std::ifstream input(font_path + ".json");
 	if (!input.good()) {
 		debug << "Font::load->Ne peut pas ouvrir " << font_path + ".json"
@@ -91,7 +91,7 @@ void Font::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym
 
 void Font::printR(SDL::Surface* surf, int x, int y, std::string_view txt) { print(surf, x - width(txt), y, txt); }
 
-void Font::printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt) { print(surf, xtaille - (width(txt) >> 1), y, txt); }
+void Font::printC(SDL::Surface* surf, int xcenter, int y, std::string_view txt) { print(surf, xcenter - (width(txt) >> 1), y, txt); }
 
 void Font::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
 	int curx = x;

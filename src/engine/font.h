@@ -21,7 +21,7 @@ class Font {
 
 	void printR(SDL::Surface* surf, int x, int y, std::string_view txt);
 
-	void printC(SDL::Surface* surf, int xtaille, int y, std::string_view txt);
+	void printC(SDL::Surface* surf, int xcenter, int y, std::string_view txt);
 
 	void printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym);
 

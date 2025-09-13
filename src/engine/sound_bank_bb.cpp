@@ -25,11 +25,11 @@ void SoundBankBB::stop(int n) {
 	tab_[n]->stop();
 }
 
-bool SoundBankBB::loadSFX(const char* nom_fic) {
+bool SoundBankBB::loadSFX(const char* file_name) {
 	if (!sound_on) {
-		filename_ = nom_fic;
+		filename_ = file_name;
 		return true;
 	}
 
-	return SoundBank::loadSFX(nom_fic);
+	return SoundBank::loadSFX(file_name);
 }

@@ -17,8 +17,8 @@
 #include "level/weather_snow.h"
 #include "level/weather_rain.h"
 
-#define NB_GOUTTES 500
-#define NB_FLOCONS 500
+#define NB_RAINDROPS 500
+#define NB_SNOWFLAKES 500
 
 #define MAX_PART 50
 
@@ -46,19 +46,19 @@ class Game {
 	bool briefing;
 
 	int nb_part;
-	std::string fic_names[MAX_PART];
+	std::string file_names[MAX_PART];
 	int type_part[MAX_PART];
 	int type_lvl[MAX_PART];
 
-	bool joueurs_morts;
-	bool niveau_fini;
-	bool niveau_bonus;
+	bool players_dead;
+	bool level_done;
+	bool bonus_level;
 	bool skipped;
 	bool last_perfect1;
 	bool last_perfect2;
 
 	int nframe;
-	int etape_timer;
+	int timer_tick;
 
 	// Victory needs offset >= vic_x, game_flag[vic_flag1] == vic_val1 and game_flag[vic_flag2] == vic_val2
 	int vic_x;
@@ -89,20 +89,20 @@ class Game {
 
 	int phi_deform;
 
-	WeatherSnow neige[NB_FLOCONS];
-	int next_flocon;
+	WeatherSnow snow[NB_SNOWFLAKES];
+	int next_snowflake;
 
-	WeatherRain pluie[NB_GOUTTES];
-	int next_goutte;
+	WeatherRain rain[NB_RAINDROPS];
+	int next_raindrop;
 
 	int fps_count = 0;
 	int fps_current_count = 0;
 	bool slow_phase = false;
 	std::list<std::unique_ptr<Explosion>> list_impacts;
-	std::list<std::unique_ptr<Event>> list_event_endormis;
+	std::list<std::unique_ptr<Event>> list_event_dormant;
 	std::list<std::unique_ptr<Event>> list_event;
-	std::list<Sprite*> list_meteo;
-	std::list<std::unique_ptr<Bubble>> list_bulles;
+	std::list<Sprite*> list_weather;
+	std::list<std::unique_ptr<Bubble>> list_bubbles;
 
    public:
 	Game();
@@ -111,13 +111,13 @@ class Game {
 	// Controls of the players who joined, the balls point at them during a game
 	SchemeController controllers_[2];
 
-	Task<> jouePartie(int nbj, int idj);
+	Task<> playGame(int player_count, int player_idx);
 
-	Task<bool> joueNiveau(const char* nom_niveau, int type);
+	Task<bool> playLevel(const char* level_name, int type);
 
-	bool chargeNiveau(const char* nom_niveau);
+	bool loadLevel(const char* level_name);
 
-	void releaseNiveau();
+	void releaseLevel();
 
 	void updateAll();
 
@@ -125,24 +125,24 @@ class Game {
 
 	Task<> gameLoop();
 
-	void releasePartie();
+	void releaseGame();
 
-	bool chargePartie();
-	bool loadList(const char* fic);
+	bool loadGame();
+	bool loadList(const char* file_path);
 
-	void creeBulle(Sprite* s);
+	void spawnBubble(Sprite* s);
 
 	template <class T>
 	void UpdateCollection(const T& xs);
-	void updateFlecheGo();
-	void updateMeteo();
+	void updateGoArrow();
+	void updateWeather();
 	void updateEvents();
 	void updateDeformation();
-	void updateBulles();
+	void updateBubbles();
 
 	void updateLock();
 	void updateHoldFire();
-	void updateTeteTurc();
+	void updateTargetedPlayer();
 	Task<> updateRPG();
 	void updateFlags();
 	void updateVictoryAndDefeat();
@@ -156,7 +156,7 @@ class Game {
 	template <class T>
 	void DrawCollection(const T& xs);
 	void drawHUB();
-	void drawHUBpv(int x, int y, int hp);
+	void drawHUBhp(int x, int y, int hp);
 	void drawTimer();
 
 	void drawDebugInfos();
@@ -164,7 +164,7 @@ class Game {
 	void drawDeformation();
 
 	void cleanLists();
-	Task<> showPE(bool bonus, bool fuckOff = false);
+	Task<> showPE(bool bonus, bool failed = false);
 	void drawLoading();
 	Task<> getHiscore();
 	Task<> getName(Player* hero, int i);
