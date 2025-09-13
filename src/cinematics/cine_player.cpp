@@ -22,7 +22,7 @@ void CINEPlayer::initPlayer() {
 		obj[i].y_warp = false;
 	}
 
-	num_ligne = 0;
+	line_num = 0;
 	frame_to_draw = 0;
 	finished = false;
 	clip_x1 = 0;
@@ -51,7 +51,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 	json data = json::parse(input);
 
 	// The parser reads the old text format, so the JSON script is rebuilt as that text
-	fic_ = std::stringstream{};
+	file_ = std::stringstream{};
 
 	auto blocks = data["blocks"];
 	for (auto block_it = blocks.begin(); block_it != blocks.end(); ++block_it) {
@@ -59,11 +59,11 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 
 		std::string name = block["name"];
 
-		fic_ << ";"
-			 << "\n";
-		fic_ << "; " << name << "\n";
-		fic_ << ";"
-			 << "\n";
+		file_ << ";"
+			  << "\n";
+		file_ << "; " << name << "\n";
+		file_ << ";"
+			  << "\n";
 
 		auto items = block["items"];
 		for (auto item_it = items.begin(); item_it != items.end(); ++item_it) {
@@ -82,10 +82,10 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 				param_stream << " " << param;
 			}
 
-			fic_ << name << "(" << param_stream.str() << ")";
+			file_ << name << "(" << param_stream.str() << ")";
 
 			if ((block_it + 1) != blocks.end() || (item_it + 1) != items.end()) {
-				fic_ << "\n";
+				file_ << "\n";
 			}
 		}
 	}
@@ -232,7 +232,7 @@ void CINEPlayer::updateState() {
 			if (n < 0 || n >= NB_OBJ)
 				error("numéro d'objet invalide");
 			else {
-				obj[n].id = OBJ_TEXTE;
+				obj[n].id = OBJ_TEXT;
 				obj[n].txt = int_arg[1];
 				obj[n].show = true;
 			}
@@ -380,7 +380,7 @@ void CINEPlayer::drawScene() {
 	back_surf->FillRect(&r, 0);
 
 	for (int i = 0; i < NB_OBJ; i++) {
-		if (obj[i].show && obj[i].id == OBJ_TEXTE) drawText(i);
+		if (obj[i].show && obj[i].id == OBJ_TEXT) drawText(i);
 	}
 
 	graphics.Flip();
@@ -399,11 +399,11 @@ bool CINEPlayer::getCommand() {
 
 	do {
 		// A script without endscene would otherwise spin forever on EOF
-		if (!std::getline(fic_, line)) {
+		if (!std::getline(file_, line)) {
 			finished = true;
 			return false;
 		}
-		num_ligne += 1;
+		line_num += 1;
 	} while (line.empty() || line[0] == ';');
 
 	std::string clean;
@@ -435,16 +435,16 @@ bool CINEPlayer::getCommand() {
 
 void CINEPlayer::loadPBK(const char* f) { pbk.loadGFX(f); }
 
-void CINEPlayer::closePlayer() { fic_ = std::stringstream{}; }
+void CINEPlayer::closePlayer() { file_ = std::stringstream{}; }
 
 bool CINEPlayer::error() {
-	debug << "CINEPlayer -> Syntax error line " << num_ligne << "\n";
+	debug << "CINEPlayer -> Syntax error line " << line_num << "\n";
 	finished = true;
 	return false;
 }
 
 bool CINEPlayer::error(const char* er) {
-	debug << "CINEPlayer -> Error line  " << num_ligne << " : " << er << "\n";
+	debug << "CINEPlayer -> Error line  " << line_num << " : " << er << "\n";
 	finished = true;
 	return false;
 }

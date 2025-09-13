@@ -23,10 +23,10 @@ RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false) {
 	ntxt[1] = 0;
 }
 
-void RPGPlayer::attachFile(const char* f) { fic_name_ = f; }
+void RPGPlayer::attachFile(const char* f) { file_name_ = f; }
 
 bool RPGPlayer::startPlay(int n) {
-	auto dir = asset_path_prefix("rpg", fic_name_.c_str());
+	auto dir = asset_path_prefix("rpg", file_name_.c_str());
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
 		debug << "RPGPlayer::startPlay() -> Cannot open " << dir + ".json"
@@ -37,7 +37,7 @@ bool RPGPlayer::startPlay(int n) {
 	json data = json::parse(input);
 
 	// The parser reads the old text format, so the JSON script is rebuilt as that text
-	fic_ = std::stringstream{};
+	file_ = std::stringstream{};
 
 	auto blocks = data["blocks"];
 	for (auto block_it = blocks.begin(); block_it != blocks.end(); ++block_it) {
@@ -45,17 +45,17 @@ bool RPGPlayer::startPlay(int n) {
 
 		std::string name = block["name"];
 
-		fic_ << ";"
-			 << "\n";
+		file_ << ";"
+			  << "\n";
 
 		if (block.find("flagged") != block.end() && block["flagged"]) {
-			fic_ << ". " << name << "\n";
+			file_ << ". " << name << "\n";
 		} else {
-			fic_ << "; " << name << "\n";
+			file_ << "; " << name << "\n";
 		}
 
-		fic_ << ";"
-			 << "\n";
+		file_ << ";"
+			  << "\n";
 
 		auto items = block["items"];
 		for (auto item : items) {
@@ -63,25 +63,25 @@ bool RPGPlayer::startPlay(int n) {
 
 			if (item.size() == 2) {
 				std::string value = remove_quotes(item[1].dump());
-				fic_ << key << "=" << value << "\n";
+				file_ << key << "=" << value << "\n";
 			} else {
-				fic_ << key << "\n";
+				file_ << key << "\n";
 			}
 		}
 
-		fic_ << "stop";
+		file_ << "stop";
 
 		if ((block_it + 1) != blocks.end()) {
-			fic_ << "\n";
+			file_ << "\n";
 		}
 	}
 
 	buffer1_ = "rpg=" + std::to_string(n);
-	std::getline(fic_, buffer2_);
+	std::getline(file_, buffer2_);
 
-	while (!fic_.eof() && buffer1_ != buffer2_) std::getline(fic_, buffer2_);
+	while (!file_.eof() && buffer1_ != buffer2_) std::getline(file_, buffer2_);
 
-	if (fic_.eof()) {
+	if (file_.eof()) {
 		debug << "RPGPlayer::startPlay() -> Ne trouve pas la scene " << n << "\n";
 		return false;
 	}
@@ -91,20 +91,20 @@ bool RPGPlayer::startPlay(int n) {
 	ntxt[0] = -1;
 	ntxt[1] = -1;
 
-	nbjoueurs = list_players.size();
+	nb_players = list_players.size();
 	key_released = false;
 	skiped = false;
 	focus = 0;
-	cur_joueur = 0;
+	cur_player = 0;
 	wait_.Reset(0);
 
 	int i = 0;
 
 	for (Ball* c : list_players) {
 		if (c->id_ball == ID_BLIP)
-			base_joueur[i] = 0;
+			player_pic_base[i] = 0;
 		else
-			base_joueur[i] = 6;
+			player_pic_base[i] = 6;
 
 		i += 1;
 	}
@@ -112,7 +112,7 @@ bool RPGPlayer::startPlay(int n) {
 	return true;
 }
 
-void RPGPlayer::stopPlay() { fic_ = std::stringstream{}; }
+void RPGPlayer::stopPlay() { file_ = std::stringstream{}; }
 
 bool RPGPlayer::drawScene(SDL::Surface* surf) {
 	bool not_finished = true;
@@ -179,15 +179,15 @@ bool RPGPlayer::updateScene() {
 	while (!ready_to_draw && read() && buffer1_ != "stop") {
 		if (buffer1_ == "endif") {
 		} else if (buffer1_ == "bbswap") {
-			cur_joueur += 1;
-			cur_joueur %= nbjoueurs;
+			cur_player += 1;
+			cur_player %= nb_players;
 		} else {
 			size_t pos = buffer1_.find('=');
 			buffer2_ = buffer1_.substr(pos + 1);
 			buffer1_ = buffer1_.substr(0, pos);
 
 			if (buffer1_ == "ifnbj") {
-				if (nbjoueurs != std::stoi(buffer2_)) {
+				if (nb_players != std::stoi(buffer2_)) {
 					while (read() && buffer1_ != "endif")
 						;
 				}
@@ -201,15 +201,15 @@ bool RPGPlayer::updateScene() {
 			} else if (buffer1_ == "id") {
 				if (buffer2_ == "joueur") {
 					pic_tab[focus] = &pbk_rpg_bb;
-					id[focus] = ID_JOUEUR;
+					id[focus] = ID_PLAYER;
 				} else if (buffer2_ == "ennemi") {
 					pic_tab[focus] = &pbk_rpg;
-					id[focus] = ID_ENNEMI;
+					id[focus] = ID_ENEMY;
 				} else
 					error(buffer2_);
 			} else if (buffer1_ == "img") {
-				if (id[focus] == ID_JOUEUR)
-					nimage[focus] = std::stoi(buffer2_) + base_joueur[cur_joueur];
+				if (id[focus] == ID_PLAYER)
+					nimage[focus] = std::stoi(buffer2_) + player_pic_base[cur_player];
 				else
 					nimage[focus] = std::stoi(buffer2_);
 			} else if (buffer1_ == "txt") {
@@ -234,11 +234,11 @@ bool RPGPlayer::updateScene() {
 }
 
 bool RPGPlayer::read() {
-	std::getline(fic_, buffer1_);
+	std::getline(file_, buffer1_);
 
-	while (!fic_.eof() && buffer1_[0] == ';') std::getline(fic_, buffer1_);
+	while (!file_.eof() && buffer1_[0] == ';') std::getline(file_, buffer1_);
 
-	return !fic_.eof();
+	return !file_.eof();
 }
 
 void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n"; }

@@ -1,12 +1,12 @@
 #pragma once
 
-#define APPAR_BLIP 0
-#define FINI_BLIP 1
-#define APPAR_BLOP 2
-#define FINI_BLOP 3
+#define APPEAR_BLIP 0
+#define DONE_BLIP 1
+#define APPEAR_BLOP 2
+#define DONE_BLOP 3
 
 class CharacterSelection {
-	int et_phase_;
+	int phase_tick_;
 	int phase_;
 	int x_back1_;
 	int x_back2_;

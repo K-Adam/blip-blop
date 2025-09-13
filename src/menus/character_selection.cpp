@@ -7,23 +7,23 @@
 #include "engine/input.h"
 
 CharacterSelection::CharacterSelection()
-	: et_phase_(0),
+	: phase_tick_(0),
 	  phase_(0),
 	  x_back1_(0),
 	  x_back2_(640),
 	  y_select_(-50),
 	  x_name_(1040),
 	  y_name_(255),
-	  step_(APPAR_BLIP),
+	  step_(APPEAR_BLIP),
 	  pic_select_((lang_type == LANG_UK) ? 10 : 11),
 	  x_charac_(-300),
 	  y_charac_(255) {}
 
 CharacterSelection::Output CharacterSelection::update() {
-	et_phase_ += 1;
-	et_phase_ %= 10;
+	phase_tick_ += 1;
+	phase_tick_ %= 10;
 
-	if (et_phase_ == 0) {
+	if (phase_tick_ == 0) {
 		phase_ = !phase_;
 	}
 
@@ -41,11 +41,11 @@ CharacterSelection::Output CharacterSelection::update() {
 		y_select_ += 10;
 	}
 
-	if (step_ == APPAR_BLIP) {
+	if (step_ == APPEAR_BLIP) {
 		if (x_charac_ < 240) {
 			x_charac_ += 20;
 		} else if (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedAlias(SCHEME_MOUSE + ACTION_RIGHT)) {
-			step_ = FINI_BLIP;
+			step_ = DONE_BLIP;
 		}
 
 		if (x_name_ > 500) {
@@ -56,7 +56,7 @@ CharacterSelection::Output CharacterSelection::update() {
 			(in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
 			return Output::Blip;
 		}
-	} else if (step_ == FINI_BLIP) {
+	} else if (step_ == DONE_BLIP) {
 		if (x_charac_ > -300) {
 			x_charac_ -= 20;
 		}
@@ -66,16 +66,16 @@ CharacterSelection::Output CharacterSelection::update() {
 		}
 
 		if (x_charac_ <= -300) {
-			step_ = APPAR_BLOP;
+			step_ = APPEAR_BLOP;
 			x_charac_ = 930;
 			x_name_ = -500;
 			y_charac_ = 320;
 		}
-	} else if (step_ == APPAR_BLOP) {
+	} else if (step_ == APPEAR_BLOP) {
 		if (x_charac_ > 310) {
 			x_charac_ -= 20;
 		} else if (in.pressedKey(DIK_LEFT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT) || in.pressedAlias(SCHEME_MOUSE + ACTION_LEFT)) {
-			step_ = FINI_BLOP;
+			step_ = DONE_BLOP;
 		}
 
 		if (x_name_ < 120) {
@@ -96,7 +96,7 @@ CharacterSelection::Output CharacterSelection::update() {
 		}
 
 		if (x_charac_ >= 930) {
-			step_ = APPAR_BLIP;
+			step_ = APPEAR_BLIP;
 			x_charac_ = -300;
 			x_name_ = 1040;
 			y_charac_ = 255;
@@ -112,17 +112,17 @@ void CharacterSelection::draw() {
 
 	pbk_inter[pic_select_]->BlitTo(backSurface, 320, y_select_);
 
-	if (step_ == APPAR_BLIP) {
+	if (step_ == APPEAR_BLIP) {
 		if (phase_) {
 			pbk_inter[4]->BlitTo(backSurface, 620, 257);
 		}
 
 		pbk_inter[2]->BlitTo(backSurface, x_charac_, y_charac_);
 		pbk_inter[8]->BlitTo(backSurface, x_name_, y_name_);
-	} else if (step_ == FINI_BLIP) {
+	} else if (step_ == DONE_BLIP) {
 		pbk_inter[2]->BlitTo(backSurface, x_charac_, y_charac_);
 		pbk_inter[8]->BlitTo(backSurface, x_name_, y_name_);
-	} else if (step_ == APPAR_BLOP) {
+	} else if (step_ == APPEAR_BLOP) {
 		if (phase_) {
 			pbk_inter[5]->BlitTo(backSurface, 20, 254);
 		}

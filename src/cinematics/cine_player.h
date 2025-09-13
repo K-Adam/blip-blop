@@ -11,7 +11,7 @@
 
 #define OBJ_SPRITE 0
 #define OBJ_SCROLL 1
-#define OBJ_TEXTE 2
+#define OBJ_TEXT 2
 
 #define NB_OBJ 20
 #define NB_ARG 20
@@ -52,7 +52,7 @@ class CINEPlayer {
 
 	SDL::Surface* back_surf;
 
-	std::stringstream fic_;
+	std::stringstream file_;
 
 	PictureBank pbk;
 	MusicBank mbk;
@@ -64,7 +64,7 @@ class CINEPlayer {
 	int int_arg[NB_ARG];
 	std::string str_arg[NB_ARG];
 
-	int num_ligne;
+	int line_num;
 	bool finished;
 	int frame_to_draw;
 

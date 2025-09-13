@@ -7,13 +7,13 @@
 #include "engine/picture_bank.h"
 #include "engine/chrono.h"
 
-#define ID_JOUEUR 0
-#define ID_ENNEMI 1
+#define ID_PLAYER 0
+#define ID_ENEMY 1
 
 class RPGPlayer {
    public:
-	std::stringstream fic_;
-	std::string fic_name_;
+	std::stringstream file_;
+	std::string file_name_;
 	std::string buffer1_;
 	std::string buffer2_;
 
@@ -28,9 +28,9 @@ class RPGPlayer {
 	bool key_released;
 	bool skiped;
 
-	size_t nbjoueurs;
-	int cur_joueur;		 // Player the dialog currently refers to (0 or 1)
-	int base_joueur[2];	 // First image of the player, which depends on Blip or Blop
+	size_t nb_players;
+	int cur_player;			 // Player the dialog currently refers to (0 or 1)
+	int player_pic_base[2];	 // First image of the player, which depends on Blip or Blop
 
 	RPGPlayer();
 
