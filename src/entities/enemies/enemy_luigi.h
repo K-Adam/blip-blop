@@ -3,37 +3,37 @@
 #include "entities/enemies/enemy.h"
 
 #define LUIGI_SPEED 6
-#define LATENCE_LUIGI_GRAVITE 12
-#define EXPLOSE_DELAY 180
-#define NOMBRE_GICLURES 90
+#define LUIGI_GRAVITY_DELAY 12
+#define EXPLODE_DELAY 180
+#define SPLATTER_COUNT 90
 
-#define MULTIPLICATEUR_RECUL_SOL 20
-#define MULTIPLACATEUR_VITESSE_AU_SOL 100
-#define MULTIPLICATEUR_RECUL_AERIEN 15
-#define MULTIPLICATEUR_VITESSE_AERIEN 80
+#define GROUND_RECOIL_DIVISOR 20
+#define GROUND_SPEED_DIVISOR 100
+#define AIR_RECOIL_DIVISOR 15
+#define AIR_SPEED_DIVISOR 80
 
 class EnemyLuigi : public Enemy {
    private:
 	int speed;
-	int etape_speed;  // Acceleration delay
+	int speed_tick;	 // Acceleration delay
 
 	int attack_delay;
 	int wait_for_attack;
 	int attack_step;
 	int attack_type;
-	int ss_etape_attack;
-	int etape_attack;
-	int nb_tir;
-	int encaissement;
+	int attack_frame_tick;
+	int attack_frame;
+	int nb_shots;
+	int knockback;
 
    public:
 	EnemyLuigi();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onAttack();
-	virtual void onCarbonise();
-	virtual void tombe_luigi();
+	virtual void onCharred();
+	virtual void fall_luigi();
 	void takeHit(Shot* shot) override;
 };

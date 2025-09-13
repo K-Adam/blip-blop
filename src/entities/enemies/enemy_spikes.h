@@ -4,7 +4,7 @@
 
 class EnemySpikes : public Enemy {
    private:
-	int y_origine;
+	int y_origin;
 
    public:
 	EnemySpikes();

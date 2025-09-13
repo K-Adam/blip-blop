@@ -2,13 +2,13 @@
 
 #include "entities/shots/shot.h"
 
-#define DEBOUCHE_CHIOTE_SPEED 10
+#define PLUNGER_SPEED 10
 
 class ShotPlunger : public Shot {
    public:
 	int dx;
 
-	ShotPlunger(int n_pbk_ennemis, int vx, int vy);
+	ShotPlunger(int n_pbk_enemies, int vx, int vy);
 
 	int damage() const override { return 1; };
 

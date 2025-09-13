@@ -15,10 +15,10 @@ class GoreFeetBisouZombie : public Sprite {
 		}
 
 		if (dir == FACING_RIGHT) {
-			marche(-1);
+			walk(-1);
 			pic = pbk_enemies[300 + anim_step];
 		} else {
-			marche(1);
+			walk(1);
 			pic = pbk_enemies[304 + anim_step];
 		}
 

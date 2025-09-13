@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_princess_guard.h"
 #include "entities/enemies/enemy_princess.h"
 
-const int anim_guard_marche_gauche[] = {135, 136, 137, 136};
+const int anim_guard_walk_left[] = {135, 136, 137, 136};
 
-EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princesse, int distance) : princesse(Princesse), distance_couverture(distance) {
+EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : princess(Princess), cover_distance(distance) {
 	hp = 2500;
-	tresor = 100;
+	treasure = 100;
 	dir = FACING_LEFT;
 }
 
@@ -14,37 +14,37 @@ void EnemyPrincessGuard::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyPrincessGuard::onAvance() {
-	if (princesse->destroyed == true) {
+void EnemyPrincessGuard::onWalk() {
+	if (princess->destroyed == true) {
 		destroyed = true;
 	}
 
 	if (game_flag[2]) {
-		status = ETAT_MEURE;
-		onMeure();
+		status = STATE_DYING;
+		onDie();
 		return;
 	}
 	fall();
-	if (princesse != NULL) {
-		if ((x + distance_couverture + GUARD_SPEED) < princesse->x) {
-			marche(GUARD_SPEED);
-			pic = pbk_enemies[animate(anim_guard_marche_gauche, 4, 6)];
-		} else if ((x + distance_couverture - GUARD_SPEED) > princesse->x) {
-			marche(-GUARD_SPEED * 3);
-			pic = pbk_enemies[animate(anim_guard_marche_gauche, 4, 6)];
+	if (princess != NULL) {
+		if ((x + cover_distance + GUARD_SPEED) < princess->x) {
+			walk(GUARD_SPEED);
+			pic = pbk_enemies[animate(anim_guard_walk_left, 4, 6)];
+		} else if ((x + cover_distance - GUARD_SPEED) > princess->x) {
+			walk(-GUARD_SPEED * 3);
+			pic = pbk_enemies[animate(anim_guard_walk_left, 4, 6)];
 		} else {
 			pic = pbk_enemies[135];
 		}
@@ -55,7 +55,7 @@ void EnemyPrincessGuard::onAvance() {
 	colFromPic();
 }
 
-void EnemyPrincessGuard::onMeure() {
+void EnemyPrincessGuard::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -77,9 +77,9 @@ void EnemyPrincessGuard::onMeure() {
 }
 
 void EnemyPrincessGuard::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 }

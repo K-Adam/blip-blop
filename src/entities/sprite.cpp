@@ -7,7 +7,7 @@ Sprite::Sprite()
 	  destroyed(false),
 	  anim_step(0),
 	  anim_tick(0),
-	  lat_grav(0),
+	  grav_tick(0),
 	  x(0),
 	  y(0),
 	  x1(-1000),
@@ -18,10 +18,10 @@ Sprite::Sprite()
 	  wait_bubble(0) {}
 
 void Sprite::fall() {
-	lat_grav += 1;
-	lat_grav %= GRAVITY_DELAY;
+	grav_tick += 1;
+	grav_tick %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
@@ -33,11 +33,11 @@ void Sprite::fall() {
 		y += dy;
 }
 
-void Sprite::tombe2() {
-	lat_grav += 1;
-	lat_grav %= GRAVITY_DELAY;
+void Sprite::fall2() {
+	grav_tick += 1;
+	grav_tick %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
@@ -49,7 +49,7 @@ void Sprite::tombe2() {
 		y += dy;
 }
 
-void Sprite::marche(int ndx) {
+void Sprite::walk(int ndx) {
 	x += ndx;
 
 	int ny = platform_y(x, y);

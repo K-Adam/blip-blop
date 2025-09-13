@@ -1,37 +1,37 @@
 #include "entities/enemies/enemy_bisou_zombie.h"
 #include "entities/gore_feet_bisou_zombie.h"
 
-#define ETAT_CARBONISE_HAUT 102
+#define STATE_CHARRED_TOP 102
 
-#define ETAT_RAMPE 100
-#define ETAT_COUPE 101
+#define STATE_CRAWL 100
+#define STATE_SEVERED 101
 
-static int etape_moan = 199;
+static int moan_timer = 199;
 static int num_moan = 0;
 static bool local_phase;
 
-EnemyBisouZombie::EnemyBisouZombie() : etape2(0) {
+EnemyBisouZombie::EnemyBisouZombie() : anim_step2(0) {
 	hp = 1000;
-	tresor = 10;
+	treasure = 10;
 }
 
 void EnemyBisouZombie::update() {
 	if (blood > 0) blood -= 1;
 
-	if (game_flag[0] == 7 && status != ETAT_CARBONISE && status != ETAT_CARBONISE_HAUT) {
+	if (game_flag[0] == 7 && status != STATE_CHARRED && status != STATE_CHARRED_TOP) {
 		anim_step = anim_tick = 0;
 
-		if (status == ETAT_COUPE)
-			status = ETAT_CARBONISE_HAUT;
+		if (status == STATE_SEVERED)
+			status = STATE_CHARRED_TOP;
 		else
-			status = ETAT_CARBONISE;
+			status = STATE_CHARRED;
 	}
 
 	if (local_phase != phase && game_flag[2] == 0) {
-		etape_moan += 1;
-		etape_moan %= 200;
+		moan_timer += 1;
+		moan_timer %= 200;
 
-		if (etape_moan == 0) {
+		if (moan_timer == 0) {
 			num_moan += 1;
 			num_moan %= 3;
 
@@ -43,39 +43,39 @@ void EnemyBisouZombie::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_COUPE:
-			onCoupe();
+		case STATE_SEVERED:
+			onSevered();
 			break;
 
-		case ETAT_TOMBE:
-			onTombe();
+		case STATE_FALL:
+			onFall();
 			break;
 
-		case ETAT_RAMPE:
-			onRampe();
+		case STATE_CRAWL:
+			onCrawl();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_CARBONISE_HAUT:
-			onCarboniseHaut();
+		case STATE_CHARRED_TOP:
+			onCharredTop();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBisouZombie::onAvance() {
+void EnemyBisouZombie::onWalk() {
 	static const int SPEED = 1;
 
 	fall();
@@ -97,10 +97,10 @@ void EnemyBisouZombie::onAvance() {
 			dir = FACING_LEFT;
 
 		if (dir == FACING_RIGHT) {
-			marche(SPEED);
+			walk(SPEED);
 			pic = pbk_enemies[262 + anim_step];
 		} else {
-			marche(-SPEED);
+			walk(-SPEED);
 			pic = pbk_enemies[270 + anim_step];
 		}
 	}
@@ -109,67 +109,67 @@ void EnemyBisouZombie::onAvance() {
 }
 
 void EnemyBisouZombie::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	static const int dy_giclure2[] = {0, -10, -10, -10, -20, -10, -10, -10};
+	static const int dy_splatter2[] = {0, -10, -10, -10, -20, -10, -10, -10};
 
-	int back_etat = status;
-	int back_etape = anim_step;
-	int back_ss_etape = anim_tick;
+	int saved_status = status;
+	int saved_anim_step = anim_step;
+	int saved_anim_tick = anim_tick;
 
-	int blessure = shot->damage();
+	int dmg = shot->damage();
 
-	if (blessure < hp) {
-		shot->aTouche(blessure);
-		hp -= blessure;
+	if (dmg < hp) {
+		shot->onHit(dmg);
+		hp -= dmg;
 
-		if (hp < 500 && (status == STATE_NORMAL || status == ETAT_AVANCE) && !shot->enflame()) {
+		if (hp < 500 && (status == STATE_NORMAL || status == STATE_WALK) && !shot->enflame()) {
 			anim_step = anim_tick = 0;
 			col_on = false;
-			status = ETAT_COUPE;
+			status = STATE_SEVERED;
 		}
 	} else {
-		shot->aTouche(hp);
-		shot->aTue();
+		shot->onHit(hp);
+		shot->onKill();
 		hp = 0;
 		col_on = false;
 
 		game_flag[FLAG_NB_KILL] += 1;
 
-		if (status == ETAT_RAMPE) {
+		if (status == STATE_CRAWL) {
 			anim_step = 0;
 			anim_tick = 0;
 
 			if (shot->enflame() == 2) {
 				anim_step = anim_tick = 0;
 				col_on = false;
-				status = ETAT_CARBONISE_HAUT;
+				status = STATE_CHARRED_TOP;
 			} else {
 				anim_step = anim_tick = 0;
 				col_on = false;
-				status = ETAT_MEURE;
+				status = STATE_DYING;
 			}
 		} else {
 			if (shot->enflame()) {
 				anim_step = anim_tick = 0;
 				col_on = false;
-				status = ETAT_CARBONISE;
-			} else if (status != ETAT_COUPE) {
+				status = STATE_CHARRED;
+			} else if (status != STATE_SEVERED) {
 				anim_step = anim_tick = 0;
 				col_on = false;
-				status = ETAT_COUPE;
+				status = STATE_SEVERED;
 			}
 		}
 	}
 
-	if (status == ETAT_RAMPE)
-		gicle(shot, dx_giclure, dy_giclure2);
+	if (status == STATE_CRAWL)
+		splatter(shot, dx_splatter, dy_splatter2);
 	else
-		gicle(shot, dx_giclure, dy_giclure);
+		splatter(shot, dx_splatter, dy_splatter);
 }
 
-void EnemyBisouZombie::onTombe() {
+void EnemyBisouZombie::onFall() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -187,13 +187,13 @@ void EnemyBisouZombie::onTombe() {
 
 	if (platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
-		status = ETAT_RAMPE;
+		status = STATE_CRAWL;
 		col_on = true;
-		onRampe();
+		onCrawl();
 	}
 }
 
-void EnemyBisouZombie::onMeure() {
+void EnemyBisouZombie::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -212,7 +212,7 @@ void EnemyBisouZombie::onMeure() {
 	}
 }
 
-void EnemyBisouZombie::onCoupe() {
+void EnemyBisouZombie::onSevered() {
 	fall();
 
 	anim_tick += 1;
@@ -221,20 +221,20 @@ void EnemyBisouZombie::onCoupe() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouZombie* pieds = new GoreFeetBisouZombie();
+		GoreFeetBisouZombie* feet = new GoreFeetBisouZombie();
 
-		pieds->x = x;
-		pieds->dir = dir;
-		pieds->y = y;
+		feet->x = x;
+		feet->dir = dir;
+		feet->y = y;
 
-		list_gore.emplace_back(pieds);
+		list_gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_TOMBE;
-		onTombe();
+		status = STATE_FALL;
+		onFall();
 	} else {
 		if (dir == FACING_RIGHT)
 			pic = pbk_enemies[278 + anim_step];
@@ -243,44 +243,44 @@ void EnemyBisouZombie::onCoupe() {
 	}
 }
 
-void EnemyBisouZombie::onRampe() {
-	static const int anim_droite[] = {286, 287, 288, 287};
-	static const int anim_gauche[] = {289, 290, 291, 290};
+void EnemyBisouZombie::onCrawl() {
+	static const int anim_right[] = {286, 287, 288, 287};
+	static const int anim_left[] = {289, 290, 291, 290};
 	static const int SPEED = 1;
 
 	if (hp <= 0) {
 		anim_step = anim_tick = 0;
-		status = ETAT_MEURE;
+		status = STATE_DYING;
 		col_on = false;
-		onMeure();
+		onDie();
 		return;
 	}
 
 	fall();
 
-	etape2 = (etape2 + 1) % 4;
+	anim_step2 = (anim_step2 + 1) % 4;
 
-	if (etape2 == 0) {
+	if (anim_step2 == 0) {
 		if (x - SPEED < xmin || solid_wall(x - SPEED, y))
 			dir = FACING_RIGHT;
 		else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
 			dir = FACING_LEFT;
 
 		if (dir == FACING_RIGHT)
-			marche(SPEED);
+			walk(SPEED);
 		else
-			marche(-SPEED);
+			walk(-SPEED);
 
 		colFromPic();
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[animate(anim_droite, 4, 16)];
+		pic = pbk_enemies[animate(anim_right, 4, 16)];
 	else
-		pic = pbk_enemies[animate(anim_gauche, 4, 16)];
+		pic = pbk_enemies[animate(anim_left, 4, 16)];
 }
 
-void EnemyBisouZombie::onCarbonise() {
+void EnemyBisouZombie::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -299,7 +299,7 @@ void EnemyBisouZombie::onCarbonise() {
 		pic = pbk_enemies[612 + anim_step];
 }
 
-void EnemyBisouZombie::onCarboniseHaut() {
+void EnemyBisouZombie::onCharredTop() {
 	anim_tick += 1;
 	anim_tick %= 4;
 

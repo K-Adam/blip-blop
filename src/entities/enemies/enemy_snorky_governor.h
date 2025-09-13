@@ -2,22 +2,22 @@
 
 #include "entities/enemies/enemy.h"
 
-#define GOUVERNEUR_SPEED 1
+#define GOVERNOR_SPEED 1
 
 class EnemySnorkyGovernor : public Enemy {
    public:
-	int nb_tir;
+	int nb_shots;
 	int wait_for_shoot;
 	int shoot_delay;
 
 	EnemySnorkyGovernor();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onTire();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onShoot();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

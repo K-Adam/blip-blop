@@ -6,23 +6,23 @@
 class ShotBBLaser : public ShotBB {
    protected:
 	int width_px;
-	int hauteur;
+	int height_px;
 	int base;
 
    public:
 	ShotBBLaser();
 
-	int getGiclureDir() const override { return dir; };
+	int getSplatterDir() const override { return dir; };
 
 	inline int damage() const override { return 20; };
 
 	inline int enflame() const override { return 0; };
 
-	inline virtual void setEtape(int e) { anim_step = e; };
+	inline virtual void setAnimStep(int e) { anim_step = e; };
 
-	inline void aTouche(int pts) override { hero->addPoints(pts); };
+	inline void onHit(int pts) override { hero->addPoints(pts); };
 
-	inline void aTouche() override{};
+	inline void onHit() override{};
 
 	void render() override;
 	void setDir(int d) override;

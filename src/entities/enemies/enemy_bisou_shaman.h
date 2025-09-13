@@ -5,20 +5,20 @@
 class EnemyBisouShaman : public Enemy {
    public:
 	int wait_shoot;
-	int etape_shoot;
-	int nb_lueurs;
+	int shoot_step;
+	int nb_glows;
 	int nb_touch;
 	int n_pos;
 
 	EnemyBisouShaman();
-	virtual void onAvance();
-	virtual void onLeveBaton();
-	virtual void onBaisseBaton();
-	virtual void onTire();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onRaiseStaff();
+	virtual void onLowerStaff();
+	virtual void onShoot();
+	virtual void onDie();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 	void update() override;
 	void render() override;
-	virtual void onTele();
+	virtual void onTeleport();
 };

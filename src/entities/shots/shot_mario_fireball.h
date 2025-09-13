@@ -6,7 +6,7 @@
 
 class ShotMarioFireball : public Shot {
    public:
-	int speed_etape;
+	int accel_tick;
 	int dx;
 
 	ShotMarioFireball(int vx);

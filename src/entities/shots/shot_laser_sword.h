@@ -4,12 +4,12 @@
 
 class ShotLaserSword : public Shot {
    public:
-	Sprite* cible;
-	Sprite* lanceur;
+	Sprite* target;
+	Sprite* thrower;
 	bool isdead;
-	bool retour;
+	bool returning;
 	int dx;
-	int duree_vie;
+	int lifespan;
 	int accel;
 
 	ShotLaserSword();

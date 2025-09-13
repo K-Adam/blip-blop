@@ -14,7 +14,7 @@ class Sprite {
 	Picture* pic;
 	bool destroyed;
 	int dir;
-	int lat_grav;
+	int grav_tick;
 
 	int wait_bubble;
 
@@ -28,24 +28,24 @@ class Sprite {
 
 	inline virtual int getX() const { return x; };
 	inline virtual int getY() const { return y; };
-	inline virtual int getEtape() const { return anim_step; };
+	inline virtual int getAnimStep() const { return anim_step; };
 	inline virtual Picture* getPic() const { return pic; };
 	inline virtual bool isDestroyed() const { return destroyed; };
 
-	inline virtual bool estSurMur() const  // Blood stained wall
+	inline virtual bool isOnBloodyWall() const	// Blood stained wall
 	{
 		return bloody_wall(x, y);
 	}
 
-	inline virtual int animate(const int* tab, int nb_etapes, int latence) {
+	inline virtual int animate(const int* tab, int nb_steps, int delay) {
 		anim_tick += 1;
-		anim_tick %= latence;
+		anim_tick %= delay;
 
 		if (anim_tick == 0) anim_step += 1;
 
 		if (anim_step < 0) anim_step = 0;
 
-		anim_step %= nb_etapes;
+		anim_step %= nb_steps;
 		return tab[anim_step];
 	};
 
@@ -58,8 +58,8 @@ class Sprite {
 	virtual void update() = 0;
 
 	virtual void fall();
-	virtual void tombe2();
-	virtual void marche(int speed);
+	virtual void fall2();
+	virtual void walk(int speed);
 	virtual void colFromPic();
 	virtual void noCol();
 

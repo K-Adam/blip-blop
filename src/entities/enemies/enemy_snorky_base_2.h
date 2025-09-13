@@ -9,16 +9,16 @@ class EnemySnorkyBase2 : public Enemy {
 	int wait_for_shoot;
 	int shoot_delay;
 	int y_target;
-	int x_cible;
+	int x_target;
 
 	EnemySnorkyBase2();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onTire();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onShoot();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

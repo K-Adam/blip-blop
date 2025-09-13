@@ -2,12 +2,12 @@
 
 #include "entities/shots/shot.h"
 
-#define CARAPACE_SPEED 6
+#define SHELL_SPEED 6
 
 class ShotShell : public Shot {
    public:
 	int dx;
-	bool rebond;
+	bool bounced;
 
 	ShotShell();
 

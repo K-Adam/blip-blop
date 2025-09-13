@@ -6,8 +6,8 @@ class EnemyBulbizarre : public Enemy {
    public:
 	EnemyBulbizarre();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 };

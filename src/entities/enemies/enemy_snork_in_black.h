@@ -3,13 +3,13 @@
 #include "entities/enemies/enemy.h"
 
 #define SNORK_IN_BLACK_SPEED 2
-#define SNORK_IN_BLACK_MAX_TIR 6
+#define SNORK_IN_BLACK_MAX_SHOTS 6
 
 class EnemySnorkInBlack : public Enemy {
    private:
-	int x_cible;
+	int x_target;
 	int y_target;
-	int nb_tir;
+	int nb_shots;
 
    public:
 	int wait_for_shoot;
@@ -18,11 +18,11 @@ class EnemySnorkInBlack : public Enemy {
 	EnemySnorkInBlack();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onTire();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onShoot();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

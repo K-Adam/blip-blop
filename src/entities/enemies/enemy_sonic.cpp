@@ -6,35 +6,28 @@
 #include "level/world.h"
 #include "core/assets.h"
 
-const int sonic_anim_boule_droite[] = {46, 47, 50, 48, 49, 50};
-const int sonic_anim_boule_gauche[] = {51, 52, 55, 53, 54, 55};
+const int sonic_anim_ball_right[] = {46, 47, 50, 48, 49, 50};
+const int sonic_anim_ball_left[] = {51, 52, 55, 53, 54, 55};
 
-const int sonic_anim_super_saien[] = {108, 109, 110, 109, 108, 109, 110, 111, 110, 109, 110, 111, 112, 111, 110, 111, 112, 113, 112, 111, 112, 113,
-									  114, 113, 112, 113, 114, 115, 114, 113, 114, 115, 116, 115, 114, 115, 116, 117, 116, 115, 116, 117, 118};
+const int sonic_anim_super_saiyan[] = {108, 109, 110, 109, 108, 109, 110, 111, 110, 109, 110, 111, 112, 111, 110, 111, 112, 113, 112, 111, 112, 113,
+									   114, 113, 112, 113, 114, 115, 114, 113, 114, 115, 116, 115, 114, 115, 116, 117, 116, 115, 116, 117, 118};
 
 EnemySonic::EnemySonic()
-	: speed(1),
-	  etape_speed(0),
-	  attack_delay(50 + rand() % 250),
-	  wait_for_attack(0),
-	  vie_sous_critique(3750),
-	  vie_critique(2500),
-	  vie_sur_critique(1250),
-	  ring(90) {
+	: speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), hp_subcritical(3750), hp_critical(2500), hp_supercritical(1250), ring(90) {
 	hp = 10000;
 	xmin = 1280;
-	ss_etape_attack = 0;
-	etape_attack = 0;
+	attack_frame_tick = 0;
+	attack_frame = 0;
 	attack_phase = 0;
-	nb_tir = 0;
-	wait_sang_tombe = 0;
+	nb_shots = 0;
+	wait_blood_fall = 0;
 }
 
 void EnemySonic::update() {
 	if (game_flag[0] == 7) destroyed = true;
 
-	if (wait_sang_tombe < 400) {
-		wait_sang_tombe++;
+	if (wait_blood_fall < 400) {
+		wait_blood_fall++;
 		return;
 	} else if (game_flag[0] < 4) {
 		game_flag[0] = 4;
@@ -44,21 +37,21 @@ void EnemySonic::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onSaute();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onJump();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 
 			switch (attack_type) {
 				case 0:
@@ -70,23 +63,23 @@ void EnemySonic::update() {
 					break;
 
 				case 2:
-					onAttackepine();
+					onAttackThorns();
 					break;
 
 				case 3:
-					onAttackeclair();
+					onAttackLightning();
 					break;
 			}
 			break;
 	}
 }
 
-void EnemySonic::onAvance() {
+void EnemySonic::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onSaute();
+		grav_tick = 0;
+		onJump();
 	}
 
 	if (x - speed < xmin || solid_wall(x - speed, y)) {
@@ -106,10 +99,10 @@ void EnemySonic::onAvance() {
 					case 0:
 						attack_type = 0;
 						speed = 12;
-						status = ETAT_TIRE;
-						x_cible = targeted_player->x;
+						status = STATE_SHOOT;
+						x_target = targeted_player->x;
 						y_target = targeted_player->y;
-						nb_tir = 0;
+						nb_shots = 0;
 						attack_phase = -1;
 						anim_tick = 0;
 						anim_step = 0;
@@ -121,10 +114,10 @@ void EnemySonic::onAvance() {
 						attack_phase = -1;
 						attack_type = 1;
 						speed = 12;
-						status = ETAT_TIRE;
-						x_cible = targeted_player->x;
+						status = STATE_SHOOT;
+						x_target = targeted_player->x;
 						y_target = targeted_player->y;
-						nb_tir = 0;
+						nb_shots = 0;
 						anim_tick = 0;
 						anim_step = 0;
 						onAttackvertical();
@@ -134,9 +127,9 @@ void EnemySonic::onAvance() {
 						attack_type = 3;
 						anim_tick = 0;
 						anim_step = 0;
-						nb_tir = 0;
-						status = ETAT_TIRE;
-						onAttackeclair();
+						nb_shots = 0;
+						status = STATE_SHOOT;
+						onAttackLightning();
 						return;
 						break;
 				}
@@ -146,7 +139,7 @@ void EnemySonic::onAvance() {
 
 	if ((ring > 0) && (hp < 9000)) {
 		if (ring % 30 == 0) {
-			onBalancering();
+			onThrowRings();
 		}
 		ring--;
 	}
@@ -158,23 +151,23 @@ void EnemySonic::onAvance() {
 		anim_step %= 8;
 	}
 	if (dir == FACING_RIGHT) {
-		marche(speed);
+		walk(speed);
 		pic = pbk_enemies[30 + anim_step];
 	} else {
-		marche(-speed);
+		walk(-speed);
 		pic = pbk_enemies[38 + anim_step];
 	}
 	if (speed < SONIC_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 15) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 15) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnemySonic::onMeure() {
+void EnemySonic::onDie() {
 	if (game_flag[2] == 0) {
 		fall();
 		if (x - speed < xmin || solid_wall(x - speed, y)) {
@@ -191,16 +184,16 @@ void EnemySonic::onMeure() {
 			anim_step %= 8;
 		}
 		if (dir == FACING_RIGHT) {
-			marche(speed);
+			walk(speed);
 			pic = pbk_enemies[30 + anim_step];
 		} else {
-			marche(-speed);
+			walk(-speed);
 			pic = pbk_enemies[38 + anim_step];
 		}
 		if (speed < SONIC_SPEED) {
-			etape_speed++;
-			if (etape_speed >= 15) {
-				etape_speed = 0;
+			speed_tick++;
+			if (speed_tick >= 15) {
+				speed_tick = 0;
 				speed++;
 			}
 		}
@@ -221,7 +214,7 @@ void EnemySonic::onMeure() {
 				game_flag[2] = 2;
 				destroyed = true;
 			} else {
-				pic = pbk_enemies[sonic_anim_super_saien[anim_step]];
+				pic = pbk_enemies[sonic_anim_super_saiyan[anim_step]];
 			}
 		}
 	}
@@ -229,7 +222,7 @@ void EnemySonic::onMeure() {
 
 void EnemySonic::onCharge() {}
 
-void EnemySonic::onSaute() {
+void EnemySonic::onJump() {
 	int yp;
 
 	fall();
@@ -240,7 +233,7 @@ void EnemySonic::onSaute() {
 		y = yp;
 		anim_tick = 0;
 		anim_step = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -262,10 +255,10 @@ void EnemySonic::onSaute() {
 		anim_step %= 8;
 	}
 	if (dir == FACING_RIGHT) {
-		marche(speed);
+		walk(speed);
 		pic = pbk_enemies[30 + anim_step];
 	} else {
-		marche(-speed);
+		walk(-speed);
 		pic = pbk_enemies[38 + anim_step];
 	}
 	colFromPic();
@@ -273,16 +266,16 @@ void EnemySonic::onSaute() {
 
 void EnemySonic::onAttackhorizontal() {
 	if (attack_phase == -1) {
-		if (hp < vie_sous_critique) {
-			ss_etape_attack += 1;
-			ss_etape_attack %= 2;
-			if (ss_etape_attack == 0) {
-				etape_attack += 1;
-				etape_attack %= 16;
+		if (hp < hp_subcritical) {
+			attack_frame_tick += 1;
+			attack_frame_tick %= 2;
+			if (attack_frame_tick == 0) {
+				attack_frame += 1;
+				attack_frame %= 16;
 			}
 		}
-		nb_tir += 1;
-		if (nb_tir == 50) {
+		nb_shots += 1;
+		if (nb_shots == 50) {
 			attack_phase = 0;
 		} else {
 			anim_tick += 1;
@@ -300,12 +293,12 @@ void EnemySonic::onAttackhorizontal() {
 
 	} else {
 		if (attack_phase == 0) {
-			if (hp < vie_critique) {
-				ss_etape_attack += 1;
-				ss_etape_attack %= 2;
-				if (ss_etape_attack == 0) {
-					etape_attack += 1;
-					etape_attack %= 16;
+			if (hp < hp_critical) {
+				attack_frame_tick += 1;
+				attack_frame_tick %= 2;
+				if (attack_frame_tick == 0) {
+					attack_frame += 1;
+					attack_frame %= 16;
 				}
 			}
 			fall();
@@ -321,12 +314,12 @@ void EnemySonic::onAttackhorizontal() {
 			}
 		} else if (attack_phase == 1) {
 			fall();
-			if (hp < vie_sur_critique) {
-				ss_etape_attack += 1;
-				ss_etape_attack %= 2;
-				if (ss_etape_attack == 0) {
-					etape_attack += 1;
-					etape_attack %= 16;
+			if (hp < hp_supercritical) {
+				attack_frame_tick += 1;
+				attack_frame_tick %= 2;
+				if (attack_frame_tick == 0) {
+					attack_frame += 1;
+					attack_frame %= 16;
 				}
 			}
 			if (y + dy < y_target) {
@@ -346,31 +339,31 @@ void EnemySonic::onAttackhorizontal() {
 			if (x - speed < xmin || solid_wall(x - speed, y)) {
 				dir = FACING_RIGHT;
 				speed = 1;
-				status = ETAT_AVANCE;
+				status = STATE_WALK;
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 250;
 				anim_tick = 0;
 				anim_step = 0;
-				onAvance();
+				onWalk();
 				return;
 			} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
 				dir = FACING_LEFT;
 				speed = 1;
-				status = ETAT_AVANCE;
+				status = STATE_WALK;
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 250;
 				anim_tick = 0;
 				anim_step = 0;
-				onAvance();
+				onWalk();
 				return;
 			}
 		}
 		if (dir == FACING_RIGHT) {
 			x += speed;
-			pic = pbk_enemies[animate(sonic_anim_boule_droite, 6, 3)];
+			pic = pbk_enemies[animate(sonic_anim_ball_right, 6, 3)];
 		} else {
 			x -= speed;
-			pic = pbk_enemies[animate(sonic_anim_boule_gauche, 6, 3)];
+			pic = pbk_enemies[animate(sonic_anim_ball_left, 6, 3)];
 		}
 	}
 	colFromPic();
@@ -378,16 +371,16 @@ void EnemySonic::onAttackhorizontal() {
 
 void EnemySonic::onAttackvertical() {
 	if (attack_phase == -1) {
-		if (hp < vie_sous_critique) {
-			ss_etape_attack += 1;
-			ss_etape_attack %= 2;
-			if (ss_etape_attack == 0) {
-				etape_attack += 1;
-				etape_attack %= 16;
+		if (hp < hp_subcritical) {
+			attack_frame_tick += 1;
+			attack_frame_tick %= 2;
+			if (attack_frame_tick == 0) {
+				attack_frame += 1;
+				attack_frame %= 16;
 			}
 		}
-		nb_tir += 1;
-		if (nb_tir == 50) {
+		nb_shots += 1;
+		if (nb_shots == 50) {
 			attack_phase = 0;
 		} else {
 			anim_tick += 1;
@@ -406,12 +399,12 @@ void EnemySonic::onAttackvertical() {
 	} else {
 		if (attack_phase == 0) {
 			fall();
-			if (hp < vie_critique) {
-				ss_etape_attack += 1;
-				ss_etape_attack %= 2;
-				if (ss_etape_attack == 0) {
-					etape_attack += 1;
-					etape_attack %= 16;
+			if (hp < hp_critical) {
+				attack_frame_tick += 1;
+				attack_frame_tick %= 2;
+				if (attack_frame_tick == 0) {
+					attack_frame += 1;
+					attack_frame %= 16;
 				}
 			}
 			if ((dir == FACING_RIGHT) && (x + speed > 1900)) {
@@ -425,12 +418,12 @@ void EnemySonic::onAttackvertical() {
 			}
 		} else if (attack_phase == 1) {
 			fall();
-			if (hp < vie_sur_critique) {
-				ss_etape_attack += 1;
-				ss_etape_attack %= 2;
-				if (ss_etape_attack == 0) {
-					etape_attack += 1;
-					etape_attack %= 16;
+			if (hp < hp_supercritical) {
+				attack_frame_tick += 1;
+				attack_frame_tick %= 2;
+				if (attack_frame_tick == 0) {
+					attack_frame += 1;
+					attack_frame %= 16;
 				}
 			}
 			if (y + dy < 40) {
@@ -447,11 +440,11 @@ void EnemySonic::onAttackvertical() {
 				}
 			}
 		} else if (attack_phase == 2) {
-			if ((dir == FACING_RIGHT) && (x > x_cible)) {
+			if ((dir == FACING_RIGHT) && (x > x_target)) {
 				attack_phase = 3;
 				dy = 12;
 				speed = 0;
-			} else if ((dir == FACING_LEFT) && (x < x_cible)) {
+			} else if ((dir == FACING_LEFT) && (x < x_target)) {
 				attack_phase = 3;
 				dy = 12;
 				speed = 0;
@@ -464,10 +457,10 @@ void EnemySonic::onAttackvertical() {
 				anim_tick = 0;
 				anim_step = 0;
 				speed = 1;
-				status = ETAT_AVANCE;
+				status = STATE_WALK;
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 250;
-				onAvance();
+				onWalk();
 				return;
 			} else {
 				y += dy;
@@ -475,34 +468,34 @@ void EnemySonic::onAttackvertical() {
 		}
 		if (dir == FACING_RIGHT) {
 			x += speed;
-			pic = pbk_enemies[animate(sonic_anim_boule_droite, 6, 3)];
+			pic = pbk_enemies[animate(sonic_anim_ball_right, 6, 3)];
 		} else {
 			x -= speed;
-			pic = pbk_enemies[animate(sonic_anim_boule_gauche, 6, 3)];
+			pic = pbk_enemies[animate(sonic_anim_ball_left, 6, 3)];
 		}
 	}
 	colFromPic();
 }
 
-void EnemySonic::onAttackepine() {
-	nb_tir += 1;
-	if (nb_tir > 200) {
+void EnemySonic::onAttackThorns() {
+	nb_shots += 1;
+	if (nb_shots > 200) {
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
 		anim_tick = 0;
 		anim_step = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
 	anim_tick += 1;
-	if (hp > vie_sous_critique) {
+	if (hp > hp_subcritical) {
 		anim_tick %= 5;
-	} else if (hp > vie_critique) {
+	} else if (hp > hp_critical) {
 		anim_tick %= 4;
-	} else if (hp > vie_sur_critique) {
+	} else if (hp > hp_supercritical) {
 		anim_tick %= 3;
 	} else {
 		anim_tick %= 2;
@@ -517,16 +510,16 @@ void EnemySonic::onAttackepine() {
 	} else {
 		pic = pbk_enemies[91 + anim_step];
 	}
-	ss_etape_attack += 1;
-	ss_etape_attack %= 1;
-	if (ss_etape_attack == 0) {
-		etape_attack += 1;
-		etape_attack %= 16;
+	attack_frame_tick += 1;
+	attack_frame_tick %= 1;
+	if (attack_frame_tick == 0) {
+		attack_frame += 1;
+		attack_frame %= 16;
 	}
 	colFromPic();
 }
 
-void EnemySonic::onAttackeclair() {
+void EnemySonic::onAttackLightning() {
 	anim_tick++;
 	anim_tick %= 5;
 	if (anim_tick == 0) {
@@ -534,23 +527,23 @@ void EnemySonic::onAttackeclair() {
 	}
 	if (anim_step == 23) {
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
 		anim_tick = 0;
 		anim_step = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
 	if ((anim_step == 5) && (anim_tick == 0)) {
-		if ((nb_tir <= 1) && (hp < vie_sous_critique)) {
+		if ((nb_shots <= 1) && (hp < hp_subcritical)) {
 			anim_step = 0;
 			anim_tick = 1;
-		} else if ((nb_tir <= 2) && (hp < vie_critique)) {
+		} else if ((nb_shots <= 2) && (hp < hp_critical)) {
 			anim_step = 0;
 			anim_tick = 1;
-		} else if ((nb_tir <= 3) && (hp < vie_sur_critique)) {
+		} else if ((nb_shots <= 3) && (hp < hp_supercritical)) {
 			anim_step = 0;
 			anim_tick = 1;
 		}
@@ -563,7 +556,7 @@ void EnemySonic::onAttackeclair() {
 		shot->x = targeted_player->x;
 		shot->y = 0;
 		list_enemy_shots.emplace_back(shot);
-		nb_tir += 1;
+		nb_shots += 1;
 	}
 
 	if (dir == FACING_RIGHT) {
@@ -577,7 +570,7 @@ void EnemySonic::onAttackeclair() {
 	colFromPic();
 }
 
-void EnemySonic::onBalancering() {
+void EnemySonic::onThrowRings() {
 	Sprite* s;
 	int i, mx = 1, my = 1;
 
@@ -637,9 +630,9 @@ void EnemySonic::onBalancering() {
 	}
 }
 
-void EnemySonic::balance_epines() {
+void EnemySonic::throw_thorns() {
 	ShotThorn* shot;
-	switch (etape_attack) {
+	switch (attack_frame) {
 		case 0:
 			shot = new ShotThorn(59, 12, 0);
 			shot->setDir(dir);
@@ -770,12 +763,12 @@ void EnemySonic::balance_epines() {
 	}
 }
 
-void EnemySonic::onCarbonise() { destroyed = true; }
+void EnemySonic::onCharred() { destroyed = true; }
 
 void EnemySonic::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 }

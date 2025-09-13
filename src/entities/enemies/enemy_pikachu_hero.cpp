@@ -4,7 +4,7 @@ EnemyPikachuHero::EnemyPikachuHero() : dorkeball(2) {
 	hp = 1500;
 	dy = -8;
 	dx = -2;
-	tresor = 100;
+	treasure = 100;
 }
 
 void EnemyPikachuHero::update() {
@@ -49,13 +49,13 @@ void EnemyPikachuHero::update() {
 
 		switch (status) {
 			case STATE_NORMAL:
-			case ETAT_AVANCE:
-				onAvance();
+			case STATE_WALK:
+				onWalk();
 				break;
 
-			case ETAT_MEURE:
-			case ETAT_CARBONISE:
-				onMeure();
+			case STATE_DYING:
+			case STATE_CHARRED:
+				onDie();
 				break;
 		}
 
@@ -63,7 +63,7 @@ void EnemyPikachuHero::update() {
 	}
 }
 
-void EnemyPikachuHero::onAvance() {
+void EnemyPikachuHero::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -80,16 +80,16 @@ void EnemyPikachuHero::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(3);
+		walk(3);
 		pic = pbk_enemies[276 + anim_step];
 	} else {
-		marche(-3);
+		walk(-3);
 		pic = pbk_enemies[278 + anim_step];
 	}
 	colFromPic();
 }
 
-void EnemyPikachuHero::onMeure() {
+void EnemyPikachuHero::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -113,11 +113,11 @@ void EnemyPikachuHero::onMeure() {
 }
 
 void EnemyPikachuHero::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (dorkeball == 0) {
 		Enemy::takeHit(shot);
-		gicle(shot, dx_giclure, dy_giclure);
+		splatter(shot, dx_splatter, dy_splatter);
 	}
 }

@@ -1,14 +1,14 @@
 #include "entities/enemies/enemy_weight.h"
 #include "entities/gore_splatter.h"
 
-EnemyWeight::EnemyWeight() : nb_colision(0) {
+EnemyWeight::EnemyWeight() : nb_collisions(0) {
 	hp = 1000;
 	pic = pbk_enemies[169];
 }
 
 void EnemyWeight::update() {
-	if (status == ETAT_MEURE) {
-		onMeure();
+	if (status == STATE_DYING) {
+		onDie();
 	} else {
 		pic = pbk_enemies[169];
 		if (game_flag[0] < 3) {
@@ -17,24 +17,24 @@ void EnemyWeight::update() {
 		}
 		if ((game_flag[0] == 3) || (game_flag[0] == 4)) {
 			if (y < 100) {
-				tombe2();
+				fall2();
 			} else {
 				dy = 0;
 			}
 			if (x > 950) {
-				status = ETAT_MEURE;
+				status = STATE_DYING;
 			}
 		}
 
-		if (nb_colision >= LATENCE_BOUGE) {
+		if (nb_collisions >= MOVE_DELAY) {
 			x += 3;
-			nb_colision -= LATENCE_BOUGE;
+			nb_collisions -= MOVE_DELAY;
 		}
 		colFromPic();
 	}
 }
 
-void EnemyWeight::onMeure() {
+void EnemyWeight::onDie() {
 	if ((solid_wall(x, y + dy))) {
 		game_flag[0] = 7;
 		anim_tick++;
@@ -50,7 +50,7 @@ void EnemyWeight::onMeure() {
 			pic = pbk_enemies[202 + anim_step];
 		}
 	} else {
-		tombe2();
+		fall2();
 		if (solid_wall(x, y + dy * 10)) {
 			pic = pbk_enemies[201];
 			int i;
@@ -112,8 +112,8 @@ int EnemyWeight::damage() { return 0; };
 
 void EnemyWeight::takeHit(Shot* shot) {
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {
-		nb_colision++;
+		nb_collisions++;
 	}
 
-	shot->aTouche(0);
+	shot->onHit(0);
 }

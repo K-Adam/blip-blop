@@ -14,11 +14,11 @@
 #include "entities/shots/shot_bb_lf.h"
 #include "core/constants.h"
 
-#define NB_TIRS_M16 16
-#define NB_TIRS_PM 20
-#define NB_TIRS_FUSIL 40
-#define NB_TIRS_LASER 2
-#define NB_TIRS_LF 300
+#define NB_SHOTS_M16 16
+#define NB_SHOTS_PM 20
+#define NB_SHOTS_SHOTGUN 40
+#define NB_SHOTS_LASER 2
+#define NB_SHOTS_LF 300
 
 class Ball : public Character, public Player {
    public:
@@ -27,34 +27,34 @@ class Ball : public Character, public Player {
 	bool perfect;
 
 	Controller* ctrl;
-	int sauti;
+	int hop_idx;
 
 	int weapon_id;
-	int dir_arme;
+	int weapon_dir;
 	int ammo;
 
-	int etape_arme;	 // Muzzle flash step
-	int ss_etape_arme;
+	int weapon_step;  // Muzzle flash step
+	int weapon_tick;
 	int nb_weapon_steps;
 	int weapon_anim_delay;
 
 	int fire_interval;	// Frames between shots
-	int pruno;			// Shot timer
+	int shot_timer;		// Shot timer
 
 	int gun_weight;	 // Gun turning delay
-	int etape_bouge_arme;
+	int gun_turn_step;
 
 	bool is_firing;	 // Currently firing
 
-	int dx_saut;  // Jump inertia
-	int dx_glisse;
-	int latence_glisse;
-	int etape_recul;
+	int dx_jump;  // Jump inertia
+	int dx_slide;
+	int slide_delay;
+	int recoil_step;
 
 	int invincible;
 	bool inv_cow;
-	int a_mal;
-	int etape_cli;
+	int hurt_timer;
+	int blink_step;
 
 	int y_to_go;
 
@@ -70,19 +70,19 @@ class Ball : public Character, public Player {
 	bool fire_lf;
 	bool fire_laser;
 
-	ShotBBM16 tirs_m16[NB_TIRS_M16];
+	ShotBBM16 shots_m16[NB_SHOTS_M16];
 	int next_m16;
 
-	ShotBBPM tirs_pm[NB_TIRS_PM];
+	ShotBBPM shots_pm[NB_SHOTS_PM];
 	int next_pm;
 
-	ShotBBShotgun tirs_fusil[NB_TIRS_FUSIL];
-	int next_fusil;
+	ShotBBShotgun shots_shotgun[NB_SHOTS_SHOTGUN];
+	int next_shotgun;
 
-	ShotBBLaser tirs_laser[NB_TIRS_LASER];
+	ShotBBLaser shots_laser[NB_SHOTS_LASER];
 	int next_laser;
 
-	ShotBBLF tirs_lf[NB_TIRS_LF];
+	ShotBBLF shots_lf[NB_SHOTS_LF];
 	int next_lf;
 
    public:
@@ -90,30 +90,30 @@ class Ball : public Character, public Player {
 
 	Ball(const PictureBank& pbk);
 
-	virtual void rearme() = 0;
+	virtual void rearm() = 0;
 
 	void render() override;
-	virtual void afficheNormal();
-	virtual void afficheSaute();
-	virtual void afficheMeure();
-	virtual void afficheVehicule();
-	virtual void afficheArme(int xtmp, int ytmp);
-	virtual void afficheOeil(int xtmp, int ytmp);
+	virtual void renderNormal();
+	virtual void renderJump();
+	virtual void renderDying();
+	virtual void renderVehicle();
+	virtual void renderWeapon(int xtmp, int ytmp);
+	virtual void renderEye(int xtmp, int ytmp);
 	void update() override;
 	virtual void onNormal();
-	virtual void onSaute();
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onJump();
+	virtual void onWalk();
+	virtual void onDie();
 	virtual void onComeBack();
-	virtual void onSaleto();
-	virtual void onVehicule();
-	virtual void updateArme();
+	virtual void onSomersault();
+	virtual void onVehicle();
+	virtual void updateWeapon();
 	virtual void takeHit(const Shot* shot);
 	virtual void takeHit(int damage);
 	void colFromPic() override;
 
-	virtual void lockVehicule(bool can_fire, bool can_dir);
-	virtual void unlockVehicule();
+	virtual void lockVehicle(bool can_fire, bool can_dir);
+	virtual void unlockVehicle();
 
 	virtual void manageDirection();
 	virtual bool okBonus();
@@ -127,6 +127,6 @@ class Ball : public Character, public Player {
 	// Drawn and fired angle of the gun, in degrees counterclockwise from the right
 	double gunAngle() const;
 	// Hand drawn sprite nearest the gun angle, and what is left to rotate it by
-	void gunSector(int& d_arme, double& residual) const;
+	void gunSector(int& gun_sector, double& residual) const;
 	double aim_angle_ = 0;
 };

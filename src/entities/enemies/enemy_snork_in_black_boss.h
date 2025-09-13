@@ -6,7 +6,7 @@
 
 class EnemySnorkInBlackBoss : public Enemy {
    private:
-	int nb_tir;
+	int nb_shots;
 	int position;
 	int type_attack;
 	int dx;
@@ -21,10 +21,10 @@ class EnemySnorkInBlackBoss : public Enemy {
 	EnemySnorkInBlackBoss();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onTire();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onShoot();
 	void render() override;
 
 	void takeHit(Shot* shot) override;

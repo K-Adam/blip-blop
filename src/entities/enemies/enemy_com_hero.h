@@ -10,7 +10,7 @@ class EnemyCOMHero : public Enemy {
    public:
 	EnemyCOMHero();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 	void takeHit(Shot* shot) override;
 };

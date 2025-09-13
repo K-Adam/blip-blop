@@ -4,7 +4,7 @@
 
 class Splatter : public Sprite {
    public:
-	Character *pere;
+	Character *parent;
 	int deltax;
 	int deltay;
 

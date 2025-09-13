@@ -2,18 +2,18 @@
 
 #include "entities/enemies/enemy.h"
 
-#define PRINCESSE_SPEED 1
+#define PRINCESS_SPEED 1
 
 class EnemyPrincess : public Enemy {
    private:
-	bool avance;
-	bool aide;
+	bool walking;
+	bool guards_called;
 
    public:
 	EnemyPrincess();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 
 	void takeHit(Shot* shot) override;
 };

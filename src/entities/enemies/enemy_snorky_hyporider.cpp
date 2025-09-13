@@ -1,30 +1,30 @@
 #include "entities/enemies/enemy_snorky_hyporider.h"
 #include "entities/piece_snorky_head.h"
 
-EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), nageoire(1), attack_step(0) {
+EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), fin(1), attack_step(0) {
 	hp = 350;
 	dy = 0;
 }
 
 void EnemySnorkyHyporider::update() {
 	switch (status) {
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
+		case STATE_FALL:
+		case STATE_JUMP:
 
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 			onCharge();
 			break;
 	}
@@ -32,14 +32,14 @@ void EnemySnorkyHyporider::update() {
 	updateDestroyed();
 }
 
-void EnemySnorkyHyporider::onAvance() {
+void EnemySnorkyHyporider::onWalk() {
 	wait_for_charge++;
 	if ((wait_for_charge > charge_delay) && ((dir == FACING_RIGHT && x > offset + 80) || (dir == FACING_LEFT && x < offset + 560))) {
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 200;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		attack_step = 0;
 		onCharge();
 		return;
@@ -68,7 +68,7 @@ void EnemySnorkyHyporider::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkyHyporider::onMeure() {
+void EnemySnorkyHyporider::onDie() {
 	anim_tick += 1;
 	if (anim_step < 7) {
 		anim_tick %= 3;
@@ -96,7 +96,7 @@ void EnemySnorkyHyporider::onMeure() {
 		dy = 0;
 	}
 	if (anim_step >= 7) {
-		nageoire = 0;
+		fin = 0;
 		if (dir == FACING_LEFT) {
 			x -= 4;
 			pic = pbk_enemies[325];
@@ -127,14 +127,14 @@ void EnemySnorkyHyporider::onCharge() {
 	attack_step++;
 
 	if (attack_step > 40) {
-		nageoire = 0;
+		fin = 0;
 		if (dir == FACING_RIGHT) {
 			if (solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) {
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_AVANCE;
-				nageoire = 1;
-				onAvance();
+				status = STATE_WALK;
+				fin = 1;
+				onWalk();
 				return;
 				dir = FACING_RIGHT;
 			}
@@ -145,9 +145,9 @@ void EnemySnorkyHyporider::onCharge() {
 			if (solid_wall(x - HYPORIDER_CHARGE_SPEED, y) || (x - HYPORIDER_CHARGE_SPEED < xmin)) {
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_AVANCE;
-				nageoire = 1;
-				onAvance();
+				status = STATE_WALK;
+				fin = 1;
+				onWalk();
 				return;
 				dir = FACING_RIGHT;
 			}
@@ -165,8 +165,8 @@ void EnemySnorkyHyporider::onCharge() {
 	colFromPic();
 }
 
-void EnemySnorkyHyporider::onCarbonise() {
-	nageoire = 0;
+void EnemySnorkyHyporider::onCharred() {
+	fin = 0;
 	anim_tick++;
 	anim_tick %= 4;
 
@@ -188,7 +188,7 @@ void EnemySnorkyHyporider::onCarbonise() {
 void EnemySnorkyHyporider::render() {
 	Sprite::render();
 
-	if ((status == ETAT_CARBONISE) && (anim_step < 9)) {
+	if ((status == STATE_CHARRED) && (anim_step < 9)) {
 		if (dir == FACING_RIGHT) {
 			draw(x, y, pbk_enemies[326 + anim_step]);
 		} else {
@@ -196,7 +196,7 @@ void EnemySnorkyHyporider::render() {
 		}
 	}
 
-	if (nageoire) {
+	if (fin) {
 		if (dir == FACING_RIGHT) {
 			draw(x + 15, y + 20, pbk_enemies[287 + anim_step % 4]);
 		} else {
@@ -206,13 +206,13 @@ void EnemySnorkyHyporider::render() {
 }
 
 void EnemySnorkyHyporider::takeHit(Shot* shot) {
-	static const int dx_giclure_hyporider[] = {0, 0, 7, 3, 0, -3, -7, 0};
-	static const int dy_giclure_hyporider[] = {-15, -15, -15, -25, -25, -25, -15, -15};
+	static const int dx_splatter_hyporider[] = {0, 0, 7, 3, 0, -3, -7, 0};
+	static const int dy_splatter_hyporider[] = {-15, -15, -15, -25, -25, -25, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_hyporider, dy_giclure_hyporider);
+	splatter(shot, dx_splatter_hyporider, dy_splatter_hyporider);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(7);
 	}
 }

@@ -11,10 +11,10 @@ class EnemyLemmings : public Enemy {
 	EnemyLemmings();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

@@ -5,8 +5,8 @@
 class EnemyPacman : public Enemy {
    private:
 	int shot;
-	int etape_tir;
-	int ss_etape_tir;
+	int shot_step;
+	int shot_tick;
 
 	int dx;
 

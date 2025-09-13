@@ -8,19 +8,19 @@
 class EnemyToad : public Enemy {
    private:
 	int speed;
-	int etape_speed;  // Acceleration delay
+	int speed_tick;	 // Acceleration delay
 	int charge_delay;
 	int wait_for_charge;
-	int charge_etape;
+	int charge_step;
 	int hokuto;
 
    public:
 	EnemyToad();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onCharge();
-	virtual void onCarbonise();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 };

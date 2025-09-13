@@ -4,15 +4,15 @@
 
 class EnemyPapaSmurf : public Enemy {
    public:
-	Sprite* cible;
-	int wait_change_cible;
+	Sprite* target;
+	int wait_change_target;
 	int dx;
-	int attak_wanted;
+	int attack_wanted;
 
 	EnemyPapaSmurf();
-	virtual void updateCible();
+	virtual void updateTarget();
 	void update() override;
 	virtual void updateChoice();
-	virtual void onAvance();
+	virtual void onWalk();
 	virtual void onAtata();
 };

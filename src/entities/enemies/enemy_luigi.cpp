@@ -5,15 +5,15 @@
 #include "entities/enemies/enemy_pacman_car.h"
 #include "level/events/event_hold_fire.h"
 
-const int anim_luigi_marche_droite[] = {0, 1, 2, 1};
-const int anim_luigi_marche_gauche[] = {3, 4, 5, 4};
-const int anim_luigi_attaque_droite[] = {10, 11, 12, 11};
-const int anim_luigi_attaque_gauche[] = {13, 14, 15, 14};
-const int anim_luigi_marche_mort_droite[] = {205, 206, 207, 206};
-const int anim_luigi_marche_mort_gauche[] = {213, 214, 215, 214};
-const int anim_luigi_mort[] = {208, 209, 210, 211, 212, 211, 210, 209};
+const int anim_luigi_walk_right[] = {0, 1, 2, 1};
+const int anim_luigi_walk_left[] = {3, 4, 5, 4};
+const int anim_luigi_attack_right[] = {10, 11, 12, 11};
+const int anim_luigi_attack_left[] = {13, 14, 15, 14};
+const int anim_luigi_walk_dead_right[] = {205, 206, 207, 206};
+const int anim_luigi_walk_dead_left[] = {213, 214, 215, 214};
+const int anim_luigi_death[] = {208, 209, 210, 211, 212, 211, 210, 209};
 
-EnemyLuigi::EnemyLuigi() : speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), encaissement(0) {
+EnemyLuigi::EnemyLuigi() : speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), knockback(0) {
 	hp = 10000;
 	xmin = offset + 20;
 }
@@ -25,21 +25,21 @@ void EnemyLuigi::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onSaute();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onJump();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 			switch (attack_type) {
 				case 0:
 					break;
@@ -51,12 +51,12 @@ void EnemyLuigi::update() {
 	}
 }
 
-void EnemyLuigi::onAvance() {
+void EnemyLuigi::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onSaute();
+		grav_tick = 0;
+		onJump();
 	}
 
 	if (x - speed < (xmin + 20) || solid_wall(x - speed, y)) {
@@ -80,7 +80,7 @@ void EnemyLuigi::onAvance() {
 		if (dif_y == 0) {
 			dif_y = 1;
 		}
-		int coef_direct = dif_x / dif_y;
+		int slope_ratio = dif_x / dif_y;
 		if ((dir == FACING_RIGHT) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 			wait_for_attack = 0;
 			attack_delay = 10 + rand() % 50;
@@ -88,9 +88,9 @@ void EnemyLuigi::onAvance() {
 			dy = (int)(-9 + speed * 0.25);
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_SAUTE;
-			lat_grav = 0;  // Otherwise jump heights vary
-			onSaute();
+			status = STATE_JUMP;
+			grav_tick = 0;	// Otherwise jump heights vary
+			onJump();
 			return;
 
 		} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
@@ -100,36 +100,36 @@ void EnemyLuigi::onAvance() {
 			dy = (int)(-9 + speed * 0.25);
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_SAUTE;
-			lat_grav = 0;  // Otherwise jump heights vary
-			onSaute();
+			status = STATE_JUMP;
+			grav_tick = 0;	// Otherwise jump heights vary
+			onJump();
 			return;
 		} else if (hp >= 1000) {
-			if ((dir == FACING_RIGHT) && (dif_x > 0) && ((coef_direct <= -2) || (coef_direct >= 2))) {
+			if ((dir == FACING_RIGHT) && (dif_x > 0) && ((slope_ratio <= -2) || (slope_ratio >= 2))) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 250;
 				attack_type = 1;
 				anim_tick = 0;
 				anim_step = 0;
 				speed = 0;
-				ss_etape_attack = 0;
-				etape_attack = 0;
-				status = ETAT_TIRE;
-				nb_tir = 0;
+				attack_frame_tick = 0;
+				attack_frame = 0;
+				status = STATE_SHOOT;
+				nb_shots = 0;
 				sbk_level.play(9);
 				onAttack();
 				return;
-			} else if ((dir == FACING_LEFT) && (dif_x < 0) && ((coef_direct <= -2) || (coef_direct >= 2))) {
+			} else if ((dir == FACING_LEFT) && (dif_x < 0) && ((slope_ratio <= -2) || (slope_ratio >= 2))) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 250;
 				attack_type = 1;
 				anim_tick = 0;
 				anim_step = 0;
 				speed = 0;
-				ss_etape_attack = 0;
-				etape_attack = 0;
-				status = ETAT_TIRE;
-				nb_tir = 0;
+				attack_frame_tick = 0;
+				attack_frame = 0;
+				status = STATE_SHOOT;
+				nb_shots = 0;
 				sbk_level.play(9);
 				onAttack();
 				return;
@@ -142,18 +142,18 @@ void EnemyLuigi::onAvance() {
 		else if (speed < -6)
 			speed = -6;
 
-		marche(speed);
-		pic = pbk_enemies[animate(anim_luigi_marche_droite, 4, 14 - (2 * speed))];
+		walk(speed);
+		pic = pbk_enemies[animate(anim_luigi_walk_right, 4, 14 - (2 * speed))];
 
-		if (encaissement < 0) {
-			if (speed > -encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
-				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+		if (knockback < 0) {
+			if (speed > -knockback / GROUND_SPEED_DIVISOR) {
+				speed += knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = 0;
 			}
 		} else {
-			if (speed + encaissement / MULTIPLACATEUR_VITESSE_AU_SOL < LUIGI_SPEED) {
-				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+			if (speed + knockback / GROUND_SPEED_DIVISOR < LUIGI_SPEED) {
+				speed += knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = LUIGI_SPEED;
 			}
@@ -164,47 +164,47 @@ void EnemyLuigi::onAvance() {
 		else if (speed < -6)
 			speed = -6;
 
-		marche(-speed);
-		pic = pbk_enemies[animate(anim_luigi_marche_gauche, 4, 14 - (2 * speed))];
+		walk(-speed);
+		pic = pbk_enemies[animate(anim_luigi_walk_left, 4, 14 - (2 * speed))];
 
-		if (encaissement > 0) {
-			if (speed > encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
-				speed -= encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+		if (knockback > 0) {
+			if (speed > knockback / GROUND_SPEED_DIVISOR) {
+				speed -= knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = 0;
 			}
 		} else {
-			if (speed - encaissement / MULTIPLACATEUR_VITESSE_AU_SOL < LUIGI_SPEED) {
-				speed -= encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+			if (speed - knockback / GROUND_SPEED_DIVISOR < LUIGI_SPEED) {
+				speed -= knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = LUIGI_SPEED;
 			}
 		}
 	}
 
-	if (encaissement >= MULTIPLICATEUR_RECUL_SOL) {
-		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL < offset + 620) {
-			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
+	if (knockback >= GROUND_RECOIL_DIVISOR) {
+		if (x + knockback / GROUND_RECOIL_DIVISOR < offset + 620) {
+			x += knockback / GROUND_RECOIL_DIVISOR;
 		}
-	} else if (encaissement <= -MULTIPLICATEUR_RECUL_SOL) {
-		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL > xmin) {
-			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
+	} else if (knockback <= -GROUND_RECOIL_DIVISOR) {
+		if (x + knockback / GROUND_RECOIL_DIVISOR > xmin) {
+			x += knockback / GROUND_RECOIL_DIVISOR;
 		}
 	}
 
-	encaissement = 0;
+	knockback = 0;
 
 	if (speed < LUIGI_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 20) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 20) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnemyLuigi::onMeure() {
+void EnemyLuigi::onDie() {
 	if (game_flag[1] == 0) {
 		fall();
 		if (x - 3 < xmin || solid_wall(x - 3, y)) {
@@ -213,11 +213,11 @@ void EnemyLuigi::onMeure() {
 			dir = FACING_LEFT;
 		}
 		if (dir == FACING_RIGHT) {
-			marche(3);
-			pic = pbk_enemies[animate(anim_luigi_marche_mort_droite, 4, 8)];
+			walk(3);
+			pic = pbk_enemies[animate(anim_luigi_walk_dead_right, 4, 8)];
 		} else {
-			marche(-3);
-			pic = pbk_enemies[animate(anim_luigi_marche_mort_gauche, 4, 8)];
+			walk(-3);
+			pic = pbk_enemies[animate(anim_luigi_walk_dead_left, 4, 8)];
 		}
 		if ((platform_y2(x, y) == 0) && (x > 1500) && (x < 1550)) {
 			dir = FACING_LEFT;
@@ -226,22 +226,22 @@ void EnemyLuigi::onMeure() {
 		}
 	} else if (game_flag[1] == 1) {
 		attack_delay++;
-		if (attack_delay >= EXPLOSE_DELAY) {
+		if (attack_delay >= EXPLODE_DELAY) {
 			game_flag[1] = 2;
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies[animate(anim_luigi_mort, 8, 6)];
+			pic = pbk_enemies[animate(anim_luigi_death, 8, 6)];
 		}
 	} else if (game_flag[1] == 2) {
-		marche(3);
-		pic = pbk_enemies[animate(anim_luigi_marche_mort_droite, 4, 8)];
+		walk(3);
+		pic = pbk_enemies[animate(anim_luigi_walk_dead_right, 4, 8)];
 		if (x > offset + 680) {
 			game_flag[1] = 3;
 			attack_delay = 0;
 		}
 	} else if (game_flag[1] == 3) {
 		attack_delay++;
-		if (attack_delay >= NOMBRE_GICLURES) {
+		if (attack_delay >= SPLATTER_COUNT) {
 			Enemy* sonic = new EnemyPacmanCar();
 
 			sonic->x = 1960;
@@ -272,16 +272,16 @@ void EnemyLuigi::onMeure() {
 }
 
 void EnemyLuigi::onAttack() {
-	nb_tir++;
-	if (nb_tir > 275) {
+	nb_shots++;
+	if (nb_shots > 275) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		onAvance();
+		status = STATE_WALK;
+		onWalk();
 		return;
 	}
 
-	if (nb_tir < 50) {
+	if (nb_shots < 50) {
 		if (dir == FACING_RIGHT)
 			pic = pbk_enemies[10];
 		else
@@ -292,106 +292,106 @@ void EnemyLuigi::onAttack() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[animate(anim_luigi_attaque_droite, 4, 2)];
-		ss_etape_attack += 1;
-		ss_etape_attack %= 4;
-		if (ss_etape_attack == 0) {
-			etape_attack += 1;
-			etape_attack %= 6;
-			ShotPlunger* tir1;
-			ShotPlunger* tir2;
+		pic = pbk_enemies[animate(anim_luigi_attack_right, 4, 2)];
+		attack_frame_tick += 1;
+		attack_frame_tick %= 4;
+		if (attack_frame_tick == 0) {
+			attack_frame += 1;
+			attack_frame %= 6;
+			ShotPlunger* shot1;
+			ShotPlunger* shot2;
 
-			switch (etape_attack) {
+			switch (attack_frame) {
 				case 0:
-					tir1 = new ShotPlunger(19, 12, 0);
-					tir2 = new ShotPlunger(19, 12, 0);
+					shot1 = new ShotPlunger(19, 12, 0);
+					shot2 = new ShotPlunger(19, 12, 0);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 
 					break;
 				case 1:
-					tir1 = new ShotPlunger(18, 11, 1);
-					tir2 = new ShotPlunger(20, 11, -1);
+					shot1 = new ShotPlunger(18, 11, 1);
+					shot2 = new ShotPlunger(20, 11, -1);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					tir1 = new ShotPlunger(17, 10, 2);
-					tir2 = new ShotPlunger(21, 10, -2);
+					shot1 = new ShotPlunger(17, 10, 2);
+					shot2 = new ShotPlunger(21, 10, -2);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					tir1 = new ShotPlunger(16, 9, 3);
-					tir2 = new ShotPlunger(22, 9, -3);
+					shot1 = new ShotPlunger(16, 9, 3);
+					shot2 = new ShotPlunger(22, 9, -3);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					tir1 = new ShotPlunger(17, 10, 2);
-					tir2 = new ShotPlunger(21, 10, -2);
+					shot1 = new ShotPlunger(17, 10, 2);
+					shot2 = new ShotPlunger(21, 10, -2);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					tir1 = new ShotPlunger(18, 11, 1);
-					tir2 = new ShotPlunger(20, 11, -1);
+					shot1 = new ShotPlunger(18, 11, 1);
+					shot2 = new ShotPlunger(20, 11, -1);
 
-					tir1->setDir(dir);
-					tir1->x = x + 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x + 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x + 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x + 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 			}
 
@@ -400,106 +400,106 @@ void EnemyLuigi::onAttack() {
 			}
 		}
 	} else {
-		pic = pbk_enemies[animate(anim_luigi_attaque_gauche, 4, 2)];
-		ss_etape_attack += 1;
-		ss_etape_attack %= 4;
-		if (ss_etape_attack == 0) {
-			etape_attack += 1;
-			etape_attack %= 6;
-			ShotPlunger* tir1;
-			ShotPlunger* tir2;
+		pic = pbk_enemies[animate(anim_luigi_attack_left, 4, 2)];
+		attack_frame_tick += 1;
+		attack_frame_tick %= 4;
+		if (attack_frame_tick == 0) {
+			attack_frame += 1;
+			attack_frame %= 6;
+			ShotPlunger* shot1;
+			ShotPlunger* shot2;
 
-			switch (etape_attack) {
+			switch (attack_frame) {
 				case 0:
-					tir1 = new ShotPlunger(26, -12, 0);
-					tir2 = new ShotPlunger(26, -12, 0);
+					shot1 = new ShotPlunger(26, -12, 0);
+					shot2 = new ShotPlunger(26, -12, 0);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 
 					break;
 				case 1:
-					tir1 = new ShotPlunger(25, -11, 1);
-					tir2 = new ShotPlunger(27, -11, -1);
+					shot1 = new ShotPlunger(25, -11, 1);
+					shot2 = new ShotPlunger(27, -11, -1);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					tir1 = new ShotPlunger(24, -10, 2);
-					tir2 = new ShotPlunger(28, -10, -2);
+					shot1 = new ShotPlunger(24, -10, 2);
+					shot2 = new ShotPlunger(28, -10, -2);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					tir1 = new ShotPlunger(23, -9, 3);
-					tir2 = new ShotPlunger(29, -9, -3);
+					shot1 = new ShotPlunger(23, -9, 3);
+					shot2 = new ShotPlunger(29, -9, -3);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					tir1 = new ShotPlunger(24, -10, 2);
-					tir2 = new ShotPlunger(28, -10, -2);
+					shot1 = new ShotPlunger(24, -10, 2);
+					shot2 = new ShotPlunger(28, -10, -2);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					tir1 = new ShotPlunger(25, -11, 1);
-					tir2 = new ShotPlunger(27, -11, -1);
+					shot1 = new ShotPlunger(25, -11, 1);
+					shot2 = new ShotPlunger(27, -11, -1);
 
-					tir1->setDir(dir);
-					tir1->x = x - 23;
-					tir1->y = y - 13;
+					shot1->setDir(dir);
+					shot1->x = x - 23;
+					shot1->y = y - 13;
 
-					tir2->setDir(dir);
-					tir2->x = x - 23;
-					tir2->y = y - 33;
+					shot2->setDir(dir);
+					shot2->x = x - 23;
+					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(tir1);
-					list_enemy_shots.emplace_back(tir2);
+					list_enemy_shots.emplace_back(shot1);
+					list_enemy_shots.emplace_back(shot2);
 					break;
 			}
 
@@ -511,11 +511,11 @@ void EnemyLuigi::onAttack() {
 	colFromPic();
 }
 
-void EnemyLuigi::onSaute() {
+void EnemyLuigi::onJump() {
 	int yp;
 
 	if (dy < 0) {
-		tombe_luigi();
+		fall_luigi();
 	} else {
 		fall();
 	}
@@ -535,7 +535,7 @@ void EnemyLuigi::onSaute() {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -548,24 +548,24 @@ void EnemyLuigi::onSaute() {
 			pic = pbk_enemies[7];
 		}
 
-		if (encaissement != 0) {
-			x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
+		if (knockback != 0) {
+			x += knockback / AIR_RECOIL_DIVISOR;
 		}
 
-		if (encaissement < 0) {
-			if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * LUIGI_SPEED) {
+		if (knockback < 0) {
+			if (speed + knockback / AIR_SPEED_DIVISOR < 0) {
+				if (speed + knockback / AIR_SPEED_DIVISOR < -2 * LUIGI_SPEED) {
 					speed = -2 * LUIGI_SPEED;
 				} else {
-					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+					speed += knockback / AIR_SPEED_DIVISOR;
 				}
 			} else {
-				speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+				speed += knockback / AIR_SPEED_DIVISOR;
 			}
 
 		} else {
-			if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 2 * LUIGI_SPEED) {
-				speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+			if (speed + knockback / AIR_SPEED_DIVISOR < 2 * LUIGI_SPEED) {
+				speed += knockback / AIR_SPEED_DIVISOR;
 			} else {
 				speed = 2 * LUIGI_SPEED;
 			}
@@ -579,42 +579,42 @@ void EnemyLuigi::onSaute() {
 			pic = pbk_enemies[9];
 		}
 
-		if (encaissement != 0) {
-			x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
+		if (knockback != 0) {
+			x += knockback / AIR_RECOIL_DIVISOR;
 		}
 
-		if (encaissement > 0) {
-			if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-				if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * LUIGI_SPEED) {
+		if (knockback > 0) {
+			if (speed - knockback / AIR_SPEED_DIVISOR < 0) {
+				if (speed - knockback / AIR_SPEED_DIVISOR < -2 * LUIGI_SPEED) {
 					speed = -2 * LUIGI_SPEED;
 				} else {
-					speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+					speed -= knockback / AIR_SPEED_DIVISOR;
 				}
 			} else {
-				speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+				speed -= knockback / AIR_SPEED_DIVISOR;
 			}
 
 		} else {
-			if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 2 * LUIGI_SPEED) {
-				speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+			if (speed - knockback / AIR_SPEED_DIVISOR < 2 * LUIGI_SPEED) {
+				speed -= knockback / AIR_SPEED_DIVISOR;
 			} else {
 				speed = 2 * LUIGI_SPEED;
 			}
 		}
 	}
 
-	encaissement = 0;
+	knockback = 0;
 
 	colFromPic();
 }
 
-void EnemyLuigi::onCarbonise() { destroyed = true; }
+void EnemyLuigi::onCharred() { destroyed = true; }
 
-void EnemyLuigi::tombe_luigi() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_LUIGI_GRAVITE;
+void EnemyLuigi::fall_luigi() {
+	grav_tick += 1;
+	grav_tick %= LUIGI_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
@@ -644,16 +644,16 @@ void EnemyLuigi::takeHit(Shot* shot) {
 	}
 
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {
-		encaissement += shot->damage();
+		knockback += shot->damage();
 	} else if ((shot->dir >= 10) && (shot->dir <= 14)) {
-		encaissement -= shot->damage();
+		knockback -= shot->damage();
 	}
 
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
 	if (hp <= 0) {
 		EventHoldFire e;

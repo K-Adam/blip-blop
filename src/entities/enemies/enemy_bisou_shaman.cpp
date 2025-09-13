@@ -3,20 +3,20 @@
 #include "entities/shots/shot_shaman_column.h"
 #include <cmath>
 
-static const int xtel[] = {8144,   // Top right
-						   8082,   // Right
-						   7653};  // Left
+static const int xteleport[] = {8144,	// Top right
+								8082,	// Right
+								7653};	// Left
 
-static const int ytel[] = {296, 130, 188};
+static const int yteleport[] = {296, 130, 188};
 
-#define ETAT_LEVEBATON 30
-#define ETAT_BAISSEBATON 31
-#define ETAT_TELE 32
+#define STATE_RAISE_STAFF 30
+#define STATE_LOWER_STAFF 31
+#define STATE_TELEPORT 32
 
-EnemyBisouShaman::EnemyBisouShaman() : etape_shoot(0), nb_touch(0), n_pos(1) {
+EnemyBisouShaman::EnemyBisouShaman() : shoot_step(0), nb_touch(0), n_pos(1) {
 	hp = 11000;
 	wait_shoot = 250 + rand() % 50;
-	tresor = 0;
+	treasure = 0;
 }
 
 void EnemyBisouShaman::update() {
@@ -30,40 +30,40 @@ void EnemyBisouShaman::update() {
 
 	if (blood > 0) blood -= 1;
 
-	etape_shoot += 1;
+	shoot_step += 1;
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_LEVEBATON:
-			onLeveBaton();
+		case STATE_RAISE_STAFF:
+			onRaiseStaff();
 			break;
 
-		case ETAT_TELE:
-			onTele();
+		case STATE_TELEPORT:
+			onTeleport();
 			break;
 
-		case ETAT_BAISSEBATON:
-			onBaisseBaton();
+		case STATE_LOWER_STAFF:
+			onLowerStaff();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_MEURE:
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_DYING:
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBisouShaman::onMeure() {
+void EnemyBisouShaman::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -82,7 +82,7 @@ void EnemyBisouShaman::onMeure() {
 	}
 }
 
-void EnemyBisouShaman::onTele() {
+void EnemyBisouShaman::onTeleport() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -108,8 +108,8 @@ void EnemyBisouShaman::onTele() {
 				n_pos %= 3;
 			}
 
-			x = xtel[n_pos];
-			y = ytel[n_pos];
+			x = xteleport[n_pos];
+			y = yteleport[n_pos];
 		} else if (anim_step == 19) {
 			status = STATE_NORMAL;
 			nb_touch = 0;
@@ -150,7 +150,7 @@ void EnemyBisouShaman::onTele() {
 	noCol();
 }
 
-void EnemyBisouShaman::onLeveBaton() {
+void EnemyBisouShaman::onRaiseStaff() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -159,9 +159,9 @@ void EnemyBisouShaman::onLeveBaton() {
 
 		if (anim_step > 2) {
 			anim_step = anim_tick = 0;
-			status = ETAT_TIRE;
-			nb_lueurs = 0;
-			onTire();
+			status = STATE_SHOOT;
+			nb_glows = 0;
+			onShoot();
 			return;
 		}
 	}
@@ -174,7 +174,7 @@ void EnemyBisouShaman::onLeveBaton() {
 	colFromPic();
 }
 
-void EnemyBisouShaman::onBaisseBaton() {
+void EnemyBisouShaman::onLowerStaff() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -183,9 +183,9 @@ void EnemyBisouShaman::onBaisseBaton() {
 
 		if (anim_step > 2) {
 			anim_step = anim_tick = 0;
-			status = ETAT_AVANCE;
+			status = STATE_WALK;
 			wait_shoot = 100 + rand() % 50;
-			etape_shoot = 0;
+			shoot_step = 0;
 			return;
 		}
 	}
@@ -198,7 +198,7 @@ void EnemyBisouShaman::onBaisseBaton() {
 	colFromPic();
 }
 
-void EnemyBisouShaman::onTire() {
+void EnemyBisouShaman::onShoot() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -207,10 +207,10 @@ void EnemyBisouShaman::onTire() {
 		anim_step %= 11;
 
 		if (anim_step == 0) {
-			nb_lueurs += 1;
+			nb_glows += 1;
 
-			if (nb_lueurs >= 3) {
-				bool boule_feu = false;
+			if (nb_glows >= 3) {
+				bool use_fireball = false;
 				int xc;
 				int yc;
 				int ddx;
@@ -228,16 +228,16 @@ void EnemyBisouShaman::onTire() {
 					ddx = (ddx * 6) / dist;
 					ddy = (ddy * 6) / dist;
 
-					int pente;
+					int slope;
 					if (ddy == 0)
-						pente = 10;
+						slope = 10;
 					else
-						pente = ddx / ddy;
+						slope = ddx / ddy;
 
-					if (pente < -1 || pente > 1) boule_feu = true;
+					if (slope < -1 || slope > 1) use_fireball = true;
 				}
 
-				if (boule_feu) {
+				if (use_fireball) {
 					ShotShamanBall* s = new ShotShamanBall();
 
 					s->y = y - 72;
@@ -267,7 +267,7 @@ void EnemyBisouShaman::onTire() {
 				}
 
 				anim_step = anim_tick = 0;
-				status = ETAT_BAISSEBATON;
+				status = STATE_LOWER_STAFF;
 			}
 		}
 	}
@@ -278,7 +278,7 @@ void EnemyBisouShaman::onTire() {
 void EnemyBisouShaman::render() {
 	Sprite::render();
 
-	if (status == ETAT_TIRE) {
+	if (status == STATE_SHOOT) {
 		if (dir == FACING_RIGHT)
 			draw(x + 18, y - 70, pbk_enemies[405 + anim_step]);
 		else
@@ -286,7 +286,7 @@ void EnemyBisouShaman::render() {
 	}
 }
 
-void EnemyBisouShaman::onAvance() {
+void EnemyBisouShaman::onWalk() {
 	static const int SPEED = 1;
 
 	fall();
@@ -307,22 +307,22 @@ void EnemyBisouShaman::onAvance() {
 		dir = FACING_LEFT;
 	}
 
-	if (etape_shoot > wait_shoot && anim_step == 0) {
-		status = ETAT_LEVEBATON;
+	if (shoot_step > wait_shoot && anim_step == 0) {
+		status = STATE_RAISE_STAFF;
 		anim_tick = 0;
-		onLeveBaton();
+		onRaiseStaff();
 	}
 
 	if (nb_touch >= 10) {
 		anim_step = anim_tick = 0;
-		status = ETAT_TELE;
+		status = STATE_TELEPORT;
 		sbk_level.play(16);
 	}
 
 	colFromPic();
 }
 
-void EnemyBisouShaman::onCarbonise() {
+void EnemyBisouShaman::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -342,15 +342,15 @@ void EnemyBisouShaman::onCarbonise() {
 }
 
 void EnemyBisouShaman::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
 	nb_touch++;
 
-	if (status == ETAT_MEURE || status == ETAT_CARBONISE) {
+	if (status == STATE_DYING || status == STATE_CHARRED) {
 		game_flag[0] = 7;
 		game_flag[FLAG_GEN_OFF] = 1;
 		sbk_level.play(19);

@@ -7,7 +7,7 @@ class EnemySmurfChilly : public EnemySmurf {
 	EnemySmurfChilly() { hp = 75; }
 
 	inline void render() override {
-		if (status != ETAT_MEURE && status != ETAT_CARBONISE) {
+		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
 					draw(x + 7, y - 18, pbk_enemies[147]);
@@ -24,8 +24,8 @@ class EnemySmurfChilly : public EnemySmurf {
 			EnemySmurf::render();
 	}
 
-	void onAvance() override {
+	void onWalk() override {
 		speed = 1 + rand() % 3;
-		EnemySmurf::onAvance();
+		EnemySmurf::onWalk();
 	}
 };

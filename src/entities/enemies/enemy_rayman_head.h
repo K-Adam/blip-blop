@@ -9,8 +9,8 @@ class EnemyRaymanHead : public Enemy {
    public:
 	EnemyRaymanHead();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 
 	bool count() override { return false; };
 

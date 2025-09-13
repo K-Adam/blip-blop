@@ -2,8 +2,8 @@
 #include "entities/shots/shot_thorn.h"
 #include "core/debug.h"
 
-const int anim_snork_in_black_boss_saute_droite[] = {414, 415, 416, 415};
-const int anim_snork_in_black_boss_saute_gauche[] = {417, 418, 419, 418};
+const int anim_snork_in_black_boss_jump_right[] = {414, 415, 416, 415};
+const int anim_snork_in_black_boss_jump_left[] = {417, 418, 419, 418};
 
 const int snork_in_black_position_x[] = {5904, 6351, 5831, 6319};
 const int snork_in_black_position_y[] = {175, 189, 342, 328};
@@ -19,30 +19,30 @@ void EnemySnorkInBlackBoss::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	if (x > offset + 1000) destroyed = true;
 }
 
-void EnemySnorkInBlackBoss::onAvance() {
+void EnemySnorkInBlackBoss::onWalk() {
 	if (game_flag[0] == 1) {
 		if (anim_tick == 0 && anim_step == 0) {
 			sbk_level.play(0);
@@ -170,15 +170,15 @@ void EnemySnorkInBlackBoss::onAvance() {
 					}
 					position = destination;
 					anim_step = 0;
-					status = ETAT_TOMBE;
+					status = STATE_FALL;
 
-					lat_grav = 0;
+					grav_tick = 0;
 					jump = true;
-					onTombe();
+					onFall();
 					return;
 				}
 			} else {
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				anim_step = 0;
 				anim_tick = 0;
 
@@ -225,7 +225,7 @@ void EnemySnorkInBlackBoss::onAvance() {
 				}
 
 				attack = true;
-				onTire();
+				onShoot();
 				return;
 			}
 		}
@@ -242,11 +242,11 @@ void EnemySnorkInBlackBoss::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkInBlackBoss::onTombe() {
-	lat_grav += 1;
-	lat_grav %= GRAVITY_DELAY;
+void EnemySnorkInBlackBoss::onFall() {
+	grav_tick += 1;
+	grav_tick %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	y += dy;
 
@@ -258,26 +258,26 @@ void EnemySnorkInBlackBoss::onTombe() {
 
 	if ((x > (snork_in_black_position_x[position] - tolerance)) && (x < (snork_in_black_position_x[position] + tolerance)) &&
 		(y > (snork_in_black_position_y[position] - tolerance)) && (y < (snork_in_black_position_y[position] + tolerance))) {
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		anim_step = 0;
 		anim_tick = 0;
 		x = snork_in_black_position_x[position];
 		y = snork_in_black_position_y[position];
 		jump = false;
-		onAvance();
+		onWalk();
 		return;
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_droite, 4, 6)];
+		pic = pbk_enemies[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
 	} else {
-		pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_gauche, 4, 6)];
+		pic = pbk_enemies[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
 	}
 
 	colFromPic();
 }
 
-void EnemySnorkInBlackBoss::onMeure() {
+void EnemySnorkInBlackBoss::onDie() {
 	col_on = false;
 	if (game_flag[0] == 2 && !jump) {
 		int destination = 0;
@@ -379,14 +379,14 @@ void EnemySnorkInBlackBoss::onMeure() {
 			anim_step = 0;
 			jump = true;
 
-			lat_grav = 0;
+			grav_tick = 0;
 			return;
 		}
 	} else if (game_flag[0] == 2 && jump) {
-		lat_grav += 1;
-		lat_grav %= GRAVITY_DELAY;
+		grav_tick += 1;
+		grav_tick %= GRAVITY_DELAY;
 
-		if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+		if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 		y += dy;
 
@@ -408,9 +408,9 @@ void EnemySnorkInBlackBoss::onMeure() {
 		}
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_droite, 4, 6)];
+			pic = pbk_enemies[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
 		} else {
-			pic = pbk_enemies[animate(anim_snork_in_black_boss_saute_gauche, 4, 6)];
+			pic = pbk_enemies[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
 		}
 	} else if (game_flag[0] == 3) {
 		shark = true;
@@ -430,7 +430,7 @@ void EnemySnorkInBlackBoss::onMeure() {
 	}
 }
 
-void EnemySnorkInBlackBoss::onTire() {
+void EnemySnorkInBlackBoss::onShoot() {
 	if (type_attack == 0) {
 		anim_tick++;
 		anim_tick %= 6;
@@ -442,7 +442,7 @@ void EnemySnorkInBlackBoss::onTire() {
 			status = STATE_NORMAL;
 			anim_step = 0;
 			anim_tick = 0;
-			onAvance();
+			onWalk();
 			return;
 		} else if (anim_tick == 1) {
 			if (dir == FACING_RIGHT) {
@@ -602,7 +602,7 @@ void EnemySnorkInBlackBoss::onTire() {
 			status = STATE_NORMAL;
 			anim_step = 0;
 			anim_tick = 0;
-			onAvance();
+			onWalk();
 			return;
 		} else {
 			if (dir == FACING_RIGHT) {
@@ -616,11 +616,11 @@ void EnemySnorkInBlackBoss::onTire() {
 }
 
 void EnemySnorkInBlackBoss::takeHit(Shot* shot) {
-	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
+	static const int dx_splatter_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
+	splatter(shot, dx_splatter_snorkbase1, dy_splatter_snorkbase1);
 }
 
 void EnemySnorkInBlackBoss::render() {

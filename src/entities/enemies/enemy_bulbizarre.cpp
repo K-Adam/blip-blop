@@ -7,23 +7,23 @@ void EnemyBulbizarre::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBulbizarre::onAvance() {
+void EnemyBulbizarre::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -40,17 +40,17 @@ void EnemyBulbizarre::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(1);
+		walk(1);
 		pic = pbk_enemies[24 + anim_step];
 	} else {
-		marche(-1);
+		walk(-1);
 		pic = pbk_enemies[26 + anim_step];
 	}
 
 	colFromPic();
 }
 
-void EnemyBulbizarre::onMeure() {
+void EnemyBulbizarre::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -72,7 +72,7 @@ void EnemyBulbizarre::onMeure() {
 	}
 }
 
-void EnemyBulbizarre::onCarbonise() {
+void EnemyBulbizarre::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -89,13 +89,13 @@ void EnemyBulbizarre::onCarbonise() {
 }
 
 void EnemyBulbizarre::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_misc.play(8 + rand() % 2);
 	}
 }

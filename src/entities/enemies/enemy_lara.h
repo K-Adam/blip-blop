@@ -2,30 +2,30 @@
 
 #include "entities/enemies/enemy.h"
 
-#define LARA_TIR_SPEED 10
+#define LARA_SHOT_SPEED 10
 #define ATTACK_DELAY 10
 
 class EnemyLara : public Enemy {
    private:
-	int numero_image_buste;
+	int bust_pic_num;
 	int attack_delay;
 	int wait_for_attack;
 	int attack_step;
-	int attack_ss_etape;
+	int attack_tick;
 	int attack_type;
 	int attack_phase;
-	int nb_pluie;
-	int x_cible;
+	int nb_rain;
+	int x_target;
 	int y_target;
 	int pics;
-	int tete_rayman;
+	int rayman_head;
 
    public:
 	EnemyLara();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onTire();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onShoot();
 
 	void render() override;
 	void takeHit(Shot* shot) override;

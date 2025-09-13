@@ -1,32 +1,32 @@
 #pragma once
 
-#define SMURF_PAYSAN_SPEED 4
+#define SMURF_FARMER_SPEED 4
 
 #include "entities/enemies/enemy.h"
 
 class EnemySmurfFarmer : public Enemy {
    public:
-	int tete_ss_etape;
-	int tete_etape;
-	int x_mort;
-	int y_mort;
+	int head_tick;
+	int head_step;
+	int x_death;
+	int y_death;
 
 	EnemySmurfFarmer();
 
 	inline void render() override {
 		Enemy::render();
-		if (status == ETAT_MEURE && tete_etape < 5) {
+		if (status == STATE_DYING && head_step < 5) {
 			if (dir == FACING_LEFT)
-				draw(x_mort, y_mort, pbk_enemies[169 + tete_etape]);
+				draw(x_death, y_death, pbk_enemies[169 + head_step]);
 			else
-				draw(x_mort, y_mort, pbk_enemies[164 + tete_etape]);
+				draw(x_death, y_death, pbk_enemies[164 + head_step]);
 		}
 	}
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

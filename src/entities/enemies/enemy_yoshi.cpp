@@ -1,13 +1,13 @@
 #include "entities/enemies/enemy_yoshi.h"
 #include "entities/shots/shot_shell.h"
 
-const int anim_yoshi_marche_droite[] = {28, 29, 30, 29};
-const int anim_yoshi_marche_gauche[] = {31, 32, 33, 32};
-const int anim_yoshi_attaque_droite[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34};
-const int anim_yoshi_attaque_gauche[] = {44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44};
+const int anim_yoshi_walk_right[] = {28, 29, 30, 29};
+const int anim_yoshi_walk_left[] = {31, 32, 33, 32};
+const int anim_yoshi_attack_right[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34};
+const int anim_yoshi_attack_left[] = {44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44};
 
 EnemyYoshi::EnemyYoshi() : attack_delay(50 + rand() % 250), wait_for_attack(0) {
-	tresor = 10;
+	treasure = 10;
 	hp = 500;
 }
 
@@ -16,27 +16,27 @@ void EnemyYoshi::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TOMBE:
-			onTombe();
+		case STATE_FALL:
+			onFall();
 			break;
 
-		case ETAT_TIRE:	 // ETAT_TIRE is the tongue or shell attack
+		case STATE_SHOOT:  // ETAT_TIRE is the tongue or shell attack
 			if (attack) {
-				onTire();
+				onShoot();
 			} else {
-				onAttaque();
+				onMelee();
 			}
 			break;
 	}
@@ -44,14 +44,14 @@ void EnemyYoshi::update() {
 	updateDestroyed();
 }
 
-void EnemyYoshi::onAvance() {
+void EnemyYoshi::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
+		grav_tick = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		onTombe();
+		onFall();
 		return;
 	}
 
@@ -60,12 +60,12 @@ void EnemyYoshi::onAvance() {
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
 		anim_step = 0;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		attack = true;
 		anim_step = 0;
 		anim_tick = 0;
 		sbk_level.play(35);
-		onTire();
+		onShoot();
 		return;
 	}
 
@@ -73,12 +73,12 @@ void EnemyYoshi::onAvance() {
 		(((dir == FACING_RIGHT) && (x > (targeted_player->x - 150)) && (targeted_player->x > x)) ||
 		 ((dir == FACING_LEFT) && (x < (targeted_player->x + 150)) && (targeted_player->x < x)))) {
 		anim_step = 0;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		attack = false;
 		anim_step = 0;
 		anim_tick = 0;
 		sbk_level.play(37);
-		onAttaque();
+		onMelee();
 		return;
 	}
 
@@ -89,16 +89,16 @@ void EnemyYoshi::onAvance() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		marche(YOSHI_SPEED);
-		pic = pbk_enemies[animate(anim_yoshi_marche_droite, 3, 3)];
+		walk(YOSHI_SPEED);
+		pic = pbk_enemies[animate(anim_yoshi_walk_right, 3, 3)];
 	} else {
-		marche(-YOSHI_SPEED);
-		pic = pbk_enemies[animate(anim_yoshi_marche_gauche, 3, 3)];
+		walk(-YOSHI_SPEED);
+		pic = pbk_enemies[animate(anim_yoshi_walk_left, 3, 3)];
 	}
 	colFromPic();
 }
 
-void EnemyYoshi::onTombe() {
+void EnemyYoshi::onFall() {
 	int yp;
 
 	fall();
@@ -109,7 +109,7 @@ void EnemyYoshi::onTombe() {
 		y = yp;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -124,7 +124,7 @@ void EnemyYoshi::onTombe() {
 	colFromPic();
 }
 
-void EnemyYoshi::onMeure() {
+void EnemyYoshi::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -146,23 +146,23 @@ void EnemyYoshi::onMeure() {
 	}
 }
 
-void EnemyYoshi::onAttaque() {
+void EnemyYoshi::onMelee() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[animate(anim_yoshi_attaque_droite, 18, 2)];
+		pic = pbk_enemies[animate(anim_yoshi_attack_right, 18, 2)];
 	} else {
-		pic = pbk_enemies[animate(anim_yoshi_attaque_gauche, 18, 1)];
+		pic = pbk_enemies[animate(anim_yoshi_attack_left, 18, 1)];
 	}
 	if (anim_step >= 17) {
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 	colFromPic();
 }
 
-void EnemyYoshi::onTire() {
+void EnemyYoshi::onShoot() {
 	anim_tick += 1;
 	anim_tick %= 15;
 
@@ -182,10 +182,10 @@ void EnemyYoshi::onTire() {
 
 		list_enemy_shots.emplace_back(shot);
 
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -198,7 +198,7 @@ void EnemyYoshi::onTire() {
 	colFromPic();
 }
 
-void EnemyYoshi::onCarbonise() {
+void EnemyYoshi::onCharred() {
 	fall();
 	anim_tick++;
 	anim_tick %= 5;
@@ -216,13 +216,13 @@ void EnemyYoshi::onCarbonise() {
 }
 
 void EnemyYoshi::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_misc.play(6 + rand() % 3);
 	}
 }

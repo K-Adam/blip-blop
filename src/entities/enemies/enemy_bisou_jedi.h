@@ -5,15 +5,15 @@
 class EnemyBisouJedi : public Enemy {
    public:
 	int wait_shoot;
-	int etape_shoot;
-	bool a_epee;
+	int shoot_step;
+	bool has_sword;
 
 	EnemyBisouJedi();
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 	void takeHit(Shot* shot) override;
 	void update() override;
-	virtual void onCarbonise();
+	virtual void onCharred();
 	void render() override;
 };
 
@@ -26,7 +26,7 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 	void update() override {
 		if (intro) {
 			if (x > offset + 450) {
-				EnemyBisouJedi::onAvance();
+				EnemyBisouJedi::onWalk();
 				col_on = false;
 			} else {
 				intro = false;

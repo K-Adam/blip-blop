@@ -2,13 +2,13 @@
 
 #include "entities/shots/shot.h"
 
-#define GRAVITE_FIREBALL 15
-#define LATENCE_FIREBALL 10
+#define GRAVITY_FIREBALL 15
+#define FIREBALL_GRAVITY_DELAY 10
 
 class ShotMarioFireballVertical : public Shot {
    public:
 	int dx;
-	int x_cible;
+	int x_target;
 
 	ShotMarioFireballVertical(int vx, int xc);
 
@@ -19,5 +19,5 @@ class ShotMarioFireballVertical : public Shot {
 	void setDir(int d) override { dir = d; };
 
 	void update() override;
-	virtual void fireball_tombe();
+	virtual void fireball_fall();
 };

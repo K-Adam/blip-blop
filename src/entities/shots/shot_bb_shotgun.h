@@ -5,19 +5,19 @@
 
 class ShotBBShotgun : public ShotBB {
    public:
-	ShotBBShotgun() : etape_dx(0), etape_dy(0) {}
+	ShotBBShotgun() : dx_tick(0), dy_tick(0) {}
 	int dx;
 	int ddx;
 	int ddy;
-	int etape_dx;
-	int latence_x;
-	int latence_y;
-	int etape_dy;
-	int duree_vie;
-	int vie;
+	int dx_tick;
+	int delay_x;
+	int delay_y;
+	int dy_tick;
+	int lifespan;
+	int age;
 
 	inline int damage() const override {
-		if (vie < duree_vie)
+		if (age < lifespan)
 			return 40;
 		else
 			return 30;

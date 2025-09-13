@@ -6,8 +6,8 @@
 
 class ShotSnorkyBase : public Shot {
    public:
-	int oscilation_etape;
-	int speed_etape;
+	int oscillation_step;
+	int accel_tick;
 	int dx;
 
 	ShotSnorkyBase(int vx);

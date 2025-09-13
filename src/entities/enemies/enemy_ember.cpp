@@ -5,20 +5,20 @@ EnemyEmber::EnemyEmber() { hp = 100; }
 void EnemyEmber::update() {
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-		case ETAT_CARBONISE:
-			onMeure();
+		case STATE_DYING:
+		case STATE_CHARRED:
+			onDie();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyEmber::onAvance() {
+void EnemyEmber::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -35,17 +35,17 @@ void EnemyEmber::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(2);
+		walk(2);
 		pic = pbk_enemies[44 + anim_step];
 	} else {
-		marche(-2);
+		walk(-2);
 		pic = pbk_enemies[46 + anim_step];
 	}
 
 	colFromPic();
 }
 
-void EnemyEmber::onMeure() {
+void EnemyEmber::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -64,9 +64,9 @@ void EnemyEmber::onMeure() {
 }
 
 void EnemyEmber::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 10, 10, 0, -10, -10, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 10, 10, 0, -10, -10, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 }

@@ -10,20 +10,20 @@ void EnemyRaymanHead::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onAvance();
+		case STATE_WALK:
+		case STATE_JUMP:
+		case STATE_FALL:
+			onWalk();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 	}
 }
 
-void EnemyRaymanHead::onAvance() {
+void EnemyRaymanHead::onWalk() {
 	x += dx;
 	fall();
 	colFromPic();
@@ -43,7 +43,7 @@ void EnemyRaymanHead::onAvance() {
 	}
 }
 
-void EnemyRaymanHead::onMeure() {
+void EnemyRaymanHead::onDie() {
 	anim_tick++;
 	anim_tick %= 6;
 	if (anim_tick == 0) {
@@ -60,10 +60,10 @@ void EnemyRaymanHead::onMeure() {
 int EnemyRaymanHead::damage() { return 0; };
 
 void EnemyRaymanHead::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	shot->aTouche(9999);
-	gicle(shot, dx_giclure, dy_giclure);
+	shot->onHit(9999);
+	splatter(shot, dx_splatter, dy_splatter);
 }

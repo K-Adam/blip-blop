@@ -2,8 +2,8 @@
 #include "entities/piece_snorky_head.h"
 #include "entities/shots/shot_snorky_base.h"
 
-const int anim_snorky_base_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
-const int anim_snorky_base_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
+const int anim_snorky_base_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
+const int anim_snorky_base_walk_left[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
 EnemySnorkyBase1::EnemySnorkyBase1() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 200;
@@ -15,38 +15,38 @@ void EnemySnorkyBase1::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemySnorkyBase1::onAvance() {
+void EnemySnorkyBase1::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onTombe();
+		grav_tick = 0;
+		onFall();
 		return;
 	}
 
@@ -56,21 +56,21 @@ void EnemySnorkyBase1::onAvance() {
 		shoot_delay = 50 + rand() % 200;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_TIRE;
-		onTire();
+		status = STATE_SHOOT;
+		onShoot();
 		return;
 	}
 
 	if (dir == FACING_LEFT) {
-		marche(-SNORKY_BASE_SPEED);
+		walk(-SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_marche_gauche, 8, 4)];
+		pic = pbk_enemies[animate(anim_snorky_base_walk_left, 8, 4)];
 
 		if (solid_wall(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
-		marche(SNORKY_BASE_SPEED);
+		walk(SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_marche_droite, 8, 4)];
+		pic = pbk_enemies[animate(anim_snorky_base_walk_right, 8, 4)];
 
 		if (solid_wall(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -78,15 +78,15 @@ void EnemySnorkyBase1::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkyBase1::onTombe() {
+void EnemySnorkyBase1::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemySnorkyBase1::onMeure() {
+void EnemySnorkyBase1::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -114,16 +114,16 @@ void EnemySnorkyBase1::onMeure() {
 
 	} else {
 		if (dir == FACING_LEFT) {
-			marche(-SNORKY_BASE_SPEED);
+			walk(-SNORKY_BASE_SPEED);
 			pic = pbk_enemies[71 + anim_step];
 		} else {
-			marche(SNORKY_BASE_SPEED);
+			walk(SNORKY_BASE_SPEED);
 			pic = pbk_enemies[38 + anim_step];
 		}
 	}
 }
 
-void EnemySnorkyBase1::onTire() {
+void EnemySnorkyBase1::onShoot() {
 	anim_tick++;
 	anim_tick %= 6;
 	if (anim_tick == 0) {
@@ -133,8 +133,8 @@ void EnemySnorkyBase1::onTire() {
 	if (anim_step == 12) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		onAvance();
+		status = STATE_WALK;
+		onWalk();
 		return;
 	}
 
@@ -170,7 +170,7 @@ void EnemySnorkyBase1::onTire() {
 	}
 }
 
-void EnemySnorkyBase1::onCarbonise() {
+void EnemySnorkyBase1::onCharred() {
 	anim_tick++;
 	anim_tick %= 6;
 
@@ -187,13 +187,13 @@ void EnemySnorkyBase1::onCarbonise() {
 }
 
 void EnemySnorkyBase1::takeHit(Shot* shot) {
-	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
+	static const int dx_splatter_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
+	splatter(shot, dx_splatter_snorkbase1, dy_splatter_snorkbase1);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(14 + rand() % 3);
 	}
 }

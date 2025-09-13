@@ -3,38 +3,38 @@
 #include "entities/enemies/enemy.h"
 
 #define MARIO_SPEED 5
-#define LATENCE_MARIO_GRAVITE 12
-#define NB_CLIGNO 4
+#define MARIO_GRAVITY_DELAY 12
+#define NB_BLINKS 4
 
 class EnemyMarioHologram : public Enemy {
    private:
 	int speed;
-	int etape_speed;  // Acceleration delay
-	int fireball;	  // Fireball held in hands
+	int speed_tick;	 // Acceleration delay
+	int fireball;	 // Fireball held in hands
 	int wait_for_blink;
-	int cligno_delay;
-	int decalage_cligno;
+	int blink_delay;
+	int blink_offset;
 
 	int attack_delay;
 	int wait_for_attack;
 	int attack_step;
 	int attack_type;
 	int attack_phase;
-	int x_cible;
+	int x_target;
 	int y_target;
 
    public:
 	EnemyMarioHologram();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onCharge();
-	virtual void onCarbonise();
-	virtual void onTire();
-	virtual void onTireverticale();
-	virtual void tombe_mario();
-	virtual inline void boule_de_feu();
+	virtual void onCharred();
+	virtual void onShoot();
+	virtual void onShootVertical();
+	virtual void fall_mario();
+	virtual inline void shoot_fireball();
 	void render() override;
 	void takeHit(Shot* shot) override;
 };

@@ -5,20 +5,20 @@ EnemyCOM::EnemyCOM() { hp = 100; }
 void EnemyCOM::update() {
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-		case ETAT_CARBONISE:
-			onMeure();
+		case STATE_DYING:
+		case STATE_CHARRED:
+			onDie();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyCOM::onAvance() {
+void EnemyCOM::onWalk() {
 	anim_tick += 1;
 	anim_tick %= 8;
 
@@ -42,7 +42,7 @@ void EnemyCOM::onAvance() {
 	colFromPic();
 }
 
-void EnemyCOM::onMeure() {
+void EnemyCOM::onDie() {
 	if (anim_tick == 0 && anim_step == 0) {
 		sbk_level.play(6);
 	}

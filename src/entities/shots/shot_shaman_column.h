@@ -4,7 +4,7 @@
 
 class ShotShamanColumn : public Shot {
    public:
-	int duree_vie;
+	int lifespan;
 	int status;	 // 0 created, 1 normal, 2 destroyed
 
 	ShotShamanColumn();
@@ -16,5 +16,5 @@ class ShotShamanColumn : public Shot {
 	void setDir(int d) override { dir = d; };
 
 	void update() override;
-	virtual void deplace();
+	virtual void travel();
 };

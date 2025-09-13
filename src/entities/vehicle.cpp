@@ -4,17 +4,17 @@ Vehicle::Vehicle() : hero(NULL), ctrl(NULL), can_be_used(true) {}
 
 void Vehicle::update() {
 	if (hero == NULL) {
-		if (can_be_used) hero = scanne();
+		if (can_be_used) hero = seekRider();
 
 		if (hero != NULL) {
-			hero->lockVehicule(canFire(), canChangeDir());
+			hero->lockVehicle(canFire(), canChangeDir());
 			ctrl = hero->ctrl;
 		} else {
 			updateNotUsed();
 			updateDestroyed();
 		}
 	} else {
-		if (hero->status != ETAT_LOCKEDV || hero->destroyed) {
+		if (hero->status != STATE_LOCKED_VEHICLE || hero->destroyed) {
 			hero = NULL;
 			updateNotUsed();
 			return;
@@ -24,7 +24,7 @@ void Vehicle::update() {
 	}
 }
 
-Ball* Vehicle::scanne() {
+Ball* Vehicle::seekRider() {
 	int ddx;
 	int ddy;
 
@@ -32,8 +32,8 @@ Ball* Vehicle::scanne() {
 		ddx = c->x - x;
 		ddy = c->y - y;
 
-		if (ddx > -20 && ddx < 20 && ddy > -20 && ddy < 20 && c->status != ETAT_MEURE && c->status != STATE_COME_BACK && !c->destroyed &&
-			c->status != ETAT_LOCKEDV)
+		if (ddx > -20 && ddx < 20 && ddy > -20 && ddy < 20 && c->status != STATE_DYING && c->status != STATE_COME_BACK && !c->destroyed &&
+			c->status != STATE_LOCKED_VEHICLE)
 			return c;
 	}
 

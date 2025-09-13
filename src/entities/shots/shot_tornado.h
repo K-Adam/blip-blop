@@ -3,15 +3,15 @@
 #include "entities/shots/shot.h"
 
 #define SPEED_MAX 7
-#define TORNADE_ACCELERATION 10
-#define TOUR_MAX 1
-#define LATENCE_TORNADE 21
+#define TORNADO_ACCELERATION 10
+#define LOOPS_MAX 1
+#define TORNADO_GRAVITY_DELAY 21
 
 class ShotTornado : public Shot {
    public:
 	int dx;
-	int etape_speed;
-	int nb_tour;
+	int speed_tick;
+	int nb_loops;
 
 	ShotTornado(int vx);
 

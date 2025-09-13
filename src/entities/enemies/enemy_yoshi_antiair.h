@@ -11,10 +11,10 @@ class EnemyYoshiAntiair : public Enemy {
 	EnemyYoshiAntiair();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onTire();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onShoot();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

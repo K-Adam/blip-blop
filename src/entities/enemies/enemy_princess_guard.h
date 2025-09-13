@@ -7,14 +7,14 @@
 
 class EnemyPrincessGuard : public Enemy {
    private:
-	int distance_couverture;
+	int cover_distance;
 
    public:
-	EnemyPrincess* princesse;
+	EnemyPrincess* princess;
 
-	EnemyPrincessGuard(EnemyPrincess* Princesse, int distance);
+	EnemyPrincessGuard(EnemyPrincess* Princess, int distance);
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 	void takeHit(Shot* shot) override;
 };

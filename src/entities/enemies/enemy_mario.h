@@ -4,60 +4,60 @@
 
 #define MARIO_SPEED 5
 #define MARIO_CHARGE_SPEED 7
-#define LATENCE_MARIO_GRAVITE 12
-#define MARIO_PV_SOUS_CRITIQUE 17500
-#define MARIO_PV_CRITIQUE 11500
-#define MARIO_PV_SUR_CRITIQUE 8500
+#define MARIO_GRAVITY_DELAY 12
+#define MARIO_HP_SUBCRITICAL 17500
+#define MARIO_HP_CRITICAL 11500
+#define MARIO_HP_SUPERCRITICAL 8500
 
 class EnemyMario : public Enemy {
    private:
 	int speed;
-	int etape_speed;  // Acceleration delay
-	int fireball;	  // Fireball held in hands
-	int hologramme;
+	int speed_tick;	 // Acceleration delay
+	int fireball;	 // Fireball held in hands
+	int hologram;
 
 	int attack_delay;
 	int wait_for_attack;
 	int attack_step;
-	int attack_ss_etape;
+	int attack_tick;
 	int attack_type;
 	int attack_phase;
-	int nb_pluie;
-	int x_cible;
+	int nb_rain;
+	int x_target;
 	int y_target;
 
    public:
 	EnemyMario();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onCharge();
-	virtual void onCarbonise();
-	virtual void tombe_mario();
+	virtual void onCharred();
+	virtual void fall_mario();
 
-	virtual void onTirehorizontale();
-	virtual void onTireverticale();
-	virtual void onTirecross();
+	virtual void onShootHorizontal();
+	virtual void onShootVertical();
+	virtual void onShootCross();
 
-	virtual void onRafalehorizontale();
-	virtual void onRafalehorizontaledouble();
-	virtual void onRafalehorizontaleconstante();
-	virtual void onRafalehorizontalechercheuse();
+	virtual void onBurstHorizontal();
+	virtual void onBurstHorizontalDouble();
+	virtual void onBurstHorizontalSteady();
+	virtual void onBurstHorizontalHoming();
 
-	virtual void onRafaleverticale();
-	virtual void onRafaleverticaleinverser();
-	virtual void onRafaleverticaledouble();
-	virtual void onRafaleverticalechercheuse();
-	virtual void onRafaleverticaleconstante();
-	virtual void onPluiedefeu();
+	virtual void onBurstVertical();
+	virtual void onBurstVerticalReverse();
+	virtual void onBurstVerticalDouble();
+	virtual void onBurstVerticalHoming();
+	virtual void onBurstVerticalSteady();
+	virtual void onFireRain();
 
-	virtual void onRafaleberserker();
-	virtual void onRafalecrosschercheuse();
-	virtual void onRafalecross();
+	virtual void onBurstBerserker();
+	virtual void onBurstCrossHoming();
+	virtual void onBurstCross();
 
 	// Fireballs only travel horizontally
-	virtual inline void boule_de_feu(int vitesse);
+	virtual inline void shoot_fireball(int velocity);
 
 	void render() override;
 	void takeHit(Shot* shot) override;

@@ -1,39 +1,39 @@
-const int tir_position_depart_x[] = {-15, -8, 6, 1, 8, 17};
-const int tir_position_depart_y[] = {55, 62, 65, 65, 62, 55};
+const int shot_start_x[] = {-15, -8, 6, 1, 8, 17};
+const int shot_start_y[] = {55, 62, 65, 65, 62, 55};
 
-const int tir_dx[] = {-4, -1, 0, 0, 1, 4};
-const int tir_dy[] = {4, 5, 6, 6, 5, 4};
+const int shot_dx[] = {-4, -1, 0, 0, 1, 4};
+const int shot_dy[] = {4, 5, 6, 6, 5, 4};
 
 #include "entities/enemies/enemy_smurf_wild.h"
 #include "entities/shots/shot_smurf_wild.h"
 
 int EnemySmurfWild::wait_shoot;
-int EnemySmurfWild::etape_wait;
+int EnemySmurfWild::wait_step;
 
-EnemySmurfWild::EnemySmurfWild() : etape_shoot(0), position(false) {
+EnemySmurfWild::EnemySmurfWild() : shoot_step(0), position(false) {
 	first_loop = true;
 	hp = 150;
 	anim_step = 1;
 	nb_shoot = 0;
-	mort = false;
-	cible = targeted_player;
-	ss_etape_angle = angle = 0;
-	sensAngle = true;
+	dead = false;
+	target = targeted_player;
+	angle_tick = angle = 0;
+	angleIncreasing = true;
 
 	wait_shoot = 100 + rand() % 100;
-	etape_wait = 0;
-	status = ETAT_ATTENDS;
+	wait_step = 0;
+	status = STATE_WAITING;
 
 	switch (dir) {
 		case FACING_RIGHT:
 			num_pic = 139;
 			pic = pbk_enemies[140];
-			shoot_direction = BAS_DROITE;
+			shoot_direction = DOWN_RIGHT;
 			break;
 		case FACING_LEFT:
 			num_pic = 141;
 			pic = pbk_enemies[142];
-			shoot_direction = BAS_GAUCHE;
+			shoot_direction = DOWN_LEFT;
 			break;
 	}
 }
@@ -48,53 +48,53 @@ void EnemySmurfWild::update() {
 		first_loop = false;
 	}
 
-	if (cible == NULL || cible->isDestroyed()) {
-		cible = targeted_player;
+	if (target == NULL || target->isDestroyed()) {
+		target = targeted_player;
 	}
 
-	if (status != ETAT_MEURE) {
-		if (cible != NULL && x != cible->x)
-			pente = (abs(cible->y - y) * 10) / (x - cible->x);
+	if (status != STATE_DYING) {
+		if (target != NULL && x != target->x)
+			slope = (abs(target->y - y) * 10) / (x - target->x);
 		else
-			pente = 3;
+			slope = 3;
 	}
 
-	if (pente > 0) {
+	if (slope > 0) {
 		dir = FACING_LEFT;
 		num_pic = 141;
 
-		if (pente <= 15)
-			shoot_direction = DIAGONALE_GAUCHE;
-		else if (pente <= 25)
-			shoot_direction = DIAGONALE_BAS_GAUCHE;
+		if (slope <= 15)
+			shoot_direction = DIAGONAL_LEFT;
+		else if (slope <= 25)
+			shoot_direction = DIAGONAL_DOWN_LEFT;
 		else
-			shoot_direction = BAS_GAUCHE;
-	} else if (pente < 0) {
+			shoot_direction = DOWN_LEFT;
+	} else if (slope < 0) {
 		dir = FACING_RIGHT;
 		num_pic = 139;
 
-		if (pente >= -15)
-			shoot_direction = DIAGONALE_DROITE;
-		else if (pente >= -25)
-			shoot_direction = DIAGONALE_BAS_DROITE;
+		if (slope >= -15)
+			shoot_direction = DIAGONAL_RIGHT;
+		else if (slope >= -25)
+			shoot_direction = DIAGONAL_DOWN_RIGHT;
 		else
-			shoot_direction = BAS_DROITE;
+			shoot_direction = DOWN_RIGHT;
 	}
 
-	if (status != ETAT_MEURE) pic = pbk_enemies[num_pic + anim_step];
+	if (status != STATE_DYING) pic = pbk_enemies[num_pic + anim_step];
 
 	if (blood != 0) blood -= 1;
 
-	if (!mort && hp < 0) {
-		mort = true;
+	if (!dead && hp < 0) {
+		dead = true;
 		anim_step = 0;
 		status = 0;
 	}
 
 	switch (status) {
-		case ETAT_ATTENDS:
-			if (++etape_wait >= wait_shoot) {
-				status = ETAT_TOMBE;
+		case STATE_WAITING:
+			if (++wait_step >= wait_shoot) {
+				status = STATE_FALL;
 
 				sbk_level.play(17);
 
@@ -108,25 +108,25 @@ void EnemySmurfWild::update() {
 				while (solid_wall(x, j)) j = 100 + rand() % 140;
 
 				nb_shoot = 0;
-				hauteur = j;
+				height_px = j;
 			}
 			break;
-		case ETAT_TOMBE:
-			onTombe();
+		case STATE_FALL:
+			onFall();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_MONTE:
-			etape_wait = 0;
+		case STATE_CLIMB:
+			wait_step = 0;
 
 			if (y <= -100) {
 				wait_shoot = 100 + rand() % 100;
-				status = ETAT_ATTENDS;
+				status = STATE_WAITING;
 				destroyed = true;
-				cible = NULL;
+				target = NULL;
 			} else {
 				y -= 2;
 			}
@@ -134,28 +134,28 @@ void EnemySmurfWild::update() {
 
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 	updateDestroyed();
 }
 
-void EnemySmurfWild::onTombe() {
-	if (y < hauteur) {
+void EnemySmurfWild::onFall() {
+	if (y < height_px) {
 		y += 3;
 	} else {
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 	}
 
-	etape_wait = 0;
+	wait_step = 0;
 	colFromPic();
 }
 
-void EnemySmurfWild::onTire() {
+void EnemySmurfWild::onShoot() {
 	shooting = true;
 
 	anim_tick += 1;
@@ -165,35 +165,35 @@ void EnemySmurfWild::onTire() {
 
 	if (anim_step > 2) anim_step = 1;
 
-	etape_shoot += 1;
-	etape_shoot %= 10;
+	shoot_step += 1;
+	shoot_step %= 10;
 
-	if (etape_shoot == 0) {
+	if (shoot_step == 0) {
 		ShotSmurfWild* shot = new ShotSmurfWild();
-		shot->x = x + tir_position_depart_x[shoot_direction];
-		shot->y = y + tir_position_depart_y[shoot_direction];
-		shot->dx = tir_dx[shoot_direction];
-		shot->dy = tir_dy[shoot_direction];
+		shot->x = x + shot_start_x[shoot_direction];
+		shot->y = y + shot_start_y[shoot_direction];
+		shot->dx = shot_dx[shoot_direction];
+		shot->dy = shot_dy[shoot_direction];
 		list_enemy_shots.emplace_back(shot);
 
 		if (nb_shoot == 0) sbk_level.play(18);
 		nb_shoot += 1;
 	}
 
-	if (nb_shoot >= 5) status = ETAT_MONTE;
+	if (nb_shoot >= 5) status = STATE_CLIMB;
 
 	colFromPic();
 }
 
 void EnemySmurfWild::takeHit(Shot* shot) {
-	static const int dx_giclure_smurf_sauvage[] = {0, 0, 6, 0, 0, 0, -6, 0};
-	static const int dy_giclure_smurf_sauvage[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_smurf_wild[] = {0, 0, 6, 0, 0, 0, -6, 0};
+	static const int dy_splatter_smurf_wild[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	if (status == ETAT_MEURE) sbk_level.play(4 + rand() % 10);
+	if (status == STATE_DYING) sbk_level.play(4 + rand() % 10);
 }
 
-void EnemySmurfWild::onMeure() {
+void EnemySmurfWild::onDie() {
 	if (anim_step >= 5) {
 		bool ok = true;
 
@@ -229,8 +229,8 @@ void EnemySmurfWild::onMeure() {
 	}
 }
 
-void EnemySmurfWild::onCarbonise() {
-	y = hauteur + 50 - anim_step;
+void EnemySmurfWild::onCharred() {
+	y = height_px + 50 - anim_step;
 	anim_tick += 1;
 	anim_tick %= 6;
 

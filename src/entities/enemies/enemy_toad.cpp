@@ -1,14 +1,14 @@
 #include "entities/enemies/enemy_toad.h"
 
-const int anim_toad_marche_droite[] = {0, 1, 2, 1};
-const int anim_toad_marche_gauche[] = {4, 5, 6, 5};
+const int anim_toad_walk_right[] = {0, 1, 2, 1};
+const int anim_toad_walk_left[] = {4, 5, 6, 5};
 
 static int wait_brain_hurts = 1000;
 static bool local_phase;
 static int brain_hurts = 9;
 
-EnemyToad::EnemyToad() : speed(0), etape_speed(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
-	tresor = 7;
+EnemyToad::EnemyToad() : speed(0), speed_tick(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
+	treasure = 7;
 	hp = 300;
 }
 
@@ -22,24 +22,24 @@ void EnemyToad::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onSaute();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onJump();
 			break;
 
-		case ETAT_TIRE:	 // ETAT_TIRE is Toad charging
+		case STATE_SHOOT:  // ETAT_TIRE is Toad charging
 			onCharge();
 			break;
 	}
@@ -47,14 +47,14 @@ void EnemyToad::update() {
 	updateDestroyed();
 }
 
-void EnemyToad::onAvance() {
+void EnemyToad::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		lat_grav = 0;
-		onSaute();
+		grav_tick = 0;
+		onJump();
 	}
 
 	if (x - speed < xmin || solid_wall(x - speed, y)) {
@@ -68,12 +68,12 @@ void EnemyToad::onAvance() {
 	if (wait_for_charge >= charge_delay) {
 		if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
 			(((dir == FACING_RIGHT) && (x < targeted_player->x)) || ((dir == FACING_LEFT) && (x > targeted_player->x)))) {
-			charge_etape = 0;
+			charge_step = 0;
 			speed = 0;
 			anim_step = 0;
 			anim_tick = 0;
 			dy = 0;
-			status = ETAT_TIRE;
+			status = STATE_SHOOT;
 			sbk_level.play(34);
 			onCharge();
 			return;
@@ -82,31 +82,31 @@ void EnemyToad::onAvance() {
 			charge_delay = 50 + rand() % 250;
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_SAUTE;
+			status = STATE_JUMP;
 			dy = -7;
-			lat_grav = 0;  // Otherwise jump heights vary
-			onSaute();
+			grav_tick = 0;	// Otherwise jump heights vary
+			onJump();
 			return;
 		}
 	}
 	if (dir == FACING_RIGHT) {
-		marche(speed);
-		pic = pbk_enemies[animate(anim_toad_marche_droite, 4, 12 - 3 * speed)];
+		walk(speed);
+		pic = pbk_enemies[animate(anim_toad_walk_right, 4, 12 - 3 * speed)];
 	} else {
-		marche(-speed);
-		pic = pbk_enemies[animate(anim_toad_marche_gauche, 4, 12 - 3 * speed)];
+		walk(-speed);
+		pic = pbk_enemies[animate(anim_toad_walk_left, 4, 12 - 3 * speed)];
 	}
 	if (speed < TOAD_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 30) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 30) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnemyToad::onMeure() {
+void EnemyToad::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -145,45 +145,45 @@ void EnemyToad::onCharge() {
 	if (x - speed < xmin || solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 250;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 250;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
-	charge_etape += 1;
-	if (charge_etape < 80) {
+	charge_step += 1;
+	if (charge_step < 80) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[animate(anim_toad_marche_droite, 4, 3)];
+			pic = pbk_enemies[animate(anim_toad_walk_right, 4, 3)];
 		} else {
-			pic = pbk_enemies[animate(anim_toad_marche_gauche, 4, 3)];
+			pic = pbk_enemies[animate(anim_toad_walk_left, 4, 3)];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
-			marche(speed);
-			pic = pbk_enemies[animate(anim_toad_marche_droite, 4, 2)];
+			walk(speed);
+			pic = pbk_enemies[animate(anim_toad_walk_right, 4, 2)];
 		} else {
-			marche(-speed);
-			pic = pbk_enemies[animate(anim_toad_marche_gauche, 4, 2)];
+			walk(-speed);
+			pic = pbk_enemies[animate(anim_toad_walk_left, 4, 2)];
 		}
 	}
 
 	colFromPic();
 }
 
-void EnemyToad::onSaute() {
+void EnemyToad::onJump() {
 	int yp;
 
 	fall();
@@ -194,7 +194,7 @@ void EnemyToad::onSaute() {
 		y = yp;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -209,7 +209,7 @@ void EnemyToad::onSaute() {
 	colFromPic();
 }
 
-void EnemyToad::onCarbonise() {
+void EnemyToad::onCharred() {
 	fall();
 	anim_tick++;
 	anim_tick %= 5;
@@ -229,13 +229,13 @@ void EnemyToad::onCarbonise() {
 }
 
 void EnemyToad::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		if (wait_brain_hurts >= 140 && wait_brain_hurts <= 200) {
 			wait_brain_hurts = 250;
 			sbk_level.play(29);

@@ -6,7 +6,7 @@ class Blop : public Ball {
    public:
 	Blop() : Ball(pbk_blop) { id_ball = ID_BLOP; };
 
-	void rearme() override {
+	void rearm() override {
 		weapon_id = ID_SHOTGUN;
 		ammo = 10;
 		weapon_anim_delay = 3;
@@ -14,9 +14,9 @@ class Blop : public Ball {
 		fire_interval = 45;
 		gun_weight = 1;
 
-		etape_arme = 0;
-		ss_etape_arme = 0;
-		etape_recul = 0;
+		weapon_step = 0;
+		weapon_tick = 0;
+		recoil_step = 0;
 		is_firing = false;
 	}
 };

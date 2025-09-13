@@ -2,39 +2,39 @@
 
 #include "entities/enemies/enemy.h"
 
-#define DIAGONALE_GAUCHE 0
-#define DIAGONALE_BAS_GAUCHE 1
-#define BAS_GAUCHE 2
-#define BAS_DROITE 3
-#define DIAGONALE_BAS_DROITE 4
-#define DIAGONALE_DROITE 5
+#define DIAGONAL_LEFT 0
+#define DIAGONAL_DOWN_LEFT 1
+#define DOWN_LEFT 2
+#define DOWN_RIGHT 3
+#define DIAGONAL_DOWN_RIGHT 4
+#define DIAGONAL_RIGHT 5
 
-#define ETAT_ATTENDS 100
-#define ETAT_MONTE 102
+#define STATE_WAITING 100
+#define STATE_CLIMB 102
 
 class EnemySmurfWild : public Enemy {
    public:
 	int shoot_direction;
-	int hauteur;
-	int pente;	// Slope of the line through tete_turc and this smurf
+	int height_px;
+	int slope;	// Slope of the line through tete_turc and this smurf
 	int num_pic;
-	int etape_shoot;
+	int shoot_step;
 	int nb_shoot;
 
 	static int wait_shoot;
-	static int etape_wait;
+	static int wait_step;
 
 	bool first_loop;
-	bool mort;
+	bool dead;
 	bool position;
 
-	int ss_etape_angle;
+	int angle_tick;
 	int angle;
-	bool sensAngle;
+	bool angleIncreasing;
 
 	bool shooting;
 
-	Sprite* cible;
+	Sprite* target;
 
 	EnemySmurfWild();
 
@@ -50,43 +50,43 @@ class EnemySmurfWild : public Enemy {
 		if (hp > 0) {
 			if (shooting) {
 				switch (shoot_direction) {
-					case DIAGONALE_GAUCHE:
+					case DIAGONAL_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[137 + anim_step]);
 						break;
-					case DIAGONALE_BAS_GAUCHE:
+					case DIAGONAL_DOWN_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[133 + anim_step]);
 						break;
-					case BAS_GAUCHE:
+					case DOWN_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[129 + anim_step]);
 						break;
-					case BAS_DROITE:
+					case DOWN_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[127 + anim_step]);
 						break;
-					case DIAGONALE_BAS_DROITE:
+					case DIAGONAL_DOWN_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[131 + anim_step]);
 						break;
-					case DIAGONALE_DROITE:
+					case DIAGONAL_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[135 + anim_step]);
 						break;
 				}
 			} else {
 				switch (shoot_direction) {
-					case DIAGONALE_GAUCHE:
+					case DIAGONAL_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[352]);
 						break;
-					case DIAGONALE_BAS_GAUCHE:
+					case DIAGONAL_DOWN_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[350]);
 						break;
-					case BAS_GAUCHE:
+					case DOWN_LEFT:
 						draw(x + 8, y + 38, pbk_enemies[354]);
 						break;
-					case BAS_DROITE:
+					case DOWN_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[353]);
 						break;
-					case DIAGONALE_BAS_DROITE:
+					case DIAGONAL_DOWN_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[349]);
 						break;
-					case DIAGONALE_DROITE:
+					case DIAGONAL_RIGHT:
 						draw(x - 5, y + 38, pbk_enemies[351]);
 						break;
 				}
@@ -95,9 +95,9 @@ class EnemySmurfWild : public Enemy {
 	}
 
 	void update() override;
-	virtual void onTombe();
-	virtual void onTire();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onFall();
+	virtual void onShoot();
+	virtual void onDie();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 };

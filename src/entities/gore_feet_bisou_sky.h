@@ -15,10 +15,10 @@ class GoreFeetBisouSky : public Sprite {
 		}
 
 		if (dir == FACING_RIGHT) {
-			marche(-1);
+			walk(-1);
 			pic = pbk_enemies[anim_step];
 		} else {
-			marche(1);
+			walk(1);
 			pic = pbk_enemies[4 + anim_step];
 		}
 

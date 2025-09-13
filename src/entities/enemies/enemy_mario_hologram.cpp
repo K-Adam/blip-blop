@@ -2,69 +2,69 @@
 #include "entities/shots/shot_mario_fireball.h"
 #include "entities/shots/shot_mario_fireball_vertical.h"
 
-const int anim_mario_marche_droite[] = {0, 1, 2, 1};
-const int anim_mario_marche_gauche[] = {3, 4, 5, 4};
-const int recul_mario[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const int anim_mario_walk_right[] = {0, 1, 2, 1};
+const int anim_mario_walk_left[] = {3, 4, 5, 4};
+const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 EnemyMarioHologram::EnemyMarioHologram()
-	: speed(1), etape_speed(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_blink(0), cligno_delay(10 + rand() % 10) {
+	: speed(1), speed_tick(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), wait_for_blink(0), blink_delay(10 + rand() % 10) {
 	hp = 1;
 	pic = pbk_enemies[0];
 }
 
 void EnemyMarioHologram::update() {
 	wait_for_blink++;
-	if (wait_for_blink > cligno_delay + NB_CLIGNO) {
-		decalage_cligno = 54;
+	if (wait_for_blink > blink_delay + NB_BLINKS) {
+		blink_offset = 54;
 		wait_for_blink = 0;
-		cligno_delay = 50 + rand() % 50;
-	} else if (wait_for_blink > cligno_delay) {
-		decalage_cligno = 54;
+		blink_delay = 50 + rand() % 50;
+	} else if (wait_for_blink > blink_delay) {
+		blink_offset = 54;
 	} else {
-		decalage_cligno = 0;
+		blink_offset = 0;
 	}
 
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onSaute();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onJump();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 			switch (attack_type) {
 				case 0:
-					onTire();
+					onShoot();
 					break;
 
 				case 1:
-					onTireverticale();
+					onShootVertical();
 					break;
 			}
 			break;
 	}
 }
 
-void EnemyMarioHologram::onAvance() {
+void EnemyMarioHologram::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onSaute();
+		grav_tick = 0;
+		onJump();
 	}
 
 	if (x - speed < xmin || solid_wall(x - speed, y)) {
@@ -83,50 +83,50 @@ void EnemyMarioHologram::onAvance() {
 			dy = -6;
 			wait_for_attack = 0;
 			attack_delay = 50 + rand() % 50;
-			status = ETAT_TIRE;
+			status = STATE_SHOOT;
 			y_target = targeted_player->y;
-			x_cible = targeted_player->x;
+			x_target = targeted_player->x;
 			attack_step = 0;
 			fireball = 1;
 			attack_type = rand() % 2;
 			switch (attack_type) {
 				case 0:
-					onTire();
+					onShoot();
 					break;
 
 				case 1:
-					onTireverticale();
+					onShootVertical();
 					break;
 			}
 			return;
 		}
 	}
 	if (dir == FACING_RIGHT) {
-		marche(speed);
-		pic = pbk_enemies[animate(anim_mario_marche_droite, 4, 16 - (3 * speed)) + decalage_cligno];
+		walk(speed);
+		pic = pbk_enemies[animate(anim_mario_walk_right, 4, 16 - (3 * speed)) + blink_offset];
 	} else {
-		marche(-speed);
-		pic = pbk_enemies[animate(anim_mario_marche_gauche, 4, 16 - (3 * speed)) + decalage_cligno];
+		walk(-speed);
+		pic = pbk_enemies[animate(anim_mario_walk_left, 4, 16 - (3 * speed)) + blink_offset];
 	}
 	if (speed < MARIO_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 20) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 20) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnemyMarioHologram::onMeure() { destroyed = true; }
+void EnemyMarioHologram::onDie() { destroyed = true; }
 
 void EnemyMarioHologram::onCharge() {}
 
-void EnemyMarioHologram::onSaute() {
+void EnemyMarioHologram::onJump() {
 	int yp;
 
 	if (dy < 0) {
-		tombe_mario();
+		fall_mario();
 	} else {
 		fall();
 	}
@@ -146,30 +146,30 @@ void EnemyMarioHologram::onSaute() {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
-		onAvance();
+		onWalk();
 		return;
 	}
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
 		if (dy < 0) {
-			pic = pbk_enemies[6 + decalage_cligno];
+			pic = pbk_enemies[6 + blink_offset];
 		} else {
-			pic = pbk_enemies[7 + decalage_cligno];
+			pic = pbk_enemies[7 + blink_offset];
 		}
 	} else {
 		x -= speed;
 		if (dy < 0) {
-			pic = pbk_enemies[8 + decalage_cligno];
+			pic = pbk_enemies[8 + blink_offset];
 		} else {
-			pic = pbk_enemies[9 + decalage_cligno];
+			pic = pbk_enemies[9 + blink_offset];
 		}
 	}
 
 	colFromPic();
 }
 
-void EnemyMarioHologram::onCarbonise() { destroyed = true; }
+void EnemyMarioHologram::onCharred() { destroyed = true; }
 
 void EnemyMarioHologram::render() {
 	Sprite::render();
@@ -182,12 +182,12 @@ void EnemyMarioHologram::render() {
 	}
 }
 
-void EnemyMarioHologram::onTire() {
+void EnemyMarioHologram::onShoot() {
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[10 + decalage_cligno];
+		pic = pbk_enemies[10 + blink_offset];
 
 	else
-		pic = pbk_enemies[11 + decalage_cligno];
+		pic = pbk_enemies[11 + blink_offset];
 
 	if ((y - 25 < y_target) && (y_target < 400)) {
 		if (y > y_target - 60) {
@@ -225,30 +225,30 @@ void EnemyMarioHologram::onTire() {
 
 		attack_step++;
 		if (attack_step == 60) {
-			status = ETAT_AVANCE;
+			status = STATE_WALK;
 			anim_step = 0;
 			anim_tick = 0;
 			speed = 1;
-			onAvance();
+			onWalk();
 			return;
 			fireball = 0;
-			boule_de_feu();
+			shoot_fireball();
 		} else if (attack_step >= 40) {
 			if (attack_step == 40) {
 				fireball = 0;
-				boule_de_feu();
+				shoot_fireball();
 			}
 			if ((dir == FACING_RIGHT) && (x > 10)) {
-				x -= recul_mario[attack_step - 40];
+				x -= mario_recoil[attack_step - 40];
 			} else if ((dir == FACING_LEFT) && (x < 630)) {
-				x += recul_mario[attack_step - 40];
+				x += mario_recoil[attack_step - 40];
 			}
 		}
 	}
 	colFromPic();
 }
 
-void EnemyMarioHologram::onTireverticale() {
+void EnemyMarioHologram::onShootVertical() {
 	if (dir == FACING_RIGHT)
 		pic = pbk_enemies[10];
 
@@ -265,7 +265,7 @@ void EnemyMarioHologram::onTireverticale() {
 	attack_step++;
 	if (attack_step == 40) {
 		fireball = 0;
-		ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(0, x_cible);
+		ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(0, x_target);
 
 		shot->setDir(dir);
 		if (dir == FACING_RIGHT) {
@@ -277,17 +277,17 @@ void EnemyMarioHologram::onTireverticale() {
 
 		list_enemy_shots.emplace_back(shot);
 	} else if (attack_step == 80) {
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		anim_step = 0;
 		anim_tick = 0;
 		speed = 1;
-		onAvance();
+		onWalk();
 		return;
 	}
 	colFromPic();
 }
 
-inline void EnemyMarioHologram::boule_de_feu() {
+inline void EnemyMarioHologram::shoot_fireball() {
 	if (dir == FACING_RIGHT) {
 		ShotMarioFireball* shot = new ShotMarioFireball(1);
 
@@ -307,11 +307,11 @@ inline void EnemyMarioHologram::boule_de_feu() {
 	}
 }
 
-void EnemyMarioHologram::tombe_mario() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_MARIO_GRAVITE;
+void EnemyMarioHologram::fall_mario() {
+	grav_tick += 1;
+	grav_tick %= MARIO_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 

@@ -8,7 +8,7 @@ class EnemySmurfPeon : public EnemySmurf {
 
 	inline void render() override {
 		EnemySmurf::render();
-		if ((status != ETAT_MEURE && status != ETAT_CARBONISE) || (status == ETAT_MEURE && anim_step <= 2)) {
+		if ((status != STATE_DYING && status != STATE_CHARRED) || (status == STATE_DYING && anim_step <= 2)) {
 			switch (dir) {
 				case FACING_LEFT:
 					draw(x, y - 32, pbk_enemies[153]);

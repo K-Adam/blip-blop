@@ -8,17 +8,17 @@ class EnemySnorkyMage : public Enemy {
    public:
 	int wait_for_shoot;
 	int shoot_delay;
-	int oscilation_etape;
+	int oscillation_step;
 	int concentration;
 
 	EnemySnorkyMage();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
-	virtual void onTire();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
+	virtual void onShoot();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

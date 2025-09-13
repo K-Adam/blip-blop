@@ -14,7 +14,7 @@ class Vehicle : public Sprite {
 	Vehicle();
 
 	void update() override;
-	virtual Ball* scanne();
+	virtual Ball* seekRider();
 
 	virtual bool canFire() = 0;
 	virtual bool canChangeDir() = 0;

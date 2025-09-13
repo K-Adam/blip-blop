@@ -4,36 +4,36 @@
 
 #define MARIO_SPEED 5
 #define MARIO_CHARGE_SPEED 7
-#define LATENCE_MARIO_GRAVITE 12
-#define NABO_TRANSFORMATION 300
+#define MARIO_GRAVITY_DELAY 12
+#define SHRINK_DELAY 300
 #define MARIO_ENDURANCE 80
-#define MULTIPLICATEUR_RECUL_SOL 20
-#define MULTIPLACATEUR_VITESSE_AU_SOL 100
-#define MULTIPLICATEUR_RECUL_AERIEN 15
-#define MULTIPLICATEUR_VITESSE_AERIEN 80
+#define GROUND_RECOIL_DIVISOR 20
+#define GROUND_SPEED_DIVISOR 100
+#define AIR_RECOIL_DIVISOR 15
+#define AIR_SPEED_DIVISOR 80
 
 class EnemyMarioSwatter : public Enemy {
    private:
-	int aide_luigi;
+	int helping_luigi;
 	int speed;
-	int etape_speed;  // Acceleration delay
+	int speed_tick;	 // Acceleration delay
 
 	int attack_delay;
 	int wait_for_attack;
 	int attack_step;
-	int nabo_delay;
+	int shrink_timer;
 
-	int nabo;
-	int encaissement;
+	int shrunk;
+	int knockback;
 
    public:
 	EnemyMarioSwatter();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onCharge();
-	virtual void onCarbonise();
-	virtual void tombe_mario();
+	virtual void onCharred();
+	virtual void fall_mario();
 	void takeHit(Shot* shot) override;
 };

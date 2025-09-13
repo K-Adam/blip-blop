@@ -1,4 +1,4 @@
-#define TEXTE_COOL_CPP
+#define COOL_TEXT_CPP
 
 #include "level/world.h"
 #include "core/assets.h"

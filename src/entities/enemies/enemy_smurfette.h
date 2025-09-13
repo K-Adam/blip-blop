@@ -4,15 +4,15 @@
 
 class EnemySmurfette : public Enemy {
    public:
-	int etape_shoot;
+	int shoot_step;
 	int wait_shoot;
 
 	EnemySmurfette();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTire();
+	virtual void onWalk();
+	virtual void onShoot();
 	void takeHit(Shot* shot) override;
-	virtual void onCarbonise();
-	virtual void onMeure();
+	virtual void onCharred();
+	virtual void onDie();
 };

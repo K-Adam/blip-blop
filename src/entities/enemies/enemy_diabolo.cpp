@@ -10,48 +10,48 @@ EnemyDiabolo::EnemyDiabolo() : wait_for_attack(0), attack_delay(50 + rand() % 10
 
 void EnemyDiabolo::update() {
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 			switch (attack_type) {
 				case 0:
-					onCoupdelatte();
+					onKick();
 					break;
 
 				case 1:
-					onTornade();
+					onTornado();
 					break;
 
 				case 2:
-					onCoupdegenou();
+					onKneeStrike();
 					break;
 			}
 			break;
 	}
 }
 
-void EnemyDiabolo::onAvance() {
+void EnemyDiabolo::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onTombe();
+		grav_tick = 0;
+		onFall();
 		return;
 	}
 
@@ -66,66 +66,66 @@ void EnemyDiabolo::onAvance() {
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 0;
 				dy = -3;
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
-				onCoupdelatte();
+				onKick();
 				return;
 			} else if ((dir == FACING_RIGHT) && (dif_x > -40) && (dif_x < 40) && (dif_y + dif_x < 0)) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = 1;
 				dy = -8;
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
-				onCoupdegenou();
+				onKneeStrike();
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_x > -40) && (dif_x < 40) && (dif_y - dif_x < 0)) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = -1;
 				dy = -8;
-				onCoupdegenou();
+				onKneeStrike();
 				return;
 			} else if ((dir == FACING_RIGHT) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
 				dy = (int)(-8 + dx * 0.25);
-				onCoupdegenou();
+				onKneeStrike();
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
 				dy = (int)(-8 + dx * 0.25);
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
-				onCoupdegenou();
+				onKneeStrike();
 				return;
 			} else {
 				wait_for_attack = 0;
 				attack_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_TIRE;
+				status = STATE_SHOOT;
 				attack_type = 1;
-				onTornade();
+				onTornado();
 				return;
 			}
 		}
@@ -146,29 +146,29 @@ void EnemyDiabolo::onAvance() {
 	colFromPic();
 }
 
-void EnemyDiabolo::onTombe() {
+void EnemyDiabolo::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemyDiabolo::onMeure() {}
+void EnemyDiabolo::onDie() {}
 
 void EnemyDiabolo::onAttack() {}
 
-void EnemyDiabolo::onCoupdelatte() {
+void EnemyDiabolo::onKick() {
 	if (anim_step == 15) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		if (dir == FACING_RIGHT) {
 			dir = FACING_LEFT;
 		} else {
 			dir = FACING_RIGHT;
 		}
-		onAvance();
+		onWalk();
 		return;
 	}
 	if (anim_step < 9) {
@@ -212,7 +212,7 @@ void EnemyDiabolo::onCoupdelatte() {
 	colFromPic();
 }
 
-void EnemyDiabolo::onTornade() {
+void EnemyDiabolo::onTornado() {
 	anim_tick++;
 	anim_tick %= 6;
 	if (anim_tick == 0) {
@@ -222,25 +222,25 @@ void EnemyDiabolo::onTornade() {
 	if (anim_step == 9) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		onAvance();
+		status = STATE_WALK;
+		onWalk();
 		return;
 	}
 
 	if ((anim_step == 6) && (anim_tick == 0)) {
-		Shot* tornade;
+		Shot* tornado;
 
 		if (dir == FACING_RIGHT) {
-			tornade = new ShotTornado(1);
-			tornade->x = x + 30;
+			tornado = new ShotTornado(1);
+			tornado->x = x + 30;
 		} else {
-			tornade = new ShotTornado(-1);
-			tornade->x = x - 30;
+			tornado = new ShotTornado(-1);
+			tornado->x = x - 30;
 		}
 
-		tornade->setDir(dir);
-		tornade->y = y;
-		list_enemy_shots.emplace_back(tornade);
+		tornado->setDir(dir);
+		tornado->y = y;
+		list_enemy_shots.emplace_back(tornado);
 	}
 
 	if (dir == FACING_RIGHT) {
@@ -251,12 +251,12 @@ void EnemyDiabolo::onTornade() {
 	colFromPic();
 }
 
-void EnemyDiabolo::onCoupdegenou() {
+void EnemyDiabolo::onKneeStrike() {
 	if (dx == 0) {
 		if (dy < 0) {
 			dy = 0;
 		}
-		tombe_diabolo();
+		fall_diabolo();
 		if (dir == FACING_RIGHT) {
 			x = 590;
 		} else {
@@ -298,13 +298,13 @@ void EnemyDiabolo::onCoupdegenou() {
 			if (anim_step == 4) {
 				anim_step = 0;
 				anim_tick = 0;
-				status = ETAT_AVANCE;
+				status = STATE_WALK;
 				if (dir == FACING_RIGHT) {
 					dir = FACING_LEFT;
 				} else {
 					dir = FACING_RIGHT;
 				}
-				onAvance();
+				onWalk();
 				return;
 			}
 		} else {
@@ -320,12 +320,12 @@ void EnemyDiabolo::onCoupdegenou() {
 	colFromPic();
 }
 
-void EnemyDiabolo::onCarbonise() {}
+void EnemyDiabolo::onCharred() {}
 
 void EnemyDiabolo::colFromPic() {
 	Sprite::colFromPic();
 
-	if (status == ETAT_AVANCE) {
+	if (status == STATE_WALK) {
 		if (dir == FACING_RIGHT) {
 			x2 -= 45;
 		} else {
@@ -334,11 +334,11 @@ void EnemyDiabolo::colFromPic() {
 	}
 }
 
-void EnemyDiabolo::tombe_diabolo() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_DIABOLO_GRAVITE;
+void EnemyDiabolo::fall_diabolo() {
+	grav_tick += 1;
+	grav_tick %= DIABOLO_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < DIABOLO_GRAVITE_MAX) dy += 1;
+	if (grav_tick == 0 && dy < DIABOLO_GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
@@ -351,9 +351,9 @@ void EnemyDiabolo::tombe_diabolo() {
 }
 
 void EnemyDiabolo::takeHit(Shot* shot) {
-	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_lem, dy_giclure_lem);
+	splatter(shot, dx_splatter_lem, dy_splatter_lem);
 }

@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_snorky_governor.h"
 #include "entities/shots/shot_snorky_governor.h"
 
-const int anim_gouverneur_marche_droite[] = {183, 184, 185, 186, 185, 184};
-const int anim_gouverneur_marche_gauche[] = {187, 188, 189, 190, 189, 188};
+const int anim_governor_walk_right[] = {183, 184, 185, 186, 185, 184};
+const int anim_governor_walk_left[] = {187, 188, 189, 190, 189, 188};
 
 EnemySnorkyGovernor::EnemySnorkyGovernor() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 150;
@@ -14,38 +14,38 @@ void EnemySnorkyGovernor::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemySnorkyGovernor::onAvance() {
+void EnemySnorkyGovernor::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onTombe();
+		grav_tick = 0;
+		onFall();
 		return;
 	}
 
@@ -55,38 +55,38 @@ void EnemySnorkyGovernor::onAvance() {
 		shoot_delay = 50 + rand() % 200;
 		anim_step = 0;
 		anim_tick = 0;
-		nb_tir = 0;
-		status = ETAT_TIRE;
-		onTire();
+		nb_shots = 0;
+		status = STATE_SHOOT;
+		onShoot();
 		return;
 	}
 
 	if (dir == FACING_LEFT) {
-		marche(-GOUVERNEUR_SPEED);
+		walk(-GOVERNOR_SPEED);
 
-		pic = pbk_enemies[animate(anim_gouverneur_marche_gauche, 6, 4)];
+		pic = pbk_enemies[animate(anim_governor_walk_left, 6, 4)];
 
-		if (solid_wall(x - GOUVERNEUR_SPEED, y) || (x - GOUVERNEUR_SPEED < xmin)) dir = FACING_RIGHT;
+		if (solid_wall(x - GOVERNOR_SPEED, y) || (x - GOVERNOR_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
-		marche(GOUVERNEUR_SPEED);
+		walk(GOVERNOR_SPEED);
 
-		pic = pbk_enemies[animate(anim_gouverneur_marche_droite, 6, 4)];
+		pic = pbk_enemies[animate(anim_governor_walk_right, 6, 4)];
 
-		if (solid_wall(x + GOUVERNEUR_SPEED, y) || (x + GOUVERNEUR_SPEED > offset + 640)) dir = FACING_LEFT;
+		if (solid_wall(x + GOVERNOR_SPEED, y) || (x + GOVERNOR_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
 }
 
-void EnemySnorkyGovernor::onTombe() {
+void EnemySnorkyGovernor::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemySnorkyGovernor::onMeure() {
+void EnemySnorkyGovernor::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -107,7 +107,7 @@ void EnemySnorkyGovernor::onMeure() {
 	}
 }
 
-void EnemySnorkyGovernor::onTire() {
+void EnemySnorkyGovernor::onShoot() {
 	anim_tick++;
 	anim_tick %= 6;
 	if (anim_tick == 0) {
@@ -117,8 +117,8 @@ void EnemySnorkyGovernor::onTire() {
 	if (anim_step == 10) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		onAvance();
+		status = STATE_WALK;
+		onWalk();
 		return;
 	}
 
@@ -131,14 +131,14 @@ void EnemySnorkyGovernor::onTire() {
 			shot->y = y - 71;
 
 			list_enemy_shots.emplace_back(shot);
-			nb_tir++;
+			nb_shots++;
 		}
 
-		if (nb_tir == 0) {
+		if (nb_shots == 0) {
 			sbk_level.play(6);
 		}
 	}
-	if ((anim_step == 7) && (nb_tir < 5) && (anim_tick == 0)) {
+	if ((anim_step == 7) && (nb_shots < 5) && (anim_tick == 0)) {
 		anim_step -= 4;
 	}
 
@@ -151,7 +151,7 @@ void EnemySnorkyGovernor::onTire() {
 	}
 }
 
-void EnemySnorkyGovernor::onCarbonise() {
+void EnemySnorkyGovernor::onCharred() {
 	anim_tick++;
 	anim_tick %= 6;
 
@@ -170,13 +170,13 @@ void EnemySnorkyGovernor::onCarbonise() {
 }
 
 void EnemySnorkyGovernor::takeHit(Shot* shot) {
-	static const int dx_giclure_gouverneur[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_gouverneur[] = {-15, -15, -15, -15, -35, -15, -15, -15};
+	static const int dx_splatter_governor[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_governor[] = {-15, -15, -15, -15, -35, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_gouverneur, dy_giclure_gouverneur);
+	splatter(shot, dx_splatter_governor, dy_splatter_governor);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(4 + rand() % 2);
 	}
 }

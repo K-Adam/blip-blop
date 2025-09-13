@@ -5,8 +5,8 @@
 class EnemyBisouBoom : public Enemy {
    public:
 	EnemyBisouBoom();
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 	void takeHit(Shot* shot) override;
 	void update() override;
 };

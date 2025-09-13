@@ -2,7 +2,7 @@
 #include "entities/gore_feet_bisou_star.h"
 #include "entities/shots/shot_star.h"
 
-EnemyBisouStar::EnemyBisouStar() : etape_shoot(0) {
+EnemyBisouStar::EnemyBisouStar() : shoot_step(0) {
 	hp = 200;
 	wait_shoot = 200 + rand() % 250;
 }
@@ -10,39 +10,39 @@ EnemyBisouStar::EnemyBisouStar() : etape_shoot(0) {
 void EnemyBisouStar::update() {
 	if (blood > 0) blood -= 1;
 
-	etape_shoot += 1;
+	shoot_step += 1;
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeureEntier();
+		case STATE_DYING:
+			onDieWhole();
 			break;
 
-		case ETAT_MEURE_2:
-			onMeureHaut();
+		case STATE_DYING_2:
+			onDieTop();
 			break;
 
-		case ETAT_MEURE_3:
-			onMeureHautFin();
+		case STATE_DYING_3:
+			onDieTopEnd();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBisouStar::onMeureEntier() {
+void EnemyBisouStar::onDieWhole() {
 	fall();
 
 	anim_tick += 1;
@@ -51,20 +51,20 @@ void EnemyBisouStar::onMeureEntier() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouStar* pieds = new GoreFeetBisouStar();
+		GoreFeetBisouStar* feet = new GoreFeetBisouStar();
 
-		pieds->x = x;
-		pieds->dir = dir;
-		pieds->y = y;
+		feet->x = x;
+		feet->dir = dir;
+		feet->y = y;
 
-		list_gore.emplace_back(pieds);
+		list_gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_MEURE_2;
-		onMeureHaut();
+		status = STATE_DYING_2;
+		onDieTop();
 	} else {
 		if (dir == FACING_RIGHT)
 			pic = pbk_enemies[114 + anim_step];
@@ -73,19 +73,19 @@ void EnemyBisouStar::onMeureEntier() {
 	}
 }
 
-void EnemyBisouStar::onTire() {
+void EnemyBisouStar::onShoot() {
 	anim_tick += 1;
 
 	if (anim_tick >= 60) {
 		anim_tick = 0;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_shoot = 200 + rand() % 500;
 		;
-		etape_shoot = 0;
+		shoot_step = 0;
 	}
 }
 
-void EnemyBisouStar::onMeureHaut() {
+void EnemyBisouStar::onDieTop() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -103,12 +103,12 @@ void EnemyBisouStar::onMeureHaut() {
 
 	if (platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
-		status = ETAT_MEURE_3;
-		onMeureHautFin();
+		status = STATE_DYING_3;
+		onDieTopEnd();
 	}
 }
 
-void EnemyBisouStar::onMeureHautFin() {
+void EnemyBisouStar::onDieTopEnd() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -125,7 +125,7 @@ void EnemyBisouStar::onMeureHautFin() {
 	}
 }
 
-void EnemyBisouStar::onAvance() {
+void EnemyBisouStar::onWalk() {
 	static const int SPEED = 1;
 
 	fall();
@@ -144,16 +144,16 @@ void EnemyBisouStar::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SPEED);
+		walk(SPEED);
 		pic = pbk_enemies[78 + anim_step];
 	} else {
-		marche(-SPEED);
+		walk(-SPEED);
 		pic = pbk_enemies[86 + anim_step];
 	}
 
-	etape_shoot += 1;
+	shoot_step += 1;
 
-	if (anim_step == 4 && etape_shoot >= wait_shoot && x > offset) {
+	if (anim_step == 4 && shoot_step >= wait_shoot && x > offset) {
 		ShotStar* s = new ShotStar();
 
 		s->x = x;
@@ -163,13 +163,13 @@ void EnemyBisouStar::onAvance() {
 		list_enemy_shots.emplace_back(s);
 
 		anim_tick = 0;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 	}
 
 	colFromPic();
 }
 
-void EnemyBisouStar::onCarbonise() {
+void EnemyBisouStar::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -189,11 +189,11 @@ void EnemyBisouStar::onCarbonise() {
 }
 
 void EnemyBisouStar::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) sbk_level.play((rand() % 9));
 }

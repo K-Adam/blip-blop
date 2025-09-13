@@ -7,7 +7,7 @@ class EnemySmurfStork : public Enemy {
 	int base_y;
 	int base_x;
 	bool first;
-	int teta;
+	int theta;
 
 	EnemySmurfStork();
 

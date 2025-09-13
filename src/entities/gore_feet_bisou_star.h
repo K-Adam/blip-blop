@@ -10,8 +10,8 @@ class GoreFeetBisouStar : public Sprite {
 	GoreFeetBisouStar() : status(0), nb(0) {}
 
 	void update() override {
-		static const int anim_droite[] = {97, 98, 99, 98};
-		static const int anim_gauche[] = {103, 104, 105, 104};
+		static const int anim_right[] = {97, 98, 99, 98};
+		static const int anim_left[] = {103, 104, 105, 104};
 
 		if (status == 0) {
 			fall();
@@ -24,10 +24,10 @@ class GoreFeetBisouStar : public Sprite {
 			}
 
 			if (dir == FACING_RIGHT) {
-				marche(-1);
+				walk(-1);
 				pic = pbk_enemies[94 + anim_step];
 			} else {
-				marche(1);
+				walk(1);
 				pic = pbk_enemies[100 + anim_step];
 			}
 
@@ -39,9 +39,9 @@ class GoreFeetBisouStar : public Sprite {
 			nb += 1;
 
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies[animate(anim_droite, 4, 5)];
+				pic = pbk_enemies[animate(anim_right, 4, 5)];
 			else
-				pic = pbk_enemies[animate(anim_gauche, 4, 5)];
+				pic = pbk_enemies[animate(anim_left, 4, 5)];
 
 			if (nb >= 100) {
 				engrave(x, y, pic);

@@ -2,44 +2,44 @@
 #include "entities/gore_feet_bisou_sky.h"
 #include "entities/shots/shot_rainbow.h"
 
-EnemyBisouSky::EnemyBisouSky() : wait_for_pisser(0) { hp = 175; }
+EnemyBisouSky::EnemyBisouSky() : wait_for_pee(0) { hp = 175; }
 
 void EnemyBisouSky::update() {
 	if (blood > 0) blood -= 1;
 
-	if (wait_for_pisser > 0) wait_for_pisser -= 1;
+	if (wait_for_pee > 0) wait_for_pee -= 1;
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeureEntier();
+		case STATE_DYING:
+			onDieWhole();
 			break;
 
-		case ETAT_MEURE_2:
-			onMeureHaut();
+		case STATE_DYING_2:
+			onDieTop();
 			break;
 
-		case ETAT_MEURE_3:
-			onMeureHautFin();
+		case STATE_DYING_3:
+			onDieTopEnd();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBisouSky::onMeureEntier() {
+void EnemyBisouSky::onDieWhole() {
 	fall();
 
 	anim_tick += 1;
@@ -48,20 +48,20 @@ void EnemyBisouSky::onMeureEntier() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouSky* pieds = new GoreFeetBisouSky();
+		GoreFeetBisouSky* feet = new GoreFeetBisouSky();
 
-		pieds->x = x;
-		pieds->dir = dir;
-		pieds->y = y;
+		feet->x = x;
+		feet->dir = dir;
+		feet->y = y;
 
-		list_gore.emplace_back(pieds);
+		list_gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_MEURE_2;
-		onMeureHaut();
+		status = STATE_DYING_2;
+		onDieTop();
 	} else {
 		if (dir == FACING_RIGHT)
 			pic = pbk_enemies[32 + anim_step];
@@ -70,17 +70,17 @@ void EnemyBisouSky::onMeureEntier() {
 	}
 }
 
-void EnemyBisouSky::onTire() {
+void EnemyBisouSky::onShoot() {
 	anim_tick += 1;
 
 	if (anim_tick >= 60) {
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		wait_for_pisser = 150;
+		status = STATE_WALK;
+		wait_for_pee = 150;
 	}
 }
 
-void EnemyBisouSky::onMeureHaut() {
+void EnemyBisouSky::onDieTop() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -98,12 +98,12 @@ void EnemyBisouSky::onMeureHaut() {
 
 	if (platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
-		status = ETAT_MEURE_3;
-		onMeureHautFin();
+		status = STATE_DYING_3;
+		onDieTopEnd();
 	}
 }
 
-void EnemyBisouSky::onMeureHautFin() {
+void EnemyBisouSky::onDieTopEnd() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -120,7 +120,7 @@ void EnemyBisouSky::onMeureHautFin() {
 	}
 }
 
-void EnemyBisouSky::onAvance() {
+void EnemyBisouSky::onWalk() {
 	static const int SPEED = 1;
 
 	fall();
@@ -139,14 +139,14 @@ void EnemyBisouSky::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SPEED);
+		walk(SPEED);
 		pic = pbk_enemies[8 + anim_step];
 	} else {
-		marche(-SPEED);
+		walk(-SPEED);
 		pic = pbk_enemies[16 + anim_step];
 	}
 
-	if (wait_for_pisser == 0 && anim_step == 4) {				 // Frame 4 looks best
+	if (wait_for_pee == 0 && anim_step == 4) {					 // Frame 4 looks best
 		if (targeted_player != NULL && platform_y(x, y) != 0) {	 // No shooting while falling
 			int ddx = x - targeted_player->x;
 			int ddy = y - targeted_player->y;
@@ -163,7 +163,7 @@ void EnemyBisouSky::onAvance() {
 						list_enemy_shots.emplace_back(s);
 
 						anim_tick = 0;
-						status = ETAT_TIRE;
+						status = STATE_SHOOT;
 					}
 				} else {
 					if (ddx < 0 && ddx > -90) {
@@ -176,7 +176,7 @@ void EnemyBisouSky::onAvance() {
 						list_enemy_shots.emplace_back(s);
 
 						anim_tick = 0;
-						status = ETAT_TIRE;
+						status = STATE_SHOOT;
 					}
 				}
 			}
@@ -186,7 +186,7 @@ void EnemyBisouSky::onAvance() {
 	colFromPic();
 }
 
-void EnemyBisouSky::onCarbonise() {
+void EnemyBisouSky::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -206,11 +206,11 @@ void EnemyBisouSky::onCarbonise() {
 }
 
 void EnemyBisouSky::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) sbk_level.play((rand() % 9));
 }

@@ -4,7 +4,7 @@
 
 class EnemySmurfHefty : public Enemy {
    public:
-	int etape_shoot;
+	int shoot_step;
 	int wait_shoot;
 	int dx;
 	int dypunch;
@@ -12,12 +12,12 @@ class EnemySmurfHefty : public Enemy {
 	EnemySmurfHefty();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTire();
-	virtual void onTireHadoken();
-	virtual void onTireDragonPunch();
-	virtual void onTireHurricanKick();
+	virtual void onWalk();
+	virtual void onShoot();
+	virtual void onShootHadoken();
+	virtual void onShootDragonPunch();
+	virtual void onShootHurricaneKick();
 	void takeHit(Shot* shot) override;
-	virtual void onCarbonise();
-	virtual void onMeure();
+	virtual void onCharred();
+	virtual void onDie();
 };

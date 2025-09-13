@@ -4,15 +4,15 @@
 
 class EnemyBisouSky : public Enemy {
    public:
-	int wait_for_pisser;
+	int wait_for_pee;
 
 	EnemyBisouSky();
-	virtual void onAvance();
-	virtual void onTire();
-	virtual void onMeureEntier();
-	virtual void onMeureHaut();
-	virtual void onMeureHautFin();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onShoot();
+	virtual void onDieWhole();
+	virtual void onDieTop();
+	virtual void onDieTopEnd();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 	void update() override;
 };

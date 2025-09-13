@@ -7,7 +7,7 @@ class ShotThorn : public Shot {
 	int dx;
 	bool traverse;
 
-	ShotThorn(int n_pbk_ennemis, int vx, int vy);
+	ShotThorn(int n_pbk_enemies, int vx, int vy);
 
 	int damage() const override { return 1; };
 

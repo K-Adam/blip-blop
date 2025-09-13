@@ -2,7 +2,7 @@
 #include "entities/shots/shot_shell.h"
 
 EnemyYoshiAntiair::EnemyYoshiAntiair() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
-	tresor = 12;
+	treasure = 12;
 	hp = 400;
 }
 
@@ -11,27 +11,27 @@ void EnemyYoshiAntiair::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:	 // ETAT_TIRE is throwing shells
-			onTire();
+		case STATE_SHOOT:  // ETAT_TIRE is throwing shells
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyYoshiAntiair::onAvance() {
+void EnemyYoshiAntiair::onWalk() {
 	fall();
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= offset + 640) {
@@ -43,9 +43,9 @@ void EnemyYoshiAntiair::onAvance() {
 			dir = FACING_LEFT;
 		}
 		anim_step = 0;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		sbk_level.play(35);
-		onTire();
+		onShoot();
 		return;
 	}
 
@@ -58,7 +58,7 @@ void EnemyYoshiAntiair::onAvance() {
 	colFromPic();
 }
 
-void EnemyYoshiAntiair::onMeure() {
+void EnemyYoshiAntiair::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -80,7 +80,7 @@ void EnemyYoshiAntiair::onMeure() {
 	}
 }
 
-void EnemyYoshiAntiair::onTire() {
+void EnemyYoshiAntiair::onShoot() {
 	anim_tick += 1;
 	anim_tick %= 15;
 
@@ -101,7 +101,7 @@ void EnemyYoshiAntiair::onTire() {
 		list_enemy_shots.emplace_back(shot);
 
 		anim_step = 0;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		return;
 	}
 
@@ -114,7 +114,7 @@ void EnemyYoshiAntiair::onTire() {
 	colFromPic();
 }
 
-void EnemyYoshiAntiair::onCarbonise() {
+void EnemyYoshiAntiair::onCharred() {
 	fall();
 	anim_tick++;
 	anim_tick %= 5;
@@ -132,13 +132,13 @@ void EnemyYoshiAntiair::onCarbonise() {
 }
 
 void EnemyYoshiAntiair::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_misc.play(6 + rand() % 3);
 	}
 }

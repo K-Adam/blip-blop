@@ -4,11 +4,11 @@
 
 class ShotBisouDeadly : public Shot {
    public:
-	Sprite* cible;
+	Sprite* target;
 	int dx;
-	int duree_vie;
+	int lifespan;
 
-	ShotBisouDeadly() : dx(0), duree_vie(235){};
+	ShotBisouDeadly() : dx(0), lifespan(235){};
 
 	int damage() const override { return 1; };
 
@@ -40,15 +40,15 @@ class ShotBisouDeadly : public Shot {
 		x += dx / 13;
 		y += dy / 13;
 
-		duree_vie -= 1;
+		lifespan -= 1;
 
-		if (duree_vie <= 0 || cible->destroyed) {
+		if (lifespan <= 0 || target->destroyed) {
 			destroyed = true;
 			return;
 		}
 
-		int xc = cible->x;
-		int yc = cible->y - 15;
+		int xc = target->x;
+		int yc = target->y - 15;
 
 		if (xc > x && dx < 36)
 			dx += ACCEL;

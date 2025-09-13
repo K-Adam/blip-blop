@@ -5,9 +5,9 @@
 class GoreHeadBisouHeart : public Sprite {
    public:
 	int dx;
-	bool joue_son;
+	bool play_sound;
 
-	GoreHeadBisouHeart() : joue_son(false) {
+	GoreHeadBisouHeart() : play_sound(false) {
 		dy = -1 - rand() % 3;
 		dx = -2 + rand() % 5;
 	};
@@ -23,9 +23,9 @@ class GoreHeadBisouHeart : public Sprite {
 		}
 
 		if (anim_tick == 0 && (anim_step < 3 || platform_y(x, y) != 0)) {
-			if (!joue_son && platform_y(x, y) != 0) {
+			if (!play_sound && platform_y(x, y) != 0) {
 				sbk_misc.play(6 + (rand() % 2));
-				joue_son = true;
+				play_sound = true;
 			}
 
 			anim_step += 1;

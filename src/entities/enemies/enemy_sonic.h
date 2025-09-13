@@ -8,35 +8,35 @@
 class EnemySonic : public Enemy {
    private:
 	int speed;
-	int etape_speed;  // Acceleration delay
+	int speed_tick;	 // Acceleration delay
 	int attack_delay;
 	int wait_for_attack;
 	int attack_phase;
 	int attack_type;
-	int x_cible;
+	int x_target;
 	int y_target;
-	int ss_etape_attack;
-	int etape_attack;
-	int nb_tir;
-	int vie_sous_critique;
-	int vie_critique;
-	int vie_sur_critique;
+	int attack_frame_tick;
+	int attack_frame;
+	int nb_shots;
+	int hp_subcritical;
+	int hp_critical;
+	int hp_supercritical;
 	int ring;
-	int wait_sang_tombe;
+	int wait_blood_fall;
 
    public:
 	EnemySonic();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onSaute();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onJump();
 	virtual void onCharge();
 	virtual void onAttackhorizontal();
 	virtual void onAttackvertical();
-	virtual void onAttackepine();
-	virtual void onAttackeclair();
-	virtual void onBalancering();
-	virtual void balance_epines();
-	virtual void onCarbonise();
+	virtual void onAttackThorns();
+	virtual void onAttackLightning();
+	virtual void onThrowRings();
+	virtual void throw_thorns();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
 };

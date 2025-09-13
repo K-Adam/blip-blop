@@ -5,7 +5,7 @@
 #include "entities/ball.h"
 #include "entities/sprite.h"
 
-#define DIST_BITONIO 25
+#define CORNER_DIST 25
 
 class Bonus : public Sprite {
    public:
@@ -50,10 +50,10 @@ class Bonus : public Sprite {
 
 		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
 
-		draw(x - DIST_BITONIO - d, y - DIST_BITONIO - d, pbk_misc[base + 3]);
-		draw(x + DIST_BITONIO + d, y - DIST_BITONIO - d, pbk_misc[base + 2]);
-		draw(x + DIST_BITONIO + d, y + DIST_BITONIO + d, pbk_misc[base]);
-		draw(x - DIST_BITONIO - d, y + DIST_BITONIO + d, pbk_misc[base + 1]);
+		draw(x - CORNER_DIST - d, y - CORNER_DIST - d, pbk_misc[base + 3]);
+		draw(x + CORNER_DIST + d, y - CORNER_DIST - d, pbk_misc[base + 2]);
+		draw(x + CORNER_DIST + d, y + CORNER_DIST + d, pbk_misc[base]);
+		draw(x - CORNER_DIST - d, y + CORNER_DIST + d, pbk_misc[base + 1]);
 
 		y += 15;
 	};

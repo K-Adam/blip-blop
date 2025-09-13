@@ -2,39 +2,39 @@
 
 #include "entities/enemies/enemy.h"
 
-#define SMURF_FARCEUR_SPEED 2
-#define ETAT_DEGAINE 11
+#define SMURF_JOKEY_SPEED 2
+#define STATE_DRAW_WEAPON 11
 
-const int anim_smurf_marche_droite[] = {0, 1, 2, 3, 4, 3, 2, 1};
-const int anim_smurf_marche_gauche[] = {5, 6, 7, 8, 9, 8, 7, 6};
+const int anim_smurf_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
+const int anim_smurf_walk_left[] = {5, 6, 7, 8, 9, 8, 7, 6};
 
 class EnemySmurfJokey : public Enemy {
    public:
-	bool porte_bomb;
+	bool carries_bomb;
 	int new_bomb_delay;
 	int wait_for_new_bomb;
 	int bomb_delay;
 	int wait_for_bomb;
-	int decalage_y_cadeau;
+	int gift_dy;
 
 	EnemySmurfJokey();
 
 	inline void render() override {
-		if (porte_bomb) {
+		if (carries_bomb) {
 			if (dir == FACING_RIGHT)
-				draw(x + 26, y - decalage_y_cadeau, pbk_enemies[56]);
+				draw(x + 26, y - gift_dy, pbk_enemies[56]);
 			else
-				draw(x - 26, y - decalage_y_cadeau, pbk_enemies[56]);
+				draw(x - 26, y - gift_dy, pbk_enemies[56]);
 		}
 
 		draw(x, y, pic);
 	};
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
-	virtual void onCarbonise();
+	virtual void onWalk();
+	virtual void onDie();
+	virtual void onCharred();
 	void takeHit(Shot* shot) override;
-	virtual void onPoseCadeau();
-	virtual void onDegaine();
+	virtual void onDropGift();
+	virtual void onDrawWeapon();
 };

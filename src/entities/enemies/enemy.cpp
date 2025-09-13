@@ -6,44 +6,44 @@
 
 Character* targeted_player;
 int wait_for_bonus;
-int num_giclure;
+int splatter_num;
 
-Enemy::Enemy() : xmin(offset), blood(0), tresor(5) {}
+Enemy::Enemy() : xmin(offset), blood(0), treasure(5) {}
 
 void Enemy::takeHit(Shot* shot) {
-	int blessure = shot->damage();
+	int dmg = shot->damage();
 
-	if (blessure < hp) {
-		shot->aTouche(blessure);
-		hp -= blessure;
+	if (dmg < hp) {
+		shot->onHit(dmg);
+		hp -= dmg;
 	} else {
-		shot->aTouche(hp);
+		shot->onHit(hp);
 		hp = 0;
 		anim_step = 0;
 		anim_tick = 0;
 		col_on = false;
 
 		if (shot->enflame() == 2) {
-			status = ETAT_CARBONISE;
-			shot->aTue();
+			status = STATE_CHARRED;
+			shot->onKill();
 		} else {
-			status = ETAT_MEURE;
-			shot->aTue();
+			status = STATE_DYING;
+			shot->onKill();
 
 			if (pic != NULL) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
 
 				if (bloody_wall(x, y_trace)) {
-					num_giclure += 1;
-					num_giclure %= 14;
+					splatter_num += 1;
+					splatter_num %= 14;
 
-					engrave(x, y_trace, pbk_misc[50 + num_giclure]);
+					engrave(x, y_trace, pbk_misc[50 + splatter_num]);
 				}
 			}
 		}
 
 		if (count()) {
-			wait_for_bonus += tresor;
+			wait_for_bonus += treasure;
 
 			if (wait_for_bonus >= 50 && okBonus) {
 				MakeBonusWeapon(x, y);
@@ -55,57 +55,57 @@ void Enemy::takeHit(Shot* shot) {
 	}
 }
 
-void Enemy::gicle(const Shot* shot, const int* dxg, const int* dyg) {
+void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 	if (blood > 0 || shot->enflame()) return;
 
-	Splatter* gicle = new Splatter();
+	Splatter* splatter = new Splatter();
 
-	gicle->pere = this;
-	int d = gicle->dir = shot->getGiclureDir();
-	gicle->deltax = dxg[d];
-	gicle->deltay = dyg[d];
+	splatter->parent = this;
+	int d = splatter->dir = shot->getSplatterDir();
+	splatter->deltax = dxg[d];
+	splatter->deltay = dyg[d];
 
 	blood = 20;
 
-	list_splatters.emplace_back(gicle);
+	list_splatters.emplace_back(splatter);
 }
 
-void Enemy::tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const {
-	int netape = 0;
-	int ddx = xci - xtir;
+void Enemy::lobShot(int xshot, int yshot, int xtgt, int ytgt, int& xspeed, int& yspeed) const {
+	int nsteps = 0;
+	int ddx = xtgt - xshot;
 
-	if (ytir < yci) {
+	if (yshot < ytgt) {
 		yspeed = rand() % 3 - 5;
 
 		int ddy = yspeed;
 
-		while (ytir < yci && netape < 40) {
-			ytir += ddy * GRAVITY_DELAY;
+		while (yshot < ytgt && nsteps < 40) {
+			yshot += ddy * GRAVITY_DELAY;
 
 			if (ddy < GRAVITY_MAX) ddy += 1;
 
-			netape += 1;
+			nsteps += 1;
 		};
 	} else {
 		yspeed = rand() % 2 - 6;
 
 		int ddy = yspeed;
 
-		while (ytir > yci && netape < 40) {
-			ytir += ddy * GRAVITY_DELAY;
+		while (yshot > ytgt && nsteps < 40) {
+			yshot += ddy * GRAVITY_DELAY;
 
 			if (ddy < GRAVITY_MAX) ddy += 1;
 
-			netape += 1;
+			nsteps += 1;
 		};
 
 		ddx += ddx / 2;
 	}
 
-	if (netape == 0)
+	if (nsteps == 0)
 		xspeed = 0;
 	else {
-		xspeed = ddx / (netape * GRAVITY_DELAY);
+		xspeed = ddx / (nsteps * GRAVITY_DELAY);
 
 		if (ddx < -20)
 			xspeed -= 1;

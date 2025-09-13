@@ -6,6 +6,6 @@ class EnemyCOM : public Enemy {
    public:
 	EnemyCOM();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 };

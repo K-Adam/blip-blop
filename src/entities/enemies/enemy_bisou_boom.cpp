@@ -8,20 +8,20 @@ void EnemyBisouBoom::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-		case ETAT_CARBONISE:
-			onMeure();
+		case STATE_DYING:
+		case STATE_CHARRED:
+			onDie();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyBisouBoom::onAvance() {
+void EnemyBisouBoom::onWalk() {
 	static const int SPEED = 3;
 
 	fall();
@@ -40,10 +40,10 @@ void EnemyBisouBoom::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SPEED);
+		walk(SPEED);
 		pic = pbk_enemies[154 + anim_step];
 	} else {
-		marche(-SPEED);
+		walk(-SPEED);
 		pic = pbk_enemies[162 + anim_step];
 	}
 
@@ -53,16 +53,16 @@ void EnemyBisouBoom::onAvance() {
 
 		if (ddx > -60 && ddx < 60 && ddy > -40 && ddy < 20) {
 			anim_tick = anim_step = 0;
-			status = ETAT_MEURE;
+			status = STATE_DYING;
 			sbk_misc.play(11);
-			onMeure();
+			onDie();
 		}
 	}
 
 	colFromPic();
 }
 
-void EnemyBisouBoom::onMeure() {
+void EnemyBisouBoom::onDie() {
 	anim_tick += 1;
 	anim_tick %= 4;
 
@@ -129,13 +129,13 @@ void EnemyBisouBoom::onMeure() {
 }
 
 void EnemyBisouBoom::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 7, 10, 7, 0, -7, -10, -7};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 7, 10, 7, 0, -7, -10, -7};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
-	if (status == ETAT_MEURE || status == ETAT_CARBONISE) return;
+	if (status == STATE_DYING || status == STATE_CHARRED) return;
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE || status == ETAT_CARBONISE) sbk_misc.play(11);
+	if (status == STATE_DYING || status == STATE_CHARRED) sbk_misc.play(11);
 }

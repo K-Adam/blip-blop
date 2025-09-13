@@ -1,12 +1,12 @@
 #include "entities/shots/shot_bb_laser.h"
 #include "core/debug.h"
 
-ShotBBLaser::ShotBBLaser() : base(0), hauteur(0), width_px(0) {}
+ShotBBLaser::ShotBBLaser() : base(0), height_px(0), width_px(0) {}
 
 void ShotBBLaser::setDir(int d) {
 	ShotBB::setDir(d);
 
-	base = hauteur = width_px = 0;
+	base = height_px = width_px = 0;
 
 	dir /= 2;
 
@@ -22,7 +22,7 @@ void ShotBBLaser::setDir(int d) {
 
 			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny += 8;
 
-			hauteur = ny - y;
+			height_px = ny - y;
 			base = 140;
 
 			x1 = x;
@@ -50,7 +50,7 @@ void ShotBBLaser::setDir(int d) {
 
 			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny -= 8;
 
-			hauteur = y - ny;
+			height_px = y - ny;
 			base = 140;
 
 			x1 = x;
@@ -99,12 +99,12 @@ void ShotBBLaser::render() {
 			r.left = 0;
 			r.right = 6;
 
-			if (y + hauteur > 479) hauteur = 479 - y;
+			if (y + height_px > 479) height_px = 479 - y;
 
-			r.bottom = hauteur;
+			r.bottom = height_px;
 
 			backSurface->BltFast(xx, y, surf, &r);
-			if (y + hauteur < 480) draw(x + 2, y + hauteur, pbk_misc[74 + anim_step]);
+			if (y + height_px < 480) draw(x + 2, y + height_px, pbk_misc[74 + anim_step]);
 			break;
 
 		case 1:	 // Down right
@@ -150,11 +150,11 @@ void ShotBBLaser::render() {
 			r.right = 6;
 
 			if (y < 0) {
-				hauteur += y;
+				height_px += y;
 				y = 0;
 			}
 
-			r.bottom = hauteur;
+			r.bottom = height_px;
 
 			backSurface->BltFast(xx, y, surf, &r);
 

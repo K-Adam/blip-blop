@@ -1,9 +1,9 @@
 #include "entities/shots/shot_shaman_column.h"
 
-ShotShamanColumn::ShotShamanColumn() : status(0) { duree_vie = 250 + rand() % 100; }
+ShotShamanColumn::ShotShamanColumn() : status(0) { lifespan = 250 + rand() % 100; }
 
 void ShotShamanColumn::update() {
-	deplace();
+	travel();
 
 	anim_tick += 1;
 	anim_tick %= 6;
@@ -31,9 +31,9 @@ void ShotShamanColumn::update() {
 				anim_step %= 6;
 			}
 
-			duree_vie -= 1;
+			lifespan -= 1;
 
-			if (duree_vie <= 0) {
+			if (lifespan <= 0) {
 				status = 2;
 				anim_step = anim_tick = 0;
 				return;
@@ -63,7 +63,7 @@ void ShotShamanColumn::update() {
 	updateDestroyed();
 }
 
-void ShotShamanColumn::deplace() {
+void ShotShamanColumn::travel() {
 	static const int SPEED = 4;
 
 	fall();
@@ -74,8 +74,8 @@ void ShotShamanColumn::deplace() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SPEED);
+		walk(SPEED);
 	} else {
-		marche(-SPEED);
+		walk(-SPEED);
 	}
 }

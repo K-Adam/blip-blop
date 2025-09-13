@@ -1,7 +1,7 @@
 #include "entities/splatter.h"
 
 void Splatter::update() {
-	if (pere->destroyed || pere->status == ETAT_MEURE) {
+	if (parent->destroyed || parent->status == STATE_DYING) {
 		destroyed = true;
 		return;
 	}
@@ -16,6 +16,6 @@ void Splatter::update() {
 	else
 		pic = pbk_misc[15 + dir * 4 + anim_step];
 
-	x = pere->x + deltax;
-	y = pere->y + deltay;
+	x = parent->x + deltax;
+	y = parent->y + deltay;
 }

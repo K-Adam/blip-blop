@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef TEXTE_COOL_CPP
+#ifndef COOL_TEXT_CPP
 extern bool txt_cool_free[];
 #endif
 

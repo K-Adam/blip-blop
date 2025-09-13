@@ -5,16 +5,16 @@
 class ShotCloud : public Shot {
    public:
 	int status;
-	int etape_shoot;
-	int delta_eclair;
-	int eclair;
-	int duree_vie;
+	int shoot_step;
+	int lightning_timer;
+	int lightning;
+	int lifespan;
 
 	ShotCloud();
 	void update() override;
 	virtual void onCreation();
 	virtual void onDestruction();
 	virtual void onNormal();
-	virtual void onTire();
+	virtual void onShoot();
 	void render() override;
 };

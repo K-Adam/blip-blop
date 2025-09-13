@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef SENS
+#ifndef FACING
 #define FACING_LEFT 0
 #define FACING_RIGHT 1
 #endif
@@ -15,16 +15,16 @@ class Shot : public Sprite {
 
 	virtual void setDir(int d) { dir = d; };
 
-	virtual void aTue(){};
+	virtual void onKill(){};
 
-	virtual int getGiclureDir() const { return dir / 2; };
+	virtual int getSplatterDir() const { return dir / 2; };
 
-	inline virtual void aTouche() {
+	inline virtual void onHit() {
 		destroyed = true;
 		col_on = false;
 	};
 
-	inline virtual void aTouche(int pts) {
+	inline virtual void onHit(int pts) {
 		(void)pts;
 		destroyed = true;
 		col_on = false;

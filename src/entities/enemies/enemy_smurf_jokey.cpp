@@ -1,17 +1,17 @@
 #include "entities/enemies/enemy_smurf_jokey.h"
 #include "entities/shots/shot_gift.h"
 
-const int anim_smurf_farceur_marche_droite[] = {46, 47, 48, 49, 50, 49, 48, 47};
-const int anim_smurf_farceur_marche_gauche[] = {51, 52, 53, 54, 55, 54, 53, 52};
+const int anim_smurf_jokey_walk_right[] = {46, 47, 48, 49, 50, 49, 48, 47};
+const int anim_smurf_jokey_walk_left[] = {51, 52, 53, 54, 55, 54, 53, 52};
 
 EnemySmurfJokey::EnemySmurfJokey() {
 	hp = 150;
 	bomb_delay = 100 + rand() % 400;
 	wait_for_bomb = 0;
-	porte_bomb = true;
+	carries_bomb = true;
 	wait_for_new_bomb = 0;
 	new_bomb_delay = 50 + rand() % 200;
-	decalage_y_cadeau = 5;
+	gift_dy = 5;
 }
 
 void EnemySmurfJokey::update() {
@@ -19,26 +19,26 @@ void EnemySmurfJokey::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
-		case ETAT_ATTEND:
-			onPoseCadeau();
+		case STATE_WAIT:
+			onDropGift();
 			break;
-		case ETAT_DEGAINE:
-			onDegaine();
+		case STATE_DRAW_WEAPON:
+			onDrawWeapon();
 			break;
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 	updateDestroyed();
 }
 
-void EnemySmurfJokey::onDegaine() {
+void EnemySmurfJokey::onDrawWeapon() {
 	anim_tick += 1;
 	anim_tick %= 8;
 
@@ -51,23 +51,23 @@ void EnemySmurfJokey::onDegaine() {
 
 	if (anim_step > 4) {
 		status = STATE_NORMAL;
-		porte_bomb = true;
+		carries_bomb = true;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 	}
 }
 
-void EnemySmurfJokey::onPoseCadeau() {
+void EnemySmurfJokey::onDropGift() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
-	if (anim_tick == 0) decalage_y_cadeau -= 1;
+	if (anim_tick == 0) gift_dy -= 1;
 
-	if (decalage_y_cadeau < 0) {
+	if (gift_dy < 0) {
 		status = STATE_NORMAL;
-		porte_bomb = false;
-		decalage_y_cadeau = 5;
+		carries_bomb = false;
+		gift_dy = 5;
 		wait_for_new_bomb = 0;
 		new_bomb_delay = 50 + rand() % 200;
 
@@ -84,14 +84,14 @@ void EnemySmurfJokey::onPoseCadeau() {
 	}
 }
 
-void EnemySmurfJokey::onAvance() {
+void EnemySmurfJokey::onWalk() {
 	fall();
 
-	if (porte_bomb) {
+	if (carries_bomb) {
 		wait_for_bomb += 1;
 
 		if (wait_for_bomb > bomb_delay && platform_y(x, y) != 0) {
-			status = ETAT_ATTEND;
+			status = STATE_WAIT;
 			wait_for_bomb = 0;
 			bomb_delay = 50 + rand() % 250;
 			anim_step = 0;
@@ -102,39 +102,39 @@ void EnemySmurfJokey::onAvance() {
 		if (wait_for_new_bomb > new_bomb_delay) {
 			wait_for_new_bomb = 0;
 			new_bomb_delay = 50 + rand() % 200;
-			status = ETAT_DEGAINE;
+			status = STATE_DRAW_WEAPON;
 			anim_step = 0;
 			anim_tick = 0;
 		}
 	}
 
-	if (x - SMURF_FARCEUR_SPEED < xmin || solid_wall(x - SMURF_FARCEUR_SPEED, y))
+	if (x - SMURF_JOKEY_SPEED < xmin || solid_wall(x - SMURF_JOKEY_SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SMURF_FARCEUR_SPEED > offset + 640 || solid_wall(x + SMURF_FARCEUR_SPEED, y))
+	else if (x + SMURF_JOKEY_SPEED > offset + 640 || solid_wall(x + SMURF_JOKEY_SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SMURF_FARCEUR_SPEED);
-		if (porte_bomb)
-			pic = pbk_enemies[animate(anim_smurf_farceur_marche_droite, 8, 4)];
+		walk(SMURF_JOKEY_SPEED);
+		if (carries_bomb)
+			pic = pbk_enemies[animate(anim_smurf_jokey_walk_right, 8, 4)];
 		else
-			pic = pbk_enemies[animate(anim_smurf_marche_droite, 8, 4)];
+			pic = pbk_enemies[animate(anim_smurf_walk_right, 8, 4)];
 	} else {
-		marche(-SMURF_FARCEUR_SPEED);
-		if (porte_bomb)
-			pic = pbk_enemies[animate(anim_smurf_farceur_marche_gauche, 8, 4)];
+		walk(-SMURF_JOKEY_SPEED);
+		if (carries_bomb)
+			pic = pbk_enemies[animate(anim_smurf_jokey_walk_left, 8, 4)];
 		else
-			pic = pbk_enemies[animate(anim_smurf_marche_gauche, 8, 4)];
+			pic = pbk_enemies[animate(anim_smurf_walk_left, 8, 4)];
 	}
 	colFromPic();
 }
 
-void EnemySmurfJokey::onMeure() {
+void EnemySmurfJokey::onDie() {
 	fall();
 
-	if (porte_bomb) {
-		status = ETAT_CARBONISE;
-		porte_bomb = false;
+	if (carries_bomb) {
+		status = STATE_CHARRED;
+		carries_bomb = false;
 		ShotGift* shot = new ShotGift();
 		shot->anim_step = 20;
 		shot->y = y - 5;
@@ -144,7 +144,7 @@ void EnemySmurfJokey::onMeure() {
 			shot->x = x - 26;
 		}
 		list_enemy_shots.emplace_back(shot);
-		onCarbonise();
+		onCharred();
 	} else {
 		anim_tick += 1;
 		anim_tick %= 4;
@@ -157,18 +157,18 @@ void EnemySmurfJokey::onMeure() {
 		}
 
 		if (dir == FACING_LEFT) {
-			if (!solid_wall(x - SMURF_FARCEUR_SPEED, y) && platform_y(x, y) == 0) x -= SMURF_FARCEUR_SPEED;
+			if (!solid_wall(x - SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x -= SMURF_JOKEY_SPEED;
 
 			pic = pbk_enemies[23 + anim_step];
 		} else {
-			if (!solid_wall(x + SMURF_FARCEUR_SPEED, y) && platform_y(x, y) == 0) x += SMURF_FARCEUR_SPEED;
+			if (!solid_wall(x + SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x += SMURF_JOKEY_SPEED;
 
 			pic = pbk_enemies[12 + anim_step];
 		}
 	}
 }
 
-void EnemySmurfJokey::onCarbonise() {
+void EnemySmurfJokey::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -185,14 +185,14 @@ void EnemySmurfJokey::onCarbonise() {
 }
 
 void EnemySmurfJokey::takeHit(Shot* shot) {
-	static const int dx_giclure_smurf_farceur[] = {0, 0, 6, 0, 0, 0, -6, 0};
-	static const int dy_giclure_smurf_farceur[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_smurf_jokey[] = {0, 0, 6, 0, 0, 0, -6, 0};
+	static const int dy_splatter_smurf_jokey[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_smurf_farceur, dy_giclure_smurf_farceur);
+	splatter(shot, dx_splatter_smurf_jokey, dy_splatter_smurf_jokey);
 
-	if (status == ETAT_MEURE) {
-		if (porte_bomb)
+	if (status == STATE_DYING) {
+		if (carries_bomb)
 			sbk_misc.play(11);
 		else
 			sbk_level.play(4 + rand() % 10);

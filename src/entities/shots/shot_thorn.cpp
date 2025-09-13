@@ -1,7 +1,7 @@
 #include "entities/shots/shot_thorn.h"
 
-ShotThorn::ShotThorn(int n_pbk_ennemis, int vx, int vy) {
-	pic = pbk_enemies[n_pbk_ennemis];
+ShotThorn::ShotThorn(int n_pbk_enemies, int vx, int vy) {
+	pic = pbk_enemies[n_pbk_enemies];
 	dy = vy;
 	dx = vx;
 	traverse = false;

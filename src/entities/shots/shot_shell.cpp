@@ -3,7 +3,7 @@
 
 ShotShell::ShotShell() {
 	pic = pbk_enemies[58];
-	rebond = false;
+	bounced = false;
 }
 
 void ShotShell::update() {
@@ -18,26 +18,26 @@ void ShotShell::update() {
 	}
 	pic = pbk_enemies[58 + anim_step];
 
-	if (solid_wall(x - CARAPACE_SPEED, y)) {
-		if (rebond) {
+	if (solid_wall(x - SHELL_SPEED, y)) {
+		if (bounced) {
 			destroyed = true;
 		} else {
 			dir = FACING_RIGHT;
-			rebond = true;
+			bounced = true;
 		}
-	} else if (solid_wall(x + CARAPACE_SPEED, y)) {
-		if (rebond) {
+	} else if (solid_wall(x + SHELL_SPEED, y)) {
+		if (bounced) {
 			destroyed = true;
 		} else {
 			dir = FACING_LEFT;
-			rebond = true;
+			bounced = true;
 		}
 	}
 
 	if (dir == FACING_LEFT) {
-		x -= CARAPACE_SPEED;
+		x -= SHELL_SPEED;
 	} else {
-		x += CARAPACE_SPEED;
+		x += SHELL_SPEED;
 	}
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 

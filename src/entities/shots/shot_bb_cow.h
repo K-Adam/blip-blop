@@ -9,7 +9,7 @@ class ShotBBCow : public ShotBB {
 
 	inline int enflame() const override { return 2; };
 
-	inline void aTouche(int pts) override { hero->addPoints(pts); };
+	inline void onHit(int pts) override { hero->addPoints(pts); };
 
 	void update() override;
 };

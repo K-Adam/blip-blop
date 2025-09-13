@@ -7,7 +7,7 @@ class ShotBBLF : public ShotBB {
    public:
 	int type;
 	int dx;
-	int latence;
+	int delay;
 	bool finished;
 	int speed;
 	int deg;
@@ -20,5 +20,5 @@ class ShotBBLF : public ShotBB {
 
 	void update() override;
 
-	void aTouche(int pts) override;
+	void onHit(int pts) override;
 };

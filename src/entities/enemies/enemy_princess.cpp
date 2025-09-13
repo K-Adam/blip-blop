@@ -3,9 +3,9 @@
 #include "entities/cool_text.h"
 #include "entities/bonus_cow.h"
 
-EnemyPrincess::EnemyPrincess() : avance(false), aide(false) {
+EnemyPrincess::EnemyPrincess() : walking(false), guards_called(false) {
 	hp = 3700;
-	tresor = 0;
+	treasure = 0;
 	pic = pbk_enemies[128];
 }
 
@@ -14,13 +14,13 @@ void EnemyPrincess::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-		case ETAT_CARBONISE:
-			onMeure();
+		case STATE_DYING:
+		case STATE_CHARRED:
+			onDie();
 			break;
 	}
 
@@ -29,7 +29,7 @@ void EnemyPrincess::update() {
 	}
 }
 
-void EnemyPrincess::onAvance() {
+void EnemyPrincess::onWalk() {
 	if (game_flag[1]) {
 		if (x > offset + 820) {
 			CoolText* txt = new CoolText();
@@ -38,8 +38,8 @@ void EnemyPrincess::onAvance() {
 
 			destroyed = true;
 		}
-		if (!aide) {
-			aide = true;
+		if (!guards_called) {
+			guards_called = true;
 			Enemy* guard;
 			int i;
 			for (i = 1; i < 4; i++) {
@@ -60,7 +60,7 @@ void EnemyPrincess::onAvance() {
 					anim_step += 1;
 					anim_step %= 2;
 				}
-				marche(PRINCESSE_SPEED);
+				walk(PRINCESS_SPEED);
 				pic = pbk_enemies[126 + anim_step];
 			} else {
 				anim_tick += 1;
@@ -69,13 +69,13 @@ void EnemyPrincess::onAvance() {
 					anim_step += 1;
 					anim_step %= 2;
 				}
-				marche(2);
+				walk(2);
 				pic = pbk_enemies[126 + anim_step];
 			}
 		} else if (dir == FACING_LEFT) {
 			dir = FACING_RIGHT;
 		} else {
-			avance = false;
+			walking = false;
 		}
 	} else {
 		if ((x < 5760)) {
@@ -85,7 +85,7 @@ void EnemyPrincess::onAvance() {
 				anim_step += 1;
 				anim_step %= 2;
 			}
-			marche(PRINCESSE_SPEED);
+			walk(PRINCESS_SPEED);
 			pic = pbk_enemies[126 + anim_step];
 		} else if (x > 7500) {
 			pic = pbk_enemies[126];
@@ -96,7 +96,7 @@ void EnemyPrincess::onAvance() {
 	colFromPic();
 }
 
-void EnemyPrincess::onMeure() {
+void EnemyPrincess::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -128,11 +128,11 @@ void EnemyPrincess::onMeure() {
 }
 
 void EnemyPrincess::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	if (game_flag[1]) {
 		Enemy::takeHit(shot);
 	}
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 }

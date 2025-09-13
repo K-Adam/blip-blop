@@ -1,9 +1,9 @@
 #include "entities/enemies/enemy_snorky_mage.h"
 #include "entities/shots/shot_snorky_mage.h"
 
-const int snorky_mage_oscilation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
+const int snorky_mage_oscillation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscilation_etape(0) {
+EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscillation_step(0) {
 	hp = 200;
 	pic = pbk_enemies[0];
 	dy = 0;
@@ -11,39 +11,39 @@ EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() 
 
 void EnemySnorkyMage::update() {
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemySnorkyMage::onAvance() {
-	oscilation_etape++;
-	oscilation_etape %= 43;
-	if (oscilation_etape >= 22) {
-		y -= snorky_mage_oscilation[oscilation_etape - 22];
+void EnemySnorkyMage::onWalk() {
+	oscillation_step++;
+	oscillation_step %= 43;
+	if (oscillation_step >= 22) {
+		y -= snorky_mage_oscillation[oscillation_step - 22];
 	} else {
-		y += snorky_mage_oscilation[oscilation_etape];
+		y += snorky_mage_oscillation[oscillation_step];
 	}
 
 	wait_for_shoot++;
@@ -59,9 +59,9 @@ void EnemySnorkyMage::onAvance() {
 			shoot_delay = 50 + rand() % 200;
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_TIRE;
+			status = STATE_SHOOT;
 			concentration = 0;
-			onTire();
+			onShoot();
 			return;
 		} else if ((dir == FACING_LEFT) && (dif_y > 0) && (dif_x < 0) && (dif_y + dif_x >= -30) && (dif_y + dif_x <= 30)) {
 			anim_step = 0;
@@ -69,9 +69,9 @@ void EnemySnorkyMage::onAvance() {
 			shoot_delay = 50 + rand() % 200;
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_TIRE;
+			status = STATE_SHOOT;
 			concentration = 0;
-			onTire();
+			onShoot();
 			return;
 		}
 	}
@@ -98,15 +98,15 @@ void EnemySnorkyMage::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkyMage::onTombe() {
+void EnemySnorkyMage::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemySnorkyMage::onMeure() {
+void EnemySnorkyMage::onDie() {
 	if (anim_step > 2) {
 		fall();
 	}
@@ -140,7 +140,7 @@ void EnemySnorkyMage::onMeure() {
 	}
 }
 
-void EnemySnorkyMage::onTire() {
+void EnemySnorkyMage::onShoot() {
 	if (concentration < 3) {
 		anim_tick++;
 		anim_tick %= 4;
@@ -189,8 +189,8 @@ void EnemySnorkyMage::onTire() {
 		if (anim_step == 5) {
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_AVANCE;
-			onAvance();
+			status = STATE_WALK;
+			onWalk();
 			return;
 		}
 
@@ -204,7 +204,7 @@ void EnemySnorkyMage::onTire() {
 	}
 }
 
-void EnemySnorkyMage::onCarbonise() {
+void EnemySnorkyMage::onCharred() {
 	anim_tick++;
 	anim_tick %= 6;
 
@@ -218,13 +218,13 @@ void EnemySnorkyMage::onCarbonise() {
 }
 
 void EnemySnorkyMage::takeHit(Shot* shot) {
-	static const int dx_giclure_mage[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_mage[] = {-35, -45, -45, -45, -55, -45, -45, -45};
+	static const int dx_splatter_mage[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_mage[] = {-35, -45, -45, -45, -55, -45, -45, -45};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_mage, dy_giclure_mage);
+	splatter(shot, dx_splatter_mage, dy_splatter_mage);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(10);
 	}
 }

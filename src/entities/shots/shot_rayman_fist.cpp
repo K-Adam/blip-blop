@@ -1,7 +1,7 @@
 #include "entities/shots/shot_rayman_fist.h"
 #include "core/debug.h"
 
-ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_cible(xc) { anim_tick = 1; }
+ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_target(xc) { anim_tick = 1; }
 
 void ShotRaymanFist::update() {
 	if (dir == FACING_RIGHT) {
@@ -10,7 +10,7 @@ void ShotRaymanFist::update() {
 		pic = pbk_enemies[231];
 	}
 
-	if ((dx != 0) && (((dir == FACING_RIGHT) && (x > x_cible)) || ((dir == FACING_LEFT) && (x < x_cible)))) {
+	if ((dx != 0) && (((dir == FACING_RIGHT) && (x > x_target)) || ((dir == FACING_LEFT) && (x < x_target)))) {
 		anim_tick++;
 		anim_tick %= abs(dx);
 	}

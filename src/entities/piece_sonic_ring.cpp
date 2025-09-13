@@ -4,7 +4,7 @@ PieceSonicRing::PieceSonicRing(int vx, int vy) : dx(vx) { dy = vy; }
 
 void PieceSonicRing::update() {
 	x += dx;
-	tombe2();
+	fall2();
 
 	if (platform_y(x + dx, y + dy) != 0) {
 		if (dy > 2) {

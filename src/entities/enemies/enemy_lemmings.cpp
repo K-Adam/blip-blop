@@ -9,12 +9,12 @@ void EnemyLemmings::update() {
 	if (blood != 0) blood -= 1;
 
 	// After 200 kills the lemmings suicide and the generators stop
-	if (game_flag[FLAG_NB_KILL] >= 200 && status != ETAT_MEURE && status != ETAT_CARBONISE) {
+	if (game_flag[FLAG_NB_KILL] >= 200 && status != STATE_DYING && status != STATE_CHARRED) {
 		suicide = true;
 		col_on = false;
 		anim_tick = 0;
 		anim_step = 0;
-		status = ETAT_MEURE;
+		status = STATE_DYING;
 		game_flag[FLAG_GEN_OFF] = 1;
 	}
 
@@ -24,29 +24,29 @@ void EnemyLemmings::update() {
 	}
 
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemyLemmings::onAvance() {
+void EnemyLemmings::onWalk() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -76,15 +76,15 @@ void EnemyLemmings::onAvance() {
 	colFromPic();
 }
 
-void EnemyLemmings::onTombe() {
+void EnemyLemmings::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemyLemmings::onMeure() {
+void EnemyLemmings::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -115,7 +115,7 @@ void EnemyLemmings::onMeure() {
 	}
 }
 
-void EnemyLemmings::onCarbonise() {
+void EnemyLemmings::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 6;
 
@@ -132,13 +132,13 @@ void EnemyLemmings::onCarbonise() {
 }
 
 void EnemyLemmings::takeHit(Shot* shot) {
-	static const int dx_giclure_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_lem[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_lem[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_lem, dy_giclure_lem);
+	splatter(shot, dx_splatter_lem, dy_splatter_lem);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		wait_no += 1;
 		wait_no %= 20;
 

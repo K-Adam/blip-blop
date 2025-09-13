@@ -1,56 +1,56 @@
 #include "entities/enemies/enemy_spikes.h"
 
-EnemySpikes::EnemySpikes() : y_origine(0) {
+EnemySpikes::EnemySpikes() : y_origin(0) {
 	hp = 1;
 	pic = pbk_enemies[168];
 }
 
 void EnemySpikes::update() {
 	if ((game_flag[0] == 3) || (game_flag[0] == 2)) {
-		if (-104 > y_origine) {
+		if (-104 > y_origin) {
 			// Fully out, nothing left to raise
-		} else if (-96 > y_origine) {
+		} else if (-96 > y_origin) {
 			y -= 1;
-			y_origine -= 1;
-		} else if (-86 > y_origine) {
+			y_origin -= 1;
+		} else if (-86 > y_origin) {
 			y -= 2;
-			y_origine -= 2;
-		} else if (-66 > y_origine) {
+			y_origin -= 2;
+		} else if (-66 > y_origin) {
 			y -= 4;
-			y_origine -= 4;
-		} else if (-46 > y_origine) {
+			y_origin -= 4;
+		} else if (-46 > y_origin) {
 			y -= 6;
-			y_origine -= 6;
-		} else if (-26 > y_origine) {
+			y_origin -= 6;
+		} else if (-26 > y_origin) {
 			y -= 8;
-			y_origine -= 8;
-		} else if (0 >= y_origine) {
+			y_origin -= 8;
+		} else if (0 >= y_origin) {
 			y -= 10;
-			y_origine -= 10;
+			y_origin -= 10;
 		}
 		colFromPic();
 	} else if (game_flag[0] >= 5) {
-		if (-104 > y_origine) {
+		if (-104 > y_origin) {
 			y += 10;
-			y_origine += 10;
-		} else if (-96 > y_origine) {
+			y_origin += 10;
+		} else if (-96 > y_origin) {
 			y += 8;
-			y_origine += 8;
-		} else if (-86 > y_origine) {
+			y_origin += 8;
+		} else if (-86 > y_origin) {
 			y += 6;
-			y_origine += 6;
-		} else if (-66 > y_origine) {
+			y_origin += 6;
+		} else if (-66 > y_origin) {
 			y += 4;
-			y_origine += 4;
-		} else if (-46 > y_origine) {
+			y_origin += 4;
+		} else if (-46 > y_origin) {
 			y += 3;
-			y_origine += 3;
-		} else if (-26 > y_origine) {
+			y_origin += 3;
+		} else if (-26 > y_origin) {
 			y += 2;
-			y_origine += 2;
-		} else if (0 >= y_origine) {
+			y_origin += 2;
+		} else if (0 >= y_origin) {
 			y += 1;
-			y_origine += 1;
+			y_origin += 1;
 		} else {
 			// Fully retracted, safe to remove
 			for (int i = 28; i <= 55; i++) solid_walls[i][108] = false;
@@ -75,7 +75,7 @@ void EnemySpikes::render() {
 	r.left = 0;
 
 	r.right = 39;
-	r.bottom = -y_origine;
+	r.bottom = -y_origin;
 
 	backSurface->BltFast(x - offset, y, surf, &r);
 }

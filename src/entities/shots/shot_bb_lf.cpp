@@ -1,8 +1,8 @@
 #include "entities/shots/shot_bb_lf.h"
 
-void ShotBBLF::aTouche(int pts) {
+void ShotBBLF::onHit(int pts) {
 	if (!destroyed) {
-		ShotBB::aTouche(pts);
+		ShotBB::onHit(pts);
 		destroyed = false;
 	}
 }
@@ -12,7 +12,7 @@ void ShotBBLF::setDir(int d) {
 
 	anim_step = 0;
 	anim_tick = 0;
-	latence = 0;
+	delay = 0;
 	type = rand() % 2;
 	finished = false;
 	pic = NULL;
@@ -156,10 +156,10 @@ void ShotBBLF::update() {
 	x += dx;
 	y += dy;
 
-	latence += 1;
-	latence %= 17;
+	delay += 1;
+	delay %= 17;
 
-	if (latence == 0 && dy > -3) dy--;
+	if (delay == 0 && dy > -3) dy--;
 
 	colFromPic();
 	updateDestroyed();

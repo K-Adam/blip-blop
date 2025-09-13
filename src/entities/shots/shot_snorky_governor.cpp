@@ -1,6 +1,6 @@
 #include "entities/shots/shot_snorky_governor.h"
 
-ShotSnorkyGovernor::ShotSnorkyGovernor(Character* cible, int vx, int vy) : joueur_cible(cible), dx(vx), etape_dx(0), etape_dy(0), time(0) { dy = vy; }
+ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : target_player(target), dx(vx), dx_tick(0), dy_tick(0), time(0) { dy = vy; }
 
 void ShotSnorkyGovernor::update() {
 	anim_tick++;
@@ -15,40 +15,40 @@ void ShotSnorkyGovernor::update() {
 
 	time++;
 
-	if ((time < TIME_MAX || ((dx < 2 && dx > -2) && (dy < 2 && dy > -2))) && (joueur_cible->destroyed == false)) {
-		if (x < joueur_cible->x && dx < SPEED_MAX) {
-			etape_dx += 1;
+	if ((time < TIME_MAX || ((dx < 2 && dx > -2) && (dy < 2 && dy > -2))) && (target_player->destroyed == false)) {
+		if (x < target_player->x && dx < SPEED_MAX) {
+			dx_tick += 1;
 
-			if (etape_dx > INERTIE_TIR) {
+			if (dx_tick > SHOT_INERTIA) {
 				dx += 1;
-				etape_dx = 0;
+				dx_tick = 0;
 			}
 		}
 
-		else if (x > joueur_cible->x && dx > (-SPEED_MAX)) {
-			etape_dx -= 1;
+		else if (x > target_player->x && dx > (-SPEED_MAX)) {
+			dx_tick -= 1;
 
-			if (etape_dx < (-INERTIE_TIR)) {
+			if (dx_tick < (-SHOT_INERTIA)) {
 				dx -= 1;
-				etape_dx = 0;
+				dx_tick = 0;
 			}
 		}
 
-		if (y < joueur_cible->y && dy < SPEED_MAX) {
-			etape_dy += 1;
+		if (y < target_player->y && dy < SPEED_MAX) {
+			dy_tick += 1;
 
-			if (etape_dy > INERTIE_TIR) {
+			if (dy_tick > SHOT_INERTIA) {
 				dy += 1;
-				etape_dy = 0;
+				dy_tick = 0;
 			}
 		}
 
-		else if (y > joueur_cible->y && dy > (-SPEED_MAX)) {
-			etape_dy -= 1;
+		else if (y > target_player->y && dy > (-SPEED_MAX)) {
+			dy_tick -= 1;
 
-			if (etape_dy < (-INERTIE_TIR)) {
+			if (dy_tick < (-SHOT_INERTIA)) {
 				dy -= 1;
-				etape_dy = 0;
+				dy_tick = 0;
 			}
 		}
 	}

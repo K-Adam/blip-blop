@@ -11,6 +11,6 @@ class EnemyCOMFlying : public Enemy {
    public:
 	EnemyCOMFlying();
 	void update() override;
-	virtual void onAvance();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onDie();
 };

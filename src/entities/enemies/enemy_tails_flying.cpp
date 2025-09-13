@@ -1,14 +1,14 @@
 #include "entities/enemies/enemy_tails_flying.h"
 
-EnemyTailsFlying::EnemyTailsFlying() : placed(0), speed(1), etape_speed(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
-	tresor = 8;
+EnemyTailsFlying::EnemyTailsFlying() : placed(0), speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
+	treasure = 8;
 	hp = 150;
 }
 
 void EnemyTailsFlying::update() {
 	if (!placed) {
 		y = -20;
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		attack = false;
 		speed = 0;
 		anim_step = 0;
@@ -17,13 +17,13 @@ void EnemyTailsFlying::update() {
 
 		fly = true;
 		if (targeted_player != NULL) {
-			x_cible = targeted_player->x;
+			x_target = targeted_player->x;
 			y_target = targeted_player->y;
 		} else {
-			x_cible = x - 10;
+			x_target = x - 10;
 			y_target = 240;
 		}
-		if (x_cible > x) {
+		if (x_target > x) {
 			dir = FACING_RIGHT;
 			direction = 1;
 		} else {
@@ -35,39 +35,39 @@ void EnemyTailsFlying::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onTombe();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onFall();
 			break;
 
-		case ETAT_TIRE:	 // ETAT_TIRE is Tails flying
-			onVolle();
+		case STATE_SHOOT:  // ETAT_TIRE is Tails flying
+			onFly();
 			break;
 	}
 	updateDestroyed();
 }
 
-void EnemyTailsFlying::onAvance() {
+void EnemyTailsFlying::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
+		grav_tick = 0;
 		fly = true;
 		anim_step = 0;
 		anim_tick = 0;
-		onTombe();
+		onFall();
 		return;
 	}
 
@@ -80,23 +80,23 @@ void EnemyTailsFlying::onAvance() {
 	}
 	wait_for_fly++;
 	if (wait_for_fly >= fly_delay) {
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		attack = false;
 		speed = 0;
 		anim_step = 0;
 		anim_tick = 0;
 
 		fly = true;
-		x_cible = targeted_player->x;
+		x_target = targeted_player->x;
 		y_target = targeted_player->y;
-		if (x_cible > x) {
+		if (x_target > x) {
 			dir = FACING_RIGHT;
 			direction = 1;
 		} else {
 			dir = FACING_LEFT;
 			direction = -1;
 		}
-		onVolle();
+		onFly();
 		return;
 	}
 
@@ -109,23 +109,23 @@ void EnemyTailsFlying::onAvance() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		marche(speed);
+		walk(speed);
 		pic = pbk_enemies[anim_step + 80];
 	} else {
-		marche(-speed);
+		walk(-speed);
 		pic = pbk_enemies[anim_step + 88];
 	}
 	if (speed < TAILS_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 30) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 30) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
 	colFromPic();
 }
 
-void EnemyTailsFlying::onMeure() {
+void EnemyTailsFlying::onDie() {
 	fall();
 	if (fly) {
 		int yp;
@@ -136,10 +136,10 @@ void EnemyTailsFlying::onMeure() {
 			anim_step %= 2;
 		}
 		if (dir == FACING_RIGHT) {
-			if (!solid_wall(x + speed, y)) marche(speed);
+			if (!solid_wall(x + speed, y)) walk(speed);
 			pic = pbk_enemies[122 + anim_step];
 		} else {
-			if (!solid_wall(x - speed, y)) marche(-speed);
+			if (!solid_wall(x - speed, y)) walk(-speed);
 			pic = pbk_enemies[124 + anim_step];
 		}
 		if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
@@ -162,44 +162,44 @@ void EnemyTailsFlying::onMeure() {
 				destroyed = true;
 			} else {
 				if (dir == FACING_LEFT && !solid_wall(x - speed, y))
-					marche(-speed);
+					walk(-speed);
 				else if (!solid_wall(x + speed, y))
-					marche(speed);
+					walk(speed);
 			}
 		} else {
 			if (dir == FACING_LEFT) {
-				if (!solid_wall(x - speed, y)) marche(-speed);
+				if (!solid_wall(x - speed, y)) walk(-speed);
 				pic = pbk_enemies[111 + anim_step];
 			} else {
-				if (!solid_wall(x + speed, y)) marche(speed);
+				if (!solid_wall(x + speed, y)) walk(speed);
 				pic = pbk_enemies[100 + anim_step];
 			}
 		}
 	}
 }
 
-void EnemyTailsFlying::onVolle() {
+void EnemyTailsFlying::onFly() {
 	if (dir == FACING_LEFT && (x - speed < xmin || solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_fly = 0;
 		fly_delay = 100 + rand() % 350;
 		fly = false;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	} else if (dir == FACING_RIGHT && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_fly = 0;
 		fly = false;
 		fly_delay = 100 + rand() % 350;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -247,7 +247,7 @@ void EnemyTailsFlying::onVolle() {
 	colFromPic();
 }
 
-void EnemyTailsFlying::onTombe() {
+void EnemyTailsFlying::onFall() {
 	int yp;
 
 	fall();
@@ -265,7 +265,7 @@ void EnemyTailsFlying::onTombe() {
 		fly = false;
 		anim_step = 0;
 		anim_tick = 0;
-		onAvance();
+		onWalk();
 		return;
 	}
 
@@ -280,7 +280,7 @@ void EnemyTailsFlying::onTombe() {
 	colFromPic();
 }
 
-void EnemyTailsFlying::onCarbonise() {
+void EnemyTailsFlying::onCharred() {
 	fall();
 	anim_tick++;
 	anim_tick %= 5;
@@ -298,13 +298,13 @@ void EnemyTailsFlying::onCarbonise() {
 }
 
 void EnemyTailsFlying::takeHit(Shot* shot) {
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_misc.play(10);
 	}
 }

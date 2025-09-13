@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_smurfette.h"
 #include "entities/shots/shot_bisou_deadly.h"
 
-EnemySmurfette::EnemySmurfette() : etape_shoot(0) {
+EnemySmurfette::EnemySmurfette() : shoot_step(0) {
 	wait_shoot = 100 + rand() % 100;
 	hp = 200;
 }
@@ -9,24 +9,24 @@ EnemySmurfette::EnemySmurfette() : etape_shoot(0) {
 void EnemySmurfette::update() {
 	if (blood > 0) blood -= 1;
 
-	etape_shoot += 1;
+	shoot_step += 1;
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
@@ -35,9 +35,9 @@ void EnemySmurfette::update() {
 	updateDestroyed();
 }
 
-void EnemySmurfette::onAvance() {
-	static const int marche_droite[] = {315, 316, 317, 318, 319, 318, 317, 316};
-	static const int marche_gauche[] = {320, 321, 322, 323, 324, 323, 322, 321};
+void EnemySmurfette::onWalk() {
+	static const int walk_right[] = {315, 316, 317, 318, 319, 318, 317, 316};
+	static const int walk_left[] = {320, 321, 322, 323, 324, 323, 322, 321};
 	static const int SPEED = 1;
 
 	fall();
@@ -48,24 +48,24 @@ void EnemySmurfette::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(SPEED);
-		pic = pbk_enemies[animate(marche_droite, 8, 6)];
+		walk(SPEED);
+		pic = pbk_enemies[animate(walk_right, 8, 6)];
 	} else {
-		marche(-SPEED);
-		pic = pbk_enemies[animate(marche_gauche, 8, 6)];
+		walk(-SPEED);
+		pic = pbk_enemies[animate(walk_left, 8, 6)];
 	}
 
-	if (etape_shoot >= wait_shoot && x > offset + 10 && x < offset + 630) {
+	if (shoot_step >= wait_shoot && x > offset + 10 && x < offset + 630) {
 		anim_step = anim_tick = 0;
-		status = ETAT_TIRE;
-		onTire();
+		status = STATE_SHOOT;
+		onShoot();
 		return;
 	}
 
 	colFromPic();
 }
 
-void EnemySmurfette::onMeure() {
+void EnemySmurfette::onDie() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -85,9 +85,9 @@ void EnemySmurfette::onMeure() {
 		pic = pbk_enemies[337 + anim_step];
 }
 
-void EnemySmurfette::onTire() {
-	static const int tire_droite[] = {301, 302, 303, 304, 305, 304, 303, 302, 301};
-	static const int tire_gauche[] = {306, 307, 308, 309, 310, 309, 308, 307, 306};
+void EnemySmurfette::onShoot() {
+	static const int shoot_right[] = {301, 302, 303, 304, 305, 304, 303, 302, 301};
+	static const int shoot_left[] = {306, 307, 308, 309, 310, 309, 308, 307, 306};
 
 	anim_tick += 1;
 	anim_tick %= 5;
@@ -101,39 +101,39 @@ void EnemySmurfette::onTire() {
 			t->x = x;
 			t->y = y - 25;
 			t->setDir(dir);
-			t->cible = targeted_player;
+			t->target = targeted_player;
 
 			list_enemy_shots.emplace_back(t);
 		} else if (anim_step >= 9) {
-			status = ETAT_AVANCE;
-			anim_step = anim_tick = etape_shoot = 0;
+			status = STATE_WALK;
+			anim_step = anim_tick = shoot_step = 0;
 			wait_shoot = 200 + rand() % 100;
-			onAvance();
+			onWalk();
 			return;
 		}
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[tire_droite[anim_step]];
+		pic = pbk_enemies[shoot_right[anim_step]];
 	else
-		pic = pbk_enemies[tire_gauche[anim_step]];
+		pic = pbk_enemies[shoot_left[anim_step]];
 
 	colFromPic();
 }
 
 void EnemySmurfette::takeHit(Shot* shot) {
-	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
+	splatter(shot, dx_splatter_smurf, dy_splatter_smurf);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(21);
 	}
 }
 
-void EnemySmurfette::onCarbonise() {
+void EnemySmurfette::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 6;
 

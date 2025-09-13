@@ -3,8 +3,8 @@
 #include "entities/enemies/enemy.h"
 
 #define DIABOLO_KICK_SPEED 8
-#define LATENCE_DIABOLO_GRAVITE 5
-#define DIABOLO_GRAVITE_MAX 8
+#define DIABOLO_GRAVITY_DELAY 5
+#define DIABOLO_GRAVITY_MAX 8
 
 class EnemyDiabolo : public Enemy {
    public:
@@ -16,15 +16,15 @@ class EnemyDiabolo : public Enemy {
 	EnemyDiabolo();
 
 	void update() override;
-	virtual void onAvance();
-	virtual void onTombe();
-	virtual void onMeure();
+	virtual void onWalk();
+	virtual void onFall();
+	virtual void onDie();
 	virtual void onAttack();
-	virtual void onCoupdelatte();
-	virtual void onTornade();
-	virtual void onCoupdegenou();
-	virtual void onCarbonise();
-	virtual void tombe_diabolo();
+	virtual void onKick();
+	virtual void onTornado();
+	virtual void onKneeStrike();
+	virtual void onCharred();
+	virtual void fall_diabolo();
 	void colFromPic() override;
 
 	void takeHit(Shot* shot) override;

@@ -2,12 +2,12 @@
 
 #include "entities/shots/shot.h"
 
-#define LATENCE_POING 8
+#define FIST_DELAY 8
 
 class ShotRaymanFist : public Shot {
    public:
 	int dx;
-	int x_cible;
+	int x_target;
 	int n_pic;
 
 	ShotRaymanFist(int dx0, int xc);

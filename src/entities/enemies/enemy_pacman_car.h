@@ -2,19 +2,19 @@
 
 #include "entities/enemies/enemy.h"
 
-#define LATENCE_GRAVITE_VOITURE 5
-#define GRAVITE_MAX_VOITURE 8
+#define CAR_GRAVITY_DELAY 5
+#define GRAVITY_MAX_CAR 8
 
 class EnemyPacmanCar : public Enemy {
    private:
-	int invoc_pacman;
+	int summoned_pacman;
 	int wait_end;
 
    public:
 	EnemyPacmanCar();
 	void update() override;
 	int damage() override;
-	virtual void tombeVoiture();
+	virtual void fallCar();
 	void render() override;
 	void takeHit(Shot* shot) override;
 };

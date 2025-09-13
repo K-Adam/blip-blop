@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_pacman_car.h"
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacmanCar::EnemyPacmanCar() : invoc_pacman(false) {
+EnemyPacmanCar::EnemyPacmanCar() : summoned_pacman(false) {
 	hp = 1000;
 	pic = pbk_enemies[216];
 	wait_end = 0;
@@ -11,7 +11,7 @@ void EnemyPacmanCar::update() {
 	if ((game_flag[2] == 1) || (game_flag[2] == 2)) {
 		anim_step++;
 		if (anim_step > 160) {
-			tombeVoiture();
+			fallCar();
 			if (x < 1350) {
 				x += 5;
 			} else if (x < 1450) {
@@ -41,11 +41,11 @@ void EnemyPacmanCar::update() {
 	}
 }
 
-void EnemyPacmanCar::tombeVoiture() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_GRAVITE_VOITURE;
+void EnemyPacmanCar::fallCar() {
+	grav_tick += 1;
+	grav_tick %= CAR_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITE_MAX_VOITURE) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX_CAR) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 

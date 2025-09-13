@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_snorky_base_2.h"
 #include "entities/shots/shot_snorky_base_2.h"
 
-const int anim_snorky_base_marche_droite[] = {114, 115, 116, 117, 118, 117, 116, 115};
-const int anim_snorky_base_marche_gauche[] = {119, 120, 121, 122, 123, 122, 121, 120};
+const int anim_snorky_base_walk_right[] = {114, 115, 116, 117, 118, 117, 116, 115};
+const int anim_snorky_base_walk_left[] = {119, 120, 121, 122, 123, 122, 121, 120};
 
 EnemySnorkyBase2::EnemySnorkyBase2() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 150;
@@ -14,38 +14,38 @@ void EnemySnorkyBase2::update() {
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemySnorkyBase2::onAvance() {
+void EnemySnorkyBase2::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onTombe();
+		grav_tick = 0;
+		onFall();
 		return;
 	}
 
@@ -55,23 +55,23 @@ void EnemySnorkyBase2::onAvance() {
 		shoot_delay = 50 + rand() % 200;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_TIRE;
-		x_cible = targeted_player->x;
+		status = STATE_SHOOT;
+		x_target = targeted_player->x;
 		y_target = targeted_player->y;
-		onTire();
+		onShoot();
 		return;
 	}
 
 	if (dir == FACING_LEFT) {
-		marche(-SNORKY_BASE_SPEED);
+		walk(-SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_marche_gauche, 8, 4)];
+		pic = pbk_enemies[animate(anim_snorky_base_walk_left, 8, 4)];
 
 		if (solid_wall(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
-		marche(SNORKY_BASE_SPEED);
+		walk(SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_marche_droite, 8, 4)];
+		pic = pbk_enemies[animate(anim_snorky_base_walk_right, 8, 4)];
 
 		if (solid_wall(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -79,15 +79,15 @@ void EnemySnorkyBase2::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkyBase2::onTombe() {
+void EnemySnorkyBase2::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemySnorkyBase2::onMeure() {
+void EnemySnorkyBase2::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -128,7 +128,7 @@ void EnemySnorkyBase2::onMeure() {
 	}
 }
 
-void EnemySnorkyBase2::onTire() {
+void EnemySnorkyBase2::onShoot() {
 	anim_tick++;
 	anim_tick %= 6;
 	if (anim_tick == 0) {
@@ -138,15 +138,15 @@ void EnemySnorkyBase2::onTire() {
 	if (anim_step == 12) {
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
-		onAvance();
+		status = STATE_WALK;
+		onWalk();
 		return;
 	}
 
 	if (anim_step == 10 && anim_tick == 0) {
 		if (dir == FACING_RIGHT) {
-			if ((x_cible > x) && (x_cible - x != 0)) {
-				int vy = ((y_target - y + 50) * 6) / (x_cible - x);
+			if ((x_target > x) && (x_target - x != 0)) {
+				int vy = ((y_target - y + 50) * 6) / (x_target - x);
 				if (vy > 3) vy = 3;
 
 				if (vy < -3) vy = -3;
@@ -168,8 +168,8 @@ void EnemySnorkyBase2::onTire() {
 			}
 			pic = pbk_enemies[124];
 		} else {
-			if ((x_cible < x) && (x_cible - x != 0)) {
-				int vy = ((y_target - y + 50) * 6) / (x_cible - x);
+			if ((x_target < x) && (x_target - x != 0)) {
+				int vy = ((y_target - y + 50) * 6) / (x_target - x);
 				if (vy > 3) vy = 3;
 
 				if (vy < -3) vy = -3;
@@ -203,7 +203,7 @@ void EnemySnorkyBase2::onTire() {
 	colFromPic();
 }
 
-void EnemySnorkyBase2::onCarbonise() {
+void EnemySnorkyBase2::onCharred() {
 	anim_tick++;
 	anim_tick %= 6;
 
@@ -220,13 +220,13 @@ void EnemySnorkyBase2::onCarbonise() {
 }
 
 void EnemySnorkyBase2::takeHit(Shot* shot) {
-	static const int dx_giclure_snorkbase2[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_snorkbase2[] = {-15, -15, -15, -15, -35, -15, -15, -15};
+	static const int dx_splatter_snorkbase2[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_snorkbase2[] = {-15, -15, -15, -15, -35, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_snorkbase2, dy_giclure_snorkbase2);
+	splatter(shot, dx_splatter_snorkbase2, dy_splatter_snorkbase2);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(18);
 	}
 }

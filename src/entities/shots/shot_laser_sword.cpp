@@ -1,8 +1,8 @@
 #include "entities/shots/shot_laser_sword.h"
 #include "entities/enemies/enemy_bisou_jedi.h"
 
-ShotLaserSword::ShotLaserSword() : isdead(false), cible(NULL), retour(false), lanceur(NULL), accel(1) {
-	duree_vie = 200 + rand() % 100;
+ShotLaserSword::ShotLaserSword() : isdead(false), target(NULL), returning(false), thrower(NULL), accel(1) {
+	lifespan = 200 + rand() % 100;
 	sbk_level.play(13, SOUND_LOOP);
 }
 
@@ -26,33 +26,33 @@ void ShotLaserSword::update() {
 	int yc = 240;
 
 	if (!isdead) {
-		if (lanceur->destroyed || ((Enemy*)lanceur)->status == ETAT_MEURE) {
+		if (thrower->destroyed || ((Enemy*)thrower)->status == STATE_DYING) {
 			isdead = true;
 		}
 	}
 
 	if (isdead) {
 		updateDestroyed();
-	} else if (retour) {
-		xc = lanceur->x;
-		yc = lanceur->y - 25;
+	} else if (returning) {
+		xc = thrower->x;
+		yc = thrower->y - 25;
 
 		int ddx = xc - x;
 		int ddy = yc - y;
 
 		if (ddx > -10 && ddx < 10 && ddy > -10 && ddy < 10) {
 			destroyed = true;
-			((EnemyBisouJedi*)lanceur)->a_epee = true;
+			((EnemyBisouJedi*)thrower)->has_sword = true;
 		}
 	} else {
-		duree_vie -= 1;
+		lifespan -= 1;
 
-		if (cible->destroyed || duree_vie < 0) {
+		if (target->destroyed || lifespan < 0) {
 			accel = 4;
-			retour = true;
+			returning = true;
 		} else {
-			xc = cible->x;
-			yc = cible->y - 15;
+			xc = target->x;
+			yc = target->y - 15;
 		}
 	}
 

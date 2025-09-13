@@ -6,7 +6,7 @@ class EnemySmurfGlasses : public EnemySmurf {
    public:
 	inline void render() override {
 		EnemySmurf::render();
-		if (status != ETAT_MEURE && status != ETAT_CARBONISE) {
+		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
 					draw(x - 4, y - 27, pbk_enemies[145]);
@@ -19,7 +19,7 @@ class EnemySmurfGlasses : public EnemySmurf {
 	}
 
 	void update() override {
-		if (status == ETAT_SAUTE)
+		if (status == STATE_JUMP)
 			speed = 2;
 		else
 			speed = 1;

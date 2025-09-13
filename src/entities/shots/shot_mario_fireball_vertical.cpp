@@ -1,17 +1,17 @@
 #include "entities/shots/shot_mario_fireball_vertical.h"
 
-ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : x_cible(xc), dx(vx) { dy = -12; }
+ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : x_target(xc), dx(vx) { dy = -12; }
 
 void ShotMarioFireballVertical::update() {
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -250) destroyed = true;
 	if (dy > 0) {
-		fireball_tombe();
+		fireball_fall();
 	} else {
 		y += dy;
 	}
 
 	if (y < -50) {
-		x = x_cible;
+		x = x_target;
 		dy = 1;
 	}
 
@@ -43,13 +43,13 @@ void ShotMarioFireballVertical::update() {
 	colFromPic();
 }
 
-void ShotMarioFireballVertical::fireball_tombe() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_FIREBALL;
+void ShotMarioFireballVertical::fireball_fall() {
+	grav_tick += 1;
+	grav_tick %= FIREBALL_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITE_FIREBALL) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_FIREBALL) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITE_FIREBALL;
+	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_FIREBALL;
 
 	y += dy;
 }

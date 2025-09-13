@@ -6,17 +6,17 @@ class EnemySmurfGreedy : public Enemy {
    public:
 	int wait_for_shoot;
 	int shoot_delay;
-	int xcible;
-	int ycible;
+	int xtarget;
+	int ytarget;
 
 	EnemySmurfGreedy();
 
 	void update() override;
 	virtual void onNormal();
-	virtual void onTire();
-	virtual void onMeure();
+	virtual void onShoot();
+	virtual void onDie();
 	virtual void onHold();
-	virtual void onCarbonise();
+	virtual void onCharred();
 
 	void takeHit(Shot* shot) override;
 };

@@ -4,10 +4,10 @@
 ShotCake::ShotCake() { pic = pbk_enemies[194]; }
 
 void ShotCake::update() {
-	lat_grav += 1;
-	lat_grav %= GRAVITY_DELAY;
+	grav_tick += 1;
+	grav_tick %= GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	y += dy;
 

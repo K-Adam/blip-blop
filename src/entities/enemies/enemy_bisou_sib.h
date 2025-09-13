@@ -4,7 +4,7 @@
 
 class EnemyBisouSIB : public Enemy {
    public:
-	int encaisse;
+	int hits_taken;
 
 	EnemyBisouSIB();
 

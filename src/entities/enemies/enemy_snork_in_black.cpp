@@ -1,48 +1,48 @@
 #include "entities/enemies/enemy_snork_in_black.h"
 #include "entities/shots/shot_thorn.h"
 
-const int anim_snork_in_black_marche_droite[] = {344, 345, 346, 345};
-const int anim_snork_in_black_marche_gauche[] = {347, 348, 349, 348};
+const int anim_snork_in_black_walk_right[] = {344, 345, 346, 345};
+const int anim_snork_in_black_walk_left[] = {347, 348, 349, 348};
 
-EnemySnorkInBlack::EnemySnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_tir(0) {
+EnemySnorkInBlack::EnemySnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_shots(0) {
 	hp = 250;
 	dy = 0;
 }
 
 void EnemySnorkInBlack::update() {
 	switch (status) {
-		case ETAT_AVANCE:
+		case STATE_WALK:
 		case STATE_NORMAL:
-			onAvance();
+			onWalk();
 			break;
 
-		case ETAT_TOMBE:
-		case ETAT_SAUTE:
-			onTombe();
+		case STATE_FALL:
+		case STATE_JUMP:
+			onFall();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 	}
 
 	updateDestroyed();
 }
 
-void EnemySnorkInBlack::onAvance() {
+void EnemySnorkInBlack::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onTombe();
+		grav_tick = 0;
+		onFall();
 		return;
 	}
 
@@ -50,44 +50,44 @@ void EnemySnorkInBlack::onAvance() {
 	if ((targeted_player != NULL) && (wait_for_shoot > shoot_delay) && ((dir == FACING_RIGHT && x > offset + 80) || (dir == FACING_LEFT && x < offset + 560)))
 
 	{
-		x_cible = targeted_player->x;
+		x_target = targeted_player->x;
 		y_target = targeted_player->y;
 
-		if (x_cible != x) {
-			int vy = ((y_target - y + 14) * 6) / (x_cible - x);
+		if (x_target != x) {
+			int vy = ((y_target - y + 14) * 6) / (x_target - x);
 
-			if ((dir == FACING_RIGHT) && (x < x_cible) && (vy < 2) && (vy > -2)) {
+			if ((dir == FACING_RIGHT) && (x < x_target) && (vy < 2) && (vy > -2)) {
 				wait_for_shoot = 0;
 				shoot_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				nb_tir = rand() % 3;
-				status = ETAT_TIRE;
-				onTire();
+				nb_shots = rand() % 3;
+				status = STATE_SHOOT;
+				onShoot();
 				return;
-			} else if ((dir == FACING_LEFT) && (x > x_cible) && (vy < 2) && (vy > -2)) {
+			} else if ((dir == FACING_LEFT) && (x > x_target) && (vy < 2) && (vy > -2)) {
 				wait_for_shoot = 0;
 				shoot_delay = 50 + rand() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				nb_tir = rand() % 3;
-				status = ETAT_TIRE;
-				onTire();
+				nb_shots = rand() % 3;
+				status = STATE_SHOOT;
+				onShoot();
 				return;
 			}
 		}
 	}
 
 	if (dir == FACING_LEFT) {
-		marche(-SNORK_IN_BLACK_SPEED);
+		walk(-SNORK_IN_BLACK_SPEED);
 
-		pic = pbk_enemies[animate(anim_snork_in_black_marche_gauche, 4, 4)];
+		pic = pbk_enemies[animate(anim_snork_in_black_walk_left, 4, 4)];
 
 		if (solid_wall(x - SNORK_IN_BLACK_SPEED, y) || (x - SNORK_IN_BLACK_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
-		marche(SNORK_IN_BLACK_SPEED);
+		walk(SNORK_IN_BLACK_SPEED);
 
-		pic = pbk_enemies[animate(anim_snork_in_black_marche_droite, 4, 4)];
+		pic = pbk_enemies[animate(anim_snork_in_black_walk_right, 4, 4)];
 
 		if (solid_wall(x + SNORK_IN_BLACK_SPEED, y) || (x + SNORK_IN_BLACK_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -95,15 +95,15 @@ void EnemySnorkInBlack::onAvance() {
 	colFromPic();
 }
 
-void EnemySnorkInBlack::onTombe() {
+void EnemySnorkInBlack::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = ETAT_AVANCE;
+	if (platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
 
-void EnemySnorkInBlack::onMeure() {
+void EnemySnorkInBlack::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -124,7 +124,7 @@ void EnemySnorkInBlack::onMeure() {
 	}
 }
 
-void EnemySnorkInBlack::onTire() {
+void EnemySnorkInBlack::onShoot() {
 	anim_tick++;
 	if (anim_step == 0) {
 		anim_tick %= 20;
@@ -165,13 +165,13 @@ void EnemySnorkInBlack::onTire() {
 	}
 
 	if (anim_step == 3) {
-		nb_tir++;
+		nb_shots++;
 		anim_step = 0;
-		if (nb_tir >= SNORK_IN_BLACK_MAX_TIR) {
+		if (nb_shots >= SNORK_IN_BLACK_MAX_SHOTS) {
 			anim_tick = 0;
 			anim_step = 0;
-			status = ETAT_AVANCE;
-			onAvance();
+			status = STATE_WALK;
+			onWalk();
 			return;
 		}
 	}
@@ -192,7 +192,7 @@ void EnemySnorkInBlack::onTire() {
 	colFromPic();
 }
 
-void EnemySnorkInBlack::onCarbonise() {
+void EnemySnorkInBlack::onCharred() {
 	anim_tick++;
 	anim_tick %= 6;
 
@@ -209,13 +209,13 @@ void EnemySnorkInBlack::onCarbonise() {
 }
 
 void EnemySnorkInBlack::takeHit(Shot* shot) {
-	static const int dx_giclure_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
+	static const int dx_splatter_snorkbase1[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_snorkbase1[] = {-15, -15, -15, -15, -25, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_snorkbase1, dy_giclure_snorkbase1);
+	splatter(shot, dx_splatter_snorkbase1, dy_splatter_snorkbase1);
 
-	if (status == ETAT_MEURE) {
+	if (status == STATE_DYING) {
 		sbk_level.play(21 + rand() % 3);
 	}
 }

@@ -3,7 +3,7 @@
 #include "entities/character.h"
 #include "entities/shots/shot.h"
 
-#ifndef ENNEMI_CPP
+#ifndef ENEMY_CPP
 extern Character* targeted_player;
 #endif
 
@@ -13,7 +13,7 @@ class Enemy : public Character {
 
 	int xmin;
 	int blood;
-	int tresor;
+	int treasure;
 
 	virtual bool count() { return true; };
 
@@ -21,7 +21,7 @@ class Enemy : public Character {
 
 	virtual int damage() { return 1; };
 
-	virtual void gicle(const Shot* shot, const int* dxg, const int* dyg);
+	virtual void splatter(const Shot* shot, const int* dxg, const int* dyg);
 
-	void tirEnCloche(int xtir, int ytir, int xci, int yci, int& xspeed, int& yspeed) const;
+	void lobShot(int xshot, int yshot, int xtgt, int ytgt, int& xspeed, int& yspeed) const;
 };

@@ -47,13 +47,13 @@ void EnemyCOMHero::update() {
 
 		switch (status) {
 			case STATE_NORMAL:
-			case ETAT_AVANCE:
-				onAvance();
+			case STATE_WALK:
+				onWalk();
 				break;
 
-			case ETAT_MEURE:
-			case ETAT_CARBONISE:
-				onMeure();
+			case STATE_DYING:
+			case STATE_CHARRED:
+				onDie();
 				break;
 		}
 
@@ -61,7 +61,7 @@ void EnemyCOMHero::update() {
 	}
 }
 
-void EnemyCOMHero::onAvance() {
+void EnemyCOMHero::onWalk() {
 	fall();
 
 	anim_tick += 1;
@@ -78,9 +78,9 @@ void EnemyCOMHero::onAvance() {
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
-		marche(2);
+		walk(2);
 	} else {
-		marche(-2);
+		walk(-2);
 	}
 
 	pic = pbk_enemies[304 + anim_step];
@@ -88,7 +88,7 @@ void EnemyCOMHero::onAvance() {
 	colFromPic();
 }
 
-void EnemyCOMHero::onMeure() {
+void EnemyCOMHero::onDie() {
 	fall();
 
 	anim_tick += 1;

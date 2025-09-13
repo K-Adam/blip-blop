@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_smurf_greedy.h"
 #include "entities/shots/shot_cake.h"
 
-#define ETAT_HOLD 15
+#define STATE_HOLD 15
 
 EnemySmurfGreedy::EnemySmurfGreedy() : wait_for_shoot(0) {
 	hp = 150;
@@ -16,20 +16,20 @@ void EnemySmurfGreedy::update() {
 			onNormal();
 			break;
 
-		case ETAT_TIRE:
-			onTire();
+		case STATE_SHOOT:
+			onShoot();
 			break;
 
-		case ETAT_HOLD:
+		case STATE_HOLD:
 			onHold();
 			break;
 
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_CARBONISE:
-			onCarbonise();
+		case STATE_CHARRED:
+			onCharred();
 			break;
 	}
 
@@ -45,20 +45,20 @@ void EnemySmurfGreedy::onNormal() {
 
 	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && targeted_player != NULL) {
 		sbk_level.play(14 + rand() % 2);
-		status = ETAT_TIRE;
+		status = STATE_SHOOT;
 		wait_for_shoot = 0;
 		shoot_delay = 100 + rand() % 250;
 		anim_step = 0;
 		anim_tick = 0;
-		xcible = targeted_player->x;
-		ycible = targeted_player->y;
+		xtarget = targeted_player->x;
+		ytarget = targeted_player->y;
 
-		if (xcible > x)
+		if (xtarget > x)
 			dir = FACING_RIGHT;
 		else
 			dir = FACING_LEFT;
 
-		onTire();
+		onShoot();
 	}
 
 	if (dir == FACING_RIGHT) {
@@ -70,7 +70,7 @@ void EnemySmurfGreedy::onNormal() {
 	colFromPic();
 }
 
-void EnemySmurfGreedy::onTire() {
+void EnemySmurfGreedy::onShoot() {
 	anim_tick += 1;
 	anim_tick %= 5;
 
@@ -88,12 +88,12 @@ void EnemySmurfGreedy::onTire() {
 
 		shot->y = y - 28;
 
-		tirEnCloche(shot->x, shot->y, xcible, ycible, shot->dx, shot->dy);
+		lobShot(shot->x, shot->y, xtarget, ytarget, shot->dx, shot->dy);
 
 		list_enemy_shots.emplace_back(shot);
 
 		anim_step = 0;
-		status = ETAT_HOLD;
+		status = STATE_HOLD;
 		return;
 	}
 
@@ -106,7 +106,7 @@ void EnemySmurfGreedy::onTire() {
 	colFromPic();
 }
 
-void EnemySmurfGreedy::onMeure() {
+void EnemySmurfGreedy::onDie() {
 	fall();
 
 	anim_tick += 1;
@@ -131,18 +131,18 @@ void EnemySmurfGreedy::onMeure() {
 }
 
 void EnemySmurfGreedy::takeHit(Shot* shot) {
-	static const int dx_giclure_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
-	static const int dy_giclure_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
+	static const int dx_splatter_smurf[] = {0, 0, 4, 0, 0, 0, -4, 0};
+	static const int dy_splatter_smurf[] = {-15, -15, -15, -15, -15, -15, -15, -15};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure_smurf, dy_giclure_smurf);
+	splatter(shot, dx_splatter_smurf, dy_splatter_smurf);
 
-	if (shot->getGiclureDir() < 4)
+	if (shot->getSplatterDir() < 4)
 		dir = FACING_LEFT;
 	else
 		dir = FACING_RIGHT;
 
-	if (status == ETAT_MEURE) sbk_level.play(rand() % 4);
+	if (status == STATE_DYING) sbk_level.play(rand() % 4);
 }
 
 void EnemySmurfGreedy::onHold() {
@@ -163,7 +163,7 @@ void EnemySmurfGreedy::onHold() {
 	colFromPic();
 }
 
-void EnemySmurfGreedy::onCarbonise() {
+void EnemySmurfGreedy::onCharred() {
 	anim_tick += 1;
 	anim_tick %= 6;
 

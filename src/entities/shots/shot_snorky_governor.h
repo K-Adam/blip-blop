@@ -3,19 +3,19 @@
 #include "entities/shots/shot.h"
 #include "entities/character.h"
 
-#define INERTIE_TIR 6
+#define SHOT_INERTIA 6
 #define SPEED_MAX 6
 #define TIME_MAX 100
 
 class ShotSnorkyGovernor : public Shot {
    public:
 	int dx;
-	int etape_dx;
-	int etape_dy;
+	int dx_tick;
+	int dy_tick;
 	int time;
-	Character* joueur_cible;
+	Character* target_player;
 
-	ShotSnorkyGovernor(Character* cible, int vx, int vy);
+	ShotSnorkyGovernor(Character* target, int vx, int vy);
 
 	int damage() const override { return 1; };
 

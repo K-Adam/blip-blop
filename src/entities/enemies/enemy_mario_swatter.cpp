@@ -3,15 +3,15 @@
 #include "entities/gore_splatter.h"
 #include "level/events/event_hold_fire.h"
 
-const int anim_mario_marche_droite[] = {75, 76, 77, 76};
-const int anim_mario_marche_gauche[] = {78, 79, 80, 79};
-const int anim_nabo_droite[] = {164, 165};
-const int anim_nabo_gauche[] = {166, 167};
-const int anim_transformation_droite[] = {75, 164};
-const int anim_transformation_gauche[] = {78, 166};
+const int anim_mario_walk_right[] = {75, 76, 77, 76};
+const int anim_mario_walk_left[] = {78, 79, 80, 79};
+const int anim_shrunk_right[] = {164, 165};
+const int anim_shrunk_left[] = {166, 167};
+const int anim_transformation_right[] = {75, 164};
+const int anim_transformation_left[] = {78, 166};
 
 EnemyMarioSwatter::EnemyMarioSwatter()
-	: speed(1), etape_speed(0), attack_delay(50 + rand() % 250), wait_for_attack(0), aide_luigi(0), nabo(0), nabo_delay(0), encaissement(0) {
+	: speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), helping_luigi(0), shrunk(0), shrink_timer(0), knockback(0) {
 	hp = 10000;
 	xmin = 1280;
 	pic = pbk_enemies[78];
@@ -26,32 +26,32 @@ void EnemyMarioSwatter::update() {
 
 	switch (status) {
 		case STATE_NORMAL:
-		case ETAT_AVANCE:
-			onAvance();
+		case STATE_WALK:
+			onWalk();
 			break;
 
-		case ETAT_CARBONISE:
-		case ETAT_MEURE:
-			onMeure();
+		case STATE_CHARRED:
+		case STATE_DYING:
+			onDie();
 			break;
 
-		case ETAT_SAUTE:
-		case ETAT_TOMBE:
-			onSaute();
+		case STATE_JUMP:
+		case STATE_FALL:
+			onJump();
 			break;
 
-		case ETAT_TIRE:
+		case STATE_SHOOT:
 			onCharge();
 			break;
 	}
 }
 
-void EnemyMarioSwatter::onAvance() {
+void EnemyMarioSwatter::onWalk() {
 	if (platform_y(x, y) == 0) {
-		status = ETAT_TOMBE;
+		status = STATE_FALL;
 		dy = 0;
-		lat_grav = 0;
-		onSaute();
+		grav_tick = 0;
+		onJump();
 	}
 
 	if (x - speed < xmin || solid_wall(x - speed, y)) {
@@ -72,7 +72,7 @@ void EnemyMarioSwatter::onAvance() {
 			attack_step = 0;
 			speed = 0;
 			dy = 0;
-			status = ETAT_TIRE;
+			status = STATE_SHOOT;
 			onCharge();
 			return;
 		} else {
@@ -86,9 +86,9 @@ void EnemyMarioSwatter::onAvance() {
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * -9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				status = ETAT_SAUTE;
-				lat_grav = 0;  // Otherwise jump heights vary
-				onSaute();
+				status = STATE_JUMP;
+				grav_tick = 0;	// Otherwise jump heights vary
+				onJump();
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
 				anim_step = 0;
@@ -97,66 +97,66 @@ void EnemyMarioSwatter::onAvance() {
 				attack_delay = 50 + rand() % 250;
 				speed = ((dif_x * 9) / dif_y);
 				dy = (int)(-9 + speed * 0.25);
-				status = ETAT_SAUTE;
-				lat_grav = 0;  // Otherwise jump heights vary
-				onSaute();
+				status = STATE_JUMP;
+				grav_tick = 0;	// Otherwise jump heights vary
+				onJump();
 				return;
 			}
 		}
 	}
 
 	if (dir == FACING_RIGHT) {
-		marche(speed);
-		pic = pbk_enemies[animate(anim_mario_marche_droite, 4, 16 - (3 * speed))];
+		walk(speed);
+		pic = pbk_enemies[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
 
-		if (encaissement < 0) {
-			if (speed > -encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
-				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+		if (knockback < 0) {
+			if (speed > -knockback / GROUND_SPEED_DIVISOR) {
+				speed += knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = 0;
 			}
 		} else {
-			if (speed + encaissement / MULTIPLACATEUR_VITESSE_AU_SOL < MARIO_SPEED) {
-				speed += encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+			if (speed + knockback / GROUND_SPEED_DIVISOR < MARIO_SPEED) {
+				speed += knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = MARIO_SPEED;
 			}
 		}
 	} else {
-		marche(-speed);
-		pic = pbk_enemies[animate(anim_mario_marche_gauche, 4, 16 - (3 * speed))];
+		walk(-speed);
+		pic = pbk_enemies[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
 
-		if (encaissement > 0) {
-			if (speed > encaissement / MULTIPLACATEUR_VITESSE_AU_SOL) {
-				speed -= encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+		if (knockback > 0) {
+			if (speed > knockback / GROUND_SPEED_DIVISOR) {
+				speed -= knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = 0;
 			}
 		} else {
-			if (speed - encaissement / MULTIPLACATEUR_VITESSE_AU_SOL < MARIO_SPEED) {
-				speed -= encaissement / MULTIPLACATEUR_VITESSE_AU_SOL;
+			if (speed - knockback / GROUND_SPEED_DIVISOR < MARIO_SPEED) {
+				speed -= knockback / GROUND_SPEED_DIVISOR;
 			} else {
 				speed = MARIO_SPEED;
 			}
 		}
 	}
 
-	if (encaissement >= MULTIPLICATEUR_RECUL_SOL) {
-		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL < offset + 640) {
-			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
+	if (knockback >= GROUND_RECOIL_DIVISOR) {
+		if (x + knockback / GROUND_RECOIL_DIVISOR < offset + 640) {
+			x += knockback / GROUND_RECOIL_DIVISOR;
 		}
-	} else if (encaissement <= -MULTIPLICATEUR_RECUL_SOL) {
-		if (x + encaissement / MULTIPLICATEUR_RECUL_SOL > xmin) {
-			x += encaissement / MULTIPLICATEUR_RECUL_SOL;
+	} else if (knockback <= -GROUND_RECOIL_DIVISOR) {
+		if (x + knockback / GROUND_RECOIL_DIVISOR > xmin) {
+			x += knockback / GROUND_RECOIL_DIVISOR;
 		}
 	}
 
-	encaissement = 0;
+	knockback = 0;
 
 	if (speed < MARIO_SPEED) {
-		etape_speed++;
-		if (etape_speed >= 20) {
-			etape_speed = 0;
+		speed_tick++;
+		if (speed_tick >= 20) {
+			speed_tick = 0;
 			speed++;
 		}
 	}
@@ -164,25 +164,25 @@ void EnemyMarioSwatter::onAvance() {
 	colFromPic();
 }
 
-void EnemyMarioSwatter::onMeure() {
-	if (!nabo) {
+void EnemyMarioSwatter::onDie() {
+	if (!shrunk) {
 		fall();
-		nabo_delay++;
-		if (nabo_delay >= NABO_TRANSFORMATION) {
+		shrink_timer++;
+		if (shrink_timer >= SHRINK_DELAY) {
 			speed = 1;
-			nabo = true;
+			shrunk = true;
 		} else {
 			if (dir == FACING_RIGHT) {
-				pic = pbk_enemies[animate(anim_transformation_droite, 2, 6)];
+				pic = pbk_enemies[animate(anim_transformation_right, 2, 6)];
 			} else {
-				pic = pbk_enemies[animate(anim_transformation_gauche, 2, 6)];
+				pic = pbk_enemies[animate(anim_transformation_left, 2, 6)];
 			}
 		}
 	} else {
 		fall();
 
 		if (game_flag[0] >= 3) {
-			if (!aide_luigi) {
+			if (!helping_luigi) {
 				if (x - speed < xmin || solid_wall(x - speed, y)) {
 					dir = FACING_RIGHT;
 					speed = 2;
@@ -193,18 +193,18 @@ void EnemyMarioSwatter::onMeure() {
 			}
 
 			if (dir == FACING_RIGHT) {
-				marche(speed);
-				pic = pbk_enemies[animate(anim_nabo_droite, 2, 16 - (3 * speed))];
+				walk(speed);
+				pic = pbk_enemies[animate(anim_shrunk_right, 2, 16 - (3 * speed))];
 			} else {
-				marche(-speed);
-				pic = pbk_enemies[animate(anim_nabo_gauche, 2, 16 - (3 * speed))];
+				walk(-speed);
+				pic = pbk_enemies[animate(anim_shrunk_left, 2, 16 - (3 * speed))];
 			}
 		}
 	}
 
-	if ((!aide_luigi) && (nabo)) {
+	if ((!helping_luigi) && (shrunk)) {
 		game_flag[3] = 1;
-		aide_luigi = 1;
+		helping_luigi = 1;
 		dir = FACING_RIGHT;
 		Enemy* luigi = new EnemyLuigi();
 
@@ -231,60 +231,60 @@ void EnemyMarioSwatter::onCharge() {
 		speed = 1;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
-		encaissement = 0;
-		onAvance();
+		knockback = 0;
+		onWalk();
 		return;
 	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 		anim_step = 0;
 		anim_tick = 0;
-		status = ETAT_AVANCE;
+		status = STATE_WALK;
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 250;
-		encaissement = 0;
-		onAvance();
+		knockback = 0;
+		onWalk();
 		return;
 	}
 	attack_step += 1;
 	if (attack_step < 40) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[animate(anim_mario_marche_droite, 4, 3)];
+			pic = pbk_enemies[animate(anim_mario_walk_right, 4, 3)];
 		} else {
-			pic = pbk_enemies[animate(anim_mario_marche_gauche, 4, 3)];
+			pic = pbk_enemies[animate(anim_mario_walk_left, 4, 3)];
 		}
 
-		if (encaissement > 1000) {
+		if (knockback > 1000) {
 			speed = 1;
 			anim_step = 0;
 			anim_tick = 0;
-			status = ETAT_AVANCE;
+			status = STATE_WALK;
 			wait_for_attack = 0;
 			attack_delay = 50 + rand() % 250;
-			encaissement = 0;
-			onAvance();
+			knockback = 0;
+			onWalk();
 			return;
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
-			marche(speed);
-			pic = pbk_enemies[animate(anim_mario_marche_droite, 4, 2)];
+			walk(speed);
+			pic = pbk_enemies[animate(anim_mario_walk_right, 4, 2)];
 		} else {
-			marche(-speed);
-			pic = pbk_enemies[animate(anim_mario_marche_gauche, 4, 2)];
+			walk(-speed);
+			pic = pbk_enemies[animate(anim_mario_walk_left, 4, 2)];
 		}
 	}
 	colFromPic();
 }
 
-void EnemyMarioSwatter::onSaute() {
+void EnemyMarioSwatter::onJump() {
 	int yp;
 
 	if (dy < 0) {
-		tombe_mario();
+		fall_mario();
 	} else {
 		fall();
 	}
@@ -307,11 +307,11 @@ void EnemyMarioSwatter::onSaute() {
 		if (speed > MARIO_SPEED) {
 			speed = MARIO_SPEED;
 		}
-		onAvance();
+		onWalk();
 		return;
 	}
 
-	if (!nabo) {
+	if (!shrunk) {
 		if (dir == FACING_RIGHT) {
 			x += speed;
 			if (dy < 0) {
@@ -320,24 +320,24 @@ void EnemyMarioSwatter::onSaute() {
 				pic = pbk_enemies[82];
 			}
 
-			if (encaissement != 0) {
-				x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
+			if (knockback != 0) {
+				x += knockback / AIR_RECOIL_DIVISOR;
 			}
 
-			if (encaissement < 0) {
-				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-					if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * MARIO_SPEED) {
+			if (knockback < 0) {
+				if (speed + knockback / AIR_SPEED_DIVISOR < 0) {
+					if (speed + knockback / AIR_SPEED_DIVISOR < -2 * MARIO_SPEED) {
 						speed = -2 * MARIO_SPEED;
 					} else {
-						speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+						speed += knockback / AIR_SPEED_DIVISOR;
 					}
 				} else {
-					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+					speed += knockback / AIR_SPEED_DIVISOR;
 				}
 
 			} else {
-				if (speed + encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 2 * MARIO_SPEED) {
-					speed += encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+				if (speed + knockback / AIR_SPEED_DIVISOR < 2 * MARIO_SPEED) {
+					speed += knockback / AIR_SPEED_DIVISOR;
 				} else {
 					speed = 2 * MARIO_SPEED;
 				}
@@ -350,24 +350,24 @@ void EnemyMarioSwatter::onSaute() {
 				pic = pbk_enemies[84];
 			}
 
-			if (encaissement != 0) {
-				x += encaissement / MULTIPLICATEUR_RECUL_AERIEN;
+			if (knockback != 0) {
+				x += knockback / AIR_RECOIL_DIVISOR;
 			}
 
-			if (encaissement > 0) {
-				if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 0) {
-					if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < -2 * MARIO_SPEED) {
+			if (knockback > 0) {
+				if (speed - knockback / AIR_SPEED_DIVISOR < 0) {
+					if (speed - knockback / AIR_SPEED_DIVISOR < -2 * MARIO_SPEED) {
 						speed = -2 * MARIO_SPEED;
 					} else {
-						speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+						speed -= knockback / AIR_SPEED_DIVISOR;
 					}
 				} else {
-					speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+					speed -= knockback / AIR_SPEED_DIVISOR;
 				}
 
 			} else {
-				if (speed - encaissement / MULTIPLICATEUR_VITESSE_AERIEN < 2 * MARIO_SPEED) {
-					speed -= encaissement / MULTIPLICATEUR_VITESSE_AERIEN;
+				if (speed - knockback / AIR_SPEED_DIVISOR < 2 * MARIO_SPEED) {
+					speed -= knockback / AIR_SPEED_DIVISOR;
 				} else {
 					speed = 2 * MARIO_SPEED;
 				}
@@ -376,24 +376,24 @@ void EnemyMarioSwatter::onSaute() {
 	} else {
 		if (dir == FACING_RIGHT) {
 			x += speed;
-			pic = pbk_enemies[animate(anim_nabo_droite, 2, 16 - (3 * speed))];
+			pic = pbk_enemies[animate(anim_shrunk_right, 2, 16 - (3 * speed))];
 		} else {
 			x -= speed;
-			pic = pbk_enemies[animate(anim_nabo_gauche, 2, 16 - (3 * speed))];
+			pic = pbk_enemies[animate(anim_shrunk_left, 2, 16 - (3 * speed))];
 		}
 	}
 
-	encaissement = 0;
+	knockback = 0;
 	colFromPic();
 }
 
-void EnemyMarioSwatter::onCarbonise() { destroyed = true; }
+void EnemyMarioSwatter::onCharred() { destroyed = true; }
 
-void EnemyMarioSwatter::tombe_mario() {
-	lat_grav += 1;
-	lat_grav %= LATENCE_MARIO_GRAVITE;
+void EnemyMarioSwatter::fall_mario() {
+	grav_tick += 1;
+	grav_tick %= MARIO_GRAVITY_DELAY;
 
-	if (lat_grav == 0 && dy < GRAVITY_MAX) dy += 1;
+	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
 	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
@@ -422,14 +422,14 @@ void EnemyMarioSwatter::takeHit(Shot* shot) {
 	}
 
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {
-		encaissement += shot->damage();
+		knockback += shot->damage();
 	} else if ((shot->dir >= 10) && (shot->dir <= 14)) {
-		encaissement -= shot->damage();
+		knockback -= shot->damage();
 	}
 
-	static const int dx_giclure[] = {0, 10, 15, 10, 0, -10, -15, -10};
-	static const int dy_giclure[] = {-15, -25, -25, -25, -35, -25, -25, -25};
+	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
+	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 
 	Enemy::takeHit(shot);
-	gicle(shot, dx_giclure, dy_giclure);
+	splatter(shot, dx_splatter, dy_splatter);
 }

@@ -22,7 +22,7 @@ void ShotBB::setAngle(double deg, double speed) {
 }
 
 void ShotBB::moveAlongAngle() {
-	fx_ += vx_ + dxReferentiel;
+	fx_ += vx_ + dxScroll;
 	fy_ += vy_;
 	x = (int)std::lround(fx_);
 	y = (int)std::lround(fy_);

@@ -1,6 +1,6 @@
 #include "entities/shots/shot_mario_fireball.h"
 
-ShotMarioFireball::ShotMarioFireball(int vx) : speed_etape(0) {
+ShotMarioFireball::ShotMarioFireball(int vx) : accel_tick(0) {
 	dy = 0;
 	dx = vx;
 }
@@ -8,9 +8,9 @@ ShotMarioFireball::ShotMarioFireball(int vx) : speed_etape(0) {
 void ShotMarioFireball::update() {
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
 
-	speed_etape++;
-	speed_etape %= DELAY_ACCELERATION;
-	if (speed_etape == 0) {
+	accel_tick++;
+	accel_tick %= DELAY_ACCELERATION;
+	if (accel_tick == 0) {
 		if (dir == FACING_RIGHT) {
 			dx++;
 		} else {

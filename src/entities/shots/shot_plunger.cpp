@@ -1,7 +1,7 @@
 #include "entities/shots/shot_plunger.h"
 
-ShotPlunger::ShotPlunger(int n_pbk_ennemis, int vx, int vy) {
-	pic = pbk_enemies[n_pbk_ennemis];
+ShotPlunger::ShotPlunger(int n_pbk_enemies, int vx, int vy) {
+	pic = pbk_enemies[n_pbk_enemies];
 	dy = vy;
 	dx = vx;
 }

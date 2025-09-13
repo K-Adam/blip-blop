@@ -5,12 +5,12 @@
 class EnemyBisouCloud : public Enemy {
    public:
 	int wait_shoot;
-	int etape_shoot;
+	int shoot_step;
 
 	EnemyBisouCloud();
 	virtual void onNormal();
 	void update() override;
-	virtual void onMeureWait();
-	virtual void onMeureTombe();
-	virtual void onMeureFin();
+	virtual void onDieWait();
+	virtual void onDieFall();
+	virtual void onDieEnd();
 };
