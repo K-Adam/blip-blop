@@ -2,24 +2,23 @@
 
 #include "entities/ball.h"
 
-const int rocher2_levitation[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
-const int rocher2_animation[] = {57, 58, 58, 59, 59, 59, 60, 60, 60, 60, 60, 59, 59, 59, 58, 58,
-								 57, 61, 61, 62, 62, 62, 63, 63, 63, 63, 63, 62, 62, 62, 61, 61};
+const int rock2_levitation[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
+const int rock2_animation[] = {57, 58, 58, 59, 59, 59, 60, 60, 60, 60, 60, 59, 59, 59, 58, 58, 57, 61, 61, 62, 62, 62, 63, 63, 63, 63, 63, 62, 62, 62, 61, 61};
 
-BackgroundRock2::BackgroundRock2() : etape_levitation(0), ss_etape_levitation(0) {
+BackgroundRock2::BackgroundRock2() : levitation_step(0), levitation_tick(0) {
 	pic = pbk_level[38];
 	dy = 0;
 }
 
 void BackgroundRock2::update() {
-	pic = pbk_level[animate(rocher2_animation, 32, 4)];
+	pic = pbk_level[animate(rock2_animation, 32, 4)];
 
-	ss_etape_levitation++;
-	ss_etape_levitation %= 6;
-	if (ss_etape_levitation == 0) {
-		etape_levitation++;
-		if (etape_levitation == 18) {
-			etape_levitation = 0;
+	levitation_tick++;
+	levitation_tick %= 6;
+	if (levitation_tick == 0) {
+		levitation_step++;
+		if (levitation_step == 18) {
+			levitation_step = 0;
 		}
 	}
 
@@ -29,21 +28,21 @@ void BackgroundRock2::update() {
 		xtmp = hero->x;
 
 		if (xtmp >= x - 45 && xtmp < x + pic->xSize() - 45 && platform_y(xtmp, hero->y) == y - 25) {
-			if (etape_levitation <= 9) {
-				hero->y += rocher2_levitation[etape_levitation];
+			if (levitation_step <= 9) {
+				hero->y += rock2_levitation[levitation_step];
 			} else {
-				hero->y -= rocher2_levitation[etape_levitation - 9];
+				hero->y -= rock2_levitation[levitation_step - 9];
 			}
 		}
 	}
 
-	if (etape_levitation <= 9) {
-		y += rocher2_levitation[etape_levitation];
+	if (levitation_step <= 9) {
+		y += rock2_levitation[levitation_step];
 	} else {
-		y -= rocher2_levitation[etape_levitation - 9];
+		y -= rock2_levitation[levitation_step - 9];
 	}
 
-	for (int i = x - 45; i < x + pic->xSize() - 45; i++) set_plat(4, i, y - 25);
+	for (int i = x - 45; i < x + pic->xSize() - 45; i++) set_platform(4, i, y - 25);
 
 	colFromPic();
 }

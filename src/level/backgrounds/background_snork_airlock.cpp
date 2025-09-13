@@ -5,21 +5,21 @@
 
 int BackgroundSnorkAirlock1::status = 0;  // 1 once airlock 1 is closed
 
-BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : nb_joueur(0) { anim_step = 0; }
+BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : players_inside(0) { anim_step = 0; }
 
 void BackgroundSnorkAirlock1::update() {
 	if (!status) {
 		if ((targeted_player != NULL) && (targeted_player->x > 1400)) {
-			nb_joueur++;
+			players_inside++;
 			if (anim_step < 222) {
-				if (nb_joueur >= 2) {
+				if (players_inside >= 2) {
 					anim_step += 2;
 				}
 			} else {
 				status = 1;
 			}
 		} else {
-			nb_joueur = 0;
+			players_inside = 0;
 		}
 
 		if (anim_step % 8 == 0) {

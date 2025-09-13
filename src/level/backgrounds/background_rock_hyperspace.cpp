@@ -2,30 +2,30 @@
 #include <cmath>
 #include <numbers>
 
-const int rocher_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0};
+const int rock_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0};
 
-BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rand() % 360), y_base(0), sinusoide_delay(1) {}
+BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rand() % 360), y_base(0), sinusoid_delay(1) {}
 
 void BackgroundRockHyperspace::update() {
-	delta += sinusoide_delay;
+	delta += sinusoid_delay;
 	delta %= 360;
 
 	if (placed) {
 		if ((x >= 0) && (x < 200)) {
 			x_delay = 2 + rand() % 3;
-			plan_rocher = 2;
+			rock_layer = 2;
 			pic = pbk_level[64 + rand() % 7];
-			sinusoide_delay = 2 + rand() % 2;
+			sinusoid_delay = 2 + rand() % 2;
 		} else if ((x >= 200) && (x < 420)) {
 			x_delay = 4 + rand() % 5;
-			plan_rocher = 1;
+			rock_layer = 1;
 			pic = pbk_level[71 + rand() % 5];
-			sinusoide_delay = 3 + rand() % 2;
+			sinusoid_delay = 3 + rand() % 2;
 		} else if ((x >= 420) && (x < 640)) {
 			x_delay = 8 + rand() % 4;
-			plan_rocher = 0;
+			rock_layer = 0;
 			pic = pbk_level[77 + rand() % 5];
-			sinusoide_delay = 4 + rand() % 2;
+			sinusoid_delay = 4 + rand() % 2;
 		}
 		x = rand() % 640;
 		y_base = rand() % 380;
@@ -36,7 +36,7 @@ void BackgroundRockHyperspace::update() {
 	anim_tick %= x_delay;
 	x += x_delay;
 
-	switch (plan_rocher) {
+	switch (rock_layer) {
 		case 0:
 			y = y_base + int(11 * std::cos(delta * std::numbers::pi / 180));
 			break;
@@ -54,23 +54,23 @@ void BackgroundRockHyperspace::update() {
 		x = offset - 80;
 		y_base = rand() % 380;
 		y = rand() % 380;
-		switch (plan_rocher) {
+		switch (rock_layer) {
 			case 0:
 				x_delay = 8 + rand() % 4;
 				pic = pbk_level[77 + rand() % 5];
-				sinusoide_delay = 4 + rand() % 2;
+				sinusoid_delay = 4 + rand() % 2;
 				break;
 
 			case 1:
 				x_delay = 4 + rand() % 5;
 				pic = pbk_level[71 + rand() % 5];
-				sinusoide_delay = 3 + rand() % 2;
+				sinusoid_delay = 3 + rand() % 2;
 				break;
 
 			case 2:
 				x_delay = 2 + rand() % 3;
 				pic = pbk_level[64 + rand() % 7];
-				sinusoide_delay = 2 + rand() % 2;
+				sinusoid_delay = 2 + rand() % 2;
 				break;
 		}
 	}

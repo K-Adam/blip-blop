@@ -84,20 +84,20 @@ void updateScrolling(bool forceOk) {
 	} else if (scroll_speed != 0 && forceOk) {
 		offset += scroll_speed;
 	} else if (list_players.size() > 0) {
-		int x_moy = 0;
+		int x_avg = 0;
 
 		for (Ball* s : list_players) {
-			x_moy += s->x;
+			x_avg += s->x;
 		}
 
-		x_moy /= (int)list_players.size();
-		x_moy -= 320;  // Half of the 640 screen width
+		x_avg /= (int)list_players.size();
+		x_avg -= 320;  // Half of the 640 screen width
 
-		if (x_moy > offset) {
-			if ((x_moy - offset) >= 2)
+		if (x_avg > offset) {
+			if ((x_avg - offset) >= 2)
 				offset += 2;
 			else
-				offset = x_moy;
+				offset = x_avg;
 		}
 	}
 

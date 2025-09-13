@@ -1,13 +1,13 @@
 #include "level/events/event_foreground.h"
 #include "entities/sprite.h"
 
-class PPlan : public Sprite {
+class ForegroundLayer : public Sprite {
    public:
 	void update() override{};
 };
 
 void EventForeground::doEvent() {
-	PPlan* s = new PPlan();
+	ForegroundLayer* s = new ForegroundLayer();
 
 	s->x = x;
 	s->y = y;

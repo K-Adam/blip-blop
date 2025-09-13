@@ -109,7 +109,7 @@ extern int nb_enemies_created;
 extern int weather_intensity;
 extern int weather_type;
 
-void set_plat(int n, int x, int y);
+void set_platform(int n, int x, int y);
 int platform_y(int x, int y);  // 0 when there is no platform
 int platform_y2(int x, int y);
 bool solid_wall(int x, int y);

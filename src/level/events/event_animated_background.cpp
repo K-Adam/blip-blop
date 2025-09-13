@@ -36,264 +36,264 @@
 #include "level/backgrounds/background_rock_2.h"
 #include "level/backgrounds/background_rock_hyperspace.h"
 
-#define IDFOND_POKEALARME1 100
-#define IDFOND_POKEALARME2 101
-#define IDFOND_POKEALARME3 102
-#define IDFOND_POKEFLECHE 103
-#define IDFOND_POKECIEL 104
-#define IDFOND_POKEASCENC 105
-#define IDFOND_INTERRUPTEUR 106
-#define IDFOND_CAISSETOMBANTE 107
-#define IDFOND_POKEASCENC2 108
-#define IDFOND_BOMBE 109
-#define IDFOND_LEVEL2 110
-#define IDFOND_LEVEL3 111
+#define BGID_POKE_ALARM1 100
+#define BGID_POKE_ALARM2 101
+#define BGID_POKE_ALARM3 102
+#define BGID_POKE_ARROW 103
+#define BGID_POKE_SKY 104
+#define BGID_POKE_ELEVATOR 105
+#define BGID_POKE_SWITCH 106
+#define BGID_POKE_CRATE_FALLING 107
+#define BGID_POKE_ELEVATOR2 108
+#define BGID_BOMB 109
+#define BGID_POKE_LEVEL2 110
+#define BGID_POKE_LEVEL3 111
 
-#define IDFOND_SAS1 300
-#define IDFOND_SAS2 301
-#define IDFOND_POISSONROUGE 302
-#define IDFOND_POISSONVIOLET 303
-#define IDFOND_POISSONROUGECAMOUFLE 304
-#define IDFOND_POISSONVIOLETCAMOUFLE 305
+#define BGID_SNORK_AIRLOCK1 300
+#define BGID_SNORK_AIRLOCK2 301
+#define BGID_FISH_RED 302
+#define BGID_FISH_PURPLE 303
+#define BGID_FISH_RED_CAMOUFLAGED 304
+#define BGID_FISH_PURPLE_CAMOUFLAGED 305
 
-#define IDFOND_VENTILO 400
-#define IDFOND_LUMIERE 401
-#define IDFOND_EAU 402
-#define IDFOND_LUMIERE2 403
+#define BGID_FAN 400
+#define BGID_LIGHT 401
+#define BGID_WATER 402
+#define BGID_LIGHT2 403
 
-#define IDFOND_CUBE 500
-#define IDFOND_PIECE 501
-#define IDFOND_RING 502
-#define IDFOND_TOURNESOL1 503
-#define IDFOND_TOURNESOL2 504
-#define IDFOND_TOURNESOL3 505
-#define IDFOND_TOURNESOL4 506
-#define IDFOND_DRAPEAU 507
+#define BGID_CUBE 500
+#define BGID_COIN 501
+#define BGID_RING 502
+#define BGID_SUNFLOWER1 503
+#define BGID_SUNFLOWER2 504
+#define BGID_SUNFLOWER3 505
+#define BGID_SUNFLOWER4 506
+#define BGID_FLAG 507
 
-#define IDFOND_LCD 600
-#define IDFOND_WORLDMAP 601
-#define IDFOND_ELECTRONIC1 602
-#define IDFOND_ELECTRONIC2 603
-#define IDFOND_ELECTRONIC3 604
-#define IDFOND_ELECTRONIC4 605
-#define IDFOND_ECRANNEIGE 606
-#define IDFOND_ECRANCAMERA 607
-#define IDFOND_ASSEMBLEUR 608
-#define IDFOND_WINDOWS 609
-#define IDFOND_DOS 610
-#define IDFOND_BOSSVENTILO 611
+#define BGID_LCD 600
+#define BGID_WORLDMAP 601
+#define BGID_ELECTRONIC1 602
+#define BGID_ELECTRONIC2 603
+#define BGID_ELECTRONIC3 604
+#define BGID_ELECTRONIC4 605
+#define BGID_SNOW_SCREEN 606
+#define BGID_CAMERA_SCREEN 607
+#define BGID_ASSEMBLER 608
+#define BGID_WINDOWS 609
+#define BGID_DOS 610
+#define BGID_BOSS_FAN 611
 
-#define IDFOND_BATTLECRUISER 700
-#define IDFOND_ROCHER_HYPERSPACE 701
-#define IDFOND_MONOLITE 702
-#define IDFOND_ROCHER1 703
-#define IDFOND_ROCHER2 704
-#define IDFOND_ETOILE 705
+#define BGID_BATTLECRUISER 700
+#define BGID_ROCK_HYPERSPACE 701
+#define BGID_MONOLITH 702
+#define BGID_ROCK1 703
+#define BGID_ROCK2 704
+#define BGID_STAR 705
 
 void EventAnimatedBackground::doEvent() {
 	Sprite* s = NULL;
-	bool plat_mobile = false;
+	bool moving_platform = false;
 
 	switch (bg_id) {
-		case IDFOND_VENTILO:
+		case BGID_FAN:
 			s = new BackgroundFan();
 			break;
 
-		case IDFOND_LUMIERE:
+		case BGID_LIGHT:
 			s = new BackgroundLight();
 			break;
 
-		case IDFOND_EAU:
+		case BGID_WATER:
 			s = new BackgroundWater();
 			break;
 
-		case IDFOND_LUMIERE2:
+		case BGID_LIGHT2:
 			s = new BackgroundLight2();
 			break;
 
-		case IDFOND_POKEALARME1:
+		case BGID_POKE_ALARM1:
 			s = new BackgroundPokeAlarm1();
 			break;
 
-		case IDFOND_POKEALARME2:
+		case BGID_POKE_ALARM2:
 			s = new BackgroundPokeAlarm2();
 			break;
 
-		case IDFOND_POKEALARME3:
+		case BGID_POKE_ALARM3:
 			s = new BackgroundPokeAlarm3();
 			break;
 
-		case IDFOND_POKEFLECHE:
+		case BGID_POKE_ARROW:
 			s = new BackgroundPokeArrow();
 			break;
 
-		case IDFOND_POKECIEL:
+		case BGID_POKE_SKY:
 			s = new BackgroundPokeSky();
 			break;
 
-		case IDFOND_POKEASCENC:
+		case BGID_POKE_ELEVATOR:
 			s = new BackgroundPokeElevator();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_INTERRUPTEUR:
+		case BGID_POKE_SWITCH:
 			s = new BackgroundPokeSwitch();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_CAISSETOMBANTE:
+		case BGID_POKE_CRATE_FALLING:
 			s = new BackgroundPokeCrateFalling();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_POKEASCENC2:
+		case BGID_POKE_ELEVATOR2:
 			s = new BackgroundPokeElevator2();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_BOMBE:
+		case BGID_BOMB:
 			s = new BackgroundBomb();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_LEVEL2:
+		case BGID_POKE_LEVEL2:
 			s = new BackgroundPokeLevel2();
 			break;
 
-		case IDFOND_LEVEL3:
+		case BGID_POKE_LEVEL3:
 			s = new BackgroundPokeLevel3();
 			break;
 
-		case IDFOND_SAS1:
+		case BGID_SNORK_AIRLOCK1:
 			s = new BackgroundSnorkAirlock1();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_SAS2:
+		case BGID_SNORK_AIRLOCK2:
 			s = new BackgroundSnorkAirlock2();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_POISSONROUGE:
+		case BGID_FISH_RED:
 			s = new BackgroundFishRed();
 			break;
 
-		case IDFOND_POISSONVIOLET:
+		case BGID_FISH_PURPLE:
 			s = new BackgroundFishPurple();
 			break;
 
-		case IDFOND_POISSONROUGECAMOUFLE:
+		case BGID_FISH_RED_CAMOUFLAGED:
 			s = new BackgroundFishRedCamouflaged();
 			break;
 
-		case IDFOND_POISSONVIOLETCAMOUFLE:
+		case BGID_FISH_PURPLE_CAMOUFLAGED:
 			s = new BackgroundFishPurpleCamouflaged();
 			break;
 
-		case IDFOND_CUBE:
+		case BGID_CUBE:
 			s = new BackgroundCube();
 			break;
 
-		case IDFOND_PIECE:
+		case BGID_COIN:
 			s = new BackgroundCoin();
 			break;
 
-		case IDFOND_RING:
+		case BGID_RING:
 			s = new BackgroundRing();
 			break;
 
-		case IDFOND_TOURNESOL1:
+		case BGID_SUNFLOWER1:
 			s = new BackgroundSunflower1();
 			break;
 
-		case IDFOND_TOURNESOL2:
+		case BGID_SUNFLOWER2:
 			s = new BackgroundSunflower2();
 			break;
 
-		case IDFOND_TOURNESOL3:
+		case BGID_SUNFLOWER3:
 			s = new BackgroundSunflower3();
 			break;
 
-		case IDFOND_TOURNESOL4:
+		case BGID_SUNFLOWER4:
 			s = new BackgroundSunflower4();
 			break;
 
-		case IDFOND_DRAPEAU:
+		case BGID_FLAG:
 			s = new BackgroundFlag();
 			break;
 
-		case IDFOND_LCD:
+		case BGID_LCD:
 			s = new BackgroundLCD();
 			break;
 
-		case IDFOND_WORLDMAP:
+		case BGID_WORLDMAP:
 			s = new BackgroundWorldmap();
 			break;
 
-		case IDFOND_ELECTRONIC1:
+		case BGID_ELECTRONIC1:
 			s = new BackgroundElectronic1();
 			break;
 
-		case IDFOND_ELECTRONIC2:
+		case BGID_ELECTRONIC2:
 			s = new BackgroundElectronic2();
 			break;
 
-		case IDFOND_ELECTRONIC3:
+		case BGID_ELECTRONIC3:
 			s = new BackgroundElectronic3();
 			break;
 
-		case IDFOND_ELECTRONIC4:
+		case BGID_ELECTRONIC4:
 			s = new BackgroundElectronic4();
 			break;
 
-		case IDFOND_ECRANNEIGE:
+		case BGID_SNOW_SCREEN:
 			s = new BackgroundSnowScreen();
 			break;
 
-		case IDFOND_ECRANCAMERA:
+		case BGID_CAMERA_SCREEN:
 			s = new BackgroundCameraScreen();
 			break;
 
-		case IDFOND_ASSEMBLEUR:
+		case BGID_ASSEMBLER:
 			s = new BackgroundAssembler();
 			break;
 
-		case IDFOND_WINDOWS:
+		case BGID_WINDOWS:
 			s = new BackgroundWindows();
 			break;
 
-		case IDFOND_DOS:
+		case BGID_DOS:
 			s = new BackgroundDos();
 			break;
 
-		case IDFOND_BOSSVENTILO:
+		case BGID_BOSS_FAN:
 			s = new BackgroundBossFan();
 			break;
 
-		case IDFOND_BATTLECRUISER:
+		case BGID_BATTLECRUISER:
 			s = new BackgroundBattleCruiser();
 			break;
 
-		case IDFOND_ROCHER_HYPERSPACE:
+		case BGID_ROCK_HYPERSPACE:
 			s = new BackgroundRockHyperspace();
 			break;
 
-		case IDFOND_MONOLITE:
+		case BGID_MONOLITH:
 			s = new BackgroundMonolith();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_ROCHER1:
+		case BGID_ROCK1:
 			s = new BackgroundRock1();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_ROCHER2:
+		case BGID_ROCK2:
 			s = new BackgroundRock2();
-			plat_mobile = true;
+			moving_platform = true;
 			break;
 
-		case IDFOND_ETOILE:
+		case BGID_STAR:
 			s = new BackgroundStar();
 			break;
 
@@ -306,7 +306,7 @@ void EventAnimatedBackground::doEvent() {
 		s->x = x;
 		s->y = y;
 
-		if (plat_mobile)
+		if (moving_platform)
 			list_moving_platforms.emplace_back(s);
 		else
 			list_animated_bgs.emplace_back(s);

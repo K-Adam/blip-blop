@@ -1,32 +1,32 @@
 #include <cstdlib>
 #include "level/backgrounds/background_light_2.h"
 
-#define ETAT_CLIGNOTE 100
+#define STATE_BLINK 100
 
-BackgroundLight2::BackgroundLight2() : allume(false), wait_for_blink(0) {
-	delai_cligno = 50 + rand() % 200;
+BackgroundLight2::BackgroundLight2() : lit(false), wait_for_blink(0) {
+	blink_interval = 50 + rand() % 200;
 	pic = pbk_level[17];
 }
 
 void BackgroundLight2::update() {
-	static const int anim_cligno[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
-									  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
+	static const int anim_blink[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
+									 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
 
 	wait_for_blink += 1;
 
-	if (allume) {
-		if (wait_for_blink >= delai_cligno) {
-			allume = false;
+	if (lit) {
+		if (wait_for_blink >= blink_interval) {
+			lit = false;
 			anim_tick = 0;
 			anim_step = 0;
 		}
 	} else {
-		pic = pbk_level[17 + animate(anim_cligno, 58, 3)];
+		pic = pbk_level[17 + animate(anim_blink, 58, 3)];
 
 		if (anim_step == 57) {
-			allume = true;
+			lit = true;
 			wait_for_blink = 0;
-			delai_cligno = 50 + rand() % 200;
+			blink_interval = 50 + rand() % 200;
 		}
 	}
 

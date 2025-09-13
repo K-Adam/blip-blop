@@ -1,6 +1,6 @@
 #include "level/backgrounds/background_poke_crate_platform.h"
 
-BackgroundPokeCratePlatform::BackgroundPokeCratePlatform(int niveau_y) : y_target(niveau_y) { pic = pbk_level[87]; }
+BackgroundPokeCratePlatform::BackgroundPokeCratePlatform(int target_y) : y_target(target_y) { pic = pbk_level[87]; }
 
 void BackgroundPokeCratePlatform::update() {
 	if (y < y_target - 50) {
@@ -19,11 +19,11 @@ void BackgroundPokeCratePlatform::update() {
 
 	if (y + 28 != 0) {
 		for (i = x - 90; i < x + 140; i++) {
-			set_plat(4, i, y + 28);
+			set_platform(4, i, y + 28);
 		}
 	} else {
 		for (i = x - 90; i < x + 140; i++) {
-			set_plat(4, i, y + 29);
+			set_platform(4, i, y + 29);
 		}
 	}
 };

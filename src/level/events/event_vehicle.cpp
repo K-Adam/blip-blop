@@ -3,13 +3,13 @@
 #include "entities/vehicle.h"
 #include "entities/vehicle_stork.h"
 
-#define IDVEHICULE_CIGO 0
+#define VEHICLEID_STORK 0
 
 void EventVehicle::doEvent() {
 	Vehicle* v = NULL;
 
 	switch (vehicle_id) {
-		case IDVEHICULE_CIGO:
+		case VEHICLEID_STORK:
 			v = new VehicleStork();
 			break;
 	}

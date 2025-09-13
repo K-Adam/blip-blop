@@ -15,11 +15,11 @@ void BackgroundPokeCratePlatform2::update() {
 
 		if (y + 28 != 0) {
 			for (int i = x - 90; i < x + 140; i++) {
-				set_plat(3, i, y + 28);
+				set_platform(3, i, y + 28);
 			}
 		} else {
 			for (int i = x - 90; i < x + 140; i++) {
-				set_plat(3, i, y + 29);
+				set_platform(3, i, y + 29);
 			}
 		}
 	}

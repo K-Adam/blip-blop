@@ -82,7 +82,7 @@ bool cowBombOn;
 bool okFlamethrower;
 
 // Moving platforms can reach past the level edges
-void set_plat(int n, int x, int y) {
+void set_platform(int n, int x, int y) {
 	if (x >= 0 && size_t(x) < level_size) y_platform[n][x] = y;
 }
 
@@ -125,7 +125,7 @@ bool bloody_wall(int x, int y) {
 	return bloody_walls[y / 8][x / 8];
 }
 
-inline void clipedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rect* clip) {
+inline void clippedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rect* clip) {
 	if (pic == NULL) return;
 
 	Rect r;
@@ -200,24 +200,24 @@ bool engrave(int x, int y, Picture* pic) {
 		r.left = next_x;
 		r.right = vbuffer_wide;
 
-		clipedBlit(videoA, pic, x, y, &r);
+		clippedBlit(videoA, pic, x, y, &r);
 
 		r.left = 0;
 		r.right = next_x;
 
-		clipedBlit(videoA, pic, x - vbuffer_wide, y, &r);
+		clippedBlit(videoA, pic, x - vbuffer_wide, y, &r);
 
 		return true;
 	} else if (ni == n_cache) {
 		r.left = 0;
 		r.right = next_x;
 
-		clipedBlit(videoA, pic, x, y, &r);
+		clippedBlit(videoA, pic, x, y, &r);
 
 		r.left = next_x;
 		r.right = vbuffer_wide;
 
-		clipedBlit(videoA, pic, x + vbuffer_wide, y, &r);
+		clippedBlit(videoA, pic, x + vbuffer_wide, y, &r);
 
 		return true;
 	}

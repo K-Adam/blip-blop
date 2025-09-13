@@ -9,11 +9,11 @@
 
 class BackgroundPokeLevel2 : public Sprite {
    private:
-	int etape_L1;
-	int etape_E1;
-	int etape_V;
-	int etape_E2;
-	int etape_L2;
+	int anim_step_L1;
+	int anim_step_E1;
+	int anim_step_V;
+	int anim_step_E2;
+	int anim_step_L2;
 
    public:
 	BackgroundPokeLevel2();

@@ -2,15 +2,15 @@
 
 #include "entities/sprite.h"
 
-#define TIR_SPEED 2
+#define SHOT_SPEED 2
 
 class BackgroundBattleCruiser : public Sprite {
    public:
-	int x_adversaire;
-	int y_adversaire;
+	int x_opponent;
+	int y_opponent;
 	int attack_step;
-	int feu_etape;
-	int feu_ss_etape;
+	int fire_step;
+	int fire_tick;
 
 	BackgroundBattleCruiser();
 

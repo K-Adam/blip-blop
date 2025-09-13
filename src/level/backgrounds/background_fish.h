@@ -1,6 +1,6 @@
 #pragma once
 
-#define POISSON_SPEED 1
+#define FISH_SPEED 1
 
 class BackgroundFishRed : public Sprite {
    private:

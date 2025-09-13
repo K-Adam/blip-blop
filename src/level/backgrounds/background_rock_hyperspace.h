@@ -4,11 +4,11 @@
 
 class BackgroundRockHyperspace : public Sprite {
    public:
-	int plan_rocher;
+	int rock_layer;
 	int placed;
 	int delta;
 	int x_delay;
-	int sinusoide_delay;
+	int sinusoid_delay;
 	int y_base;
 
 	BackgroundRockHyperspace();

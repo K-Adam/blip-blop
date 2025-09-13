@@ -3,28 +3,28 @@
 #include "entities/shots/shot_cruiser.h"
 #include "entities/shots/shot_cruiser_laser.h"
 
-const int anim_cruiser_droite[] = {0, 1, 2, 1};
-const int anim_cruiser_gauche[] = {3, 4, 5, 4};
+const int anim_cruiser_right[] = {0, 1, 2, 1};
+const int anim_cruiser_left[] = {3, 4, 5, 4};
 
-BackgroundBattleCruiser::BackgroundBattleCruiser() : x_adversaire(700), y_adversaire(40), attack_step(-2), feu_etape(0), feu_ss_etape(0) {
+BackgroundBattleCruiser::BackgroundBattleCruiser() : x_opponent(700), y_opponent(40), attack_step(-2), fire_step(0), fire_tick(0) {
 	x = -20;
 	y = 80;
 }
 
 void BackgroundBattleCruiser::update() {
-	feu_ss_etape += 1;
-	feu_ss_etape %= 40;
-	if (feu_ss_etape == 0) {
-		feu_etape += 1;
-		feu_etape %= 6;
+	fire_tick += 1;
+	fire_tick %= 40;
+	if (fire_tick == 0) {
+		fire_step += 1;
+		fire_step %= 6;
 	}
 	{
 		x += 1;
-		x_adversaire -= 1;
-		pic = pbk_level[animate(anim_cruiser_droite, 4, 12)];
+		x_opponent -= 1;
+		pic = pbk_level[animate(anim_cruiser_right, 4, 12)];
 
-		int dif_y = y_adversaire - y;
-		int dif_x = x_adversaire - x;
+		int dif_y = y_opponent - y;
+		int dif_x = x_opponent - x;
 
 		if (dif_y != 0 && (dif_x / dif_y < 2) && (dif_x > 0) && (dif_x != 0)) {
 			attack_step += 1;
@@ -32,14 +32,14 @@ void BackgroundBattleCruiser::update() {
 			if (attack_step == 2) attack_step = -2;
 
 			pic = pbk_level[26 + attack_step];
-			Sprite* s = new ShotCruiser((dif_x * TIR_SPEED) / dif_y, (int)(TIR_SPEED - (dif_x * TIR_SPEED * 0.25) / dif_y), 8 + attack_step);
+			Sprite* s = new ShotCruiser((dif_x * SHOT_SPEED) / dif_y, (int)(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y), 8 + attack_step);
 			s->x = x - 8 * attack_step;
 			s->y = y + 6;
 			list_animated_bgs.emplace_back(s);
 
-			s = new ShotCruiser(-(dif_x * TIR_SPEED) / dif_y, (int)(-TIR_SPEED + (dif_x * TIR_SPEED * 0.25) / dif_y), 7 - attack_step);
-			s->x = x_adversaire - 8 * attack_step;
-			s->y = y_adversaire - 6;
+			s = new ShotCruiser(-(dif_x * SHOT_SPEED) / dif_y, (int)(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y), 7 - attack_step);
+			s->x = x_opponent - 8 * attack_step;
+			s->y = y_opponent - 6;
 			list_animated_bgs.emplace_back(s);
 
 			if (attack_step == -2) {
@@ -50,8 +50,8 @@ void BackgroundBattleCruiser::update() {
 			}
 			if (attack_step == 0) {
 				s = new ShotCruiserLaser(-1, 17 - (dif_x / dif_y));
-				s->x = x_adversaire - 16;
-				s->y = y_adversaire;
+				s->x = x_opponent - 16;
+				s->y = y_opponent;
 				list_animated_bgs.emplace_back(s);
 			}
 
@@ -63,52 +63,52 @@ void BackgroundBattleCruiser::update() {
 	if (x > 720) {
 		x = -20;
 		attack_step = 1;
-		x_adversaire = 700;
+		x_opponent = 700;
 	}
 }
 
 void BackgroundBattleCruiser::render() {
 	Sprite::render();
 	if (attack_step == -3) {
-		draw(x_adversaire, y_adversaire, pbk_level[anim_cruiser_gauche[anim_step]]);
+		draw(x_opponent, y_opponent, pbk_level[anim_cruiser_left[anim_step]]);
 	} else {
-		draw(x_adversaire, y_adversaire, pbk_level[29 - attack_step]);
+		draw(x_opponent, y_opponent, pbk_level[29 - attack_step]);
 	}
 
-	if (((feu_ss_etape >= 0) && (feu_ss_etape <= 2)) || ((feu_ss_etape >= 10) && (feu_ss_etape <= 12))) {
+	if (((fire_tick >= 0) && (fire_tick <= 2)) || ((fire_tick >= 10) && (fire_tick <= 12))) {
 		int tmp = 0;
 
-		if ((feu_ss_etape == 1) || (feu_ss_etape == 11)) tmp = 1;
+		if ((fire_tick == 1) || (fire_tick == 11)) tmp = 1;
 
-		switch (feu_etape) {
+		switch (fire_step) {
 			case 0:
 				draw(x + 21, y - 2, pbk_level[32 + tmp]);
-				draw(x_adversaire - 20, y_adversaire - 2, pbk_level[34 + tmp]);
+				draw(x_opponent - 20, y_opponent - 2, pbk_level[34 + tmp]);
 				break;
 
 			case 1:
 				draw(x - 10, y - 7, pbk_level[32 + tmp]);
-				draw(x_adversaire + 11, y_adversaire - 7, pbk_level[34 + tmp]);
+				draw(x_opponent + 11, y_opponent - 7, pbk_level[34 + tmp]);
 				break;
 
 			case 2:
 				draw(x + 8, y - 6, pbk_level[32 + tmp]);
-				draw(x_adversaire - 7, y_adversaire - 6, pbk_level[34 + tmp]);
+				draw(x_opponent - 7, y_opponent - 6, pbk_level[34 + tmp]);
 				break;
 
 			case 3:
 				draw(x - 8, y + 6, pbk_level[32 + tmp]);
-				draw(x_adversaire + 7, y_adversaire + 6, pbk_level[34 + tmp]);
+				draw(x_opponent + 7, y_opponent + 6, pbk_level[34 + tmp]);
 				break;
 
 			case 4:
 				draw(x - 10, y - 7, pbk_level[32 + tmp]);
-				draw(x_adversaire + 11, y_adversaire - 7, pbk_level[34 + tmp]);
+				draw(x_opponent + 11, y_opponent - 7, pbk_level[34 + tmp]);
 				break;
 
 			case 5:
 				draw(x + 21, y + 2, pbk_level[32 + tmp]);
-				draw(x_adversaire - 20, y_adversaire + 2, pbk_level[34 + tmp]);
+				draw(x_opponent - 20, y_opponent + 2, pbk_level[34 + tmp]);
 				break;
 		}
 	}

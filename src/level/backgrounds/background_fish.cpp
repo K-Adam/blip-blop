@@ -13,10 +13,10 @@ void BackgroundFishRed::update() {
 	}
 
 	if (dir) {
-		x += POISSON_SPEED;
+		x += FISH_SPEED;
 		pic = pbk_level[2 + anim_step];
 	} else {
-		x -= POISSON_SPEED;
+		x -= FISH_SPEED;
 		pic = pbk_level[5 + anim_step];
 	}
 
@@ -37,10 +37,10 @@ void BackgroundFishPurple::update() {
 	}
 
 	if (dir) {
-		x += POISSON_SPEED;
+		x += FISH_SPEED;
 		pic = pbk_level[14 + anim_step];
 	} else {
-		x -= POISSON_SPEED;
+		x -= FISH_SPEED;
 		pic = pbk_level[17 + anim_step];
 	}
 
@@ -61,10 +61,10 @@ void BackgroundFishRedCamouflaged::update() {
 	}
 
 	if (dir) {
-		x += POISSON_SPEED;
+		x += FISH_SPEED;
 		pic = pbk_level[8 + anim_step];
 	} else {
-		x -= POISSON_SPEED;
+		x -= FISH_SPEED;
 		pic = pbk_level[11 + anim_step];
 	}
 
@@ -85,10 +85,10 @@ void BackgroundFishPurpleCamouflaged::update() {
 	}
 
 	if (dir) {
-		x += POISSON_SPEED;
+		x += FISH_SPEED;
 		pic = pbk_level[20 + anim_step];
 	} else {
-		x -= POISSON_SPEED;
+		x -= FISH_SPEED;
 		pic = pbk_level[23 + anim_step];
 	}
 

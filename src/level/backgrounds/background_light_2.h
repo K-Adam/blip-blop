@@ -4,9 +4,9 @@
 
 class BackgroundLight2 : public Sprite {
    public:
-	bool allume;
+	bool lit;
 	int wait_for_blink;
-	int delai_cligno;
+	int blink_interval;
 
 	BackgroundLight2();
 

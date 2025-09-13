@@ -15,7 +15,7 @@ void BackgroundPokeCrate::update() {
 		int i;
 
 		for (i = x - 90; i < x + 140; i++) {
-			set_plat(4, i, y - 125);
+			set_platform(4, i, y - 125);
 		}
 
 		colFromPic();

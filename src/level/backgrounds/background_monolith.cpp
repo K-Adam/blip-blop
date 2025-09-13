@@ -3,23 +3,23 @@
 #include "entities/ball.h"
 #include "entities/enemies/enemy.h"
 
-const int monolite_levitation[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0};
-const int monolite_animation[] = {41, 42, 43, 43, 44, 44, 44, 45, 45, 45, 45, 45, 44, 44, 44, 43, 43, 42,
+const int monolith_levitation[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0};
+const int monolith_animation[] = {41, 42, 43, 43, 44, 44, 44, 45, 45, 45, 45, 45, 44, 44, 44, 43, 43, 42,
 								  41, 46, 47, 47, 48, 48, 48, 49, 49, 49, 49, 49, 48, 48, 48, 47, 47, 46};
 
-BackgroundMonolith::BackgroundMonolith() : etape_levitation(0), ss_etape_levitation(0) {
+BackgroundMonolith::BackgroundMonolith() : levitation_step(0), levitation_tick(0) {
 	pic = pbk_level[22];
 	dy = 0;
 }
 
 void BackgroundMonolith::update() {
-	pic = pbk_level[animate(monolite_animation, 36, 3)];
-	ss_etape_levitation++;
-	ss_etape_levitation %= 4;
-	if (ss_etape_levitation == 0) {
-		etape_levitation++;
-		if (etape_levitation == 44) {
-			etape_levitation = 0;
+	pic = pbk_level[animate(monolith_animation, 36, 3)];
+	levitation_tick++;
+	levitation_tick %= 4;
+	if (levitation_tick == 0) {
+		levitation_step++;
+		if (levitation_step == 44) {
+			levitation_step = 0;
 		}
 	}
 
@@ -29,33 +29,33 @@ void BackgroundMonolith::update() {
 		xtmp = hero->x;
 
 		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, hero->y) == y - 20) {
-			if (etape_levitation <= 22) {
-				hero->y += monolite_levitation[etape_levitation];
+			if (levitation_step <= 22) {
+				hero->y += monolith_levitation[levitation_step];
 			} else {
-				hero->y -= monolite_levitation[etape_levitation - 22];
+				hero->y -= monolith_levitation[levitation_step - 22];
 			}
 		}
 	}
 
-	for (auto& ennemis : list_enemies) {
-		xtmp = ennemis->x;
+	for (auto& enemies : list_enemies) {
+		xtmp = enemies->x;
 
-		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, ennemis->y) == y - 20) {
-			if (etape_levitation <= 22) {
-				ennemis->y += monolite_levitation[etape_levitation];
+		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, enemies->y) == y - 20) {
+			if (levitation_step <= 22) {
+				enemies->y += monolith_levitation[levitation_step];
 			} else {
-				ennemis->y -= monolite_levitation[etape_levitation - 22];
+				enemies->y -= monolith_levitation[levitation_step - 22];
 			}
 		}
 	}
 
-	if (etape_levitation <= 22) {
-		y += monolite_levitation[etape_levitation];
+	if (levitation_step <= 22) {
+		y += monolith_levitation[levitation_step];
 	} else {
-		y -= monolite_levitation[etape_levitation - 22];
+		y -= monolith_levitation[levitation_step - 22];
 	}
 
-	for (int i = x - 118; i < x + pic->xSize() - 138; i++) set_plat(4, i, y - 20);
+	for (int i = x - 118; i < x + pic->xSize() - 138; i++) set_platform(4, i, y - 20);
 
 	colFromPic();
 }

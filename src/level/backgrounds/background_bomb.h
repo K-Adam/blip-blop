@@ -4,18 +4,18 @@
 
 class BackgroundBomb : public Sprite {
    private:
-	int etape_compteur;
+	int counter_step;
 
-	int seconde;
-	int centieme;
+	int seconds;
+	int hundredths;
 
 	int armed;
 
-	int etape_warning;
-	int ss_etape_warning;
+	int warning_step;
+	int warning_tick;
 
-	int etape_nuke;
-	int ss_etape_nuke;
+	int nuke_step;
+	int nuke_tick;
 
    public:
 	BackgroundBomb();

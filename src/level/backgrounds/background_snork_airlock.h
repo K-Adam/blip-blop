@@ -4,7 +4,7 @@
 
 class BackgroundSnorkAirlock1 : public Sprite {
    private:
-	int nb_joueur;
+	int players_inside;
 
    public:
 	static int status;

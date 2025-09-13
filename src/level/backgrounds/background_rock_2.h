@@ -4,8 +4,8 @@
 
 class BackgroundRock2 : public Sprite {
    public:
-	int ss_etape_levitation;
-	int etape_levitation;
+	int levitation_tick;
+	int levitation_step;
 
 	BackgroundRock2();
 	void update() override;

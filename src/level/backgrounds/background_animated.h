@@ -66,17 +66,17 @@ class BackgroundSynced : public Sprite {
 	void update() override {
 		if (synchro_ != phase) {
 			synchro_ = phase;
-			ss_etape_ = (ss_etape_ + 1) % LATENCY;
-			if (ss_etape_ == 0) etape_ = (etape_ + 1) % FRAMES;
+			anim_tick_ = (anim_tick_ + 1) % LATENCY;
+			if (anim_tick_ == 0) anim_frame_ = (anim_frame_ + 1) % FRAMES;
 		}
 
-		pic = pbk_level[FIRST + etape_];
+		pic = pbk_level[FIRST + anim_frame_];
 		if (x < offset - 100) destroyed = true;
 	}
 
    private:
-	static inline int etape_ = 0;
-	static inline int ss_etape_ = 0;
+	static inline int anim_frame_ = 0;
+	static inline int anim_tick_ = 0;
 	static inline bool synchro_ = false;
 };
 
