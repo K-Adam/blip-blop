@@ -861,7 +861,7 @@ void Game::drawAll(bool flip) {
 	}
 
 	DrawCollection(list_moving_platforms);
-	DrawCollection(list_impacts);
+	DrawCollection(list_splatters);
 	DrawCollection(list_gore);
 
 	DrawCollection(list_enemies);
