@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "entities/sprites.h"
 #include "entities/bonus.h"
 
 struct WeaponSpec {
@@ -47,20 +48,20 @@ class BonusWeapon : public Bonus {
 
 class BonusPM : public BonusWeapon {
    public:
-	BonusPM() : BonusWeapon({8, 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
+	BonusPM() : BonusWeapon({MISC::ICON_PM, 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
 };
 
 class BonusShotgun : public BonusWeapon {
    public:
-	BonusShotgun() : BonusWeapon({9, 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
+	BonusShotgun() : BonusWeapon({MISC::ICON_SHOTGUN, 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
 };
 
 class BonusLaser : public BonusWeapon {
    public:
-	BonusLaser() : BonusWeapon({10, 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
+	BonusLaser() : BonusWeapon({MISC::ICON_LASER, 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
 };
 
 class BonusLF : public BonusWeapon {
    public:
-	BonusLF() : BonusWeapon({11, 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
+	BonusLF() : BonusWeapon({MISC::ICON_LF, 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
 };

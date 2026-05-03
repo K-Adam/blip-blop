@@ -1,4 +1,5 @@
 #include "entities/shots/shot_bb_shotgun.h"
+#include "entities/sprites.h"
 
 const int dx_shotbb_shotgun[] = {0, 6, 11, 14, 15, 14, 11, 6, 0, -6, -11, -14, -15, -14, -11, -6};
 const int dy_shotbb_shotgun[] = {15, 14, 11, 6, 0, -6, -11, -14, -15, -14, -11, -6, 0, 6, 11, 14};
@@ -132,9 +133,9 @@ void ShotBBShotgun::update() {
 		destroyed = true;
 	} else {
 		if (age < lifespan)
-			pic = pbk_bb[88 + dir];
+			pic = pbk_bb[BB::SHOT_PELLET + dir];
 		else
-			pic = pbk_bb[72 + dir];
+			pic = pbk_bb[BB::SHOT_M16 + dir];
 
 		colFromPic();
 	}

@@ -1,4 +1,5 @@
 #include "entities/shots/shot_bb_lf.h"
+#include "entities/sprites.h"
 
 void ShotBBLF::onHit(int pts) {
 	if (!destroyed) {
@@ -119,17 +120,17 @@ void ShotBBLF::update() {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb[212 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_A + anim_step];
 			} else if (type == 1) {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb[219 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_B + anim_step];
 			} else {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb[231 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_C + anim_step];
 			}
 		} else {
 			anim_step += 1;
@@ -138,17 +139,17 @@ void ShotBBLF::update() {
 				if (anim_step >= 5)
 					finished = true;
 				else
-					pic = pbk_bb[212 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_A + anim_step];
 			} else if (type == 1) {
 				if (anim_step >= 10)
 					finished = true;
 				else
-					pic = pbk_bb[219 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_B + anim_step];
 			} else {
 				if (anim_step >= 5)
 					finished = true;
 				else
-					pic = pbk_bb[231 + anim_step];
+					pic = pbk_bb[BB::EXPLOSION_C + anim_step];
 			}
 		}
 	}

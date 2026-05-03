@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <numbers>
+#include "entities/sprites.h"
 #include "core/assets.h"
 
 class GoArrow {
@@ -52,7 +53,7 @@ class GoArrow {
 
 	void Draw() {
 		if (phase_ != Phase::No) {
-			pbk_misc[81 + anim_step_ / kSpriteDuration]->BlitTo(backSurface, x_, 150);
+			pbk_misc[MISC::GO_ARROW + anim_step_ / kSpriteDuration]->BlitTo(backSurface, x_, 150);
 		}
 	}
 

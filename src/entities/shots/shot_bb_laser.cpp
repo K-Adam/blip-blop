@@ -1,4 +1,5 @@
 #include "entities/shots/shot_bb_laser.h"
+#include "entities/sprites.h"
 #include "core/debug.h"
 
 ShotBBLaser::ShotBBLaser() : base(0), height_px(0), width_px(0) {}
@@ -23,7 +24,7 @@ void ShotBBLaser::setDir(int d) {
 			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny += 8;
 
 			height_px = ny - y;
-			base = 140;
+			base = BB::LASER_BEAM_V;
 
 			x1 = x;
 			y1 = y;
@@ -37,7 +38,7 @@ void ShotBBLaser::setDir(int d) {
 			while (nx > offset - 5 && nx < offset + 645 && !solid_wall(nx, ny)) nx += 8;
 
 			width_px = nx - x;
-			base = 136;
+			base = BB::LASER_BEAM_H;
 
 			x1 = x;
 			y1 = y;
@@ -51,7 +52,7 @@ void ShotBBLaser::setDir(int d) {
 			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny -= 8;
 
 			height_px = y - ny;
-			base = 140;
+			base = BB::LASER_BEAM_V;
 
 			x1 = x;
 			y1 = ny;
@@ -66,7 +67,7 @@ void ShotBBLaser::setDir(int d) {
 			while (nx > offset - 5 && nx < offset + 645 && !solid_wall(nx, ny)) nx -= 8;
 
 			width_px = x - nx;
-			base = 136;
+			base = BB::LASER_BEAM_H;
 
 			x1 = nx;
 			y1 = y;
@@ -104,18 +105,18 @@ void ShotBBLaser::render() {
 			r.bottom = height_px;
 
 			backSurface->BltFast(xx, y, surf, &r);
-			if (y + height_px < 480) draw(x + 2, y + height_px, pbk_misc[74 + anim_step]);
+			if (y + height_px < 480) draw(x + 2, y + height_px, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 1:	 // Down right
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[144 + anim_step]);
+				draw(nx, ny, pbk_bb[BB::LASER_DIAG_DOWN + anim_step]);
 				nx += 8;
 				ny += 8;
 			}
 
-			draw(nx, ny + 5, pbk_misc[74 + anim_step]);
+			draw(nx, ny + 5, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 2:	 // Right
@@ -130,18 +131,18 @@ void ShotBBLaser::render() {
 
 			backSurface->BltFast(xx, y, surf, &r);
 
-			if (xx + width_px < 640) draw(x + width_px, y + 3, pbk_misc[74 + anim_step]);
+			if (xx + width_px < 640) draw(x + width_px, y + 3, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 3:	 // Up right
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[148 + anim_step]);
+				draw(nx, ny, pbk_bb[BB::LASER_DIAG_UP + anim_step]);
 				nx += 8;
 				ny -= 8;
 			}
 
-			draw(nx - 5, ny + 10, pbk_misc[74 + anim_step]);
+			draw(nx - 5, ny + 10, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 4:	 // Up
@@ -158,18 +159,18 @@ void ShotBBLaser::render() {
 
 			backSurface->BltFast(xx, y, surf, &r);
 
-			if (y > 0) draw(x + 3, y, pbk_misc[74 + anim_step]);
+			if (y > 0) draw(x + 3, y, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 5:	 // Up left
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[144 + anim_step]);
+				draw(nx, ny, pbk_bb[BB::LASER_DIAG_DOWN + anim_step]);
 				nx -= 8;
 				ny -= 8;
 			}
 
-			draw(nx + 5, ny + 10, pbk_misc[74 + anim_step]);
+			draw(nx + 5, ny + 10, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 6:	 // Left
@@ -185,18 +186,18 @@ void ShotBBLaser::render() {
 
 			backSurface->BltFast(xx, y, surf, &r);
 
-			if (xx > 0) draw(x + 2, y + 3, pbk_misc[74 + anim_step]);
+			if (xx > 0) draw(x + 2, y + 3, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 
 		case 7:	 // Down left
 
 			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[148 + anim_step]);
+				draw(nx, ny, pbk_bb[BB::LASER_DIAG_UP + anim_step]);
 				nx -= 8;
 				ny += 8;
 			}
 
-			draw(nx, ny + 5, pbk_misc[74 + anim_step]);
+			draw(nx, ny + 5, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 			break;
 	}
 }

@@ -8,6 +8,7 @@
 #include <cstring>
 #include <fstream>
 
+#include "entities/sprites.h"
 #include "core/debug.h"
 #include "entities/blip.h"
 #include "entities/blop.h"
@@ -1108,9 +1109,9 @@ void Game::drawHUBhp(int x, int y, int hp) {
 	static const int x_hp[] = {3, 0, 13, 44, 31};
 	static const int y_hp[] = {0, 21, 48, 21, 0};
 
-	for (int i = 0; i < hp; i++) pbk_bb[201 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = 0; i < hp; i++) pbk_bb[BB::HEALTH_FULL + 4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 
-	for (int i = hp; i < 5; i++) pbk_bb[196 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = hp; i < 5; i++) pbk_bb[BB::HEALTH_EMPTY + 4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 }
 
 void Game::drawDebugInfos() {
@@ -1455,9 +1456,9 @@ void Game::updateWeather() {
 			snowflake->y = rand() % 480 - 500;
 
 			if (d <= 1)
-				snowflake->pic = pbk_misc[71];
+				snowflake->pic = pbk_misc[MISC::SNOWFLAKE_SMALL];
 			else
-				snowflake->pic = pbk_misc[72];
+				snowflake->pic = pbk_misc[MISC::SNOWFLAKE_LARGE];
 
 			snowflake->dy = weather_intensity / 20 + d;
 			snowflake->phi = rand() % 360;
@@ -1475,7 +1476,7 @@ void Game::updateWeather() {
 			raindrop->destroyed = false;
 			raindrop->x = offset + rand() % 800;
 			raindrop->y = rand() % 480 - 480;
-			raindrop->pic = pbk_misc[65 + d];
+			raindrop->pic = pbk_misc[MISC::RAINDROP + d];
 			raindrop->dy = 7 + d * 2;
 
 			if (solid_wall(raindrop->x, 0)) raindrop->y -= 550;
@@ -1573,7 +1574,7 @@ void Game::spawnBubble(Sprite* s) {
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
-		b->pic = pbk_misc[78 + rand() % 3];
+		b->pic = pbk_misc[MISC::BUBBLE + rand() % 3];
 		b->dphi = 5 + rand() % 3;
 		b->dy = -(2 + rand() % 2);
 

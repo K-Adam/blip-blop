@@ -1,4 +1,5 @@
 #include "entities/shots/shot_bb_m16.h"
+#include "entities/sprites.h"
 
 void ShotBBM16::update() {
 	moveAlongAngle();
@@ -8,7 +9,7 @@ void ShotBBM16::update() {
 		noCol();
 		destroyed = true;
 	} else {
-		pic = pbk_bb[72 + dir];
+		pic = pbk_bb[BB::SHOT_M16 + dir];
 		colFromPic();
 	}
 }

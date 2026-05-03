@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <sstream>
 
+#include "entities/sprites.h"
 #include "entities/ball.h"
 #include "level/world.h"
 #include "core/assets.h"
@@ -34,9 +35,9 @@ class HUD {
    private:
 	void DrawCowBomb(int nb, Location location) {
 		if (location == Location::Left) {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[49]->BlitTo(backSurface, 90 + dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[MISC::ICON_COW_BOMB]->BlitTo(backSurface, 90 + dxt, 65);
 		} else {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[49]->BlitTo(backSurface, 520 - dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[MISC::ICON_COW_BOMB]->BlitTo(backSurface, 520 - dxt, 65);
 		}
 	}
 
@@ -60,19 +61,19 @@ class HUD {
 
 		switch (weapon) {
 			case ID_M16:
-				pic = pbk_misc[14];
+				pic = pbk_misc[MISC::ICON_M16];
 				break;
 			case ID_PM:
-				pic = pbk_misc[8];
+				pic = pbk_misc[MISC::ICON_PM];
 				break;
 			case ID_LF:
-				pic = pbk_misc[11];
+				pic = pbk_misc[MISC::ICON_LF];
 				break;
 			case ID_SHOTGUN:
-				pic = pbk_misc[9];
+				pic = pbk_misc[MISC::ICON_SHOTGUN];
 				break;
 			case ID_LASER:
-				pic = pbk_misc[10];
+				pic = pbk_misc[MISC::ICON_LASER];
 				break;
 			default:
 				assert(false);
@@ -122,11 +123,11 @@ class HUD {
 		int y = pos[int(location)][1];
 
 		for (int i = 0; i < health; i++) {
-			pbk_bb[201 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb[BB::HEALTH_FULL + 4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 
 		for (int i = health; i < 5; i++) {
-			pbk_bb[196 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb[BB::HEALTH_EMPTY + 4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 	}
 };

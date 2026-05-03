@@ -1,4 +1,5 @@
 #include "core/config.h"
+#include "entities/sprites.h"
 #include "entities/ball.h"
 #include "entities/shots/shot_bb_m16.h"
 #include "entities/shots/shot_bb_pm.h"
@@ -257,55 +258,55 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 			gx = xtmp + dx_m16[gun_sector];
 			gy = ytmp + dy_m16[gun_sector];
 			if (is_firing)
-				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[24 + gun_sector]);
+				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[BALL::GUN_M16 + gun_sector]);
 			else
-				put(gx, gy, pbk_own[24 + gun_sector]);
+				put(gx, gy, pbk_own[BALL::GUN_M16 + gun_sector]);
 			break;
 
 		case ID_PM:
 			gx = xtmp + dx_pm[gun_sector];
 			gy = ytmp + dy_pm[gun_sector];
 			if (is_firing)
-				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[64 + gun_sector]);
+				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[BALL::GUN_PM + gun_sector]);
 			else
-				put(gx, gy, pbk_own[64 + gun_sector]);
+				put(gx, gy, pbk_own[BALL::GUN_PM + gun_sector]);
 			break;
 
 		case ID_LF:
 			gx = xtmp + dx_lf[gun_sector];
 			gy = ytmp + dy_lf[gun_sector];
-			put(gx, gy, pbk_own[54 + gun_sector]);
+			put(gx, gy, pbk_own[BALL::GUN_LF + gun_sector]);
 			break;
 
 		case ID_SHOTGUN:
 			if (is_firing) {
 				if (weapon_step < 5) {	// Recoil
 					draw(xtmp + dx_shotgun[gun_sector] + x_recoil[gun_sector][weapon_step] * 2,
-						 ytmp + dy_shotgun[gun_sector] + y_recoil[gun_sector][weapon_step] * 2, pbk_own[44 + gun_sector]);
+						 ytmp + dy_shotgun[gun_sector] + y_recoil[gun_sector][weapon_step] * 2, pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
 
 					draw(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step], pbk_own[104 + gun_sector2]);
+						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 				} else {  // Reload
 					int ea = (weapon_step - 5) / 2;
 
-					draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[44 + gun_sector]);
+					draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
 					draw(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][ea],
-						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][ea], pbk_own[104 + gun_sector2]);
+						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][ea], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 				}
 			} else {
-				draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[44 + gun_sector]);
-				draw(xtmp + dx_hand_shotgun[gun_sector], ytmp + dy_hand_shotgun[gun_sector], pbk_own[104 + gun_sector2]);
+				draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
+				draw(xtmp + dx_hand_shotgun[gun_sector], ytmp + dy_hand_shotgun[gun_sector], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 			}
 			break;
 
 		case ID_LASER:
 			if (is_firing) {
 				draw(xtmp + dx_laser[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser[gun_sector] + y_recoil[gun_sector][recoil_step],
-					 pbk_own[34 + gun_sector]);
+					 pbk_own[BALL::GUN_LASER + gun_sector]);
 				draw(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step],
-					 pbk_bb[152 + 4 * gun_sector + weapon_step]);
+					 pbk_bb[BB::LASER_GLOW + 4 * gun_sector + weapon_step]);
 			} else {
-				draw(xtmp + dx_laser[gun_sector], ytmp + dy_laser[gun_sector], pbk_own[34 + gun_sector]);
+				draw(xtmp + dx_laser[gun_sector], ytmp + dy_laser[gun_sector], pbk_own[BALL::GUN_LASER + gun_sector]);
 			}
 			break;
 	}
@@ -321,29 +322,31 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 			case ID_M16:
 				if (id_ball == ID_BLIP) {
 					put(xtmp + dx_m16_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						ytmp + dy_m16_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[12 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
+						ytmp + dy_m16_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
+						pbk_bb[BB::FLASH_M16 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
 				} else {
 					put(xtmp + dx_m16o_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						ytmp + dy_m16o_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[12 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
+						ytmp + dy_m16o_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
+						pbk_bb[BB::FLASH_M16 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
 				}
 				break;
 
 			case ID_PM:
 				put(xtmp + dx_pm_flash[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_pm_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
-					pbk_own[74 + gun_sector * 3 + anim_pm_flash[weapon_step]]);
+					pbk_own[BALL::FLASH_PM + gun_sector * 3 + anim_pm_flash[weapon_step]]);
 				break;
 
 			case ID_SHOTGUN:
 				if (weapon_step < 5)
 					draw(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
 						 ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
-						 pbk_bb[42 + gun_sector * 3 + anim_shotgun_flash[weapon_step]]);
+						 pbk_bb[BB::FLASH_SHOTGUN + gun_sector * 3 + anim_shotgun_flash[weapon_step]]);
 				break;
 
 			case ID_LASER:
 				if (weapon_dir == dir)
 					draw(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						 ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[104 + gun_sector2 * 4 + weapon_step]);
+						 ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_MUZZLE + gun_sector2 * 4 + weapon_step]);
 				break;
 		}
 	}
@@ -355,14 +358,14 @@ void Ball::renderEye(int xtmp, int ytmp) {
 
 	if (hurt_timer) {
 		if (dir <= BBLIM_RIGHT)
-			draw(xtmp + 12, ytmp - 14, pbk_own[22]);
+			draw(xtmp + 12, ytmp - 14, pbk_own[BALL::EYE_HURT_RIGHT]);
 		else
-			draw(xtmp - 12, ytmp - 14, pbk_own[23]);
+			draw(xtmp - 12, ytmp - 14, pbk_own[BALL::EYE_HURT_LEFT]);
 	} else {
 		if (is_firing)
-			base = 6;
+			base = BB::EYE_ANGRY;
 		else
-			base = 0;
+			base = BB::EYE_NORMAL;
 
 		if (dir <= BBDIR_DOWN_RIGHT)
 			delta = 0;
@@ -516,7 +519,7 @@ void Ball::update() {
 		fire_interval = 10;
 		gun_turn_delay = 1;
 		ammo = 0;
-		pic = pbk_own[8];
+		pic = pbk_own[BALL::JUMP_RIGHT + 2];
 		dy = -5;  // So the eye and gun are drawn at jump height
 		dx_jump = 0;
 		is_firing = false;
@@ -1067,7 +1070,7 @@ void Ball::onDie() {
 
 		rearm();
 
-		pic = pbk_own[8];
+		pic = pbk_own[BALL::JUMP_RIGHT + 2];
 		dy = -5;  // So the eye and gun are drawn at jump height
 		dx_jump = 0;
 		is_firing = false;
@@ -1075,14 +1078,14 @@ void Ball::onDie() {
 		if (cowBombOn) nb_cow_bomb = 1;
 	} else if (anim_step == 5 && anim_tick == 0 && platform_y(x, y) != 0) {
 		if (dir <= BBLIM_RIGHT)
-			engrave(x, y, pbk_own[16]);
+			engrave(x, y, pbk_own[BALL::GRAVE_RIGHT]);
 		else
-			engrave(x, y, pbk_own[21]);
+			engrave(x, y, pbk_own[BALL::GRAVE_LEFT]);
 	} else if (anim_step < 5) {
 		if (dir <= BBLIM_RIGHT)
-			pic = pbk_own[12 + anim_step];
+			pic = pbk_own[BALL::DIE_RIGHT + anim_step];
 		else
-			pic = pbk_own[17 + anim_step];
+			pic = pbk_own[BALL::DIE_LEFT + anim_step];
 	}
 }
 
@@ -1104,7 +1107,7 @@ void Ball::onComeBack() {
 
 		y += 5;
 
-		pic = pbk_own[109 + weapon_id * 8 + anim_step];
+		pic = pbk_own[BALL::SPIN + weapon_id * 8 + anim_step];
 	} else {
 		y = y_to_go;
 		status = STATE_NORMAL;
@@ -1145,7 +1148,7 @@ void Ball::onSomersault() {
 
 	if (!solid_wall(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
 
-	pic = pbk_own[109 + weapon_id * 8 + anim_step];
+	pic = pbk_own[BALL::SPIN + weapon_id * 8 + anim_step];
 }
 
 bool Ball::okBonus() {
@@ -1221,9 +1224,9 @@ void Ball::onVehicle() {}
 
 void Ball::renderVehicle() {
 	if (dir <= BBLIM_RIGHT)
-		pic = pbk_own[0];
+		pic = pbk_own[BALL::WALK_RIGHT];
 	else
-		pic = pbk_own[3];
+		pic = pbk_own[BALL::WALK_LEFT];
 
 	Sprite::render();
 	renderEye(x, y);

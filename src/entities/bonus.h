@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <numbers>
+#include "entities/sprites.h"
 #include "entities/ball.h"
 #include "entities/sprite.h"
 
@@ -44,9 +45,9 @@ class Bonus : public Sprite {
 		Sprite::render();
 
 		if (local_phase)
-			base = 0;
+			base = MISC::BONUS_CORNERS_ON;
 		else
-			base = 4;
+			base = MISC::BONUS_CORNERS_OFF;
 
 		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
 

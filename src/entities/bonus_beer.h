@@ -1,11 +1,12 @@
 #pragma once
 
+#include "entities/sprites.h"
 #include "entities/bonus.h"
 
 class BonusBeer : public Bonus {
    public:
 	BonusBeer() {
-		pic = pbk_misc[13];
+		pic = pbk_misc[MISC::BONUS_BEER];
 		col_on = true;
 	};
 
