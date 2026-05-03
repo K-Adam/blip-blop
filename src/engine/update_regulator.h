@@ -1,57 +1,34 @@
 #pragma once
 
-// The game updates in fixed steps, this decides how many steps to run per drawn frame
+#include <algorithm>
+#include <cstdint>
 
 #include "engine/chrono.h"
-#include "engine/moving_average.h"
 
+// The game updates in fixed steps, this decides how many steps to run per drawn frame
 class UpdateRegulator {
    public:
-	UpdateRegulator(int delay_goal = UPDATE_PERIOD_MS, int margin = 1, int hist_size = 50)
-		: last_frames_spare_time_(hist_size), dtime_(0), delay_goal_(delay_goal), margin_(margin) {}
-
-	// Call once per drawn frame, returns how many update steps to run
+	// Call once per drawn frame
 	int Step() {
 		if (fixedStep()) return 1;
-		int since_last = RegisterFrameTime();
-		dtime_ += since_last;
-		int mean_FST = last_frames_spare_time_.average();
-
-		frame_time_.Reset();
-
-		if (-margin_ <= mean_FST && mean_FST <= margin_) {
-			// Close enough to schedule, drop the drift so it never turns into extra steps
-			dtime_ = 0;
-			return 1;
-		} else {
-			int cnt = 0;
-			while (dtime_ > delay_goal_) {
-				++cnt;
-				dtime_ -= delay_goal_;
-			}
-			return cnt;
-		}
+		std::uint32_t t = now();
+		// A window drag or a hidden browser tab pauses the game instead of replaying the stall in one frame
+		acc_ += std::min<std::uint32_t>(t - last_, MAX_CATCH_UP_MS);
+		last_ = t;
+		int steps = acc_ / UPDATE_PERIOD_MS;
+		acc_ %= UPDATE_PERIOD_MS;
+		return steps;
 	}
 
-	void Skip() { frame_time_.Reset(); }
+	// After loading, a dialog or a menu, so the wait is not replayed
+	void Skip() {
+		last_ = now();
+		acc_ = 0;
+	}
 
    private:
-	int RegisterFrameTime() {
-		int since_last = frame_time_.elapsed();
-		// Clock glitches and long stalls would skew the average
-		if (since_last <= 0) {
-			last_frames_spare_time_.Add(0);
-		} else if (since_last >= 500) {
-			last_frames_spare_time_.Add(0);
-		} else {
-			last_frames_spare_time_.Add(since_last - delay_goal_);
-		}
-		return since_last;
-	}
+	static constexpr std::uint32_t MAX_CATCH_UP_MS = 100;
 
-	MovingAverage<int> last_frames_spare_time_;
-	Chrono frame_time_;
-	int dtime_;
-	int delay_goal_;
-	int margin_;
+	std::uint32_t last_ = now();
+	std::uint32_t acc_ = 0;
 };
