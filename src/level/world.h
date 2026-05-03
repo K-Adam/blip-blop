@@ -57,7 +57,8 @@ extern std::vector<std::vector<char>> solid_walls;
 extern std::vector<std::vector<char>> bloody_walls;
 
 class Ball;
-extern std::vector<Ball*> list_players;	 // FIXME: make it owning?
+// Not owning, Game::player1 and player2 own them. Dead players leave the list and come back after a bonus level
+extern std::vector<Ball*> list_players;
 // Lists rather than vectors because entries get appended while iterating
 // and must not relocate
 class ShotBB;
@@ -89,9 +90,8 @@ extern std::list<std::unique_ptr<Sprite>> list_moving_platforms;
 class CoolText;
 extern std::list<std::unique_ptr<CoolText>> list_txt_cool;
 
-// FIXME: should be a list of Splatter once GoreSplatter inherits it
+// Short lived debris such as blood, body parts and rings
 extern std::list<std::unique_ptr<Sprite>> list_splatters;
-// FIXME: list_gore entries share no base below Sprite
 extern std::list<std::unique_ptr<Sprite>> list_gore;
 
 extern bool phase;	// Drives blinking

@@ -735,6 +735,10 @@ bool Game::loadLevel(const char* level_name) {
 				list_event_dormant.push_back(std::move(event_sound));
 				break;
 			}
+			default:
+				// A bad level file would otherwise lose the event silently
+				debug << "Unknown event_id " << event_id << "\n";
+				break;
 		}
 	}
 
@@ -815,6 +819,7 @@ void Game::updateAll() {
 	UpdateCollection(list_bb_shots);
 	UpdateCollection(list_cow);
 	UpdateCollection(list_impacts);
+	// Before list_splatters, a splatter follows its enemy and must see it destroyed in the same frame
 	UpdateCollection(list_enemies);
 	UpdateCollection(list_gore);
 	UpdateCollection(list_enemy_shots);

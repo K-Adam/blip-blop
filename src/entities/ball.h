@@ -32,6 +32,7 @@ class Ball : public Character, public Player {
 	int weapon_id;
 	int weapon_dir;
 	int ammo;
+	bool hasUnlimitedAmmo() const { return weapon_id == ID_M16; }
 
 	int weapon_step;  // Muzzle flash step
 	int weapon_tick;

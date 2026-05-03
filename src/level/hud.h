@@ -23,8 +23,7 @@ class HUD {
 		}
 		DrawWeapon(player->weapon_id, location);
 
-		// FIXME: the drawer should not know which weapons have unlimited ammo
-		if (player->weapon_id == ID_M16) {
+		if (player->hasUnlimitedAmmo()) {
 			DrawAmmo(-1, false, location);
 		} else {
 			DrawAmmo(player->ammo, player->is_firing, location);

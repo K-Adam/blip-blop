@@ -1,7 +1,5 @@
 #pragma once
 
-// TODO: replace event types with strings like "ENNEMI" in the json
-
 #define EVENTID_ENEMY 0
 #define EVENTID_ENEMY_GENERATOR 1
 #define EVENTID_ANIMATED_BG 2
@@ -15,8 +13,6 @@
 #define EVENTID_TEXT 10
 #define EVENTID_SOUND 11
 #define EVENTID_WEATHER 12
-#define EVENTID_OVERKILL 13
-#define EVENTID_DYNAMIC_LOAD 14
 #define EVENTID_MUSIC 15
 #define EVENTID_BONUS_GENERATOR 16
 #define EVENTID_TURRET 17

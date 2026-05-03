@@ -1002,7 +1002,7 @@ void Ball::updateWeapon() {
 				break;
 		}
 
-		if (weapon_id != ID_M16) {
+		if (!hasUnlimitedAmmo()) {
 			ammo -= 1;
 
 			if (ammo <= 0) {
