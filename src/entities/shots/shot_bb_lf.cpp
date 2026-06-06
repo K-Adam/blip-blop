@@ -1,4 +1,8 @@
 #include "entities/shots/shot_bb_lf.h"
+
+#include <cmath>
+#include <numbers>
+
 #include "entities/sprites.h"
 
 void ShotBBLF::onHit(int pts) {
@@ -8,9 +12,7 @@ void ShotBBLF::onHit(int pts) {
 	}
 }
 
-void ShotBBLF::setDir(int d) {
-	ShotBB::setDir(d);
-
+void ShotBBLF::aim(double angle) {
 	anim_step = 0;
 	anim_tick = 0;
 	delay = 0;
@@ -25,87 +27,11 @@ void ShotBBLF::setDir(int d) {
 	else
 		speed = 5 + rand() % 3;
 
-	switch (dir) {
-		case 0:
-			dx = 1 - rand() % 3;
-			dy = 3 + rand() % 3;
-			break;
-
-		case 1:
-			dx = 1 + rand() % 3;
-			dy = 2 + rand() % 3;
-			break;
-
-		case 2:
-			dx = 3 + rand() % 3;
-			dy = 1 + rand() % 3;
-			break;
-
-		case 3:
-			dx = 3 + rand() % 3;
-			dy = rand() % 3;
-			break;
-
-		case 4:
-			dx = 3 + rand() % 3;
-			dy = 1 - rand() % 3;
-			break;
-
-		case 5:
-			dx = 3 + rand() % 3;
-			dy = -rand() % 3;
-			break;
-
-		case 6:
-			dx = 3 + rand() % 3;
-			dy = -1 - rand() % 3;
-			break;
-
-		case 7:
-			dx = rand() % 3;
-			dy = -2 - rand() % 3;
-			break;
-
-		case 8:
-			dx = 1 - rand() % 3;
-			dy = -3 - rand() % 3;
-			break;
-
-		case 9:
-			dx = -rand() % 3;
-			dy = -3 - rand() % 3;
-			break;
-
-		case 10:
-			dx = -3 - rand() % 3;
-			dy = -1 - rand() % 3;
-			break;
-
-		case 11:
-			dx = -3 - rand() % 3;
-			dy = -rand() % 3;
-			break;
-
-		case 12:
-			dx = -3 - rand() % 3;
-			dy = 1 - rand() % 3;
-			break;
-
-		case 13:
-			dx = -3 - rand() % 3;
-			dy = rand() % 3;
-			break;
-
-		case 14:
-			dx = -3 - rand() % 3;
-			dy = 1 + rand() % 3;
-			break;
-
-		case 15:
-			dx = -1 - rand() % 3;
-			dy = 2 + rand() % 3;
-			break;
-	}
+	// A puff leaves along the aim with a little sideways scatter
+	setAngle(angle, 3 + rand() % 3);
+	double a = angle * std::numbers::pi / 180;
+	double across = 1 - rand() % 3;
+	accelerate(std::sin(a) * across, std::cos(a) * across);
 }
 
 void ShotBBLF::update() {
@@ -154,13 +80,13 @@ void ShotBBLF::update() {
 		}
 	}
 
-	x += dx;
-	y += dy;
+	moveAlongAngle();
 
 	delay += 1;
 	delay %= 17;
 
-	if (delay == 0 && dy > -3) dy--;
+	// Flames rise whatever the aim
+	if (delay == 0 && vy() > -3) accelerate(0, -1);
 
 	colFromPic();
 	updateDestroyed();

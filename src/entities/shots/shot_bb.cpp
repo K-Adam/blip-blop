@@ -3,15 +3,6 @@
 #include <cmath>
 #include <numbers>
 
-void ShotBB::setDir(int d) {
-	if (d == BBDIR_DOWN_D_L)
-		dir = 0;
-	else if (d > BBLIM_RIGHT)
-		dir = d - 1;
-	else
-		dir = d;
-}
-
 void ShotBB::setAngle(double deg, double speed) {
 	dir = (int)std::lround((deg + 90) / 22.5) & 15;
 	double a = deg * std::numbers::pi / 180;

@@ -1,83 +1,35 @@
 #include "entities/shots/shot_bb_laser.h"
+
+#include <algorithm>
+#include <cmath>
+#include <numbers>
+
 #include "entities/sprites.h"
-#include "core/debug.h"
 
-ShotBBLaser::ShotBBLaser() : base(0), height_px(0), width_px(0) {}
+static const int BEAM_HALF_WIDTH = 3;
 
-void ShotBBLaser::setDir(int d) {
-	ShotBB::setDir(d);
+void ShotBBLaser::aim(double angle) {
+	angle_ = angle;
+	double a = angle * std::numbers::pi / 180;
+	ux_ = std::cos(a);
+	uy_ = -std::sin(a);
+	// Splatters only come in 8 directions
+	dir = (int)std::lround((angle + 90) / 45) & 7;
 
-	base = height_px = width_px = 0;
-
-	dir /= 2;
-
-	int nx = x;
-	int ny = y;
-
-	switch (dir) {
-		case 0:	 // Down
-
-			if (y < 0) {
-				ny = y = 0;
-			}
-
-			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny += 8;
-
-			height_px = ny - y;
-			base = BB::LASER_BEAM_V;
-
-			x1 = x;
-			y1 = y;
-			x2 = x + 6;
-			y2 = ny;
-			col_on = true;
-			break;
-
-		case 2:	 // Right
-
-			while (nx > offset - 5 && nx < offset + 645 && !solid_wall(nx, ny)) nx += 8;
-
-			width_px = nx - x;
-			base = BB::LASER_BEAM_H;
-
-			x1 = x;
-			y1 = y;
-			x2 = nx;
-			y2 = y + 6;
-			col_on = true;
-			break;
-
-		case 4:	 // Up
-
-			while (ny > -5 && ny < 485 && !solid_wall(nx, ny)) ny -= 8;
-
-			height_px = y - ny;
-			base = BB::LASER_BEAM_V;
-
-			x1 = x;
-			y1 = ny;
-			x2 = x + 6;
-			y2 = y;
-			y = ny;
-			col_on = true;
-			break;
-
-		case 6:	 // Left
-
-			while (nx > offset - 5 && nx < offset + 645 && !solid_wall(nx, ny)) nx -= 8;
-
-			width_px = x - nx;
-			base = BB::LASER_BEAM_H;
-
-			x1 = nx;
-			y1 = y;
-			x2 = x;
-			y2 = y + 6;
-			x = nx;
-			col_on = true;
-			break;
+	// Stops at the first wall or past the screen, in 8 px steps
+	double px = x, py = y + BEAM_HALF_WIDTH;
+	length_ = 0;
+	while (px > offset - 5 && px < offset + 645 && py > -5 && py < 485 && !solid_wall((int)px, (int)py)) {
+		px += ux_ * 8;
+		py += uy_ * 8;
+		length_ += 8;
 	}
 
+	x1 = std::min(x, (int)px) - BEAM_HALF_WIDTH;
+	x2 = std::max(x, (int)px) + BEAM_HALF_WIDTH;
+	y1 = std::min(y, (int)py - BEAM_HALF_WIDTH);
+	y2 = std::max(y + 2 * BEAM_HALF_WIDTH, (int)py + BEAM_HALF_WIDTH);
+	col_on = true;
 	anim_tick = 2;
 }
 
@@ -88,173 +40,21 @@ void ShotBBLaser::update() {
 }
 
 void ShotBBLaser::render() {
-	SDL::Surface* surf = pbk_bb[base + anim_step]->Surf();
-	Rect r;
-	int xx = x - offset;
-	int nx = x;
-	int ny = y;
-
-	switch (dir) {
-		case 0:	 // Down
-			r.top = 0;
-			r.left = 0;
-			r.right = 6;
-
-			if (y + height_px > 479) height_px = 479 - y;
-
-			r.bottom = height_px;
-
-			backSurface->BltFast(xx, y, surf, &r);
-			if (y + height_px < 480) draw(x + 2, y + height_px, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 1:	 // Down right
-
-			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[BB::LASER_DIAG_DOWN + anim_step]);
-				nx += 8;
-				ny += 8;
-			}
-
-			draw(nx, ny + 5, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 2:	 // Right
-			r.top = 0;
-			r.left = 0;
-			r.bottom = 6;
-
-			if (xx + width_px > 640)
-				r.right = 640 - xx;
-			else
-				r.right = width_px;
-
-			backSurface->BltFast(xx, y, surf, &r);
-
-			if (xx + width_px < 640) draw(x + width_px, y + 3, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 3:	 // Up right
-
-			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[BB::LASER_DIAG_UP + anim_step]);
-				nx += 8;
-				ny -= 8;
-			}
-
-			draw(nx - 5, ny + 10, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 4:	 // Up
-			r.top = 0;
-			r.left = 0;
-			r.right = 6;
-
-			if (y < 0) {
-				height_px += y;
-				y = 0;
-			}
-
-			r.bottom = height_px;
-
-			backSurface->BltFast(xx, y, surf, &r);
-
-			if (y > 0) draw(x + 3, y, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 5:	 // Up left
-
-			while (nx > offset - 20 && nx < offset + 660 && ny > -20 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[BB::LASER_DIAG_DOWN + anim_step]);
-				nx -= 8;
-				ny -= 8;
-			}
-
-			draw(nx + 5, ny + 10, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 6:	 // Left
-			r.top = 0;
-			r.left = 0;
-			r.bottom = 6;
-
-			if (xx < 0) {
-				r.right = width_px - xx;
-				xx = 0;
-			} else
-				r.right = width_px;
-
-			backSurface->BltFast(xx, y, surf, &r);
-
-			if (xx > 0) draw(x + 2, y + 3, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-
-		case 7:	 // Down left
-
-			while (nx > offset - 20 && nx < offset + 660 && ny > -50 && ny < 500 && !solid_wall(nx, ny)) {
-				draw(nx, ny, pbk_bb[BB::LASER_DIAG_UP + anim_step]);
-				nx -= 8;
-				ny += 8;
-			}
-
-			draw(nx, ny + 5, pbk_misc[MISC::LASER_IMPACT + anim_step]);
-			break;
-	}
+	if (length_ <= 0) return;
+	// The horizontal beam strip, cropped to the beam and turned around its start
+	Rect r{0, 0, length_, 2 * BEAM_HALF_WIDTH};
+	backSurface->BltRotated(x - offset, y, pbk_bb[BB::LASER_BEAM_H + anim_step]->Surf(), &r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
+	int ex = x + (int)std::lround(ux_ * length_);
+	int ey = y + BEAM_HALF_WIDTH + (int)std::lround(uy_ * length_);
+	draw(ex, ey, pbk_misc[MISC::LASER_IMPACT + anim_step]);
 }
 
 bool ShotBBLaser::collision(const Sprite* s) const {
-	switch (dir) {
-		case 0:
-		case 2:
-		case 4:
-		case 6:
-			return Sprite::collision(s);
-			break;
+	if (!s->col_on) return false;
+	if (s->x2 < x1 || s->x1 > x2 || s->y2 < y1 || s->y1 > y2) return false;
+	for (int d = 0; d <= length_; d += 4) {
+		double px = x + ux_ * d, py = y + BEAM_HALF_WIDTH + uy_ * d;
+		if (px >= s->x1 - BEAM_HALF_WIDTH && px <= s->x2 + BEAM_HALF_WIDTH && py >= s->y1 - BEAM_HALF_WIDTH && py <= s->y2 + BEAM_HALF_WIDTH) return true;
 	}
-
-	int y_laser1;
-	int y_laser2;
-
-	int xe1 = s->x1;
-	int xe2 = s->x2;
-	int ye1 = s->y1;
-	int ye2 = s->y2;
-
-	if (s->col_on == false) return false;
-
-	switch (dir) {
-		case 1:	 // Down right
-			if (xe2 < x || ye2 < y) return false;
-
-			y_laser1 = (xe1 - x) + y;
-			y_laser2 = (xe2 - x) + y;
-
-			break;
-
-		case 3:	 // Up right
-			if (xe2 < x || ye1 > y) return false;
-
-			y_laser1 = -(xe1 - x) + y;
-			y_laser2 = -(xe2 - x) + y;
-
-			break;
-
-		case 5:	 // Up left
-			if (xe1 > x || ye1 > y) return false;
-
-			y_laser1 = (xe1 - x) + y;
-			y_laser2 = (xe2 - x) + y;
-
-			break;
-
-		case 7:	 // Down left
-			if (xe1 > x || ye2 < y) return false;
-
-			y_laser1 = -(xe1 - x) + y;
-			y_laser2 = -(xe2 - x) + y;
-
-			break;
-	}
-
-	return ((y_laser1 > ye1 && y_laser1 < ye2) || (y_laser2 > ye1 && y_laser2 < ye2));
+	return false;
 }

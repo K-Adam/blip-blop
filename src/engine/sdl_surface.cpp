@@ -68,10 +68,11 @@ void Surface::BltFast(int x, int y, Surface* src, Rect* r) {
 	SDL_RenderCopy(renderer(), src->texture_, &s, &d);
 }
 
-void Surface::BltRotated(int x, int y, Surface* src, SDL_Point center, double clockwise_deg) {
+void Surface::BltRotated(int x, int y, Surface* src, Rect* r, SDL_Point center, double clockwise_deg) {
 	Target();
-	SDL_Rect d{x, y, src->w_, src->h_};
-	SDL_RenderCopyEx(renderer(), src->texture_, nullptr, &d, clockwise_deg, &center, SDL_FLIP_NONE);
+	SDL_Rect s = r ? SDL_Rect{r->left, r->top, r->right - r->left, r->bottom - r->top} : SDL_Rect{0, 0, src->w_, src->h_};
+	SDL_Rect d{x, y, s.w, s.h};
+	SDL_RenderCopyEx(renderer(), src->texture_, &s, &d, clockwise_deg, &center, SDL_FLIP_NONE);
 }
 
 void Surface::FillRect(Rect* r, unsigned int color) {

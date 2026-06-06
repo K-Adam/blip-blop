@@ -67,7 +67,7 @@ const int dy_shot_pm[] = {29, 25, -9, -36, -54, -54, -36, -9, 25, 29};
 
 const int dx_shot_shotgun[] = {2, 29, 41, 29, -5, 5, -29, -41, -30, -2};
 const int dy_shot_shotgun[] = {33, 21, -12, -44, -57, -57, -44, -12, 21, 33};
-const int dx_shot_laser[] = {-5, 42, 57, 56, -3, -2, -56, -57, -42, 0};
+const int dx_shot_laser[] = {-2, 42, 57, 56, 0, 1, -56, -57, -42, 3};
 const int dy_shot_laser[] = {52, 33, -10, -71, -73, -73, -71, -10, 33, 52};
 
 const int dx_shot_lf[] = {-2, 32, 44, 31, 0, 1, -31, -44, -32, 2};
@@ -224,7 +224,7 @@ double Ball::gunAngle() const {
 	double a = angleOf(weapon_dir);
 	// The exact aim goes stale while a vehicle locks the direction
 	bool locked = status == STATE_LOCKED_VEHICLE && locked_dir;
-	bool precise = (weapon_id == ID_M16 || weapon_id == ID_PM) && !locked && weapon_dir == dir && std::abs(aim_angle_ - a) <= 11.25;
+	bool precise = !locked && weapon_dir == dir && std::abs(aim_angle_ - a) <= 11.25;
 	return precise ? aim_angle_ : a;
 }
 
@@ -235,8 +235,7 @@ void Ball::gunSector(int& gun_sector, double& residual) const {
 	int step = std::clamp((int)std::lround(right ? (a + 90) / 45 : (a - 90) / 45), 0, 4);
 	gun_sector = right ? step : 5 + step;
 	double sector = right ? -90 + 45 * step : 90 + 45 * step;
-	// The shotgun hand and the laser glow are drawn per sector and do not rotate
-	residual = weapon_id == ID_LASER || weapon_id == ID_SHOTGUN ? 0 : a - sector;
+	residual = a - sector;
 }
 
 void Ball::renderWeapon(int xtmp, int ytmp) {
@@ -279,34 +278,36 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 			break;
 
 		case ID_SHOTGUN:
+			gx = xtmp + dx_shotgun[gun_sector];
+			gy = ytmp + dy_shotgun[gun_sector];
 			if (is_firing) {
 				if (weapon_step < 5) {	// Recoil
-					draw(xtmp + dx_shotgun[gun_sector] + x_recoil[gun_sector][weapon_step] * 2,
-						 ytmp + dy_shotgun[gun_sector] + y_recoil[gun_sector][weapon_step] * 2, pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
+					put(gx + x_recoil[gun_sector][weapon_step] * 2, gy + y_recoil[gun_sector][weapon_step] * 2, pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
 
-					draw(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
+					put(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
+						ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 				} else {  // Reload
 					int ea = (weapon_step - 5) / 2;
 
-					draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
-					draw(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][ea],
-						 ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][ea], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
+					put(gx, gy, pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
+					put(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][ea],
+						ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][ea], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 				}
 			} else {
-				draw(xtmp + dx_shotgun[gun_sector], ytmp + dy_shotgun[gun_sector], pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
-				draw(xtmp + dx_hand_shotgun[gun_sector], ytmp + dy_hand_shotgun[gun_sector], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
+				put(gx, gy, pbk_own[BALL::GUN_SHOTGUN + gun_sector]);
+				put(xtmp + dx_hand_shotgun[gun_sector], ytmp + dy_hand_shotgun[gun_sector], pbk_own[BALL::SHOTGUN_HAND + gun_sector2]);
 			}
 			break;
 
 		case ID_LASER:
+			gx = xtmp + dx_laser[gun_sector];
+			gy = ytmp + dy_laser[gun_sector];
 			if (is_firing) {
-				draw(xtmp + dx_laser[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser[gun_sector] + y_recoil[gun_sector][recoil_step],
-					 pbk_own[BALL::GUN_LASER + gun_sector]);
-				draw(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step],
-					 pbk_bb[BB::LASER_GLOW + 4 * gun_sector + weapon_step]);
+				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[BALL::GUN_LASER + gun_sector]);
+				put(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step],
+					pbk_bb[BB::LASER_GLOW + 4 * gun_sector + weapon_step]);
 			} else {
-				draw(xtmp + dx_laser[gun_sector], ytmp + dy_laser[gun_sector], pbk_own[BALL::GUN_LASER + gun_sector]);
+				put(gx, gy, pbk_own[BALL::GUN_LASER + gun_sector]);
 			}
 			break;
 	}
@@ -338,15 +339,15 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 
 			case ID_SHOTGUN:
 				if (weapon_step < 5)
-					draw(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-						 ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
-						 pbk_bb[BB::FLASH_SHOTGUN + gun_sector * 3 + anim_shotgun_flash[weapon_step]]);
+					put(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
+						ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
+						pbk_bb[BB::FLASH_SHOTGUN + gun_sector * 3 + anim_shotgun_flash[weapon_step]]);
 				break;
 
 			case ID_LASER:
 				if (weapon_dir == dir)
-					draw(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						 ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_MUZZLE + gun_sector2 * 4 + weapon_step]);
+					put(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
+						ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_MUZZLE + gun_sector2 * 4 + weapon_step]);
 				break;
 		}
 	}
@@ -801,8 +802,6 @@ void Ball::manageDirection() {
 	ctrl->aim(x - offset, y - 12, vx, vy);
 	double t = std::atan2(-vy, std::abs(vx));
 	int s = (int)std::lround(t / (std::numbers::pi / 8));
-	// Laser beams and shotgun spreads only exist in 8 directions
-	if (weapon_id == ID_LASER || weapon_id == ID_SHOTGUN) s = 2 * (int)std::lround(s / 2.0);
 	bool right = dir <= BBLIM_RIGHT;
 	// Straight up or down keeps the facing, so the body does not flip while aiming there
 	if (std::abs(s) < 4 && vx != 0) right = vx > 0;
@@ -900,6 +899,8 @@ void Ball::updateWeapon() {
 
 		ShotBB* t = NULL;
 		int i;
+		// Drawn y first in separate statements, the order MSVC used inside the old calls, so all builds match
+		int jitter_x = 0, jitter_y = 0;
 
 		switch (weapon_id) {
 			case ID_M16:
@@ -911,7 +912,9 @@ void Ball::updateWeapon() {
 				t->destroyed = false;
 
 				t->hero = this;
-				muzzle(t, dx_m16, dy_m16, dx_shot_m16[gun_sector] + rand() % 11 - 5, dy_shot_m16[gun_sector] + rand() % 11 - 5);
+				jitter_y = rand() % 11 - 5;
+				jitter_x = rand() % 11 - 5;
+				muzzle(t, dx_m16, dy_m16, dx_shot_m16[gun_sector] + jitter_x, dy_shot_m16[gun_sector] + jitter_y);
 
 				if (status == STATE_LOCKED_VEHICLE)
 					t->dxScroll = scroll_speed;
@@ -929,7 +932,9 @@ void Ball::updateWeapon() {
 				t->destroyed = false;
 
 				t->hero = this;
-				muzzle(t, dx_pm, dy_pm, dx_shot_pm[gun_sector] + rand() % 11 - 5, dy_shot_pm[gun_sector] + rand() % 11 - 5);
+				jitter_y = rand() % 11 - 5;
+				jitter_x = rand() % 11 - 5;
+				muzzle(t, dx_pm, dy_pm, dx_shot_pm[gun_sector] + jitter_x, dy_shot_pm[gun_sector] + jitter_y);
 
 				if (status == STATE_LOCKED_VEHICLE)
 					t->dxScroll = scroll_speed;
@@ -946,60 +951,65 @@ void Ball::updateWeapon() {
 
 				for (i = 0; i < 17; i++) {
 					next_shotgun = (next_shotgun + 1) % NB_SHOTS_SHOTGUN;
-					t = &shots_shotgun[next_shotgun];
-					t->destroyed = false;
+					ShotBBShotgun* pellet = &shots_shotgun[next_shotgun];
+					pellet->destroyed = false;
 
-					t->hero = this;
-					t->x = x + dx_shot_shotgun[gun_sector] + rand() % 11 - 5;
-					t->y = y + dy_shot_shotgun[gun_sector] + rand() % 11 - 5;
+					pellet->hero = this;
+					jitter_y = rand() % 11 - 5;
+					jitter_x = rand() % 11 - 5;
+					muzzle(pellet, dx_shotgun, dy_shotgun, dx_shot_shotgun[gun_sector] + jitter_x, dy_shot_shotgun[gun_sector] + jitter_y);
 
 					if (status == STATE_LOCKED_VEHICLE)
-						t->dxScroll = scroll_speed;
+						pellet->dxScroll = scroll_speed;
 					else
-						t->dxScroll = 0;
+						pellet->dxScroll = 0;
 
-					t->setDir(dir);
-					list_bb_shots.push_back(t);
+					pellet->aim(gunAngle());
+					list_bb_shots.push_back(pellet);
 				}
 				break;
 
-			case ID_LASER:
-
+			case ID_LASER: {
 				next_laser = (next_laser + 1) % NB_SHOTS_LASER;
-				t = &shots_laser[next_laser];
-				t->destroyed = false;
+				ShotBBLaser* beam = &shots_laser[next_laser];
+				beam->destroyed = false;
 
-				t->hero = this;
-				t->x = x + dx_shot_laser[gun_sector] + x_recoil[gun_sector][recoil_step];
-				t->y = y + dy_shot_laser[gun_sector] + y_recoil[gun_sector][recoil_step];
-				t->setDir(dir);
-				t->anim_step = weapon_step;
-				list_bb_shots.push_back(t);
+				beam->hero = this;
+				muzzle(beam, dx_laser, dy_laser, dx_shot_laser[gun_sector] + x_recoil[gun_sector][recoil_step],
+					   dy_shot_laser[gun_sector] + y_recoil[gun_sector][recoil_step]);
+				beam->aim(gunAngle());
+				beam->anim_step = weapon_step;
+				list_bb_shots.push_back(beam);
 				break;
+			}
 
-			case ID_LF:
+			case ID_LF: {
+				ShotBBLF* puff;
 				next_lf = (next_lf + 1) % NB_SHOTS_LF;
-				t = &shots_lf[next_lf];
-				t->destroyed = false;
+				puff = &shots_lf[next_lf];
+				puff->destroyed = false;
 
-				((ShotBBLF*)t)->deg = 2;
-				t->hero = this;
-				muzzle(t, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step], dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
-				t->setDir(weapon_dir);
+				puff->deg = 2;
+				puff->hero = this;
+				muzzle(puff, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step],
+					   dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
+				puff->aim(gunAngle());
 
-				list_bb_shots.push_back(t);
+				list_bb_shots.push_back(puff);
 
 				next_lf = (next_lf + 1) % NB_SHOTS_LF;
-				t = &shots_lf[next_lf];
-				t->destroyed = false;
+				puff = &shots_lf[next_lf];
+				puff->destroyed = false;
 
-				((ShotBBLF*)t)->deg = 1;
-				t->hero = this;
-				muzzle(t, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step], dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
-				t->setDir(weapon_dir);
+				puff->deg = 1;
+				puff->hero = this;
+				muzzle(puff, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step],
+					   dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
+				puff->aim(gunAngle());
 
-				list_bb_shots.push_back(t);
+				list_bb_shots.push_back(puff);
 				break;
+			}
 		}
 
 		if (!hasUnlimitedAmmo()) {

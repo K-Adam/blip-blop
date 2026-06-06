@@ -27,7 +27,7 @@ class Surface {
 	SDL_Texture *Get() const { return texture_; }
 
 	void BltFast(int x, int y, Surface *src, Rect *r);
-	void BltRotated(int x, int y, Surface *src, SDL_Point center, double clockwise_deg);
+	void BltRotated(int x, int y, Surface *src, Rect *r, SDL_Point center, double clockwise_deg);
 	// color is 0xAABBGGRR, written as is without blending
 	void FillRect(Rect *r, unsigned int color);
 	void Darken(Rect *r);

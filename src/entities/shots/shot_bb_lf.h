@@ -6,13 +6,13 @@
 class ShotBBLF : public ShotBB {
    public:
 	int type;
-	int dx;
 	int delay;
 	bool finished;
 	int speed;
 	int deg;
 
-	void setDir(int d) override;
+	// Degrees counterclockwise from the right
+	void aim(double angle);
 
 	inline int damage() const override { return deg; };
 

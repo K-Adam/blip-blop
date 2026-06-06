@@ -70,4 +70,6 @@ void Picture::Close() {
 
 Picture::~Picture() { Close(); }
 
-void Picture::BlitRotated(SDL::Surface* s, int x, int y, double deg) const { s->BltRotated(x - xspot, y - yspot, surf, SDL_Point{xspot, yspot}, -deg); }
+void Picture::BlitRotated(SDL::Surface* s, int x, int y, double deg) const {
+	s->BltRotated(x - xspot, y - yspot, surf, nullptr, SDL_Point{xspot, yspot}, -deg);
+}
