@@ -44,10 +44,10 @@ void ShotBBShotgun::update() {
 		destroyed = true;
 	} else {
 		if (age < lifespan)
-			pic = pbk_bb[BB::SHOT_PELLET + dir];
+			pic = pbk_bb[BB::SHOT_PELLET];
 		else
-			pic = pbk_bb[BB::SHOT_M16 + dir];
+			pic = pbk_bb[BB::SHOT_M16];
 
-		colFromPic();
+		colAlongAngle();
 	}
 }

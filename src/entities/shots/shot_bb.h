@@ -22,11 +22,14 @@ class ShotBB : public Shot {
 		hero->addPoints(pts);
 	};
 
-	// Exact direction in degrees counterclockwise from the right, the sprite takes the nearest of 16
+	// Exact direction in degrees counterclockwise from the right
 	void setAngle(double deg, double speed);
 
    protected:
 	void moveAlongAngle();
+	// For sprites drawn pointing down, turned to the shot angle
+	void drawAlongAngle() const { drawRotated(x, y, pic, angle_ + 90); }
+	void colAlongAngle();
 	void push(double dx, double dy) {
 		fx_ += dx;
 		fy_ += dy;
@@ -38,5 +41,5 @@ class ShotBB : public Shot {
 	double vy() const { return vy_; }
 
    private:
-	double fx_ = 0, fy_ = 0, vx_ = 0, vy_ = 0;
+	double fx_ = 0, fy_ = 0, vx_ = 0, vy_ = 0, angle_ = 0;
 };

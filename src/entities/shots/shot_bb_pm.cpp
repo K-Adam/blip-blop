@@ -9,7 +9,7 @@ void ShotBBPM::update() {
 		noCol();
 		destroyed = true;
 	} else {
-		pic = pbk_bb[BB::SHOT_PELLET + dir];
-		colFromPic();
+		pic = pbk_bb[BB::SHOT_PELLET];
+		colAlongAngle();
 	}
 }

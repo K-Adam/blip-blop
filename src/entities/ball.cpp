@@ -212,14 +212,6 @@ void Ball::renderNormal() {
 // Counterclockwise degrees, the right side spans -90..90 and the left side 90..270
 static double angleOf(int d) { return d <= BBLIM_RIGHT ? (d - BBDIR_RIGHT) * 22.5 : 180 + (d - BBDIR_LEFT) * 22.5; }
 
-// Moves a point placed for the hand drawn sprite onto the gun rotated around its grip
-static void rotateAround(int& px, int& py, int gx, int gy, double deg) {
-	double a = deg * std::numbers::pi / 180, c = std::cos(a), s = std::sin(a);
-	int ox = px - gx, oy = py - gy;
-	px = gx + (int)std::lround(ox * c + oy * s);
-	py = gy + (int)std::lround(-ox * s + oy * c);
-}
-
 double Ball::gunAngle() const {
 	double a = angleOf(weapon_dir);
 	// The exact aim goes stale while a vehicle locks the direction
@@ -248,6 +240,12 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 		if (rot == 0) return draw(px, py, pic);
 		rotateAround(px, py, gx, gy, rot);
 		drawRotated(px, py, pic, rot);
+	};
+	// Shared effects come drawn pointing down only
+	double turn = gunAngle() + 90;
+	auto putTurned = [&](int px, int py, const Picture* pic) {
+		rotateAround(px, py, gx, gy, rot);
+		drawRotated(px, py, pic, turn);
 	};
 
 	int gun_sector2 = gun_sector % 5;
@@ -304,8 +302,8 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 			gy = ytmp + dy_laser[gun_sector];
 			if (is_firing) {
 				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own[BALL::GUN_LASER + gun_sector]);
-				put(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step],
-					pbk_bb[BB::LASER_GLOW + 4 * gun_sector + weapon_step]);
+				putTurned(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step],
+						  ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_GLOW + weapon_step]);
 			} else {
 				put(gx, gy, pbk_own[BALL::GUN_LASER + gun_sector]);
 			}
@@ -313,22 +311,14 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 	}
 
 	if (is_firing) {
-		int gun_sector2 = gun_sector;
-		if (gun_sector == 9)
-			gun_sector2 = 0;
-		else if (gun_sector > 4)
-			gun_sector2 -= 1;
-
 		switch (weapon_id) {
 			case ID_M16:
 				if (id_ball == ID_BLIP) {
-					put(xtmp + dx_m16_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						ytmp + dy_m16_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
-						pbk_bb[BB::FLASH_M16 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
+					putTurned(xtmp + dx_m16_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
+							  ytmp + dy_m16_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::FLASH_M16 + anim_m16_flash[weapon_step]]);
 				} else {
-					put(xtmp + dx_m16o_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						ytmp + dy_m16o_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
-						pbk_bb[BB::FLASH_M16 + gun_sector * 3 + anim_m16_flash[weapon_step]]);
+					putTurned(xtmp + dx_m16o_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
+							  ytmp + dy_m16o_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::FLASH_M16 + anim_m16_flash[weapon_step]]);
 				}
 				break;
 
@@ -339,15 +329,15 @@ void Ball::renderWeapon(int xtmp, int ytmp) {
 
 			case ID_SHOTGUN:
 				if (weapon_step < 5)
-					put(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-						ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
-						pbk_bb[BB::FLASH_SHOTGUN + gun_sector * 3 + anim_shotgun_flash[weapon_step]]);
+					putTurned(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
+							  ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
+							  pbk_bb[BB::FLASH_SHOTGUN + anim_shotgun_flash[weapon_step]]);
 				break;
 
 			case ID_LASER:
 				if (weapon_dir == dir)
-					put(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-						ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_MUZZLE + gun_sector2 * 4 + weapon_step]);
+					putTurned(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
+							  ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb[BB::LASER_MUZZLE + weapon_step]);
 				break;
 		}
 	}

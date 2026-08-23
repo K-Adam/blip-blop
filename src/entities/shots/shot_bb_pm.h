@@ -10,4 +10,5 @@ class ShotBBPM : public ShotBB {
 	inline int enflame() const override { return 0; };
 
 	void update() override;
+	void render() override { drawAlongAngle(); }
 };

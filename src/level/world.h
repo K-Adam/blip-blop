@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cmath>
 #include <list>
 #include <memory>
+#include <numbers>
 #include <vector>
 
 #include "core/debug.h"
@@ -122,4 +124,12 @@ inline void draw(int x, int y, const Picture* pic) {
 
 inline void drawRotated(int x, int y, const Picture* pic, double deg) {
 	if (pic != NULL) pic->BlitRotated(backSurface, x - offset, y, deg);
+}
+
+// Counterclockwise as seen on screen, where y points down
+inline void rotateAround(int& px, int& py, int gx, int gy, double deg) {
+	double a = deg * std::numbers::pi / 180, c = std::cos(a), s = std::sin(a);
+	int ox = px - gx, oy = py - gy;
+	px = gx + (int)std::lround(ox * c + oy * s);
+	py = gy + (int)std::lround(-ox * s + oy * c);
 }

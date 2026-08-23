@@ -5,26 +5,23 @@
 // pbk_bb, sprites both players share
 namespace BB {
 enum : int {
-	EYE_NORMAL = 0,			// + facing 0..5
-	EYE_ANGRY = 6,			// + facing 0..5
-	FLASH_M16 = 12,			// + gun sector * 3 + frame
-	FLASH_SHOTGUN = 42,		// + gun sector * 3 + frame
-	SHOT_M16 = 72,			// + direction 0..15
-	SHOT_PELLET = 88,		// + direction 0..15
-	LASER_MUZZLE = 104,		// + gun sector * 4 + frame
-	LASER_BEAM_H = 136,		// + frame
-	LASER_BEAM_V = 140,		// + frame
-	LASER_DIAG_DOWN = 144,	// + frame, top left to bottom right
-	LASER_DIAG_UP = 148,	// + frame, bottom left to top right
-	LASER_GLOW = 152,		// + gun sector * 4 + frame
-	HEALTH_EMPTY = 192,		// + piece 0..4
-	HEALTH_FULL = 197,		// + piece 0..4
-	COW_FALL = 202,			// + frame
-	COW_SPLAT_RIGHT = 210,
-	COW_SPLAT_LEFT = 211,
-	EXPLOSION_A = 212,	// + frame
-	EXPLOSION_B = 219,	// + frame
-	EXPLOSION_C = 231,	// + frame
+	EYE_NORMAL = 0,		 // + facing 0..5
+	EYE_ANGRY = 6,		 // + facing 0..5
+	FLASH_M16 = 12,		 // + frame, points down, drawn turned to the gun
+	FLASH_SHOTGUN = 15,	 // + frame, points down, drawn turned to the gun
+	SHOT_M16 = 18,		 // points down, drawn rotated to the shot angle
+	SHOT_PELLET = 19,	 // points down, drawn rotated to the shot angle
+	LASER_MUZZLE = 20,	 // + frame, points down, drawn turned to the gun
+	LASER_BEAM_H = 24,	 // + frame
+	LASER_GLOW = 28,	 // + frame, points down, drawn turned to the gun
+	HEALTH_EMPTY = 32,	 // + piece 0..4
+	HEALTH_FULL = 37,	 // + piece 0..4
+	COW_FALL = 42,		 // + frame
+	COW_SPLAT_RIGHT = 50,
+	COW_SPLAT_LEFT = 51,
+	EXPLOSION_A = 52,  // + frame
+	EXPLOSION_B = 59,  // + frame
+	EXPLOSION_C = 71,  // + frame
 };
 }
 

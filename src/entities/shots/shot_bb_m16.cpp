@@ -9,7 +9,7 @@ void ShotBBM16::update() {
 		noCol();
 		destroyed = true;
 	} else {
-		pic = pbk_bb[BB::SHOT_M16 + dir];
-		colFromPic();
+		pic = pbk_bb[BB::SHOT_M16];
+		colAlongAngle();
 	}
 }

@@ -20,6 +20,7 @@ class ShotBBShotgun : public ShotBB {
 	// Degrees counterclockwise from the right
 	void aim(double deg);
 	void update() override;
+	void render() override { drawAlongAngle(); }
 
    private:
 	double drift_x_ = 0;
