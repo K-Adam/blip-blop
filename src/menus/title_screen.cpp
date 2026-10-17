@@ -27,6 +27,8 @@ int TitleScreen::update() {
 			break;
 		case MenuType::Play:
 			return RET_START_GAME;
+		case MenuType::Scores:
+			return RET_HISCORES;
 		case MenuType::Exit:
 			return RET_EXIT;
 	}

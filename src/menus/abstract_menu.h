@@ -4,7 +4,7 @@ namespace SDL {
 class Surface;
 }
 
-enum MenuType : int { Main, Options, Exit, Keys_Keyboard, Keys_Mouse, Keys_Pad, Play };
+enum MenuType : int { Main, Options, Exit, Keys_Keyboard, Keys_Mouse, Keys_Pad, Play, Scores };
 
 class AbstractMenu {
    public:

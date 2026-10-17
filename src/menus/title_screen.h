@@ -25,7 +25,7 @@ class TitleScreen {
 
 	TitleScreen() : active_menu_(&first_menu_) {}
 	void start();
-	int update();  // 0 stays in the menu, 1 resumes the game, 2 quits
+	int update();  // One of the RET_ codes
 	void stop();
 	void draw(SDL::Surface* surf);
 };

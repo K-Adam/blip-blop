@@ -1822,7 +1822,12 @@ Task<> Game::go() {
 			co_await nextFrame();
 		}
 
-		if (r == RET_START_GAME) {
+		if (r == RET_HISCORES) {
+			// The confirming key would end the table at once
+			co_await in.waitClean();
+			co_await showHighScores();
+			diff_start.Reset();
+		} else if (r == RET_START_GAME) {
 			JoinScreen join;
 
 			auto joined = JoinScreen::Output::Continue;

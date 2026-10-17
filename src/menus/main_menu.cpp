@@ -5,6 +5,7 @@
 
 MainMenu::MainMenu() {
 	items_.AddEntry(txt_data[TXT_START_GAME]);
+	items_.AddEntry("HIGH SCORES");
 	items_.AddEntry("OPTIONS");
 	items_.AddEntry(txt_data[TXT_EXIT]);
 }
@@ -15,8 +16,10 @@ int MainMenu::ProcessEvent() {
 			case 0:
 				return MenuType::Play;
 			case 1:
-				return MenuType::Options;
+				return MenuType::Scores;
 			case 2:
+				return MenuType::Options;
+			case 3:
 				return MenuType::Exit;
 		}
 	}
