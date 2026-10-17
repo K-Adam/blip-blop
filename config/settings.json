@@ -1,11 +1,11 @@
 {
   "controller": {
     "DOWN": "Pad down",
-    "FIRE": "Pad x",
-    "JUMP": "Pad a",
+    "FIRE": "Pad righttrigger",
+    "JUMP": "Pad lefttrigger",
     "LEFT": "Pad left",
     "RIGHT": "Pad right",
-    "SUPER": "Pad b",
+    "SUPER": "Pad rightshoulder",
     "UP": "Pad up"
   },
   "fullscreen": false,

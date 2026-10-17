@@ -97,14 +97,15 @@ void set_default_config(bool reset_lang) {
 	const unsigned int keyboard[NB_ACTIONS] = {DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT, DIK_X, DIK_Z, DIK_C};
 	// The mouse aims, so W is free to jump
 	const unsigned int mouse[NB_ACTIONS] = {0, DIK_S, DIK_A, DIK_D, MOUSE_CODE(SDL_BUTTON_LEFT), DIK_W, MOUSE_CODE(SDL_BUTTON_RIGHT)};
-	// Pad buttons are stored for the first pad, the joining pad replaces the slot
+	// Pad buttons are stored for the first pad, the joining pad replaces the slot.
+	// The thumbs stay on the sticks to move and aim, so the actions go on the triggers and a shoulder
 	const unsigned int pad[NB_ACTIONS] = {PAD_CODE(0, JOY_UP),
 										  PAD_CODE(0, JOY_DOWN),
 										  PAD_CODE(0, JOY_LEFT),
 										  PAD_CODE(0, JOY_RIGHT),
-										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_X),
-										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_A),
-										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_B)};
+										  PAD_CODE(0, PAD_RT),
+										  PAD_CODE(0, PAD_LT),
+										  PAD_CODE(0, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)};
 	for (int i = 0; i < NB_ACTIONS; i++) {
 		in.setAlias(SCHEME_KEYBOARD + i, keyboard[i]);
 		in.setAlias(SCHEME_MOUSE + i, mouse[i]);

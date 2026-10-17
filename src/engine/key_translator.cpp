@@ -43,6 +43,12 @@ static std::string pad_to_string(int n, bool fr) {
 		case PAD_RT:
 			name = "RT";
 			break;
+		case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
+			name = "LB";
+			break;
+		case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+			name = "RB";
+			break;
 		default: {
 			const char* s = d < SDL_CONTROLLER_BUTTON_MAX ? SDL_GameControllerGetStringForButton(SDL_GameControllerButton(d)) : nullptr;
 			name = s ? s : std::to_string(d);

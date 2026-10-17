@@ -23,8 +23,8 @@ JoinScreen::Output JoinScreen::update() {
 	if (in.pressedCode(in.getAlias(SCHEME_MOUSE + ACTION_FIRE))) start |= press(SCHEME_MOUSE, 0);
 	for (int s = 0; s < MAX_JOY; s++) {
 		if (in.pressedCode(PAD_CODE(s, SDL_CONTROLLER_BUTTON_BACK))) return Output::Back;
-		// Start reads as Escape in menus, here it is the natural way for a pad player to begin
-		if (in.pressedCode(SchemeController(SCHEME_PAD, s).code(ACTION_JUMP)) || in.pressedCode(PAD_CODE(s, SDL_CONTROLLER_BUTTON_START))) {
+		// A confirms like in every menu, jump sits on a trigger. Start reads as Escape elsewhere, here it begins
+		if (in.pressedCode(PAD_CODE(s, SDL_CONTROLLER_BUTTON_A)) || in.pressedCode(PAD_CODE(s, SDL_CONTROLLER_BUTTON_START))) {
 			start |= press(SCHEME_PAD, s);
 		}
 	}
@@ -54,8 +54,8 @@ void JoinScreen::draw() const {
 
 	unsigned int click = in.getAlias(SCHEME_MOUSE + ACTION_FIRE);
 	std::string mouse = click == MOUSE_CODE(SDL_BUTTON_LEFT) ? "CLICK" : DIK_to_string(click);
-	std::string join = "PRESS " + DIK_to_string(in.getAlias(SCHEME_KEYBOARD + ACTION_JUMP)) + ", " + mouse + " OR " +
-					   DIK_to_string(SchemeController(SCHEME_PAD).code(ACTION_JUMP));
+	std::string join =
+		"PRESS " + DIK_to_string(in.getAlias(SCHEME_KEYBOARD + ACTION_JUMP)) + ", " + mouse + " OR " + DIK_to_string(PAD_CODE(0, SDL_CONTROLLER_BUTTON_A));
 	if (players_ < 2) fnt_menu.printC(backSurface, 320, 260, join + " TO JOIN");
 	if (players_ > 0) fnt_menu.printC(backSurface, 320, 300, "PRESS AGAIN TO START");
 }
