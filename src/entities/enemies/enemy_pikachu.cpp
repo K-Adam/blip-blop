@@ -43,10 +43,10 @@ void EnemyPikachu::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[anim_step];
+		pic = pbk_enemies.anim("pikachu_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[2 + anim_step];
+		pic = pbk_enemies.anim("pikachu_walk_left")[anim_step];
 	}
 
 	colFromPic();
@@ -68,9 +68,9 @@ void EnemyPikachu::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[14 + anim_step];
+			pic = pbk_enemies.anim("pikachu_die_left")[anim_step];
 		else
-			pic = pbk_enemies[4 + anim_step];
+			pic = pbk_enemies.anim("pikachu_die_right")[anim_step];
 	}
 }
 
@@ -84,9 +84,9 @@ void EnemyPikachu::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[100 + anim_step];
+			pic = pbk_enemies.anim("pikachu_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[114 + anim_step];
+			pic = pbk_enemies.anim("pikachu_burn_left")[anim_step];
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "entities/sprite.h"
 #include "level/backgrounds/background_poke_crate.h"
 
-BackgroundPokeCrate::BackgroundPokeCrate() { pic = pbk_level[117]; }
+BackgroundPokeCrate::BackgroundPokeCrate() { pic = pbk_level.pic("crate"); }
 
 void BackgroundPokeCrate::update() {
 	int yp;

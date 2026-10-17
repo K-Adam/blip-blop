@@ -10,15 +10,8 @@ void BackgroundAssembler::update() {
 }
 
 void BackgroundAssembler::render() {
-	SDL::Surface* surf;
-	int xs;
-	int ys;
 	Rect r;
 	int width_px;
-
-	surf = pbk_level[53]->Surf();
-	xs = pbk_level[53]->xSize();
-	ys = pbk_level[53]->ySize();
 
 	r.top = anim_step;
 	r.left = 0;
@@ -31,5 +24,5 @@ void BackgroundAssembler::render() {
 	r.right = width_px;
 	r.bottom = 87 + anim_step;
 
-	backSurface->BltFast(x - offset, y, surf, &r);
+	pbk_level.pic("assembler_listing")->BlitPart(backSurface, x - offset, y, r);
 }

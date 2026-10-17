@@ -7,11 +7,10 @@
 
 int save_time = 0;
 
-const int anim_warning[] = {118, 118, 118, 118, 118, 119, 119, 120, 119, 119};
-const int anim_nuke[] = {53, 53, 53, 54, 54, 54, 55, 55, 56, 57, 58, 59, 59, 60, 60, 60, 61, 61,
-						 61, 61, 60, 60, 60, 59, 59, 58, 57, 56, 55, 55, 54, 54, 54, 53, 53};
+const int anim_warning[] = {0, 0, 0, 0, 0, 1, 1, 2, 1, 1};
+const int anim_nuke[] = {0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 7, 7, 7, 6, 6, 5, 4, 3, 2, 2, 1, 1, 1, 0, 0};
 
-BackgroundBomb::BackgroundBomb() : counter_step(0), warning_step(0), warning_tick(0), nuke_step(0), nuke_tick(0), armed(true) { pic = pbk_level[52]; }
+BackgroundBomb::BackgroundBomb() : counter_step(0), warning_step(0), warning_tick(0), nuke_step(0), nuke_tick(0), armed(true) { pic = pbk_level.pic("bomb"); }
 
 void BackgroundBomb::update() {
 	if (armed) {
@@ -88,32 +87,32 @@ void BackgroundBomb::update() {
 void BackgroundBomb::render() {
 	Sprite::render();
 	if (armed) {
-		draw(x, y, pbk_level[121 + anim_step]);
+		draw(x, y, pbk_level.anim("bomb_lights")[anim_step]);
 
-		draw(x, y, pbk_level[anim_nuke[nuke_step]]);
+		draw(x, y, pbk_level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
 
 		if (game_flag[FLAG_TIMER] >= 100) {
-			draw(x + 6, y - 27, pbk_level[80]);
-			draw(x + 11, y - 27, pbk_level[80]);
-			draw(x + 16, y - 27, pbk_level[80]);
-			draw(x + 21, y - 27, pbk_level[80]);
+			draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[9]);
+			draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[9]);
+			draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9]);
+			draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9]);
 		} else {
-			draw(x + 6, y - 27, pbk_level[71 + game_flag[FLAG_TIMER] / 10]);
-			draw(x + 11, y - 27, pbk_level[71 + game_flag[FLAG_TIMER] % 10]);
-			draw(x + 16, y - 27, pbk_level[80 - counter_step / 10]);
-			draw(x + 21, y - 27, pbk_level[80 - counter_step % 10]);
+			draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[game_flag[FLAG_TIMER] / 10]);
+			draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[game_flag[FLAG_TIMER] % 10]);
+			draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9 - counter_step / 10]);
+			draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9 - counter_step % 10]);
 		}
 
 		if (game_flag[FLAG_TIMER] < 40) {
-			draw(x, y - 35, pbk_level[anim_warning[warning_step]]);
+			draw(x, y - 35, pbk_level.anim("bomb_warning")[anim_warning[warning_step]]);
 		} else if (game_flag[FLAG_TIMER] < 60) {
-			draw(x, y - 35, pbk_level[118]);
+			draw(x, y - 35, pbk_level.anim("bomb_warning")[0]);
 		}
 	} else {
-		draw(x, y, pbk_level[anim_nuke[nuke_step]]);
-		draw(x + 6, y - 27, pbk_level[71 + seconds / 10]);
-		draw(x + 11, y - 27, pbk_level[71 + seconds % 10]);
-		draw(x + 16, y - 27, pbk_level[80 - hundredths / 10]);
-		draw(x + 21, y - 27, pbk_level[80 - hundredths % 10]);
+		draw(x, y, pbk_level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
+		draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[seconds / 10]);
+		draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[seconds % 10]);
+		draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9 - hundredths / 10]);
+		draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9 - hundredths % 10]);
 	}
 }

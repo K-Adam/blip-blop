@@ -11,7 +11,7 @@ class Sprite {
 	int dy;
 	int anim_step;
 	int anim_tick;
-	Picture* pic;
+	const Picture* pic;
 	bool destroyed;
 	int dir;
 	int grav_tick;
@@ -29,7 +29,7 @@ class Sprite {
 	inline virtual int getX() const { return x; };
 	inline virtual int getY() const { return y; };
 	inline virtual int getAnimStep() const { return anim_step; };
-	inline virtual Picture* getPic() const { return pic; };
+	inline virtual const Picture* getPic() const { return pic; };
 	inline virtual bool isDestroyed() const { return destroyed; };
 
 	inline virtual bool isOnBloodyWall() const	// Blood stained wall

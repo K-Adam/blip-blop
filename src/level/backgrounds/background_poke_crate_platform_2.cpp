@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = pbk_level[87]; }
+BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = pbk_level.pic("crate_hoist"); }
 
 void BackgroundPokeCratePlatform2::update() {
 	if (y < 20) {

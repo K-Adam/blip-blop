@@ -1,33 +1,10 @@
 {
-  "items": [
-    {
-      "path": "bossrpg.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "path": "bossrpg.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "path": "bossrpg.gfx/002.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100,
-      "from": 2,
-      "op": "flip_h"
-    }
+  "sheets": [
+    {"name": "portraits", "path": "bossrpg.gfx/portraits.png", "frames": [
+      {"x": 0, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0},
+      {"x": 100, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0},
+      {"x": 200, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0},
+      {"from": "portraits", "frame": 2, "op": "flip_h", "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

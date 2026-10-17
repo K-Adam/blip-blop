@@ -3,7 +3,7 @@
 ShotSnorkyBase2::ShotSnorkyBase2(int vx, int vy) {
 	dy = vy;
 	dx = vx;
-	pic = pbk_enemies[182];
+	pic = pbk_enemies.pic("snorky2_shot");
 }
 
 void ShotSnorkyBase2::update() {

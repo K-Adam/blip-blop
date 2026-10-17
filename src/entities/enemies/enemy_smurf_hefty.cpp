@@ -54,8 +54,8 @@ void EnemySmurfHefty::update() {
 }
 
 void EnemySmurfHefty::onWalk() {
-	static const int walk_right[] = {265, 266, 267, 268, 267, 266};
-	static const int walk_left[] = {269, 270, 271, 272, 271, 270};
+	static const int walk_right[] = {0, 1, 2, 3, 2, 1};
+	static const int walk_left[] = {0, 1, 2, 3, 2, 1};
 	static const int SPEED = 1;
 
 	fall();
@@ -69,10 +69,10 @@ void EnemySmurfHefty::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[animate(walk_right, 6, 6)];
+		pic = pbk_enemies.anim("smurf_hefty_walk_right")[animate(walk_right, 6, 6)];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[animate(walk_left, 6, 6)];
+		pic = pbk_enemies.anim("smurf_hefty_walk_left")[animate(walk_left, 6, 6)];
 	}
 
 	if (shoot_step >= wait_shoot && platform_y(x, y) != 0) {
@@ -105,9 +105,9 @@ void EnemySmurfHefty::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[253 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[259 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_burn_left")[anim_step];
 	}
 }
 
@@ -135,9 +135,9 @@ void EnemySmurfHefty::onDie() {
 		engrave(x, y, pic);
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[273 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_die_right")[anim_step];
 		else
-			pic = pbk_enemies[287 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_die_left")[anim_step];
 	}
 }
 
@@ -170,9 +170,9 @@ void EnemySmurfHefty::onShootHadoken() {
 
 	if (anim_step <= 4) {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[237 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_throw_right")[anim_step];
 		else
-			pic = pbk_enemies[242 + anim_step];
+			pic = pbk_enemies.anim("smurf_hefty_throw_left")[anim_step];
 	}
 }
 
@@ -212,9 +212,9 @@ void EnemySmurfHefty::onShootDragonPunch() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[223 + anim_step];
+		pic = pbk_enemies.anim("smurf_hefty_uppercut_right")[anim_step];
 	else
-		pic = pbk_enemies[230 + anim_step];
+		pic = pbk_enemies.anim("smurf_hefty_uppercut_left")[anim_step];
 
 	colFromPic();
 }
@@ -243,7 +243,7 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 		return;
 	}
 
-	pic = pbk_enemies[247 + anim_step];
+	pic = pbk_enemies.anim("smurf_hefty_spin_kick")[anim_step];
 
 	colFromPic();
 }

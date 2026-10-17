@@ -26,7 +26,7 @@ void EnemyBulbasaurHero::update() {
 				anim_step++;
 				anim_step %= 4;
 			}
-			pic = pbk_enemies[272 + anim_step];
+			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -38,7 +38,7 @@ void EnemyBulbasaurHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies[384 + anim_step];
+				pic = pbk_enemies.anim("bulbasaur_release")[anim_step];
 			}
 		}
 
@@ -79,10 +79,10 @@ void EnemyBulbasaurHero::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(2);
-		pic = pbk_enemies[310 + anim_step];
+		pic = pbk_enemies.anim("bulbasaur_walk_right")[anim_step];
 	} else {
 		walk(-2);
-		pic = pbk_enemies[312 + anim_step];
+		pic = pbk_enemies.anim("bulbasaur_walk_left")[anim_step];
 	}
 	colFromPic();
 }
@@ -104,9 +104,9 @@ void EnemyBulbasaurHero::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[322 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_die_left")[anim_step];
 		else
-			pic = pbk_enemies[314 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_die_right")[anim_step];
 	}
 }
 

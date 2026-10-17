@@ -1,1030 +1,205 @@
 {
-  "items": [
-    {
-      "path": "dorkfonda.gfx/000.png",
-      "xSpot": 59,
-      "ySpot": 0,
-      "width": 120,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/001.png",
-      "xSpot": 58,
-      "ySpot": 0,
-      "width": 111,
-      "height": 76
-    },
-    {
-      "path": "dorkfonda.gfx/002.png",
-      "xSpot": 100,
-      "ySpot": 0,
-      "width": 149,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/003.png",
-      "xSpot": 143,
-      "ySpot": 0,
-      "width": 188,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/004.png",
-      "xSpot": 148,
-      "ySpot": 0,
-      "width": 184,
-      "height": 67
-    },
-    {
-      "path": "dorkfonda.gfx/005.png",
-      "xSpot": 136,
-      "ySpot": 0,
-      "width": 175,
-      "height": 63
-    },
-    {
-      "path": "dorkfonda.gfx/006.png",
-      "xSpot": 109,
-      "ySpot": 0,
-      "width": 159,
-      "height": 74
-    },
-    {
-      "path": "dorkfonda.gfx/007.png",
-      "xSpot": 55,
-      "ySpot": 0,
-      "width": 110,
-      "height": 78
-    },
-    {
-      "path": "dorkfonda.gfx/008.png",
-      "xSpot": 51,
-      "ySpot": 0,
-      "width": 173,
-      "height": 71
-    },
-    {
-      "path": "dorkfonda.gfx/009.png",
-      "xSpot": 43,
-      "ySpot": 0,
-      "width": 195,
-      "height": 66
-    },
-    {
-      "path": "dorkfonda.gfx/010.png",
-      "xSpot": 38,
-      "ySpot": 0,
-      "width": 190,
-      "height": 67
-    },
-    {
-      "path": "dorkfonda.gfx/011.png",
-      "xSpot": 43,
-      "ySpot": 0,
-      "width": 195,
-      "height": 67
-    },
-    {
-      "path": "dorkfonda.gfx/012.png",
-      "xSpot": 51,
-      "ySpot": 0,
-      "width": 159,
-      "height": 71
-    },
-    {
-      "path": "dorkfonda.gfx/013.png",
-      "xSpot": 55,
-      "ySpot": 0,
-      "width": 118,
-      "height": 74
-    },
-    {
-      "path": "dorkfonda.gfx/014.png",
-      "xSpot": 62,
-      "ySpot": 0,
-      "width": 125,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/015.png",
-      "xSpot": 60,
-      "ySpot": 0,
-      "width": 115,
-      "height": 76
-    },
-    {
-      "path": "dorkfonda.gfx/016.png",
-      "xSpot": 103,
-      "ySpot": 0,
-      "width": 151,
-      "height": 74
-    },
-    {
-      "path": "dorkfonda.gfx/017.png",
-      "xSpot": 138,
-      "ySpot": 0,
-      "width": 179,
-      "height": 72
-    },
-    {
-      "path": "dorkfonda.gfx/018.png",
-      "xSpot": 150,
-      "ySpot": 0,
-      "width": 189,
-      "height": 63
-    },
-    {
-      "path": "dorkfonda.gfx/019.png",
-      "xSpot": 130,
-      "ySpot": 0,
-      "width": 174,
-      "height": 71
-    },
-    {
-      "path": "dorkfonda.gfx/020.png",
-      "xSpot": 96,
-      "ySpot": 0,
-      "width": 143,
-      "height": 73
-    },
-    {
-      "path": "dorkfonda.gfx/021.png",
-      "xSpot": 64,
-      "ySpot": 0,
-      "width": 118,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/022.png",
-      "xSpot": 53,
-      "ySpot": 0,
-      "width": 158,
-      "height": 75
-    },
-    {
-      "path": "dorkfonda.gfx/023.png",
-      "xSpot": 48,
-      "ySpot": 0,
-      "width": 179,
-      "height": 72
-    },
-    {
-      "path": "dorkfonda.gfx/024.png",
-      "xSpot": 43,
-      "ySpot": 0,
-      "width": 193,
-      "height": 65
-    },
-    {
-      "path": "dorkfonda.gfx/025.png",
-      "xSpot": 48,
-      "ySpot": 0,
-      "width": 167,
-      "height": 72
-    },
-    {
-      "path": "dorkfonda.gfx/026.png",
-      "xSpot": 50,
-      "ySpot": 0,
-      "width": 148,
-      "height": 74
-    },
-    {
-      "path": "dorkfonda.gfx/027.png",
-      "xSpot": 57,
-      "ySpot": 0,
-      "width": 113,
-      "height": 78
-    },
-    {
-      "path": "dorkfonda.gfx/028.png",
-      "xSpot": 64,
-      "ySpot": 0,
-      "width": 122,
-      "height": 80
-    },
-    {
-      "path": "dorkfonda.gfx/029.png",
-      "xSpot": 62,
-      "ySpot": 0,
-      "width": 113,
-      "height": 76
-    },
-    {
-      "path": "dorkfonda.gfx/030.png",
-      "xSpot": 103,
-      "ySpot": 0,
-      "width": 153,
-      "height": 71
-    },
-    {
-      "path": "dorkfonda.gfx/031.png",
-      "xSpot": 134,
-      "ySpot": 0,
-      "width": 175,
-      "height": 66
-    },
-    {
-      "path": "dorkfonda.gfx/032.png",
-      "xSpot": 150,
-      "ySpot": 0,
-      "width": 194,
-      "height": 66
-    },
-    {
-      "path": "dorkfonda.gfx/033.png",
-      "xSpot": 135,
-      "ySpot": 0,
-      "width": 177,
-      "height": 66
-    },
-    {
-      "path": "dorkfonda.gfx/034.png",
-      "xSpot": 109,
-      "ySpot": 0,
-      "width": 159,
-      "height": 78
-    },
-    {
-      "path": "dorkfonda.gfx/035.png",
-      "xSpot": 62,
-      "ySpot": 0,
-      "width": 117,
-      "height": 79
-    },
-    {
-      "path": "dorkfonda.gfx/036.png",
-      "xSpot": 55,
-      "ySpot": 0,
-      "width": 163,
-      "height": 76
-    },
-    {
-      "path": "dorkfonda.gfx/037.png",
-      "xSpot": 48,
-      "ySpot": 0,
-      "width": 172,
-      "height": 70
-    },
-    {
-      "path": "dorkfonda.gfx/038.png",
-      "xSpot": 41,
-      "ySpot": 0,
-      "width": 191,
-      "height": 67
-    },
-    {
-      "path": "dorkfonda.gfx/039.png",
-      "xSpot": 46,
-      "ySpot": 0,
-      "width": 191,
-      "height": 71
-    },
-    {
-      "path": "dorkfonda.gfx/040.png",
-      "xSpot": 54,
-      "ySpot": 0,
-      "width": 161,
-      "height": 74
-    },
-    {
-      "path": "dorkfonda.gfx/041.png",
-      "xSpot": 59,
-      "ySpot": 0,
-      "width": 113,
-      "height": 79
-    },
-    {
-      "path": "dorkfonda.gfx/042.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/043.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/044.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/045.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/046.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/047.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 142,
-      "height": 50
-    },
-    {
-      "path": "dorkfonda.gfx/048.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 192,
-      "height": 120
-    },
-    {
-      "path": "dorkfonda.gfx/049.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 136,
-      "height": 121
-    },
-    {
-      "path": "dorkfonda.gfx/050.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 576,
-      "height": 70
-    },
-    {
-      "path": "dorkfonda.gfx/051.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 161,
-      "height": 58
-    },
-    {
-      "path": "dorkfonda.gfx/052.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/053.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/054.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/055.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/056.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/057.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/058.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/059.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/060.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/061.png",
-      "xSpot": 33,
-      "ySpot": 31,
-      "width": 61,
-      "height": 32
-    },
-    {
-      "path": "dorkfonda.gfx/062.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/063.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/064.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/065.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/066.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/067.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/068.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/069.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/070.png",
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52
-    },
-    {
-      "path": "dorkfonda.gfx/071.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/072.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/073.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/074.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/075.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/076.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/077.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/078.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "path": "dorkfonda.gfx/079.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 4,
-      "height": 7,
-      "from": 77,
-      "op": "rot180"
-    },
-    {
-      "path": "dorkfonda.gfx/081.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/082.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/083.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/084.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/085.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/086.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 23,
-      "height": 41
-    },
-    {
-      "path": "dorkfonda.gfx/087.png",
-      "xSpot": 97,
-      "ySpot": 267,
-      "width": 247,
-      "height": 421
-    },
-    {
-      "path": "dorkfonda.gfx/088.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/089.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/090.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/091.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/092.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/093.png",
-      "xSpot": 27,
-      "ySpot": 35,
-      "width": 70,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/094.png",
-      "xSpot": 35,
-      "ySpot": 35,
-      "width": 78,
-      "height": 97
-    },
-    {
-      "path": "dorkfonda.gfx/095.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/096.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/097.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/098.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/099.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/100.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/101.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/102.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/103.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9,
-      "from": 100,
-      "op": "copy"
-    },
-    {
-      "path": "dorkfonda.gfx/105.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/106.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/107.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/108.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/109.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/110.png",
-      "xSpot": 34,
-      "ySpot": 0,
-      "width": 57,
-      "height": 9
-    },
-    {
-      "path": "dorkfonda.gfx/111.png",
-      "xSpot": 36,
-      "ySpot": 10,
-      "width": 77,
-      "height": 21
-    },
-    {
-      "path": "dorkfonda.gfx/112.png",
-      "xSpot": 39,
-      "ySpot": 10,
-      "width": 80,
-      "height": 24
-    },
-    {
-      "path": "dorkfonda.gfx/113.png",
-      "xSpot": 42,
-      "ySpot": 8,
-      "width": 78,
-      "height": 25
-    },
-    {
-      "path": "dorkfonda.gfx/114.png",
-      "xSpot": 45,
-      "ySpot": 4,
-      "width": 79,
-      "height": 24
-    },
-    {
-      "path": "dorkfonda.gfx/115.png",
-      "xSpot": 48,
-      "ySpot": 0,
-      "width": 71,
-      "height": 23
-    },
-    {
-      "path": "dorkfonda.gfx/116.png",
-      "xSpot": 35,
-      "ySpot": 157,
-      "width": 110,
-      "height": 230
-    },
-    {
-      "path": "dorkfonda.gfx/117.png",
-      "xSpot": 97,
-      "ySpot": 138,
-      "width": 247,
-      "height": 142
-    },
-    {
-      "path": "dorkfonda.gfx/118.png",
-      "xSpot": 5,
-      "ySpot": 14,
-      "width": 42,
-      "height": 21
-    },
-    {
-      "path": "dorkfonda.gfx/119.png",
-      "xSpot": 5,
-      "ySpot": 14,
-      "width": 42,
-      "height": 21
-    },
-    {
-      "path": "dorkfonda.gfx/120.png",
-      "xSpot": 5,
-      "ySpot": 14,
-      "width": 42,
-      "height": 21
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 62,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 63,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 64,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 65,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 66,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 67,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 68,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 69,
-      "op": "copy"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 50,
-      "width": 81,
-      "height": 52,
-      "from": 70,
-      "op": "copy"
-    },
-    {
-      "path": "dorkfonda.gfx/130.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    },
-    {
-      "path": "dorkfonda.gfx/131.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    },
-    {
-      "path": "dorkfonda.gfx/132.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    },
-    {
-      "path": "dorkfonda.gfx/133.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 11,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/134.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 11,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/135.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 11,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/136.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 12,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/137.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 12,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/138.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 12,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/139.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 13,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/140.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 13,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/141.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 13,
-      "height": 18
-    },
-    {
-      "path": "dorkfonda.gfx/142.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    },
-    {
-      "path": "dorkfonda.gfx/143.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    },
-    {
-      "path": "dorkfonda.gfx/144.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 58,
-      "height": 46
-    }
+  "sheets": [
+    {"name": "alarm_1", "path": "dorkfonda.gfx/alarm_1.png", "frames": [
+      {"x": 0, "y": 0, "w": 120, "h": 80, "xSpot": 59, "ySpot": 0},
+      {"x": 120, "y": 0, "w": 111, "h": 76, "xSpot": 58, "ySpot": 0},
+      {"x": 231, "y": 0, "w": 149, "h": 80, "xSpot": 100, "ySpot": 0},
+      {"x": 380, "y": 0, "w": 188, "h": 80, "xSpot": 143, "ySpot": 0},
+      {"x": 568, "y": 0, "w": 184, "h": 67, "xSpot": 148, "ySpot": 0},
+      {"x": 752, "y": 0, "w": 175, "h": 63, "xSpot": 136, "ySpot": 0},
+      {"x": 927, "y": 0, "w": 159, "h": 74, "xSpot": 109, "ySpot": 0},
+      {"x": 1086, "y": 0, "w": 110, "h": 78, "xSpot": 55, "ySpot": 0},
+      {"x": 1196, "y": 0, "w": 173, "h": 71, "xSpot": 51, "ySpot": 0},
+      {"x": 1369, "y": 0, "w": 195, "h": 66, "xSpot": 43, "ySpot": 0},
+      {"x": 1564, "y": 0, "w": 190, "h": 67, "xSpot": 38, "ySpot": 0},
+      {"x": 1754, "y": 0, "w": 195, "h": 67, "xSpot": 43, "ySpot": 0},
+      {"x": 0, "y": 80, "w": 159, "h": 71, "xSpot": 51, "ySpot": 0},
+      {"x": 159, "y": 80, "w": 118, "h": 74, "xSpot": 55, "ySpot": 0}
+    ]},
+    {"name": "alarm_2", "path": "dorkfonda.gfx/alarm_2.png", "frames": [
+      {"x": 0, "y": 0, "w": 125, "h": 80, "xSpot": 62, "ySpot": 0},
+      {"x": 125, "y": 0, "w": 115, "h": 76, "xSpot": 60, "ySpot": 0},
+      {"x": 240, "y": 0, "w": 151, "h": 74, "xSpot": 103, "ySpot": 0},
+      {"x": 391, "y": 0, "w": 179, "h": 72, "xSpot": 138, "ySpot": 0},
+      {"x": 570, "y": 0, "w": 189, "h": 63, "xSpot": 150, "ySpot": 0},
+      {"x": 759, "y": 0, "w": 174, "h": 71, "xSpot": 130, "ySpot": 0},
+      {"x": 933, "y": 0, "w": 143, "h": 73, "xSpot": 96, "ySpot": 0},
+      {"x": 1076, "y": 0, "w": 118, "h": 80, "xSpot": 64, "ySpot": 0},
+      {"x": 1194, "y": 0, "w": 158, "h": 75, "xSpot": 53, "ySpot": 0},
+      {"x": 1352, "y": 0, "w": 179, "h": 72, "xSpot": 48, "ySpot": 0},
+      {"x": 1531, "y": 0, "w": 193, "h": 65, "xSpot": 43, "ySpot": 0},
+      {"x": 1724, "y": 0, "w": 167, "h": 72, "xSpot": 48, "ySpot": 0},
+      {"x": 1891, "y": 0, "w": 148, "h": 74, "xSpot": 50, "ySpot": 0},
+      {"x": 0, "y": 80, "w": 113, "h": 78, "xSpot": 57, "ySpot": 0}
+    ]},
+    {"name": "alarm_3", "path": "dorkfonda.gfx/alarm_3.png", "frames": [
+      {"x": 0, "y": 0, "w": 122, "h": 80, "xSpot": 64, "ySpot": 0},
+      {"x": 122, "y": 0, "w": 113, "h": 76, "xSpot": 62, "ySpot": 0},
+      {"x": 235, "y": 0, "w": 153, "h": 71, "xSpot": 103, "ySpot": 0},
+      {"x": 388, "y": 0, "w": 175, "h": 66, "xSpot": 134, "ySpot": 0},
+      {"x": 563, "y": 0, "w": 194, "h": 66, "xSpot": 150, "ySpot": 0},
+      {"x": 757, "y": 0, "w": 177, "h": 66, "xSpot": 135, "ySpot": 0},
+      {"x": 934, "y": 0, "w": 159, "h": 78, "xSpot": 109, "ySpot": 0},
+      {"x": 1093, "y": 0, "w": 117, "h": 79, "xSpot": 62, "ySpot": 0},
+      {"x": 1210, "y": 0, "w": 163, "h": 76, "xSpot": 55, "ySpot": 0},
+      {"x": 1373, "y": 0, "w": 172, "h": 70, "xSpot": 48, "ySpot": 0},
+      {"x": 1545, "y": 0, "w": 191, "h": 67, "xSpot": 41, "ySpot": 0},
+      {"x": 1736, "y": 0, "w": 191, "h": 71, "xSpot": 46, "ySpot": 0},
+      {"x": 0, "y": 80, "w": 161, "h": 74, "xSpot": 54, "ySpot": 0},
+      {"x": 161, "y": 80, "w": 113, "h": 79, "xSpot": 59, "ySpot": 0}
+    ]},
+    {"name": "arrow_cargo_storage", "path": "dorkfonda.gfx/arrow_cargo_storage.png", "frames": [
+      {"x": 0, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0},
+      {"x": 142, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0},
+      {"x": 284, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0},
+      {"x": 426, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0},
+      {"x": 568, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0},
+      {"x": 710, "y": 0, "w": 142, "h": 50, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sky_frame", "path": "dorkfonda.gfx/sky_frame.png", "frames": [
+      {"x": 0, "y": 0, "w": 192, "h": 120, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sky_strut", "path": "dorkfonda.gfx/sky_strut.png", "frames": [
+      {"x": 0, "y": 0, "w": 136, "h": 121, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sky_clouds", "path": "dorkfonda.gfx/sky_clouds.png", "frames": [
+      {"x": 0, "y": 0, "w": 576, "h": 70, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "elevator", "path": "dorkfonda.gfx/elevator.png", "frames": [
+      {"x": 0, "y": 0, "w": 161, "h": 58, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "bomb", "path": "dorkfonda.gfx/bomb.png", "frames": [
+      {"x": 0, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50}
+    ]},
+    {"name": "bomb_nuke_sign", "path": "dorkfonda.gfx/bomb_nuke_sign.png", "frames": [
+      {"x": 0, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 61, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 122, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 183, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 244, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 305, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 366, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 427, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31},
+      {"x": 488, "y": 0, "w": 61, "h": 32, "xSpot": 33, "ySpot": 31}
+    ]},
+    {"name": "unused_bomb_lights", "path": "dorkfonda.gfx/unused_bomb_lights.png", "frames": [
+      {"x": 0, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 81, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 162, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 243, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 324, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 405, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 486, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 567, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50},
+      {"x": 648, "y": 0, "w": 81, "h": 52, "xSpot": 35, "ySpot": 50}
+    ]},
+    {"name": "bomb_digits", "path": "dorkfonda.gfx/bomb_digits.png", "frames": [
+      {"x": 0, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 4, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 8, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 12, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 16, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 20, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 24, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 28, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 32, "y": 0, "w": 4, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"from": "bomb_digits", "frame": 6, "op": "rot180", "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "switch_off", "path": "dorkfonda.gfx/switch_off.png", "frames": [
+      {"x": 0, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0},
+      {"x": 23, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0},
+      {"x": 46, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "switch_on", "path": "dorkfonda.gfx/switch_on.png", "frames": [
+      {"x": 0, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0},
+      {"x": 23, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0},
+      {"x": 46, "y": 0, "w": 23, "h": 41, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "crate_hoist", "path": "dorkfonda.gfx/crate_hoist.png", "frames": [
+      {"x": 0, "y": 0, "w": 247, "h": 421, "xSpot": 97, "ySpot": 267}
+    ]},
+    {"name": "crate_lock", "path": "dorkfonda.gfx/crate_lock.png", "frames": [
+      {"x": 0, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35},
+      {"x": 70, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35},
+      {"x": 140, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35},
+      {"x": 210, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35},
+      {"x": 280, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35},
+      {"x": 350, "y": 0, "w": 70, "h": 97, "xSpot": 27, "ySpot": 35}
+    ]},
+    {"name": "crate_unlock", "path": "dorkfonda.gfx/crate_unlock.png", "frames": [
+      {"x": 0, "y": 0, "w": 78, "h": 97, "xSpot": 35, "ySpot": 35}
+    ]},
+    {"name": "crate_lights", "path": "dorkfonda.gfx/crate_lights.png", "frames": [
+      {"x": 0, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 57, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 114, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 171, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 228, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 285, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 342, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 399, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 456, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"from": "crate_lights", "frame": 5, "op": "copy", "xSpot": 34, "ySpot": 0},
+      {"x": 513, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 570, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 627, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 684, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 741, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0},
+      {"x": 798, "y": 0, "w": 57, "h": 9, "xSpot": 34, "ySpot": 0}
+    ]},
+    {"name": "crate_claw_open", "path": "dorkfonda.gfx/crate_claw_open.png", "frames": [
+      {"x": 0, "y": 0, "w": 77, "h": 21, "xSpot": 36, "ySpot": 10},
+      {"x": 77, "y": 0, "w": 80, "h": 24, "xSpot": 39, "ySpot": 10},
+      {"x": 157, "y": 0, "w": 78, "h": 25, "xSpot": 42, "ySpot": 8},
+      {"x": 235, "y": 0, "w": 79, "h": 24, "xSpot": 45, "ySpot": 4},
+      {"x": 314, "y": 0, "w": 71, "h": 23, "xSpot": 48, "ySpot": 0}
+    ]},
+    {"name": "crate_hoist_empty", "path": "dorkfonda.gfx/crate_hoist_empty.png", "frames": [
+      {"x": 0, "y": 0, "w": 110, "h": 230, "xSpot": 35, "ySpot": 157}
+    ]},
+    {"name": "crate", "path": "dorkfonda.gfx/crate.png", "frames": [
+      {"x": 0, "y": 0, "w": 247, "h": 142, "xSpot": 97, "ySpot": 138}
+    ]},
+    {"name": "bomb_warning", "path": "dorkfonda.gfx/bomb_warning.png", "frames": [
+      {"x": 0, "y": 0, "w": 42, "h": 21, "xSpot": 5, "ySpot": 14},
+      {"x": 42, "y": 0, "w": 42, "h": 21, "xSpot": 5, "ySpot": 14},
+      {"x": 84, "y": 0, "w": 42, "h": 21, "xSpot": 5, "ySpot": 14}
+    ]},
+    {"name": "bomb_lights", "frames": [
+      {"from": "unused_bomb_lights", "frame": 0, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 1, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 2, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 3, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 4, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 5, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 6, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 7, "op": "copy", "xSpot": 35, "ySpot": 50},
+      {"from": "unused_bomb_lights", "frame": 8, "op": "copy", "xSpot": 35, "ySpot": 50}
+    ]},
+    {"name": "sign_2", "path": "dorkfonda.gfx/sign_2.png", "frames": [
+      {"x": 0, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0},
+      {"x": 58, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0},
+      {"x": 116, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sign_e", "path": "dorkfonda.gfx/sign_e.png", "frames": [
+      {"x": 0, "y": 0, "w": 11, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 11, "y": 0, "w": 11, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 22, "y": 0, "w": 11, "h": 18, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sign_l", "path": "dorkfonda.gfx/sign_l.png", "frames": [
+      {"x": 0, "y": 0, "w": 12, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 12, "y": 0, "w": 12, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 24, "y": 0, "w": 12, "h": 18, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sign_v", "path": "dorkfonda.gfx/sign_v.png", "frames": [
+      {"x": 0, "y": 0, "w": 13, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 13, "y": 0, "w": 13, "h": 18, "xSpot": 0, "ySpot": 0},
+      {"x": 26, "y": 0, "w": 13, "h": 18, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sign_3", "path": "dorkfonda.gfx/sign_3.png", "frames": [
+      {"x": 0, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0},
+      {"x": 58, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0},
+      {"x": 116, "y": 0, "w": 58, "h": 46, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

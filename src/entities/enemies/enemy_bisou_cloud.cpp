@@ -42,9 +42,9 @@ void EnemyBisouCloud::onDieEnd() {
 		if (anim_tick == 0) anim_step += 1;
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[236 + anim_step];
+			pic = pbk_enemies.anim("cloud_die_end_right")[anim_step];
 		} else {
-			pic = pbk_enemies[243 + anim_step];
+			pic = pbk_enemies.anim("cloud_die_end_left")[anim_step];
 		}
 	} else {
 		engrave(x, y, pic);
@@ -64,9 +64,9 @@ void EnemyBisouCloud::onDieFall() {
 	}
 
 	if (dir == FACING_LEFT)
-		pic = pbk_enemies[234 + anim_step];
+		pic = pbk_enemies.anim("cloud_die_fall_left")[anim_step];
 	else
-		pic = pbk_enemies[232 + anim_step];
+		pic = pbk_enemies.anim("cloud_die_fall_right")[anim_step];
 
 	if (platform_y(x, y) != 0) {
 		anim_step = anim_tick = 0;
@@ -78,9 +78,9 @@ void EnemyBisouCloud::onDieWait() {
 	anim_step += 1;
 
 	if (dir == FACING_LEFT)
-		pic = pbk_enemies[261];
+		pic = pbk_enemies.pic("cloud_stunned_left");
 	else
-		pic = pbk_enemies[260];
+		pic = pbk_enemies.pic("cloud_stunned_right");
 
 	if (anim_step >= 30) {
 		anim_step = anim_tick = 0;
@@ -89,15 +89,15 @@ void EnemyBisouCloud::onDieWait() {
 }
 
 void EnemyBisouCloud::onNormal() {
-	static const int anim_left[] = {229, 230, 231, 230};
-	static const int anim_right[] = {226, 227, 228, 227};
+	static const int anim_left[] = {0, 1, 2, 1};
+	static const int anim_right[] = {0, 1, 2, 1};
 
 	if (x > (offset + 320)) {
 		dir = FACING_LEFT;
-		pic = pbk_enemies[animate(anim_left, 4, 10)];
+		pic = pbk_enemies.anim("cloud_fly_left")[animate(anim_left, 4, 10)];
 	} else {
 		dir = FACING_RIGHT;
-		pic = pbk_enemies[animate(anim_right, 4, 10)];
+		pic = pbk_enemies.anim("cloud_fly_right")[animate(anim_right, 4, 10)];
 	}
 
 	if (shoot_step >= wait_shoot && x <= offset + 640) {

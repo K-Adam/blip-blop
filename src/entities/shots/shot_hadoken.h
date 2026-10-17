@@ -28,10 +28,10 @@ class ShotHadoken : public Shot {
 		} else {
 			if (dir == FACING_RIGHT) {
 				x += SPEED;
-				pic = pbk_enemies[219 + anim_step];
+				pic = pbk_enemies.anim("smurf_hefty_hadoken_right")[anim_step];
 			} else {
 				x -= SPEED;
-				pic = pbk_enemies[221 + anim_step];
+				pic = pbk_enemies.anim("smurf_hefty_hadoken_left")[anim_step];
 			}
 		}
 

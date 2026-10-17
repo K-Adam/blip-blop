@@ -22,7 +22,7 @@ void ShotBisouHeart::update() {
 			if (anim_step >= 2) ok = true;
 		}
 
-		pic = pbk_enemies[461 + anim_step];
+		pic = pbk_enemies.anim("heart_shot")[anim_step];
 	}
 
 	if (solid_wall(x, y)) destroyed = true;

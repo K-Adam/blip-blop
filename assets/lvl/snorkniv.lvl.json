@@ -350,7 +350,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 4,
+      "pic": "rock_curve",
       "x_activation": 5915,
       "x": 6655,
       "y": 263
@@ -371,21 +371,21 @@
     },
     {
       "event_id": 4,
-      "id_fond": 11,
+      "pic": "seaweed_3",
       "x_activation": 5597,
       "x": 6337,
       "y": 302
     },
     {
       "event_id": 4,
-      "id_fond": 13,
+      "pic": "seaweed_5",
       "x_activation": 5531,
       "x": 6271,
       "y": 385
     },
     {
       "event_id": 4,
-      "id_fond": 12,
+      "pic": "seaweed_4",
       "x_activation": 5412,
       "x": 6152,
       "y": 268
@@ -400,7 +400,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 10,
+      "pic": "seaweed_2",
       "x_activation": 5085,
       "x": 5825,
       "y": 305
@@ -427,7 +427,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 9,
+      "pic": "seaweed_1",
       "x_activation": 4884,
       "x": 5624,
       "y": 266
@@ -520,7 +520,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 8,
+      "pic": "sea_cucumber_right",
       "x_activation": 4731,
       "x": 5471,
       "y": 422
@@ -532,7 +532,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 10,
+      "pic": "seaweed_2",
       "x_activation": 4670,
       "x": 5410,
       "y": 303
@@ -578,7 +578,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 14,
+      "pic": "seaweed_6",
       "x_activation": 4383,
       "x": 5123,
       "y": 386
@@ -609,7 +609,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 5,
+      "pic": "flowers",
       "x_activation": 4165,
       "x": 4905,
       "y": 367
@@ -624,7 +624,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 10,
+      "pic": "seaweed_2",
       "x_activation": 4081,
       "x": 4821,
       "y": 301
@@ -639,14 +639,14 @@
     },
     {
       "event_id": 4,
-      "id_fond": 6,
+      "pic": "shell",
       "x_activation": 3956,
       "x": 4696,
       "y": 404
     },
     {
       "event_id": 4,
-      "id_fond": 2,
+      "pic": "rock_column",
       "x_activation": 3672,
       "x": 4412,
       "y": 247
@@ -795,7 +795,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 3,
+      "pic": "rock_column_short",
       "x_activation": 2752,
       "x": 3492,
       "y": 319
@@ -929,7 +929,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 6,
+      "pic": "shell",
       "x_activation": 1601,
       "x": 2341,
       "y": 359
@@ -955,7 +955,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 15,
+      "pic": "sea_cucumber_left",
       "x_activation": 882,
       "x": 1622,
       "y": 393

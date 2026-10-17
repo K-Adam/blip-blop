@@ -4,16 +4,15 @@
 #include "entities/enemies/enemy.h"
 
 const int monolith_levitation[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0};
-const int monolith_animation[] = {41, 42, 43, 43, 44, 44, 44, 45, 45, 45, 45, 45, 44, 44, 44, 43, 43, 42,
-								  41, 46, 47, 47, 48, 48, 48, 49, 49, 49, 49, 49, 48, 48, 48, 47, 47, 46};
+const int monolith_animation[] = {0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 0, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 8, 7, 7, 7, 6, 6, 5};
 
 BackgroundMonolith::BackgroundMonolith() : levitation_step(0), levitation_tick(0) {
-	pic = pbk_level[22];
+	pic = pbk_level.anim("cruiser_hit_bottom")[1];
 	dy = 0;
 }
 
 void BackgroundMonolith::update() {
-	pic = pbk_level[animate(monolith_animation, 36, 3)];
+	pic = pbk_level.anim("monolith_float")[animate(monolith_animation, 36, 3)];
 	levitation_tick++;
 	levitation_tick %= 4;
 	if (levitation_tick == 0) {

@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <sstream>
 
-#include "entities/sprites.h"
 #include "entities/ball.h"
 #include "level/world.h"
 #include "core/assets.h"
@@ -34,9 +33,9 @@ class HUD {
    private:
 	void DrawCowBomb(int nb, Location location) {
 		if (location == Location::Left) {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[MISC::ICON_COW_BOMB]->BlitTo(backSurface, 90 + dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc.pic("icon_cow_bomb")->BlitTo(backSurface, 90 + dxt, 65);
 		} else {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc[MISC::ICON_COW_BOMB]->BlitTo(backSurface, 520 - dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc.pic("icon_cow_bomb")->BlitTo(backSurface, 520 - dxt, 65);
 		}
 	}
 
@@ -56,23 +55,23 @@ class HUD {
 	}
 
 	void DrawWeapon(int weapon, Location location) {
-		Picture* pic = nullptr;
+		const Picture* pic = nullptr;
 
 		switch (weapon) {
 			case ID_M16:
-				pic = pbk_misc[MISC::ICON_M16];
+				pic = pbk_misc.pic("icon_m16");
 				break;
 			case ID_PM:
-				pic = pbk_misc[MISC::ICON_PM];
+				pic = pbk_misc.pic("icon_pm");
 				break;
 			case ID_LF:
-				pic = pbk_misc[MISC::ICON_LF];
+				pic = pbk_misc.pic("icon_lf");
 				break;
 			case ID_SHOTGUN:
-				pic = pbk_misc[MISC::ICON_SHOTGUN];
+				pic = pbk_misc.pic("icon_shotgun");
 				break;
 			case ID_LASER:
-				pic = pbk_misc[MISC::ICON_LASER];
+				pic = pbk_misc.pic("icon_laser");
 				break;
 			default:
 				assert(false);
@@ -122,11 +121,11 @@ class HUD {
 		int y = pos[int(location)][1];
 
 		for (int i = 0; i < health; i++) {
-			pbk_bb[BB::HEALTH_FULL + 4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb.anim("health_full")[4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 
 		for (int i = health; i < 5; i++) {
-			pbk_bb[BB::HEALTH_EMPTY + 4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			pbk_bb.anim("health_empty")[4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
 		}
 	}
 };

@@ -3,7 +3,7 @@
 
 EnemyPacmanCar::EnemyPacmanCar() : summoned_pacman(false) {
 	hp = 1000;
-	pic = pbk_enemies[216];
+	pic = pbk_enemies.pic("pacman_car");
 	wait_end = 0;
 }
 
@@ -61,7 +61,7 @@ int EnemyPacmanCar::damage() { return 0; };
 
 void EnemyPacmanCar::render() {
 	if (game_flag[2] >= 4) {
-		draw(x + 48, y - 82, pbk_enemies[217 + anim_step]);
+		draw(x + 48, y - 82, pbk_enemies.anim("pacman_car_door")[anim_step]);
 	}
 	Sprite::render();
 }

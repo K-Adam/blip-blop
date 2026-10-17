@@ -91,10 +91,10 @@ void EnemyKnuckles::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies[anim_step + 152];
+		pic = pbk_enemies.anim("knuckles_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies[anim_step + 160];
+		pic = pbk_enemies.anim("knuckles_walk_left")[anim_step];
 	}
 	if (speed < KNUCKLES_SPEED) {
 		speed_tick++;
@@ -129,10 +129,10 @@ void EnemyKnuckles::onDie() {
 		} else {
 			if (dir == FACING_LEFT) {
 				if (!solid_wall(x - speed, y)) x -= speed;
-				pic = pbk_enemies[514 + anim_step];
+				pic = pbk_enemies.anim("knuckles_die_left")[anim_step];
 			} else {
 				if (!solid_wall(x + speed, y)) x += speed;
-				pic = pbk_enemies[504 + anim_step];
+				pic = pbk_enemies.anim("knuckles_die_right")[anim_step];
 			}
 		}
 	}
@@ -162,9 +162,9 @@ void EnemyKnuckles::onJump() {
 		return;
 	}
 	if (dir == FACING_LEFT) {
-		pic = pbk_enemies[170 + anim_step];
+		pic = pbk_enemies.anim("knuckles_jump_left")[anim_step];
 	} else {
-		pic = pbk_enemies[168 + anim_step];
+		pic = pbk_enemies.anim("knuckles_jump_right")[anim_step];
 	}
 	colFromPic();
 }
@@ -203,7 +203,7 @@ void EnemyKnuckles::onCharge() {
 			onWalk();
 			return;
 		}
-		pic = pbk_enemies[150 + anim_step];
+		if (anim_step < 2) pic = pbk_enemies.anim("knuckles_charge_left")[anim_step];
 	} else {
 		if (!solid_wall(x + speed, y)) {
 			walk(speed);
@@ -216,7 +216,7 @@ void EnemyKnuckles::onCharge() {
 			onWalk();
 			return;
 		}
-		pic = pbk_enemies[148 + anim_step];
+		if (anim_step < 2) pic = pbk_enemies.anim("knuckles_charge_right")[anim_step];
 	}
 	colFromPic();
 }
@@ -237,10 +237,10 @@ void EnemyKnuckles::onFall() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies[152];
+		pic = pbk_enemies.anim("knuckles_walk_right")[0];
 	} else {
 		x -= speed;
-		pic = pbk_enemies[160];
+		pic = pbk_enemies.anim("knuckles_walk_left")[0];
 	}
 
 	colFromPic();
@@ -257,9 +257,9 @@ void EnemyKnuckles::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[392 + anim_step];
+			pic = pbk_enemies.anim("knuckles_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[402 + anim_step];
+			pic = pbk_enemies.anim("knuckles_burn_left")[anim_step];
 	}
 }
 

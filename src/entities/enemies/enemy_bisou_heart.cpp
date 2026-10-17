@@ -31,21 +31,21 @@ void EnemyBisouHeart::update() {
 void EnemyBisouHeart::onWalk() {
 	static const int SPEED = 2;
 
-	static const int anim_left[] = {431, 432, 433, 434, 433, 432};
-	static const int anim_right[] = {427, 428, 429, 430, 429, 428};
+	static const int anim_left[] = {0, 1, 2, 3, 2, 1};
+	static const int anim_right[] = {0, 1, 2, 3, 2, 1};
 
 	if (dir == FACING_LEFT) {
 		x -= SPEED;
 
 		if (solid_wall(x, y) || x < xmin) dir = FACING_RIGHT;
 
-		pic = pbk_enemies[animate(anim_left, 6, 7)];
+		pic = pbk_enemies.anim("heart_walk_left")[animate(anim_left, 6, 7)];
 	} else {
 		x += SPEED;
 
 		if (solid_wall(x, y) || x > offset + 600) dir = FACING_LEFT;
 
-		pic = pbk_enemies[animate(anim_right, 6, 7)];
+		pic = pbk_enemies.anim("heart_walk_right")[animate(anim_right, 6, 7)];
 	}
 
 	if (anim_step == 3 && anim_tick == 0) {
@@ -94,10 +94,10 @@ void EnemyBisouHeart::onDie() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[435 + anim_step];
+		pic = pbk_enemies.anim("heart_die_right")[anim_step];
 		x += SPEED;
 	} else {
-		pic = pbk_enemies[441 + anim_step];
+		pic = pbk_enemies.anim("heart_die_left")[anim_step];
 		x -= SPEED;
 	}
 }

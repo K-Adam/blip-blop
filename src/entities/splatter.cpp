@@ -1,5 +1,4 @@
 #include "entities/splatter.h"
-#include "entities/sprites.h"
 
 void Splatter::update() {
 	if (parent->destroyed || parent->status == STATE_DYING) {
@@ -15,7 +14,7 @@ void Splatter::update() {
 	if (anim_step == 4)
 		destroyed = true;
 	else
-		pic = pbk_misc[MISC::SPLATTER + dir * 4 + anim_step];
+		pic = pbk_misc.anim("splatter")[dir * 4 + anim_step];
 
 	x = parent->x + deltax;
 	y = parent->y + deltay;

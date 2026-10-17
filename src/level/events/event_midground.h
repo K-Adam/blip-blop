@@ -1,10 +1,12 @@
 #pragma once
 
+#include <string>
+
 #include "level/events/event.h"
 
 class EventMidground : public Event {
    public:
-	int id;
+	std::string pic;  // Frame reference, see PictureBank::frame
 	int x;
 	int y;
 

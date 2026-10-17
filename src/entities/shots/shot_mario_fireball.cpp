@@ -28,19 +28,19 @@ void ShotMarioFireball::update() {
 	}
 
 	if (dx > 12) {
-		pic = pbk_enemies[27 + anim_step];
+		pic = pbk_enemies.anim("fireball_right_fast")[anim_step];
 	} else if (dx > 6) {
-		pic = pbk_enemies[24 + anim_step];
+		pic = pbk_enemies.anim("fireball_right_medium")[anim_step];
 	} else if (dx > 0) {
-		pic = pbk_enemies[21 + anim_step];
+		pic = pbk_enemies.anim("fireball_right_slow")[anim_step];
 	}
 
 	if (dx < -12) {
-		pic = pbk_enemies[18 + anim_step];
+		pic = pbk_enemies.anim("fireball_left_fast")[anim_step];
 	} else if (dx < -6) {
-		pic = pbk_enemies[15 + anim_step];
+		pic = pbk_enemies.anim("fireball_left_medium")[anim_step];
 	} else if (dx < 0) {
-		pic = pbk_enemies[12 + anim_step];
+		pic = pbk_enemies.anim("fireball_left_slow")[anim_step];
 	}
 
 	colFromPic();

@@ -38,7 +38,7 @@ static std::string schemeName(const SchemeController& c) {
 }
 
 void JoinScreen::draw() const {
-	pbk_inter[1]->PasteTo(backSurface, 0, 0);
+	pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 	Rect r;
 	r.top = 140;

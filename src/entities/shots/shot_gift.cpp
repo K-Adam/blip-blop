@@ -1,7 +1,7 @@
 #include "entities/shots/shot_gift.h"
 
 ShotGift::ShotGift() {
-	pic = pbk_enemies[56];
+	pic = pbk_enemies.pic("smurf_jokey_gift");
 	noCol();
 }
 
@@ -21,7 +21,7 @@ void ShotGift::update() {
 
 	if (anim_step >= 20) {
 		col_on = true;
-		pic = pbk_enemies[80 + anim_step];
+		pic = pbk_enemies.anim("gift_explode")[anim_step - 20];
 	}
 
 	if (anim_step > 35) destroyed = true;

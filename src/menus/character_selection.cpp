@@ -15,7 +15,7 @@ CharacterSelection::CharacterSelection()
 	  x_name_(1040),
 	  y_name_(255),
 	  step_(APPEAR_BLIP),
-	  pic_select_((lang_type == LANG_UK) ? 10 : 11),
+	  pic_select_((lang_type == LANG_UK) ? "select_title_en" : "select_title_fr"),
 	  x_charac_(-300),
 	  y_charac_(255) {}
 
@@ -107,30 +107,30 @@ CharacterSelection::Output CharacterSelection::update() {
 }
 
 void CharacterSelection::draw() {
-	pbk_inter[6]->PasteTo(backSurface, x_back1_, 0);
-	pbk_inter[7]->PasteTo(backSurface, x_back2_, 0);
+	pbk_inter.anim("select_stars")[0]->PasteTo(backSurface, x_back1_, 0);
+	pbk_inter.anim("select_stars")[1]->PasteTo(backSurface, x_back2_, 0);
 
-	pbk_inter[pic_select_]->BlitTo(backSurface, 320, y_select_);
+	pbk_inter.pic(pic_select_)->BlitTo(backSurface, 320, y_select_);
 
 	if (step_ == APPEAR_BLIP) {
 		if (phase_) {
-			pbk_inter[4]->BlitTo(backSurface, 620, 257);
+			pbk_inter.pic("select_arrow_right")->BlitTo(backSurface, 620, 257);
 		}
 
-		pbk_inter[2]->BlitTo(backSurface, x_charac_, y_charac_);
-		pbk_inter[8]->BlitTo(backSurface, x_name_, y_name_);
+		pbk_inter.pic("select_blip")->BlitTo(backSurface, x_charac_, y_charac_);
+		pbk_inter.pic("name_blip")->BlitTo(backSurface, x_name_, y_name_);
 	} else if (step_ == DONE_BLIP) {
-		pbk_inter[2]->BlitTo(backSurface, x_charac_, y_charac_);
-		pbk_inter[8]->BlitTo(backSurface, x_name_, y_name_);
+		pbk_inter.pic("select_blip")->BlitTo(backSurface, x_charac_, y_charac_);
+		pbk_inter.pic("name_blip")->BlitTo(backSurface, x_name_, y_name_);
 	} else if (step_ == APPEAR_BLOP) {
 		if (phase_) {
-			pbk_inter[5]->BlitTo(backSurface, 20, 254);
+			pbk_inter.pic("select_arrow_left")->BlitTo(backSurface, 20, 254);
 		}
 
-		pbk_inter[3]->BlitTo(backSurface, x_charac_, y_charac_);
-		pbk_inter[9]->BlitTo(backSurface, x_name_, y_name_);
+		pbk_inter.pic("select_blop")->BlitTo(backSurface, x_charac_, y_charac_);
+		pbk_inter.pic("name_blop")->BlitTo(backSurface, x_name_, y_name_);
 	} else {
-		pbk_inter[3]->BlitTo(backSurface, x_charac_, y_charac_);
-		pbk_inter[9]->BlitTo(backSurface, x_name_, y_name_);
+		pbk_inter.pic("select_blop")->BlitTo(backSurface, x_charac_, y_charac_);
+		pbk_inter.pic("name_blop")->BlitTo(backSurface, x_name_, y_name_);
 	}
 }

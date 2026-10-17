@@ -1,8 +1,10 @@
 #include "engine/picture_bank.h"
 
 #include <algorithm>
+#include <charconv>
 #include <fstream>
 #include <iterator>
+#include <tuple>
 #include <vector>
 
 #include "core/debug.h"
@@ -13,14 +15,12 @@
 
 using json = nlohmann::json;
 
-PictureBank::PictureBank() {}
-
-// Builds an item stored as a mirror or right angle turn of another one, so the duplicate PNG is not shipped
-static SDL_Surface* derive(SDL_Surface* src, const std::string& op) {
+// Builds a frame stored as a mirror or right angle turn of another one, so the duplicate pixels are not shipped
+static SDL_Surface* derive(SDL_Surface* src, SDL_Rect r, const std::string& op) {
 	static const char* const OPS[] = {"copy", "flip_h", "flip_v", "rot180", "rot90ccw", "rot90cw", "transpose", "transverse"};
 	int k = int(std::find(std::begin(OPS), std::end(OPS), op) - std::begin(OPS));
 	if (k == int(std::size(OPS))) return nullptr;
-	int w = src->w, h = src->h;
+	int w = r.w, h = r.h;
 	bool turned = k >= 4;
 	SDL_Surface* dst = SDL_CreateRGBSurfaceWithFormat(0, turned ? h : w, turned ? w : h, 32, SDL_PIXELFORMAT_ARGB8888);
 	if (!dst) return nullptr;
@@ -51,11 +51,20 @@ static SDL_Surface* derive(SDL_Surface* src, const std::string& op) {
 					sx = w - 1 - y, sy = h - 1 - x;
 					break;
 			}
-			row[x] = ((Uint32*)((Uint8*)src->pixels + sy * src->pitch))[sx];
+			row[x] = ((Uint32*)((Uint8*)src->pixels + (r.y + sy) * src->pitch))[r.x + sx];
 		}
 	}
 	return dst;
 }
+
+static SDL_Surface* loadImage(const std::string& path) {
+	SDL_Surface* loaded = IMG_Load(asset_path_prefix("gfx", path.c_str()).c_str());
+	SDL_Surface* image = loaded ? SDL_ConvertSurfaceFormat(loaded, SDL_PIXELFORMAT_ARGB8888, 0) : nullptr;
+	SDL_FreeSurface(loaded);
+	return image;
+}
+
+static const int ATLAS_MAX = 2048;
 
 bool PictureBank::loadGFX(const char* file) {
 	auto dir = asset_path_prefix("gfx", file);
@@ -68,37 +77,116 @@ bool PictureBank::loadGFX(const char* file) {
 	}
 
 	json data = json::parse(input);
-	const json& items = data["items"];
-	size_t nb_pic = items.size();
-
-	std::vector<SDL_Surface*> images(nb_pic, nullptr);
-	bool ok = true;
-	for (size_t i = 0; i < nb_pic && ok; i++) {
-		if (items[i].contains("path")) {
-			std::string image_path = asset_path_prefix("gfx", items[i]["path"].get<std::string>().c_str());
-			SDL_Surface* loaded = IMG_Load(image_path.c_str());
-			images[i] = loaded ? SDL_ConvertSurfaceFormat(loaded, SDL_PIXELFORMAT_ARGB8888, 0) : nullptr;
-			SDL_FreeSurface(loaded);
-		} else {
-			// Derived items only point at earlier ones
-			size_t from = items[i].value("from", i);
-			images[i] = from < i ? derive(images[from], items[i].value("op", "")) : nullptr;
-		}
-		if (!images[i]) {
-			debug << "Can not load item " << i << " of " << file << "\n";
-			ok = false;
-		}
-	}
-	if (!ok) {
+	struct Frame {
+		int image;	// Into images, later the texture of the same index
+		SDL_Rect r;
+		int xs, ys;
+	};
+	std::vector<SDL_Surface*> images;
+	std::vector<Frame> frames;
+	std::vector<int> derived;  // Frames whose image is their own derive() result, until packed
+	std::map<std::string, std::pair<int, int>, std::less<>> sheets;
+	auto fail = [&](const std::string& why) {
+		debug << "Can not load " << file << ": " << why << "\n";
 		for (SDL_Surface* s : images) SDL_FreeSurface(s);
 		return false;
+	};
+
+	for (const json& sheet : data["sheets"]) {
+		std::string name = sheet["name"];
+		int sheet_image = -1;
+		if (sheet.contains("path")) {
+			images.push_back(loadImage(sheet["path"]));
+			if (!images.back()) return fail(sheet["path"]);
+			sheet_image = int(images.size()) - 1;
+		}
+		int first = int(frames.size());
+		for (const json& f : sheet["frames"]) {
+			Frame fr{sheet_image, {0, 0, 0, 0}, f["xSpot"], f["ySpot"]};
+			if (f.contains("from")) {
+				// Sources always come earlier, in this sheet or a previous one
+				std::string from = f["from"];
+				int src_first = first, src_count = int(frames.size()) - first;
+				if (from != name) {
+					auto it = sheets.find(from);
+					if (it == sheets.end()) return fail("bad source " + from);
+					std::tie(src_first, src_count) = it->second;
+				}
+				int k = f["frame"];
+				if (k < 0 || k >= src_count) return fail("bad source " + from);
+				const Frame& src = frames[src_first + k];
+				images.push_back(derive(images[src.image], src.r, f["op"]));
+				if (!images.back()) return fail("bad op in " + name);
+				fr.image = int(images.size()) - 1;
+				fr.r = {0, 0, images.back()->w, images.back()->h};
+				derived.push_back(int(frames.size()));
+			} else if (f.contains("path")) {
+				images.push_back(loadImage(f["path"]));
+				if (!images.back()) return fail(f["path"]);
+				fr.image = int(images.size()) - 1;
+				fr.r = {0, 0, images.back()->w, images.back()->h};
+			} else {
+				if (sheet_image < 0) return fail(name + " has no image");
+				fr.r = {f["x"], f["y"], f["w"], f["h"]};
+			}
+			frames.push_back(fr);
+		}
+		sheets[name] = {first, int(frames.size()) - first};
 	}
 
-	tab_.resize(nb_pic);
-	for (size_t i = 0; i < nb_pic; i++) {
-		tab_[i] = std::make_unique<Picture>();
-		tab_[i]->SetSpot(items[i]["xSpot"], items[i]["ySpot"]);
-		tab_[i]->SetSurface(new SDL::Surface(images[i]));
+	// Derived frames share atlases instead of one small texture each
+	for (size_t n = 0; n < derived.size();) {
+		int w = 0, x = 0, y = 0, rowh = 0;
+		size_t end = n;
+		std::vector<SDL_Point> pos;
+		for (; end < derived.size(); end++) {
+			const SDL_Rect& r = frames[derived[end]].r;
+			if (x && x + r.w > ATLAS_MAX) x = 0, y += rowh, rowh = 0;
+			if (y && y + r.h > ATLAS_MAX) break;
+			pos.push_back({x, y});
+			x += r.w;
+			w = std::max(w, x);
+			rowh = std::max(rowh, r.h);
+		}
+		SDL_Surface* atlas = SDL_CreateRGBSurfaceWithFormat(0, w, y + rowh, 32, SDL_PIXELFORMAT_ARGB8888);
+		if (!atlas) return fail("no memory");
+		images.push_back(atlas);
+		for (size_t m = n; m < end; m++) {
+			Frame& fr = frames[derived[m]];
+			SDL_Surface* part = images[fr.image];
+			SDL_SetSurfaceBlendMode(part, SDL_BLENDMODE_NONE);
+			SDL_Rect d{pos[m - n].x, pos[m - n].y, fr.r.w, fr.r.h};
+			SDL_BlitSurface(part, nullptr, atlas, &d);
+			SDL_FreeSurface(part);
+			images[fr.image] = nullptr;
+			fr.image = int(images.size()) - 1;
+			fr.r = d;
+		}
+		n = end;
 	}
+	textures_.clear();
+	for (SDL_Surface* image : images) textures_.push_back(image ? std::make_unique<SDL::Surface>(image) : nullptr);
+	frames_.clear();
+	frames_.reserve(frames.size());
+	for (const Frame& f : frames) frames_.emplace_back(textures_[f.image].get(), f.r, f.xs, f.ys);
+	sheets_ = std::move(sheets);
+	file_ = file;
 	return true;
+}
+
+Flipbook PictureBank::anim(std::string_view name) const {
+	auto it = sheets_.find(name);
+	if (it == sheets_.end()) {
+		debug << "Bug: no animation " << name << " in " << file_ << std::endl;
+		return Flipbook(frames_.data(), 0, name);
+	}
+	return Flipbook(frames_.data() + it->second.first, it->second.second, it->first);
+}
+
+const Picture* PictureBank::frame(std::string_view ref) const {
+	size_t colon = ref.find(':');
+	int n = 0;
+	if (colon != std::string_view::npos) std::from_chars(ref.data() + colon + 1, ref.data() + ref.size(), n);
+	Flipbook f = anim(ref.substr(0, colon));
+	return n >= 0 && n < f.size() ? f[n] : nullptr;
 }

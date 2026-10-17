@@ -84,10 +84,10 @@ void EnemyPapaSmurf::onAtata() {
 		attack_wanted = rand() % 2;
 	} else {
 		if (dir == FACING_LEFT) {
-			pic = pbk_enemies[3 + (anim_step % 3)];
+			pic = pbk_enemies.anim("smurf_walk_right")[3 + (anim_step % 3)];
 			dx = -1;
 		} else {
-			pic = pbk_enemies[(anim_step % 3)];
+			pic = pbk_enemies.anim("smurf_walk_right")[(anim_step % 3)];
 			dx = 1;
 		}
 
@@ -104,13 +104,13 @@ void EnemyPapaSmurf::onWalk() {
 
 	if (dx <= 0) {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[9];
+			pic = pbk_enemies.anim("smurf_walk_left")[4];
 		else
-			pic = pbk_enemies[37];
+			pic = pbk_enemies.anim("smurf_burn_left")[3];
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[40];
+			pic = pbk_enemies.anim("smurf_burn_right")[0];
 		else
-			pic = pbk_enemies[6];
+			pic = pbk_enemies.anim("smurf_walk_left")[1];
 	}
 }

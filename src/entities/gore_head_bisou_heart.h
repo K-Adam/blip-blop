@@ -38,8 +38,8 @@ class GoreHeadBisouHeart : public Sprite {
 		}
 
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[447 + anim_step];
+			pic = pbk_enemies.anim("heart_head_right")[anim_step];
 		else
-			pic = pbk_enemies[454 + anim_step];
+			pic = pbk_enemies.anim("heart_head_left")[anim_step];
 	};
 };

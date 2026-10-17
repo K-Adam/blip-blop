@@ -1,10 +1,10 @@
 #include "entities/enemies/enemy_smurf_farmer.h"
 
-const int smurf_farmer_charge_right[] = {156, 157, 158, 159};
-const int smurf_farmer_charge_left[] = {160, 161, 162, 163};
+const int smurf_farmer_charge_right[] = {0, 1, 2, 3};
+const int smurf_farmer_charge_left[] = {0, 1, 2, 3};
 
-const int smurf_farmer_beheaded_right[] = {174, 175, 176, 177};
-const int smurf_farmer_beheaded_left[] = {178, 179, 180, 180};
+const int smurf_farmer_beheaded_right[] = {0, 1, 2, 3};
+const int smurf_farmer_beheaded_left[] = {0, 1, 2, 2};
 
 EnemySmurfFarmer::EnemySmurfFarmer() {
 	hp = 200;
@@ -56,18 +56,18 @@ void EnemySmurfFarmer::onWalk() {
 	if (status == STATE_DYING) {
 		if (dir == FACING_RIGHT) {
 			walk(SMURF_FARMER_SPEED);
-			pic = pbk_enemies[animate(smurf_farmer_beheaded_right, 4, 3)];
+			pic = pbk_enemies.anim("smurf_farmer_beheaded_right")[animate(smurf_farmer_beheaded_right, 4, 3)];
 		} else {
 			walk(-SMURF_FARMER_SPEED);
-			pic = pbk_enemies[animate(smurf_farmer_beheaded_left, 4, 3)];
+			pic = pbk_enemies.anim("smurf_farmer_beheaded_left")[animate(smurf_farmer_beheaded_left, 4, 3)];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
 			walk(SMURF_FARMER_SPEED);
-			pic = pbk_enemies[animate(smurf_farmer_charge_right, 4, 3)];
+			pic = pbk_enemies.anim("smurf_farmer_charge_right")[animate(smurf_farmer_charge_right, 4, 3)];
 		} else {
 			walk(-SMURF_FARMER_SPEED);
-			pic = pbk_enemies[animate(smurf_farmer_charge_left, 4, 3)];
+			pic = pbk_enemies.anim("smurf_farmer_charge_left")[animate(smurf_farmer_charge_left, 4, 3)];
 		}
 		colFromPic();
 	}
@@ -83,9 +83,9 @@ void EnemySmurfFarmer::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[34 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[40 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
 	}
 }
 

@@ -1,2648 +1,498 @@
 {
-  "items": [
-    {
-      "path": "snufenn.gfx/000.png",
-      "xSpot": 13,
-      "ySpot": 39,
-      "width": 26,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/001.png",
-      "xSpot": 11,
-      "ySpot": 38,
-      "width": 23,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/002.png",
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 22,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/003.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 22,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/004.png",
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 25,
-      "height": 39
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 39,
-      "width": 26,
-      "height": 40,
-      "from": 0,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 38,
-      "width": 23,
-      "height": 39,
-      "from": 1,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 22,
-      "height": 40,
-      "from": 2,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 38,
-      "width": 22,
-      "height": 39,
-      "from": 3,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 25,
-      "height": 39,
-      "from": 4,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/010.png",
-      "xSpot": 14,
-      "ySpot": 38,
-      "width": 30,
-      "height": 39
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 38,
-      "width": 30,
-      "height": 39,
-      "from": 10,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/012.png",
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 23,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/013.png",
-      "xSpot": 14,
-      "ySpot": 41,
-      "width": 26,
-      "height": 42
-    },
-    {
-      "path": "snufenn.gfx/014.png",
-      "xSpot": 18,
-      "ySpot": 48,
-      "width": 36,
-      "height": 49
-    },
-    {
-      "path": "snufenn.gfx/015.png",
-      "xSpot": 26,
-      "ySpot": 54,
-      "width": 51,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/016.png",
-      "xSpot": 46,
-      "ySpot": 81,
-      "width": 93,
-      "height": 82
-    },
-    {
-      "path": "snufenn.gfx/017.png",
-      "xSpot": 61,
-      "ySpot": 80,
-      "width": 126,
-      "height": 81
-    },
-    {
-      "path": "snufenn.gfx/018.png",
-      "xSpot": 71,
-      "ySpot": 79,
-      "width": 147,
-      "height": 81
-    },
-    {
-      "path": "snufenn.gfx/019.png",
-      "xSpot": 79,
-      "ySpot": 74,
-      "width": 156,
-      "height": 75
-    },
-    {
-      "path": "snufenn.gfx/020.png",
-      "xSpot": 75,
-      "ySpot": 55,
-      "width": 167,
-      "height": 56
-    },
-    {
-      "path": "snufenn.gfx/021.png",
-      "xSpot": 88,
-      "ySpot": 44,
-      "width": 175,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/022.png",
-      "xSpot": 93,
-      "ySpot": 34,
-      "width": 182,
-      "height": 35
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 23,
-      "height": 40,
-      "from": 12,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 41,
-      "width": 26,
-      "height": 42,
-      "from": 13,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 48,
-      "width": 36,
-      "height": 49,
-      "from": 14,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 24,
-      "ySpot": 54,
-      "width": 51,
-      "height": 55,
-      "from": 15,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 46,
-      "ySpot": 81,
-      "width": 93,
-      "height": 82,
-      "from": 16,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 62,
-      "ySpot": 80,
-      "width": 126,
-      "height": 81,
-      "from": 17,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 75,
-      "ySpot": 79,
-      "width": 147,
-      "height": 81,
-      "from": 18,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 76,
-      "ySpot": 73,
-      "width": 156,
-      "height": 75,
-      "from": 19,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 92,
-      "ySpot": 55,
-      "width": 167,
-      "height": 56,
-      "from": 20,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 86,
-      "ySpot": 44,
-      "width": 175,
-      "height": 45,
-      "from": 21,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 88,
-      "ySpot": 34,
-      "width": 182,
-      "height": 35,
-      "from": 22,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/034.png",
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 22,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/035.png",
-      "xSpot": 10,
-      "ySpot": 51,
-      "width": 22,
-      "height": 52
-    },
-    {
-      "path": "snufenn.gfx/036.png",
-      "xSpot": 10,
-      "ySpot": 56,
-      "width": 21,
-      "height": 57
-    },
-    {
-      "path": "snufenn.gfx/037.png",
-      "xSpot": 10,
-      "ySpot": 51,
-      "width": 20,
-      "height": 52
-    },
-    {
-      "path": "snufenn.gfx/038.png",
-      "xSpot": 10,
-      "ySpot": 46,
-      "width": 20,
-      "height": 47
-    },
-    {
-      "path": "snufenn.gfx/039.png",
-      "xSpot": 10,
-      "ySpot": 48,
-      "width": 18,
-      "height": 49
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 22,
-      "height": 40,
-      "from": 34,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 51,
-      "width": 22,
-      "height": 52,
-      "from": 35,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 56,
-      "width": 21,
-      "height": 57,
-      "from": 36,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 51,
-      "width": 20,
-      "height": 52,
-      "from": 37,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 46,
-      "width": 20,
-      "height": 47,
-      "from": 38,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 48,
-      "width": 18,
-      "height": 49,
-      "from": 39,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/046.png",
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 27,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/047.png",
-      "xSpot": 11,
-      "ySpot": 37,
-      "width": 25,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/048.png",
-      "xSpot": 10,
-      "ySpot": 37,
-      "width": 24,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/049.png",
-      "xSpot": 10,
-      "ySpot": 37,
-      "width": 24,
-      "height": 39
-    },
-    {
-      "path": "snufenn.gfx/050.png",
-      "xSpot": 11,
-      "ySpot": 37,
-      "width": 25,
-      "height": 39
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 27,
-      "height": 39,
-      "from": 46,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 25,
-      "height": 39,
-      "from": 47,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 24,
-      "height": 39,
-      "from": 48,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 24,
-      "height": 39,
-      "from": 49,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 37,
-      "width": 25,
-      "height": 39,
-      "from": 50,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/056.png",
-      "xSpot": 17,
-      "ySpot": 40,
-      "width": 36,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/057.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 40,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/058.png",
-      "xSpot": 10,
-      "ySpot": 46,
-      "width": 54,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/059.png",
-      "xSpot": 10,
-      "ySpot": 46,
-      "width": 55,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/060.png",
-      "xSpot": 10,
-      "ySpot": 48,
-      "width": 56,
-      "height": 50
-    },
-    {
-      "path": "snufenn.gfx/061.png",
-      "xSpot": 10,
-      "ySpot": 49,
-      "width": 52,
-      "height": 51
-    },
-    {
-      "xSpot": 29,
-      "ySpot": 38,
-      "width": 40,
-      "height": 40,
-      "from": 57,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 43,
-      "ySpot": 46,
-      "width": 54,
-      "height": 48,
-      "from": 58,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 44,
-      "ySpot": 46,
-      "width": 55,
-      "height": 48,
-      "from": 59,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 45,
-      "ySpot": 48,
-      "width": 56,
-      "height": 50,
-      "from": 60,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 41,
-      "ySpot": 49,
-      "width": 52,
-      "height": 51,
-      "from": 61,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/067.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/068.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/069.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/070.png",
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/071.png",
-      "xSpot": 19,
-      "ySpot": 38,
-      "width": 32,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/072.png",
-      "xSpot": 25,
-      "ySpot": 38,
-      "width": 36,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/073.png",
-      "xSpot": 33,
-      "ySpot": 39,
-      "width": 44,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/074.png",
-      "xSpot": 28,
-      "ySpot": 35,
-      "width": 40,
-      "height": 37
-    },
-    {
-      "path": "snufenn.gfx/075.png",
-      "xSpot": 34,
-      "ySpot": 36,
-      "width": 40,
-      "height": 38
-    },
-    {
-      "path": "snufenn.gfx/076.png",
-      "xSpot": 35,
-      "ySpot": 34,
-      "width": 38,
-      "height": 36
-    },
-    {
-      "path": "snufenn.gfx/077.png",
-      "xSpot": 27,
-      "ySpot": 33,
-      "width": 28,
-      "height": 35
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40,
-      "from": 67,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40,
-      "from": 68,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40,
-      "from": 69,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 23,
-      "height": 40,
-      "from": 70,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 38,
-      "width": 32,
-      "height": 40,
-      "from": 71,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 38,
-      "width": 36,
-      "height": 40,
-      "from": 72,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 44,
-      "height": 41,
-      "from": 73,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 35,
-      "width": 40,
-      "height": 37,
-      "from": 74,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 5,
-      "ySpot": 36,
-      "width": 40,
-      "height": 38,
-      "from": 75,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 2,
-      "ySpot": 34,
-      "width": 38,
-      "height": 36,
-      "from": 76,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 33,
-      "width": 28,
-      "height": 35,
-      "from": 77,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/089.png",
-      "xSpot": 14,
-      "ySpot": 11,
-      "width": 26,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/090.png",
-      "xSpot": 20,
-      "ySpot": 11,
-      "width": 32,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/091.png",
-      "xSpot": 26,
-      "ySpot": 21,
-      "width": 39,
-      "height": 33
-    },
-    {
-      "path": "snufenn.gfx/092.png",
-      "xSpot": 23,
-      "ySpot": 16,
-      "width": 33,
-      "height": 25
-    },
-    {
-      "path": "snufenn.gfx/093.png",
-      "xSpot": 10,
-      "ySpot": 12,
-      "width": 23,
-      "height": 25
-    },
-    {
-      "path": "snufenn.gfx/094.png",
-      "xSpot": 11,
-      "ySpot": 12,
-      "width": 31,
-      "height": 25
-    },
-    {
-      "path": "snufenn.gfx/095.png",
-      "xSpot": 12,
-      "ySpot": 18,
-      "width": 37,
-      "height": 31
-    },
-    {
-      "path": "snufenn.gfx/096.png",
-      "xSpot": 10,
-      "ySpot": 15,
-      "width": 29,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/097.png",
-      "xSpot": 19,
-      "ySpot": 18,
-      "width": 36,
-      "height": 25
-    },
-    {
-      "path": "snufenn.gfx/098.png",
-      "xSpot": 19,
-      "ySpot": 19,
-      "width": 35,
-      "height": 26
-    },
-    {
-      "path": "snufenn.gfx/099.png",
-      "xSpot": 19,
-      "ySpot": 19,
-      "width": 35,
-      "height": 29
-    },
-    {
-      "path": "snufenn.gfx/100.png",
-      "xSpot": 25,
-      "ySpot": 20,
-      "width": 44,
-      "height": 35
-    },
-    {
-      "path": "snufenn.gfx/101.png",
-      "xSpot": 20,
-      "ySpot": 19,
-      "width": 41,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/102.png",
-      "xSpot": 36,
-      "ySpot": 34,
-      "width": 69,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/103.png",
-      "xSpot": 45,
-      "ySpot": 66,
-      "width": 91,
-      "height": 77
-    },
-    {
-      "path": "snufenn.gfx/104.png",
-      "xSpot": 46,
-      "ySpot": 75,
-      "width": 96,
-      "height": 86
-    },
-    {
-      "path": "snufenn.gfx/105.png",
-      "xSpot": 47,
-      "ySpot": 54,
-      "width": 96,
-      "height": 60
-    },
-    {
-      "path": "snufenn.gfx/106.png",
-      "xSpot": 45,
-      "ySpot": 81,
-      "width": 93,
-      "height": 89
-    },
-    {
-      "path": "snufenn.gfx/107.png",
-      "xSpot": 46,
-      "ySpot": 83,
-      "width": 91,
-      "height": 90
-    },
-    {
-      "path": "snufenn.gfx/108.png",
-      "xSpot": 46,
-      "ySpot": 84,
-      "width": 92,
-      "height": 91
-    },
-    {
-      "path": "snufenn.gfx/109.png",
-      "xSpot": 44,
-      "ySpot": 84,
-      "width": 90,
-      "height": 91
-    },
-    {
-      "path": "snufenn.gfx/110.png",
-      "xSpot": 45,
-      "ySpot": 81,
-      "width": 91,
-      "height": 88
-    },
-    {
-      "path": "snufenn.gfx/111.png",
-      "xSpot": 46,
-      "ySpot": 78,
-      "width": 90,
-      "height": 81
-    },
-    {
-      "path": "snufenn.gfx/112.png",
-      "xSpot": 42,
-      "ySpot": 76,
-      "width": 88,
-      "height": 80
-    },
-    {
-      "path": "snufenn.gfx/113.png",
-      "xSpot": 41,
-      "ySpot": 67,
-      "width": 89,
-      "height": 72
-    },
-    {
-      "path": "snufenn.gfx/114.png",
-      "xSpot": 40,
-      "ySpot": 64,
-      "width": 89,
-      "height": 70
-    },
-    {
-      "path": "snufenn.gfx/115.png",
-      "xSpot": 42,
-      "ySpot": 65,
-      "width": 91,
-      "height": 74
-    },
-    {
-      "path": "snufenn.gfx/116.png",
-      "xSpot": 44,
-      "ySpot": 63,
-      "width": 80,
-      "height": 71
-    },
-    {
-      "path": "snufenn.gfx/117.png",
-      "xSpot": 1,
-      "ySpot": 2,
-      "width": 6,
-      "height": 74
-    },
-    {
-      "path": "snufenn.gfx/118.png",
-      "xSpot": 11,
-      "ySpot": 2,
-      "width": 22,
-      "height": 73
-    },
-    {
-      "path": "snufenn.gfx/119.png",
-      "xSpot": 10,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76
-    },
-    {
-      "path": "snufenn.gfx/120.png",
-      "xSpot": 10,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76
-    },
-    {
-      "path": "snufenn.gfx/121.png",
-      "xSpot": 10,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76
-    },
-    {
-      "path": "snufenn.gfx/122.png",
-      "xSpot": 10,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76
-    },
-    {
-      "xSpot": 7,
-      "ySpot": 2,
-      "width": 22,
-      "height": 73,
-      "from": 118,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 9,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76,
-      "from": 119,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 9,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76,
-      "from": 120,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 9,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76,
-      "from": 121,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 9,
-      "ySpot": 2,
-      "width": 23,
-      "height": 76,
-      "from": 122,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/128.png",
-      "xSpot": 3,
-      "ySpot": 5,
-      "width": 11,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/129.png",
-      "xSpot": 3,
-      "ySpot": 5,
-      "width": 11,
-      "height": 45
-    },
-    {
-      "xSpot": 7,
-      "ySpot": 5,
-      "width": 11,
-      "height": 48,
-      "from": 128,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 7,
-      "ySpot": 5,
-      "width": 11,
-      "height": 45,
-      "from": 129,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/132.png",
-      "xSpot": 4,
-      "ySpot": 5,
-      "width": 24,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/133.png",
-      "xSpot": 5,
-      "ySpot": 5,
-      "width": 26,
-      "height": 43
-    },
-    {
-      "xSpot": 19,
-      "ySpot": 5,
-      "width": 24,
-      "height": 40,
-      "from": 132,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 20,
-      "ySpot": 5,
-      "width": 26,
-      "height": 43,
-      "from": 133,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/136.png",
-      "xSpot": 5,
-      "ySpot": 5,
-      "width": 35,
-      "height": 30
-    },
-    {
-      "path": "snufenn.gfx/137.png",
-      "xSpot": 5,
-      "ySpot": 5,
-      "width": 38,
-      "height": 33
-    },
-    {
-      "xSpot": 29,
-      "ySpot": 5,
-      "width": 35,
-      "height": 30,
-      "from": 136,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 32,
-      "ySpot": 5,
-      "width": 38,
-      "height": 33,
-      "from": 137,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/140.png",
-      "xSpot": 14,
-      "ySpot": 0,
-      "width": 24,
-      "height": 60
-    },
-    {
-      "path": "snufenn.gfx/141.png",
-      "xSpot": 13,
-      "ySpot": 0,
-      "width": 24,
-      "height": 59
-    },
-    {
-      "xSpot": 6,
-      "ySpot": 0,
-      "width": 24,
-      "height": 60,
-      "from": 140,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 7,
-      "ySpot": 0,
-      "width": 24,
-      "height": 59,
-      "from": 141,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/144.png",
-      "xSpot": 3,
-      "ySpot": 2,
-      "width": 6,
-      "height": 6
-    },
-    {
-      "path": "snufenn.gfx/145.png",
-      "xSpot": 4,
-      "ySpot": 5,
-      "width": 16,
-      "height": 8
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 5,
-      "width": 16,
-      "height": 8,
-      "from": 145,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/147.png",
-      "xSpot": 4,
-      "ySpot": 4,
-      "width": 14,
-      "height": 16
-    },
-    {
-      "xSpot": 9,
-      "ySpot": 4,
-      "width": 14,
-      "height": 16,
-      "from": 147,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/149.png",
-      "xSpot": 7,
-      "ySpot": 2,
-      "width": 16,
-      "height": 6
-    },
-    {
-      "xSpot": 8,
-      "ySpot": 2,
-      "width": 16,
-      "height": 6,
-      "from": 149,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/151.png",
-      "xSpot": 3,
-      "ySpot": 3,
-      "width": 7,
-      "height": 7
-    },
-    {
-      "path": "snufenn.gfx/152.png",
-      "xSpot": 5,
-      "ySpot": 4,
-      "width": 10,
-      "height": 9
-    },
-    {
-      "path": "snufenn.gfx/153.png",
-      "xSpot": 12,
-      "ySpot": 10,
-      "width": 25,
-      "height": 20
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 10,
-      "width": 25,
-      "height": 20,
-      "from": 153,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/155.png",
-      "xSpot": 11,
-      "ySpot": 16,
-      "width": 25,
-      "height": 19
-    },
-    {
-      "path": "snufenn.gfx/156.png",
-      "xSpot": 13,
-      "ySpot": 42,
-      "width": 55,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/157.png",
-      "xSpot": 13,
-      "ySpot": 41,
-      "width": 55,
-      "height": 43
-    },
-    {
-      "path": "snufenn.gfx/158.png",
-      "xSpot": 13,
-      "ySpot": 43,
-      "width": 55,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/159.png",
-      "xSpot": 15,
-      "ySpot": 42,
-      "width": 57,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/160.png",
-      "xSpot": 41,
-      "ySpot": 42,
-      "width": 55,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/161.png",
-      "xSpot": 41,
-      "ySpot": 41,
-      "width": 55,
-      "height": 43
-    },
-    {
-      "path": "snufenn.gfx/162.png",
-      "xSpot": 41,
-      "ySpot": 43,
-      "width": 55,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/163.png",
-      "xSpot": 41,
-      "ySpot": 42,
-      "width": 57,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/164.png",
-      "xSpot": 14,
-      "ySpot": 23,
-      "width": 26,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/165.png",
-      "xSpot": 22,
-      "ySpot": 17,
-      "width": 30,
-      "height": 18
-    },
-    {
-      "path": "snufenn.gfx/166.png",
-      "xSpot": 34,
-      "ySpot": 23,
-      "width": 41,
-      "height": 24
-    },
-    {
-      "path": "snufenn.gfx/167.png",
-      "xSpot": 40,
-      "ySpot": 29,
-      "width": 43,
-      "height": 30
-    },
-    {
-      "path": "snufenn.gfx/168.png",
-      "xSpot": 57,
-      "ySpot": 32,
-      "width": 58,
-      "height": 33
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 23,
-      "width": 26,
-      "height": 24,
-      "from": 164,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 7,
-      "ySpot": 17,
-      "width": 30,
-      "height": 18,
-      "from": 165,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 6,
-      "ySpot": 23,
-      "width": 41,
-      "height": 24,
-      "from": 166,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 2,
-      "ySpot": 29,
-      "width": 43,
-      "height": 30,
-      "from": 167,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 32,
-      "width": 58,
-      "height": 33,
-      "from": 168,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/174.png",
-      "xSpot": 13,
-      "ySpot": 42,
-      "width": 55,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/175.png",
-      "xSpot": 13,
-      "ySpot": 41,
-      "width": 55,
-      "height": 43
-    },
-    {
-      "path": "snufenn.gfx/176.png",
-      "xSpot": 13,
-      "ySpot": 43,
-      "width": 55,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/177.png",
-      "xSpot": 15,
-      "ySpot": 42,
-      "width": 57,
-      "height": 44
-    },
-    {
-      "xSpot": 41,
-      "ySpot": 42,
-      "width": 55,
-      "height": 44,
-      "from": 174,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 41,
-      "ySpot": 41,
-      "width": 55,
-      "height": 43,
-      "from": 175,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 41,
-      "ySpot": 43,
-      "width": 55,
-      "height": 45,
-      "from": 176,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 41,
-      "ySpot": 42,
-      "width": 57,
-      "height": 44,
-      "from": 177,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/182.png",
-      "xSpot": 32,
-      "ySpot": 42,
-      "width": 45,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/183.png",
-      "xSpot": 22,
-      "ySpot": 42,
-      "width": 36,
-      "height": 44
-    },
-    {
-      "path": "snufenn.gfx/184.png",
-      "xSpot": 12,
-      "ySpot": 43,
-      "width": 27,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/185.png",
-      "xSpot": 12,
-      "ySpot": 43,
-      "width": 28,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/186.png",
-      "xSpot": 12,
-      "ySpot": 43,
-      "width": 34,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/187.png",
-      "xSpot": 12,
-      "ySpot": 41,
-      "width": 27,
-      "height": 43
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 42,
-      "width": 45,
-      "height": 44,
-      "from": 182,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 42,
-      "width": 36,
-      "height": 44,
-      "from": 183,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 43,
-      "width": 27,
-      "height": 45,
-      "from": 184,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 43,
-      "width": 28,
-      "height": 45,
-      "from": 185,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 21,
-      "ySpot": 43,
-      "width": 34,
-      "height": 45,
-      "from": 186,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 41,
-      "width": 27,
-      "height": 43,
-      "from": 187,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/194.png",
-      "xSpot": 9,
-      "ySpot": 15,
-      "width": 19,
-      "height": 25
-    },
-    {
-      "path": "snufenn.gfx/195.png",
-      "xSpot": 19,
-      "ySpot": 43,
-      "width": 36,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/196.png",
-      "xSpot": 38,
-      "ySpot": 44,
-      "width": 54,
-      "height": 47
-    },
-    {
-      "path": "snufenn.gfx/197.png",
-      "xSpot": 52,
-      "ySpot": 44,
-      "width": 70,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/198.png",
-      "xSpot": 32,
-      "ySpot": 46,
-      "width": 50,
-      "height": 49
-    },
-    {
-      "path": "snufenn.gfx/199.png",
-      "xSpot": 25,
-      "ySpot": 45,
-      "width": 39,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/200.png",
-      "xSpot": 22,
-      "ySpot": 44,
-      "width": 35,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/201.png",
-      "xSpot": 20,
-      "ySpot": 41,
-      "width": 36,
-      "height": 43
-    },
-    {
-      "path": "snufenn.gfx/202.png",
-      "xSpot": 24,
-      "ySpot": 39,
-      "width": 44,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/203.png",
-      "xSpot": 24,
-      "ySpot": 38,
-      "width": 44,
-      "height": 40
-    },
-    {
-      "path": "snufenn.gfx/204.png",
-      "xSpot": 25,
-      "ySpot": 30,
-      "width": 47,
-      "height": 32
-    },
-    {
-      "path": "snufenn.gfx/205.png",
-      "xSpot": 25,
-      "ySpot": 24,
-      "width": 49,
-      "height": 26
-    },
-    {
-      "path": "snufenn.gfx/206.png",
-      "xSpot": 27,
-      "ySpot": 18,
-      "width": 53,
-      "height": 22
-    },
-    {
-      "xSpot": 16,
-      "ySpot": 43,
-      "width": 36,
-      "height": 45,
-      "from": 195,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 44,
-      "width": 54,
-      "height": 47,
-      "from": 196,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 45,
-      "width": 70,
-      "height": 48,
-      "from": 197,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 47,
-      "width": 50,
-      "height": 49,
-      "from": 198,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 46,
-      "width": 39,
-      "height": 48,
-      "from": 199,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 44,
-      "width": 35,
-      "height": 46,
-      "from": 200,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 16,
-      "ySpot": 41,
-      "width": 36,
-      "height": 43,
-      "from": 201,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 20,
-      "ySpot": 39,
-      "width": 44,
-      "height": 41,
-      "from": 202,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 20,
-      "ySpot": 38,
-      "width": 44,
-      "height": 40,
-      "from": 203,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 22,
-      "ySpot": 30,
-      "width": 47,
-      "height": 32,
-      "from": 204,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 25,
-      "ySpot": 24,
-      "width": 49,
-      "height": 26,
-      "from": 205,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 25,
-      "ySpot": 18,
-      "width": 53,
-      "height": 22,
-      "from": 206,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/219.png",
-      "xSpot": 30,
-      "ySpot": 15,
-      "width": 56,
-      "height": 29
-    },
-    {
-      "path": "snufenn.gfx/220.png",
-      "xSpot": 22,
-      "ySpot": 17,
-      "width": 43,
-      "height": 33
-    },
-    {
-      "xSpot": 23,
-      "ySpot": 15,
-      "width": 56,
-      "height": 29,
-      "from": 219,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 21,
-      "ySpot": 16,
-      "width": 43,
-      "height": 33,
-      "from": 220,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/223.png",
-      "xSpot": 22,
-      "ySpot": 52,
-      "width": 43,
-      "height": 53
-    },
-    {
-      "path": "snufenn.gfx/224.png",
-      "xSpot": 24,
-      "ySpot": 54,
-      "width": 49,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/225.png",
-      "xSpot": 23,
-      "ySpot": 61,
-      "width": 42,
-      "height": 62
-    },
-    {
-      "path": "snufenn.gfx/226.png",
-      "xSpot": 24,
-      "ySpot": 61,
-      "width": 41,
-      "height": 90
-    },
-    {
-      "path": "snufenn.gfx/227.png",
-      "xSpot": 25,
-      "ySpot": 62,
-      "width": 41,
-      "height": 66
-    },
-    {
-      "path": "snufenn.gfx/228.png",
-      "xSpot": 19,
-      "ySpot": 56,
-      "width": 34,
-      "height": 59
-    },
-    {
-      "path": "snufenn.gfx/229.png",
-      "xSpot": 20,
-      "ySpot": 56,
-      "width": 41,
-      "height": 60
-    },
-    {
-      "xSpot": 20,
-      "ySpot": 52,
-      "width": 43,
-      "height": 53,
-      "from": 223,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 24,
-      "ySpot": 54,
-      "width": 49,
-      "height": 55,
-      "from": 224,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 18,
-      "ySpot": 61,
-      "width": 42,
-      "height": 62,
-      "from": 225,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 61,
-      "width": 41,
-      "height": 90,
-      "from": 226,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 61,
-      "width": 41,
-      "height": 66,
-      "from": 227,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 55,
-      "width": 34,
-      "height": 59,
-      "from": 228,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 19,
-      "ySpot": 56,
-      "width": 41,
-      "height": 60,
-      "from": 229,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/237.png",
-      "xSpot": 15,
-      "ySpot": 51,
-      "width": 34,
-      "height": 52
-    },
-    {
-      "path": "snufenn.gfx/238.png",
-      "xSpot": 15,
-      "ySpot": 50,
-      "width": 34,
-      "height": 51
-    },
-    {
-      "path": "snufenn.gfx/239.png",
-      "xSpot": 16,
-      "ySpot": 48,
-      "width": 37,
-      "height": 49
-    },
-    {
-      "path": "snufenn.gfx/240.png",
-      "xSpot": 23,
-      "ySpot": 48,
-      "width": 50,
-      "height": 49
-    },
-    {
-      "path": "snufenn.gfx/241.png",
-      "xSpot": 23,
-      "ySpot": 48,
-      "width": 50,
-      "height": 49
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 51,
-      "width": 34,
-      "height": 52,
-      "from": 237,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 50,
-      "width": 34,
-      "height": 51,
-      "from": 238,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 19,
-      "ySpot": 48,
-      "width": 37,
-      "height": 49,
-      "from": 239,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 25,
-      "ySpot": 48,
-      "width": 50,
-      "height": 49,
-      "from": 240,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 25,
-      "ySpot": 48,
-      "width": 50,
-      "height": 49,
-      "from": 241,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/247.png",
-      "xSpot": 20,
-      "ySpot": 50,
-      "width": 40,
-      "height": 57
-    },
-    {
-      "path": "snufenn.gfx/248.png",
-      "xSpot": 11,
-      "ySpot": 50,
-      "width": 31,
-      "height": 52
-    },
-    {
-      "path": "snufenn.gfx/249.png",
-      "xSpot": 23,
-      "ySpot": 50,
-      "width": 46,
-      "height": 54
-    },
-    {
-      "path": "snufenn.gfx/250.png",
-      "xSpot": 15,
-      "ySpot": 50,
-      "width": 34,
-      "height": 54
-    },
-    {
-      "path": "snufenn.gfx/251.png",
-      "xSpot": 13,
-      "ySpot": 50,
-      "width": 39,
-      "height": 54
-    },
-    {
-      "path": "snufenn.gfx/252.png",
-      "xSpot": 22,
-      "ySpot": 50,
-      "width": 41,
-      "height": 54
-    },
-    {
-      "path": "snufenn.gfx/253.png",
-      "xSpot": 14,
-      "ySpot": 53,
-      "width": 29,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/254.png",
-      "xSpot": 13,
-      "ySpot": 65,
-      "width": 28,
-      "height": 69
-    },
-    {
-      "path": "snufenn.gfx/255.png",
-      "xSpot": 13,
-      "ySpot": 69,
-      "width": 28,
-      "height": 73
-    },
-    {
-      "path": "snufenn.gfx/256.png",
-      "xSpot": 11,
-      "ySpot": 68,
-      "width": 25,
-      "height": 71
-    },
-    {
-      "path": "snufenn.gfx/257.png",
-      "xSpot": 13,
-      "ySpot": 58,
-      "width": 26,
-      "height": 61
-    },
-    {
-      "path": "snufenn.gfx/258.png",
-      "xSpot": 13,
-      "ySpot": 51,
-      "width": 26,
-      "height": 54
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 51,
-      "width": 29,
-      "height": 55,
-      "from": 253,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 65,
-      "width": 28,
-      "height": 69,
-      "from": 254,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 69,
-      "width": 28,
-      "height": 73,
-      "from": 255,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 67,
-      "width": 25,
-      "height": 71,
-      "from": 256,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 57,
-      "width": 26,
-      "height": 61,
-      "from": 257,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 50,
-      "width": 26,
-      "height": 54,
-      "from": 258,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/265.png",
-      "xSpot": 16,
-      "ySpot": 53,
-      "width": 32,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/266.png",
-      "xSpot": 15,
-      "ySpot": 53,
-      "width": 29,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/267.png",
-      "xSpot": 12,
-      "ySpot": 54,
-      "width": 23,
-      "height": 57
-    },
-    {
-      "path": "snufenn.gfx/268.png",
-      "xSpot": 12,
-      "ySpot": 54,
-      "width": 25,
-      "height": 57
-    },
-    {
-      "xSpot": 15,
-      "ySpot": 53,
-      "width": 32,
-      "height": 55,
-      "from": 265,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 53,
-      "width": 29,
-      "height": 55,
-      "from": 266,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 54,
-      "width": 23,
-      "height": 57,
-      "from": 267,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 12,
-      "ySpot": 54,
-      "width": 25,
-      "height": 57,
-      "from": 268,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/273.png",
-      "xSpot": 15,
-      "ySpot": 52,
-      "width": 29,
-      "height": 53
-    },
-    {
-      "path": "snufenn.gfx/274.png",
-      "xSpot": 17,
-      "ySpot": 45,
-      "width": 31,
-      "height": 49
-    },
-    {
-      "path": "snufenn.gfx/275.png",
-      "xSpot": 18,
-      "ySpot": 44,
-      "width": 32,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/276.png",
-      "xSpot": 18,
-      "ySpot": 44,
-      "width": 32,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/277.png",
-      "xSpot": 21,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/278.png",
-      "xSpot": 18,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/279.png",
-      "xSpot": 18,
-      "ySpot": 44,
-      "width": 38,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/280.png",
-      "xSpot": 18,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/281.png",
-      "xSpot": 18,
-      "ySpot": 43,
-      "width": 39,
-      "height": 45
-    },
-    {
-      "path": "snufenn.gfx/282.png",
-      "xSpot": 18,
-      "ySpot": 45,
-      "width": 46,
-      "height": 47
-    },
-    {
-      "path": "snufenn.gfx/283.png",
-      "xSpot": 18,
-      "ySpot": 42,
-      "width": 52,
-      "height": 46
-    },
-    {
-      "path": "snufenn.gfx/284.png",
-      "xSpot": 18,
-      "ySpot": 34,
-      "width": 55,
-      "height": 36
-    },
-    {
-      "path": "snufenn.gfx/285.png",
-      "xSpot": 18,
-      "ySpot": 28,
-      "width": 55,
-      "height": 30
-    },
-    {
-      "path": "snufenn.gfx/286.png",
-      "xSpot": 18,
-      "ySpot": 18,
-      "width": 61,
-      "height": 23
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 52,
-      "width": 29,
-      "height": 53,
-      "from": 273,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 45,
-      "width": 31,
-      "height": 49,
-      "from": 274,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 44,
-      "width": 32,
-      "height": 46,
-      "from": 275,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 44,
-      "width": 32,
-      "height": 46,
-      "from": 276,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46,
-      "from": 277,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46,
-      "from": 278,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 19,
-      "ySpot": 44,
-      "width": 38,
-      "height": 46,
-      "from": 279,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 17,
-      "ySpot": 44,
-      "width": 36,
-      "height": 46,
-      "from": 280,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 20,
-      "ySpot": 43,
-      "width": 39,
-      "height": 45,
-      "from": 281,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 27,
-      "ySpot": 45,
-      "width": 46,
-      "height": 47,
-      "from": 282,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 33,
-      "ySpot": 42,
-      "width": 52,
-      "height": 46,
-      "from": 283,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 36,
-      "ySpot": 34,
-      "width": 55,
-      "height": 36,
-      "from": 284,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 36,
-      "ySpot": 28,
-      "width": 55,
-      "height": 30,
-      "from": 285,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 42,
-      "ySpot": 18,
-      "width": 61,
-      "height": 23,
-      "from": 286,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/301.png",
-      "xSpot": 15,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/302.png",
-      "xSpot": 15,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/303.png",
-      "xSpot": 16,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/304.png",
-      "xSpot": 16,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/305.png",
-      "xSpot": 16,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41,
-      "from": 301,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41,
-      "from": 302,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41,
-      "from": 303,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41,
-      "from": 304,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41,
-      "from": 305,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/311.png",
-      "xSpot": 8,
-      "ySpot": 7,
-      "width": 18,
-      "height": 15
-    },
-    {
-      "path": "snufenn.gfx/312.png",
-      "xSpot": 8,
-      "ySpot": 7,
-      "width": 17,
-      "height": 15
-    },
-    {
-      "xSpot": 8,
-      "ySpot": 7,
-      "width": 18,
-      "height": 15,
-      "from": 311,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 8,
-      "ySpot": 7,
-      "width": 17,
-      "height": 15,
-      "from": 312,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/315.png",
-      "xSpot": 17,
-      "ySpot": 39,
-      "width": 29,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/316.png",
-      "xSpot": 16,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/317.png",
-      "xSpot": 16,
-      "ySpot": 40,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/318.png",
-      "xSpot": 15,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/319.png",
-      "xSpot": 15,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 29,
-      "height": 41,
-      "from": 315,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 39,
-      "width": 28,
-      "height": 41,
-      "from": 316,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 11,
-      "ySpot": 40,
-      "width": 28,
-      "height": 41,
-      "from": 317,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41,
-      "from": 318,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 10,
-      "ySpot": 39,
-      "width": 26,
-      "height": 41,
-      "from": 319,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/325.png",
-      "xSpot": 14,
-      "ySpot": 40,
-      "width": 28,
-      "height": 41
-    },
-    {
-      "path": "snufenn.gfx/326.png",
-      "xSpot": 15,
-      "ySpot": 47,
-      "width": 30,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/327.png",
-      "xSpot": 24,
-      "ySpot": 54,
-      "width": 46,
-      "height": 55
-    },
-    {
-      "path": "snufenn.gfx/328.png",
-      "xSpot": 34,
-      "ySpot": 61,
-      "width": 70,
-      "height": 62
-    },
-    {
-      "path": "snufenn.gfx/329.png",
-      "xSpot": 49,
-      "ySpot": 70,
-      "width": 106,
-      "height": 71
-    },
-    {
-      "path": "snufenn.gfx/330.png",
-      "xSpot": 63,
-      "ySpot": 70,
-      "width": 127,
-      "height": 71
-    },
-    {
-      "path": "snufenn.gfx/331.png",
-      "xSpot": 66,
-      "ySpot": 70,
-      "width": 137,
-      "height": 72
-    },
-    {
-      "path": "snufenn.gfx/332.png",
-      "xSpot": 77,
-      "ySpot": 65,
-      "width": 155,
-      "height": 67
-    },
-    {
-      "path": "snufenn.gfx/333.png",
-      "xSpot": 60,
-      "ySpot": 41,
-      "width": 142,
-      "height": 43
-    },
-    {
-      "path": "snufenn.gfx/334.png",
-      "xSpot": 26,
-      "ySpot": 18,
-      "width": 54,
-      "height": 20
-    },
-    {
-      "path": "snufenn.gfx/335.png",
-      "xSpot": 26,
-      "ySpot": 11,
-      "width": 54,
-      "height": 13
-    },
-    {
-      "path": "snufenn.gfx/336.png",
-      "xSpot": 26,
-      "ySpot": 11,
-      "width": 54,
-      "height": 13
-    },
-    {
-      "xSpot": 13,
-      "ySpot": 40,
-      "width": 28,
-      "height": 41,
-      "from": 325,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 14,
-      "ySpot": 47,
-      "width": 30,
-      "height": 48,
-      "from": 326,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 21,
-      "ySpot": 54,
-      "width": 46,
-      "height": 55,
-      "from": 327,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 35,
-      "ySpot": 61,
-      "width": 70,
-      "height": 62,
-      "from": 328,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 56,
-      "ySpot": 70,
-      "width": 106,
-      "height": 71,
-      "from": 329,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 63,
-      "ySpot": 70,
-      "width": 127,
-      "height": 71,
-      "from": 330,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 70,
-      "ySpot": 70,
-      "width": 137,
-      "height": 72,
-      "from": 331,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 77,
-      "ySpot": 65,
-      "width": 155,
-      "height": 67,
-      "from": 332,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 81,
-      "ySpot": 41,
-      "width": 142,
-      "height": 43,
-      "from": 333,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 27,
-      "ySpot": 18,
-      "width": 54,
-      "height": 20,
-      "from": 334,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 27,
-      "ySpot": 11,
-      "width": 54,
-      "height": 13,
-      "from": 335,
-      "op": "flip_h"
-    },
-    {
-      "xSpot": 27,
-      "ySpot": 11,
-      "width": 54,
-      "height": 13,
-      "from": 336,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/349.png",
-      "xSpot": 5,
-      "ySpot": 5,
-      "width": 24,
-      "height": 40
-    },
-    {
-      "xSpot": 18,
-      "ySpot": 5,
-      "width": 24,
-      "height": 40,
-      "from": 349,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/351.png",
-      "xSpot": 6,
-      "ySpot": 5,
-      "width": 38,
-      "height": 33
-    },
-    {
-      "xSpot": 31,
-      "ySpot": 5,
-      "width": 38,
-      "height": 33,
-      "from": 351,
-      "op": "flip_h"
-    },
-    {
-      "path": "snufenn.gfx/353.png",
-      "xSpot": 4,
-      "ySpot": 6,
-      "width": 11,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/354.png",
-      "xSpot": 6,
-      "ySpot": 6,
-      "width": 11,
-      "height": 48
-    },
-    {
-      "path": "snufenn.gfx/355.png",
-      "xSpot": 96,
-      "ySpot": 119,
-      "width": 232,
-      "height": 130
-    }
+  "sheets": [
+    {"name": "smurf_walk_right", "path": "snufenn.gfx/smurf_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 26, "h": 40, "xSpot": 13, "ySpot": 39},
+      {"x": 26, "y": 0, "w": 23, "h": 39, "xSpot": 11, "ySpot": 38},
+      {"x": 49, "y": 0, "w": 22, "h": 40, "xSpot": 10, "ySpot": 39},
+      {"x": 71, "y": 0, "w": 22, "h": 39, "xSpot": 10, "ySpot": 38},
+      {"x": 93, "y": 0, "w": 25, "h": 39, "xSpot": 12, "ySpot": 38}
+    ]},
+    {"name": "smurf_walk_left", "frames": [
+      {"from": "smurf_walk_right", "frame": 0, "op": "flip_h", "xSpot": 12, "ySpot": 39},
+      {"from": "smurf_walk_right", "frame": 1, "op": "flip_h", "xSpot": 11, "ySpot": 38},
+      {"from": "smurf_walk_right", "frame": 2, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurf_walk_right", "frame": 3, "op": "flip_h", "xSpot": 11, "ySpot": 38},
+      {"from": "smurf_walk_right", "frame": 4, "op": "flip_h", "xSpot": 12, "ySpot": 38}
+    ]},
+    {"name": "smurf_jump_right", "path": "snufenn.gfx/smurf_jump_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 30, "h": 39, "xSpot": 14, "ySpot": 38}
+    ]},
+    {"name": "smurf_jump_left", "frames": [
+      {"from": "smurf_jump_right", "frame": 0, "op": "flip_h", "xSpot": 15, "ySpot": 38}
+    ]},
+    {"name": "smurf_die_right", "path": "snufenn.gfx/smurf_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 23, "h": 40, "xSpot": 11, "ySpot": 39},
+      {"x": 23, "y": 0, "w": 26, "h": 42, "xSpot": 14, "ySpot": 41},
+      {"x": 49, "y": 0, "w": 36, "h": 49, "xSpot": 18, "ySpot": 48},
+      {"x": 85, "y": 0, "w": 51, "h": 55, "xSpot": 26, "ySpot": 54},
+      {"x": 136, "y": 0, "w": 93, "h": 82, "xSpot": 46, "ySpot": 81},
+      {"x": 229, "y": 0, "w": 126, "h": 81, "xSpot": 61, "ySpot": 80},
+      {"x": 355, "y": 0, "w": 147, "h": 81, "xSpot": 71, "ySpot": 79},
+      {"x": 502, "y": 0, "w": 156, "h": 75, "xSpot": 79, "ySpot": 74},
+      {"x": 658, "y": 0, "w": 167, "h": 56, "xSpot": 75, "ySpot": 55},
+      {"x": 825, "y": 0, "w": 175, "h": 45, "xSpot": 88, "ySpot": 44},
+      {"x": 1000, "y": 0, "w": 182, "h": 35, "xSpot": 93, "ySpot": 34}
+    ]},
+    {"name": "smurf_die_left", "frames": [
+      {"from": "smurf_die_right", "frame": 0, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurf_die_right", "frame": 1, "op": "flip_h", "xSpot": 11, "ySpot": 41},
+      {"from": "smurf_die_right", "frame": 2, "op": "flip_h", "xSpot": 17, "ySpot": 48},
+      {"from": "smurf_die_right", "frame": 3, "op": "flip_h", "xSpot": 24, "ySpot": 54},
+      {"from": "smurf_die_right", "frame": 4, "op": "flip_h", "xSpot": 46, "ySpot": 81},
+      {"from": "smurf_die_right", "frame": 5, "op": "flip_h", "xSpot": 62, "ySpot": 80},
+      {"from": "smurf_die_right", "frame": 6, "op": "flip_h", "xSpot": 75, "ySpot": 79},
+      {"from": "smurf_die_right", "frame": 7, "op": "flip_h", "xSpot": 76, "ySpot": 73},
+      {"from": "smurf_die_right", "frame": 8, "op": "flip_h", "xSpot": 92, "ySpot": 55},
+      {"from": "smurf_die_right", "frame": 9, "op": "flip_h", "xSpot": 86, "ySpot": 44},
+      {"from": "smurf_die_right", "frame": 10, "op": "flip_h", "xSpot": 88, "ySpot": 34}
+    ]},
+    {"name": "smurf_burn_left", "path": "snufenn.gfx/smurf_burn_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 22, "h": 40, "xSpot": 10, "ySpot": 39},
+      {"x": 22, "y": 0, "w": 22, "h": 52, "xSpot": 10, "ySpot": 51},
+      {"x": 44, "y": 0, "w": 21, "h": 57, "xSpot": 10, "ySpot": 56},
+      {"x": 65, "y": 0, "w": 20, "h": 52, "xSpot": 10, "ySpot": 51},
+      {"x": 85, "y": 0, "w": 20, "h": 47, "xSpot": 10, "ySpot": 46},
+      {"x": 105, "y": 0, "w": 18, "h": 49, "xSpot": 10, "ySpot": 48}
+    ]},
+    {"name": "smurf_burn_right", "frames": [
+      {"from": "smurf_burn_left", "frame": 0, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurf_burn_left", "frame": 1, "op": "flip_h", "xSpot": 11, "ySpot": 51},
+      {"from": "smurf_burn_left", "frame": 2, "op": "flip_h", "xSpot": 11, "ySpot": 56},
+      {"from": "smurf_burn_left", "frame": 3, "op": "flip_h", "xSpot": 11, "ySpot": 51},
+      {"from": "smurf_burn_left", "frame": 4, "op": "flip_h", "xSpot": 11, "ySpot": 46},
+      {"from": "smurf_burn_left", "frame": 5, "op": "flip_h", "xSpot": 11, "ySpot": 48}
+    ]},
+    {"name": "smurf_jokey_walk_right", "path": "snufenn.gfx/smurf_jokey_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 27, "h": 39, "xSpot": 13, "ySpot": 37},
+      {"x": 27, "y": 0, "w": 25, "h": 39, "xSpot": 11, "ySpot": 37},
+      {"x": 52, "y": 0, "w": 24, "h": 39, "xSpot": 10, "ySpot": 37},
+      {"x": 76, "y": 0, "w": 24, "h": 39, "xSpot": 10, "ySpot": 37},
+      {"x": 100, "y": 0, "w": 25, "h": 39, "xSpot": 11, "ySpot": 37}
+    ]},
+    {"name": "smurf_jokey_walk_left", "frames": [
+      {"from": "smurf_jokey_walk_right", "frame": 0, "op": "flip_h", "xSpot": 13, "ySpot": 37},
+      {"from": "smurf_jokey_walk_right", "frame": 1, "op": "flip_h", "xSpot": 13, "ySpot": 37},
+      {"from": "smurf_jokey_walk_right", "frame": 2, "op": "flip_h", "xSpot": 13, "ySpot": 37},
+      {"from": "smurf_jokey_walk_right", "frame": 3, "op": "flip_h", "xSpot": 13, "ySpot": 37},
+      {"from": "smurf_jokey_walk_right", "frame": 4, "op": "flip_h", "xSpot": 13, "ySpot": 37}
+    ]},
+    {"name": "smurf_jokey_gift", "path": "snufenn.gfx/smurf_jokey_gift.png", "frames": [
+      {"x": 0, "y": 0, "w": 36, "h": 41, "xSpot": 17, "ySpot": 40}
+    ]},
+    {"name": "smurf_jokey_draw_right", "path": "snufenn.gfx/smurf_jokey_draw_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 40, "h": 40, "xSpot": 10, "ySpot": 38},
+      {"x": 40, "y": 0, "w": 54, "h": 48, "xSpot": 10, "ySpot": 46},
+      {"x": 94, "y": 0, "w": 55, "h": 48, "xSpot": 10, "ySpot": 46},
+      {"x": 149, "y": 0, "w": 56, "h": 50, "xSpot": 10, "ySpot": 48},
+      {"x": 205, "y": 0, "w": 52, "h": 51, "xSpot": 10, "ySpot": 49}
+    ]},
+    {"name": "smurf_jokey_draw_left", "frames": [
+      {"from": "smurf_jokey_draw_right", "frame": 0, "op": "flip_h", "xSpot": 29, "ySpot": 38},
+      {"from": "smurf_jokey_draw_right", "frame": 1, "op": "flip_h", "xSpot": 43, "ySpot": 46},
+      {"from": "smurf_jokey_draw_right", "frame": 2, "op": "flip_h", "xSpot": 44, "ySpot": 46},
+      {"from": "smurf_jokey_draw_right", "frame": 3, "op": "flip_h", "xSpot": 45, "ySpot": 48},
+      {"from": "smurf_jokey_draw_right", "frame": 4, "op": "flip_h", "xSpot": 41, "ySpot": 49}
+    ]},
+    {"name": "smurf_jokey_blown_right", "path": "snufenn.gfx/smurf_jokey_blown_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 23, "h": 40, "xSpot": 10, "ySpot": 38},
+      {"x": 23, "y": 0, "w": 23, "h": 40, "xSpot": 10, "ySpot": 38},
+      {"x": 46, "y": 0, "w": 23, "h": 40, "xSpot": 10, "ySpot": 38},
+      {"x": 69, "y": 0, "w": 23, "h": 40, "xSpot": 10, "ySpot": 38},
+      {"x": 92, "y": 0, "w": 32, "h": 40, "xSpot": 19, "ySpot": 38},
+      {"x": 124, "y": 0, "w": 36, "h": 40, "xSpot": 25, "ySpot": 38},
+      {"x": 160, "y": 0, "w": 44, "h": 41, "xSpot": 33, "ySpot": 39},
+      {"x": 204, "y": 0, "w": 40, "h": 37, "xSpot": 28, "ySpot": 35},
+      {"x": 244, "y": 0, "w": 40, "h": 38, "xSpot": 34, "ySpot": 36},
+      {"x": 284, "y": 0, "w": 38, "h": 36, "xSpot": 35, "ySpot": 34},
+      {"x": 322, "y": 0, "w": 28, "h": 35, "xSpot": 27, "ySpot": 33}
+    ]},
+    {"name": "smurf_jokey_blown_left", "frames": [
+      {"from": "smurf_jokey_blown_right", "frame": 0, "op": "flip_h", "xSpot": 12, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 1, "op": "flip_h", "xSpot": 12, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 2, "op": "flip_h", "xSpot": 12, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 3, "op": "flip_h", "xSpot": 12, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 4, "op": "flip_h", "xSpot": 12, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 5, "op": "flip_h", "xSpot": 10, "ySpot": 38},
+      {"from": "smurf_jokey_blown_right", "frame": 6, "op": "flip_h", "xSpot": 10, "ySpot": 39},
+      {"from": "smurf_jokey_blown_right", "frame": 7, "op": "flip_h", "xSpot": 11, "ySpot": 35},
+      {"from": "smurf_jokey_blown_right", "frame": 8, "op": "flip_h", "xSpot": 5, "ySpot": 36},
+      {"from": "smurf_jokey_blown_right", "frame": 9, "op": "flip_h", "xSpot": 2, "ySpot": 34},
+      {"from": "smurf_jokey_blown_right", "frame": 10, "op": "flip_h", "xSpot": 0, "ySpot": 33}
+    ]},
+    {"name": "unused_gift_tumble", "path": "snufenn.gfx/unused_gift_tumble.png", "frames": [
+      {"x": 0, "y": 0, "w": 26, "h": 24, "xSpot": 14, "ySpot": 11},
+      {"x": 26, "y": 0, "w": 32, "h": 24, "xSpot": 20, "ySpot": 11},
+      {"x": 58, "y": 0, "w": 39, "h": 33, "xSpot": 26, "ySpot": 21},
+      {"x": 97, "y": 0, "w": 33, "h": 25, "xSpot": 23, "ySpot": 16},
+      {"x": 130, "y": 0, "w": 23, "h": 25, "xSpot": 10, "ySpot": 12},
+      {"x": 153, "y": 0, "w": 31, "h": 25, "xSpot": 11, "ySpot": 12},
+      {"x": 184, "y": 0, "w": 37, "h": 31, "xSpot": 12, "ySpot": 18},
+      {"x": 221, "y": 0, "w": 29, "h": 24, "xSpot": 10, "ySpot": 15},
+      {"x": 250, "y": 0, "w": 36, "h": 25, "xSpot": 19, "ySpot": 18},
+      {"x": 286, "y": 0, "w": 35, "h": 26, "xSpot": 19, "ySpot": 19},
+      {"x": 321, "y": 0, "w": 35, "h": 29, "xSpot": 19, "ySpot": 19}
+    ]},
+    {"name": "gift_explode", "path": "snufenn.gfx/gift_explode.png", "frames": [
+      {"x": 0, "y": 0, "w": 44, "h": 35, "xSpot": 25, "ySpot": 20},
+      {"x": 44, "y": 0, "w": 41, "h": 24, "xSpot": 20, "ySpot": 19},
+      {"x": 85, "y": 0, "w": 69, "h": 41, "xSpot": 36, "ySpot": 34},
+      {"x": 154, "y": 0, "w": 91, "h": 77, "xSpot": 45, "ySpot": 66},
+      {"x": 245, "y": 0, "w": 96, "h": 86, "xSpot": 46, "ySpot": 75},
+      {"x": 341, "y": 0, "w": 96, "h": 60, "xSpot": 47, "ySpot": 54},
+      {"x": 437, "y": 0, "w": 93, "h": 89, "xSpot": 45, "ySpot": 81},
+      {"x": 530, "y": 0, "w": 91, "h": 90, "xSpot": 46, "ySpot": 83},
+      {"x": 621, "y": 0, "w": 92, "h": 91, "xSpot": 46, "ySpot": 84},
+      {"x": 713, "y": 0, "w": 90, "h": 91, "xSpot": 44, "ySpot": 84},
+      {"x": 803, "y": 0, "w": 91, "h": 88, "xSpot": 45, "ySpot": 81},
+      {"x": 894, "y": 0, "w": 90, "h": 81, "xSpot": 46, "ySpot": 78},
+      {"x": 984, "y": 0, "w": 88, "h": 80, "xSpot": 42, "ySpot": 76},
+      {"x": 1072, "y": 0, "w": 89, "h": 72, "xSpot": 41, "ySpot": 67},
+      {"x": 1161, "y": 0, "w": 89, "h": 70, "xSpot": 40, "ySpot": 64},
+      {"x": 1250, "y": 0, "w": 91, "h": 74, "xSpot": 42, "ySpot": 65},
+      {"x": 1341, "y": 0, "w": 80, "h": 71, "xSpot": 44, "ySpot": 63}
+    ]},
+    {"name": "smurf_wild_rope", "path": "snufenn.gfx/smurf_wild_rope.png", "frames": [
+      {"x": 0, "y": 0, "w": 6, "h": 74, "xSpot": 1, "ySpot": 2}
+    ]},
+    {"name": "smurf_wild_die_right", "path": "snufenn.gfx/smurf_wild_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 22, "h": 73, "xSpot": 11, "ySpot": 2},
+      {"x": 22, "y": 0, "w": 23, "h": 76, "xSpot": 10, "ySpot": 2},
+      {"x": 45, "y": 0, "w": 23, "h": 76, "xSpot": 10, "ySpot": 2},
+      {"x": 68, "y": 0, "w": 23, "h": 76, "xSpot": 10, "ySpot": 2},
+      {"x": 91, "y": 0, "w": 23, "h": 76, "xSpot": 10, "ySpot": 2}
+    ]},
+    {"name": "smurf_wild_die_left", "frames": [
+      {"from": "smurf_wild_die_right", "frame": 0, "op": "flip_h", "xSpot": 7, "ySpot": 2},
+      {"from": "smurf_wild_die_right", "frame": 1, "op": "flip_h", "xSpot": 9, "ySpot": 2},
+      {"from": "smurf_wild_die_right", "frame": 2, "op": "flip_h", "xSpot": 9, "ySpot": 2},
+      {"from": "smurf_wild_die_right", "frame": 3, "op": "flip_h", "xSpot": 9, "ySpot": 2},
+      {"from": "smurf_wild_die_right", "frame": 4, "op": "flip_h", "xSpot": 9, "ySpot": 2}
+    ]},
+    {"name": "smurf_wild_gun_fire", "path": "snufenn.gfx/smurf_wild_gun_fire.png", "frames": [
+      {"x": 0, "y": 0, "w": 11, "h": 48, "xSpot": 3, "ySpot": 5},
+      {"x": 11, "y": 0, "w": 11, "h": 45, "xSpot": 3, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 0, "op": "flip_h", "xSpot": 7, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 1, "op": "flip_h", "xSpot": 7, "ySpot": 5},
+      {"x": 22, "y": 0, "w": 24, "h": 40, "xSpot": 4, "ySpot": 5},
+      {"x": 46, "y": 0, "w": 26, "h": 43, "xSpot": 5, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 4, "op": "flip_h", "xSpot": 19, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 5, "op": "flip_h", "xSpot": 20, "ySpot": 5},
+      {"x": 72, "y": 0, "w": 35, "h": 30, "xSpot": 5, "ySpot": 5},
+      {"x": 107, "y": 0, "w": 38, "h": 33, "xSpot": 5, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 8, "op": "flip_h", "xSpot": 29, "ySpot": 5},
+      {"from": "smurf_wild_gun_fire", "frame": 9, "op": "flip_h", "xSpot": 32, "ySpot": 5}
+    ]},
+    {"name": "smurf_wild_hang_right", "path": "snufenn.gfx/smurf_wild_hang_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 24, "h": 60, "xSpot": 14, "ySpot": 0},
+      {"x": 24, "y": 0, "w": 24, "h": 59, "xSpot": 13, "ySpot": 0}
+    ]},
+    {"name": "smurf_wild_hang_left", "frames": [
+      {"from": "smurf_wild_hang_right", "frame": 0, "op": "flip_h", "xSpot": 6, "ySpot": 0},
+      {"from": "smurf_wild_hang_right", "frame": 1, "op": "flip_h", "xSpot": 7, "ySpot": 0}
+    ]},
+    {"name": "smurf_wild_shot", "path": "snufenn.gfx/smurf_wild_shot.png", "frames": [
+      {"x": 0, "y": 0, "w": 6, "h": 6, "xSpot": 3, "ySpot": 2}
+    ]},
+    {"name": "smurf_glasses_left", "path": "snufenn.gfx/smurf_glasses_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 16, "h": 8, "xSpot": 4, "ySpot": 5}
+    ]},
+    {"name": "smurf_glasses_right", "frames": [
+      {"from": "smurf_glasses_left", "frame": 0, "op": "flip_h", "xSpot": 11, "ySpot": 5}
+    ]},
+    {"name": "smurf_chilly_scarf_left", "path": "snufenn.gfx/smurf_chilly_scarf_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 14, "h": 16, "xSpot": 4, "ySpot": 4}
+    ]},
+    {"name": "smurf_chilly_scarf_right", "frames": [
+      {"from": "smurf_chilly_scarf_left", "frame": 0, "op": "flip_h", "xSpot": 9, "ySpot": 4}
+    ]},
+    {"name": "smurf_chilly_hat_left", "path": "snufenn.gfx/smurf_chilly_hat_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 16, "h": 6, "xSpot": 7, "ySpot": 2}
+    ]},
+    {"name": "smurf_chilly_hat_right", "frames": [
+      {"from": "smurf_chilly_hat_left", "frame": 0, "op": "flip_h", "xSpot": 8, "ySpot": 2}
+    ]},
+    {"name": "smurf_vain_flower", "path": "snufenn.gfx/smurf_vain_flower.png", "frames": [
+      {"x": 0, "y": 0, "w": 7, "h": 7, "xSpot": 3, "ySpot": 3}
+    ]},
+    {"name": "unused_puff", "path": "snufenn.gfx/unused_puff.png", "frames": [
+      {"x": 0, "y": 0, "w": 10, "h": 9, "xSpot": 5, "ySpot": 4}
+    ]},
+    {"name": "smurf_peon_hat_left", "path": "snufenn.gfx/smurf_peon_hat_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 25, "h": 20, "xSpot": 12, "ySpot": 10}
+    ]},
+    {"name": "smurf_peon_hat_right", "frames": [
+      {"from": "smurf_peon_hat_left", "frame": 0, "op": "flip_h", "xSpot": 12, "ySpot": 10}
+    ]},
+    {"name": "unused_peon_hat", "path": "snufenn.gfx/unused_peon_hat.png", "frames": [
+      {"x": 0, "y": 0, "w": 25, "h": 19, "xSpot": 11, "ySpot": 16}
+    ]},
+    {"name": "smurf_farmer_charge_right", "path": "snufenn.gfx/smurf_farmer_charge_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 55, "h": 44, "xSpot": 13, "ySpot": 42},
+      {"x": 55, "y": 0, "w": 55, "h": 43, "xSpot": 13, "ySpot": 41},
+      {"x": 110, "y": 0, "w": 55, "h": 45, "xSpot": 13, "ySpot": 43},
+      {"x": 165, "y": 0, "w": 57, "h": 44, "xSpot": 15, "ySpot": 42}
+    ]},
+    {"name": "smurf_farmer_charge_left", "path": "snufenn.gfx/smurf_farmer_charge_left.png", "frames": [
+      {"x": 0, "y": 0, "w": 55, "h": 44, "xSpot": 41, "ySpot": 42},
+      {"x": 55, "y": 0, "w": 55, "h": 43, "xSpot": 41, "ySpot": 41},
+      {"x": 110, "y": 0, "w": 55, "h": 45, "xSpot": 41, "ySpot": 43},
+      {"x": 165, "y": 0, "w": 57, "h": 44, "xSpot": 41, "ySpot": 42}
+    ]},
+    {"name": "smurf_farmer_head_right", "path": "snufenn.gfx/smurf_farmer_head_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 26, "h": 24, "xSpot": 14, "ySpot": 23},
+      {"x": 26, "y": 0, "w": 30, "h": 18, "xSpot": 22, "ySpot": 17},
+      {"x": 56, "y": 0, "w": 41, "h": 24, "xSpot": 34, "ySpot": 23},
+      {"x": 97, "y": 0, "w": 43, "h": 30, "xSpot": 40, "ySpot": 29},
+      {"x": 140, "y": 0, "w": 58, "h": 33, "xSpot": 57, "ySpot": 32}
+    ]},
+    {"name": "smurf_farmer_head_left", "frames": [
+      {"from": "smurf_farmer_head_right", "frame": 0, "op": "flip_h", "xSpot": 11, "ySpot": 23},
+      {"from": "smurf_farmer_head_right", "frame": 1, "op": "flip_h", "xSpot": 7, "ySpot": 17},
+      {"from": "smurf_farmer_head_right", "frame": 2, "op": "flip_h", "xSpot": 6, "ySpot": 23},
+      {"from": "smurf_farmer_head_right", "frame": 3, "op": "flip_h", "xSpot": 2, "ySpot": 29},
+      {"from": "smurf_farmer_head_right", "frame": 4, "op": "flip_h", "xSpot": 0, "ySpot": 32}
+    ]},
+    {"name": "smurf_farmer_beheaded_right", "path": "snufenn.gfx/smurf_farmer_beheaded_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 55, "h": 44, "xSpot": 13, "ySpot": 42},
+      {"x": 55, "y": 0, "w": 55, "h": 43, "xSpot": 13, "ySpot": 41},
+      {"x": 110, "y": 0, "w": 55, "h": 45, "xSpot": 13, "ySpot": 43},
+      {"x": 165, "y": 0, "w": 57, "h": 44, "xSpot": 15, "ySpot": 42}
+    ]},
+    {"name": "smurf_farmer_beheaded_left", "frames": [
+      {"from": "smurf_farmer_beheaded_right", "frame": 0, "op": "flip_h", "xSpot": 41, "ySpot": 42},
+      {"from": "smurf_farmer_beheaded_right", "frame": 1, "op": "flip_h", "xSpot": 41, "ySpot": 41},
+      {"from": "smurf_farmer_beheaded_right", "frame": 2, "op": "flip_h", "xSpot": 41, "ySpot": 43},
+      {"from": "smurf_farmer_beheaded_right", "frame": 3, "op": "flip_h", "xSpot": 41, "ySpot": 42}
+    ]},
+    {"name": "smurf_greedy_throw_right", "path": "snufenn.gfx/smurf_greedy_throw_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 45, "h": 44, "xSpot": 32, "ySpot": 42},
+      {"x": 45, "y": 0, "w": 36, "h": 44, "xSpot": 22, "ySpot": 42},
+      {"x": 81, "y": 0, "w": 27, "h": 45, "xSpot": 12, "ySpot": 43},
+      {"x": 108, "y": 0, "w": 28, "h": 45, "xSpot": 12, "ySpot": 43},
+      {"x": 136, "y": 0, "w": 34, "h": 45, "xSpot": 12, "ySpot": 43},
+      {"x": 170, "y": 0, "w": 27, "h": 43, "xSpot": 12, "ySpot": 41}
+    ]},
+    {"name": "smurf_greedy_throw_left", "frames": [
+      {"from": "smurf_greedy_throw_right", "frame": 0, "op": "flip_h", "xSpot": 12, "ySpot": 42},
+      {"from": "smurf_greedy_throw_right", "frame": 1, "op": "flip_h", "xSpot": 13, "ySpot": 42},
+      {"from": "smurf_greedy_throw_right", "frame": 2, "op": "flip_h", "xSpot": 14, "ySpot": 43},
+      {"from": "smurf_greedy_throw_right", "frame": 3, "op": "flip_h", "xSpot": 15, "ySpot": 43},
+      {"from": "smurf_greedy_throw_right", "frame": 4, "op": "flip_h", "xSpot": 21, "ySpot": 43},
+      {"from": "smurf_greedy_throw_right", "frame": 5, "op": "flip_h", "xSpot": 14, "ySpot": 41}
+    ]},
+    {"name": "smurf_greedy_cake", "path": "snufenn.gfx/smurf_greedy_cake.png", "frames": [
+      {"x": 0, "y": 0, "w": 19, "h": 25, "xSpot": 9, "ySpot": 15}
+    ]},
+    {"name": "smurf_greedy_die_right", "path": "snufenn.gfx/smurf_greedy_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 36, "h": 45, "xSpot": 19, "ySpot": 43},
+      {"x": 36, "y": 0, "w": 54, "h": 47, "xSpot": 38, "ySpot": 44},
+      {"x": 90, "y": 0, "w": 70, "h": 48, "xSpot": 52, "ySpot": 44},
+      {"x": 160, "y": 0, "w": 50, "h": 49, "xSpot": 32, "ySpot": 46},
+      {"x": 210, "y": 0, "w": 39, "h": 48, "xSpot": 25, "ySpot": 45},
+      {"x": 249, "y": 0, "w": 35, "h": 46, "xSpot": 22, "ySpot": 44},
+      {"x": 284, "y": 0, "w": 36, "h": 43, "xSpot": 20, "ySpot": 41},
+      {"x": 320, "y": 0, "w": 44, "h": 41, "xSpot": 24, "ySpot": 39},
+      {"x": 364, "y": 0, "w": 44, "h": 40, "xSpot": 24, "ySpot": 38},
+      {"x": 408, "y": 0, "w": 47, "h": 32, "xSpot": 25, "ySpot": 30},
+      {"x": 455, "y": 0, "w": 49, "h": 26, "xSpot": 25, "ySpot": 24},
+      {"x": 504, "y": 0, "w": 53, "h": 22, "xSpot": 27, "ySpot": 18}
+    ]},
+    {"name": "smurf_greedy_die_left", "frames": [
+      {"from": "smurf_greedy_die_right", "frame": 0, "op": "flip_h", "xSpot": 16, "ySpot": 43},
+      {"from": "smurf_greedy_die_right", "frame": 1, "op": "flip_h", "xSpot": 15, "ySpot": 44},
+      {"from": "smurf_greedy_die_right", "frame": 2, "op": "flip_h", "xSpot": 17, "ySpot": 45},
+      {"from": "smurf_greedy_die_right", "frame": 3, "op": "flip_h", "xSpot": 17, "ySpot": 47},
+      {"from": "smurf_greedy_die_right", "frame": 4, "op": "flip_h", "xSpot": 15, "ySpot": 46},
+      {"from": "smurf_greedy_die_right", "frame": 5, "op": "flip_h", "xSpot": 15, "ySpot": 44},
+      {"from": "smurf_greedy_die_right", "frame": 6, "op": "flip_h", "xSpot": 16, "ySpot": 41},
+      {"from": "smurf_greedy_die_right", "frame": 7, "op": "flip_h", "xSpot": 20, "ySpot": 39},
+      {"from": "smurf_greedy_die_right", "frame": 8, "op": "flip_h", "xSpot": 20, "ySpot": 38},
+      {"from": "smurf_greedy_die_right", "frame": 9, "op": "flip_h", "xSpot": 22, "ySpot": 30},
+      {"from": "smurf_greedy_die_right", "frame": 10, "op": "flip_h", "xSpot": 25, "ySpot": 24},
+      {"from": "smurf_greedy_die_right", "frame": 11, "op": "flip_h", "xSpot": 25, "ySpot": 18}
+    ]},
+    {"name": "smurf_hefty_hadoken_right", "path": "snufenn.gfx/smurf_hefty_hadoken_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 56, "h": 29, "xSpot": 30, "ySpot": 15},
+      {"x": 56, "y": 0, "w": 43, "h": 33, "xSpot": 22, "ySpot": 17}
+    ]},
+    {"name": "smurf_hefty_hadoken_left", "frames": [
+      {"from": "smurf_hefty_hadoken_right", "frame": 0, "op": "flip_h", "xSpot": 23, "ySpot": 15},
+      {"from": "smurf_hefty_hadoken_right", "frame": 1, "op": "flip_h", "xSpot": 21, "ySpot": 16}
+    ]},
+    {"name": "smurf_hefty_uppercut_right", "path": "snufenn.gfx/smurf_hefty_uppercut_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 43, "h": 53, "xSpot": 22, "ySpot": 52},
+      {"x": 43, "y": 0, "w": 49, "h": 55, "xSpot": 24, "ySpot": 54},
+      {"x": 92, "y": 0, "w": 42, "h": 62, "xSpot": 23, "ySpot": 61},
+      {"x": 134, "y": 0, "w": 41, "h": 90, "xSpot": 24, "ySpot": 61},
+      {"x": 175, "y": 0, "w": 41, "h": 66, "xSpot": 25, "ySpot": 62},
+      {"x": 216, "y": 0, "w": 34, "h": 59, "xSpot": 19, "ySpot": 56},
+      {"x": 250, "y": 0, "w": 41, "h": 60, "xSpot": 20, "ySpot": 56}
+    ]},
+    {"name": "smurf_hefty_uppercut_left", "frames": [
+      {"from": "smurf_hefty_uppercut_right", "frame": 0, "op": "flip_h", "xSpot": 20, "ySpot": 52},
+      {"from": "smurf_hefty_uppercut_right", "frame": 1, "op": "flip_h", "xSpot": 24, "ySpot": 54},
+      {"from": "smurf_hefty_uppercut_right", "frame": 2, "op": "flip_h", "xSpot": 18, "ySpot": 61},
+      {"from": "smurf_hefty_uppercut_right", "frame": 3, "op": "flip_h", "xSpot": 15, "ySpot": 61},
+      {"from": "smurf_hefty_uppercut_right", "frame": 4, "op": "flip_h", "xSpot": 15, "ySpot": 61},
+      {"from": "smurf_hefty_uppercut_right", "frame": 5, "op": "flip_h", "xSpot": 14, "ySpot": 55},
+      {"from": "smurf_hefty_uppercut_right", "frame": 6, "op": "flip_h", "xSpot": 19, "ySpot": 56}
+    ]},
+    {"name": "smurf_hefty_throw_right", "path": "snufenn.gfx/smurf_hefty_throw_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 34, "h": 52, "xSpot": 15, "ySpot": 51},
+      {"x": 34, "y": 0, "w": 34, "h": 51, "xSpot": 15, "ySpot": 50},
+      {"x": 68, "y": 0, "w": 37, "h": 49, "xSpot": 16, "ySpot": 48},
+      {"x": 105, "y": 0, "w": 50, "h": 49, "xSpot": 23, "ySpot": 48},
+      {"x": 155, "y": 0, "w": 50, "h": 49, "xSpot": 23, "ySpot": 48}
+    ]},
+    {"name": "smurf_hefty_throw_left", "frames": [
+      {"from": "smurf_hefty_throw_right", "frame": 0, "op": "flip_h", "xSpot": 17, "ySpot": 51},
+      {"from": "smurf_hefty_throw_right", "frame": 1, "op": "flip_h", "xSpot": 17, "ySpot": 50},
+      {"from": "smurf_hefty_throw_right", "frame": 2, "op": "flip_h", "xSpot": 19, "ySpot": 48},
+      {"from": "smurf_hefty_throw_right", "frame": 3, "op": "flip_h", "xSpot": 25, "ySpot": 48},
+      {"from": "smurf_hefty_throw_right", "frame": 4, "op": "flip_h", "xSpot": 25, "ySpot": 48}
+    ]},
+    {"name": "smurf_hefty_spin_kick", "path": "snufenn.gfx/smurf_hefty_spin_kick.png", "frames": [
+      {"x": 0, "y": 0, "w": 40, "h": 57, "xSpot": 20, "ySpot": 50},
+      {"x": 40, "y": 0, "w": 31, "h": 52, "xSpot": 11, "ySpot": 50},
+      {"x": 71, "y": 0, "w": 46, "h": 54, "xSpot": 23, "ySpot": 50},
+      {"x": 117, "y": 0, "w": 34, "h": 54, "xSpot": 15, "ySpot": 50},
+      {"x": 151, "y": 0, "w": 39, "h": 54, "xSpot": 13, "ySpot": 50},
+      {"x": 190, "y": 0, "w": 41, "h": 54, "xSpot": 22, "ySpot": 50}
+    ]},
+    {"name": "smurf_hefty_burn_right", "path": "snufenn.gfx/smurf_hefty_burn_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 29, "h": 55, "xSpot": 14, "ySpot": 53},
+      {"x": 29, "y": 0, "w": 28, "h": 69, "xSpot": 13, "ySpot": 65},
+      {"x": 57, "y": 0, "w": 28, "h": 73, "xSpot": 13, "ySpot": 69},
+      {"x": 85, "y": 0, "w": 25, "h": 71, "xSpot": 11, "ySpot": 68},
+      {"x": 110, "y": 0, "w": 26, "h": 61, "xSpot": 13, "ySpot": 58},
+      {"x": 136, "y": 0, "w": 26, "h": 54, "xSpot": 13, "ySpot": 51}
+    ]},
+    {"name": "smurf_hefty_burn_left", "frames": [
+      {"from": "smurf_hefty_burn_right", "frame": 0, "op": "flip_h", "xSpot": 14, "ySpot": 51},
+      {"from": "smurf_hefty_burn_right", "frame": 1, "op": "flip_h", "xSpot": 14, "ySpot": 65},
+      {"from": "smurf_hefty_burn_right", "frame": 2, "op": "flip_h", "xSpot": 14, "ySpot": 69},
+      {"from": "smurf_hefty_burn_right", "frame": 3, "op": "flip_h", "xSpot": 13, "ySpot": 67},
+      {"from": "smurf_hefty_burn_right", "frame": 4, "op": "flip_h", "xSpot": 13, "ySpot": 57},
+      {"from": "smurf_hefty_burn_right", "frame": 5, "op": "flip_h", "xSpot": 13, "ySpot": 50}
+    ]},
+    {"name": "smurf_hefty_walk_right", "path": "snufenn.gfx/smurf_hefty_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 32, "h": 55, "xSpot": 16, "ySpot": 53},
+      {"x": 32, "y": 0, "w": 29, "h": 55, "xSpot": 15, "ySpot": 53},
+      {"x": 61, "y": 0, "w": 23, "h": 57, "xSpot": 12, "ySpot": 54},
+      {"x": 84, "y": 0, "w": 25, "h": 57, "xSpot": 12, "ySpot": 54}
+    ]},
+    {"name": "smurf_hefty_walk_left", "frames": [
+      {"from": "smurf_hefty_walk_right", "frame": 0, "op": "flip_h", "xSpot": 15, "ySpot": 53},
+      {"from": "smurf_hefty_walk_right", "frame": 1, "op": "flip_h", "xSpot": 13, "ySpot": 53},
+      {"from": "smurf_hefty_walk_right", "frame": 2, "op": "flip_h", "xSpot": 10, "ySpot": 54},
+      {"from": "smurf_hefty_walk_right", "frame": 3, "op": "flip_h", "xSpot": 12, "ySpot": 54}
+    ]},
+    {"name": "smurf_hefty_die_right", "path": "snufenn.gfx/smurf_hefty_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 29, "h": 53, "xSpot": 15, "ySpot": 52},
+      {"x": 29, "y": 0, "w": 31, "h": 49, "xSpot": 17, "ySpot": 45},
+      {"x": 60, "y": 0, "w": 32, "h": 46, "xSpot": 18, "ySpot": 44},
+      {"x": 92, "y": 0, "w": 32, "h": 46, "xSpot": 18, "ySpot": 44},
+      {"x": 124, "y": 0, "w": 36, "h": 46, "xSpot": 21, "ySpot": 44},
+      {"x": 160, "y": 0, "w": 36, "h": 46, "xSpot": 18, "ySpot": 44},
+      {"x": 196, "y": 0, "w": 38, "h": 46, "xSpot": 18, "ySpot": 44},
+      {"x": 234, "y": 0, "w": 36, "h": 46, "xSpot": 18, "ySpot": 44},
+      {"x": 270, "y": 0, "w": 39, "h": 45, "xSpot": 18, "ySpot": 43},
+      {"x": 309, "y": 0, "w": 46, "h": 47, "xSpot": 18, "ySpot": 45},
+      {"x": 355, "y": 0, "w": 52, "h": 46, "xSpot": 18, "ySpot": 42},
+      {"x": 407, "y": 0, "w": 55, "h": 36, "xSpot": 18, "ySpot": 34},
+      {"x": 462, "y": 0, "w": 55, "h": 30, "xSpot": 18, "ySpot": 28},
+      {"x": 517, "y": 0, "w": 61, "h": 23, "xSpot": 18, "ySpot": 18}
+    ]},
+    {"name": "smurf_hefty_die_left", "frames": [
+      {"from": "smurf_hefty_die_right", "frame": 0, "op": "flip_h", "xSpot": 13, "ySpot": 52},
+      {"from": "smurf_hefty_die_right", "frame": 1, "op": "flip_h", "xSpot": 13, "ySpot": 45},
+      {"from": "smurf_hefty_die_right", "frame": 2, "op": "flip_h", "xSpot": 13, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 3, "op": "flip_h", "xSpot": 13, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 4, "op": "flip_h", "xSpot": 14, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 5, "op": "flip_h", "xSpot": 17, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 6, "op": "flip_h", "xSpot": 19, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 7, "op": "flip_h", "xSpot": 17, "ySpot": 44},
+      {"from": "smurf_hefty_die_right", "frame": 8, "op": "flip_h", "xSpot": 20, "ySpot": 43},
+      {"from": "smurf_hefty_die_right", "frame": 9, "op": "flip_h", "xSpot": 27, "ySpot": 45},
+      {"from": "smurf_hefty_die_right", "frame": 10, "op": "flip_h", "xSpot": 33, "ySpot": 42},
+      {"from": "smurf_hefty_die_right", "frame": 11, "op": "flip_h", "xSpot": 36, "ySpot": 34},
+      {"from": "smurf_hefty_die_right", "frame": 12, "op": "flip_h", "xSpot": 36, "ySpot": 28},
+      {"from": "smurf_hefty_die_right", "frame": 13, "op": "flip_h", "xSpot": 42, "ySpot": 18}
+    ]},
+    {"name": "smurfette_shoot_right", "path": "snufenn.gfx/smurfette_shoot_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 26, "h": 41, "xSpot": 15, "ySpot": 39},
+      {"x": 26, "y": 0, "w": 26, "h": 41, "xSpot": 15, "ySpot": 39},
+      {"x": 52, "y": 0, "w": 28, "h": 41, "xSpot": 16, "ySpot": 39},
+      {"x": 80, "y": 0, "w": 28, "h": 41, "xSpot": 16, "ySpot": 39},
+      {"x": 108, "y": 0, "w": 28, "h": 41, "xSpot": 16, "ySpot": 39}
+    ]},
+    {"name": "smurfette_shoot_left", "frames": [
+      {"from": "smurfette_shoot_right", "frame": 0, "op": "flip_h", "xSpot": 10, "ySpot": 39},
+      {"from": "smurfette_shoot_right", "frame": 1, "op": "flip_h", "xSpot": 10, "ySpot": 39},
+      {"from": "smurfette_shoot_right", "frame": 2, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurfette_shoot_right", "frame": 3, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurfette_shoot_right", "frame": 4, "op": "flip_h", "xSpot": 11, "ySpot": 39}
+    ]},
+    {"name": "smurfette_kiss_right", "path": "snufenn.gfx/smurfette_kiss_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 18, "h": 15, "xSpot": 8, "ySpot": 7},
+      {"x": 18, "y": 0, "w": 17, "h": 15, "xSpot": 8, "ySpot": 7}
+    ]},
+    {"name": "smurfette_kiss_left", "frames": [
+      {"from": "smurfette_kiss_right", "frame": 0, "op": "flip_h", "xSpot": 8, "ySpot": 7},
+      {"from": "smurfette_kiss_right", "frame": 1, "op": "flip_h", "xSpot": 8, "ySpot": 7}
+    ]},
+    {"name": "smurfette_walk_right", "path": "snufenn.gfx/smurfette_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 29, "h": 41, "xSpot": 17, "ySpot": 39},
+      {"x": 29, "y": 0, "w": 28, "h": 41, "xSpot": 16, "ySpot": 39},
+      {"x": 57, "y": 0, "w": 28, "h": 41, "xSpot": 16, "ySpot": 40},
+      {"x": 85, "y": 0, "w": 26, "h": 41, "xSpot": 15, "ySpot": 39},
+      {"x": 111, "y": 0, "w": 26, "h": 41, "xSpot": 15, "ySpot": 39}
+    ]},
+    {"name": "smurfette_walk_left", "frames": [
+      {"from": "smurfette_walk_right", "frame": 0, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurfette_walk_right", "frame": 1, "op": "flip_h", "xSpot": 11, "ySpot": 39},
+      {"from": "smurfette_walk_right", "frame": 2, "op": "flip_h", "xSpot": 11, "ySpot": 40},
+      {"from": "smurfette_walk_right", "frame": 3, "op": "flip_h", "xSpot": 10, "ySpot": 39},
+      {"from": "smurfette_walk_right", "frame": 4, "op": "flip_h", "xSpot": 10, "ySpot": 39}
+    ]},
+    {"name": "smurfette_die_right", "path": "snufenn.gfx/smurfette_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 28, "h": 41, "xSpot": 14, "ySpot": 40},
+      {"x": 28, "y": 0, "w": 30, "h": 48, "xSpot": 15, "ySpot": 47},
+      {"x": 58, "y": 0, "w": 46, "h": 55, "xSpot": 24, "ySpot": 54},
+      {"x": 104, "y": 0, "w": 70, "h": 62, "xSpot": 34, "ySpot": 61},
+      {"x": 174, "y": 0, "w": 106, "h": 71, "xSpot": 49, "ySpot": 70},
+      {"x": 280, "y": 0, "w": 127, "h": 71, "xSpot": 63, "ySpot": 70},
+      {"x": 407, "y": 0, "w": 137, "h": 72, "xSpot": 66, "ySpot": 70},
+      {"x": 544, "y": 0, "w": 155, "h": 67, "xSpot": 77, "ySpot": 65},
+      {"x": 699, "y": 0, "w": 142, "h": 43, "xSpot": 60, "ySpot": 41},
+      {"x": 841, "y": 0, "w": 54, "h": 20, "xSpot": 26, "ySpot": 18},
+      {"x": 895, "y": 0, "w": 54, "h": 13, "xSpot": 26, "ySpot": 11},
+      {"x": 949, "y": 0, "w": 54, "h": 13, "xSpot": 26, "ySpot": 11}
+    ]},
+    {"name": "smurfette_die_left", "frames": [
+      {"from": "smurfette_die_right", "frame": 0, "op": "flip_h", "xSpot": 13, "ySpot": 40},
+      {"from": "smurfette_die_right", "frame": 1, "op": "flip_h", "xSpot": 14, "ySpot": 47},
+      {"from": "smurfette_die_right", "frame": 2, "op": "flip_h", "xSpot": 21, "ySpot": 54},
+      {"from": "smurfette_die_right", "frame": 3, "op": "flip_h", "xSpot": 35, "ySpot": 61},
+      {"from": "smurfette_die_right", "frame": 4, "op": "flip_h", "xSpot": 56, "ySpot": 70},
+      {"from": "smurfette_die_right", "frame": 5, "op": "flip_h", "xSpot": 63, "ySpot": 70},
+      {"from": "smurfette_die_right", "frame": 6, "op": "flip_h", "xSpot": 70, "ySpot": 70},
+      {"from": "smurfette_die_right", "frame": 7, "op": "flip_h", "xSpot": 77, "ySpot": 65},
+      {"from": "smurfette_die_right", "frame": 8, "op": "flip_h", "xSpot": 81, "ySpot": 41},
+      {"from": "smurfette_die_right", "frame": 9, "op": "flip_h", "xSpot": 27, "ySpot": 18},
+      {"from": "smurfette_die_right", "frame": 10, "op": "flip_h", "xSpot": 27, "ySpot": 11},
+      {"from": "smurfette_die_right", "frame": 11, "op": "flip_h", "xSpot": 27, "ySpot": 11}
+    ]},
+    {"name": "smurf_wild_gun_idle", "path": "snufenn.gfx/smurf_wild_gun_idle.png", "frames": [
+      {"x": 0, "y": 0, "w": 24, "h": 40, "xSpot": 5, "ySpot": 5},
+      {"from": "smurf_wild_gun_idle", "frame": 0, "op": "flip_h", "xSpot": 18, "ySpot": 5},
+      {"x": 24, "y": 0, "w": 38, "h": 33, "xSpot": 6, "ySpot": 5},
+      {"from": "smurf_wild_gun_idle", "frame": 2, "op": "flip_h", "xSpot": 31, "ySpot": 5},
+      {"x": 62, "y": 0, "w": 11, "h": 48, "xSpot": 4, "ySpot": 6},
+      {"x": 73, "y": 0, "w": 11, "h": 48, "xSpot": 6, "ySpot": 6}
+    ]},
+    {"name": "smurf_stork", "path": "snufenn.gfx/smurf_stork.png", "frames": [
+      {"x": 0, "y": 0, "w": 232, "h": 130, "xSpot": 96, "ySpot": 119}
+    ]}
   ]
 }

@@ -17,7 +17,7 @@ void ShotLaserSword::update() {
 		anim_step %= 24;
 	}
 
-	pic = pbk_enemies[525 + anim_step];
+	pic = pbk_enemies.anim("jedi_sword_spin")[anim_step];
 
 	x += dx / 10;
 	y += dy / 10;

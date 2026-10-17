@@ -11,10 +11,10 @@ class EnemySmurfPeon : public EnemySmurf {
 		if ((status != STATE_DYING && status != STATE_CHARRED) || (status == STATE_DYING && anim_step <= 2)) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x, y - 32, pbk_enemies[153]);
+					draw(x, y - 32, pbk_enemies.pic("smurf_peon_hat_left"));
 					break;
 				case FACING_RIGHT:
-					draw(x, y - 32, pbk_enemies[154]);
+					draw(x, y - 32, pbk_enemies.pic("smurf_peon_hat_right"));
 					break;
 			}
 		}

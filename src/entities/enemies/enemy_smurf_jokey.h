@@ -6,7 +6,7 @@
 #define STATE_DRAW_WEAPON 11
 
 const int anim_smurf_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
-const int anim_smurf_walk_left[] = {5, 6, 7, 8, 9, 8, 7, 6};
+const int anim_smurf_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 class EnemySmurfJokey : public Enemy {
    public:
@@ -22,9 +22,9 @@ class EnemySmurfJokey : public Enemy {
 	inline void render() override {
 		if (carries_bomb) {
 			if (dir == FACING_RIGHT)
-				draw(x + 26, y - gift_dy, pbk_enemies[56]);
+				draw(x + 26, y - gift_dy, pbk_enemies.pic("smurf_jokey_gift"));
 			else
-				draw(x - 26, y - gift_dy, pbk_enemies[56]);
+				draw(x - 26, y - gift_dy, pbk_enemies.pic("smurf_jokey_gift"));
 		}
 
 		draw(x, y, pic);

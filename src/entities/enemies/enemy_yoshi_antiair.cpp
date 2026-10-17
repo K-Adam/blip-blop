@@ -50,9 +50,9 @@ void EnemyYoshiAntiair::onWalk() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[28];
+		pic = pbk_enemies.anim("yoshi_walk_right")[0];
 	} else {
-		pic = pbk_enemies[31];
+		pic = pbk_enemies.anim("yoshi_walk_left")[0];
 	}
 
 	colFromPic();
@@ -74,9 +74,9 @@ void EnemyYoshiAntiair::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[71 + anim_step];
+			pic = pbk_enemies.anim("yoshi_die_left")[anim_step];
 		else
-			pic = pbk_enemies[62 + anim_step];
+			pic = pbk_enemies.anim("yoshi_die_right")[anim_step];
 	}
 }
 
@@ -106,9 +106,9 @@ void EnemyYoshiAntiair::onShoot() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[54 + anim_step];
+		pic = pbk_enemies.anim("yoshi_throw_right")[anim_step];
 	} else {
-		pic = pbk_enemies[56 + anim_step];
+		pic = pbk_enemies.anim("yoshi_throw_left")[anim_step];
 	}
 
 	colFromPic();
@@ -125,9 +125,9 @@ void EnemyYoshiAntiair::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[460 + anim_step];
+			pic = pbk_enemies.anim("yoshi_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[474 + anim_step];
+			pic = pbk_enemies.anim("yoshi_burn_left")[anim_step];
 	}
 }
 

@@ -4,5 +4,5 @@
 
 void BackgroundCameraScreen::render() {
 	Sprite::render();
-	draw(x, y + anim_tick, pbk_level[49]);
+	draw(x, y + anim_tick, pbk_level.pic("camera_screen_frame"));
 }

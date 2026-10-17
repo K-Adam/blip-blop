@@ -2,18 +2,18 @@
 
 #include <algorithm>
 
-#include "entities/sprites.h"
 #include "entities/bonus.h"
 
 struct WeaponSpec {
-	int pic, sound, id, ammo, max_ammo, anim_steps, shot_interval, turn_delay;
+	const char* pic;
+	int sound, id, ammo, max_ammo, anim_steps, shot_interval, turn_delay;
 	bool light;
 };
 
 class BonusWeapon : public Bonus {
    public:
 	explicit BonusWeapon(const WeaponSpec& w) : w_(w) {
-		pic = pbk_misc[w.pic];
+		pic = pbk_misc.pic(w.pic);
 		col_on = true;
 	}
 
@@ -48,20 +48,20 @@ class BonusWeapon : public Bonus {
 
 class BonusPM : public BonusWeapon {
    public:
-	BonusPM() : BonusWeapon({MISC::ICON_PM, 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
+	BonusPM() : BonusWeapon({"icon_pm", 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
 };
 
 class BonusShotgun : public BonusWeapon {
    public:
-	BonusShotgun() : BonusWeapon({MISC::ICON_SHOTGUN, 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
+	BonusShotgun() : BonusWeapon({"icon_shotgun", 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
 };
 
 class BonusLaser : public BonusWeapon {
    public:
-	BonusLaser() : BonusWeapon({MISC::ICON_LASER, 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
+	BonusLaser() : BonusWeapon({"icon_laser", 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
 };
 
 class BonusLF : public BonusWeapon {
    public:
-	BonusLF() : BonusWeapon({MISC::ICON_LF, 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
+	BonusLF() : BonusWeapon({"icon_lf", 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
 };

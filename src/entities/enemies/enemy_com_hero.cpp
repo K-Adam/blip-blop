@@ -26,7 +26,7 @@ void EnemyCOMHero::update() {
 				anim_step++;
 				anim_step %= 4;
 			}
-			pic = pbk_enemies[272 + anim_step];
+			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -38,7 +38,7 @@ void EnemyCOMHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies[388 + anim_step];
+				pic = pbk_enemies.anim("com_release")[anim_step];
 			}
 		}
 
@@ -83,7 +83,7 @@ void EnemyCOMHero::onWalk() {
 		walk(-2);
 	}
 
-	pic = pbk_enemies[304 + anim_step];
+	pic = pbk_enemies.anim("com_hover")[anim_step];
 
 	colFromPic();
 }
@@ -100,7 +100,7 @@ void EnemyCOMHero::onDie() {
 		game_flag[1]--;
 		destroyed = true;
 	} else {
-		pic = pbk_enemies[358 + anim_step];
+		pic = pbk_enemies.anim("com_die")[anim_step];
 	}
 }
 

@@ -89,7 +89,7 @@ void EnemyCOMFlying::onWalk() {
 	else
 		x -= speed;
 
-	pic = pbk_enemies[98 + anim_step];
+	pic = pbk_enemies.anim("com_fly")[anim_step];
 
 	colFromPic();
 }
@@ -107,6 +107,6 @@ void EnemyCOMFlying::onDie() {
 	if (anim_step >= 22) {
 		destroyed = true;
 	} else {
-		pic = pbk_enemies[76 + anim_step];
+		pic = pbk_enemies.anim("com_die")[anim_step];
 	}
 }

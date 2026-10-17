@@ -5,7 +5,7 @@
 
 BackgroundLight::BackgroundLight() : lit(false), wait_for_blink(0) {
 	blink_interval = 50 + rand() % 200;
-	pic = pbk_level[0];
+	pic = pbk_level.anim("light_blink")[0];
 }
 
 void BackgroundLight::update() {
@@ -21,7 +21,7 @@ void BackgroundLight::update() {
 			anim_step = 0;
 		}
 	} else {
-		pic = pbk_level[animate(anim_blink, 58, 3)];
+		pic = pbk_level.anim("light_blink")[animate(anim_blink, 58, 3)];
 
 		if (anim_step == 57) {
 			lit = true;

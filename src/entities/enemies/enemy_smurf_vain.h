@@ -14,10 +14,10 @@ class EnemySmurfVain : public EnemySmurf {
 		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x + 3, y - 31, pbk_enemies[151]);
+					draw(x + 3, y - 31, pbk_enemies.pic("smurf_vain_flower"));
 					break;
 				case FACING_RIGHT:
-					draw(x - 3, y - 31, pbk_enemies[151]);
+					draw(x - 3, y - 31, pbk_enemies.pic("smurf_vain_flower"));
 					break;
 			}
 		}

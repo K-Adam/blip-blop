@@ -62,9 +62,9 @@ void EnemySmurfGreedy::onNormal() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[182];
+		pic = pbk_enemies.anim("smurf_greedy_throw_right")[0];
 	} else {
-		pic = pbk_enemies[188];
+		pic = pbk_enemies.anim("smurf_greedy_throw_left")[0];
 	}
 
 	colFromPic();
@@ -98,9 +98,9 @@ void EnemySmurfGreedy::onShoot() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[182 + anim_step];
+		pic = pbk_enemies.anim("smurf_greedy_throw_right")[anim_step];
 	} else {
-		pic = pbk_enemies[188 + anim_step];
+		pic = pbk_enemies.anim("smurf_greedy_throw_left")[anim_step];
 	}
 
 	colFromPic();
@@ -117,11 +117,11 @@ void EnemySmurfGreedy::onDie() {
 	if (dir == FACING_RIGHT) {
 		if (!solid_wall(x - 2, y)) x -= 2;
 
-		pic = pbk_enemies[195 + anim_step];
+		pic = pbk_enemies.anim("smurf_greedy_die_right")[anim_step];
 	} else {
 		if (!solid_wall(x + 2, y)) x += 2;
 
-		pic = pbk_enemies[207 + anim_step];
+		pic = pbk_enemies.anim("smurf_greedy_die_left")[anim_step];
 	}
 
 	if (anim_step >= 11 && platform_y(x, y) != 0) {
@@ -155,9 +155,9 @@ void EnemySmurfGreedy::onHold() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[187];
+		pic = pbk_enemies.anim("smurf_greedy_throw_right")[5];
 	} else {
-		pic = pbk_enemies[193];
+		pic = pbk_enemies.anim("smurf_greedy_throw_left")[5];
 	}
 
 	colFromPic();
@@ -173,8 +173,8 @@ void EnemySmurfGreedy::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[34 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[40 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
 	}
 }

@@ -64,9 +64,9 @@ void EnemyBisouSky::onDieWhole() {
 		onDieTop();
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[32 + anim_step];
+			pic = pbk_enemies.anim("sky_die_right")[anim_step];
 		else
-			pic = pbk_enemies[36 + anim_step];
+			pic = pbk_enemies.anim("sky_die_left")[anim_step];
 	}
 }
 
@@ -87,10 +87,10 @@ void EnemyBisouSky::onDieTop() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[40 + anim_step];
+		pic = pbk_enemies.anim("sky_die_top_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies[44 + anim_step];
+		pic = pbk_enemies.anim("sky_die_top_left")[anim_step];
 		x -= 1;
 	}
 
@@ -110,9 +110,9 @@ void EnemyBisouSky::onDieTopEnd() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[24 + anim_step];
+		pic = pbk_enemies.anim("sky_die_top_end_right")[anim_step];
 	else
-		pic = pbk_enemies[28 + anim_step];
+		pic = pbk_enemies.anim("sky_die_top_end_left")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -140,10 +140,10 @@ void EnemyBisouSky::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[8 + anim_step];
+		pic = pbk_enemies.anim("sky_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[16 + anim_step];
+		pic = pbk_enemies.anim("sky_walk_left")[anim_step];
 	}
 
 	if (wait_for_pee == 0 && anim_step == 4) {					 // Frame 4 looks best
@@ -200,9 +200,9 @@ void EnemyBisouSky::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[559 + anim_step];
+		pic = pbk_enemies.anim("sky_star_charred_right")[anim_step];
 	else
-		pic = pbk_enemies[566 + anim_step];
+		pic = pbk_enemies.anim("sky_star_charred_left")[anim_step];
 }
 
 void EnemyBisouSky::takeHit(Shot* shot) {

@@ -2,7 +2,7 @@
 
 EnemySpikes::EnemySpikes() : y_origin(0) {
 	hp = 1;
-	pic = pbk_enemies[168];
+	pic = pbk_enemies.pic("spikes");
 }
 
 void EnemySpikes::update() {
@@ -62,14 +62,7 @@ void EnemySpikes::update() {
 }
 
 void EnemySpikes::render() {
-	SDL::Surface* surf;
-	int xs;
-	int ys;
 	Rect r;
-
-	surf = pbk_enemies[168]->Surf();
-	xs = pbk_enemies[168]->xSize();
-	ys = pbk_enemies[168]->ySize();
 
 	r.top = 0;
 	r.left = 0;
@@ -77,7 +70,7 @@ void EnemySpikes::render() {
 	r.right = 39;
 	r.bottom = -y_origin;
 
-	backSurface->BltFast(x - offset, y, surf, &r);
+	pbk_enemies.pic("spikes")->BlitPart(backSurface, x - offset, y, r);
 }
 
 void EnemySpikes::colFromPic() {

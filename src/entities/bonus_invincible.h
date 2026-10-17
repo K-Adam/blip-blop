@@ -1,12 +1,11 @@
 #pragma once
 
-#include "entities/sprites.h"
 #include "entities/bonus.h"
 
 class BonusInvincible : public Bonus {
    public:
 	BonusInvincible() {
-		pic = pbk_misc[MISC::BONUS_INVINCIBLE];
+		pic = pbk_misc.pic("bonus_invincible");
 		col_on = true;
 	};
 

@@ -5,7 +5,7 @@ const int snorky_mage_oscillation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2,
 
 EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscillation_step(0) {
 	hp = 200;
-	pic = pbk_enemies[0];
+	pic = pbk_enemies.anim("snorky_walk_right")[0];
 	dy = 0;
 }
 
@@ -83,7 +83,7 @@ void EnemySnorkyMage::onWalk() {
 		anim_step %= 6;
 	}
 
-	pic = pbk_enemies[237 + anim_step];
+	pic = pbk_enemies.anim("mage_float")[anim_step];
 
 	if (dir == FACING_LEFT) {
 		x -= SNORKY_MAGE_SPEED;
@@ -136,7 +136,7 @@ void EnemySnorkyMage::onDie() {
 
 		destroyed = true;
 	} else {
-		pic = pbk_enemies[266 + anim_step];
+		pic = pbk_enemies.anim("mage_die")[anim_step];
 	}
 }
 
@@ -157,7 +157,7 @@ void EnemySnorkyMage::onShoot() {
 			}
 		}
 
-		pic = pbk_enemies[243 + anim_step];
+		pic = pbk_enemies.anim("mage_concentrate")[anim_step];
 	} else {
 		anim_tick++;
 		anim_tick %= 4;
@@ -196,9 +196,9 @@ void EnemySnorkyMage::onShoot() {
 
 		if (anim_step < 3) {
 			if (dir == FACING_RIGHT) {
-				pic = pbk_enemies[249 + anim_step];
+				pic = pbk_enemies.anim("mage_cast_right")[anim_step];
 			} else {
-				pic = pbk_enemies[257 + anim_step];
+				pic = pbk_enemies.anim("mage_cast_left")[anim_step];
 			}
 		}
 	}
@@ -213,7 +213,7 @@ void EnemySnorkyMage::onCharred() {
 	if (anim_step == 7) {
 		destroyed = true;
 	} else {
-		pic = pbk_enemies[278 + anim_step];
+		pic = pbk_enemies.anim("mage_burn")[anim_step];
 	}
 }
 

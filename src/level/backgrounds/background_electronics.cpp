@@ -9,12 +9,12 @@ void BackgroundElectronic1::update() {
 		anim_step += 1;
 		anim_step %= 15;
 	}
-	pic = pbk_level[27 + anim_step];
+	pic = pbk_level.anim("electronic_board")[anim_step];
 }
 
 void BackgroundElectronic1::render() {
 	Sprite::render();
-	draw(x, y, pbk_level[42]);
+	draw(x, y, pbk_level.pic("electronic1_overlay"));
 }
 
 void BackgroundElectronic2::update() {
@@ -24,12 +24,12 @@ void BackgroundElectronic2::update() {
 		anim_step += 1;
 		anim_step %= 15;
 	}
-	pic = pbk_level[27 + anim_step];
+	pic = pbk_level.anim("electronic_board")[anim_step];
 }
 
 void BackgroundElectronic2::render() {
 	Sprite::render();
-	draw(x, y, pbk_level[44]);
+	draw(x, y, pbk_level.pic("electronic2_overlay"));
 }
 
 void BackgroundElectronic3::update() {
@@ -39,12 +39,12 @@ void BackgroundElectronic3::update() {
 		anim_step += 1;
 		anim_step %= 15;
 	}
-	pic = pbk_level[27 + anim_step];
+	pic = pbk_level.anim("electronic_board")[anim_step];
 }
 
 void BackgroundElectronic3::render() {
 	Sprite::render();
-	draw(x, y, pbk_level[43]);
+	draw(x, y, pbk_level.pic("electronic3_overlay"));
 }
 
 void BackgroundElectronic4::update() {
@@ -54,5 +54,5 @@ void BackgroundElectronic4::update() {
 		anim_step += 1;
 		anim_step %= 15;
 	}
-	pic = pbk_level[27 + anim_step];
+	pic = pbk_level.anim("electronic_board")[anim_step];
 }

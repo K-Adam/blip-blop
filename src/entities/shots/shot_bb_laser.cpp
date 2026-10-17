@@ -4,8 +4,6 @@
 #include <cmath>
 #include <numbers>
 
-#include "entities/sprites.h"
-
 static const int BEAM_HALF_WIDTH = 3;
 
 void ShotBBLaser::aim(double angle) {
@@ -43,10 +41,10 @@ void ShotBBLaser::render() {
 	if (length_ <= 0) return;
 	// The horizontal beam strip, cropped to the beam and turned around its start
 	Rect r{0, 0, length_, 2 * BEAM_HALF_WIDTH};
-	backSurface->BltRotated(x - offset, y, pbk_bb[BB::LASER_BEAM_H + anim_step]->Surf(), &r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
+	pbk_bb.anim("laser_beam")[anim_step]->BlitRotatedPart(backSurface, x - offset, y, r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
 	int ex = x + (int)std::lround(ux_ * length_);
 	int ey = y + BEAM_HALF_WIDTH + (int)std::lround(uy_ * length_);
-	draw(ex, ey, pbk_misc[MISC::LASER_IMPACT + anim_step]);
+	draw(ex, ey, pbk_misc.anim("laser_impact")[anim_step]);
 }
 
 bool ShotBBLaser::collision(const Sprite* s) const {

@@ -47,9 +47,9 @@ void ShotTornado::update() {
 	x += dx;
 
 	if (dx <= 0) {
-		pic = pbk_enemies[80 + anim_step];
+		pic = pbk_enemies.anim("snorky_die_left")[9 + anim_step];
 	} else {
-		pic = pbk_enemies[63 + anim_step];
+		pic = pbk_enemies.anim("snorky_trunk")[anim_step];
 	}
 	if (anim_step <= 8) {
 		colFromPic();

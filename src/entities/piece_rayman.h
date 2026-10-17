@@ -5,9 +5,9 @@
 class PieceRayman : public Sprite {
    public:
 	int dx;
-	int n_pic;
+	int piece;	// Which part landed, told to the level through game_flag[2]
 
-	PieceRayman(int m_pic, int vx, int vy);
+	PieceRayman(const Picture* p, int piece, int vx, int vy);
 
 	void update() override;
 };

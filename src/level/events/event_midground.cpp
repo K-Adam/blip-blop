@@ -8,7 +8,7 @@ void EventMidground::doEvent() {
 
 	s->x = x;
 	s->y = y;
-	s->pic = pbk_level[id];
+	s->pic = pbk_level.frame(pic);
 
 	list_static_bgs.emplace_back(s);
 }

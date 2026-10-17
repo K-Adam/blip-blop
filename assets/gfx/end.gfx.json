@@ -1,160 +1,48 @@
 {
-  "items": [
-    {
-      "path": "end.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "end.gfx/001.png",
-      "xSpot": 51,
-      "ySpot": 50,
-      "width": 103,
-      "height": 100
-    },
-    {
-      "path": "end.gfx/002.png",
-      "xSpot": 66,
-      "ySpot": 64,
-      "width": 131,
-      "height": 128
-    },
-    {
-      "path": "end.gfx/003.png",
-      "xSpot": 80,
-      "ySpot": 72,
-      "width": 159,
-      "height": 154
-    },
-    {
-      "path": "end.gfx/004.png",
-      "xSpot": 112,
-      "ySpot": 106,
-      "width": 225,
-      "height": 211
-    },
-    {
-      "path": "end.gfx/005.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 264
-    },
-    {
-      "path": "end.gfx/006.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "end.gfx/007.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "end.gfx/008.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "end.gfx/009.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "end.gfx/010.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 103,
-      "height": 100,
-      "from": 1,
-      "op": "copy"
-    },
-    {
-      "path": "end.gfx/012.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480,
-      "from": 12,
-      "op": "flip_v"
-    },
-    {
-      "path": "end.gfx/014.png",
-      "xSpot": 26,
-      "ySpot": 44,
-      "width": 46,
-      "height": 89
-    },
-    {
-      "path": "end.gfx/015.png",
-      "xSpot": 35,
-      "ySpot": 36,
-      "width": 74,
-      "height": 77
-    },
-    {
-      "path": "end.gfx/016.png",
-      "xSpot": 51,
-      "ySpot": 36,
-      "width": 110,
-      "height": 75
-    },
-    {
-      "path": "end.gfx/017.png",
-      "xSpot": 37,
-      "ySpot": 37,
-      "width": 83,
-      "height": 77
-    },
-    {
-      "path": "end.gfx/018.png",
-      "xSpot": 23,
-      "ySpot": 41,
-      "width": 46,
-      "height": 82
-    },
-    {
-      "path": "end.gfx/019.png",
-      "xSpot": 52,
-      "ySpot": 39,
-      "width": 85,
-      "height": 80
-    },
-    {
-      "path": "end.gfx/020.png",
-      "xSpot": 63,
-      "ySpot": 39,
-      "width": 119,
-      "height": 79
-    },
-    {
-      "path": "end.gfx/021.png",
-      "xSpot": 46,
-      "ySpot": 36,
-      "width": 79,
-      "height": 77
-    }
+  "sheets": [
+    {"name": "boss_stop", "path": "end.gfx/boss_stop.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sun_grow", "path": "end.gfx/sun_grow.png", "frames": [
+      {"x": 0, "y": 0, "w": 103, "h": 100, "xSpot": 51, "ySpot": 50},
+      {"x": 103, "y": 0, "w": 131, "h": 128, "xSpot": 66, "ySpot": 64},
+      {"x": 234, "y": 0, "w": 159, "h": 154, "xSpot": 80, "ySpot": 72},
+      {"x": 393, "y": 0, "w": 225, "h": 211, "xSpot": 112, "ySpot": 106}
+    ]},
+    {"name": "balls_down", "path": "end.gfx/balls_down.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 264, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "boss_laugh", "path": "end.gfx/boss_laugh.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "pink_glow", "path": "end.gfx/pink_glow.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "cow_bomb_remote", "path": "end.gfx/cow_bomb_remote.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "boss_scared", "path": "end.gfx/boss_scared.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "cow_crush", "path": "end.gfx/cow_crush.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "sun_small", "frames": [
+      {"from": "sun_grow", "frame": 0, "op": "copy", "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "space", "path": "end.gfx/space.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0},
+      {"from": "space", "frame": 0, "op": "flip_v", "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "cow_spin", "path": "end.gfx/cow_spin.png", "frames": [
+      {"x": 0, "y": 0, "w": 46, "h": 89, "xSpot": 26, "ySpot": 44},
+      {"x": 46, "y": 0, "w": 74, "h": 77, "xSpot": 35, "ySpot": 36},
+      {"x": 120, "y": 0, "w": 110, "h": 75, "xSpot": 51, "ySpot": 36},
+      {"x": 230, "y": 0, "w": 83, "h": 77, "xSpot": 37, "ySpot": 37},
+      {"x": 313, "y": 0, "w": 46, "h": 82, "xSpot": 23, "ySpot": 41},
+      {"x": 359, "y": 0, "w": 85, "h": 80, "xSpot": 52, "ySpot": 39},
+      {"x": 444, "y": 0, "w": 119, "h": 79, "xSpot": 63, "ySpot": 39},
+      {"x": 563, "y": 0, "w": 79, "h": 77, "xSpot": 46, "ySpot": 36}
+    ]}
   ]
 }

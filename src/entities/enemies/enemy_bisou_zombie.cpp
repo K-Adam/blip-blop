@@ -98,10 +98,10 @@ void EnemyBisouZombie::onWalk() {
 
 		if (dir == FACING_RIGHT) {
 			walk(SPEED);
-			pic = pbk_enemies[262 + anim_step];
+			pic = pbk_enemies.anim("zombie_walk_right")[anim_step];
 		} else {
 			walk(-SPEED);
-			pic = pbk_enemies[270 + anim_step];
+			pic = pbk_enemies.anim("zombie_walk_left")[anim_step];
 		}
 	}
 
@@ -176,10 +176,10 @@ void EnemyBisouZombie::onFall() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[308 + anim_step];
+		pic = pbk_enemies.anim("zombie_fall_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies[312 + anim_step];
+		pic = pbk_enemies.anim("zombie_fall_left")[anim_step];
 		x -= 1;
 	}
 
@@ -202,9 +202,9 @@ void EnemyBisouZombie::onDie() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[292 + anim_step];
+		pic = pbk_enemies.anim("zombie_die_right")[anim_step];
 	else
-		pic = pbk_enemies[296 + anim_step];
+		pic = pbk_enemies.anim("zombie_die_left")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -237,15 +237,15 @@ void EnemyBisouZombie::onSevered() {
 		onFall();
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[278 + anim_step];
+			pic = pbk_enemies.anim("zombie_severed_right")[anim_step];
 		else
-			pic = pbk_enemies[282 + anim_step];
+			pic = pbk_enemies.anim("zombie_severed_left")[anim_step];
 	}
 }
 
 void EnemyBisouZombie::onCrawl() {
-	static const int anim_right[] = {286, 287, 288, 287};
-	static const int anim_left[] = {289, 290, 291, 290};
+	static const int anim_right[] = {0, 1, 2, 1};
+	static const int anim_left[] = {0, 1, 2, 1};
 	static const int SPEED = 1;
 
 	if (hp <= 0) {
@@ -275,9 +275,9 @@ void EnemyBisouZombie::onCrawl() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[animate(anim_right, 4, 16)];
+		pic = pbk_enemies.anim("zombie_crawl_right")[animate(anim_right, 4, 16)];
 	else
-		pic = pbk_enemies[animate(anim_left, 4, 16)];
+		pic = pbk_enemies.anim("zombie_crawl_left")[animate(anim_left, 4, 16)];
 }
 
 void EnemyBisouZombie::onCharred() {
@@ -294,9 +294,9 @@ void EnemyBisouZombie::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[605 + anim_step];
+		pic = pbk_enemies.anim("zombie_charred_right")[anim_step];
 	else
-		pic = pbk_enemies[612 + anim_step];
+		pic = pbk_enemies.anim("zombie_charred_left")[anim_step];
 }
 
 void EnemyBisouZombie::onCharredTop() {
@@ -313,7 +313,7 @@ void EnemyBisouZombie::onCharredTop() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[619 + anim_step];
+		pic = pbk_enemies.anim("zombie_charred_top_right")[anim_step];
 	else
-		pic = pbk_enemies[627 + anim_step];
+		pic = pbk_enemies.anim("zombie_charred_top_left")[anim_step];
 }

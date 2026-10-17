@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_smurf_jokey.h"
 #include "entities/shots/shot_gift.h"
 
-const int anim_smurf_jokey_walk_right[] = {46, 47, 48, 49, 50, 49, 48, 47};
-const int anim_smurf_jokey_walk_left[] = {51, 52, 53, 54, 55, 54, 53, 52};
+const int anim_smurf_jokey_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
+const int anim_smurf_jokey_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySmurfJokey::EnemySmurfJokey() {
 	hp = 150;
@@ -44,18 +44,19 @@ void EnemySmurfJokey::onDrawWeapon() {
 
 	if (anim_tick == 0) anim_step += 1;
 
-	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[57 + anim_step];
-	else
-		pic = pbk_enemies[62 + anim_step];
-
 	if (anim_step > 4) {
 		status = STATE_NORMAL;
 		carries_bomb = true;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
+		return;
 	}
+
+	if (dir == FACING_RIGHT)
+		pic = pbk_enemies.anim("smurf_jokey_draw_right")[anim_step];
+	else
+		pic = pbk_enemies.anim("smurf_jokey_draw_left")[anim_step];
 }
 
 void EnemySmurfJokey::onDropGift() {
@@ -116,15 +117,15 @@ void EnemySmurfJokey::onWalk() {
 	if (dir == FACING_RIGHT) {
 		walk(SMURF_JOKEY_SPEED);
 		if (carries_bomb)
-			pic = pbk_enemies[animate(anim_smurf_jokey_walk_right, 8, 4)];
+			pic = pbk_enemies.anim("smurf_jokey_walk_right")[animate(anim_smurf_jokey_walk_right, 8, 4)];
 		else
-			pic = pbk_enemies[animate(anim_smurf_walk_right, 8, 4)];
+			pic = pbk_enemies.anim("smurf_walk_right")[animate(anim_smurf_walk_right, 8, 4)];
 	} else {
 		walk(-SMURF_JOKEY_SPEED);
 		if (carries_bomb)
-			pic = pbk_enemies[animate(anim_smurf_jokey_walk_left, 8, 4)];
+			pic = pbk_enemies.anim("smurf_jokey_walk_left")[animate(anim_smurf_jokey_walk_left, 8, 4)];
 		else
-			pic = pbk_enemies[animate(anim_smurf_walk_left, 8, 4)];
+			pic = pbk_enemies.anim("smurf_walk_left")[animate(anim_smurf_walk_left, 8, 4)];
 	}
 	colFromPic();
 }
@@ -159,11 +160,11 @@ void EnemySmurfJokey::onDie() {
 		if (dir == FACING_LEFT) {
 			if (!solid_wall(x - SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x -= SMURF_JOKEY_SPEED;
 
-			pic = pbk_enemies[23 + anim_step];
+			pic = pbk_enemies.anim("smurf_die_left")[anim_step];
 		} else {
 			if (!solid_wall(x + SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x += SMURF_JOKEY_SPEED;
 
-			pic = pbk_enemies[12 + anim_step];
+			pic = pbk_enemies.anim("smurf_die_right")[anim_step];
 		}
 	}
 }
@@ -178,9 +179,9 @@ void EnemySmurfJokey::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[78 + anim_step];
+			pic = pbk_enemies.anim("smurf_jokey_blown_left")[anim_step];
 		else
-			pic = pbk_enemies[67 + anim_step];
+			pic = pbk_enemies.anim("smurf_jokey_blown_right")[anim_step];
 	}
 }
 

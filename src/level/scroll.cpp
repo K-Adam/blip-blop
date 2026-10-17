@@ -43,7 +43,7 @@ void drawScrolling() {
 		r.left = xTex;
 		r.right = xTex + 2;
 
-		videoA->BltFast(next_x, 0, pbk_decor[num_decor[n_img]]->Surf(), &r);
+		pbk_decor.anim("screens")[num_decor[n_img]]->BlitPart(videoA, next_x, 0, r);
 
 		xTex += 2;
 

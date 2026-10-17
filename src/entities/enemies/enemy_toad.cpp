@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_toad.h"
 
 const int anim_toad_walk_right[] = {0, 1, 2, 1};
-const int anim_toad_walk_left[] = {4, 5, 6, 5};
+const int anim_toad_walk_left[] = {0, 1, 2, 1};
 
 static int wait_brain_hurts = 1000;
 static bool local_phase;
@@ -91,10 +91,10 @@ void EnemyToad::onWalk() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies[animate(anim_toad_walk_right, 4, 12 - 3 * speed)];
+		pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 12 - 3 * speed)];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies[animate(anim_toad_walk_left, 4, 12 - 3 * speed)];
+		pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 12 - 3 * speed)];
 	}
 	if (speed < TOAD_SPEED) {
 		speed_tick++;
@@ -132,10 +132,10 @@ void EnemyToad::onDie() {
 	} else {
 		if (dir == FACING_LEFT) {
 			if (!solid_wall(x - speed, y) && platform_y(x, y) == 0) x -= speed;
-			pic = pbk_enemies[18 + anim_step];
+			pic = pbk_enemies.anim("toad_die_left")[anim_step];
 		} else {
 			if (!solid_wall(x + speed, y) && platform_y(x, y) == 0) x += speed;
-			pic = pbk_enemies[8 + anim_step];
+			pic = pbk_enemies.anim("toad_die_right")[anim_step];
 		}
 	}
 }
@@ -166,17 +166,17 @@ void EnemyToad::onCharge() {
 	charge_step += 1;
 	if (charge_step < 80) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[animate(anim_toad_walk_right, 4, 3)];
+			pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 3)];
 		} else {
-			pic = pbk_enemies[animate(anim_toad_walk_left, 4, 3)];
+			pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 3)];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
 			walk(speed);
-			pic = pbk_enemies[animate(anim_toad_walk_right, 4, 2)];
+			pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 2)];
 		} else {
 			walk(-speed);
-			pic = pbk_enemies[animate(anim_toad_walk_left, 4, 2)];
+			pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 2)];
 		}
 	}
 
@@ -200,10 +200,10 @@ void EnemyToad::onJump() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies[3];
+		pic = pbk_enemies.pic("toad_jump_right");
 	} else {
 		x -= speed;
-		pic = pbk_enemies[7];
+		pic = pbk_enemies.pic("toad_jump_left");
 	}
 
 	colFromPic();
@@ -222,9 +222,9 @@ void EnemyToad::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[434 + anim_step];
+			pic = pbk_enemies.anim("toad_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[447 + anim_step];
+			pic = pbk_enemies.anim("toad_burn_left")[anim_step];
 	}
 }
 

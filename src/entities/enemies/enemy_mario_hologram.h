@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "entities/enemies/enemy.h"
 
 #define MARIO_SPEED 5
@@ -13,7 +15,7 @@ class EnemyMarioHologram : public Enemy {
 	int fireball;	 // Fireball held in hands
 	int wait_for_blink;
 	int blink_delay;
-	int blink_offset;
+	std::string look_ = "mario_";
 
 	int attack_delay;
 	int wait_for_attack;

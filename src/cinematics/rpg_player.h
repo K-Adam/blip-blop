@@ -29,12 +29,14 @@ class RPGPlayer {
 	bool skiped;
 
 	size_t nb_players;
-	int cur_player;			 // Player the dialog currently refers to (0 or 1)
-	int player_pic_base[2];	 // First image of the player, which depends on Blip or Blop
+	int cur_player;									 // Player the dialog currently refers to (0 or 1)
+	const char* player_sheet[2] = {"blip", "blip"};	 // Blip or Blop
+	const char* sheet[2] = {"portraits", "portraits"};
 
 	RPGPlayer();
 
 	void attachFile(const char* f);
+	const Picture* portrait(int n) const;  // Null when nothing is shown on that side
 	bool startPlay(int n);
 	bool drawScene(SDL::Surface* surf);
 	bool updateScene();

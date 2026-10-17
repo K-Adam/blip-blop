@@ -10,14 +10,14 @@ class EnemySmurfChilly : public EnemySmurf {
 		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x + 7, y - 18, pbk_enemies[147]);
+					draw(x + 7, y - 18, pbk_enemies.pic("smurf_chilly_scarf_left"));
 					EnemySmurf::render();
-					draw(x, y - 20, pbk_enemies[149]);
+					draw(x, y - 20, pbk_enemies.pic("smurf_chilly_hat_left"));
 					break;
 				case FACING_RIGHT:
-					draw(x - 7, y - 18, pbk_enemies[148]);
+					draw(x - 7, y - 18, pbk_enemies.pic("smurf_chilly_scarf_right"));
 					EnemySmurf::render();
-					draw(x, y - 20, pbk_enemies[150]);
+					draw(x, y - 20, pbk_enemies.pic("smurf_chilly_hat_right"));
 					break;
 			}
 		} else

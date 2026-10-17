@@ -3,15 +3,15 @@
 #include "entities/ball.h"
 
 const int rock2_levitation[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
-const int rock2_animation[] = {57, 58, 58, 59, 59, 59, 60, 60, 60, 60, 60, 59, 59, 59, 58, 58, 57, 61, 61, 62, 62, 62, 63, 63, 63, 63, 63, 62, 62, 62, 61, 61};
+const int rock2_animation[] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 0, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 5, 5, 5, 4, 4};
 
 BackgroundRock2::BackgroundRock2() : levitation_step(0), levitation_tick(0) {
-	pic = pbk_level[38];
+	pic = pbk_level.anim("star_twinkle")[2];
 	dy = 0;
 }
 
 void BackgroundRock2::update() {
-	pic = pbk_level[animate(rock2_animation, 32, 4)];
+	pic = pbk_level.anim("rock2_float")[animate(rock2_animation, 32, 4)];
 
 	levitation_tick++;
 	levitation_tick %= 6;

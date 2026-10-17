@@ -292,14 +292,14 @@
     },
     {
       "event_id": 4,
-      "id_fond": 10,
+      "pic": "graveyard_fence",
       "x_activation": 3429,
       "x": 4169,
       "y": 214
     },
     {
       "event_id": 4,
-      "id_fond": 9,
+      "pic": "pole",
       "x_activation": 3390,
       "x": 4130,
       "y": 107
@@ -377,7 +377,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 4,
+      "pic": "ledge_5",
       "x_activation": 2121,
       "x": 2861,
       "y": 141
@@ -432,14 +432,14 @@
     },
     {
       "event_id": 4,
-      "id_fond": 8,
+      "pic": "car_wreck",
       "x_activation": 1687,
       "x": 2427,
       "y": 431
     },
     {
       "event_id": 4,
-      "id_fond": 3,
+      "pic": "ledge_4",
       "x_activation": 1668,
       "x": 2408,
       "y": 179
@@ -502,7 +502,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 6,
+      "pic": "no_parking_sign_1",
       "x_activation": 1219,
       "x": 1959,
       "y": 323
@@ -581,7 +581,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 2,
+      "pic": "ledge_3",
       "x_activation": 848,
       "x": 1588,
       "y": 112
@@ -651,14 +651,14 @@
     },
     {
       "event_id": 4,
-      "id_fond": 7,
+      "pic": "no_parking_sign_2",
       "x_activation": 427,
       "x": 1167,
       "y": 323
     },
     {
       "event_id": 4,
-      "id_fond": 1,
+      "pic": "ledge_2",
       "x_activation": 406,
       "x": 1146,
       "y": 156
@@ -671,7 +671,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 5,
+      "pic": "signpost",
       "x_activation": 129,
       "x": 869,
       "y": 323
@@ -692,7 +692,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 0,
+      "pic": "ledge_1",
       "x_activation": 4294967236,
       "x": 680,
       "y": 111

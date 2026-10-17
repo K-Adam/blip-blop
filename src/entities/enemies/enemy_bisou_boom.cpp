@@ -41,10 +41,10 @@ void EnemyBisouBoom::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[154 + anim_step];
+		pic = pbk_enemies.anim("boom_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[162 + anim_step];
+		pic = pbk_enemies.anim("boom_walk_left")[anim_step];
 	}
 
 	if (targeted_player != NULL) {
@@ -120,9 +120,9 @@ void EnemyBisouBoom::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[170 + anim_step];
+			pic = pbk_enemies.anim("boom_explode_right")[anim_step];
 		else
-			pic = pbk_enemies[180 + anim_step];
+			pic = pbk_enemies.anim("boom_explode_left")[anim_step];
 
 		colFromPic();
 	}

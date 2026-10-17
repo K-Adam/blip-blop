@@ -1,5 +1,4 @@
 #include "entities/enemies/enemy.h"
-#include "entities/sprites.h"
 #include "level/world.h"
 #include "core/assets.h"
 #include "entities/make_bonus.h"
@@ -38,7 +37,7 @@ void Enemy::takeHit(Shot* shot) {
 					splatter_num += 1;
 					splatter_num %= 14;
 
-					engrave(x, y_trace, pbk_misc[MISC::BLOOD_STAIN + splatter_num]);
+					engrave(x, y_trace, pbk_misc.anim("blood_stain")[splatter_num]);
 				}
 			}
 		}

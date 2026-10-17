@@ -23,32 +23,22 @@ bool Font::load(const char* file_path) {
 	json data = json::parse(input);
 
 	pictab_.clear();
+	pictab_.resize(256);
 
 	h = data["h"];
 	spc = data["spc"];
 
-	pictab_.resize(256);
+	std::string image_path = asset_path_prefix("lft", data["path"].get<std::string>().c_str());
+	SDL_Surface* surf = IMG_Load(image_path.c_str());
+	if (surf == NULL) {
+		debug << "Can not load image " << image_path << "\n";
+		return false;
+	}
+	atlas_ = std::make_unique<SDL::Surface>(surf);
 
-	for (int i = 1; i < 256; i++) {
-		auto key = std::to_string(i);
-		if (data["items"].find(key) == data["items"].end()) {
-			continue;
-		}
-
-		auto item = data["items"][key];
-
-		std::string item_path = item["path"];
-		std::string image_path = asset_path_prefix("lft", item_path.c_str());
-		SDL_Surface* surf = IMG_Load(image_path.c_str());
-
-		if (surf == NULL) {
-			debug << "Can not load image " << image_path << "\n";
-			return false;
-		}
-
-		pictab_[i] = std::make_unique<Picture>();
-		pictab_[i]->SetSurface(new SDL::Surface(surf));
-		pictab_[i]->SetSpot(0, 0);
+	for (auto& [key, g] : data["glyphs"].items()) {
+		int c = std::stoi(key);
+		if (c > 0 && c < 256) pictab_[c] = std::make_unique<Picture>(atlas_.get(), SDL_Rect{g["x"], g["y"], g["w"], g["h"]}, 0, 0);
 	}
 
 	return true;

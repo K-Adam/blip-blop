@@ -116,7 +116,7 @@ int platform_y(int x, int y);  // 0 when there is no platform
 int platform_y2(int x, int y);
 bool solid_wall(int x, int y);
 bool bloody_wall(int x, int y);
-bool engrave(int x, int y, Picture* pic);
+bool engrave(int x, int y, const Picture* pic);
 
 inline void draw(int x, int y, const Picture* pic) {
 	if (pic != NULL) pic->BlitTo(backSurface, x - offset, y);

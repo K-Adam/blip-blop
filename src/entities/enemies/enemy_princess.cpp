@@ -6,7 +6,7 @@
 EnemyPrincess::EnemyPrincess() : walking(false), guards_called(false) {
 	hp = 3700;
 	treasure = 0;
-	pic = pbk_enemies[128];
+	pic = pbk_enemies.pic("princess_idle");
 }
 
 void EnemyPrincess::update() {
@@ -61,7 +61,7 @@ void EnemyPrincess::onWalk() {
 					anim_step %= 2;
 				}
 				walk(PRINCESS_SPEED);
-				pic = pbk_enemies[126 + anim_step];
+				pic = pbk_enemies.anim("princess_walk")[anim_step];
 			} else {
 				anim_tick += 1;
 				anim_tick %= 6;
@@ -70,7 +70,7 @@ void EnemyPrincess::onWalk() {
 					anim_step %= 2;
 				}
 				walk(2);
-				pic = pbk_enemies[126 + anim_step];
+				pic = pbk_enemies.anim("princess_walk")[anim_step];
 			}
 		} else if (dir == FACING_LEFT) {
 			dir = FACING_RIGHT;
@@ -86,11 +86,11 @@ void EnemyPrincess::onWalk() {
 				anim_step %= 2;
 			}
 			walk(PRINCESS_SPEED);
-			pic = pbk_enemies[126 + anim_step];
+			pic = pbk_enemies.anim("princess_walk")[anim_step];
 		} else if (x > 7500) {
-			pic = pbk_enemies[126];
+			pic = pbk_enemies.anim("princess_walk")[0];
 		} else {
-			pic = pbk_enemies[128];
+			pic = pbk_enemies.pic("princess_idle");
 		}
 	}
 	colFromPic();
@@ -123,7 +123,7 @@ void EnemyPrincess::onDie() {
 			list_bonus.emplace_back(bonus);
 		}
 	} else {
-		pic = pbk_enemies[130 + anim_step];
+		pic = pbk_enemies.anim("princess_die")[anim_step];
 	}
 }
 

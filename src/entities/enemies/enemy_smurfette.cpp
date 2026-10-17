@@ -36,8 +36,8 @@ void EnemySmurfette::update() {
 }
 
 void EnemySmurfette::onWalk() {
-	static const int walk_right[] = {315, 316, 317, 318, 319, 318, 317, 316};
-	static const int walk_left[] = {320, 321, 322, 323, 324, 323, 322, 321};
+	static const int walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
+	static const int walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 	static const int SPEED = 1;
 
 	fall();
@@ -49,10 +49,10 @@ void EnemySmurfette::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[animate(walk_right, 8, 6)];
+		pic = pbk_enemies.anim("smurfette_walk_right")[animate(walk_right, 8, 6)];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[animate(walk_left, 8, 6)];
+		pic = pbk_enemies.anim("smurfette_walk_left")[animate(walk_left, 8, 6)];
 	}
 
 	if (shoot_step >= wait_shoot && x > offset + 10 && x < offset + 630) {
@@ -80,14 +80,14 @@ void EnemySmurfette::onDie() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[325 + anim_step];
+		pic = pbk_enemies.anim("smurfette_die_right")[anim_step];
 	else
-		pic = pbk_enemies[337 + anim_step];
+		pic = pbk_enemies.anim("smurfette_die_left")[anim_step];
 }
 
 void EnemySmurfette::onShoot() {
-	static const int shoot_right[] = {301, 302, 303, 304, 305, 304, 303, 302, 301};
-	static const int shoot_left[] = {306, 307, 308, 309, 310, 309, 308, 307, 306};
+	static const int shoot_right[] = {0, 1, 2, 3, 4, 3, 2, 1, 0};
+	static const int shoot_left[] = {0, 1, 2, 3, 4, 3, 2, 1, 0};
 
 	anim_tick += 1;
 	anim_tick %= 5;
@@ -114,9 +114,9 @@ void EnemySmurfette::onShoot() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[shoot_right[anim_step]];
+		pic = pbk_enemies.anim("smurfette_shoot_right")[shoot_right[anim_step]];
 	else
-		pic = pbk_enemies[shoot_left[anim_step]];
+		pic = pbk_enemies.anim("smurfette_shoot_left")[shoot_left[anim_step]];
 
 	colFromPic();
 }
@@ -143,8 +143,8 @@ void EnemySmurfette::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[34 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[40 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
 	}
 }

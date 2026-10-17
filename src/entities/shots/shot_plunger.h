@@ -8,7 +8,7 @@ class ShotPlunger : public Shot {
    public:
 	int dx;
 
-	ShotPlunger(int n_pbk_enemies, int vx, int vy);
+	ShotPlunger(const Picture* p, int vx, int vy);
 
 	int damage() const override { return 1; };
 

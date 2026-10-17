@@ -13,7 +13,7 @@ class BackgroundFan : public Sprite {
 			anim_step %= 4;
 		}
 
-		pic = pbk_level[3 + anim_step];
+		pic = pbk_level.anim("fan_spin")[anim_step];
 
 		if (x < offset - 100) destroyed = true;
 	};

@@ -60,7 +60,7 @@ void EnemyLemmings::onWalk() {
 
 		fall();
 
-		pic = pbk_enemies[14 + anim_step];
+		pic = pbk_enemies.anim("lemming_walk_left")[anim_step];
 
 		if (solid_wall(x, y) || x < 5) dir = FACING_RIGHT;
 	} else {
@@ -68,7 +68,7 @@ void EnemyLemmings::onWalk() {
 
 		fall();
 
-		pic = pbk_enemies[anim_step];
+		pic = pbk_enemies.anim("lemming_walk_right")[anim_step];
 
 		if (solid_wall(x, y)) dir = FACING_LEFT;
 	}
@@ -109,9 +109,9 @@ void EnemyLemmings::onDie() {
 		}
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[38 + anim_step];
+			pic = pbk_enemies.anim("lemming_die_left")[anim_step];
 		else
-			pic = pbk_enemies[28 + anim_step];
+			pic = pbk_enemies.anim("lemming_die_right")[anim_step];
 	}
 }
 
@@ -125,9 +125,9 @@ void EnemyLemmings::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[62 + anim_step];
+			pic = pbk_enemies.anim("lemming_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[48 + anim_step];
+			pic = pbk_enemies.anim("lemming_burn_right")[anim_step];
 	}
 }
 

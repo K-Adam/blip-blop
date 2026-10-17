@@ -4,7 +4,9 @@
 const int anim_blinking[] = {2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 2,
 							 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 0};
 
-BackgroundPokeLevel2::BackgroundPokeLevel2() : anim_step_L1(0), anim_step_E1(0), anim_step_V(0), anim_step_E2(0), anim_step_L2(0) { pic = pbk_level[130]; }
+BackgroundPokeLevel2::BackgroundPokeLevel2() : anim_step_L1(0), anim_step_E1(0), anim_step_V(0), anim_step_E2(0), anim_step_L2(0) {
+	pic = pbk_level.anim("sign_2")[0];
+}
 
 void BackgroundPokeLevel2::update() {
 	anim_step++;
@@ -26,7 +28,7 @@ void BackgroundPokeLevel2::update() {
 	anim_step_L2 %= 380;
 
 	if (anim_step < 57) {
-		pic = pbk_level[PBK_2 + anim_blinking[anim_step]];
+		pic = pbk_level.anim("sign_2")[anim_blinking[anim_step]];
 	}
 }
 
@@ -34,18 +36,18 @@ void BackgroundPokeLevel2::render() {
 	Sprite::render();
 
 	if (anim_step_L1 < 57) {
-		draw(x, y - 19, pbk_level[PBK_L + anim_blinking[anim_step_L1]]);
+		draw(x, y - 19, pbk_level.anim("sign_l")[anim_blinking[anim_step_L1]]);
 	}
 	if (anim_step_E1 < 57) {
-		draw(x + 12, y - 19, pbk_level[PBK_E + anim_blinking[anim_step_E1]]);
+		draw(x + 12, y - 19, pbk_level.anim("sign_e")[anim_blinking[anim_step_E1]]);
 	}
 	if (anim_step_V < 57) {
-		draw(x + 23, y - 19, pbk_level[PBK_V + anim_blinking[anim_step_V]]);
+		draw(x + 23, y - 19, pbk_level.anim("sign_v")[anim_blinking[anim_step_V]]);
 	}
 	if (anim_step_E2 < 57) {
-		draw(x + 36, y - 19, pbk_level[PBK_E + anim_blinking[anim_step_E2]]);
+		draw(x + 36, y - 19, pbk_level.anim("sign_e")[anim_blinking[anim_step_E2]]);
 	}
 	if (anim_step_L2 < 57) {
-		draw(x + 47, y - 19, pbk_level[PBK_L + anim_blinking[anim_step_L2]]);
+		draw(x + 47, y - 19, pbk_level.anim("sign_l")[anim_blinking[anim_step_L2]]);
 	}
 }

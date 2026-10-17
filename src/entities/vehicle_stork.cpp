@@ -3,7 +3,7 @@
 static bool first;
 
 VehicleStork::VehicleStork() {
-	pic = pbk_enemies[66];
+	pic = pbk_enemies.pic("red_car");
 	hasBeenUsed = false;
 	first = true;
 };

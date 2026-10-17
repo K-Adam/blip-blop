@@ -7,6 +7,6 @@ class ShotCruiserLaser : public Sprite {
 	int dx;
 	int npic;
 
-	ShotCruiserLaser(int vx, int nb_pic);
+	ShotCruiserLaser(int vx, const Picture* p);
 	void update() override;
 };

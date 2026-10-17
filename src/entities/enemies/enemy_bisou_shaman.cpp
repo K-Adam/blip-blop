@@ -76,9 +76,9 @@ void EnemyBisouShaman::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[332 + anim_step];
+			pic = pbk_enemies.anim("shaman_die_right")[anim_step];
 		else
-			pic = pbk_enemies[345 + anim_step];
+			pic = pbk_enemies.anim("shaman_die_left")[anim_step];
 	}
 }
 
@@ -119,19 +119,19 @@ void EnemyBisouShaman::onTeleport() {
 
 	if (anim_step <= 7) {
 		if (x < offset + 320) {
-			pic = pbk_enemies[316 + anim_step];
+			pic = pbk_enemies.anim("shaman_teleport_right")[anim_step];
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies[324 + anim_step];
+			pic = pbk_enemies.anim("shaman_teleport_left")[anim_step];
 			dir = FACING_LEFT;
 		}
 	} else if (anim_step <= 10) {
 		if (anim_tick % 2 == 0) {
 			if (x < offset + 320) {
-				pic = pbk_enemies[323];
+				pic = pbk_enemies.anim("shaman_teleport_right")[7];
 				dir = FACING_RIGHT;
 			} else {
-				pic = pbk_enemies[331];
+				pic = pbk_enemies.anim("shaman_teleport_left")[7];
 				dir = FACING_LEFT;
 			}
 		} else {
@@ -139,10 +139,10 @@ void EnemyBisouShaman::onTeleport() {
 		}
 	} else {
 		if (x < offset + 320) {
-			pic = pbk_enemies[323 - (anim_step - 11)];
+			pic = pbk_enemies.anim("shaman_teleport_right")[7 - (anim_step - 11)];
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies[331 - (anim_step - 11)];
+			pic = pbk_enemies.anim("shaman_teleport_left")[7 - (anim_step - 11)];
 			dir = FACING_LEFT;
 		}
 	}
@@ -167,9 +167,9 @@ void EnemyBisouShaman::onRaiseStaff() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[358 + anim_step];
+		pic = pbk_enemies.anim("shaman_staff_right")[anim_step];
 	else
-		pic = pbk_enemies[361 + anim_step];
+		pic = pbk_enemies.anim("shaman_staff_left")[anim_step];
 
 	colFromPic();
 }
@@ -191,9 +191,9 @@ void EnemyBisouShaman::onLowerStaff() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[360 - anim_step];
+		pic = pbk_enemies.anim("shaman_staff_right")[2 - anim_step];
 	else
-		pic = pbk_enemies[363 - anim_step];
+		pic = pbk_enemies.anim("shaman_staff_left")[2 - anim_step];
 
 	colFromPic();
 }
@@ -280,9 +280,9 @@ void EnemyBisouShaman::render() {
 
 	if (status == STATE_SHOOT) {
 		if (dir == FACING_RIGHT)
-			draw(x + 18, y - 70, pbk_enemies[405 + anim_step]);
+			draw(x + 18, y - 70, pbk_enemies.anim("shaman_glow_right")[anim_step]);
 		else
-			draw(x - 18, y - 70, pbk_enemies[416 + anim_step]);
+			draw(x - 18, y - 70, pbk_enemies.anim("shaman_glow_left")[anim_step]);
 	}
 }
 
@@ -300,10 +300,10 @@ void EnemyBisouShaman::onWalk() {
 	}
 
 	if (x < offset + 320) {
-		pic = pbk_enemies[316];
+		pic = pbk_enemies.anim("shaman_teleport_right")[0];
 		dir = FACING_RIGHT;
 	} else {
-		pic = pbk_enemies[324];
+		pic = pbk_enemies.anim("shaman_teleport_left")[0];
 		dir = FACING_LEFT;
 	}
 
@@ -336,9 +336,9 @@ void EnemyBisouShaman::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[573 + anim_step];
+		pic = pbk_enemies.anim("shaman_charred_right")[anim_step];
 	else
-		pic = pbk_enemies[581 + anim_step];
+		pic = pbk_enemies.anim("shaman_charred_left")[anim_step];
 }
 
 void EnemyBisouShaman::takeHit(Shot* shot) {

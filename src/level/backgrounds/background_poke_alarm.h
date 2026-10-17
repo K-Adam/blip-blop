@@ -13,7 +13,7 @@ class BackgroundPokeAlarm1 : public Sprite {
 			anim_step %= 14;
 		}
 
-		pic = pbk_level[anim_step];
+		pic = pbk_level.anim("alarm_1")[anim_step];
 		updateDestroyed();
 	};
 };
@@ -29,7 +29,7 @@ class BackgroundPokeAlarm2 : public Sprite {
 			anim_step %= 14;
 		}
 
-		pic = pbk_level[14 + anim_step];
+		pic = pbk_level.anim("alarm_2")[anim_step];
 		updateDestroyed();
 	};
 };
@@ -45,7 +45,7 @@ class BackgroundPokeAlarm3 : public Sprite {
 			anim_step %= 14;
 		}
 
-		pic = pbk_level[28 + anim_step];
+		pic = pbk_level.anim("alarm_3")[anim_step];
 		updateDestroyed();
 	};
 };

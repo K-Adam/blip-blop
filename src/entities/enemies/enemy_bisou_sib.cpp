@@ -5,7 +5,7 @@
 #define STATE_RUN_FOREST 102
 #define STATE_HURT_RECOVER 103
 
-static const int anim_run[] = {640, 641, 642, 641};
+static const int anim_run[] = {0, 1, 2, 1};
 
 EnemyBisouSIB::EnemyBisouSIB() {
 	if (game_flag[FLAG_USER1] != 0) {
@@ -24,7 +24,7 @@ void EnemyBisouSIB::update() {
 
 	switch (status) {
 		case STATE_WAITING_HURT:
-			pic = pbk_enemies[635];
+			pic = pbk_enemies.anim("sib_get_up")[0];
 			colFromPic();
 
 			if (x < offset + 440 || game_flag[1] == 0) status = STATE_HURT_RECOVER;
@@ -32,7 +32,7 @@ void EnemyBisouSIB::update() {
 			break;
 
 		case STATE_WAITING:
-			pic = pbk_enemies[639];
+			pic = pbk_enemies.anim("sib_get_up")[4];
 			colFromPic();
 
 			if (x - targeted_player->x < 200) status = STATE_RUN_FOREST;
@@ -50,7 +50,7 @@ void EnemyBisouSIB::update() {
 					anim_step = anim_tick = 0;
 					status = STATE_RUN_FOREST;
 				} else {
-					pic = pbk_enemies[635 + anim_step];
+					pic = pbk_enemies.anim("sib_get_up")[anim_step];
 				}
 			}
 
@@ -58,7 +58,7 @@ void EnemyBisouSIB::update() {
 			break;
 
 		case STATE_RUN_FOREST:
-			pic = pbk_enemies[animate(anim_run, 4, 5)];
+			pic = pbk_enemies.anim("sib_run_right")[animate(anim_run, 4, 5)];
 			walk(3);
 			noCol();
 			break;

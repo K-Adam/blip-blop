@@ -36,10 +36,10 @@ void EnemyEmber::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(2);
-		pic = pbk_enemies[44 + anim_step];
+		pic = pbk_enemies.anim("ember_walk_right")[anim_step];
 	} else {
 		walk(-2);
-		pic = pbk_enemies[46 + anim_step];
+		pic = pbk_enemies.anim("ember_walk_left")[anim_step];
 	}
 
 	colFromPic();
@@ -57,9 +57,9 @@ void EnemyEmber::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[62 + anim_step];
+			pic = pbk_enemies.anim("ember_die_left")[anim_step];
 		else
-			pic = pbk_enemies[48 + anim_step];
+			pic = pbk_enemies.anim("ember_die_right")[anim_step];
 	}
 }
 

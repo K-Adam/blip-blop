@@ -3,8 +3,6 @@
 #include <cmath>
 #include <numbers>
 
-#include "entities/sprites.h"
-
 const int delay_big[] = {1, 2, 2, 1, 2, 1};
 const int d_big[] = {3, -2, -1, 0, 1, 2, 3};
 const int d_small[] = {-2, 0, 2, 0, 1, -1, 2, -1, -2, 1};
@@ -44,9 +42,9 @@ void ShotBBShotgun::update() {
 		destroyed = true;
 	} else {
 		if (age < lifespan)
-			pic = pbk_bb[BB::SHOT_PELLET];
+			pic = pbk_bb.pic("shot_pellet");
 		else
-			pic = pbk_bb[BB::SHOT_M16];
+			pic = pbk_bb.pic("shot_m16");
 
 		colAlongAngle();
 	}

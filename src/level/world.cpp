@@ -166,10 +166,10 @@ inline void clippedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Re
 	else
 		r.bottom = ys;
 
-	surf->BltFast(x1, y1, pic->Surf(), &r);
+	pic->BlitPart(surf, x1, y1, r);
 }
 
-bool engrave(int x, int y, Picture* pic) {
+bool engrave(int x, int y, const Picture* pic) {
 	if (pic == NULL || x > (offset + vbuffer_wide - pic->xSize())) return false;
 
 	BackgroundStatic s;

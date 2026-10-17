@@ -49,10 +49,10 @@ void EnemyBisouJedi::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies[467 + anim_step];
+		pic = pbk_enemies.anim("jedi_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies[475 + anim_step];
+		pic = pbk_enemies.anim("jedi_walk_left")[anim_step];
 	}
 
 	if (shoot_step > wait_shoot && targeted_player != NULL) {
@@ -112,9 +112,9 @@ void EnemyBisouJedi::onDie() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[483 + anim_step];
+		pic = pbk_enemies.anim("jedi_die_right")[anim_step];
 	else
-		pic = pbk_enemies[504 + anim_step];
+		pic = pbk_enemies.anim("jedi_die_left")[anim_step];
 }
 
 void EnemyBisouJedi::takeHit(Shot* shot) {
@@ -160,9 +160,9 @@ void EnemyBisouJedi::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies[589 + anim_step];
+		pic = pbk_enemies.anim("jedi_charred_right")[anim_step];
 	else
-		pic = pbk_enemies[597 + anim_step];
+		pic = pbk_enemies.anim("jedi_charred_left")[anim_step];
 }
 
 void EnemyBisouJedi::render() {
@@ -174,8 +174,8 @@ void EnemyBisouJedi::render() {
 
 	if (has_sword) {
 		if (dir == FACING_RIGHT)
-			draw(x + dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies[549 + sword_frames[anim_step]]);
+			draw(x + dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies.anim("jedi_sword_right")[sword_frames[anim_step]]);
 		else
-			draw(x - dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies[554 + sword_frames[anim_step]]);
+			draw(x - dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies.anim("jedi_sword_left")[sword_frames[anim_step]]);
 	}
 }

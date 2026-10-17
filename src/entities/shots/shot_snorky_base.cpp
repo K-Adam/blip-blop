@@ -37,9 +37,9 @@ void ShotSnorkyBase::update() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[32 + anim_step];
+		pic = pbk_enemies.anim("snorky_shot_right")[anim_step];
 	} else {
-		pic = pbk_enemies[35 + anim_step];
+		pic = pbk_enemies.anim("snorky_shot_left")[anim_step];
 	}
 
 	if (solid_wall(x, y) != 0) destroyed = true;

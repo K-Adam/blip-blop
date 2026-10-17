@@ -1,5 +1,4 @@
 #include "entities/shots/shot_bb_cow.h"
-#include "entities/sprites.h"
 #include "entities/gore_splatter.h"
 
 void ShotBBCow::update() {
@@ -16,9 +15,9 @@ void ShotBBCow::update() {
 	if (solid_wall(x, y) && y > 50) {
 		pic = NULL;
 		if (anim_step < 4)
-			engrave(x, y, pbk_bb[BB::COW_SPLAT_LEFT]);
+			engrave(x, y, pbk_bb.pic("cow_splat_left"));
 		else
-			engrave(x, y, pbk_bb[BB::COW_SPLAT_RIGHT]);
+			engrave(x, y, pbk_bb.pic("cow_splat_right"));
 		col_on = false;
 		destroyed = true;
 
@@ -35,7 +34,7 @@ void ShotBBCow::update() {
 	} else if (y > 550 || x < offset - 50) {
 		destroyed = true;
 	} else {
-		pic = pbk_bb[BB::COW_FALL + anim_step];
+		pic = pbk_bb.anim("cow_fall")[anim_step];
 		colFromPic();
 	}
 }

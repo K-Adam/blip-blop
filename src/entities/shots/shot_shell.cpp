@@ -2,7 +2,7 @@
 #include "core/debug.h"
 
 ShotShell::ShotShell() {
-	pic = pbk_enemies[58];
+	pic = pbk_enemies.anim("shell_spin")[0];
 	bounced = false;
 }
 
@@ -16,7 +16,7 @@ void ShotShell::update() {
 		anim_step += 1;
 		anim_step %= 4;
 	}
-	pic = pbk_enemies[58 + anim_step];
+	pic = pbk_enemies.anim("shell_spin")[anim_step];
 
 	if (solid_wall(x - SHELL_SPEED, y)) {
 		if (bounced) {

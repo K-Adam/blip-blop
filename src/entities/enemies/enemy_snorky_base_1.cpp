@@ -3,11 +3,11 @@
 #include "entities/shots/shot_snorky_base.h"
 
 const int anim_snorky_base_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
-const int anim_snorky_base_walk_left[] = {5, 6, 7, 8, 9, 8, 7, 6};
+const int anim_snorky_base_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySnorkyBase1::EnemySnorkyBase1() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 200;
-	pic = pbk_enemies[0];
+	pic = pbk_enemies.anim("snorky_walk_right")[0];
 	dy = 0;
 }
 
@@ -64,13 +64,13 @@ void EnemySnorkyBase1::onWalk() {
 	if (dir == FACING_LEFT) {
 		walk(-SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_walk_left, 8, 4)];
+		pic = pbk_enemies.anim("snorky_walk_left")[animate(anim_snorky_base_walk_left, 8, 4)];
 
 		if (solid_wall(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		walk(SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies[animate(anim_snorky_base_walk_right, 8, 4)];
+		pic = pbk_enemies.anim("snorky_walk_right")[animate(anim_snorky_base_walk_right, 8, 4)];
 
 		if (solid_wall(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -115,10 +115,10 @@ void EnemySnorkyBase1::onDie() {
 	} else {
 		if (dir == FACING_LEFT) {
 			walk(-SNORKY_BASE_SPEED);
-			pic = pbk_enemies[71 + anim_step];
+			pic = pbk_enemies.anim("snorky_die_left")[anim_step];
 		} else {
 			walk(SNORKY_BASE_SPEED);
-			pic = pbk_enemies[38 + anim_step];
+			pic = pbk_enemies.anim("snorky_die_right")[anim_step];
 		}
 	}
 }
@@ -163,9 +163,9 @@ void EnemySnorkyBase1::onShoot() {
 
 	if (anim_step < 11) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[10 + anim_step];
+			pic = pbk_enemies.anim("snorky_shoot_right")[anim_step];
 		} else {
-			pic = pbk_enemies[21 + anim_step];
+			pic = pbk_enemies.anim("snorky_shoot_left")[anim_step];
 		}
 	}
 }
@@ -180,9 +180,9 @@ void EnemySnorkyBase1::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[105 + anim_step];
+			pic = pbk_enemies.anim("snorky_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[96 + anim_step];
+			pic = pbk_enemies.anim("snorky_burn_right")[anim_step];
 	}
 }
 

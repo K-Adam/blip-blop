@@ -8,7 +8,7 @@ int water_seed2 = 5;
 class BackgroundWater1 : public Sprite {
    public:
 	void update() override {
-		pic = pbk_level[7 + water_seed];
+		pic = pbk_level.anim("water")[water_seed];
 
 		if (x < offset - 400) destroyed = true;
 	};
@@ -16,7 +16,7 @@ class BackgroundWater1 : public Sprite {
 
 class BackgroundWater2 : public Sprite {
 	void update() override {
-		pic = pbk_level[7 + water_seed2];
+		pic = pbk_level.anim("water")[water_seed2];
 
 		if (x < offset - 400) destroyed = true;
 	};
@@ -28,7 +28,7 @@ class BackgroundWater : public Sprite {
 		Sprite* ptr;
 		bool b = false;
 
-		for (int i = 0; i < ((((int)level_size) / pbk_level[7]->xSize()) + 1); i++) {
+		for (int i = 0; i < ((((int)level_size) / pbk_level.anim("water")[0]->xSize()) + 1); i++) {
 			if (b)
 				ptr = new BackgroundWater1();
 			else

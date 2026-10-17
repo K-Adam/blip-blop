@@ -6,11 +6,11 @@
 #include "level/world.h"
 #include "core/assets.h"
 
-const int sonic_anim_ball_right[] = {46, 47, 50, 48, 49, 50};
-const int sonic_anim_ball_left[] = {51, 52, 55, 53, 54, 55};
+const int sonic_anim_ball_right[] = {0, 1, 4, 2, 3, 4};
+const int sonic_anim_ball_left[] = {0, 1, 4, 2, 3, 4};
 
-const int sonic_anim_super_saiyan[] = {108, 109, 110, 109, 108, 109, 110, 111, 110, 109, 110, 111, 112, 111, 110, 111, 112, 113, 112, 111, 112, 113,
-									   114, 113, 112, 113, 114, 115, 114, 113, 114, 115, 116, 115, 114, 115, 116, 117, 116, 115, 116, 117, 118};
+const int sonic_anim_super_saiyan[] = {0, 1, 2, 1, 0, 1, 2, 3, 2, 1, 2, 3, 4, 3, 2, 3, 4, 5, 4, 3, 4, 5,
+									   6, 5, 4, 5, 6, 7, 6, 5, 6, 7, 8, 7, 6, 7, 8, 9, 8, 7, 8, 9, 10};
 
 EnemySonic::EnemySonic()
 	: speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), hp_subcritical(3750), hp_critical(2500), hp_supercritical(1250), ring(90) {
@@ -152,10 +152,10 @@ void EnemySonic::onWalk() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies[30 + anim_step];
+		pic = pbk_enemies.anim("sonic_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies[38 + anim_step];
+		pic = pbk_enemies.anim("sonic_walk_left")[anim_step];
 	}
 	if (speed < SONIC_SPEED) {
 		speed_tick++;
@@ -185,10 +185,10 @@ void EnemySonic::onDie() {
 		}
 		if (dir == FACING_RIGHT) {
 			walk(speed);
-			pic = pbk_enemies[30 + anim_step];
+			pic = pbk_enemies.anim("sonic_walk_right")[anim_step];
 		} else {
 			walk(-speed);
-			pic = pbk_enemies[38 + anim_step];
+			pic = pbk_enemies.anim("sonic_walk_left")[anim_step];
 		}
 		if (speed < SONIC_SPEED) {
 			speed_tick++;
@@ -214,7 +214,7 @@ void EnemySonic::onDie() {
 				game_flag[2] = 2;
 				destroyed = true;
 			} else {
-				pic = pbk_enemies[sonic_anim_super_saiyan[anim_step]];
+				pic = pbk_enemies.anim("sonic_power_up_left")[sonic_anim_super_saiyan[anim_step]];
 			}
 		}
 	}
@@ -256,10 +256,10 @@ void EnemySonic::onJump() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies[30 + anim_step];
+		pic = pbk_enemies.anim("sonic_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies[38 + anim_step];
+		pic = pbk_enemies.anim("sonic_walk_left")[anim_step];
 	}
 	colFromPic();
 }
@@ -285,9 +285,9 @@ void EnemySonic::onAttackhorizontal() {
 				anim_step %= 5;
 			}
 			if (dir == FACING_RIGHT) {
-				pic = pbk_enemies[85 + anim_step];
+				pic = pbk_enemies.anim("sonic_dash_right")[anim_step];
 			} else {
-				pic = pbk_enemies[91 + anim_step];
+				pic = pbk_enemies.anim("sonic_dash_left")[anim_step];
 			}
 		}
 
@@ -360,10 +360,10 @@ void EnemySonic::onAttackhorizontal() {
 		}
 		if (dir == FACING_RIGHT) {
 			x += speed;
-			pic = pbk_enemies[animate(sonic_anim_ball_right, 6, 3)];
+			pic = pbk_enemies.anim("sonic_ball_right")[animate(sonic_anim_ball_right, 6, 3)];
 		} else {
 			x -= speed;
-			pic = pbk_enemies[animate(sonic_anim_ball_left, 6, 3)];
+			pic = pbk_enemies.anim("sonic_ball_left")[animate(sonic_anim_ball_left, 6, 3)];
 		}
 	}
 	colFromPic();
@@ -390,9 +390,9 @@ void EnemySonic::onAttackvertical() {
 				anim_step %= 5;
 			}
 			if (dir == FACING_RIGHT) {
-				pic = pbk_enemies[85 + anim_step];
+				pic = pbk_enemies.anim("sonic_dash_right")[anim_step];
 			} else {
-				pic = pbk_enemies[91 + anim_step];
+				pic = pbk_enemies.anim("sonic_dash_left")[anim_step];
 			}
 		}
 
@@ -468,10 +468,10 @@ void EnemySonic::onAttackvertical() {
 		}
 		if (dir == FACING_RIGHT) {
 			x += speed;
-			pic = pbk_enemies[animate(sonic_anim_ball_right, 6, 3)];
+			pic = pbk_enemies.anim("sonic_ball_right")[animate(sonic_anim_ball_right, 6, 3)];
 		} else {
 			x -= speed;
-			pic = pbk_enemies[animate(sonic_anim_ball_left, 6, 3)];
+			pic = pbk_enemies.anim("sonic_ball_left")[animate(sonic_anim_ball_left, 6, 3)];
 		}
 	}
 	colFromPic();
@@ -506,9 +506,9 @@ void EnemySonic::onAttackThorns() {
 		anim_step %= 5;
 	}
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[85 + anim_step];
+		pic = pbk_enemies.anim("sonic_dash_right")[anim_step];
 	} else {
-		pic = pbk_enemies[91 + anim_step];
+		pic = pbk_enemies.anim("sonic_dash_left")[anim_step];
 	}
 	attack_frame_tick += 1;
 	attack_frame_tick %= 1;
@@ -561,10 +561,10 @@ void EnemySonic::onAttackLightning() {
 
 	if (dir == FACING_RIGHT) {
 		y -= 1;
-		pic = pbk_enemies[97 + anim_tick];
+		pic = pbk_enemies.anim("sonic_power_up_right")[anim_tick];
 	} else {
 		y -= 1;
-		pic = pbk_enemies[108 + anim_tick];
+		pic = pbk_enemies.anim("sonic_power_up_left")[anim_tick];
 	}
 
 	colFromPic();
@@ -634,7 +634,7 @@ void EnemySonic::throw_thorns() {
 	ShotThorn* shot;
 	switch (attack_frame) {
 		case 0:
-			shot = new ShotThorn(59, 12, 0);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[0], 12, 0);
 			shot->setDir(dir);
 			shot->x = x + 23;
 			shot->y = y - 13;
@@ -642,7 +642,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 1:
-			shot = new ShotThorn(60, 9, -2);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[1], 9, -2);
 			shot->setDir(dir);
 			shot->x = x + 23;
 			shot->y = y - 18;
@@ -650,7 +650,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 2:
-			shot = new ShotThorn(61, 8, -8);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[2], 8, -8);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 23;
@@ -658,7 +658,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 3:
-			shot = new ShotThorn(62, 2, -9);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[3], 2, -9);
 			shot->setDir(dir);
 			shot->x = x + 13;
 			shot->y = y - 23;
@@ -666,7 +666,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 4:
-			shot = new ShotThorn(63, 0, -12);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[4], 0, -12);
 			shot->setDir(dir);
 			shot->x = x + 0;
 			shot->y = y - 23;
@@ -674,7 +674,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 5:
-			shot = new ShotThorn(64, -2, -9);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[5], -2, -9);
 			shot->setDir(dir);
 			shot->x = x - 13;
 			shot->y = y - 23;
@@ -682,7 +682,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 6:
-			shot = new ShotThorn(65, -8, -8);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[6], -8, -8);
 			shot->setDir(dir);
 			shot->x = x - 18;
 			shot->y = y - 23;
@@ -690,7 +690,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 7:
-			shot = new ShotThorn(66, -9, -2);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[7], -9, -2);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 18;
@@ -698,7 +698,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 8:
-			shot = new ShotThorn(67, -12, 0);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[8], -12, 0);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 13;
@@ -706,7 +706,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 9:
-			shot = new ShotThorn(68, -9, 2);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[9], -9, 2);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 8;
@@ -714,7 +714,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 10:
-			shot = new ShotThorn(69, -8, 8);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[10], -8, 8);
 			shot->setDir(dir);
 			shot->x = x - 18;
 			shot->y = y - 3;
@@ -722,7 +722,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 11:
-			shot = new ShotThorn(70, -2, 9);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[11], -2, 9);
 			shot->setDir(dir);
 			shot->x = x - 13;
 			shot->y = y - 3;
@@ -730,7 +730,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 12:
-			shot = new ShotThorn(71, 0, 12);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[12], 0, 12);
 			shot->setDir(dir);
 			shot->x = x - 0;
 			shot->y = y - 0;
@@ -738,7 +738,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 13:
-			shot = new ShotThorn(72, 2, 9);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[13], 2, 9);
 			shot->setDir(dir);
 			shot->x = x + 13;
 			shot->y = y - 3;
@@ -746,7 +746,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 14:
-			shot = new ShotThorn(73, 8, 8);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[14], 8, 8);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 8;
@@ -754,7 +754,7 @@ void EnemySonic::throw_thorns() {
 			break;
 
 		case 15:
-			shot = new ShotThorn(74, 9, 2);
+			shot = new ShotThorn(pbk_enemies.anim("sonic_thorn")[15], 9, 2);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 13;

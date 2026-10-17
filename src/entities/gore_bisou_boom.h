@@ -14,9 +14,9 @@ class GoreFeetBisouBoom : public Sprite {
 			if (anim_tick == 0) anim_step += 1;
 
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies[190 + anim_step];
+				pic = pbk_enemies.anim("boom_feet_right")[anim_step];
 			else
-				pic = pbk_enemies[196 + anim_step];
+				pic = pbk_enemies.anim("boom_feet_left")[anim_step];
 		}
 
 		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
@@ -46,9 +46,9 @@ class GoreHeadBisouBoom : public Sprite {
 			if (anim_tick == 0) anim_step += 1;
 
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies[202 + anim_step];
+				pic = pbk_enemies.anim("boom_head_right")[anim_step];
 			else
-				pic = pbk_enemies[208 + anim_step];
+				pic = pbk_enemies.anim("boom_head_left")[anim_step];
 		}
 
 		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
@@ -78,9 +78,9 @@ class GoreBellyBisouBoom : public Sprite {
 			if (anim_tick == 0) anim_step += 1;
 
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies[214 + anim_step];
+				pic = pbk_enemies.anim("boom_belly_right")[anim_step];
 			else
-				pic = pbk_enemies[220 + anim_step];
+				pic = pbk_enemies.anim("boom_belly_left")[anim_step];
 		}
 
 		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {

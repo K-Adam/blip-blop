@@ -23,7 +23,7 @@ class ShotStar : public Shot {
 			anim_step %= 24;
 		}
 
-		pic = pbk_enemies[130 + anim_step];
+		pic = pbk_enemies.anim("star_shot")[anim_step];
 
 		if (dir == FACING_RIGHT) {
 			if (solid_wall(x + SPEED, y))

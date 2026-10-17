@@ -40,16 +40,9 @@ void BackgroundSnorkAirlock1::update() {
 }
 
 void BackgroundSnorkAirlock1::render() {
-	SDL::Surface* surf;
-	int xs;
-	int ys;
 	Rect r;
 	int width_px;
 	int pic_offset = 0;
-
-	surf = pbk_level[1]->Surf();
-	xs = pbk_level[1]->xSize();
-	ys = pbk_level[1]->ySize();
 
 	r.top = 222 - anim_step;
 	r.left = 0;
@@ -66,7 +59,7 @@ void BackgroundSnorkAirlock1::render() {
 	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + pic_offset, y, surf, &r);
+	pbk_level.pic("airlock_door")->BlitPart(backSurface, x - offset + pic_offset, y, r);
 }
 
 BackgroundSnorkAirlock2::BackgroundSnorkAirlock2() { anim_step = 222; }
@@ -87,16 +80,9 @@ void BackgroundSnorkAirlock2::update() {
 }
 
 void BackgroundSnorkAirlock2::render() {
-	SDL::Surface* surf;
-	int xs;
-	int ys;
 	Rect r;
 	int width_px;
 	int pic_offset = 0;
-
-	surf = pbk_level[1]->Surf();
-	xs = pbk_level[1]->xSize();
-	ys = pbk_level[1]->ySize();
 
 	r.top = 222 - anim_step;
 	r.left = 0;
@@ -113,5 +99,5 @@ void BackgroundSnorkAirlock2::render() {
 	r.right = width_px;
 	r.bottom = 222;
 
-	backSurface->BltFast(x - offset + pic_offset, y, surf, &r);
+	pbk_level.pic("airlock_door")->BlitPart(backSurface, x - offset + pic_offset, y, r);
 }

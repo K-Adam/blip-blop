@@ -3,14 +3,14 @@
 
 EnemyWeight::EnemyWeight() : nb_collisions(0) {
 	hp = 1000;
-	pic = pbk_enemies[169];
+	pic = pbk_enemies.pic("weight_hanging");
 }
 
 void EnemyWeight::update() {
 	if (status == STATE_DYING) {
 		onDie();
 	} else {
-		pic = pbk_enemies[169];
+		pic = pbk_enemies.pic("weight_hanging");
 		if (game_flag[0] < 3) {
 			y = -100;
 			x = 565;
@@ -47,12 +47,12 @@ void EnemyWeight::onDie() {
 			}
 		}
 		if (anim_step < 3) {
-			pic = pbk_enemies[202 + anim_step];
+			pic = pbk_enemies.anim("weight_crush")[3 + anim_step];
 		}
 	} else {
 		fall2();
 		if (solid_wall(x, y + dy * 10)) {
-			pic = pbk_enemies[201];
+			pic = pbk_enemies.anim("weight_crush")[2];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 8; i++) {
@@ -62,7 +62,7 @@ void EnemyWeight::onDie() {
 				list_splatters.emplace_back(s);
 			}
 		} else if (solid_wall(x, y + dy * 15)) {
-			pic = pbk_enemies[200];
+			pic = pbk_enemies.anim("weight_crush")[1];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 6; i++) {
@@ -72,7 +72,7 @@ void EnemyWeight::onDie() {
 				list_splatters.emplace_back(s);
 			}
 		} else if (solid_wall(x, y + dy * 20)) {
-			pic = pbk_enemies[200];
+			pic = pbk_enemies.anim("weight_crush")[1];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 5; i++) {
@@ -83,7 +83,7 @@ void EnemyWeight::onDie() {
 			}
 		} else if (solid_wall(x, y + dy * 25)) {
 			game_flag[0] = 6;
-			pic = pbk_enemies[199];
+			pic = pbk_enemies.anim("weight_crush")[0];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 4; i++) {
@@ -93,7 +93,7 @@ void EnemyWeight::onDie() {
 				list_splatters.emplace_back(s);
 			}
 		} else if (solid_wall(x, y + dy * 30)) {
-			pic = pbk_enemies[199];
+			pic = pbk_enemies.anim("weight_crush")[0];
 			int i;
 			Sprite* s;
 			for (i = 0; i < 3; i++) {
@@ -103,7 +103,7 @@ void EnemyWeight::onDie() {
 				list_splatters.emplace_back(s);
 			}
 		} else {
-			pic = pbk_enemies[170];
+			pic = pbk_enemies.pic("weight_dropped");
 		}
 	}
 }

@@ -110,10 +110,10 @@ void EnemyTailsFlying::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies[anim_step + 80];
+		pic = pbk_enemies.anim("tails_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies[anim_step + 88];
+		pic = pbk_enemies.anim("tails_walk_left")[anim_step];
 	}
 	if (speed < TAILS_SPEED) {
 		speed_tick++;
@@ -137,10 +137,10 @@ void EnemyTailsFlying::onDie() {
 		}
 		if (dir == FACING_RIGHT) {
 			if (!solid_wall(x + speed, y)) walk(speed);
-			pic = pbk_enemies[122 + anim_step];
+			pic = pbk_enemies.anim("tails_fly_die_right")[anim_step];
 		} else {
 			if (!solid_wall(x - speed, y)) walk(-speed);
-			pic = pbk_enemies[124 + anim_step];
+			pic = pbk_enemies.anim("tails_fly_die_left")[anim_step];
 		}
 		if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
 			dy = 0;
@@ -169,10 +169,10 @@ void EnemyTailsFlying::onDie() {
 		} else {
 			if (dir == FACING_LEFT) {
 				if (!solid_wall(x - speed, y)) walk(-speed);
-				pic = pbk_enemies[111 + anim_step];
+				pic = pbk_enemies.anim("tails_die_left")[anim_step];
 			} else {
 				if (!solid_wall(x + speed, y)) walk(speed);
-				pic = pbk_enemies[100 + anim_step];
+				pic = pbk_enemies.anim("tails_die_right")[anim_step];
 			}
 		}
 	}
@@ -207,9 +207,9 @@ void EnemyTailsFlying::onFly() {
 	anim_step %= 2;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[anim_step + 96];
+		pic = pbk_enemies.anim("tails_fly_right")[anim_step];
 	} else {
-		pic = pbk_enemies[anim_step + 98];
+		pic = pbk_enemies.anim("tails_fly_left")[anim_step];
 	}
 
 	{}
@@ -271,10 +271,10 @@ void EnemyTailsFlying::onFall() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies[96 + anim_step];
+		pic = pbk_enemies.anim("tails_fly_right")[anim_step];
 	} else {
 		x -= speed;
-		pic = pbk_enemies[98 + anim_step];
+		pic = pbk_enemies.anim("tails_fly_left")[anim_step];
 	}
 
 	colFromPic();
@@ -291,9 +291,9 @@ void EnemyTailsFlying::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[412 + anim_step];
+			pic = pbk_enemies.anim("tails_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[423 + anim_step];
+			pic = pbk_enemies.anim("tails_burn_left")[anim_step];
 	}
 }
 

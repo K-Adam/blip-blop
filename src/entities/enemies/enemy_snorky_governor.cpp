@@ -1,12 +1,12 @@
 #include "entities/enemies/enemy_snorky_governor.h"
 #include "entities/shots/shot_snorky_governor.h"
 
-const int anim_governor_walk_right[] = {183, 184, 185, 186, 185, 184};
-const int anim_governor_walk_left[] = {187, 188, 189, 190, 189, 188};
+const int anim_governor_walk_right[] = {0, 1, 2, 3, 2, 1};
+const int anim_governor_walk_left[] = {0, 1, 2, 3, 2, 1};
 
 EnemySnorkyGovernor::EnemySnorkyGovernor() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 150;
-	pic = pbk_enemies[0];
+	pic = pbk_enemies.anim("snorky_walk_right")[0];
 	dy = 0;
 }
 
@@ -64,13 +64,13 @@ void EnemySnorkyGovernor::onWalk() {
 	if (dir == FACING_LEFT) {
 		walk(-GOVERNOR_SPEED);
 
-		pic = pbk_enemies[animate(anim_governor_walk_left, 6, 4)];
+		pic = pbk_enemies.anim("governor_walk_left")[animate(anim_governor_walk_left, 6, 4)];
 
 		if (solid_wall(x - GOVERNOR_SPEED, y) || (x - GOVERNOR_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		walk(GOVERNOR_SPEED);
 
-		pic = pbk_enemies[animate(anim_governor_walk_right, 6, 4)];
+		pic = pbk_enemies.anim("governor_walk_right")[animate(anim_governor_walk_right, 6, 4)];
 
 		if (solid_wall(x + GOVERNOR_SPEED, y) || (x + GOVERNOR_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -98,12 +98,13 @@ void EnemySnorkyGovernor::onDie() {
 		if (platform_y(x, y) != 0) engrave(x, y, pic);
 
 		destroyed = true;
+		return;
 	}
 
 	if (dir == FACING_LEFT) {
-		pic = pbk_enemies[210 + anim_step];
+		pic = pbk_enemies.anim("governor_die_left")[anim_step];
 	} else {
-		pic = pbk_enemies[205 + anim_step];
+		pic = pbk_enemies.anim("governor_die_right")[anim_step];
 	}
 }
 
@@ -144,9 +145,9 @@ void EnemySnorkyGovernor::onShoot() {
 
 	if (anim_step < 7) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[191 + anim_step];
+			pic = pbk_enemies.anim("governor_shoot_right")[anim_step];
 		} else {
-			pic = pbk_enemies[198 + anim_step];
+			pic = pbk_enemies.anim("governor_shoot_left")[anim_step];
 		}
 	}
 }
@@ -162,10 +163,10 @@ void EnemySnorkyGovernor::onCharred() {
 
 	else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[224 + anim_step];
+			pic = pbk_enemies.anim("governor_burn_left")[anim_step];
 
 		else
-			pic = pbk_enemies[215 + anim_step];
+			pic = pbk_enemies.anim("governor_burn_right")[anim_step];
 	}
 }
 

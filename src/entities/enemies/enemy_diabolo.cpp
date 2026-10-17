@@ -138,9 +138,9 @@ void EnemyDiabolo::onWalk() {
 	}
 
 	if (dir == FACING_LEFT) {
-		pic = pbk_enemies[1];
+		pic = pbk_enemies.anim("snorky_walk_right")[1];
 	} else {
-		pic = pbk_enemies[0];
+		pic = pbk_enemies.anim("snorky_walk_right")[0];
 	}
 
 	colFromPic();
@@ -201,13 +201,13 @@ void EnemyDiabolo::onKick() {
 			fall();
 			x += DIABOLO_KICK_SPEED;
 		}
-		pic = pbk_enemies[8 + anim_step];
+		pic = pbk_enemies.anim("snorky_walk_left")[3 + anim_step];
 	} else {
 		if ((anim_step >= 4) && (anim_step <= 9)) {
 			fall();
 			x -= DIABOLO_KICK_SPEED;
 		}
-		pic = pbk_enemies[23 + anim_step];
+		pic = pbk_enemies.anim("snorky_shoot_left")[2 + anim_step];
 	}
 	colFromPic();
 }
@@ -244,9 +244,9 @@ void EnemyDiabolo::onTornado() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[38 + anim_step];
+		pic = pbk_enemies.anim("snorky_die_right")[anim_step];
 	} else {
-		pic = pbk_enemies[47 + anim_step];
+		pic = pbk_enemies.anim("snorky_die_right")[9 + anim_step];
 	}
 	colFromPic();
 }
@@ -269,23 +269,23 @@ void EnemyDiabolo::onKneeStrike() {
 	if ((y > 300) && (dx != 0)) {
 		x += dx;
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[2];
+			pic = pbk_enemies.anim("snorky_walk_right")[2];
 		} else {
-			pic = pbk_enemies[5];
+			pic = pbk_enemies.anim("snorky_walk_left")[0];
 		}
 	} else if ((y > 150) && (dx != 0)) {
 		x += dx;
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[3];
+			pic = pbk_enemies.anim("snorky_walk_right")[3];
 		} else {
-			pic = pbk_enemies[6];
+			pic = pbk_enemies.anim("snorky_walk_left")[1];
 		}
 	} else if ((y > -50) && (dx != 0)) {
 		x += dx;
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[4];
+			pic = pbk_enemies.anim("snorky_walk_right")[4];
 		} else {
-			pic = pbk_enemies[7];
+			pic = pbk_enemies.anim("snorky_walk_left")[2];
 		}
 	} else {
 		dx = 0;
@@ -312,9 +312,9 @@ void EnemyDiabolo::onKneeStrike() {
 		}
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[19 + anim_step];
+			pic = pbk_enemies.anim("snorky_shoot_right")[9 + anim_step];
 		} else {
-			pic = pbk_enemies[34 + anim_step];
+			pic = pbk_enemies.anim("snorky_shot_right")[2 + anim_step];
 		}
 	}
 	colFromPic();

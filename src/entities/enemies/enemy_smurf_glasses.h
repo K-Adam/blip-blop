@@ -9,10 +9,10 @@ class EnemySmurfGlasses : public EnemySmurf {
 		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x - 4, y - 27, pbk_enemies[145]);
+					draw(x - 4, y - 27, pbk_enemies.pic("smurf_glasses_left"));
 					break;
 				case FACING_RIGHT:
-					draw(x + 4, y - 27, pbk_enemies[146]);
+					draw(x + 4, y - 27, pbk_enemies.pic("smurf_glasses_right"));
 					break;
 			}
 		}

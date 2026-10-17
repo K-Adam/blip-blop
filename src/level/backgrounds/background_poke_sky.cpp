@@ -2,7 +2,7 @@
 #include "core/assets.h"
 #include "level/backgrounds/background_poke_sky.h"
 
-BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_level[48]; }
+BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_level.pic("sky_frame"); }
 
 void BackgroundPokeSky::update() {
 	anim_step += 4;
@@ -14,16 +14,9 @@ void BackgroundPokeSky::update() {
 void BackgroundPokeSky::render() {
 	Sprite::render();
 
-	SDL::Surface* surf;
-	int xs;
 	int pic_offset = 0;
-	int ys;
 	Rect r;
 	int width_px;
-
-	surf = pbk_level[50]->Surf();
-	xs = pbk_level[50]->xSize();
-	ys = pbk_level[50]->ySize();
 
 	r.top = 0;
 	r.left = anim_step;
@@ -41,9 +34,9 @@ void BackgroundPokeSky::render() {
 	}
 
 	r.right = anim_step + width_px;
-	r.bottom = ys;
+	r.bottom = pbk_level.pic("sky_clouds")->ySize();
 
-	backSurface->BltFast(x - offset + pic_offset, y + 50, surf, &r);
+	pbk_level.pic("sky_clouds")->BlitPart(backSurface, x - offset + pic_offset, y + 50, r);
 
-	draw(x, y, pbk_level[49]);
+	draw(x, y, pbk_level.pic("sky_strut"));
 }

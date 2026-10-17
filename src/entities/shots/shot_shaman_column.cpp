@@ -20,7 +20,7 @@ void ShotShamanColumn::update() {
 				}
 			}
 
-			pic = pbk_enemies[398 - anim_step];
+			pic = pbk_enemies.anim("shaman_column_grow")[4 - anim_step];
 
 			break;
 
@@ -39,7 +39,7 @@ void ShotShamanColumn::update() {
 				return;
 			}
 
-			pic = pbk_enemies[399 + anim_step];
+			pic = pbk_enemies.anim("shaman_column_burn")[anim_step];
 
 			break;
 
@@ -54,7 +54,7 @@ void ShotShamanColumn::update() {
 				}
 			}
 
-			pic = pbk_enemies[394 + anim_step];
+			pic = pbk_enemies.anim("shaman_column_grow")[anim_step];
 
 			break;
 	}

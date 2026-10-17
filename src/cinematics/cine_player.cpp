@@ -136,7 +136,7 @@ void CINEPlayer::updateScene() {
 				obj[i].wait_anim += 1;
 				obj[i].wait_anim %= obj[i].speed_anim;
 
-				obj[i].pic = pbk[obj[i].anim[obj[i].anim_step]];
+				obj[i].pic = pbk.anim(obj[i].anim_sheet)[obj[i].anim[obj[i].anim_step]];
 
 				if (obj[i].wait_anim == 0) {
 					obj[i].anim_step += 1;
@@ -144,7 +144,7 @@ void CINEPlayer::updateScene() {
 					if (obj[i].anim_step >= obj[i].nb_anim) {
 						if (obj[i].loop_anim) {
 							obj[i].anim_step = 0;
-							obj[i].pic = pbk[obj[i].anim[0]];
+							obj[i].pic = pbk.anim(obj[i].anim_sheet)[obj[i].anim[0]];
 						} else {
 							obj[i].nb_anim = 0;
 						}
@@ -177,7 +177,6 @@ void CINEPlayer::renderLoop() {
 void CINEPlayer::updateState() {
 	bool to_draw = false;
 	int n;
-	int n2;
 	int i;
 
 	while (!finished && !to_draw && getCommand()) {
@@ -206,13 +205,13 @@ void CINEPlayer::updateState() {
 			if (n < 0 || n >= NB_OBJ)
 				error("numéro d'objet invalide");
 			else {
-				n2 = int_arg[1];
+				const Picture* pic = pbk.frame(str_arg[1]);
 
-				if (n2 < 0 || (size_t)n2 >= pbk.getSize())
+				if (pic == nullptr)
 					error("numéro d'image invalide");
 				else {
 					obj[n].id = OBJ_SPRITE;
-					obj[n].pic = pbk[n2];
+					obj[n].pic = pic;
 					obj[n].show = true;
 				}
 			}
@@ -281,14 +280,15 @@ void CINEPlayer::updateState() {
 					obj[n].loop_anim = false;
 
 				obj[n].id = OBJ_SPRITE;
-				obj[n].pic = pbk[int_arg[3]];
+				obj[n].anim_sheet = str_arg[3];
 				obj[n].wait_anim = 0;
 				obj[n].anim_step = 0;
-				obj[n].nb_anim = nb_args - 3;
+				obj[n].nb_anim = nb_args - 4;
 
-				for (i = 3; i < nb_args; i++) {
-					obj[n].anim[i - 3] = int_arg[i];
+				for (i = 4; i < nb_args; i++) {
+					obj[n].anim[i - 4] = int_arg[i];
 				}
+				obj[n].pic = pbk.anim(obj[n].anim_sheet)[obj[n].anim[0]];
 			}
 		} else if (cmd_name == "setxwarp") {
 			n = int_arg[0];

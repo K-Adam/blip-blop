@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_princess_guard.h"
 #include "entities/enemies/enemy_princess.h"
 
-const int anim_guard_walk_left[] = {135, 136, 137, 136};
+const int anim_guard_walk_left[] = {0, 1, 2, 1};
 
 EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : princess(Princess), cover_distance(distance) {
 	hp = 2500;
@@ -41,12 +41,12 @@ void EnemyPrincessGuard::onWalk() {
 	if (princess != NULL) {
 		if ((x + cover_distance + GUARD_SPEED) < princess->x) {
 			walk(GUARD_SPEED);
-			pic = pbk_enemies[animate(anim_guard_walk_left, 4, 6)];
+			pic = pbk_enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
 		} else if ((x + cover_distance - GUARD_SPEED) > princess->x) {
 			walk(-GUARD_SPEED * 3);
-			pic = pbk_enemies[animate(anim_guard_walk_left, 4, 6)];
+			pic = pbk_enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
 		} else {
-			pic = pbk_enemies[135];
+			pic = pbk_enemies.anim("princess_guard_walk_left")[0];
 		}
 	} else {
 		destroyed = true;
@@ -72,7 +72,7 @@ void EnemyPrincessGuard::onDie() {
 			game_flag[3] -= 1;
 		}
 	} else {
-		pic = pbk_enemies[138 + anim_step];
+		pic = pbk_enemies.anim("princess_guard_die")[anim_step];
 	}
 }
 

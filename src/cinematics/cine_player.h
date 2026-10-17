@@ -20,7 +20,7 @@ struct OBJECT {
 	int id;
 	bool show;
 
-	Picture* pic;
+	const Picture* pic;
 	int x;
 	int y;
 
@@ -28,6 +28,7 @@ struct OBJECT {
 	int dy;
 	int time_mov;
 
+	std::string anim_sheet;
 	int nb_anim;
 	int anim[20];
 	int speed_anim;

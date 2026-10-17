@@ -1,10 +1,10 @@
 #include "entities/enemies/enemy_yoshi.h"
 #include "entities/shots/shot_shell.h"
 
-const int anim_yoshi_walk_right[] = {28, 29, 30, 29};
-const int anim_yoshi_walk_left[] = {31, 32, 33, 32};
-const int anim_yoshi_attack_right[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34};
-const int anim_yoshi_attack_left[] = {44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44};
+const int anim_yoshi_walk_right[] = {0, 1, 2, 1};
+const int anim_yoshi_walk_left[] = {0, 1, 2, 1};
+const int anim_yoshi_attack_right[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+const int anim_yoshi_attack_left[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 
 EnemyYoshi::EnemyYoshi() : attack_delay(50 + rand() % 250), wait_for_attack(0) {
 	treasure = 10;
@@ -90,10 +90,10 @@ void EnemyYoshi::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(YOSHI_SPEED);
-		pic = pbk_enemies[animate(anim_yoshi_walk_right, 3, 3)];
+		pic = pbk_enemies.anim("yoshi_walk_right")[animate(anim_yoshi_walk_right, 3, 3)];
 	} else {
 		walk(-YOSHI_SPEED);
-		pic = pbk_enemies[animate(anim_yoshi_walk_left, 3, 3)];
+		pic = pbk_enemies.anim("yoshi_walk_left")[animate(anim_yoshi_walk_left, 3, 3)];
 	}
 	colFromPic();
 }
@@ -115,10 +115,10 @@ void EnemyYoshi::onFall() {
 
 	if (dir == FACING_RIGHT) {
 		x++;
-		pic = pbk_enemies[28];
+		pic = pbk_enemies.anim("yoshi_walk_right")[0];
 	} else {
 		x--;
-		pic = pbk_enemies[31];
+		pic = pbk_enemies.anim("yoshi_walk_left")[0];
 	}
 
 	colFromPic();
@@ -140,17 +140,17 @@ void EnemyYoshi::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[71 + anim_step];
+			pic = pbk_enemies.anim("yoshi_die_left")[anim_step];
 		else
-			pic = pbk_enemies[62 + anim_step];
+			pic = pbk_enemies.anim("yoshi_die_right")[anim_step];
 	}
 }
 
 void EnemyYoshi::onMelee() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[animate(anim_yoshi_attack_right, 18, 2)];
+		pic = pbk_enemies.anim("yoshi_tongue_right")[animate(anim_yoshi_attack_right, 18, 2)];
 	} else {
-		pic = pbk_enemies[animate(anim_yoshi_attack_left, 18, 1)];
+		pic = pbk_enemies.anim("yoshi_tongue_left")[animate(anim_yoshi_attack_left, 18, 1)];
 	}
 	if (anim_step >= 17) {
 		status = STATE_WALK;
@@ -190,9 +190,9 @@ void EnemyYoshi::onShoot() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[54 + anim_step];
+		pic = pbk_enemies.anim("yoshi_throw_right")[anim_step];
 	} else {
-		pic = pbk_enemies[56 + anim_step];
+		pic = pbk_enemies.anim("yoshi_throw_left")[anim_step];
 	}
 
 	colFromPic();
@@ -209,9 +209,9 @@ void EnemyYoshi::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[460 + anim_step];
+			pic = pbk_enemies.anim("yoshi_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[474 + anim_step];
+			pic = pbk_enemies.anim("yoshi_burn_left")[anim_step];
 	}
 }
 

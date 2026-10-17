@@ -130,18 +130,18 @@ void EnemyRayman::onWalk() {
 				}
 				if (dir == FACING_RIGHT) {
 					walk(RAYMAN_SPEED);
-					pic = pbk_enemies[188 + anim_step];
+					pic = pbk_enemies.anim("rayman_walk_right")[anim_step];
 				} else {
 					walk(-RAYMAN_SPEED);
-					pic = pbk_enemies[209 + anim_step];
+					pic = pbk_enemies.anim("rayman_walk_left")[anim_step];
 				}
 			} else if ((hp > HP_CRITICAL) && (x - offset >= 80) && (x - offset <= 600)) {
 				if (fist1) {
 					Sprite* s;
 					if (x - offset > 320) {
-						s = new PieceRayman(230, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(pbk_enemies.pic("rayman_fist_right"), 1, -1 - rand() % 3, -3 - rand() % 3);
 					} else {
-						s = new PieceRayman(230, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(pbk_enemies.pic("rayman_fist_right"), 1, 1 + rand() % 3, -3 - rand() % 3);
 					}
 
 					s->dir = dir;
@@ -176,17 +176,17 @@ void EnemyRayman::onWalk() {
 					}
 				}
 				if (dir == FACING_RIGHT) {
-					pic = pbk_enemies[268];
+					pic = pbk_enemies.pic("rayman_stand_right");
 				} else {
-					pic = pbk_enemies[269];
+					pic = pbk_enemies.pic("rayman_stand_left");
 				}
 			} else if ((hp > HP_SUPERCRITICAL)) {
 				if (fist2) {
 					Sprite* s;
 					if (x - offset > 320) {
-						s = new PieceRayman(231, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(pbk_enemies.pic("rayman_fist_left"), 2, -1 - rand() % 3, -3 - rand() % 3);
 					} else {
-						s = new PieceRayman(231, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(pbk_enemies.pic("rayman_fist_left"), 2, 1 + rand() % 3, -3 - rand() % 3);
 					}
 
 					s->dir = dir;
@@ -219,17 +219,17 @@ void EnemyRayman::onWalk() {
 				}
 				if (dir == FACING_RIGHT) {
 					walk(RAYMAN_CRITICAL_SPEED);
-					pic = pbk_enemies[250 + anim_step];
+					pic = pbk_enemies.anim("rayman_run_right")[anim_step];
 				} else {
 					walk(-RAYMAN_CRITICAL_SPEED);
-					pic = pbk_enemies[258 + anim_step];
+					pic = pbk_enemies.anim("rayman_run_left")[anim_step];
 				}
 
 			} else if ((x - offset >= 80) && (x - offset <= 600)) {
 				if (feet) {
 					int vy = -3 - rand() % 3;
 
-					Sprite* s = new PieceRayman(270, 1 + rand() % 3, vy);
+					Sprite* s = new PieceRayman(pbk_enemies.pic("rayman_foot_right"), 3, 1 + rand() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -237,7 +237,7 @@ void EnemyRayman::onWalk() {
 
 					list_splatters.emplace_back(s);
 
-					s = new PieceRayman(271, -1 - rand() % 3, vy);
+					s = new PieceRayman(pbk_enemies.pic("rayman_foot_left"), 3, -1 - rand() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -250,9 +250,9 @@ void EnemyRayman::onWalk() {
 				}
 
 				if (dir == FACING_RIGHT) {
-					pic = pbk_enemies[266];
+					pic = pbk_enemies.pic("rayman_stand_footless_right");
 				} else {
-					pic = pbk_enemies[267];
+					pic = pbk_enemies.pic("rayman_stand_footless_left");
 				}
 			}
 		}
@@ -266,10 +266,10 @@ void EnemyRayman::onWalk() {
 		}
 		if (dir == FACING_RIGHT) {
 			walk(RAYMAN_SPEED);
-			pic = pbk_enemies[188 + anim_step];
+			pic = pbk_enemies.anim("rayman_walk_right")[anim_step];
 		} else {
 			walk(-RAYMAN_SPEED);
-			pic = pbk_enemies[209 + anim_step];
+			pic = pbk_enemies.anim("rayman_walk_left")[anim_step];
 		}
 
 		if (game_flag[3] == 1) {
@@ -301,9 +301,9 @@ void EnemyRayman::onDie() {
 			destroyed = true;
 		} else {
 			if ((anim_step < 2) && (dir == FACING_RIGHT)) {
-				pic = pbk_enemies[494 + anim_step];
+				pic = pbk_enemies.anim("rayman_die")[6 + anim_step];
 			} else {
-				pic = pbk_enemies[488 + anim_step];
+				pic = pbk_enemies.anim("rayman_die")[anim_step];
 			}
 		}
 	}
@@ -369,9 +369,9 @@ void EnemyRayman::onShoot() {
 		}
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[172 + anim_step];
+			pic = pbk_enemies.anim("rayman_punch_right")[anim_step];
 		} else {
-			pic = pbk_enemies[180 + anim_step];
+			pic = pbk_enemies.anim("rayman_punch_left")[anim_step];
 		}
 	} else {
 		if (attack_step == 0) {
@@ -432,9 +432,9 @@ void EnemyRayman::onShoot() {
 		}
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[232 + anim_step];
+			pic = pbk_enemies.anim("rayman_punch2_right")[anim_step];
 		} else {
-			pic = pbk_enemies[241 + anim_step];
+			pic = pbk_enemies.anim("rayman_punch2_left")[anim_step];
 		}
 	}
 

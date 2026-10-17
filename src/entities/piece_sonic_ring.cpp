@@ -22,6 +22,6 @@ void PieceSonicRing::update() {
 		anim_step %= 4;
 	}
 
-	pic = pbk_enemies[119 + anim_step];
+	pic = pbk_enemies.anim("sonic_ring")[anim_step];
 	updateDestroyed();
 }

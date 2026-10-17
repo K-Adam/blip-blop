@@ -28,7 +28,7 @@ void EnemyPikachuHero::update() {
 				anim_step++;
 				anim_step %= 4;
 			}
-			pic = pbk_enemies[272 + anim_step];
+			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -40,7 +40,7 @@ void EnemyPikachuHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies[300 + anim_step];
+				pic = pbk_enemies.anim("pikachu_release")[anim_step];
 			}
 		}
 
@@ -81,10 +81,10 @@ void EnemyPikachuHero::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(3);
-		pic = pbk_enemies[276 + anim_step];
+		pic = pbk_enemies.anim("pikachu_walk_right")[anim_step];
 	} else {
 		walk(-3);
-		pic = pbk_enemies[278 + anim_step];
+		pic = pbk_enemies.anim("pikachu_walk_left")[anim_step];
 	}
 	colFromPic();
 }
@@ -106,9 +106,9 @@ void EnemyPikachuHero::onDie() {
 		game_flag[1]--;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[280 + anim_step];
+			pic = pbk_enemies.anim("pikachu_die_right")[anim_step];
 		else
-			pic = pbk_enemies[290 + anim_step];
+			pic = pbk_enemies.anim("pikachu_die_left")[anim_step];
 	}
 }
 

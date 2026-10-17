@@ -13,19 +13,19 @@ class BackgroundWindows : public Sprite {
 			anim_step %= 4;
 		}
 
-		int i = 54;
+		int i = 0;
 
 		switch (anim_step) {
 			case 1:
 			case 2:
-				i = 56;
+				i = 2;
 				break;
 			case 3:
-				i = 57;
+				i = 3;
 				break;
 		}
 
-		pic = pbk_level[i];
+		pic = pbk_level.anim("windows")[i];
 
 		updateDestroyed();
 	};

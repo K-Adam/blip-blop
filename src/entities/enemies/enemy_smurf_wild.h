@@ -17,7 +17,7 @@ class EnemySmurfWild : public Enemy {
 	int shoot_direction;
 	int height_px;
 	int slope;	// Slope of the line through tete_turc and this smurf
-	int num_pic;
+	const char* hang = "smurf_wild_hang_right";
 	int shoot_step;
 	int nb_shoot;
 
@@ -39,11 +39,11 @@ class EnemySmurfWild : public Enemy {
 	EnemySmurfWild();
 
 	inline void render() override {
-		draw(x, y - 50, pbk_enemies[117]);
-		draw(x, y - 100, pbk_enemies[117]);
-		draw(x, y - 150, pbk_enemies[117]);
-		draw(x, y - 200, pbk_enemies[117]);
-		draw(x, y - 250, pbk_enemies[117]);
+		draw(x, y - 50, pbk_enemies.pic("smurf_wild_rope"));
+		draw(x, y - 100, pbk_enemies.pic("smurf_wild_rope"));
+		draw(x, y - 150, pbk_enemies.pic("smurf_wild_rope"));
+		draw(x, y - 200, pbk_enemies.pic("smurf_wild_rope"));
+		draw(x, y - 250, pbk_enemies.pic("smurf_wild_rope"));
 
 		Enemy::render();
 
@@ -51,43 +51,43 @@ class EnemySmurfWild : public Enemy {
 			if (shooting) {
 				switch (shoot_direction) {
 					case DIAGONAL_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[137 + anim_step]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[9 + anim_step]);
 						break;
 					case DIAGONAL_DOWN_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[133 + anim_step]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[5 + anim_step]);
 						break;
 					case DOWN_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[129 + anim_step]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[1 + anim_step]);
 						break;
 					case DOWN_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[127 + anim_step]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[anim_step - 1]);
 						break;
 					case DIAGONAL_DOWN_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[131 + anim_step]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[3 + anim_step]);
 						break;
 					case DIAGONAL_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[135 + anim_step]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_fire")[7 + anim_step]);
 						break;
 				}
 			} else {
 				switch (shoot_direction) {
 					case DIAGONAL_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[352]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[3]);
 						break;
 					case DIAGONAL_DOWN_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[350]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[1]);
 						break;
 					case DOWN_LEFT:
-						draw(x + 8, y + 38, pbk_enemies[354]);
+						draw(x + 8, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[5]);
 						break;
 					case DOWN_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[353]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[4]);
 						break;
 					case DIAGONAL_DOWN_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[349]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[0]);
 						break;
 					case DIAGONAL_RIGHT:
-						draw(x - 5, y + 38, pbk_enemies[351]);
+						draw(x - 5, y + 38, pbk_enemies.anim("smurf_wild_gun_idle")[2]);
 						break;
 				}
 			}

@@ -5,9 +5,9 @@ ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_target(xc) { anim_t
 
 void ShotRaymanFist::update() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[230];
+		pic = pbk_enemies.pic("rayman_fist_right");
 	} else {
-		pic = pbk_enemies[231];
+		pic = pbk_enemies.pic("rayman_fist_left");
 	}
 
 	if ((dx != 0) && (((dir == FACING_RIGHT) && (x > x_target)) || ((dir == FACING_LEFT) && (x < x_target)))) {

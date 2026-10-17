@@ -16,10 +16,10 @@ class GoreFeetBisouZombie : public Sprite {
 
 		if (dir == FACING_RIGHT) {
 			walk(-1);
-			pic = pbk_enemies[300 + anim_step];
+			pic = pbk_enemies.anim("zombie_feet_right")[anim_step];
 		} else {
 			walk(1);
-			pic = pbk_enemies[304 + anim_step];
+			pic = pbk_enemies.anim("zombie_feet_left")[anim_step];
 		}
 
 		if (anim_step == 3 && platform_y(x, y) != 0) {

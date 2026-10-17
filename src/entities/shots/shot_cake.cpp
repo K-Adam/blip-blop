@@ -1,7 +1,7 @@
 #include "entities/shots/shot_cake.h"
 #include "core/debug.h"
 
-ShotCake::ShotCake() { pic = pbk_enemies[194]; }
+ShotCake::ShotCake() { pic = pbk_enemies.pic("smurf_greedy_cake"); }
 
 void ShotCake::update() {
 	grav_tick += 1;

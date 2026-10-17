@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <numbers>
-#include "entities/sprites.h"
 #include "entities/ball.h"
 #include "entities/sprite.h"
 
@@ -39,22 +38,17 @@ class Bonus : public Sprite {
 	};
 
 	void render() override {
-		int base;
-
 		y -= 15;
 		Sprite::render();
 
-		if (local_phase)
-			base = MISC::BONUS_CORNERS_ON;
-		else
-			base = MISC::BONUS_CORNERS_OFF;
+		Flipbook corners = pbk_misc.anim(local_phase ? "bonus_corners_on" : "bonus_corners_off");
 
 		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
 
-		draw(x - CORNER_DIST - d, y - CORNER_DIST - d, pbk_misc[base + 3]);
-		draw(x + CORNER_DIST + d, y - CORNER_DIST - d, pbk_misc[base + 2]);
-		draw(x + CORNER_DIST + d, y + CORNER_DIST + d, pbk_misc[base]);
-		draw(x - CORNER_DIST - d, y + CORNER_DIST + d, pbk_misc[base + 1]);
+		draw(x - CORNER_DIST - d, y - CORNER_DIST - d, corners[3]);
+		draw(x + CORNER_DIST + d, y - CORNER_DIST - d, corners[2]);
+		draw(x + CORNER_DIST + d, y + CORNER_DIST + d, corners[0]);
+		draw(x - CORNER_DIST - d, y + CORNER_DIST + d, corners[1]);
 
 		y += 15;
 	};

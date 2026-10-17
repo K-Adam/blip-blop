@@ -41,10 +41,10 @@ void EnemyBulbasaur::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(1);
-		pic = pbk_enemies[24 + anim_step];
+		pic = pbk_enemies.anim("bulbasaur_walk_right")[anim_step];
 	} else {
 		walk(-1);
-		pic = pbk_enemies[26 + anim_step];
+		pic = pbk_enemies.anim("bulbasaur_walk_left")[anim_step];
 	}
 
 	colFromPic();
@@ -66,9 +66,9 @@ void EnemyBulbasaur::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[36 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_die_left")[anim_step];
 		else
-			pic = pbk_enemies[28 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_die_right")[anim_step];
 	}
 }
 
@@ -82,9 +82,9 @@ void EnemyBulbasaur::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[128 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_burn_right")[anim_step];
 		else
-			pic = pbk_enemies[143 + anim_step];
+			pic = pbk_enemies.anim("bulbasaur_burn_left")[anim_step];
 	}
 }
 

@@ -16,10 +16,10 @@ class GoreFeetBisouSky : public Sprite {
 
 		if (dir == FACING_RIGHT) {
 			walk(-1);
-			pic = pbk_enemies[anim_step];
+			pic = pbk_enemies.anim("sky_feet_right")[anim_step];
 		} else {
 			walk(1);
-			pic = pbk_enemies[4 + anim_step];
+			pic = pbk_enemies.anim("sky_feet_left")[anim_step];
 		}
 
 		if (anim_step == 3 && platform_y(x, y) != 0) {

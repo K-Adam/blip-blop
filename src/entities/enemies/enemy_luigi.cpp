@@ -6,12 +6,12 @@
 #include "level/events/event_hold_fire.h"
 
 const int anim_luigi_walk_right[] = {0, 1, 2, 1};
-const int anim_luigi_walk_left[] = {3, 4, 5, 4};
-const int anim_luigi_attack_right[] = {10, 11, 12, 11};
-const int anim_luigi_attack_left[] = {13, 14, 15, 14};
-const int anim_luigi_walk_dead_right[] = {205, 206, 207, 206};
-const int anim_luigi_walk_dead_left[] = {213, 214, 215, 214};
-const int anim_luigi_death[] = {208, 209, 210, 211, 212, 211, 210, 209};
+const int anim_luigi_walk_left[] = {0, 1, 2, 1};
+const int anim_luigi_attack_right[] = {0, 1, 2, 1};
+const int anim_luigi_attack_left[] = {0, 1, 2, 1};
+const int anim_luigi_walk_dead_right[] = {0, 1, 2, 1};
+const int anim_luigi_walk_dead_left[] = {0, 1, 2, 1};
+const int anim_luigi_death[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemyLuigi::EnemyLuigi() : speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), knockback(0) {
 	hp = 10000;
@@ -143,7 +143,7 @@ void EnemyLuigi::onWalk() {
 			speed = -6;
 
 		walk(speed);
-		pic = pbk_enemies[animate(anim_luigi_walk_right, 4, 14 - (2 * speed))];
+		pic = pbk_enemies.anim("luigi_walk_right")[animate(anim_luigi_walk_right, 4, 14 - (2 * speed))];
 
 		if (knockback < 0) {
 			if (speed > -knockback / GROUND_SPEED_DIVISOR) {
@@ -165,7 +165,7 @@ void EnemyLuigi::onWalk() {
 			speed = -6;
 
 		walk(-speed);
-		pic = pbk_enemies[animate(anim_luigi_walk_left, 4, 14 - (2 * speed))];
+		pic = pbk_enemies.anim("luigi_walk_left")[animate(anim_luigi_walk_left, 4, 14 - (2 * speed))];
 
 		if (knockback > 0) {
 			if (speed > knockback / GROUND_SPEED_DIVISOR) {
@@ -214,10 +214,10 @@ void EnemyLuigi::onDie() {
 		}
 		if (dir == FACING_RIGHT) {
 			walk(3);
-			pic = pbk_enemies[animate(anim_luigi_walk_dead_right, 4, 8)];
+			pic = pbk_enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
 		} else {
 			walk(-3);
-			pic = pbk_enemies[animate(anim_luigi_walk_dead_left, 4, 8)];
+			pic = pbk_enemies.anim("luigi_dazed_left")[animate(anim_luigi_walk_dead_left, 4, 8)];
 		}
 		if ((platform_y2(x, y) == 0) && (x > 1500) && (x < 1550)) {
 			dir = FACING_LEFT;
@@ -230,11 +230,11 @@ void EnemyLuigi::onDie() {
 			game_flag[1] = 2;
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies[animate(anim_luigi_death, 8, 6)];
+			pic = pbk_enemies.anim("luigi_death")[animate(anim_luigi_death, 8, 6)];
 		}
 	} else if (game_flag[1] == 2) {
 		walk(3);
-		pic = pbk_enemies[animate(anim_luigi_walk_dead_right, 4, 8)];
+		pic = pbk_enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
 		if (x > offset + 680) {
 			game_flag[1] = 3;
 			attack_delay = 0;
@@ -283,16 +283,16 @@ void EnemyLuigi::onAttack() {
 
 	if (nb_shots < 50) {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies[10];
+			pic = pbk_enemies.anim("luigi_attack_right")[0];
 		else
-			pic = pbk_enemies[13];
+			pic = pbk_enemies.anim("luigi_attack_left")[0];
 
 		colFromPic();
 		return;
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies[animate(anim_luigi_attack_right, 4, 2)];
+		pic = pbk_enemies.anim("luigi_attack_right")[animate(anim_luigi_attack_right, 4, 2)];
 		attack_frame_tick += 1;
 		attack_frame_tick %= 4;
 		if (attack_frame_tick == 0) {
@@ -303,8 +303,8 @@ void EnemyLuigi::onAttack() {
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotPlunger(19, 12, 0);
-					shot2 = new ShotPlunger(19, 12, 0);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -319,8 +319,8 @@ void EnemyLuigi::onAttack() {
 
 					break;
 				case 1:
-					shot1 = new ShotPlunger(18, 11, 1);
-					shot2 = new ShotPlunger(20, 11, -1);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -334,8 +334,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotPlunger(17, 10, 2);
-					shot2 = new ShotPlunger(21, 10, -2);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -349,8 +349,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotPlunger(16, 9, 3);
-					shot2 = new ShotPlunger(22, 9, -3);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[0], 9, 3);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[6], 9, -3);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -364,8 +364,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotPlunger(17, 10, 2);
-					shot2 = new ShotPlunger(21, 10, -2);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -379,8 +379,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotPlunger(18, 11, 1);
-					shot2 = new ShotPlunger(20, 11, -1);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -400,7 +400,7 @@ void EnemyLuigi::onAttack() {
 			}
 		}
 	} else {
-		pic = pbk_enemies[animate(anim_luigi_attack_left, 4, 2)];
+		pic = pbk_enemies.anim("luigi_attack_left")[animate(anim_luigi_attack_left, 4, 2)];
 		attack_frame_tick += 1;
 		attack_frame_tick %= 4;
 		if (attack_frame_tick == 0) {
@@ -411,8 +411,8 @@ void EnemyLuigi::onAttack() {
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotPlunger(26, -12, 0);
-					shot2 = new ShotPlunger(26, -12, 0);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -427,8 +427,8 @@ void EnemyLuigi::onAttack() {
 
 					break;
 				case 1:
-					shot1 = new ShotPlunger(25, -11, 1);
-					shot2 = new ShotPlunger(27, -11, -1);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -442,8 +442,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotPlunger(24, -10, 2);
-					shot2 = new ShotPlunger(28, -10, -2);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -457,8 +457,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotPlunger(23, -9, 3);
-					shot2 = new ShotPlunger(29, -9, -3);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[0], -9, 3);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[6], -9, -3);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -472,8 +472,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotPlunger(24, -10, 2);
-					shot2 = new ShotPlunger(28, -10, -2);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -487,8 +487,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotPlunger(25, -11, 1);
-					shot2 = new ShotPlunger(27, -11, -1);
+					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1);
+					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -543,9 +543,9 @@ void EnemyLuigi::onJump() {
 		if (x + speed < offset + 620) x += speed;
 
 		if (dy < 0) {
-			pic = pbk_enemies[6];
+			pic = pbk_enemies.anim("luigi_jump_right")[0];
 		} else {
-			pic = pbk_enemies[7];
+			pic = pbk_enemies.anim("luigi_jump_right")[1];
 		}
 
 		if (knockback != 0) {
@@ -574,9 +574,9 @@ void EnemyLuigi::onJump() {
 		if (x - speed > xmin) x -= speed;
 
 		if (dy < 0) {
-			pic = pbk_enemies[8];
+			pic = pbk_enemies.anim("luigi_jump_left")[0];
 		} else {
-			pic = pbk_enemies[9];
+			pic = pbk_enemies.anim("luigi_jump_left")[1];
 		}
 
 		if (knockback != 0) {

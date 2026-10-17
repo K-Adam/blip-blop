@@ -1,8 +1,8 @@
 #include "entities/enemies/enemy_snork_in_black.h"
 #include "entities/shots/shot_thorn.h"
 
-const int anim_snork_in_black_walk_right[] = {344, 345, 346, 345};
-const int anim_snork_in_black_walk_left[] = {347, 348, 349, 348};
+const int anim_snork_in_black_walk_right[] = {0, 1, 2, 1};
+const int anim_snork_in_black_walk_left[] = {0, 1, 2, 1};
 
 EnemySnorkInBlack::EnemySnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_shots(0) {
 	hp = 250;
@@ -81,13 +81,13 @@ void EnemySnorkInBlack::onWalk() {
 	if (dir == FACING_LEFT) {
 		walk(-SNORK_IN_BLACK_SPEED);
 
-		pic = pbk_enemies[animate(anim_snork_in_black_walk_left, 4, 4)];
+		pic = pbk_enemies.anim("snork_in_black_walk_left")[animate(anim_snork_in_black_walk_left, 4, 4)];
 
 		if (solid_wall(x - SNORK_IN_BLACK_SPEED, y) || (x - SNORK_IN_BLACK_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		walk(SNORK_IN_BLACK_SPEED);
 
-		pic = pbk_enemies[animate(anim_snork_in_black_walk_right, 4, 4)];
+		pic = pbk_enemies.anim("snork_in_black_walk_right")[animate(anim_snork_in_black_walk_right, 4, 4)];
 
 		if (solid_wall(x + SNORK_IN_BLACK_SPEED, y) || (x + SNORK_IN_BLACK_SPEED > offset + 640)) dir = FACING_LEFT;
 	}
@@ -117,9 +117,9 @@ void EnemySnorkInBlack::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies[354 + anim_step];
+			pic = pbk_enemies.anim("snork_in_black_die_right")[anim_step];
 		} else {
-			pic = pbk_enemies[359 + anim_step];
+			pic = pbk_enemies.anim("snork_in_black_die_left")[anim_step];
 		}
 	}
 }
@@ -141,7 +141,7 @@ void EnemySnorkInBlack::onShoot() {
 			int vx = 5 + rand() % 2;
 			int vy = rand() % 5 - 2;
 
-			ShotThorn* shot = new ShotThorn(364, vx, vy);
+			ShotThorn* shot = new ShotThorn(pbk_enemies.anim("snork_in_black_thorn")[0], vx, vy);
 
 			shot->setDir(dir);
 			shot->x = x + 49;
@@ -152,7 +152,7 @@ void EnemySnorkInBlack::onShoot() {
 			int vx = -5 - rand() % 2;
 			int vy = rand() % 5 - 2;
 
-			ShotThorn* shot = new ShotThorn(365, vx, vy);
+			ShotThorn* shot = new ShotThorn(pbk_enemies.anim("snork_in_black_thorn")[1], vx, vy);
 
 			shot->setDir(dir);
 			shot->x = x - 49;
@@ -178,15 +178,15 @@ void EnemySnorkInBlack::onShoot() {
 
 	if (dir == FACING_RIGHT) {
 		if (anim_step == 0) {
-			pic = pbk_enemies[344];
+			pic = pbk_enemies.anim("snork_in_black_walk_right")[0];
 		} else {
-			pic = pbk_enemies[350 + anim_step - 1];
+			pic = pbk_enemies.anim("snork_in_black_shoot_right")[anim_step - 1];
 		}
 	} else {
 		if (anim_step == 0) {
-			pic = pbk_enemies[347];
+			pic = pbk_enemies.anim("snork_in_black_walk_left")[0];
 		} else {
-			pic = pbk_enemies[352 + anim_step - 1];
+			pic = pbk_enemies.anim("snork_in_black_shoot_left")[anim_step - 1];
 		}
 	}
 	colFromPic();
@@ -202,9 +202,9 @@ void EnemySnorkInBlack::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[373 + anim_step];
+			pic = pbk_enemies.anim("snork_in_black_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[366 + anim_step];
+			pic = pbk_enemies.anim("snork_in_black_burn_right")[anim_step];
 	}
 }
 

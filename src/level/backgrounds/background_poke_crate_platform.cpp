@@ -1,6 +1,6 @@
 #include "level/backgrounds/background_poke_crate_platform.h"
 
-BackgroundPokeCratePlatform::BackgroundPokeCratePlatform(int target_y) : y_target(target_y) { pic = pbk_level[87]; }
+BackgroundPokeCratePlatform::BackgroundPokeCratePlatform(int target_y) : y_target(target_y) { pic = pbk_level.pic("crate_hoist"); }
 
 void BackgroundPokeCratePlatform::update() {
 	if (y < y_target - 50) {

@@ -57,9 +57,9 @@ void ShotSnorkyGovernor::update() {
 	y += dy;
 
 	if (dx <= 0) {
-		pic = pbk_enemies[233 + anim_step];
+		pic = pbk_enemies.anim("governor_shot")[anim_step];
 	} else {
-		pic = pbk_enemies[236 - anim_step];
+		pic = pbk_enemies.anim("governor_shot")[3 - anim_step];
 	}
 
 	if (solid_wall(x + dx, y + dy) != 0) destroyed = true;

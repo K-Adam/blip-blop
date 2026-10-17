@@ -25,19 +25,19 @@ void ShotMarioFireballVertical::update() {
 	}
 
 	if (dy > 12) {
-		pic = pbk_enemies[45 + anim_step];
+		pic = pbk_enemies.anim("fireball_down_fast")[anim_step];
 	} else if (dy > 6) {
-		pic = pbk_enemies[42 + anim_step];
+		pic = pbk_enemies.anim("fireball_down_medium")[anim_step];
 	} else if (dy > 0) {
-		pic = pbk_enemies[39 + anim_step];
+		pic = pbk_enemies.anim("fireball_down_slow")[anim_step];
 	}
 
 	if (dy < -12) {
-		pic = pbk_enemies[36 + anim_step];
+		pic = pbk_enemies.anim("fireball_up_fast")[anim_step];
 	} else if (dy < -6) {
-		pic = pbk_enemies[33 + anim_step];
+		pic = pbk_enemies.anim("fireball_up_medium")[anim_step];
 	} else if (dy < 0) {
-		pic = pbk_enemies[30 + anim_step];
+		pic = pbk_enemies.anim("fireball_up_slow")[anim_step];
 	}
 
 	colFromPic();

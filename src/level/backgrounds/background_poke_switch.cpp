@@ -3,8 +3,8 @@
 #include "entities/enemies/enemy.h"
 #include "entities/cool_text.h"
 
-const int anim_switch_on[] = {84, 85, 86, 84};
-const int anim_switch_off[] = {81, 82, 83, 82};
+const int anim_switch_on[] = {0, 1, 2, 0};
+const int anim_switch_off[] = {0, 1, 2, 1};
 
 BackgroundPokeSwitch::BackgroundPokeSwitch() : status(false), wait_msg(false), elevator_msg(false), bravo(false) {}
 
@@ -18,7 +18,7 @@ void BackgroundPokeSwitch::update() {
 	}
 
 	if (status) {
-		pic = pbk_level[anim_switch_on[anim_step]];
+		pic = pbk_level.anim("switch_on")[anim_switch_on[anim_step]];
 	} else {
 		if (targeted_player != NULL) {
 			if ((targeted_player->x > x - 10) && (targeted_player->x < x + 33) && (targeted_player->y > y - 10) && (targeted_player->y < y + 51)) {
@@ -27,7 +27,7 @@ void BackgroundPokeSwitch::update() {
 				sbk_level.play(2);
 			}
 		}
-		pic = pbk_level[anim_switch_off[anim_step]];
+		pic = pbk_level.anim("switch_off")[anim_switch_off[anim_step]];
 	}
 
 	if (x < offset - 100) destroyed = true;

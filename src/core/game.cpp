@@ -8,7 +8,6 @@
 #include <cstring>
 #include <fstream>
 
-#include "entities/sprites.h"
 #include "core/debug.h"
 #include "entities/blip.h"
 #include "entities/blop.h"
@@ -147,9 +146,9 @@ Task<> Game::playGame(int player_count, int player_idx) {
 		co_await cine.playScene("end.cin", backSurface);
 		mbk.stop();
 
-		pbk[1]->PasteTo(backSurface, 0, 0);
+		pbk.pic("cow_crush")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
-		pbk[1]->PasteTo(backSurface, 0, 0);
+		pbk.pic("cow_crush")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
 
 		if (!in.anyKeyPressed()) mbk2.play(0);
@@ -162,9 +161,9 @@ Task<> Game::playGame(int player_count, int player_idx) {
 		mbk.play(0);
 		co_await showCredits(true);
 
-		pbk[0]->PasteTo(backSurface, 0, 0);
+		pbk.pic("the_end")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
-		pbk[0]->PasteTo(backSurface, 0, 0);
+		pbk.pic("the_end")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
 
 		co_await in.waitClean();
@@ -344,7 +343,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 		backSurface->FillRect(&r, 0);
 
-		pbk_briefing[0]->PasteTo(backSurface, 0, 0);
+		pbk_briefing.pic("briefing")->PasteTo(backSurface, 0, 0);
 		fnt_rpg.printC(backSurface, 320, 460, "Press a key to start.");
 		graphics.Flip();
 
@@ -649,7 +648,7 @@ bool Game::loadLevel(const char* level_name) {
 				auto event_midground = std::make_unique<EventMidground>();
 
 				event_midground->x_activation = event["x_activation"];
-				event_midground->id = event["id"];
+				event_midground->pic = event["pic"];
 				event_midground->x = event["x"];
 				event_midground->y = event["y"];
 
@@ -660,7 +659,7 @@ bool Game::loadLevel(const char* level_name) {
 			case EVENTID_FOREGROUND: {
 				auto event_foreground = std::make_unique<EventForeground>();
 
-				event_foreground->bg_id = event["id_fond"];
+				event_foreground->pic = event["pic"];
 				event_foreground->x_activation = event["x_activation"];
 				event_foreground->x = event["x"];
 				event_foreground->y = event["y"];
@@ -1114,9 +1113,9 @@ void Game::drawHUBhp(int x, int y, int hp) {
 	static const int x_hp[] = {3, 0, 13, 44, 31};
 	static const int y_hp[] = {0, 21, 48, 21, 0};
 
-	for (int i = 0; i < hp; i++) pbk_bb[BB::HEALTH_FULL + 4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = 0; i < hp; i++) pbk_bb.anim("health_full")[4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 
-	for (int i = hp; i < 5; i++) pbk_bb[BB::HEALTH_EMPTY + 4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = hp; i < 5; i++) pbk_bb.anim("health_empty")[4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
 }
 
 void Game::drawDebugInfos() {
@@ -1461,9 +1460,9 @@ void Game::updateWeather() {
 			snowflake->y = rand() % 480 - 500;
 
 			if (d <= 1)
-				snowflake->pic = pbk_misc[MISC::SNOWFLAKE_SMALL];
+				snowflake->pic = pbk_misc.pic("snowflake_small");
 			else
-				snowflake->pic = pbk_misc[MISC::SNOWFLAKE_LARGE];
+				snowflake->pic = pbk_misc.pic("snowflake_large");
 
 			snowflake->dy = weather_intensity / 20 + d;
 			snowflake->phi = rand() % 360;
@@ -1481,7 +1480,7 @@ void Game::updateWeather() {
 			raindrop->destroyed = false;
 			raindrop->x = offset + rand() % 800;
 			raindrop->y = rand() % 480 - 480;
-			raindrop->pic = pbk_misc[MISC::RAINDROP + d];
+			raindrop->pic = pbk_misc.anim("raindrop")[d];
 			raindrop->dy = 7 + d * 2;
 
 			if (solid_wall(raindrop->x, 0)) raindrop->y -= 550;
@@ -1579,7 +1578,7 @@ void Game::spawnBubble(Sprite* s) {
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
-		b->pic = pbk_misc[MISC::BUBBLE + rand() % 3];
+		b->pic = pbk_misc.anim("bubble")[rand() % 3];
 		b->dphi = 5 + rand() % 3;
 		b->dy = -(2 + rand() % 2);
 
@@ -1644,7 +1643,7 @@ Task<> Game::getName(Player* hero, int player_num) {
 	while (!app_killed && x >= 40) {
 		x -= 20;
 
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
@@ -1668,7 +1667,7 @@ Task<> Game::getName(Player* hero, int player_num) {
 			name += key_tmp[0];
 		}
 
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 		fnt_menu.printC(backSurface, 320, 260, name);
@@ -1680,7 +1679,7 @@ Task<> Game::getName(Player* hero, int player_num) {
 	while (!app_killed && x < 640) {
 		x += 20;
 
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 		fnt_menu.printC(backSurface, 320 - x, 160, title);
 		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
@@ -1701,7 +1700,7 @@ Task<> Game::showGameOver() {
 	mbk_inter.play(1);
 
 	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
-		pbk_inter[0]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("game_over")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
 
 		co_await nextFrame();
@@ -1716,7 +1715,7 @@ Task<> Game::showHighScores() {
 
 	Chrono scores_timer;
 	while (!app_killed && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (x[i] > 0) x[i] -= 20;
@@ -1731,7 +1730,7 @@ Task<> Game::showHighScores() {
 	}
 
 	while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (i == 0 || x[i - 1] >= 160) x[i] += 20;
@@ -1812,7 +1811,7 @@ Task<> Game::go() {
 					co_await in.waitClean();
 				}
 			} else {
-				pbk_inter[1]->PasteTo(backSurface, 0, 0);
+				pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 
 				r = menu.update();
 				menu.draw(backSurface);
@@ -1886,7 +1885,7 @@ void Game::showBriefing(const char* fn) {
 
 	backSurface->FillRect(&r, 0);
 
-	pbk_briefing[0]->PasteTo(backSurface, 0, 0);
+	pbk_briefing.pic("briefing")->PasteTo(backSurface, 0, 0);
 	fnt_rpg.printC(backSurface, 320, 460, "Loading...");
 	graphics.Flip();
 }
@@ -1895,7 +1894,7 @@ Task<> Game::showMainScreen() {
 	Chrono t;
 
 	while (!in.anyKeyPressed() && !app_killed && t.elapsed() <= 5000) {
-		pbk_inter[1]->PasteTo(backSurface, 0, 0);
+		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
 		graphics.Flip();
 
 		co_await nextFrame();
@@ -1946,9 +1945,9 @@ Task<> Game::showCredits(bool theEnd) {
 		}
 
 		if (theEnd) {
-			pbk_cred[npage]->PasteTo(backSurface, 0, 0);
+			pbk_cred.anim("pages")[npage]->PasteTo(backSurface, 0, 0);
 		} else {
-			pbk_inter[1]->BlitTo(backSurface, 0, 0);
+			pbk_inter.pic("title")->BlitTo(backSurface, 0, 0);
 		}
 
 		fnt_rpg.printC(backSurface, xcred, y + LINE_GAP, "Credits");
@@ -2117,7 +2116,7 @@ Task<> Game::showCredits(bool theEnd) {
 
 		if (t.elapsed() >= 12500 && theEnd) {
 			npage++;
-			npage %= pbk_cred.getSize();
+			npage %= pbk_cred.anim("pages").size();
 			t.Reset();
 		}
 

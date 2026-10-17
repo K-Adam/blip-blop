@@ -26,13 +26,13 @@ EnemySmurfWild::EnemySmurfWild() : shoot_step(0), position(false) {
 
 	switch (dir) {
 		case FACING_RIGHT:
-			num_pic = 139;
-			pic = pbk_enemies[140];
+			hang = "smurf_wild_hang_right";
+			pic = pbk_enemies.anim("smurf_wild_hang_right")[0];
 			shoot_direction = DOWN_RIGHT;
 			break;
 		case FACING_LEFT:
-			num_pic = 141;
-			pic = pbk_enemies[142];
+			hang = "smurf_wild_hang_left";
+			pic = pbk_enemies.anim("smurf_wild_hang_left")[0];
 			shoot_direction = DOWN_LEFT;
 			break;
 	}
@@ -61,7 +61,7 @@ void EnemySmurfWild::update() {
 
 	if (slope > 0) {
 		dir = FACING_LEFT;
-		num_pic = 141;
+		hang = "smurf_wild_hang_left";
 
 		if (slope <= 15)
 			shoot_direction = DIAGONAL_LEFT;
@@ -71,7 +71,7 @@ void EnemySmurfWild::update() {
 			shoot_direction = DOWN_LEFT;
 	} else if (slope < 0) {
 		dir = FACING_RIGHT;
-		num_pic = 139;
+		hang = "smurf_wild_hang_right";
 
 		if (slope >= -15)
 			shoot_direction = DIAGONAL_RIGHT;
@@ -81,7 +81,7 @@ void EnemySmurfWild::update() {
 			shoot_direction = DOWN_RIGHT;
 	}
 
-	if (status != STATE_DYING) pic = pbk_enemies[num_pic + anim_step];
+	if (status != STATE_DYING && anim_step > 0) pic = pbk_enemies.anim(hang)[anim_step - 1];
 
 	if (blood != 0) blood -= 1;
 
@@ -207,11 +207,11 @@ void EnemySmurfWild::onDie() {
 		col_on = false;
 
 		if (ok) {
-			engrave(x, y - 50, pbk_enemies[117]);
-			engrave(x, y - 100, pbk_enemies[117]);
-			engrave(x, y - 150, pbk_enemies[117]);
-			engrave(x, y - 200, pbk_enemies[117]);
-			engrave(x, y - 250, pbk_enemies[117]);
+			engrave(x, y - 50, pbk_enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 100, pbk_enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 150, pbk_enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 200, pbk_enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 250, pbk_enemies.pic("smurf_wild_rope"));
 			engrave(x, y, pic);
 			destroyed = true;
 		}
@@ -222,9 +222,9 @@ void EnemySmurfWild::onDie() {
 		if (anim_tick == 0) {
 			anim_step += 1;
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies[117 + anim_step];
+				pic = pbk_enemies.anim("smurf_wild_die_right")[anim_step - 1];
 			else
-				pic = pbk_enemies[122 + anim_step];
+				pic = pbk_enemies.anim("smurf_wild_die_left")[anim_step - 1];
 		}
 	}
 }
@@ -240,8 +240,8 @@ void EnemySmurfWild::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[34 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
 		else
-			pic = pbk_enemies[40 + anim_step];
+			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
 	}
 }

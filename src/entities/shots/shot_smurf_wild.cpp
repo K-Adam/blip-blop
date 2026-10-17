@@ -1,6 +1,6 @@
 #include "entities/shots/shot_smurf_wild.h"
 
-ShotSmurfWild::ShotSmurfWild() { pic = pbk_enemies[144]; }
+ShotSmurfWild::ShotSmurfWild() { pic = pbk_enemies.pic("smurf_wild_shot"); }
 
 void ShotSmurfWild::update() {
 	x += dx;

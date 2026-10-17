@@ -1,11 +1,7 @@
 {
-  "items": [
-    {
-      "path": "brief1.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 454
-    }
+  "sheets": [
+    {"name": "briefing", "path": "brief1.gfx/briefing.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 454, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

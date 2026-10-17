@@ -14,7 +14,7 @@ class CharacterSelection {
 	int x_name_;
 	int y_name_;
 	int step_;
-	int pic_select_;
+	const char* pic_select_;
 	int x_charac_;
 	int y_charac_;
 

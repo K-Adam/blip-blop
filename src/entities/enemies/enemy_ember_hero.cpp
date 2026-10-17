@@ -26,7 +26,7 @@ void EnemyEmberHero::update() {
 				anim_step++;
 				anim_step %= 4;
 			}
-			pic = pbk_enemies[272 + anim_step];
+			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -38,7 +38,7 @@ void EnemyEmberHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies[380 + anim_step];
+				pic = pbk_enemies.anim("ember_release")[anim_step];
 			}
 		}
 
@@ -79,10 +79,10 @@ void EnemyEmberHero::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(2);
-		pic = pbk_enemies[306 + anim_step];
+		pic = pbk_enemies.anim("ember_walk_right")[anim_step];
 	} else {
 		walk(-2);
-		pic = pbk_enemies[308 + anim_step];
+		pic = pbk_enemies.anim("ember_walk_left")[anim_step];
 	}
 	colFromPic();
 }
@@ -100,9 +100,9 @@ void EnemyEmberHero::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies[344 + anim_step];
+			pic = pbk_enemies.anim("ember_die_left")[anim_step];
 		else
-			pic = pbk_enemies[330 + anim_step];
+			pic = pbk_enemies.anim("ember_die_right")[anim_step];
 	}
 }
 

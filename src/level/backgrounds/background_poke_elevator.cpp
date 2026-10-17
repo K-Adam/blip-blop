@@ -3,7 +3,7 @@
 #include "entities/ball.h"
 
 BackgroundPokeElevator::BackgroundPokeElevator() {
-	pic = pbk_level[51];
+	pic = pbk_level.pic("elevator");
 	dy = 1;
 }
 
