@@ -12,10 +12,8 @@ target_compile_definitions(e2e_tests PRIVATE GAME_EXE="$<TARGET_FILE:blipblop>")
 add_dependencies(e2e_tests blipblop)
 
 include(GoogleTest)
-# BB_FIXEDSTEP ties game time to frames so the scripted input lands on the same screens every run
 gtest_discover_tests(e2e_tests
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     DISCOVERY_MODE PRE_TEST
     PROPERTIES
-        ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_AUDIODRIVER=dummy;BB_FIXEDSTEP=1"
         TIMEOUT 120)

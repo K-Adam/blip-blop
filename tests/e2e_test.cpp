@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <vector>
 
@@ -13,8 +14,21 @@ struct GameRun {
 	std::string out;
 };
 
+// BB_FIXEDSTEP ties game time to frames so the scripted input lands on the same screens every run
+// Set here because gtest_discover_tests in some CMake versions splits a multi-variable ENVIRONMENT property
+static void setTestEnv() {
+	for (const char* var : {"SDL_VIDEODRIVER=dummy", "SDL_AUDIODRIVER=dummy", "BB_FIXEDSTEP=1"}) {
+#ifdef _WIN32
+		_putenv(var);
+#else
+		putenv(const_cast<char*>(var));
+#endif
+	}
+}
+
 // Spawns the real exe so the tests cover the player's startup and game flow
 static GameRun runGame(const std::string& args) {
+	setTestEnv();
 	std::string cmd = std::string("\"") + GAME_EXE + "\" " + args + " 2>&1";
 	GameRun r;
 #ifdef _WIN32
