@@ -64,6 +64,8 @@ bool RPGPlayer::startPlay(int n) {
 			if (item.size() == 2) {
 				std::string value = remove_quotes(item[1].dump());
 				file_ << key << "=" << value << "\n";
+			} else if (item.size() == 3) {
+				file_ << key << "=" << item[1].get<int>() << "." << item[2].get<int>() << "\n";
 			} else {
 				file_ << key << "\n";
 			}
