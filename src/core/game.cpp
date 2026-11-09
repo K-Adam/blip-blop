@@ -67,9 +67,8 @@ Character dummyPlayer;
 
 #define TXT_TIME 828
 
-Game::Game() : show_fps(false), show_lists(false), next_snowflake(0), next_raindrop(0) { briefing = false; }
-
 // Out of line so the owned entity types are complete here
+Game::Game() = default;
 Game::~Game() = default;
 
 Task<> Game::playGame(int player_count, int player_idx) {

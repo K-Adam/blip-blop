@@ -43,38 +43,38 @@ class Game {
 	HUD hud_;
 	UpdateRegulator update_regulator_;
 	PictureBank pbk_briefing;
-	bool briefing;
+	bool briefing = false;
 
-	int nb_part;
+	int nb_part = 0;
 	std::string file_names[MAX_PART];
 	int type_part[MAX_PART];
 	int type_lvl[MAX_PART];
 
-	bool players_dead;
-	bool level_done;
-	bool bonus_level;
-	bool skipped;
-	bool last_perfect1;
-	bool last_perfect2;
+	bool players_dead = false;
+	bool level_done = false;
+	bool bonus_level = false;
+	bool skipped = false;
+	bool last_perfect1 = false;
+	bool last_perfect2 = false;
 
-	int nframe;
-	int timer_tick;
+	int nframe = 0;
+	int timer_tick = 0;
 
 	// Victory needs offset >= vic_x, game_flag[vic_flag1] == vic_val1 and game_flag[vic_flag2] == vic_val2
-	int vic_x;
-	int vic_flag1;
-	int vic_val1;
-	int vic_flag2;
-	int vic_val2;
+	int vic_x = 0;
+	int vic_flag1 = 0;
+	int vic_val1 = 0;
+	int vic_flag2 = 0;
+	int vic_val2 = 0;
 
-	int wait_for_victory;  // Delays the end of the level after victory
-	int wait_for_death;
-	int wait_cheat;
+	int wait_for_victory = 0;  // Delays the end of the level after victory
+	int wait_for_death = 0;
+	int wait_cheat = 0;
 
-	int xstart1;
-	int ystart1;
-	int xstart2;
-	int ystart2;
+	int xstart1 = 0;
+	int ystart1 = 0;
+	int xstart2 = 0;
+	int ystart2 = 0;
 
 	std::unique_ptr<Ball> player1;
 	std::unique_ptr<Ball> player2;
@@ -82,18 +82,18 @@ class Game {
 	RPGPlayer rpg;
 
 	GoArrow go_;
-	int last_x_go_;
+	int last_x_go_ = 0;
 
-	bool show_fps;
-	bool show_lists;
+	bool show_fps = false;
+	bool show_lists = false;
 
-	int phi_deform;
+	int phi_deform = 0;
 
 	WeatherSnow snow[NB_SNOWFLAKES];
-	int next_snowflake;
+	int next_snowflake = 0;
 
 	WeatherRain rain[NB_RAINDROPS];
-	int next_raindrop;
+	int next_raindrop = 0;
 
 	int fps_count = 0;
 	int fps_current_count = 0;

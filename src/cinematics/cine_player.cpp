@@ -272,6 +272,8 @@ void CINEPlayer::updateState() {
 
 			if (n < 0 || n >= NB_OBJ)
 				error("numéro d'objet invalide");
+			else if (nb_args < 5)
+				error("setanim needs at least one frame");
 			else {
 				obj[n].speed_anim = int_arg[1];
 				if (int_arg[2])
