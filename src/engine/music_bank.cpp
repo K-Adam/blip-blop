@@ -1,8 +1,5 @@
 #include "engine/music_bank.h"
-#include <fcntl.h>
-#include <algorithm>
 #include <fstream>
-#include <iostream>
 #include <string>
 #include "core/debug.h"
 #include "core/config.h"
@@ -30,11 +27,14 @@ bool MusicBank::open(const char* file, bool loop) {
 		return false;
 	}
 
-	musics_.resize(nb_musics);
+	musics_.clear();
+	loop_ = loop;
 
 	for (size_t i = 0; i < nb_musics; i++) {
-		std::string path = data["items"][i];
-		musics_[i].reset(new Mp3Music(asset_path_prefix("mbk", path.c_str()), loop));
+		std::string path = asset_path_prefix("mbk", data["items"][i].get<std::string>().c_str());
+		// A missing track stays silent instead of stopping the game
+		musics_.emplace_back(Mix_LoadMUS(path.c_str()), &Mix_FreeMusic);
+		if (!musics_.back()) debug << "Mix_LoadMUS(" << path << "): " << Mix_GetError() << "\n";
 	}
 
 	return true;
@@ -50,32 +50,9 @@ void MusicBank::play(int n) {
 		return;
 	}
 
-	musics_[n]->Play();
-}
-
-void MusicBank::stop(int n) {
-	if (!music_on) return;
-
-	if (n < 0 || (size_t)n >= musics_.size()) {
-		debug << "MusicBank::stop() -> Tentative de stoper une musique non "
-				 "chargée : "
-			  << n << "\n";
-		return;
-	}
-
-	musics_[n]->Stop();
+	if (musics_[n]) Mix_PlayMusic(musics_[n].get(), loop_ ? -1 : 0);
 }
 
 void MusicBank::stop() {
-	for (int i = 0; (size_t)i < musics_.size(); i++) {
-		stop(i);
-	}
-}
-
-void MusicBank::setVol(int v) {
-	if (!music_on) return;
-
-	for (size_t i = 0; i < musics_.size(); i++) {
-		musics_[i]->set_volume(v);
-	}
+	if (music_on) Mix_HaltMusic();
 }

@@ -1,20 +1,16 @@
 #include <fstream>
 
-#include "core/debug.h"
-#include "engine/sound.h"
-#include "engine/sound_bank.h"
 #include "core/asset_path.h"
+#include "core/config.h"
+#include "core/debug.h"
+#include "engine/sound_bank.h"
 #include <json.h>
 
 using json = nlohmann::json;
 
-void SoundBank::reload() {
-	if (!filename_.empty()) {
-		loadSFX(filename_.c_str());
-	}
-}
-
 bool SoundBank::loadSFX(const char* file_name) {
+	if (!sound_on) return true;
+
 	auto dir = asset_path_prefix("sfx", file_name);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
@@ -31,19 +27,30 @@ bool SoundBank::loadSFX(const char* file_name) {
 		debug << "SoundBank::loadSFX() -> Fichier " << file_name << " corrompu\n";
 		return false;
 	}
+	tab_.clear();
 	tab_.resize(nb_snd);
 
 	for (size_t i = 0; i < nb_snd; i++) {
-		auto item = data["items"][i];
-
-		std::string item_path = data["items"][i];
-		auto path = asset_path_prefix("sfx", item_path.c_str());
-
-		tab_[i] = std::make_unique<Sound>();
-		tab_[i]->load(path.c_str());
+		// A missing sound stays silent instead of failing the whole bank
+		tab_[i].load(asset_path_prefix("sfx", data["items"][i].get<std::string>().c_str()).c_str());
 	}
 
-	filename_ = file_name;
-
 	return true;
+}
+
+void SoundBank::play(int n, int flags) {
+	if (!sound_on) return;
+
+	if ((size_t)n >= tab_.size()) {
+		debug << "Tentative de jouer son " << n << "\n";
+		return;
+	}
+
+	tab_[n].play(flags);
+}
+
+void SoundBank::stop(int n) {
+	if (!sound_on) return;
+
+	tab_[n].stop();
 }

@@ -12,8 +12,8 @@ class Font {
    private:
 	std::unique_ptr<SDL::Surface> atlas_;
 	std::vector<std::unique_ptr<Picture>> pictab_;	// Null for characters the font lacks
-	int spc;										// Width of a space
-	int h;											// Line height
+	int spc = 0;									// Width of a space
+	int h = 0;										// Line height
 
    public:
 	bool load(const char* f);

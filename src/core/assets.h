@@ -5,7 +5,7 @@
 #include "engine/font.h"
 #include "engine/music_bank.h"
 #include "engine/picture_bank.h"
-#include "engine/sound_bank_bb.h"
+#include "engine/sound_bank.h"
 
 extern PictureBank pbk_decor;
 extern PictureBank pbk_blip;
@@ -17,9 +17,9 @@ extern PictureBank pbk_level;
 extern PictureBank pbk_rpg;
 extern PictureBank pbk_rpg_bb;
 extern PictureBank pbk_inter;
-extern SoundBankBB sbk_bb;
-extern SoundBankBB sbk_misc;
-extern SoundBankBB sbk_level;
+extern SoundBank sbk_bb;
+extern SoundBank sbk_misc;
+extern SoundBank sbk_level;
 extern MusicBank mbk_level;
 extern MusicBank mbk_inter;
 extern MusicBank mbk_interl;

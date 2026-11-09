@@ -1,24 +1,20 @@
 #pragma once
 
-#include "engine/fmod.h"
+#include <SDL2/SDL_mixer.h>
+
+#include <memory>
 
 #define SOUND_LOOP 1
 
-class Sound {
-   protected:
-	FSOUND_SAMPLE* sample;
+bool audio_init();
 
-	int channel;
-	int loop_count;
+class Sound {
+	std::unique_ptr<Mix_Chunk, decltype(&Mix_FreeChunk)> chunk_{nullptr, &Mix_FreeChunk};
+	int channel_ = -1;
+	int loop_count_ = 0;
 
    public:
-	Sound();
-	~Sound();
-
-	bool load(const char* file_path);
-	bool loadFromMem(void* ptr, int length);
+	void load(const char* file_path);
 	void play(int flags = 0);
-	void setVolume(int v);
 	void stop();
-	void close();
 };

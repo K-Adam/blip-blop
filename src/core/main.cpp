@@ -9,7 +9,6 @@
 
 #include "core/debug.h"
 #include "core/config.h"
-#include "engine/fmod.h"
 #include "engine/font.h"
 #include "core/game.h"
 #include "core/task.h"
@@ -19,7 +18,7 @@
 #include "engine/picture.h"
 #include "engine/picture_bank.h"
 #include "level/scroll.h"
-#include "engine/sound_bank_bb.h"
+#include "engine/sound_bank.h"
 #include "core/text_data.h"
 
 #ifdef __EMSCRIPTEN__
@@ -78,8 +77,8 @@ static bool InitApp(int nCmdShow) {
 	debug << "Blip & Blop - (c) LOADED Studio - " << __DATE__ << "\n";
 	debug << "---------------------------------------------------------------\n";
 
-	if (!FSOUND_Init(44100, CHANNEL_NUMBER, 0)) {
-		Warning("Cannot initialise FMOD. Sound will be turned off");
+	if (!audio_init()) {
+		Warning("Cannot initialise audio. Sound will be turned off");
 		sound_on = false;
 		music_on = false;
 	}
