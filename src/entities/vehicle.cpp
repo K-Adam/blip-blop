@@ -1,6 +1,6 @@
 #include "entities/vehicle.h"
 
-Vehicle::Vehicle() : hero(NULL), ctrl(NULL), can_be_used(true) {}
+Vehicle::Vehicle() : can_be_used(true), hero(NULL), ctrl(NULL) {}
 
 void Vehicle::update() {
 	if (hero == NULL) {

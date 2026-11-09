@@ -114,10 +114,6 @@ void EnemyBisouZombie::takeHit(Shot* shot) {
 
 	static const int dy_splatter2[] = {0, -10, -10, -10, -20, -10, -10, -10};
 
-	int saved_status = status;
-	int saved_anim_step = anim_step;
-	int saved_anim_tick = anim_tick;
-
 	int dmg = shot->damage();
 
 	if (dmg < hp) {

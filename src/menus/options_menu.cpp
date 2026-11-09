@@ -22,6 +22,8 @@ int OptionsMenu::ProcessEvent() {
 			active_menu_ = keys;
 			break;
 		}
+		default:
+			break;
 	}
 	return MenuType::Options;
 }

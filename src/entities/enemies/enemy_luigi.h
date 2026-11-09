@@ -19,7 +19,6 @@ class EnemyLuigi : public Enemy {
 
 	int attack_delay;
 	int wait_for_attack;
-	int attack_step;
 	int attack_type;
 	int attack_frame_tick;
 	int attack_frame;

@@ -7,7 +7,7 @@ const int anim_mario_walk_right[] = {0, 1, 2, 1};
 const int anim_mario_walk_left[] = {0, 1, 2, 1};
 const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-EnemyMario::EnemyMario() : speed(1), speed_tick(0), attack_delay(50 + rand() % 50), wait_for_attack(0), fireball(0), hologram(1), nb_rain(0) {
+EnemyMario::EnemyMario() : speed(1), speed_tick(0), fireball(0), attack_delay(50 + rand() % 50), wait_for_attack(0), nb_rain(0) {
 	hp = 50000;
 	pic = pbk_enemies.anim("mario_walk_left")[0];
 }

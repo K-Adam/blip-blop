@@ -3,7 +3,7 @@
 
 const int anim_guard_walk_left[] = {0, 1, 2, 1};
 
-EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : princess(Princess), cover_distance(distance) {
+EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : cover_distance(distance), princess(Princess) {
 	hp = 2500;
 	treasure = 100;
 	dir = FACING_LEFT;

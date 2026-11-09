@@ -11,7 +11,6 @@ VehicleStork::VehicleStork() {
 void VehicleStork::render() { Sprite::render(); }
 
 void VehicleStork::updateUsed() {
-	static const int wings_down[] = {0, 1, 2, 3, 2, 1};
 	static const int SPEED = 8;
 
 	can_be_used = false;

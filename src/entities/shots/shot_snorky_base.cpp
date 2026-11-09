@@ -2,7 +2,7 @@
 
 const int shot_snorky_oscillation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-ShotSnorkyBase::ShotSnorkyBase(int vx) : accel_tick(0), oscillation_step(0) {
+ShotSnorkyBase::ShotSnorkyBase(int vx) : oscillation_step(0), accel_tick(0) {
 	dy = 0;
 	dx = vx;
 }

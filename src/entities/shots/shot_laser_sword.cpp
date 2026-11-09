@@ -1,7 +1,7 @@
 #include "entities/shots/shot_laser_sword.h"
 #include "entities/enemies/enemy_bisou_jedi.h"
 
-ShotLaserSword::ShotLaserSword() : isdead(false), target(NULL), returning(false), thrower(NULL), accel(1) {
+ShotLaserSword::ShotLaserSword() : target(NULL), thrower(NULL), isdead(false), returning(false), accel(1) {
 	lifespan = 200 + rand() % 100;
 	sbk_level.play(13, SOUND_LOOP);
 }

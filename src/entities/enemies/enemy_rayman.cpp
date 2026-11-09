@@ -7,7 +7,7 @@
 #include "entities/enemies/enemy_ember_hero.h"
 #include "entities/piece_rayman_head.h"
 
-EnemyRayman::EnemyRayman() : dorkemon(4), attack_delay(100 + rand() % 250), wait_for_attack(0), fist_shot(NULL), fist1(1), fist2(1), feet(1) {
+EnemyRayman::EnemyRayman() : attack_delay(100 + rand() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(NULL) {
 	hp = 15000;
 	xmin = 10428;
 	treasure = 0;

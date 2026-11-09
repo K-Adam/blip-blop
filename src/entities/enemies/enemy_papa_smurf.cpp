@@ -3,7 +3,7 @@
 #define ATT_ATATA 0
 #define ATT_BOOM 1
 
-EnemyPapaSmurf::EnemyPapaSmurf() : wait_change_target(0), dx(0), target(NULL), attack_wanted(ATT_BOOM) { hp = 5000; }
+EnemyPapaSmurf::EnemyPapaSmurf() : target(NULL), wait_change_target(0), dx(0), attack_wanted(ATT_BOOM) { hp = 5000; }
 
 void EnemyPapaSmurf::updateTarget() {
 	if (wait_change_target > 0 && target != NULL && !target->destroyed) {

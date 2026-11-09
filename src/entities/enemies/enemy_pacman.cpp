@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacman::EnemyPacman() : shot_tick(0), shot_step(0), shot(false), dx(-2) {
+EnemyPacman::EnemyPacman() : shot(false), shot_step(0), shot_tick(0), dx(-2) {
 	hp = 1000;
 	pic = pbk_enemies.anim("pacman_walk")[0];
 	col_on = false;

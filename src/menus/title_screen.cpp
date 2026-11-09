@@ -31,6 +31,8 @@ int TitleScreen::update() {
 			return RET_HISCORES;
 		case MenuType::Exit:
 			return RET_EXIT;
+		default:
+			break;
 	}
 
 	return RET_CONTINUE;

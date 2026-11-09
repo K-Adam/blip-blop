@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_tails_flying.h"
 
-EnemyTailsFlying::EnemyTailsFlying() : placed(0), speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
+EnemyTailsFlying::EnemyTailsFlying() : speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false), placed(0) {
 	treasure = 8;
 	hp = 150;
 }

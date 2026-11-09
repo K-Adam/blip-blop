@@ -11,7 +11,7 @@ const int anim_transformation_right[] = {0, 1};
 const int anim_transformation_left[] = {0, 1};
 
 EnemyMarioSwatter::EnemyMarioSwatter()
-	: speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), helping_luigi(0), shrunk(0), shrink_timer(0), knockback(0) {
+	: helping_luigi(0), speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), shrink_timer(0), shrunk(0), knockback(0) {
 	hp = 10000;
 	xmin = 1280;
 	pic = pbk_enemies.anim("mario_walk_left")[0];

@@ -1,6 +1,6 @@
 #include "entities/shots/shot_mario_fireball_vertical.h"
 
-ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : x_target(xc), dx(vx) { dy = -12; }
+ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : dx(vx), x_target(xc) { dy = -12; }
 
 void ShotMarioFireballVertical::update() {
 	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -250) destroyed = true;

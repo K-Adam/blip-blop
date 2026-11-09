@@ -1,6 +1,6 @@
 #include "entities/shots/shot_snorky_governor.h"
 
-ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : homing_target(target), dx(vx), dx_tick(0), dy_tick(0), time(0) { dy = vy; }
+ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : dx(vx), dx_tick(0), dy_tick(0), time(0), homing_target(target) { dy = vy; }
 
 void ShotSnorkyGovernor::update() {
 	anim_tick++;

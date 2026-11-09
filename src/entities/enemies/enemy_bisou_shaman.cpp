@@ -287,8 +287,6 @@ void EnemyBisouShaman::render() {
 }
 
 void EnemyBisouShaman::onWalk() {
-	static const int SPEED = 1;
-
 	fall();
 
 	anim_tick += 1;

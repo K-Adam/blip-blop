@@ -124,8 +124,6 @@ static bool InitApp(int nCmdShow) {
 
 	debug << "Exclusive mode set\n";
 
-	static const int BEST_RATE = 85;
-
 	if (safeMode) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
 		graphics.SetGfxMode(win_size.width, win_size.height, false);

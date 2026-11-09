@@ -4,7 +4,7 @@
 const int anim_snork_in_black_walk_right[] = {0, 1, 2, 1};
 const int anim_snork_in_black_walk_left[] = {0, 1, 2, 1};
 
-EnemySnorkInBlack::EnemySnorkInBlack() : wait_for_shoot(0), shoot_delay(50 + rand() % 100), nb_shots(0) {
+EnemySnorkInBlack::EnemySnorkInBlack() : nb_shots(0), wait_for_shoot(0), shoot_delay(50 + rand() % 100) {
 	hp = 250;
 	dy = 0;
 }

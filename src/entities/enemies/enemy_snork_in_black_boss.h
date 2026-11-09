@@ -6,7 +6,6 @@
 
 class EnemySnorkInBlackBoss : public Enemy {
    private:
-	int nb_shots;
 	int position;
 	int type_attack;
 	int dx;

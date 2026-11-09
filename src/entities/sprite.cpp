@@ -1,21 +1,21 @@
 #include "entities/sprite.h"
 
 Sprite::Sprite()
-	: pic(NULL),
+	: x(0),
+	  y(0),
 	  dy(0),
-	  dir(0),
-	  destroyed(false),
 	  anim_step(0),
 	  anim_tick(0),
+	  pic(NULL),
+	  destroyed(false),
+	  dir(0),
 	  grav_tick(0),
-	  x(0),
-	  y(0),
+	  wait_bubble(0),
 	  x1(-1000),
 	  y1(-1000),
 	  x2(-2000),
 	  y2(-2000),
-	  col_on(false),
-	  wait_bubble(0) {}
+	  col_on(false) {}
 
 void Sprite::fall() {
 	grav_tick += 1;

@@ -5,7 +5,7 @@
 const int monolith_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 1, 1, 1, 0, 0, 0};
 const int monolith_animation[] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 0, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 5, 5, 5, 4, 4};
 
-BackgroundRock1::BackgroundRock1() : levitation_step(0), levitation_tick(0) {
+BackgroundRock1::BackgroundRock1() : levitation_tick(0), levitation_step(0) {
 	pic = pbk_level.anim("cruiser_attack_left")[3];
 	dy = 0;
 }

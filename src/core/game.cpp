@@ -67,7 +67,7 @@ Character dummyPlayer;
 
 #define TXT_TIME 828
 
-Game::Game() : next_raindrop(0), next_snowflake(0), show_fps(false), show_lists(false) { briefing = false; }
+Game::Game() : show_fps(false), show_lists(false), next_snowflake(0), next_raindrop(0) { briefing = false; }
 
 // Out of line so the owned entity types are complete here
 Game::~Game() = default;
@@ -109,7 +109,6 @@ Task<> Game::playGame(int player_count, int player_idx) {
 
 	cowBombOn = false;
 	last_perfect1 = last_perfect2 = false;
-	int nbLevels = 0;
 	i = 0;
 
 	while (i < nb_part && letsgo && !app_killed) {
@@ -1442,8 +1441,6 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 }
 
 void Game::updateWeather() {
-	const static int raindrop_speeds[] = {3, 5, 7, 8, 9, 10};
-
 	for (auto& pl : list_weather) {
 		pl->update();
 	}
@@ -1907,7 +1904,6 @@ Task<> Game::showMainScreen() {
 }
 
 Task<> Game::showCredits(bool theEnd) {
-	static const int NB_PAGE = 6;
 	static const int LINE_GAP = 20;
 	static const int TITLE_GAP = 40;
 	static const int SECTION_GAP = 120;

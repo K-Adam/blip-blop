@@ -5,7 +5,7 @@
 const int rock2_levitation[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
 const int rock2_animation[] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 0, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 5, 5, 5, 4, 4};
 
-BackgroundRock2::BackgroundRock2() : levitation_step(0), levitation_tick(0) {
+BackgroundRock2::BackgroundRock2() : levitation_tick(0), levitation_step(0) {
 	pic = pbk_level.anim("star_twinkle")[2];
 	dy = 0;
 }

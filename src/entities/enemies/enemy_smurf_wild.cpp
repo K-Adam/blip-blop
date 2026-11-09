@@ -186,9 +186,6 @@ void EnemySmurfWild::onShoot() {
 }
 
 void EnemySmurfWild::takeHit(Shot* shot) {
-	static const int dx_splatter_smurf_wild[] = {0, 0, 6, 0, 0, 0, -6, 0};
-	static const int dy_splatter_smurf_wild[] = {-15, -15, -15, -15, -15, -15, -15, -15};
-
 	Enemy::takeHit(shot);
 	if (status == STATE_DYING) sbk_level.play(4 + rand() % 10);
 }

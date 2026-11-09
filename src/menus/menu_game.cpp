@@ -19,6 +19,9 @@ int MenuGame::Update() {
 			break;
 		case MenuType::Options:
 			active_ = &options_menu_;
+			break;
+		default:
+			break;
 	}
 	return 0;
 }

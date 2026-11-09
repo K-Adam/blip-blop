@@ -2,9 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-const int rock_levitation[] = {0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0};
-
-BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rand() % 360), y_base(0), sinusoid_delay(1) {}
+BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rand() % 360), sinusoid_delay(1), y_base(0) {}
 
 void BackgroundRockHyperspace::update() {
 	delta += sinusoid_delay;

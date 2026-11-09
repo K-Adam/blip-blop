@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_pacman_car.h"
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacmanCar::EnemyPacmanCar() : summoned_pacman(false) {
+EnemyPacmanCar::EnemyPacmanCar() {
 	hp = 1000;
 	pic = pbk_enemies.pic("pacman_car");
 	wait_end = 0;
