@@ -1,25 +1,9 @@
 {
-  "items": [
-    {
-      "path": "bisourpg.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "path": "bisourpg.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "path": "bisourpg.gfx/002.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 100,
-      "height": 100
-    }
+  "sheets": [
+    {"name": "portraits", "path": "bisourpg.gfx/portraits.png", "frames": [
+      {"x": 0, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0},
+      {"x": 100, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0},
+      {"x": 200, "y": 0, "w": 100, "h": 100, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

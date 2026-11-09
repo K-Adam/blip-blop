@@ -71,7 +71,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 2,
+      "pic": "nightclub_wall",
       "x_activation": 4499,
       "x": 5239,
       "y": 0
@@ -627,7 +627,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 1,
+      "pic": "rope_bridge_arched",
       "x_activation": 1886,
       "x": 2626,
       "y": 398
@@ -762,7 +762,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 0,
+      "pic": "rope_bridge",
       "x_activation": 1337,
       "x": 2077,
       "y": 373

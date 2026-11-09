@@ -1,25 +1,9 @@
 {
-  "items": [
-    {
-      "path": "finalbossfond.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "finalbossfond.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "finalbossfond.gfx/002.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    }
+  "sheets": [
+    {"name": "screens", "path": "finalbossfond.gfx/screens.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0},
+      {"x": 640, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0},
+      {"x": 1280, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

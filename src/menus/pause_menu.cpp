@@ -1,9 +1,7 @@
-#include "pause_menu.h"
+#include "menus/pause_menu.h"
 
-#include "../control_alias.h"
-#include "../input.h"
-#include "../txt_data.h"
-#include "txt_defines.h"
+#include "core/text_data.h"
+#include "menus/txt_defines.h"
 
 #include <cassert>
 
@@ -13,15 +11,10 @@ PauseMenu::PauseMenu() {
 	items_.AddEntry(txt_data[TXT_EXIT]);
 }
 int PauseMenu::ProcessEvent() {
-	if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
-		items_.MoveUp();
-	} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
-		items_.MoveDown();
-	}
-	if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
+	if (items_.Navigate()) {
 		switch (items_.focused()) {
 			case 0:
-				return MenuType::Game_1;
+				return MenuType::Play;
 			case 1:
 				return MenuType::Options;
 			case 2:

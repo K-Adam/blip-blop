@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Blip'n Blop</title>
+	<style>
+		html, body {
+			margin: 0;
+			overflow: hidden;
+			background: #000;
+			color: #888;
+			font-family: sans-serif;
+			touch-action: none;
+		}
+		#stage, #status {
+			position: fixed;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		#status {
+			pointer-events: none;
+		}
+		#stage {
+			container-type: size;
+		}
+		/* The game renders 640x480. The box itself keeps 4:3 so SDL maps mouse positions without the letterbox */
+		#canvas {
+			width: min(100cqw, 133.333cqh);
+			aspect-ratio: 4 / 3;
+			image-rendering: pixelated;
+		}
+		/* Rotate the stage so phones held upright still get a landscape game */
+		@media (orientation: portrait) {
+			#stage {
+				inset: auto;
+				top: 50%;
+				left: 50%;
+				width: 100dvh;
+				height: 100dvw;
+				transform: translate(-50%, -50%) rotate(90deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="stage"><canvas id="canvas"></canvas></div>
+	<div id="status">Loading...</div>
+	<script>
+		// iOS Safari ignores user-scalable=no, pinch zoom has to be blocked by hand
+		document.addEventListener('gesturestart', e => e.preventDefault());
+		// Right click is the mouse player's special move
+		document.addEventListener('contextmenu', e => e.preventDefault());
+
+		var Module = {
+			canvas: document.getElementById('canvas'),
+			setStatus: text => {
+				document.getElementById('status').textContent = text;
+			},
+		};
+	</script>
+	{{{ SCRIPT }}}
+</body>
+</html>

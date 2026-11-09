@@ -1,0 +1,25 @@
+#!/bin/sh
+clang_format=${CLANG_FORMAT:-clang-format}
+files=$(git diff --cached --name-only --diff-filter=ACMR -- 'src/*.cpp' 'src/*.h')
+[ -z "$files" ] && exit 0
+
+if ! command -v "$clang_format" >/dev/null 2>&1; then
+	echo "pre-commit: clang-format not found. Install it with 'pip install clang-format==13.0.1' or set CLANG_FORMAT." >&2
+	exit 1
+fi
+# Other versions format differently, CI checks with 13
+if ! "$clang_format" --version | grep -q "version 13\."; then
+	echo "pre-commit: clang-format 13 required, found: $("$clang_format" --version)" >&2
+	exit 1
+fi
+
+# Re-staging a file that has unstaged hunks would silently commit them too.
+partial=$(git diff --name-only -- $files)
+if [ -n "$partial" ]; then
+	echo "pre-commit: these files have unstaged changes, stage or stash them first:" >&2
+	echo "$partial" >&2
+	exit 1
+fi
+
+"$clang_format" -i -style=file $files || exit 1
+git add $files

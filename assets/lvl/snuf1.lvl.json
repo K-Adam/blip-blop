@@ -406,7 +406,7 @@
     {
       "event_id": 3,
       "x_activation": 4460,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 5120,
       "y": 269
     },
@@ -493,7 +493,7 @@
     {
       "event_id": 3,
       "x_activation": 4058,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 4718,
       "y": 202
     },
@@ -516,7 +516,7 @@
     {
       "event_id": 3,
       "x_activation": 4006,
-      "id": 10,
+      "pic": "mushroom_large",
       "x": 4666,
       "y": 296
     },
@@ -586,7 +586,7 @@
     {
       "event_id": 3,
       "x_activation": 3809,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 4469,
       "y": 283
     },
@@ -601,14 +601,14 @@
     {
       "event_id": 3,
       "x_activation": 3739,
-      "id": 9,
+      "pic": "mushroom_small_flipped",
       "x": 4399,
       "y": 317
     },
     {
       "event_id": 3,
       "x_activation": 3738,
-      "id": 9,
+      "pic": "mushroom_small_flipped",
       "x": 4398,
       "y": 158
     },
@@ -703,7 +703,7 @@
     {
       "event_id": 3,
       "x_activation": 3399,
-      "id": 9,
+      "pic": "mushroom_small_flipped",
       "x": 4059,
       "y": 295
     },
@@ -774,7 +774,7 @@
     {
       "event_id": 3,
       "x_activation": 3182,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 3842,
       "y": 329
     },
@@ -796,7 +796,7 @@
     {
       "event_id": 3,
       "x_activation": 3129,
-      "id": 11,
+      "pic": "mushroom_large_flipped",
       "x": 3789,
       "y": 220
     },
@@ -883,7 +883,7 @@
     {
       "event_id": 3,
       "x_activation": 2779,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 3439,
       "y": 192
     },
@@ -898,7 +898,7 @@
     {
       "event_id": 3,
       "x_activation": 2713,
-      "id": 9,
+      "pic": "mushroom_small_flipped",
       "x": 3373,
       "y": 306
     },
@@ -953,7 +953,7 @@
     {
       "event_id": 3,
       "x_activation": 2473,
-      "id": 11,
+      "pic": "mushroom_large_flipped",
       "x": 3133,
       "y": 285
     },
@@ -1087,7 +1087,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 12,
+      "pic": "stump",
       "x_activation": 1654,
       "x": 2394,
       "y": 424
@@ -1143,7 +1143,7 @@
     {
       "event_id": 3,
       "x_activation": 1457,
-      "id": 8,
+      "pic": "mushroom_small",
       "x": 2117,
       "y": 243
     },
@@ -1166,7 +1166,7 @@
     {
       "event_id": 3,
       "x_activation": 1385,
-      "id": 9,
+      "pic": "mushroom_small_flipped",
       "x": 2045,
       "y": 321
     },
@@ -1250,7 +1250,7 @@
     },
     {
       "event_id": 4,
-      "id_fond": 13,
+      "pic": "stone_pillar_2",
       "x_activation": 488,
       "x": 1228,
       "y": 141
@@ -1279,14 +1279,14 @@
     },
     {
       "event_id": 4,
-      "id_fond": 0,
+      "pic": "stone_pillar_1",
       "x_activation": 4294967196,
       "x": 640,
       "y": 163
     },
     {
       "event_id": 4,
-      "id_fond": 2,
+      "pic": "bush",
       "x_activation": 4294966765,
       "x": 209,
       "y": 420

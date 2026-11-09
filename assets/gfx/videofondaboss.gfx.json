@@ -1,452 +1,94 @@
 {
-  "items": [
-    {
-      "path": "videofondaboss.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/002.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/003.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/004.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/005.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/006.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/007.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/008.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/009.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/010.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/011.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/012.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 491,
-      "height": 83
-    },
-    {
-      "path": "videofondaboss.gfx/013.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/014.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/015.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/016.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/017.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/018.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/019.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/020.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/021.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/022.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/023.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/024.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/025.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/026.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 169,
-      "height": 96
-    },
-    {
-      "path": "videofondaboss.gfx/027.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/028.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/029.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/030.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/031.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/032.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/033.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/034.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/035.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/036.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/037.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/038.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/039.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/040.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/041.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/042.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/043.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/044.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 61,
-      "height": 52
-    },
-    {
-      "path": "videofondaboss.gfx/045.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 40,
-      "height": 124
-    },
-    {
-      "path": "videofondaboss.gfx/046.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 40,
-      "height": 124
-    },
-    {
-      "path": "videofondaboss.gfx/047.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 40,
-      "height": 124
-    },
-    {
-      "path": "videofondaboss.gfx/048.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 40,
-      "height": 124
-    },
-    {
-      "path": "videofondaboss.gfx/049.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 4
-    },
-    {
-      "path": "videofondaboss.gfx/050.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/051.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/052.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/053.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 519
-    },
-    {
-      "path": "videofondaboss.gfx/054.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/055.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 74,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/056.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 75,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/057.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 74,
-      "height": 87
-    },
-    {
-      "path": "videofondaboss.gfx/058.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 24,
-      "height": 7
-    },
-    {
-      "path": "videofondaboss.gfx/059.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 31,
-      "height": 9
-    },
-    {
-      "path": "videofondaboss.gfx/060.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 51,
-      "height": 76
-    },
-    {
-      "path": "videofondaboss.gfx/061.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 51,
-      "height": 76
-    },
-    {
-      "path": "videofondaboss.gfx/062.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 51,
-      "height": 76
-    },
-    {
-      "path": "videofondaboss.gfx/063.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 51,
-      "height": 76
-    }
+  "sheets": [
+    {"name": "lcd_specs", "path": "videofondaboss.gfx/lcd_specs.png", "frames": [
+      {"x": 0, "y": 0, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 491, "y": 0, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 982, "y": 0, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 1473, "y": 0, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 0, "y": 83, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 491, "y": 83, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 982, "y": 83, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 1473, "y": 83, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 0, "y": 166, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 491, "y": 166, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 982, "y": 166, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 1473, "y": 166, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0},
+      {"x": 0, "y": 249, "w": 491, "h": 83, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "worldmap", "path": "videofondaboss.gfx/worldmap.png", "frames": [
+      {"x": 0, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 169, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 338, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 507, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 676, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 845, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1014, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1183, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1352, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1521, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1690, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 1859, "y": 0, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 0, "y": 96, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0},
+      {"x": 169, "y": 96, "w": 169, "h": 96, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "electronic_board", "path": "videofondaboss.gfx/electronic_board.png", "frames": [
+      {"x": 0, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 61, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 122, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 183, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 244, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 305, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 366, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 427, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 488, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 549, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 610, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 671, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 732, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 793, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0},
+      {"x": 854, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "electronic1_overlay", "path": "videofondaboss.gfx/electronic1_overlay.png", "frames": [
+      {"x": 0, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "electronic3_overlay", "path": "videofondaboss.gfx/electronic3_overlay.png", "frames": [
+      {"x": 0, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "electronic2_overlay", "path": "videofondaboss.gfx/electronic2_overlay.png", "frames": [
+      {"x": 0, "y": 0, "w": 61, "h": 52, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "snow_screen", "path": "videofondaboss.gfx/snow_screen.png", "frames": [
+      {"x": 0, "y": 0, "w": 40, "h": 124, "xSpot": 0, "ySpot": 0},
+      {"x": 40, "y": 0, "w": 40, "h": 124, "xSpot": 0, "ySpot": 0},
+      {"x": 80, "y": 0, "w": 40, "h": 124, "xSpot": 0, "ySpot": 0},
+      {"x": 120, "y": 0, "w": 40, "h": 124, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "camera_screen_frame", "path": "videofondaboss.gfx/camera_screen_frame.png", "frames": [
+      {"x": 0, "y": 0, "w": 75, "h": 4, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "camera_screen", "path": "videofondaboss.gfx/camera_screen.png", "frames": [
+      {"x": 0, "y": 0, "w": 75, "h": 87, "xSpot": 0, "ySpot": 0},
+      {"x": 75, "y": 0, "w": 75, "h": 87, "xSpot": 0, "ySpot": 0},
+      {"x": 150, "y": 0, "w": 75, "h": 87, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "assembler_listing", "path": "videofondaboss.gfx/assembler_listing.png", "frames": [
+      {"x": 0, "y": 0, "w": 75, "h": 519, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "windows", "path": "videofondaboss.gfx/windows.png", "frames": [
+      {"x": 0, "y": 0, "w": 75, "h": 87, "xSpot": 0, "ySpot": 0},
+      {"x": 75, "y": 0, "w": 74, "h": 87, "xSpot": 0, "ySpot": 0},
+      {"x": 149, "y": 0, "w": 75, "h": 87, "xSpot": 0, "ySpot": 0},
+      {"x": 224, "y": 0, "w": 74, "h": 87, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "dos_prompt", "path": "videofondaboss.gfx/dos_prompt.png", "frames": [
+      {"x": 0, "y": 0, "w": 24, "h": 7, "xSpot": 0, "ySpot": 0},
+      {"x": 24, "y": 0, "w": 31, "h": 9, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "boss_fan", "path": "videofondaboss.gfx/boss_fan.png", "frames": [
+      {"x": 0, "y": 0, "w": 51, "h": 76, "xSpot": 0, "ySpot": 0},
+      {"x": 51, "y": 0, "w": 51, "h": 76, "xSpot": 0, "ySpot": 0},
+      {"x": 102, "y": 0, "w": 51, "h": 76, "xSpot": 0, "ySpot": 0},
+      {"x": 153, "y": 0, "w": 51, "h": 76, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

@@ -1,26 +1,25 @@
 #pragma once
 
-#include <array>
-#include <tuple>
+#include <string>
 
-#include "abstract_menu.h"
-#include "menu_list.h"
+#include "menus/abstract_menu.h"
+#include "menus/menu_list.h"
 
 class KeysMenu : public AbstractMenu {
    public:
-	KeysMenu(int num_player);
+	explicit KeysMenu(int scheme);
 	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
-	int ProcessEvent();
+	int ProcessEvent() override;
+	void Refresh();
 
    private:
-	enum class State { WaitingKey, Browsing };
-	void EditKey();
-	void SetKey(int key);
-	std::string WaitText(int n) const;
-	std::string KeyText(int n) const;
+	enum class State { WaitingRelease, WaitingKey, Browsing };
+	void SetKey(unsigned int key);
+	std::string KeyText(int action) const;
 
-	std::array<std::tuple<int, int, int>, 7> dat_;
 	MenuList items_;
-	State state_;
-	int player_;
+	State state_ = State::Browsing;
+	int scheme_;
+	int self_;
+	int first_;
 };

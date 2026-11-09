@@ -1,18 +1,10 @@
 {
-  "items": [
-    {
-      "path": "theend.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "theend.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    }
+  "sheets": [
+    {"name": "the_end", "path": "theend.gfx/the_end.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "cow_crush", "path": "theend.gfx/cow_crush.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

@@ -1,25 +1,13 @@
 {
-  "items": [
-    {
-      "path": "bisoufond.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 287,
-      "height": 61
-    },
-    {
-      "path": "bisoufond.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 351,
-      "height": 61
-    },
-    {
-      "path": "bisoufond.gfx/002.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 89,
-      "height": 480
-    }
+  "sheets": [
+    {"name": "rope_bridge", "path": "bisoufond.gfx/rope_bridge.png", "frames": [
+      {"x": 0, "y": 0, "w": 287, "h": 61, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "rope_bridge_arched", "path": "bisoufond.gfx/rope_bridge_arched.png", "frames": [
+      {"x": 0, "y": 0, "w": 351, "h": 61, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "nightclub_wall", "path": "bisoufond.gfx/nightclub_wall.png", "frames": [
+      {"x": 0, "y": 0, "w": 89, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]}
   ]
 }

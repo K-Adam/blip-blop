@@ -1,10 +1,10 @@
 #pragma once
 
-#include "abstract_menu.h"
+#include "menus/abstract_menu.h"
 
 #include <string>
 
-#include "menu_list.h"
+#include "menus/menu_list.h"
 
 class OptionsPanel : public AbstractMenu {
    public:
@@ -14,6 +14,7 @@ class OptionsPanel : public AbstractMenu {
 
    private:
 	void RefreshVsync();
+	void ToggleVsync();
 
 	MenuList items_;
 	std::string vsync_on_txt_;

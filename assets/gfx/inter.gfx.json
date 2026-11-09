@@ -1,88 +1,38 @@
 {
-  "items": [
-    {
-      "path": "inter.gfx/000.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "inter.gfx/001.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "inter.gfx/002.png",
-      "xSpot": 218,
-      "ySpot": 124,
-      "width": 397,
-      "height": 300
-    },
-    {
-      "path": "inter.gfx/003.png",
-      "xSpot": 220,
-      "ySpot": 175,
-      "width": 548,
-      "height": 285
-    },
-    {
-      "path": "inter.gfx/004.png",
-      "xSpot": 18,
-      "ySpot": 18,
-      "width": 19,
-      "height": 37
-    },
-    {
-      "path": "inter.gfx/005.png",
-      "xSpot": 0,
-      "ySpot": 18,
-      "width": 19,
-      "height": 37
-    },
-    {
-      "path": "inter.gfx/006.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "inter.gfx/007.png",
-      "xSpot": 0,
-      "ySpot": 0,
-      "width": 640,
-      "height": 480
-    },
-    {
-      "path": "inter.gfx/008.png",
-      "xSpot": 68,
-      "ySpot": 21,
-      "width": 136,
-      "height": 42
-    },
-    {
-      "path": "inter.gfx/009.png",
-      "xSpot": 68,
-      "ySpot": 21,
-      "width": 137,
-      "height": 42
-    },
-    {
-      "path": "inter.gfx/010.png",
-      "xSpot": 276,
-      "ySpot": 16,
-      "width": 550,
-      "height": 31
-    },
-    {
-      "path": "inter.gfx/011.png",
-      "xSpot": 292,
-      "ySpot": 12,
-      "width": 585,
-      "height": 23
-    }
+  "sheets": [
+    {"name": "game_over", "path": "inter.gfx/game_over.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "title", "path": "inter.gfx/title.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "select_blip", "path": "inter.gfx/select_blip.png", "frames": [
+      {"x": 0, "y": 0, "w": 397, "h": 300, "xSpot": 218, "ySpot": 124}
+    ]},
+    {"name": "select_blop", "path": "inter.gfx/select_blop.png", "frames": [
+      {"x": 0, "y": 0, "w": 548, "h": 285, "xSpot": 220, "ySpot": 175}
+    ]},
+    {"name": "select_arrow_right", "path": "inter.gfx/select_arrow_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 19, "h": 37, "xSpot": 18, "ySpot": 18}
+    ]},
+    {"name": "select_arrow_left", "frames": [
+      {"from": "select_arrow_right", "frame": 0, "op": "flip_h", "xSpot": 0, "ySpot": 18}
+    ]},
+    {"name": "select_stars", "path": "inter.gfx/select_stars.png", "frames": [
+      {"x": 0, "y": 0, "w": 640, "h": 480, "xSpot": 0, "ySpot": 0},
+      {"from": "select_stars", "frame": 0, "op": "flip_h", "xSpot": 0, "ySpot": 0}
+    ]},
+    {"name": "name_blip", "path": "inter.gfx/name_blip.png", "frames": [
+      {"x": 0, "y": 0, "w": 136, "h": 42, "xSpot": 68, "ySpot": 21}
+    ]},
+    {"name": "name_blop", "path": "inter.gfx/name_blop.png", "frames": [
+      {"x": 0, "y": 0, "w": 137, "h": 42, "xSpot": 68, "ySpot": 21}
+    ]},
+    {"name": "select_title_en", "path": "inter.gfx/select_title_en.png", "frames": [
+      {"x": 0, "y": 0, "w": 550, "h": 31, "xSpot": 276, "ySpot": 16}
+    ]},
+    {"name": "select_title_fr", "path": "inter.gfx/select_title_fr.png", "frames": [
+      {"x": 0, "y": 0, "w": 585, "h": 23, "xSpot": 292, "ySpot": 12}
+    ]}
   ]
 }

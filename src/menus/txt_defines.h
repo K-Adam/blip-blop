@@ -26,11 +26,6 @@
 #define TXT_LANGUAGE 816
 #define TXT_RESET 829
 
-#define TXT_P1CTRL 817
-#define TXT_P2CTRL 818
-#define TXT_P1KEYS 819
-#define TXT_P2KEYS 820
-
 #define TXT_UP 821
 #define TXT_DOWN 822
 #define TXT_LEFT 823
@@ -41,9 +36,6 @@
 
 #define TXT_START_GAME 830
 #define TXT_EXIT 833
-
-#define TXT_START_GAME1 831
-#define TXT_START_GAME2 832
 
 #define TXT_CANCEL 834
 

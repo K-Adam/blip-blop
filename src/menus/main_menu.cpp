@@ -1,29 +1,25 @@
-#include "main_menu.h"
+#include "menus/main_menu.h"
 
-#include "../control_alias.h"
-#include "../input.h"
-#include "../txt_data.h"
-#include "txt_defines.h"
+#include "core/text_data.h"
+#include "menus/txt_defines.h"
 
 MainMenu::MainMenu() {
 	items_.AddEntry(txt_data[TXT_START_GAME]);
+	items_.AddEntry("HIGH SCORES");
 	items_.AddEntry("OPTIONS");
 	items_.AddEntry(txt_data[TXT_EXIT]);
 }
 
 int MainMenu::ProcessEvent() {
-	if (in.scanKey(DIK_UP) || in.scanAlias(ALIAS_P1_UP)) {
-		items_.MoveUp();
-	} else if (in.scanKey(DIK_DOWN) || in.scanAlias(ALIAS_P1_DOWN)) {
-		items_.MoveDown();
-	}
-	if (in.scanKey(DIK_RETURN) || in.scanAlias(ALIAS_P1_FIRE)) {
+	if (items_.Navigate()) {
 		switch (items_.focused()) {
 			case 0:
-				return MenuType::Start;
+				return MenuType::Play;
 			case 1:
-				return MenuType::Options;
+				return MenuType::Scores;
 			case 2:
+				return MenuType::Options;
+			case 3:
 				return MenuType::Exit;
 		}
 	}

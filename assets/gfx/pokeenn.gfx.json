@@ -1,1110 +1,198 @@
 {
-  "items": [
-    {
-      "path": "pokeenn.gfx/000.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/001.png",
-      "xSpot": 37,
-      "ySpot": 67,
-      "width": 79,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/002.png",
-      "xSpot": 29,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/003.png",
-      "xSpot": 40,
-      "ySpot": 66,
-      "width": 79,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/004.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/005.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 79,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/006.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 87,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/007.png",
-      "xSpot": 76,
-      "ySpot": 65,
-      "width": 117,
-      "height": 68
-    },
-    {
-      "path": "pokeenn.gfx/008.png",
-      "xSpot": 65,
-      "ySpot": 67,
-      "width": 114,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/009.png",
-      "xSpot": 68,
-      "ySpot": 68,
-      "width": 123,
-      "height": 71
-    },
-    {
-      "path": "pokeenn.gfx/010.png",
-      "xSpot": 62,
-      "ySpot": 66,
-      "width": 120,
-      "height": 69
-    },
-    {
-      "path": "pokeenn.gfx/011.png",
-      "xSpot": 51,
-      "ySpot": 59,
-      "width": 110,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/012.png",
-      "xSpot": 51,
-      "ySpot": 59,
-      "width": 110,
-      "height": 66
-    },
-    {
-      "path": "pokeenn.gfx/013.png",
-      "xSpot": 51,
-      "ySpot": 59,
-      "width": 110,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/014.png",
-      "xSpot": 29,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/015.png",
-      "xSpot": 30,
-      "ySpot": 61,
-      "width": 79,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/016.png",
-      "xSpot": 38,
-      "ySpot": 61,
-      "width": 87,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/017.png",
-      "xSpot": 40,
-      "ySpot": 65,
-      "width": 117,
-      "height": 68
-    },
-    {
-      "path": "pokeenn.gfx/018.png",
-      "xSpot": 48,
-      "ySpot": 67,
-      "width": 114,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/019.png",
-      "xSpot": 54,
-      "ySpot": 68,
-      "width": 123,
-      "height": 71
-    },
-    {
-      "path": "pokeenn.gfx/020.png",
-      "xSpot": 57,
-      "ySpot": 66,
-      "width": 120,
-      "height": 69
-    },
-    {
-      "path": "pokeenn.gfx/021.png",
-      "xSpot": 58,
-      "ySpot": 59,
-      "width": 110,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/022.png",
-      "xSpot": 58,
-      "ySpot": 59,
-      "width": 110,
-      "height": 66
-    },
-    {
-      "path": "pokeenn.gfx/023.png",
-      "xSpot": 58,
-      "ySpot": 59,
-      "width": 110,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/024.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/025.png",
-      "xSpot": 35,
-      "ySpot": 74,
-      "width": 73,
-      "height": 81
-    },
-    {
-      "path": "pokeenn.gfx/026.png",
-      "xSpot": 32,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/027.png",
-      "xSpot": 36,
-      "ySpot": 74,
-      "width": 73,
-      "height": 81
-    },
-    {
-      "path": "pokeenn.gfx/028.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 77,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/029.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 83,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/030.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 97,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/031.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 108,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/032.png",
-      "xSpot": 42,
-      "ySpot": 71,
-      "width": 112,
-      "height": 74
-    },
-    {
-      "path": "pokeenn.gfx/033.png",
-      "xSpot": 40,
-      "ySpot": 70,
-      "width": 110,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/034.png",
-      "xSpot": 40,
-      "ySpot": 68,
-      "width": 110,
-      "height": 79
-    },
-    {
-      "path": "pokeenn.gfx/035.png",
-      "xSpot": 40,
-      "ySpot": 66,
-      "width": 110,
-      "height": 79
-    },
-    {
-      "path": "pokeenn.gfx/036.png",
-      "xSpot": 34,
-      "ySpot": 70,
-      "width": 77,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/037.png",
-      "xSpot": 40,
-      "ySpot": 70,
-      "width": 83,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/038.png",
-      "xSpot": 54,
-      "ySpot": 70,
-      "width": 97,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/039.png",
-      "xSpot": 65,
-      "ySpot": 70,
-      "width": 108,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/040.png",
-      "xSpot": 70,
-      "ySpot": 71,
-      "width": 112,
-      "height": 74
-    },
-    {
-      "path": "pokeenn.gfx/041.png",
-      "xSpot": 70,
-      "ySpot": 70,
-      "width": 110,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/042.png",
-      "xSpot": 70,
-      "ySpot": 68,
-      "width": 110,
-      "height": 79
-    },
-    {
-      "path": "pokeenn.gfx/043.png",
-      "xSpot": 70,
-      "ySpot": 66,
-      "width": 110,
-      "height": 79
-    },
-    {
-      "path": "pokeenn.gfx/044.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/045.png",
-      "xSpot": 35,
-      "ySpot": 72,
-      "width": 71,
-      "height": 78
-    },
-    {
-      "path": "pokeenn.gfx/046.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/047.png",
-      "xSpot": 35,
-      "ySpot": 73,
-      "width": 71,
-      "height": 78
-    },
-    {
-      "path": "pokeenn.gfx/048.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/049.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/050.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/051.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/052.png",
-      "xSpot": 42,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/053.png",
-      "xSpot": 42,
-      "ySpot": 83,
-      "width": 71,
-      "height": 88
-    },
-    {
-      "path": "pokeenn.gfx/054.png",
-      "xSpot": 42,
-      "ySpot": 97,
-      "width": 71,
-      "height": 102
-    },
-    {
-      "path": "pokeenn.gfx/055.png",
-      "xSpot": 41,
-      "ySpot": 104,
-      "width": 70,
-      "height": 109
-    },
-    {
-      "path": "pokeenn.gfx/056.png",
-      "xSpot": 39,
-      "ySpot": 104,
-      "width": 67,
-      "height": 110
-    },
-    {
-      "path": "pokeenn.gfx/057.png",
-      "xSpot": 41,
-      "ySpot": 104,
-      "width": 69,
-      "height": 110
-    },
-    {
-      "path": "pokeenn.gfx/058.png",
-      "xSpot": 41,
-      "ySpot": 104,
-      "width": 70,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/059.png",
-      "xSpot": 35,
-      "ySpot": 103,
-      "width": 57,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/060.png",
-      "xSpot": 25,
-      "ySpot": 104,
-      "width": 45,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/061.png",
-      "xSpot": 16,
-      "ySpot": 105,
-      "width": 32,
-      "height": 106
-    },
-    {
-      "path": "pokeenn.gfx/062.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/063.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/064.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/065.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/066.png",
-      "xSpot": 28,
-      "ySpot": 75,
-      "width": 71,
-      "height": 80
-    },
-    {
-      "path": "pokeenn.gfx/067.png",
-      "xSpot": 28,
-      "ySpot": 83,
-      "width": 71,
-      "height": 88
-    },
-    {
-      "path": "pokeenn.gfx/068.png",
-      "xSpot": 28,
-      "ySpot": 97,
-      "width": 71,
-      "height": 102
-    },
-    {
-      "path": "pokeenn.gfx/069.png",
-      "xSpot": 28,
-      "ySpot": 104,
-      "width": 70,
-      "height": 109
-    },
-    {
-      "path": "pokeenn.gfx/070.png",
-      "xSpot": 26,
-      "ySpot": 105,
-      "width": 67,
-      "height": 110
-    },
-    {
-      "path": "pokeenn.gfx/071.png",
-      "xSpot": 26,
-      "ySpot": 105,
-      "width": 69,
-      "height": 110
-    },
-    {
-      "path": "pokeenn.gfx/072.png",
-      "xSpot": 27,
-      "ySpot": 100,
-      "width": 70,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/073.png",
-      "xSpot": 19,
-      "ySpot": 100,
-      "width": 57,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/074.png",
-      "xSpot": 18,
-      "ySpot": 100,
-      "width": 45,
-      "height": 105
-    },
-    {
-      "path": "pokeenn.gfx/075.png",
-      "xSpot": 17,
-      "ySpot": 101,
-      "width": 32,
-      "height": 106
-    },
-    {
-      "path": "pokeenn.gfx/076.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/077.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/078.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/079.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/080.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/081.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 73
-    },
-    {
-      "path": "pokeenn.gfx/082.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 75
-    },
-    {
-      "path": "pokeenn.gfx/083.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 77
-    },
-    {
-      "path": "pokeenn.gfx/084.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 77
-    },
-    {
-      "path": "pokeenn.gfx/085.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 74
-    },
-    {
-      "path": "pokeenn.gfx/086.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 75
-    },
-    {
-      "path": "pokeenn.gfx/087.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 75
-    },
-    {
-      "path": "pokeenn.gfx/088.png",
-      "xSpot": 52,
-      "ySpot": 40,
-      "width": 112,
-      "height": 76
-    },
-    {
-      "path": "pokeenn.gfx/089.png",
-      "xSpot": 36,
-      "ySpot": 33,
-      "width": 96,
-      "height": 70
-    },
-    {
-      "path": "pokeenn.gfx/090.png",
-      "xSpot": 40,
-      "ySpot": 33,
-      "width": 100,
-      "height": 78
-    },
-    {
-      "path": "pokeenn.gfx/091.png",
-      "xSpot": 36,
-      "ySpot": 31,
-      "width": 96,
-      "height": 68
-    },
-    {
-      "path": "pokeenn.gfx/092.png",
-      "xSpot": 34,
-      "ySpot": 31,
-      "width": 86,
-      "height": 74
-    },
-    {
-      "path": "pokeenn.gfx/093.png",
-      "xSpot": 22,
-      "ySpot": 35,
-      "width": 77,
-      "height": 76
-    },
-    {
-      "path": "pokeenn.gfx/094.png",
-      "xSpot": 28,
-      "ySpot": 33,
-      "width": 69,
-      "height": 71
-    },
-    {
-      "path": "pokeenn.gfx/095.png",
-      "xSpot": 23,
-      "ySpot": 33,
-      "width": 57,
-      "height": 67
-    },
-    {
-      "path": "pokeenn.gfx/096.png",
-      "xSpot": 20,
-      "ySpot": 31,
-      "width": 53,
-      "height": 56
-    },
-    {
-      "path": "pokeenn.gfx/097.png",
-      "xSpot": 20,
-      "ySpot": 22,
-      "width": 40,
-      "height": 44
-    },
-    {
-      "path": "pokeenn.gfx/098.png",
-      "xSpot": 54,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/099.png",
-      "xSpot": 58,
-      "ySpot": 40,
-      "width": 114,
-      "height": 63
-    },
-    {
-      "path": "pokeenn.gfx/100.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/101.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/102.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/103.png",
-      "xSpot": 48,
-      "ySpot": 61,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/104.png",
-      "xSpot": 48,
-      "ySpot": 66,
-      "width": 78,
-      "height": 69
-    },
-    {
-      "path": "pokeenn.gfx/105.png",
-      "xSpot": 48,
-      "ySpot": 80,
-      "width": 78,
-      "height": 83
-    },
-    {
-      "path": "pokeenn.gfx/106.png",
-      "xSpot": 48,
-      "ySpot": 91,
-      "width": 74,
-      "height": 94
-    },
-    {
-      "path": "pokeenn.gfx/107.png",
-      "xSpot": 48,
-      "ySpot": 97,
-      "width": 73,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/108.png",
-      "xSpot": 48,
-      "ySpot": 96,
-      "width": 71,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/109.png",
-      "xSpot": 38,
-      "ySpot": 96,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/110.png",
-      "xSpot": 39,
-      "ySpot": 96,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/111.png",
-      "xSpot": 38,
-      "ySpot": 96,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/112.png",
-      "xSpot": 36,
-      "ySpot": 94,
-      "width": 59,
-      "height": 97
-    },
-    {
-      "path": "pokeenn.gfx/113.png",
-      "xSpot": 19,
-      "ySpot": 96,
-      "width": 42,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/114.png",
-      "xSpot": 29,
-      "ySpot": 62,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/115.png",
-      "xSpot": 29,
-      "ySpot": 62,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/116.png",
-      "xSpot": 29,
-      "ySpot": 62,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/117.png",
-      "xSpot": 29,
-      "ySpot": 62,
-      "width": 78,
-      "height": 64
-    },
-    {
-      "path": "pokeenn.gfx/118.png",
-      "xSpot": 29,
-      "ySpot": 67,
-      "width": 78,
-      "height": 69
-    },
-    {
-      "path": "pokeenn.gfx/119.png",
-      "xSpot": 29,
-      "ySpot": 81,
-      "width": 78,
-      "height": 83
-    },
-    {
-      "path": "pokeenn.gfx/120.png",
-      "xSpot": 25,
-      "ySpot": 92,
-      "width": 74,
-      "height": 94
-    },
-    {
-      "path": "pokeenn.gfx/121.png",
-      "xSpot": 24,
-      "ySpot": 98,
-      "width": 73,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/122.png",
-      "xSpot": 22,
-      "ySpot": 97,
-      "width": 71,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/123.png",
-      "xSpot": 22,
-      "ySpot": 97,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/124.png",
-      "xSpot": 21,
-      "ySpot": 97,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/125.png",
-      "xSpot": 22,
-      "ySpot": 97,
-      "width": 61,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/126.png",
-      "xSpot": 22,
-      "ySpot": 95,
-      "width": 59,
-      "height": 97
-    },
-    {
-      "path": "pokeenn.gfx/127.png",
-      "xSpot": 22,
-      "ySpot": 97,
-      "width": 42,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/128.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/129.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/130.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/131.png",
-      "xSpot": 43,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/132.png",
-      "xSpot": 43,
-      "ySpot": 76,
-      "width": 76,
-      "height": 78
-    },
-    {
-      "path": "pokeenn.gfx/133.png",
-      "xSpot": 43,
-      "ySpot": 92,
-      "width": 76,
-      "height": 94
-    },
-    {
-      "path": "pokeenn.gfx/134.png",
-      "xSpot": 43,
-      "ySpot": 97,
-      "width": 76,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/135.png",
-      "xSpot": 43,
-      "ySpot": 97,
-      "width": 75,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/136.png",
-      "xSpot": 41,
-      "ySpot": 97,
-      "width": 72,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/137.png",
-      "xSpot": 41,
-      "ySpot": 97,
-      "width": 72,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/138.png",
-      "xSpot": 40,
-      "ySpot": 96,
-      "width": 70,
-      "height": 98
-    },
-    {
-      "path": "pokeenn.gfx/139.png",
-      "xSpot": 39,
-      "ySpot": 97,
-      "width": 66,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/140.png",
-      "xSpot": 39,
-      "ySpot": 97,
-      "width": 69,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/141.png",
-      "xSpot": 39,
-      "ySpot": 97,
-      "width": 68,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/142.png",
-      "xSpot": 38,
-      "ySpot": 87,
-      "width": 65,
-      "height": 89
-    },
-    {
-      "path": "pokeenn.gfx/143.png",
-      "xSpot": 32,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/144.png",
-      "xSpot": 32,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/145.png",
-      "xSpot": 32,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/146.png",
-      "xSpot": 32,
-      "ySpot": 70,
-      "width": 76,
-      "height": 72
-    },
-    {
-      "path": "pokeenn.gfx/147.png",
-      "xSpot": 32,
-      "ySpot": 76,
-      "width": 76,
-      "height": 78
-    },
-    {
-      "path": "pokeenn.gfx/148.png",
-      "xSpot": 32,
-      "ySpot": 92,
-      "width": 76,
-      "height": 94
-    },
-    {
-      "path": "pokeenn.gfx/149.png",
-      "xSpot": 32,
-      "ySpot": 97,
-      "width": 76,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/150.png",
-      "xSpot": 31,
-      "ySpot": 97,
-      "width": 75,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/151.png",
-      "xSpot": 30,
-      "ySpot": 97,
-      "width": 72,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/152.png",
-      "xSpot": 30,
-      "ySpot": 97,
-      "width": 72,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/153.png",
-      "xSpot": 29,
-      "ySpot": 96,
-      "width": 70,
-      "height": 98
-    },
-    {
-      "path": "pokeenn.gfx/154.png",
-      "xSpot": 26,
-      "ySpot": 98,
-      "width": 66,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/155.png",
-      "xSpot": 29,
-      "ySpot": 97,
-      "width": 69,
-      "height": 99
-    },
-    {
-      "path": "pokeenn.gfx/156.png",
-      "xSpot": 28,
-      "ySpot": 97,
-      "width": 68,
-      "height": 100
-    },
-    {
-      "path": "pokeenn.gfx/157.png",
-      "xSpot": 26,
-      "ySpot": 86,
-      "width": 65,
-      "height": 89
-    }
+  "sheets": [
+    {"name": "pikachu_walk_right", "path": "pokeenn.gfx/pikachu_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 78, "y": 0, "w": 79, "h": 70, "xSpot": 37, "ySpot": 67}
+    ]},
+    {"name": "pikachu_walk_left", "frames": [
+      {"from": "pikachu_walk_right", "frame": 0, "op": "flip_h", "xSpot": 29, "ySpot": 61},
+      {"from": "pikachu_walk_right", "frame": 1, "op": "flip_h", "xSpot": 40, "ySpot": 66}
+    ]},
+    {"name": "pikachu_die_right", "path": "pokeenn.gfx/pikachu_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 78, "y": 0, "w": 79, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 157, "y": 0, "w": 87, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 244, "y": 0, "w": 117, "h": 68, "xSpot": 76, "ySpot": 65},
+      {"x": 361, "y": 0, "w": 114, "h": 70, "xSpot": 65, "ySpot": 67},
+      {"x": 475, "y": 0, "w": 123, "h": 71, "xSpot": 68, "ySpot": 68},
+      {"x": 598, "y": 0, "w": 120, "h": 69, "xSpot": 62, "ySpot": 66},
+      {"x": 718, "y": 0, "w": 110, "h": 63, "xSpot": 51, "ySpot": 59},
+      {"x": 828, "y": 0, "w": 110, "h": 66, "xSpot": 51, "ySpot": 59},
+      {"x": 938, "y": 0, "w": 110, "h": 73, "xSpot": 51, "ySpot": 59}
+    ]},
+    {"name": "pikachu_die_left", "path": "pokeenn.gfx/pikachu_die_left.png", "frames": [
+      {"from": "pikachu_die_right", "frame": 0, "op": "flip_h", "xSpot": 29, "ySpot": 61},
+      {"from": "pikachu_die_right", "frame": 1, "op": "flip_h", "xSpot": 30, "ySpot": 61},
+      {"from": "pikachu_die_right", "frame": 2, "op": "flip_h", "xSpot": 38, "ySpot": 61},
+      {"from": "pikachu_die_right", "frame": 3, "op": "flip_h", "xSpot": 40, "ySpot": 65},
+      {"from": "pikachu_die_right", "frame": 4, "op": "flip_h", "xSpot": 48, "ySpot": 67},
+      {"from": "pikachu_die_right", "frame": 5, "op": "flip_h", "xSpot": 54, "ySpot": 68},
+      {"from": "pikachu_die_right", "frame": 6, "op": "flip_h", "xSpot": 57, "ySpot": 66},
+      {"from": "pikachu_die_right", "frame": 7, "op": "flip_h", "xSpot": 58, "ySpot": 59},
+      {"x": 0, "y": 0, "w": 110, "h": 66, "xSpot": 58, "ySpot": 59},
+      {"from": "pikachu_die_right", "frame": 9, "op": "flip_h", "xSpot": 58, "ySpot": 59}
+    ]},
+    {"name": "bulbasaur_walk_right", "path": "pokeenn.gfx/bulbasaur_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 76, "h": 72, "xSpot": 43, "ySpot": 70},
+      {"x": 76, "y": 0, "w": 73, "h": 81, "xSpot": 35, "ySpot": 74}
+    ]},
+    {"name": "bulbasaur_walk_left", "frames": [
+      {"from": "bulbasaur_walk_right", "frame": 0, "op": "flip_h", "xSpot": 32, "ySpot": 70},
+      {"from": "bulbasaur_walk_right", "frame": 1, "op": "flip_h", "xSpot": 36, "ySpot": 74}
+    ]},
+    {"name": "bulbasaur_die_right", "path": "pokeenn.gfx/bulbasaur_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 77, "h": 73, "xSpot": 43, "ySpot": 70},
+      {"x": 77, "y": 0, "w": 83, "h": 73, "xSpot": 43, "ySpot": 70},
+      {"x": 160, "y": 0, "w": 97, "h": 73, "xSpot": 43, "ySpot": 70},
+      {"x": 257, "y": 0, "w": 108, "h": 73, "xSpot": 43, "ySpot": 70},
+      {"x": 365, "y": 0, "w": 112, "h": 74, "xSpot": 42, "ySpot": 71},
+      {"x": 477, "y": 0, "w": 110, "h": 73, "xSpot": 40, "ySpot": 70},
+      {"x": 587, "y": 0, "w": 110, "h": 79, "xSpot": 40, "ySpot": 68},
+      {"x": 697, "y": 0, "w": 110, "h": 79, "xSpot": 40, "ySpot": 66}
+    ]},
+    {"name": "bulbasaur_die_left", "frames": [
+      {"from": "bulbasaur_die_right", "frame": 0, "op": "flip_h", "xSpot": 34, "ySpot": 70},
+      {"from": "bulbasaur_die_right", "frame": 1, "op": "flip_h", "xSpot": 40, "ySpot": 70},
+      {"from": "bulbasaur_die_right", "frame": 2, "op": "flip_h", "xSpot": 54, "ySpot": 70},
+      {"from": "bulbasaur_die_right", "frame": 3, "op": "flip_h", "xSpot": 65, "ySpot": 70},
+      {"from": "bulbasaur_die_right", "frame": 4, "op": "flip_h", "xSpot": 70, "ySpot": 71},
+      {"from": "bulbasaur_die_right", "frame": 5, "op": "flip_h", "xSpot": 70, "ySpot": 70},
+      {"from": "bulbasaur_die_right", "frame": 6, "op": "flip_h", "xSpot": 70, "ySpot": 68},
+      {"from": "bulbasaur_die_right", "frame": 7, "op": "flip_h", "xSpot": 70, "ySpot": 66}
+    ]},
+    {"name": "ember_walk_right", "path": "pokeenn.gfx/ember_walk_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 71, "y": 0, "w": 71, "h": 78, "xSpot": 35, "ySpot": 72}
+    ]},
+    {"name": "ember_walk_left", "path": "pokeenn.gfx/ember_walk_left.png", "frames": [
+      {"from": "ember_walk_right", "frame": 0, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"x": 0, "y": 0, "w": 71, "h": 78, "xSpot": 35, "ySpot": 73}
+    ]},
+    {"name": "ember_die_right", "path": "pokeenn.gfx/ember_die_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 71, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 142, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 213, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 284, "y": 0, "w": 71, "h": 80, "xSpot": 42, "ySpot": 75},
+      {"x": 355, "y": 0, "w": 71, "h": 88, "xSpot": 42, "ySpot": 83},
+      {"x": 426, "y": 0, "w": 71, "h": 102, "xSpot": 42, "ySpot": 97},
+      {"x": 497, "y": 0, "w": 70, "h": 109, "xSpot": 41, "ySpot": 104},
+      {"x": 567, "y": 0, "w": 67, "h": 110, "xSpot": 39, "ySpot": 104},
+      {"x": 634, "y": 0, "w": 69, "h": 110, "xSpot": 41, "ySpot": 104},
+      {"x": 703, "y": 0, "w": 70, "h": 105, "xSpot": 41, "ySpot": 104},
+      {"x": 773, "y": 0, "w": 57, "h": 105, "xSpot": 35, "ySpot": 103},
+      {"x": 830, "y": 0, "w": 45, "h": 105, "xSpot": 25, "ySpot": 104},
+      {"x": 875, "y": 0, "w": 32, "h": 106, "xSpot": 16, "ySpot": 105}
+    ]},
+    {"name": "ember_die_left", "frames": [
+      {"from": "ember_die_right", "frame": 0, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"from": "ember_die_right", "frame": 1, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"from": "ember_die_right", "frame": 2, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"from": "ember_die_right", "frame": 3, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"from": "ember_die_right", "frame": 4, "op": "flip_h", "xSpot": 28, "ySpot": 75},
+      {"from": "ember_die_right", "frame": 5, "op": "flip_h", "xSpot": 28, "ySpot": 83},
+      {"from": "ember_die_right", "frame": 6, "op": "flip_h", "xSpot": 28, "ySpot": 97},
+      {"from": "ember_die_right", "frame": 7, "op": "flip_h", "xSpot": 28, "ySpot": 104},
+      {"from": "ember_die_right", "frame": 8, "op": "flip_h", "xSpot": 26, "ySpot": 105},
+      {"from": "ember_die_right", "frame": 9, "op": "flip_h", "xSpot": 26, "ySpot": 105},
+      {"from": "ember_die_right", "frame": 10, "op": "flip_h", "xSpot": 27, "ySpot": 100},
+      {"from": "ember_die_right", "frame": 11, "op": "flip_h", "xSpot": 19, "ySpot": 100},
+      {"from": "ember_die_right", "frame": 12, "op": "flip_h", "xSpot": 18, "ySpot": 100},
+      {"from": "ember_die_right", "frame": 13, "op": "flip_h", "xSpot": 17, "ySpot": 101}
+    ]},
+    {"name": "com_die", "path": "pokeenn.gfx/com_die.png", "frames": [
+      {"x": 0, "y": 0, "w": 114, "h": 63, "xSpot": 54, "ySpot": 40},
+      {"x": 114, "y": 0, "w": 114, "h": 63, "xSpot": 54, "ySpot": 40},
+      {"x": 228, "y": 0, "w": 114, "h": 63, "xSpot": 54, "ySpot": 40},
+      {"x": 342, "y": 0, "w": 114, "h": 63, "xSpot": 54, "ySpot": 40},
+      {"x": 456, "y": 0, "w": 114, "h": 70, "xSpot": 54, "ySpot": 40},
+      {"x": 570, "y": 0, "w": 114, "h": 73, "xSpot": 54, "ySpot": 40},
+      {"x": 684, "y": 0, "w": 114, "h": 75, "xSpot": 54, "ySpot": 40},
+      {"x": 798, "y": 0, "w": 114, "h": 77, "xSpot": 54, "ySpot": 40},
+      {"x": 912, "y": 0, "w": 114, "h": 77, "xSpot": 54, "ySpot": 40},
+      {"x": 1026, "y": 0, "w": 114, "h": 74, "xSpot": 54, "ySpot": 40},
+      {"x": 1140, "y": 0, "w": 114, "h": 75, "xSpot": 54, "ySpot": 40},
+      {"x": 1254, "y": 0, "w": 114, "h": 75, "xSpot": 54, "ySpot": 40},
+      {"x": 1368, "y": 0, "w": 112, "h": 76, "xSpot": 52, "ySpot": 40},
+      {"x": 1480, "y": 0, "w": 96, "h": 70, "xSpot": 36, "ySpot": 33},
+      {"x": 1576, "y": 0, "w": 100, "h": 78, "xSpot": 40, "ySpot": 33},
+      {"x": 1676, "y": 0, "w": 96, "h": 68, "xSpot": 36, "ySpot": 31},
+      {"x": 1772, "y": 0, "w": 86, "h": 74, "xSpot": 34, "ySpot": 31},
+      {"x": 1858, "y": 0, "w": 77, "h": 76, "xSpot": 22, "ySpot": 35},
+      {"x": 1935, "y": 0, "w": 69, "h": 71, "xSpot": 28, "ySpot": 33},
+      {"x": 0, "y": 78, "w": 57, "h": 67, "xSpot": 23, "ySpot": 33},
+      {"x": 57, "y": 78, "w": 53, "h": 56, "xSpot": 20, "ySpot": 31},
+      {"x": 110, "y": 78, "w": 40, "h": 44, "xSpot": 20, "ySpot": 22}
+    ]},
+    {"name": "com_fly", "path": "pokeenn.gfx/com_fly.png", "frames": [
+      {"x": 0, "y": 0, "w": 114, "h": 63, "xSpot": 54, "ySpot": 40},
+      {"from": "com_fly", "frame": 0, "op": "flip_h", "xSpot": 58, "ySpot": 40}
+    ]},
+    {"name": "pikachu_burn_right", "path": "pokeenn.gfx/pikachu_burn_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 78, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 156, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 234, "y": 0, "w": 78, "h": 64, "xSpot": 48, "ySpot": 61},
+      {"x": 312, "y": 0, "w": 78, "h": 69, "xSpot": 48, "ySpot": 66},
+      {"x": 390, "y": 0, "w": 78, "h": 83, "xSpot": 48, "ySpot": 80},
+      {"x": 468, "y": 0, "w": 74, "h": 94, "xSpot": 48, "ySpot": 91},
+      {"x": 542, "y": 0, "w": 73, "h": 100, "xSpot": 48, "ySpot": 97},
+      {"x": 615, "y": 0, "w": 71, "h": 99, "xSpot": 48, "ySpot": 96},
+      {"x": 686, "y": 0, "w": 61, "h": 99, "xSpot": 38, "ySpot": 96},
+      {"x": 747, "y": 0, "w": 61, "h": 99, "xSpot": 39, "ySpot": 96},
+      {"x": 808, "y": 0, "w": 61, "h": 99, "xSpot": 38, "ySpot": 96},
+      {"x": 869, "y": 0, "w": 59, "h": 97, "xSpot": 36, "ySpot": 94},
+      {"x": 928, "y": 0, "w": 42, "h": 99, "xSpot": 19, "ySpot": 96}
+    ]},
+    {"name": "pikachu_burn_left", "frames": [
+      {"from": "pikachu_burn_right", "frame": 0, "op": "flip_h", "xSpot": 29, "ySpot": 62},
+      {"from": "pikachu_burn_right", "frame": 1, "op": "flip_h", "xSpot": 29, "ySpot": 62},
+      {"from": "pikachu_burn_right", "frame": 2, "op": "flip_h", "xSpot": 29, "ySpot": 62},
+      {"from": "pikachu_burn_right", "frame": 3, "op": "flip_h", "xSpot": 29, "ySpot": 62},
+      {"from": "pikachu_burn_right", "frame": 4, "op": "flip_h", "xSpot": 29, "ySpot": 67},
+      {"from": "pikachu_burn_right", "frame": 5, "op": "flip_h", "xSpot": 29, "ySpot": 81},
+      {"from": "pikachu_burn_right", "frame": 6, "op": "flip_h", "xSpot": 25, "ySpot": 92},
+      {"from": "pikachu_burn_right", "frame": 7, "op": "flip_h", "xSpot": 24, "ySpot": 98},
+      {"from": "pikachu_burn_right", "frame": 8, "op": "flip_h", "xSpot": 22, "ySpot": 97},
+      {"from": "pikachu_burn_right", "frame": 9, "op": "flip_h", "xSpot": 22, "ySpot": 97},
+      {"from": "pikachu_burn_right", "frame": 10, "op": "flip_h", "xSpot": 21, "ySpot": 97},
+      {"from": "pikachu_burn_right", "frame": 11, "op": "flip_h", "xSpot": 22, "ySpot": 97},
+      {"from": "pikachu_burn_right", "frame": 12, "op": "flip_h", "xSpot": 22, "ySpot": 95},
+      {"from": "pikachu_burn_right", "frame": 13, "op": "flip_h", "xSpot": 22, "ySpot": 97}
+    ]},
+    {"name": "bulbasaur_burn_right", "path": "pokeenn.gfx/bulbasaur_burn_right.png", "frames": [
+      {"x": 0, "y": 0, "w": 76, "h": 72, "xSpot": 43, "ySpot": 70},
+      {"x": 76, "y": 0, "w": 76, "h": 72, "xSpot": 43, "ySpot": 70},
+      {"x": 152, "y": 0, "w": 76, "h": 72, "xSpot": 43, "ySpot": 70},
+      {"x": 228, "y": 0, "w": 76, "h": 72, "xSpot": 43, "ySpot": 70},
+      {"x": 304, "y": 0, "w": 76, "h": 78, "xSpot": 43, "ySpot": 76},
+      {"x": 380, "y": 0, "w": 76, "h": 94, "xSpot": 43, "ySpot": 92},
+      {"x": 456, "y": 0, "w": 76, "h": 99, "xSpot": 43, "ySpot": 97},
+      {"x": 532, "y": 0, "w": 75, "h": 99, "xSpot": 43, "ySpot": 97},
+      {"x": 607, "y": 0, "w": 72, "h": 99, "xSpot": 41, "ySpot": 97},
+      {"x": 679, "y": 0, "w": 72, "h": 99, "xSpot": 41, "ySpot": 97},
+      {"x": 751, "y": 0, "w": 70, "h": 98, "xSpot": 40, "ySpot": 96},
+      {"x": 821, "y": 0, "w": 66, "h": 100, "xSpot": 39, "ySpot": 97},
+      {"x": 887, "y": 0, "w": 69, "h": 99, "xSpot": 39, "ySpot": 97},
+      {"x": 956, "y": 0, "w": 68, "h": 100, "xSpot": 39, "ySpot": 97},
+      {"x": 1024, "y": 0, "w": 65, "h": 89, "xSpot": 38, "ySpot": 87}
+    ]},
+    {"name": "bulbasaur_burn_left", "frames": [
+      {"from": "bulbasaur_burn_right", "frame": 0, "op": "flip_h", "xSpot": 32, "ySpot": 70},
+      {"from": "bulbasaur_burn_right", "frame": 1, "op": "flip_h", "xSpot": 32, "ySpot": 70},
+      {"from": "bulbasaur_burn_right", "frame": 2, "op": "flip_h", "xSpot": 32, "ySpot": 70},
+      {"from": "bulbasaur_burn_right", "frame": 3, "op": "flip_h", "xSpot": 32, "ySpot": 70},
+      {"from": "bulbasaur_burn_right", "frame": 4, "op": "flip_h", "xSpot": 32, "ySpot": 76},
+      {"from": "bulbasaur_burn_right", "frame": 5, "op": "flip_h", "xSpot": 32, "ySpot": 92},
+      {"from": "bulbasaur_burn_right", "frame": 6, "op": "flip_h", "xSpot": 32, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 7, "op": "flip_h", "xSpot": 31, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 8, "op": "flip_h", "xSpot": 30, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 9, "op": "flip_h", "xSpot": 30, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 10, "op": "flip_h", "xSpot": 29, "ySpot": 96},
+      {"from": "bulbasaur_burn_right", "frame": 11, "op": "flip_h", "xSpot": 26, "ySpot": 98},
+      {"from": "bulbasaur_burn_right", "frame": 12, "op": "flip_h", "xSpot": 29, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 13, "op": "flip_h", "xSpot": 28, "ySpot": 97},
+      {"from": "bulbasaur_burn_right", "frame": 14, "op": "flip_h", "xSpot": 26, "ySpot": 86}
+    ]}
   ]
 }

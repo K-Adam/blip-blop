@@ -1,79 +1,69 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.18)
 
-project(blipblop)
+project(blipblop CXX)
 
-find_package(SDL2 REQUIRED)
-find_library(SDL2_LIBRARIES SDL2)
-find_library(SDL2IMAGE_LIBRARIES SDL2_image)
-find_library(SDL2MIXER_LIBRARIES SDL2_mixer)
-find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-aux_source_directory(src SRC)
-aux_source_directory(src/menus MENUS_SRC)
+file(GLOB_RECURSE SRC CONFIGURE_DEPENDS src/*.cpp)
 
-include_directories(include)
+add_executable(blipblop ${SRC})
+target_include_directories(blipblop PRIVATE src include)
 
-if(WIN32)
-    add_executable(blipblop ${SRC} ${MENUS_SRC})
-    target_link_libraries(blipblop PUBLIC ${SDL2_LIBRARIES})
-    target_link_libraries(blipblop PUBLIC ${SDL2IMAGE_LIBRARIES})
-    target_link_libraries(blipblop PUBLIC ${SDL2MIXER_LIBRARIES})
-    target_include_directories(blipblop SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
-
-    set(CMAKE_INSTALL_UCRT_LIBRARIES true)
-    include(InstallRequiredSystemLibraries)
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/"
-        DESTINATION .
-        FILES_MATCHING PATTERN "*.dll")
-elseif(EMSCRIPTEN)
-    add_executable(blipblop WIN32 ${SRC} ${MENUS_SRC})
-
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 -sSDL2_IMAGE_FORMATS='[\"bmp\",\"png\"]'")
+if(MSVC)
+    target_compile_options(blipblop PRIVATE /W3 /utf-8)
 else()
-    add_executable(blipblop WIN32 ${SRC} ${MENUS_SRC})
-    target_link_libraries(blipblop SDL2)
-
-    target_link_libraries(blipblop SDL2_image)
-    target_link_libraries(blipblop SDL2_mixer)
+    target_compile_options(blipblop PRIVATE -Wall)
 endif()
 
 if(EMSCRIPTEN)
-    set(PRELOAD_FILE_OPTION "--preload-file assets --preload-file config")
-    set(ADDITIONAL_LINK_FLAGS "-sASYNCIFY -sALLOW_MEMORY_GROWTH")
-
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -g -gsource-map -fexceptions -sNO_DISABLE_EXCEPTION_CATCHING")
-        set(ADDITIONAL_LINK_FLAGS "${ADDITIONAL_LINK_FLAGS} -s EXCEPTION_DEBUG=1")
-    endif()
-
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif()
-
-    set_target_properties(blipblop PROPERTIES OUTPUT_NAME "index")
-    set_target_properties(blipblop PROPERTIES LINK_FLAGS "${PRELOAD_FILE_OPTION} ${ADDITIONAL_LINK_FLAGS}")
+    set(SDL_PORTS -sUSE_SDL=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_IMAGE=2 "-sSDL2_IMAGE_FORMATS=[\"bmp\",\"png\"]")
+    target_compile_options(blipblop PRIVATE ${SDL_PORTS} $<$<CONFIG:Debug>:-fexceptions -sNO_DISABLE_EXCEPTION_CATCHING>)
+    target_link_options(blipblop PRIVATE ${SDL_PORTS} -sALLOW_MEMORY_GROWTH -lidbfs.js
+        "SHELL:--shell-file ${CMAKE_SOURCE_DIR}/web/shell.html" "SHELL:--pre-js ${CMAKE_SOURCE_DIR}/web/pre.js"
+        "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/assets@assets" "SHELL:--preload-file ${CMAKE_SOURCE_DIR}/config@config_defaults"
+        $<$<CONFIG:Debug>:-gsource-map -fexceptions -sNO_DISABLE_EXCEPTION_CATCHING -sEXCEPTION_DEBUG=1>)
+    set_target_properties(blipblop PROPERTIES OUTPUT_NAME "index" SUFFIX ".html")
+    set_property(TARGET blipblop APPEND PROPERTY LINK_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell.html ${CMAKE_SOURCE_DIR}/web/pre.js)
+elseif(WIN32)
+    find_package(SDL2 CONFIG REQUIRED)
+    target_link_libraries(blipblop PRIVATE SDL2::SDL2)
+    # Plain library lookup because some vcpkg SDL2_image configs demand codecs that were not built
+    foreach(lib SDL2_image SDL2_mixer)
+        find_library(${lib}_RELEASE ${lib} REQUIRED)
+        find_library(${lib}_DEBUG NAMES ${lib}d ${lib} REQUIRED)
+        target_link_libraries(blipblop PRIVATE optimized ${${lib}_RELEASE} debug ${${lib}_DEBUG})
+    endforeach()
 else()
-    install(DIRECTORY ./assets DESTINATION .)
+    target_link_libraries(blipblop PRIVATE SDL2 SDL2_image SDL2_mixer)
 endif()
 
-install(TARGETS blipblop RUNTIME DESTINATION .)
+if(NOT EMSCRIPTEN)
+    option(BUILD_TESTING "Build the end to end tests" ON)
+    if(BUILD_TESTING)
+        enable_testing()
+        add_subdirectory(tests)
+    endif()
+
+    install(TARGETS blipblop RUNTIME DESTINATION .)
+    install(DIRECTORY assets config DESTINATION .)
+    if(WIN32)
+        set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+        include(InstallRequiredSystemLibraries)
+        install(DIRECTORY $<TARGET_FILE_DIR:blipblop>/ DESTINATION . FILES_MATCHING PATTERN "*.dll")
+    endif()
+endif()
 
 set(CPACK_PACKAGE_NAME "BlipnBlop")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Blip & Blop revamped")
 set(CPACK_PACKAGE_VENDOR "Loaded Studios")
 set(CPACK_DEBIAN_PACKAGE_NAME "blipnblop")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libSDL2, libSD2-mixer")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl2-2.0-0, libsdl2-image-2.0-0, libsdl2-mixer-2.0-0")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Blip & Blop revamped")
 set(CPACK_PACKAGE_EXECUTABLES "blipblop" "BlipnBlop")
-
-if(WIN32)
-    set(CPACK_NSIS_DISPLAY_NAME "Blip & Blop")
-    set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-endif()
+set(CPACK_NSIS_DISPLAY_NAME "Blip & Blop")
+set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 
 include(CPack)

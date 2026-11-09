@@ -1,0 +1,121 @@
+#include <fstream>
+
+#include "engine/graphics.h"
+
+#include "core/debug.h"
+#include "engine/font.h"
+#include <json.h>
+#include "core/asset_path.h"
+
+#include <SDL2/SDL_image.h>
+
+using json = nlohmann::json;
+
+bool Font::load(const char* file_path) {
+	auto font_path = asset_path_prefix("lft", file_path);
+	std::ifstream input(font_path + ".json");
+	if (!input.good()) {
+		debug << "Font::load->Ne peut pas ouvrir " << font_path + ".json"
+			  << "\n";
+		return false;
+	}
+
+	json data = json::parse(input);
+
+	pictab_.clear();
+	pictab_.resize(256);
+
+	h = data["h"];
+	spc = data["spc"];
+
+	std::string image_path = asset_path_prefix("lft", data["path"].get<std::string>().c_str());
+	SDL_Surface* surf = IMG_Load(image_path.c_str());
+	if (surf == NULL) {
+		debug << "Can not load image " << image_path << "\n";
+		return false;
+	}
+	atlas_ = std::make_unique<SDL::Surface>(surf);
+
+	for (auto& [key, g] : data["glyphs"].items()) {
+		int c = std::stoi(key);
+		if (c > 0 && c < 256) pictab_[c] = std::make_unique<Picture>(atlas_.get(), SDL_Rect{g["x"], g["y"], g["w"], g["h"]}, 0, 0);
+	}
+
+	return true;
+}
+
+void Font::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
+	int curx = x;
+
+	for (unsigned char c : txt) {
+		if (c == ' ') {
+			curx += spc;
+		} else if (pictab_[c] != NULL) {
+			pictab_[c]->BlitTo(surf, curx, y);
+			curx += pictab_[c]->xSize();
+		}
+	}
+}
+
+void Font::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+	int curx = x;
+	int cury = y;
+
+	for (unsigned char c : txt) {
+		if (c == ' ') {
+			curx += spc;
+		} else if (pictab_[c] != NULL) {
+			int nx = curx + pictab_[c]->xSize();
+
+			if (nx >= ym) {
+				cury += h;
+				pictab_[c]->BlitTo(surf, x, cury);
+				curx = x + pictab_[c]->xSize();
+			} else {
+				pictab_[c]->BlitTo(surf, curx, cury);
+				curx = nx;
+			}
+		}
+	}
+}
+
+void Font::printR(SDL::Surface* surf, int x, int y, std::string_view txt) { print(surf, x - width(txt), y, txt); }
+
+void Font::printC(SDL::Surface* surf, int xcenter, int y, std::string_view txt) { print(surf, xcenter - (width(txt) >> 1), y, txt); }
+
+void Font::printMW(SDL::Surface* surf, int x, int y, std::string_view txt, int ym) {
+	int curx = x;
+	int cury = y;
+	size_t pos = 0;
+
+	while ((pos = txt.find_first_not_of(' ', pos)) != std::string_view::npos) {
+		size_t end = txt.find(' ', pos);
+		std::string_view word = txt.substr(pos, end - pos);
+		pos = end;
+		int nx = width(word);
+
+		if (curx + nx > ym) {
+			cury += h;
+			print(surf, x, cury, word);
+			curx = x + nx;
+		} else {
+			print(surf, curx, cury, word);
+			curx += nx;
+		}
+
+		curx += spc;
+	}
+}
+
+int Font::width(std::string_view txt) {
+	int l = 0;
+
+	for (unsigned char c : txt) {
+		if (c == ' ')
+			l += spc;
+		else if (pictab_[c] != NULL)
+			l += pictab_[c]->xSize();
+	}
+
+	return l;
+}

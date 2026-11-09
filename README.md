@@ -1,94 +1,95 @@
-# Web port
-
-The game is available at https://k-adam.github.io/blip-blop/
-
-This repository is a fork of the game Blip'n Blop, with the primary goal of
-making the game playable on the web. While additions to the game's features
-are welcomed, the major goal of this fork is to ensure that people may
-access and enjoy the game directly through web browsers.
-
-# Forker's notes
-
-I am mainly trying to modernize the code. Both in terms of C++ features, and
-features (mainly trying not to lock the game in 640x480, adding a few shaders
-and stuff).
-
-As the code is kinda old, there's a lot of revamping to do, and a lot of
-optimizations done back in the days shouldn't be relevant anymore. The code
-contains a FUCKTON of global variables, to the point where I'm in awe that
-somehow the game works flawlessly. The quantity of global variables declared
-and handled all over the places is truly unmanageable.
-
-As a french, I can work my way through the code, and although I'll be
-translating comments as I skim through it, there are some really funny gems
-that I'd rather not translate as they'd break the stupidity that made Blip'n
-Blop famous. I would rather have a separate lexicon for the fellas that can't
-french.
-
-This project is HUGE for two students. Kudos to you guys, it's a LOT of work,
-and even if the quality is, uh, debatable, the game actually works flawlessly
-and you undeniably got the work done. I can hardly believe every single error
-has been handled, even memory allocation failures, so that the game wouldn't
-crash (some, including me, would say that it's easier for a developper to
-handle a crash, rather than propagating / circumventing silently an error that
-would still disallow the gamer to properly play the game). Congrats and thanks!
-
-## Lexicon
-
-- Couille: testicle. That's what the players are, and the code is in
-  couille.{cpp,h}
-- schnuff: "thing". It's not french, it's a made up word, don't look at me like
-  that
-- snuf: Smurf?
-- Tête de turc: a person that gets all the hate. In the game engine, the
-  enemies are fighting one of the two couilles at a time, who is then called
-  "la tête de turc". See `Game::tete_turc`
-
-## When I laughed
-
-- "couille" in the code
-- "schnuff"
-- Tête de turc. That's kinda informal and slang.
-- `SuperListe` (=AwesomeList). And it's actually really not awesome, it's a
-  `void*` based linked list with an embedded STATEFUL iterator. I'm sad I have
-  to remove it to use actual vectors.
-- `SuperListe::vide_porc`: empty (like a?) pork, meaning "in an unclean way".
-  IDK why, the code is exactly the same as the unporked version.
-- `SuperListe::supprime_porc`: removes an element of the list without freeing
-  its memory (ie, it's a non-owning list)
-- 'Gère les messages. Eh oui, Windows pue du cul' (Handles messages. Yeah,
-  Windows' ass stinks, nota: Ben Karaban apparently works for MS now)
-- A variable is named 'glorf'.
-- "Gère le scrolling avec le super buffer qui marche bizarrement sur cette
-  merde de GeForce." (Handles scrolling with the awesome buffer that works
-  weirdly on this shitty GeForce)
-- After a failed `new`, in a log message: "Nani? Not enough memory???"
-- "Affiche les têtes de con" (Show the fucktard' faces)
-- "Destructeur -> On est pas des Brujahs..."
-
-## Significant differences
-
-- The menus were a big pile of switch case in a single class. The pause menu
-  and the title screen menu were just a big copy paste. I cleaned up all that.
-  Take a look at `menus/`. Pause menu and title screen menu are now the same
-  thing
-- Added a "TOGGLE FULLSCREEN" option.
-- Fixed a bug that prevented unix like os from playing. Some level descriptions
-  contained path containing backslashes that failed. Now backslashes are
-  handled.
-- MusicBank has been reworked a lot
-- For some reasons, there were (and still are) too many nonsensical bridges in
-  this code. There's a Direct3D simulated API implented in SDL, a FMOD fake API
-  implemented in SDL mixer, and a windows API implemented with Linux syscalls.
-  I guess those came from the first revamping of the code in 2014; the
-  developper must have thought that implementing a bridge would be easier than
-  manipulating the code.
-
 # Blip'n Blop
-This is the source code of Blip'n Blop, a free video game for the PC released in 2002. Years after the game got released, some enthusiastic programmers asked us to open source it and here we are!
 
-A few things to keep in mind:
-- this was writen when we were still students so the code quality and the (lack of) architecture can be disturbing
-- the code is mostly written in a terrible mix of french and english, which should be kind of akward to read for non french speaking people (actually, it's kind of awkward even for french people! :p )
-- the various editors can be quite complicated to get working because they relied on various cryptic INI files
+A run and gun game for one or two players, released for free on the PC in 2002 by LOADED Studio. This fork ports it to SDL2 so it runs on Windows, Linux and in the browser.
 
+Play it in the browser: https://k-adam.github.io/blip-blop/
+
+## Playing
+
+Choose START GAME. Each player joins by pressing jump on the keyboard, the mouse fire button, or A or Start on a controller. Press again on the same device to start, or press Escape to go back.
+
+Default controls, all changeable in OPTIONS:
+
+| Action | Keyboard | Mouse and keyboard | Controller          |
+| ------ | -------- | ------------------ | ------------------- |
+| Move   | Arrows   | A / D, S down      | D-pad or left stick |
+| Aim    | Arrows   | Mouse              | Right stick         |
+| Jump   | Z        | W                  | Left trigger        |
+| Fire   | X        | Left click         | Right trigger       |
+| Super  | C        | Middle click       | Right shoulder      |
+| Pause  | Escape   | Escape             | Start or Back       |
+
+OPTIONS also toggles fullscreen and vsync. HIGH SCORES on the main menu shows the table.
+
+Settings and high scores are saved in `config/` next to the game. The browser version keeps them in browser storage.
+
+## Building
+
+Requires CMake 3.18+, a C++20 compiler, and SDL2 with SDL2_image and SDL2_mixer. The first configure downloads GoogleTest for the tests.
+
+Linux:
+
+    sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
+    cmake -B build -DCMAKE_BUILD_TYPE=Release
+    cmake --build build -j
+
+Windows, with vcpkg:
+
+    vcpkg install sdl2 sdl2-image sdl2-mixer --triplet x64-windows
+    cmake -B build -DCMAKE_TOOLCHAIN_FILE=<vcpkg root>/scripts/buildsystems/vcpkg.cmake
+    cmake --build build --config Release
+
+Web, with Emscripten: `./web_build.sh` builds into `build-web/bin`.
+
+The game loads `assets/` and `config/` from the working directory. Run it from the repository root, or run `cmake --install build --prefix <dir>` to get a folder that runs on its own. Running from the repository writes your settings into the tracked `config/` files, so don't commit those.
+
+## Contributing
+
+- **Formatting:** clang-format 13, the version CI checks. Enable the hook once per clone:
+
+      pip install clang-format==13.0.1
+      git config core.hooksPath .githooks
+
+- **Tests:** `ctest --test-dir build -C Release`. These GoogleTest end to end tests run the game headless with scripted input. They check the log for expected lines and that two runs draw identical frames.
+- **CI:** every push builds on Linux, Windows and Emscripten, and checks formatting. Pushes to `main` deploy the web build to GitHub Pages.
+
+### Command line
+
+| Flag                     | Effect                                                       |
+| ------------------------ | ------------------------------------------------------------ |
+| `/safe`                  | Windowed 640x480, ignoring the fullscreen setting            |
+| `/quiet`                 | No music                                                     |
+| `/cheat`                 | Enables the cheat keys                                       |
+| `/autoquit <frames>`     | Exits after that many frames                                 |
+| `/input "frame:Key,..."` | Presses keys at given frames, for example `200:Return,260:Z` |
+
+Cheat keys: F1/F5 ammo (hold), F2/F6 cow bomb, F3/F7 extra life (player 1/player 2), F9 skip level, F12 FPS.
+
+To replay a test run exactly, set `BB_FIXEDSTEP=1`. For headless runs, also set `SDL_VIDEODRIVER=dummy` and `SDL_AUDIODRIVER=dummy`.
+
+### Layout
+
+| Path                       | Contents                                                                   |
+| -------------------------- | -------------------------------------------------------------------------- |
+| `src/core`                 | Startup, main loop, config, high scores                                    |
+| `src/engine`               | Graphics, input, sound, sprite banks, fonts                                |
+| `src/entities`             | Players, enemies, shots, bonuses                                           |
+| `src/level`                | Level loading, scrolling, events                                           |
+| `src/menus`                | Title, pause, options, key binding and join screens                        |
+| `src/cinematics`           | Cutscenes and in-level dialogues                                           |
+| `assets/gfx`               | Sprite banks: a `.gfx.json` of named animation sheets, with its PNG folder |
+| `assets/lvl`, `cin`, `rpg` | Levels, cutscenes and dialogues as JSON                                    |
+| `assets/lft`, `sfx`, `mbk` | Fonts, sound effects, music                                                |
+| `assets/uk.dat.json`       | Game text                                                                  |
+
+## Possible improvements
+
+Help is welcome on any of these:
+
+- **Resolution:** support resolutions other than 640x480. It is fixed in `src/core/main.cpp`.
+- **Translations:** restore the French translation. The code can load `fr.dat`, but only the English text ships.
+- **Touch controls:** add them to the web build, for phones and tablets.
+- **Tests:** cover more ground. The tests reach only the first world.
+- **Data formats:** document the JSON formats of levels, cutscenes and dialogues, or add an editor for them.
+- **Global state:** group it into objects, starting with `src/level/world.h` and `src/core/assets.h`.
+- **Legacy shims:** replace the FMOD-style sound layer and the `DIK_` key aliases with direct SDL calls.

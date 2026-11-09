@@ -1,4 +1,4 @@
 #!/bin/bash
-
-emcmake cmake -DCMAKE_BUILD_TYPE=Release
-cmake --build . -j 4
+set -e
+emcmake cmake -B build-web -DCMAKE_BUILD_TYPE=Release
+cmake --build build-web -j 4
