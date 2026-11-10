@@ -14,7 +14,7 @@ bool SoundBank::loadSFX(const char* file_name) {
 	auto dir = asset_path_prefix("sfx", file_name);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "SoundBank::loadSFX() -> Impossible d'ouvrir le fichier " << dir + ".json"
+		debug << "SoundBank::loadSFX() -> Cannot open " << dir + ".json"
 			  << "\n";
 		return false;
 	}
@@ -24,7 +24,7 @@ bool SoundBank::loadSFX(const char* file_name) {
 	size_t nb_snd = data["items"].size();
 
 	if (nb_snd < 1) {
-		debug << "SoundBank::loadSFX() -> Fichier " << file_name << " corrompu\n";
+		debug << "SoundBank::loadSFX() -> File " << file_name << " corrupted!\n";
 		return false;
 	}
 	tab_.clear();
@@ -42,7 +42,7 @@ void SoundBank::play(int n, int flags) {
 	if (!sound_on) return;
 
 	if ((size_t)n >= tab_.size()) {
-		debug << "Tentative de jouer son " << n << "\n";
+		debug << "Trying to play missing sound " << n << "\n";
 		return;
 	}
 

@@ -72,7 +72,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 			std::string name = item["name"];
 			std::stringstream param_stream;
 
-			bool first = false;
+			bool first = true;
 			for (auto param : item["params"]) {
 				if (first) {
 					first = false;
@@ -183,9 +183,9 @@ void CINEPlayer::updateState() {
 		if (cmd_name == "endscene") {
 			finished = true;
 		} else if (cmd_name == "loadgfx") {
-			if (!pbk.loadGFX(str_arg[0].c_str())) error("ne peut pas charger le fichier GFX");
+			if (!pbk.loadGFX(str_arg[0].c_str())) error("cannot load GFX file");
 		} else if (cmd_name == "loadmbk") {
-			if (!mbk.open(str_arg[0].c_str())) error("ne peut pas charger la MBK");
+			if (!mbk.open(str_arg[0].c_str())) error("cannot load MBK");
 		} else if (cmd_name == "playmusic") {
 			mbk.play(int_arg[0]);
 		} else if (cmd_name == "stopmusic") {
@@ -194,7 +194,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].x = int_arg[1];
 				obj[n].y = int_arg[2];
@@ -203,12 +203,12 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				const Picture* pic = pbk.frame(str_arg[1]);
 
 				if (pic == nullptr)
-					error("numéro d'image invalide");
+					error("invalid picture number");
 				else {
 					obj[n].id = OBJ_SPRITE;
 					obj[n].pic = pic;
@@ -219,7 +219,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].dx = int_arg[1];
 				obj[n].dy = int_arg[2];
@@ -229,7 +229,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].id = OBJ_TEXT;
 				obj[n].txt = int_arg[1];
@@ -239,7 +239,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].show = false;
 				obj[n].dx = 0;
@@ -271,7 +271,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else if (nb_args < 5)
 				error("setanim needs at least one frame");
 			else {
@@ -296,7 +296,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].x_warp = true;
 				obj[n].x_warp1 = int_arg[1];
@@ -306,7 +306,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].y_warp = true;
 				obj[n].y_warp1 = int_arg[1];
@@ -316,7 +316,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].nb_anim = false;
 			}
@@ -326,9 +326,9 @@ void CINEPlayer::updateState() {
 		} else if (cmd_name == "setdeltaalpha") {
 			delta_alpha = int_arg[0];
 		} else if (cmd_name == "setbackcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("invalid layer number");
 		} else if (cmd_name == "setclipcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("invalid layer number");
 		} else if (cmd_name == "setvolume") {
 			delta_vol = 0;
 		} else if (cmd_name == "setdeltavolume") {

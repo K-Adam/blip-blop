@@ -350,6 +350,6 @@ void EventEnemy::doEvent() {
 
 		if (new_enemy->count()) nb_enemies_created += 1;
 	} else {
-		debug << "Erreur : identité d'ennemi inconnue (" << enemy_id << ")\n";
+		debug << "Unknown enemy id (" << enemy_id << ")\n";
 	}
 }

@@ -311,6 +311,6 @@ void EventAnimatedBackground::doEvent() {
 		else
 			list_animated_bgs.emplace_back(s);
 	} else {
-		debug << "Erreur : identité de fond animé inconnue (" << bg_id << ")\n";
+		debug << "Unknown animated background id (" << bg_id << ")\n";
 	}
 }

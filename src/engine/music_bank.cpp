@@ -14,7 +14,7 @@ bool MusicBank::open(const char* file, bool loop) {
 	auto dir = asset_path_prefix("mbk", file);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
-		debug << "MusicBank::load() -> Impossible d'ouvrir le fichier " << dir + ".json"
+		debug << "MusicBank::load() -> Cannot open " << dir + ".json"
 			  << "\n";
 		return false;
 	}
@@ -23,7 +23,7 @@ bool MusicBank::open(const char* file, bool loop) {
 
 	size_t nb_musics = data["items"].size();
 	if (nb_musics < 1) {
-		debug << "MusicBank::load() -> Fichier " << file << " corrompu (" << nb_musics << ")\n";
+		debug << "MusicBank::load() -> File " << file << " corrupted! (" << nb_musics << ")\n";
 		return false;
 	}
 
@@ -44,9 +44,7 @@ void MusicBank::play(int n) {
 	if (!music_on) return;
 
 	if (n < 0 || (size_t)n >= musics_.size()) {
-		debug << "MusicBank::play() -> Tentative de jouer une musique non "
-				 "chargée : "
-			  << n << "\n";
+		debug << "MusicBank::play() -> Trying to play missing music " << n << "\n";
 		return;
 	}
 

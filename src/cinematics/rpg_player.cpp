@@ -84,7 +84,7 @@ bool RPGPlayer::startPlay(int n) {
 	while (!file_.eof() && buffer1_ != buffer2_) std::getline(file_, buffer2_);
 
 	if (file_.eof()) {
-		debug << "RPGPlayer::startPlay() -> Ne trouve pas la scene " << n << "\n";
+		debug << "RPGPlayer::startPlay() -> Cannot find scene " << n << "\n";
 		return false;
 	}
 
@@ -244,7 +244,7 @@ bool RPGPlayer::read() {
 	return !file_.eof();
 }
 
-void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n"; }
+void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Syntax error: '" << err_msg << "'\n"; }
 
 const Picture* RPGPlayer::portrait(int n) const {
 	if (pic_tab[n] == NULL || nimage[n] < 0) return nullptr;

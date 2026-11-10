@@ -15,7 +15,7 @@ bool Font::load(const char* file_path) {
 	auto font_path = asset_path_prefix("lft", file_path);
 	std::ifstream input(font_path + ".json");
 	if (!input.good()) {
-		debug << "Font::load->Ne peut pas ouvrir " << font_path + ".json"
+		debug << "Font::load->Cannot open " << font_path + ".json"
 			  << "\n";
 		return false;
 	}
