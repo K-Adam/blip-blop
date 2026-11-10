@@ -7,7 +7,10 @@ MainMenu::MainMenu() {
 	items_.AddEntry(txt_data[TXT_START_GAME]);
 	items_.AddEntry("HIGH SCORES");
 	items_.AddEntry("OPTIONS");
+#ifndef __EMSCRIPTEN__
+	// A browser tab cannot be closed by the page, quitting would leave a frozen canvas
 	items_.AddEntry(txt_data[TXT_EXIT]);
+#endif
 }
 
 int MainMenu::ProcessEvent() {
