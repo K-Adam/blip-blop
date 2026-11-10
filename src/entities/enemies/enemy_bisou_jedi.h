@@ -25,13 +25,13 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 
 	void update() override {
 		if (intro) {
-			if (x > offset + 450) {
+			if (x > level().camera.offset + 450) {
 				EnemyBisouJedi::onWalk();
 				col_on = false;
 			} else {
 				intro = false;
-				game_flag[FLAG_USER1] = 1;
-				game_flag[FLAG_GEN_OFF] = 0;
+				level().rules.flags[FLAG_USER1] = 1;
+				level().rules.flags[FLAG_GEN_OFF] = 0;
 			}
 		} else {
 			EnemyBisouJedi::update();
@@ -42,8 +42,8 @@ class EnemyBisouJediHero : public EnemyBisouJedi {
 		EnemyBisouJedi::takeHit(shot);
 
 		if (hp <= 0) {
-			game_flag[FLAG_USER1] = 2;
-			game_flag[FLAG_GEN_OFF] = 1;
+			level().rules.flags[FLAG_USER1] = 2;
+			level().rules.flags[FLAG_GEN_OFF] = 1;
 		}
 	}
 };

@@ -2,7 +2,7 @@
 #include "core/debug.h"
 
 ShotShell::ShotShell() {
-	pic = pbk_enemies.anim("shell_spin")[0];
+	pic = assets().pics.enemies.anim("shell_spin")[0];
 	bounced = false;
 }
 
@@ -16,16 +16,16 @@ void ShotShell::update() {
 		anim_step += 1;
 		anim_step %= 4;
 	}
-	pic = pbk_enemies.anim("shell_spin")[anim_step];
+	pic = assets().pics.enemies.anim("shell_spin")[anim_step];
 
-	if (solid_wall(x - SHELL_SPEED, y)) {
+	if (level().terrain.solid_wall(x - SHELL_SPEED, y)) {
 		if (bounced) {
 			destroyed = true;
 		} else {
 			dir = FACING_RIGHT;
 			bounced = true;
 		}
-	} else if (solid_wall(x + SHELL_SPEED, y)) {
+	} else if (level().terrain.solid_wall(x + SHELL_SPEED, y)) {
 		if (bounced) {
 			destroyed = true;
 		} else {
@@ -39,7 +39,7 @@ void ShotShell::update() {
 	} else {
 		x += SHELL_SPEED;
 	}
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
+	if (x < level().camera.offset - 100 || x > level().camera.offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	colFromPic();
 }

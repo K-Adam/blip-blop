@@ -11,7 +11,7 @@ void EnemyCOMHero::update() {
 		x += dx;
 		fall();
 		int yp;
-		if ((dy > 0) && (yp = platform_y(x, y + dy)) != 0) {
+		if ((dy > 0) && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 			status = STATE_NORMAL;
 			dy = 0;
 			y = yp;
@@ -26,7 +26,7 @@ void EnemyCOMHero::update() {
 				anim_step++;
 				anim_step %= 4;
 			}
-			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
+			pic = assets().pics.enemies.anim("dorkeball_spin")[anim_step];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -38,7 +38,7 @@ void EnemyCOMHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies.anim("com_release")[anim_step];
+				pic = assets().pics.enemies.anim("com_release")[anim_step];
 			}
 		}
 
@@ -66,9 +66,9 @@ void EnemyCOMHero::onWalk() {
 
 	step(8, 2);
 
-	if (x - 1 < xmin || solid_wall(x - 1, y))
+	if (x - 1 < xmin || level().terrain.solid_wall(x - 1, y))
 		dir = FACING_RIGHT;
-	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+	else if (x + 1 > level().camera.offset + 640 || level().terrain.solid_wall(x + 1, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
@@ -77,7 +77,7 @@ void EnemyCOMHero::onWalk() {
 		walk(-2);
 	}
 
-	pic = pbk_enemies.anim("com_hover")[anim_step];
+	pic = assets().pics.enemies.anim("com_hover")[anim_step];
 
 	colFromPic();
 }
@@ -91,10 +91,10 @@ void EnemyCOMHero::onDie() {
 	if (anim_tick == 0 && anim_step < 22) anim_step += 1;
 
 	if (anim_step >= 22) {
-		game_flag[1]--;
+		level().rules.flags[1]--;
 		destroyed = true;
 	} else {
-		pic = pbk_enemies.anim("com_die")[anim_step];
+		pic = assets().pics.enemies.anim("com_die")[anim_step];
 	}
 }
 

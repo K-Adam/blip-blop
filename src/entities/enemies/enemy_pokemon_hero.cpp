@@ -6,7 +6,7 @@ EnemyPokemonHero::EnemyPokemonHero(const PokemonHeroSpec& spec) : spec_(spec), d
 	treasure = spec.treasure;
 }
 
-Flipbook EnemyPokemonHero::anim(const std::string& action) const { return pbk_enemies.anim(spec_.name + ("_" + action)); }
+Flipbook EnemyPokemonHero::anim(const std::string& action) const { return assets().pics.enemies.anim(spec_.name + ("_" + action)); }
 
 Flipbook EnemyPokemonHero::facing(const std::string& action) const { return anim(action + (dir == FACING_RIGHT ? "_right" : "_left")); }
 
@@ -15,8 +15,8 @@ void EnemyPokemonHero::update() {
 		x += dx;
 		fall();
 		int yp;
-		if ((dy > 0) && (yp = platform_y(x, y + dy)) != 0) {
-			if (spec_.land_sound >= 0) sbk_level.play(spec_.land_sound);
+		if ((dy > 0) && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
+			if (spec_.land_sound >= 0) assets().sounds.level.play(spec_.land_sound);
 			status = STATE_NORMAL;
 			dy = 0;
 			y = yp;
@@ -25,7 +25,7 @@ void EnemyPokemonHero::update() {
 			dorkeball = 1;
 			return;
 		} else {
-			pic = pbk_enemies.anim("dorkeball_spin")[step(5, 4)];
+			pic = assets().pics.enemies.anim("dorkeball_spin")[step(5, 4)];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -65,9 +65,9 @@ void EnemyPokemonHero::onWalk() {
 
 	step(8, 2);
 
-	if (x - 1 < xmin || solid_wall(x - 1, y))
+	if (x - 1 < xmin || level().terrain.solid_wall(x - 1, y))
 		dir = FACING_RIGHT;
-	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+	else if (x + 1 > level().camera.offset + 640 || level().terrain.solid_wall(x + 1, y))
 		dir = FACING_LEFT;
 
 	walk(dir == FACING_RIGHT ? spec_.speed : -spec_.speed);
@@ -84,12 +84,12 @@ void EnemyPokemonHero::onDie() {
 	if (anim_tick == 0 && anim_step < spec_.die_frames) anim_step += 1;
 
 	if (anim_step >= spec_.die_frames) {
-		int yy = platform_y(x, y);
+		int yy = level().terrain.platform_y(x, y);
 
-		if (spec_.leaves_body && yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
+		if (spec_.leaves_body && yy != 0 && yy != level().terrain.platforms[4][x]) engrave(x, y, pic);
 
 		destroyed = true;
-		game_flag[1]--;
+		level().rules.flags[1]--;
 	} else {
 		pic = facing("die")[anim_step];
 	}

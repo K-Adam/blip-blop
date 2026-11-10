@@ -2,11 +2,11 @@
 
 EnemySpikes::EnemySpikes() : y_origin(0) {
 	hp = 1;
-	pic = pbk_enemies.pic("spikes");
+	pic = assets().pics.enemies.pic("spikes");
 }
 
 void EnemySpikes::update() {
-	if ((game_flag[0] == 3) || (game_flag[0] == 2)) {
+	if ((level().rules.flags[0] == 3) || (level().rules.flags[0] == 2)) {
 		if (-104 > y_origin) {
 			// Fully out, nothing left to raise
 		} else if (-96 > y_origin) {
@@ -29,7 +29,7 @@ void EnemySpikes::update() {
 			y_origin -= 10;
 		}
 		colFromPic();
-	} else if (game_flag[0] >= 5) {
+	} else if (level().rules.flags[0] >= 5) {
 		if (-104 > y_origin) {
 			y += 10;
 			y_origin += 10;
@@ -53,7 +53,7 @@ void EnemySpikes::update() {
 			y_origin += 1;
 		} else {
 			// Fully retracted, safe to remove
-			for (int i = 28; i <= 55; i++) solid_walls[i][108] = false;
+			for (int i = 28; i <= 55; i++) level().terrain.solid[i][108] = false;
 
 			destroyed = true;
 		}
@@ -70,7 +70,7 @@ void EnemySpikes::render() {
 	r.right = 39;
 	r.bottom = -y_origin;
 
-	pbk_enemies.pic("spikes")->BlitPart(backSurface, x - offset, y, r);
+	assets().pics.enemies.pic("spikes")->BlitPart(graphics.back(), x - level().camera.offset, y, r);
 }
 
 void EnemySpikes::colFromPic() {

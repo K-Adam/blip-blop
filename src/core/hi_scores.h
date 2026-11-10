@@ -20,6 +20,6 @@ class HiScores {
 
 	void init();
 	void add(int scr, const std::string& name);
-	bool save(const char* file);
+	bool save(const char* file) const;
 	bool load(const char* file);
 };

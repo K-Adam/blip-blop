@@ -8,7 +8,7 @@ ShotSnorkyBase::ShotSnorkyBase(int vx) : oscillation_step(0), accel_tick(0) {
 }
 
 void ShotSnorkyBase::update() {
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
+	if (x < level().camera.offset - 100 || x > level().camera.offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	accel_tick++;
 	accel_tick %= DELAY_ACCELERATION;
@@ -37,12 +37,12 @@ void ShotSnorkyBase::update() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("snorky_shot_right")[anim_step];
+		pic = assets().pics.enemies.anim("snorky_shot_right")[anim_step];
 	} else {
-		pic = pbk_enemies.anim("snorky_shot_left")[anim_step];
+		pic = assets().pics.enemies.anim("snorky_shot_left")[anim_step];
 	}
 
-	if (solid_wall(x, y) != 0) destroyed = true;
+	if (level().terrain.solid_wall(x, y) != 0) destroyed = true;
 
 	colFromPic();
 }

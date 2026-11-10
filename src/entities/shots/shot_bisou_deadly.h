@@ -27,9 +27,9 @@ class ShotBisouDeadly : public Shot {
 			dir = FACING_LEFT;
 
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("smurfette_kiss_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurfette_kiss_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurfette_kiss_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurfette_kiss_left")[anim_step];
 
 		x += dx / 13;
 		y += dy / 13;

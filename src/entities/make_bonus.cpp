@@ -2,8 +2,6 @@
 
 #define BONUS_SEED 20
 
-int makeb_current_mode = 0;
-
 int bonus_list[][BONUS_SEED] = {
 
 	// Mode 0 suits bonus levels
@@ -29,13 +27,21 @@ int bonus_list[][BONUS_SEED] = {
 	{BPM, BSHOTGUN, BPM, BPM, BSHOTGUN, BBEER, BPM, BSHOTGUN, BSHOTGUN, BPM, BSHOTGUN, BPM, BBARREL, BPM, BSHOTGUN, BPM, BSHOTGUN, BINV, BSHOTGUN, BPM},
 };
 
+namespace {
+// Walks the bonus table in order so drops vary
+struct BonusSeeds {
+	int any = 0;
+	int weapon = 0;
+};
+}  // namespace
+
 void MakeBonus(int x, int y) {
-	static int seed = 0;
+	int& seed = session().shared<BonusSeeds>().any;
 
 	seed += 1;
 	seed %= BONUS_SEED;
 
-	int n = bonus_list[makeb_current_mode][seed];
+	int n = bonus_list[level().rules.bonus_mode][seed];
 
 	EventBonus eb;
 
@@ -46,7 +52,7 @@ void MakeBonus(int x, int y) {
 }
 
 void MakeBonusWeapon(int x, int y) {
-	static int seed = 0;
+	int& seed = session().shared<BonusSeeds>().weapon;
 
 	seed += 1;
 	seed %= BONUS_SEED;

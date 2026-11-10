@@ -28,27 +28,27 @@ void EnemyBisouBoom::onWalk() {
 
 	step(3, 8);
 
-	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+	if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+	else if (x + SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("boom_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("boom_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("boom_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("boom_walk_left")[anim_step];
 	}
 
-	if (targeted_player != NULL) {
-		int ddx = x - targeted_player->x;
-		int ddy = y - targeted_player->y;
+	if (session().targeted_player != NULL) {
+		int ddx = x - session().targeted_player->x;
+		int ddy = y - session().targeted_player->y;
 
 		if (ddx > -60 && ddx < 60 && ddy > -40 && ddy < 20) {
 			anim_tick = anim_step = 0;
 			status = STATE_DYING;
-			sbk_misc.play(11);
+			assets().sounds.misc.play(11);
 			onDie();
 		}
 	}
@@ -77,7 +77,7 @@ void EnemyBisouBoom::onDie() {
 			s->dy = -(rand() % 4);
 		}
 
-		list_gore.emplace_back(s);
+		level().entities.gore.emplace_back(s);
 
 		s = new GoreBisouBoom("boom_head_right", "boom_head_left", 2);
 
@@ -93,7 +93,7 @@ void EnemyBisouBoom::onDie() {
 			s->dy = -1;
 		}
 
-		list_gore.emplace_back(s);
+		level().entities.gore.emplace_back(s);
 	} else if (anim_step == 8 && anim_tick == 0) {
 		Sprite* s = new GoreBisouBoom("boom_belly_right", "boom_belly_left", 1);
 
@@ -109,14 +109,14 @@ void EnemyBisouBoom::onDie() {
 			s->dy = 0;
 		}
 
-		list_gore.emplace_back(s);
+		level().entities.gore.emplace_back(s);
 	} else if (anim_step >= 10) {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("boom_explode_right")[anim_step];
+			pic = assets().pics.enemies.anim("boom_explode_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("boom_explode_left")[anim_step];
+			pic = assets().pics.enemies.anim("boom_explode_left")[anim_step];
 
 		colFromPic();
 	}
@@ -131,5 +131,5 @@ void EnemyBisouBoom::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING || status == STATE_CHARRED) sbk_misc.play(11);
+	if (status == STATE_DYING || status == STATE_CHARRED) assets().sounds.misc.play(11);
 }

@@ -20,12 +20,12 @@ EnemyBisouShaman::EnemyBisouShaman() : shoot_step(0), nb_touch(0), n_pos(1) {
 }
 
 void EnemyBisouShaman::update() {
-	game_flag[2] = 1;
+	level().rules.flags[2] = 1;
 
-	if (game_flag[0] == 1) {
-		mbk_level.play(1);
-		game_flag[0] = 2;
-		game_flag[FLAG_TIMER] = 50;
+	if (level().rules.flags[0] == 1) {
+		assets().music.level.play(1);
+		level().rules.flags[0] = 2;
+		level().rules.flags[FLAG_TIMER] = 50;
 	}
 
 	if (blood > 0) blood -= 1;
@@ -76,9 +76,9 @@ void EnemyBisouShaman::onDie() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("shaman_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_die_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("shaman_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_die_left")[anim_step];
 	}
 }
 
@@ -92,10 +92,10 @@ void EnemyBisouShaman::onTeleport() {
 		if (anim_step == 8) {
 			int new_pos;
 
-			if (targeted_player->x > offset + 320) {
+			if (session().targeted_player->x > level().camera.offset + 320) {
 				new_pos = 2;
 			} else {
-				if (targeted_player->y < 280)
+				if (session().targeted_player->y < 280)
 					new_pos = 0;
 				else
 					new_pos = 1;
@@ -118,31 +118,31 @@ void EnemyBisouShaman::onTeleport() {
 	}
 
 	if (anim_step <= 7) {
-		if (x < offset + 320) {
-			pic = pbk_enemies.anim("shaman_teleport_right")[anim_step];
+		if (x < level().camera.offset + 320) {
+			pic = assets().pics.enemies.anim("shaman_teleport_right")[anim_step];
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies.anim("shaman_teleport_left")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_teleport_left")[anim_step];
 			dir = FACING_LEFT;
 		}
 	} else if (anim_step <= 10) {
 		if (anim_tick % 2 == 0) {
-			if (x < offset + 320) {
-				pic = pbk_enemies.anim("shaman_teleport_right")[7];
+			if (x < level().camera.offset + 320) {
+				pic = assets().pics.enemies.anim("shaman_teleport_right")[7];
 				dir = FACING_RIGHT;
 			} else {
-				pic = pbk_enemies.anim("shaman_teleport_left")[7];
+				pic = assets().pics.enemies.anim("shaman_teleport_left")[7];
 				dir = FACING_LEFT;
 			}
 		} else {
 			pic = NULL;
 		}
 	} else {
-		if (x < offset + 320) {
-			pic = pbk_enemies.anim("shaman_teleport_right")[7 - (anim_step - 11)];
+		if (x < level().camera.offset + 320) {
+			pic = assets().pics.enemies.anim("shaman_teleport_right")[7 - (anim_step - 11)];
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies.anim("shaman_teleport_left")[7 - (anim_step - 11)];
+			pic = assets().pics.enemies.anim("shaman_teleport_left")[7 - (anim_step - 11)];
 			dir = FACING_LEFT;
 		}
 	}
@@ -167,9 +167,9 @@ void EnemyBisouShaman::onRaiseStaff() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("shaman_staff_right")[anim_step];
+		pic = assets().pics.enemies.anim("shaman_staff_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("shaman_staff_left")[anim_step];
+		pic = assets().pics.enemies.anim("shaman_staff_left")[anim_step];
 
 	colFromPic();
 }
@@ -191,9 +191,9 @@ void EnemyBisouShaman::onLowerStaff() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("shaman_staff_right")[2 - anim_step];
+		pic = assets().pics.enemies.anim("shaman_staff_right")[2 - anim_step];
 	else
-		pic = pbk_enemies.anim("shaman_staff_left")[2 - anim_step];
+		pic = assets().pics.enemies.anim("shaman_staff_left")[2 - anim_step];
 
 	colFromPic();
 }
@@ -216,9 +216,9 @@ void EnemyBisouShaman::onShoot() {
 				int ddx;
 				int ddy;
 
-				if (targeted_player != NULL) {
-					xc = targeted_player->x;
-					yc = targeted_player->y;
+				if (session().targeted_player != NULL) {
+					xc = session().targeted_player->x;
+					yc = session().targeted_player->y;
 
 					ddx = xc - x;
 					ddy = yc - (y - 72);
@@ -250,7 +250,7 @@ void EnemyBisouShaman::onShoot() {
 					s->dx = (ddx * 4) / 3;
 					s->dy = (ddy * 4) / 3;
 
-					list_enemy_shots.emplace_back(s);
+					level().entities.enemy_shots.emplace_back(s);
 				} else {
 					ShotShamanColumn* s = new ShotShamanColumn();
 
@@ -263,7 +263,7 @@ void EnemyBisouShaman::onShoot() {
 
 					s->setDir(dir);
 
-					list_enemy_shots.emplace_back(s);
+					level().entities.enemy_shots.emplace_back(s);
 				}
 
 				anim_step = anim_tick = 0;
@@ -280,9 +280,9 @@ void EnemyBisouShaman::render() {
 
 	if (status == STATE_SHOOT) {
 		if (dir == FACING_RIGHT)
-			draw(x + 18, y - 70, pbk_enemies.anim("shaman_glow_right")[anim_step]);
+			draw(x + 18, y - 70, assets().pics.enemies.anim("shaman_glow_right")[anim_step]);
 		else
-			draw(x - 18, y - 70, pbk_enemies.anim("shaman_glow_left")[anim_step]);
+			draw(x - 18, y - 70, assets().pics.enemies.anim("shaman_glow_left")[anim_step]);
 	}
 }
 
@@ -291,11 +291,11 @@ void EnemyBisouShaman::onWalk() {
 
 	step(6, 8);
 
-	if (x < offset + 320) {
-		pic = pbk_enemies.anim("shaman_teleport_right")[0];
+	if (x < level().camera.offset + 320) {
+		pic = assets().pics.enemies.anim("shaman_teleport_right")[0];
 		dir = FACING_RIGHT;
 	} else {
-		pic = pbk_enemies.anim("shaman_teleport_left")[0];
+		pic = assets().pics.enemies.anim("shaman_teleport_left")[0];
 		dir = FACING_LEFT;
 	}
 
@@ -308,7 +308,7 @@ void EnemyBisouShaman::onWalk() {
 	if (nb_touch >= 10) {
 		anim_step = anim_tick = 0;
 		status = STATE_TELEPORT;
-		sbk_level.play(16);
+		assets().sounds.level.play(16);
 	}
 
 	colFromPic();
@@ -328,9 +328,9 @@ void EnemyBisouShaman::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("shaman_charred_right")[anim_step];
+		pic = assets().pics.enemies.anim("shaman_charred_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("shaman_charred_left")[anim_step];
+		pic = assets().pics.enemies.anim("shaman_charred_left")[anim_step];
 }
 
 void EnemyBisouShaman::takeHit(Shot* shot) {
@@ -343,8 +343,8 @@ void EnemyBisouShaman::takeHit(Shot* shot) {
 	nb_touch++;
 
 	if (status == STATE_DYING || status == STATE_CHARRED) {
-		game_flag[0] = 7;
-		game_flag[FLAG_GEN_OFF] = 1;
-		sbk_level.play(19);
+		level().rules.flags[0] = 7;
+		level().rules.flags[FLAG_GEN_OFF] = 1;
+		assets().sounds.level.play(19);
 	}
 }

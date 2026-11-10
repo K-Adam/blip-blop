@@ -9,13 +9,13 @@ const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0
 
 EnemyMario::EnemyMario() : speed(1), speed_tick(0), fireball(0), attack_delay(50 + rand() % 50), wait_for_attack(0), nb_rain(0) {
 	hp = 50000;
-	pic = pbk_enemies.anim("mario_walk_left")[0];
+	pic = assets().pics.enemies.anim("mario_walk_left")[0];
 }
 
 void EnemyMario::update() {
-	xmin = offset + 40;
+	xmin = level().camera.offset + 40;
 
-	if (game_flag[0] == 0) {
+	if (level().rules.flags[0] == 0) {
 		fall();
 		return;
 	}
@@ -109,31 +109,31 @@ void EnemyMario::update() {
 }
 
 void EnemyMario::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
 		onJump();
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 600 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 600 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_attack++;
-	if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
-		if (((dir == FACING_RIGHT) && (targeted_player->x > x)) || ((dir == FACING_LEFT) && (targeted_player->x < x))) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+		if (((dir == FACING_RIGHT) && (session().targeted_player->x > x)) || ((dir == FACING_LEFT) && (session().targeted_player->x < x))) {
 			anim_step = 0;
 			anim_tick = 0;
 			speed = 0;
 			dy = -6;
 			wait_for_attack = 0;
 			status = STATE_SHOOT;
-			y_target = targeted_player->y;
-			x_target = targeted_player->x;
+			y_target = session().targeted_player->y;
+			x_target = session().targeted_player->x;
 			attack_step = 0;
 			attack_tick = 0;
 			attack_phase = 0;
@@ -174,9 +174,9 @@ void EnemyMario::onWalk() {
 
 				case 4:
 					if (dir == FACING_RIGHT) {
-						attack_step = 1 + (offset + 640 - x) / 100;
+						attack_step = 1 + (level().camera.offset + 640 - x) / 100;
 					} else {
-						attack_step = 1 + (x - offset) / 100;
+						attack_step = 1 + (x - level().camera.offset) / 100;
 					}
 					fireball = true;
 					onBurstVerticalReverse();
@@ -250,10 +250,10 @@ void EnemyMario::onWalk() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
+		pic = assets().pics.enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
+		pic = assets().pics.enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
 	}
 	if (speed < MARIO_SPEED) {
 		speed_tick++;
@@ -265,7 +265,7 @@ void EnemyMario::onWalk() {
 	colFromPic();
 }
 
-void EnemyMario::onDie() { game_flag[0] = 7; }
+void EnemyMario::onDie() { level().rules.flags[0] = 7; }
 
 void EnemyMario::onCharge() {}
 
@@ -279,17 +279,17 @@ void EnemyMario::onJump() {
 	}
 
 	// A boss off screen could not be hit
-	if ((dir == FACING_LEFT) && (x - speed < xmin || solid_wall(x - speed, y))) {
+	if ((dir == FACING_LEFT) && (x - speed < xmin || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
 	}
 
-	else if ((dir == FACING_RIGHT) && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+	else if ((dir == FACING_RIGHT) && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -300,16 +300,16 @@ void EnemyMario::onJump() {
 	if (dir == FACING_RIGHT) {
 		x += speed;
 		if (dy < 0) {
-			pic = pbk_enemies.anim("mario_jump_right")[0];
+			pic = assets().pics.enemies.anim("mario_jump_right")[0];
 		} else {
-			pic = pbk_enemies.anim("mario_jump_right")[1];
+			pic = assets().pics.enemies.anim("mario_jump_right")[1];
 		}
 	} else {
 		x -= speed;
 		if (dy < 0) {
-			pic = pbk_enemies.anim("mario_jump_left")[0];
+			pic = assets().pics.enemies.anim("mario_jump_left")[0];
 		} else {
-			pic = pbk_enemies.anim("mario_jump_left")[1];
+			pic = assets().pics.enemies.anim("mario_jump_left")[1];
 		}
 	}
 
@@ -322,19 +322,19 @@ void EnemyMario::render() {
 	Sprite::render();
 	if ((fireball) && (anim_step < 3)) {
 		if (dir == FACING_RIGHT) {
-			draw(x + 29, y - 33, pbk_enemies.anim("mario_muzzle_right")[anim_step]);
+			draw(x + 29, y - 33, assets().pics.enemies.anim("mario_muzzle_right")[anim_step]);
 		} else {
-			draw(x - 29, y - 33, pbk_enemies.anim("mario_muzzle_left")[anim_step]);
+			draw(x - 29, y - 33, assets().pics.enemies.anim("mario_muzzle_left")[anim_step]);
 		}
 	}
 }
 
 void EnemyMario::onShootHorizontal() {
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 
 	else
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 
 	if ((y - 25 < y_target) && (y < 444)) {
 		if (y > y_target - 60) {
@@ -389,9 +389,9 @@ void EnemyMario::onShootHorizontal() {
 				fireball = 0;
 				shoot_fireball(4);
 			}
-			if ((dir == FACING_RIGHT) && (x > offset + 10)) {
+			if ((dir == FACING_RIGHT) && (x > level().camera.offset + 10)) {
 				x -= mario_recoil[attack_step - 40];
-			} else if ((dir == FACING_LEFT) && (x < offset + 630)) {
+			} else if ((dir == FACING_LEFT) && (x < level().camera.offset + 630)) {
 				x += mario_recoil[attack_step - 40];
 			}
 		}
@@ -401,10 +401,10 @@ void EnemyMario::onShootHorizontal() {
 
 void EnemyMario::onShootVertical() {
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 
 	else
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 
 	anim_tick++;
 	anim_tick %= 4;
@@ -426,7 +426,7 @@ void EnemyMario::onShootVertical() {
 		}
 		shot->y = y - 38;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	} else if (attack_step == 60) {
 		status = STATE_WALK;
 		anim_step = 0;
@@ -468,9 +468,9 @@ void EnemyMario::onShootCross() {
 
 void EnemyMario::onBurstHorizontal() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 	} else {
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 	}
 
 	anim_tick++;
@@ -547,11 +547,12 @@ void EnemyMario::onBurstHorizontalSteady() {
 void EnemyMario::onBurstHorizontalHoming() {
 	onShootHorizontal();
 	if ((nb_rain > attack_phase) && (attack_step > 50)) {
-		if ((targeted_player != NULL) && ((targeted_player->x > x && dir == FACING_RIGHT) || (targeted_player->x < x && dir == FACING_LEFT))) {
+		if ((session().targeted_player != NULL) &&
+			((session().targeted_player->x > x && dir == FACING_RIGHT) || (session().targeted_player->x < x && dir == FACING_LEFT))) {
 			attack_phase++;
 			attack_step = 30;
 			attack_tick = 0;
-			y_target = targeted_player->y;
+			y_target = session().targeted_player->y;
 		} else {
 			fireball = false;
 		}
@@ -562,9 +563,9 @@ void EnemyMario::onBurstHorizontalHoming() {
 
 void EnemyMario::onBurstVertical() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 	} else {
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 	}
 
 	anim_tick++;
@@ -580,7 +581,7 @@ void EnemyMario::onBurstVertical() {
 		attack_step++;
 		if (dir == FACING_RIGHT) {
 			x_target = x + attack_step * 100 + rand() % 20;
-			if (x_target > offset + 720) {
+			if (x_target > level().camera.offset + 720) {
 				anim_step = 0;
 				anim_tick = 0;
 				speed = 0;
@@ -595,10 +596,10 @@ void EnemyMario::onBurstVertical() {
 			shot->x = x + 38;
 			shot->y = y - 38;
 
-			list_enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(shot);
 		} else {
 			int x_target = x - attack_step * 100 - rand() % 20;
-			if (x_target < offset - 100) {
+			if (x_target < level().camera.offset - 100) {
 				anim_step = 0;
 				anim_tick = 0;
 				speed = 0;
@@ -613,7 +614,7 @@ void EnemyMario::onBurstVertical() {
 			shot->x = x - 38;
 			shot->y = y - 38;
 
-			list_enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(shot);
 		}
 	}
 	colFromPic();
@@ -621,12 +622,12 @@ void EnemyMario::onBurstVertical() {
 
 void EnemyMario::onBurstVerticalHoming() {
 	onShootVertical();
-	if ((nb_rain > attack_phase) && (attack_step == 40) && (targeted_player != NULL)) {
+	if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != NULL)) {
 		attack_step = 10;
 		attack_tick = 0;
 		fireball = true;
 		attack_phase++;
-		x_target = targeted_player->x;
+		x_target = session().targeted_player->x;
 	}
 }
 
@@ -643,14 +644,14 @@ void EnemyMario::onBurstVerticalSteady() {
 void EnemyMario::onBurstVerticalDouble() {
 	switch (attack_phase) {
 		case 0:
-			if ((dir == FACING_RIGHT) && (x + (attack_step + 1) * 100 + 20 > offset + 620)) {
+			if ((dir == FACING_RIGHT) && (x + (attack_step + 1) * 100 + 20 > level().camera.offset + 620)) {
 				attack_phase = 1;
 				attack_tick = 0;
-				attack_step = 1 + (offset + 640 - x) / 100;
-			} else if ((dir == FACING_LEFT) && (x - (attack_step + 1) * 100 - 20 < offset + 20)) {
+				attack_step = 1 + (level().camera.offset + 640 - x) / 100;
+			} else if ((dir == FACING_LEFT) && (x - (attack_step + 1) * 100 - 20 < level().camera.offset + 20)) {
 				attack_phase = 1;
 				attack_tick = 0;
-				attack_step = 1 + (x - offset) / 100;
+				attack_step = 1 + (x - level().camera.offset) / 100;
 			} else {
 				onBurstVertical();
 			}
@@ -664,9 +665,9 @@ void EnemyMario::onBurstVerticalDouble() {
 
 void EnemyMario::onBurstVerticalReverse() {
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 	} else {
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 	}
 
 	anim_tick++;
@@ -681,7 +682,7 @@ void EnemyMario::onBurstVerticalReverse() {
 	if (attack_tick == 0) {
 		attack_step--;
 		if (dir == FACING_RIGHT) {
-			x_target = offset + attack_step * 100 + rand() % 20;
+			x_target = level().camera.offset + attack_step * 100 + rand() % 20;
 			if (x_target < x + 20) {
 				anim_step = 0;
 				anim_tick = 0;
@@ -697,9 +698,9 @@ void EnemyMario::onBurstVerticalReverse() {
 			shot->x = x + 38;
 			shot->y = y - 38;
 
-			list_enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int x_target = offset + 640 - attack_step * 100 - rand() % 20;
+			int x_target = level().camera.offset + 640 - attack_step * 100 - rand() % 20;
 			if (x_target > x - 20) {
 				anim_step = 0;
 				anim_tick = 0;
@@ -715,7 +716,7 @@ void EnemyMario::onBurstVerticalReverse() {
 			shot->x = x - 38;
 			shot->y = y - 38;
 
-			list_enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(shot);
 		}
 	}
 	colFromPic();
@@ -724,21 +725,22 @@ void EnemyMario::onBurstVerticalReverse() {
 void EnemyMario::onBurstCrossHoming() {
 	if (attack_phase % 2 == 0) {
 		onShootVertical();
-		if ((nb_rain > attack_phase) && (attack_step == 40) && (targeted_player != NULL)) {
+		if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != NULL)) {
 			attack_step = 30;
 			attack_tick = 0;
 			fireball = true;
 			attack_phase++;
-			y_target = targeted_player->y;
+			y_target = session().targeted_player->y;
 		}
 	} else {
 		onShootHorizontal();
 		if ((nb_rain > attack_phase) && (attack_step > 50)) {
-			if ((targeted_player != NULL) && ((targeted_player->x > x && dir == FACING_RIGHT) || (targeted_player->x < x && dir == FACING_LEFT))) {
+			if ((session().targeted_player != NULL) &&
+				((session().targeted_player->x > x && dir == FACING_RIGHT) || (session().targeted_player->x < x && dir == FACING_LEFT))) {
 				attack_phase++;
 				attack_step = 30;
 				attack_tick = 0;
-				x_target = targeted_player->x;
+				x_target = session().targeted_player->x;
 			} else {
 				fireball = false;
 			}
@@ -774,8 +776,8 @@ void EnemyMario::onBurstBerserker() {
 		case 0:
 			if (dir == FACING_RIGHT) {
 				walk(speed);
-				pic = pbk_enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
-				if (x > offset + 600) {
+				pic = assets().pics.enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
+				if (x > level().camera.offset + 600) {
 					fireball = true;
 					attack_phase = 1;
 					speed = 1;
@@ -783,8 +785,8 @@ void EnemyMario::onBurstBerserker() {
 				}
 			} else {
 				walk(-speed);
-				pic = pbk_enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
-				if (x < offset + 40) {
+				pic = assets().pics.enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
+				if (x < level().camera.offset + 40) {
 					fireball = true;
 					attack_phase = 1;
 					speed = 1;
@@ -795,9 +797,9 @@ void EnemyMario::onBurstBerserker() {
 			break;
 
 		case 1:
-			if ((dir == FACING_RIGHT) && (x + (attack_step + 1) * 100 + 20 > offset + 620)) {
+			if ((dir == FACING_RIGHT) && (x + (attack_step + 1) * 100 + 20 > level().camera.offset + 620)) {
 				attack_phase = 2;
-			} else if ((dir == FACING_LEFT) && (x - (attack_step + 1) * 100 - 20 < offset + 20)) {
+			} else if ((dir == FACING_LEFT) && (x - (attack_step + 1) * 100 - 20 < level().camera.offset + 20)) {
 				attack_phase = 2;
 			} else {
 				onBurstVertical();
@@ -819,10 +821,10 @@ void EnemyMario::onBurstBerserker() {
 			if (y < 0) {
 				if (dir == FACING_RIGHT) {
 					dir = FACING_LEFT;
-					x = offset + 600;
+					x = level().camera.offset + 600;
 				} else {
 					dir = FACING_RIGHT;
-					x = offset + 40;
+					x = level().camera.offset + 40;
 				}
 				dy = 6;
 				attack_phase = 4;
@@ -880,8 +882,8 @@ void EnemyMario::onFireRain() {
 	if (attack_phase == 0) {
 		if (dir == FACING_RIGHT) {
 			walk(speed);
-			pic = pbk_enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
-			if (x > offset + 600) {
+			pic = assets().pics.enemies.anim("mario_walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
+			if (x > level().camera.offset + 600) {
 				fireball = true;
 				attack_phase = 1;
 				speed = 1;
@@ -889,8 +891,8 @@ void EnemyMario::onFireRain() {
 			}
 		} else {
 			walk(-speed);
-			pic = pbk_enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
-			if (x < offset + 40) {
+			pic = assets().pics.enemies.anim("mario_walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
+			if (x < level().camera.offset + 40) {
 				fireball = true;
 				attack_phase = 1;
 				speed = 1;
@@ -916,11 +918,11 @@ void EnemyMario::onFireRain() {
 				if ((dir == FACING_RIGHT) && (x + (attack_step + 1) * 100 + 20 > 620)) {
 					attack_phase++;
 					attack_tick = 0;
-					attack_step = 1 + (offset + 640 - x) / 100;
+					attack_step = 1 + (level().camera.offset + 640 - x) / 100;
 				} else if ((dir == FACING_LEFT) && (x - (attack_step + 1) * 100 - 20 < 20)) {
 					attack_phase++;
 					attack_tick = 0;
-					attack_step = 1 + (x - offset) / 100;
+					attack_step = 1 + (x - level().camera.offset) / 100;
 				} else {
 					onBurstVertical();
 				}
@@ -948,7 +950,7 @@ inline void EnemyMario::shoot_fireball(int velocity) {
 		shot->x = x + 38;
 		shot->y = y - 31;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	} else {
 		ShotMarioFireball* shot = new ShotMarioFireball(-velocity);
 
@@ -956,7 +958,7 @@ inline void EnemyMario::shoot_fireball(int velocity) {
 		shot->x = x - 38;
 		shot->y = y - 31;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	}
 }
 
@@ -966,9 +968,9 @@ void EnemyMario::fall_mario() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;

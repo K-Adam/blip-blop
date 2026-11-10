@@ -3,16 +3,18 @@
 #include "entities/sprite.h"
 
 // All tiles share one frame counter, alternate tiles run half a cycle apart
-inline int water_frame = 0;
+struct WaterClock {
+	int frame = 0;
+};
 
 class BackgroundWaterTile : public Sprite {
    public:
 	explicit BackgroundWaterTile(int phase) : phase_(phase) {}
 
 	void update() override {
-		pic = pbk_level.anim("water")[(water_frame + phase_) % 10];
+		pic = assets().pics.level.anim("water")[(level().shared<WaterClock>().frame + phase_) % 10];
 
-		if (x < offset - 400) destroyed = true;
+		if (x < level().camera.offset - 400) destroyed = true;
 	};
 
    private:
@@ -24,7 +26,7 @@ class BackgroundWater : public Sprite {
 	BackgroundWater() {
 		bool b = false;
 
-		for (int i = 0; i < ((((int)level_size) / pbk_level.anim("water")[0]->xSize()) + 1); i++) {
+		for (int i = 0; i < ((((int)level().terrain.width) / assets().pics.level.anim("water")[0]->xSize()) + 1); i++) {
 			Sprite* ptr = new BackgroundWaterTile(b ? 0 : 5);
 
 			ptr->x = x;
@@ -33,7 +35,7 @@ class BackgroundWater : public Sprite {
 			x += 376;
 			b = !b;
 
-			list_animated_bgs.emplace_back(ptr);
+			level().entities.animated_bgs.emplace_back(ptr);
 		}
 	};
 
@@ -41,6 +43,9 @@ class BackgroundWater : public Sprite {
 		anim_tick += 1;
 		anim_tick %= 7;
 
-		if (anim_tick == 0) water_frame = (water_frame + 1) % 10;
+		if (anim_tick == 0) {
+			int& frame = level().shared<WaterClock>().frame;
+			frame = (frame + 1) % 10;
+		}
 	};
 };

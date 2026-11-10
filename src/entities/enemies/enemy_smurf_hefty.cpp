@@ -13,13 +13,13 @@ EnemySmurfHefty::EnemySmurfHefty() : shoot_step(0), dx(0) {
 void EnemySmurfHefty::update() {
 	if (blood > 0) blood -= 1;
 
-	if (game_flag[0] != 0) {
+	if (level().rules.flags[0] != 0) {
 		shoot_step += 1;
 
-		if (game_flag[2] == 0) {
-			mbk_level.play(2);
-			game_flag[2] = 1;
-			game_flag[FLAG_TIMER] = 40;
+		if (level().rules.flags[2] == 0) {
+			assets().music.level.play(2);
+			level().rules.flags[2] = 1;
+			level().rules.flags[FLAG_TIMER] = 40;
 		}
 	}
 
@@ -62,20 +62,20 @@ void EnemySmurfHefty::onWalk() {
 
 	dx = 0;
 
-	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+	if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+	else if (x + SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("smurf_hefty_walk_right")[animate(walk_right, 6, 6)];
+		pic = assets().pics.enemies.anim("smurf_hefty_walk_right")[animate(walk_right, 6, 6)];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("smurf_hefty_walk_left")[animate(walk_left, 6, 6)];
+		pic = assets().pics.enemies.anim("smurf_hefty_walk_left")[animate(walk_left, 6, 6)];
 	}
 
-	if (shoot_step >= wait_shoot && platform_y(x, y) != 0) {
+	if (shoot_step >= wait_shoot && level().terrain.platform_y(x, y) != 0) {
 		onShoot();
 		return;
 	}
@@ -91,7 +91,7 @@ void EnemySmurfHefty::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_smurf, dy_splatter_smurf);
 
 	if (hp <= 0) {
-		game_flag[1]++;
+		level().rules.flags[1]++;
 	}
 }
 
@@ -105,9 +105,9 @@ void EnemySmurfHefty::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("smurf_hefty_burn_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_burn_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurf_hefty_burn_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_burn_left")[anim_step];
 	}
 }
 
@@ -116,12 +116,12 @@ void EnemySmurfHefty::onDie() {
 
 	int x2;
 
-	if (platform_y(x, y) == 0)
+	if (level().terrain.platform_y(x, y) == 0)
 		x2 = x + dx;
 	else
 		x2 = x;
 
-	if (!solid_wall(x2, y)) x = x2;
+	if (!level().terrain.solid_wall(x2, y)) x = x2;
 
 	if (anim_step < 13) {
 		anim_tick += 1;
@@ -130,14 +130,14 @@ void EnemySmurfHefty::onDie() {
 		if (anim_tick == 0) anim_step += 1;
 	}
 
-	if (anim_step >= 14 && platform_y(x, y) != 0) {
+	if (anim_step >= 14 && level().terrain.platform_y(x, y) != 0) {
 		destroyed = true;
 		engrave(x, y, pic);
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("smurf_hefty_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_die_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurf_hefty_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_die_left")[anim_step];
 	}
 }
 
@@ -155,7 +155,7 @@ void EnemySmurfHefty::onShootHadoken() {
 			t->y = y - 30;
 			t->setDir(dir);
 
-			list_enemy_shots.emplace_back(t);
+			level().entities.enemy_shots.emplace_back(t);
 		}
 
 		if (anim_step > 7) {
@@ -170,9 +170,9 @@ void EnemySmurfHefty::onShootHadoken() {
 
 	if (anim_step <= 4) {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("smurf_hefty_throw_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_throw_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurf_hefty_throw_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_hefty_throw_left")[anim_step];
 	}
 }
 
@@ -189,9 +189,9 @@ void EnemySmurfHefty::onShootDragonPunch() {
 			if (anim_step > 2) dy = dypunch;
 		}
 	} else if (dy < 0) {
-		if (dir == FACING_RIGHT && x < offset + 640 && !solid_wall(x + 1, y))
+		if (dir == FACING_RIGHT && x < level().camera.offset + 640 && !level().terrain.solid_wall(x + 1, y))
 			x += 1;
-		else if (dir == FACING_LEFT && x > xmin && !solid_wall(x - 1, y))
+		else if (dir == FACING_LEFT && x > xmin && !level().terrain.solid_wall(x - 1, y))
 			x -= 1;
 	} else {
 		if (anim_step < 6) {
@@ -201,7 +201,7 @@ void EnemySmurfHefty::onShootDragonPunch() {
 			if (anim_tick == 0) anim_step += 1;
 		}
 
-		if (platform_y(x, y) != 0) {
+		if (level().terrain.platform_y(x, y) != 0) {
 			anim_tick = anim_step = 0;
 			wait_shoot = 100 + rand() % 50;
 			shoot_step = 0;
@@ -212,9 +212,9 @@ void EnemySmurfHefty::onShootDragonPunch() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("smurf_hefty_uppercut_right")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_hefty_uppercut_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("smurf_hefty_uppercut_left")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_hefty_uppercut_left")[anim_step];
 
 	colFromPic();
 }
@@ -226,9 +226,9 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 
 	int x2 = x + dx;
 
-	if (!solid_wall(x2, y) && x2 > xmin && x2 < offset + 740) x = x2;
+	if (!level().terrain.solid_wall(x2, y) && x2 > xmin && x2 < level().camera.offset + 740) x = x2;
 
-	if (dy > 0 && platform_y(x, y) != 0) {
+	if (dy > 0 && level().terrain.platform_y(x, y) != 0) {
 		anim_tick = anim_step = 0;
 		wait_shoot = 100 + rand() % 50;
 		shoot_step = 0;
@@ -237,18 +237,18 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 		return;
 	}
 
-	pic = pbk_enemies.anim("smurf_hefty_spin_kick")[anim_step];
+	pic = assets().pics.enemies.anim("smurf_hefty_spin_kick")[anim_step];
 
 	colFromPic();
 }
 
 void EnemySmurfHefty::onShoot() {
-	if (targeted_player == NULL) return;
+	if (session().targeted_player == NULL) return;
 
 	anim_step = anim_tick = 0;
 
-	int xc = targeted_player->x;
-	int yc = targeted_player->y;
+	int xc = session().targeted_player->x;
+	int yc = session().targeted_player->y;
 
 	int ddx = xc - x;
 	int ddy = yc - y;
@@ -258,9 +258,9 @@ void EnemySmurfHefty::onShoot() {
 	else
 		dir = FACING_LEFT;
 
-	if (ddy > -50 && ddy < 50 && x > offset && x < offset + 640) {
+	if (ddy > -50 && ddy < 50 && x > level().camera.offset && x < level().camera.offset + 640) {
 		status = STATE_SHOOT_HADOKEN;
-		sbk_level.play(19);
+		assets().sounds.level.play(19);
 		onShootHadoken();
 	} else if (ddx < 150 && ddx > -150 && ddy < 0) {
 		status = STATE_SHOOT_DPUNCH;
@@ -268,7 +268,7 @@ void EnemySmurfHefty::onShoot() {
 
 		if (dypunch < -10) dypunch = -10;
 
-		sbk_level.play(20);
+		assets().sounds.level.play(20);
 		onShootDragonPunch();
 	} else {
 		lobShot(x, y - 5, xc, yc, dx, dy);

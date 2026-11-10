@@ -1,4 +1,3 @@
-#include "core/config.h"
 #include "entities/ball.h"
 #include "entities/shots/shot_bb_cow.h"
 
@@ -51,7 +50,7 @@ Ball::Ball(const PictureBank& pbk)
 void Ball::render() {
 	if (nb_life <= 0) return;
 
-	if (invincible > 50 && blink_step == 0 && phase && !inv_cow) return;
+	if (invincible > 50 && blink_step == 0 && session().phase && !inv_cow) return;
 
 	switch (status) {
 		case STATE_NORMAL:
@@ -123,7 +122,7 @@ void Ball::renderEye(int xtmp, int ytmp) {
 		else
 			draw(xtmp - 12, ytmp - 14, pbk_own.pic("eye_hurt_left"));
 	} else {
-		Flipbook eyes = pbk_bb.anim(is_firing ? "eye_angry" : "eye_normal");
+		Flipbook eyes = assets().pics.bb.anim(is_firing ? "eye_angry" : "eye_normal");
 
 		if (dir <= BBDIR_DOWN_RIGHT)
 			delta = 0;
@@ -158,15 +157,15 @@ void Ball::renderJump() {
 }
 
 void Ball::update() {
-	if (phase) {
+	if (session().phase) {
 		blink_step += 1;
 		blink_step %= 4;
 	}
 
 	int loop = is_firing ? weapon().stats.loop_sound : -1;
 	if (loop != looping_sound_) {
-		if (looping_sound_ >= 0) sbk_bb.stop(looping_sound_);
-		if (loop >= 0) sbk_bb.play(loop, SOUND_LOOP);
+		if (looping_sound_ >= 0) assets().sounds.bb.stop(looping_sound_);
+		if (loop >= 0) assets().sounds.bb.play(loop, SOUND_LOOP);
 		looping_sound_ = loop;
 	}
 
@@ -194,9 +193,9 @@ void Ball::update() {
 		ShotBBCow* ptr;
 
 		for (int i = 0; i < 11; i++) {
-			int xCow = offset + i * 64 + rand() % 20;
+			int xCow = level().camera.offset + i * 64 + rand() % 20;
 
-			if (!solid_wall(xCow, 0)) {
+			if (!level().terrain.solid_wall(xCow, 0)) {
 				ptr = new ShotBBCow();
 
 				ptr->x = xCow;
@@ -205,7 +204,7 @@ void Ball::update() {
 				ptr->anim_step = rand() % 8;
 				ptr->hero = this;
 
-				list_cow.push_back(std::unique_ptr<ShotBBCow>(ptr));
+				level().entities.cows.push_back(std::unique_ptr<ShotBBCow>(ptr));
 			}
 		}
 
@@ -214,23 +213,23 @@ void Ball::update() {
 		invincible = 200;
 		inv_cow = true;
 
-		sbk_bb.play(5);
+		assets().sounds.bb.play(5);
 	}
 
 	// The scroll pushes players along the left edge
-	if (x < offset + 20 && !ctrl->rightHeld() && !solid_wall(x + 2, y)) {
+	if (x < level().camera.offset + 20 && !ctrl->rightHeld() && !level().terrain.solid_wall(x + 2, y)) {
 		x += 2;
 
 		if (slide_delay < 0) dx_slide = slide_delay = 0;
 	}
 
-	int yp = platform_y(x, y);
+	int yp = level().terrain.platform_y(x, y);
 
 	if (yp != 0) y = yp;
 
 	// A player pinned against a wall by the scroll dies
-	if (x < offset - 30) {
-		no_scroll1 = true;
+	if (x < level().camera.offset - 30) {
+		level().camera.frozen = true;
 		nb_life -= 1;
 
 		if (nb_life == 0) {
@@ -240,12 +239,12 @@ void Ball::update() {
 
 		status = STATE_COME_BACK;
 
-		x = offset + 320;
+		x = level().camera.offset + 320;
 		int i = 0;
 
-		while (i < NB_MAX_PLATFORMS && y_platform[i][x] == 0xFFFF) i++;
+		while (i < NB_MAX_PLATFORMS && level().terrain.platforms[i][x] == 0xFFFF) i++;
 
-		y_to_go = i < NB_MAX_PLATFORMS ? y_platform[i][x] : 0xFFFF;
+		y_to_go = i < NB_MAX_PLATFORMS ? level().terrain.platforms[i][x] : 0xFFFF;
 
 		y = -50;
 		col_on = true;
@@ -308,11 +307,11 @@ void Ball::update() {
 
 	// Ice keeps some momentum
 	if (status == STATE_NORMAL || status == STATE_WALK) {
-		int nplatform = platform_y2(x, y);
+		int nplatform = level().terrain.platform_y2(x, y);
 
-		if (nplatform >= 6 && x > 10 && x > offset + 30 && x < offset + 610) {
-			int ytmp1 = y_platform[nplatform][x + 10] - y;
-			int ytmp2 = y_platform[nplatform][x - 10] - y;
+		if (nplatform >= 6 && x > 10 && x > level().camera.offset + 30 && x < level().camera.offset + 610) {
+			int ytmp1 = level().terrain.platforms[nplatform][x + 10] - y;
+			int ytmp2 = level().terrain.platforms[nplatform][x - 10] - y;
 
 			if (ytmp1 < 10 && ytmp1 > -10) slide_delay += ytmp1;
 			if (ytmp2 < 10 && ytmp2 > -10) slide_delay -= ytmp2;
@@ -364,7 +363,8 @@ void Ball::update() {
 }
 
 void Ball::onNormal() {
-	if (time_down == -1 && !solid_wall(x, y + 5) && !solid_wall(x, y + 10) && !solid_wall(x, y + 15) && !solid_wall(x, y + 20) && !solid_wall(x, y + 25)) {
+	if (time_down == -1 && !level().terrain.solid_wall(x, y + 5) && !level().terrain.solid_wall(x, y + 10) && !level().terrain.solid_wall(x, y + 15) &&
+		!level().terrain.solid_wall(x, y + 20) && !level().terrain.solid_wall(x, y + 25)) {
 		y += 10;
 		dy = 5;
 		status = STATE_FALL;
@@ -375,7 +375,7 @@ void Ball::onNormal() {
 		return;
 	}
 
-	if (ctrl->jump() && !solid_wall(x, y - 5)) {
+	if (ctrl->jump() && !level().terrain.solid_wall(x, y - 5)) {
 		status = STATE_JUMP;
 		dy = -5;
 		grav_tick = 0;	// Otherwise jump heights vary
@@ -398,7 +398,7 @@ void Ball::onNormal() {
 		return;
 	}
 
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -419,7 +419,7 @@ void Ball::onNormal() {
 }
 
 void Ball::onWalk() {
-	if (ctrl->jump() && !solid_wall(x, y - 5)) {
+	if (ctrl->jump() && !level().terrain.solid_wall(x, y - 5)) {
 		status = STATE_JUMP;
 		dy = -5;
 		grav_tick = 0;	// Otherwise jump heights vary
@@ -438,19 +438,20 @@ void Ball::onWalk() {
 
 	int destx = x + dx_slide;
 
-	if ((dx_slide > 0 && !solid_wall(destx, y) && destx < offset + 620) || (dx_slide < 0 && !solid_wall(destx, y) && destx > offset + 20))
+	if ((dx_slide > 0 && !level().terrain.solid_wall(destx, y) && destx < level().camera.offset + 620) ||
+		(dx_slide < 0 && !level().terrain.solid_wall(destx, y) && destx > level().camera.offset + 20))
 		walk(dx_slide);
 	else {
-		if (ctrl->rightHeld() && (!solid_wall(x + 2, y) && x + 2 < offset + 620)) {
+		if (ctrl->rightHeld() && (!level().terrain.solid_wall(x + 2, y) && x + 2 < level().camera.offset + 620)) {
 			walk(2);
-		} else if (ctrl->leftHeld() && (!solid_wall(x - 2, y) && x - 2 > offset + 20)) {
+		} else if (ctrl->leftHeld() && (!level().terrain.solid_wall(x - 2, y) && x - 2 > level().camera.offset + 20)) {
 			walk(-2);
 		} else {
 			status = STATE_NORMAL;
 		}
 	}
 
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -500,7 +501,7 @@ void Ball::onJump() {
 		}
 	}
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		slide_delay = 200 * dx_jump;
 		dy = 0;
@@ -520,7 +521,7 @@ void Ball::onJump() {
 
 	int xx = x + dx_jump;
 
-	if (!solid_wall(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
+	if (!level().terrain.solid_wall(xx, y) && xx > level().camera.offset + 20 && xx < level().camera.offset + 620) x = xx;
 
 	if (dir <= BBLIM_RIGHT)
 		pic = pbk_own.anim("jump_right")[anim_jump[dy + 5]];
@@ -531,7 +532,7 @@ void Ball::onJump() {
 void Ball::manageDirection() {
 	// The pivot is the gun height, the feet are at y. No aim returns to horizontal
 	int vx, vy;
-	ctrl->aim(x - offset, y - 12, vx, vy);
+	ctrl->aim(x - level().camera.offset, y - 12, vx, vy);
 	double t = std::atan2(-vy, std::abs(vx));
 	int s = (int)std::lround(t / (std::numbers::pi / 8));
 	bool right = dir <= BBLIM_RIGHT;
@@ -591,7 +592,7 @@ void Ball::updateWeapon() {
 	if (step && !switch_held_) cycleWeapon(step);
 	switch_held_ = step != 0;
 
-	if (!is_firing && ctrl->fire() && !hold_fire) {
+	if (!is_firing && ctrl->fire() && !level().rules.hold_fire.on) {
 		is_firing = true;
 		weapon_step = 0;
 		weapon_tick = 0;
@@ -636,7 +637,7 @@ void Ball::takeHit(int damage) {
 		anim_step = 0;
 		anim_tick = 0;
 		col_on = false;
-		no_scroll1 = true;
+		level().camera.frozen = true;
 	} else {
 		invincible = 200;
 		hurt_timer = 100;
@@ -658,7 +659,7 @@ void Ball::onDie() {
 
 		if (nb_life == 0) {
 			destroyed = true;
-			no_scroll1 = false;
+			level().camera.frozen = false;
 			return;
 		}
 
@@ -678,8 +679,8 @@ void Ball::onDie() {
 		dx_jump = 0;
 		is_firing = false;
 
-		if (cowBombOn) nb_cow_bomb = 1;
-	} else if (anim_step == 5 && anim_tick == 0 && platform_y(x, y) != 0) {
+		if (session().cow_bomb) nb_cow_bomb = 1;
+	} else if (anim_step == 5 && anim_tick == 0 && level().terrain.platform_y(x, y) != 0) {
 		if (dir <= BBLIM_RIGHT)
 			engrave(x, y, pbk_own.pic("grave_right"));
 		else
@@ -697,7 +698,7 @@ void Ball::renderDying() {
 }
 
 void Ball::onComeBack() {
-	no_scroll1 = true;
+	level().camera.frozen = true;
 
 	if (y < y_to_go) {
 		step(3, 8);
@@ -710,7 +711,7 @@ void Ball::onComeBack() {
 		status = STATE_NORMAL;
 		anim_step = 0;
 		anim_tick = 0;
-		no_scroll1 = false;
+		level().camera.frozen = false;
 	}
 }
 
@@ -721,7 +722,7 @@ void Ball::onSomersault() {
 
 	fall2();
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		slide_delay = 200 * dx_jump;
 		dy = 0;
@@ -737,7 +738,7 @@ void Ball::onSomersault() {
 
 	int xx = x + dx_jump;
 
-	if (!solid_wall(xx, y) && xx > offset + 20 && xx < offset + 620) x = xx;
+	if (!level().terrain.solid_wall(xx, y) && xx > level().camera.offset + 20 && xx < level().camera.offset + 620) x = xx;
 
 	pic = pbk_own.anim("spin")[weapon_id * 8 + anim_step];
 }
@@ -751,7 +752,7 @@ bool Ball::okBonus() {
 }
 
 void Ball::setSuperWeapon() {
-	if (id_ball == ID_BLIP || !okFlamethrower) {
+	if (id_ball == ID_BLIP || !level().rules.flamethrower_ok) {
 		ammo[ID_LASER] = std::max(ammo[ID_LASER], 750);
 		equip(ID_LASER);
 	} else {

@@ -23,9 +23,9 @@ void Sprite::fall() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;
@@ -39,11 +39,11 @@ void Sprite::fall2() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
-	if (ny != 0 && dy > 0 && platform_y(x, y) == 0)
+	if (ny != 0 && dy > 0 && level().terrain.platform_y(x, y) == 0)
 		y = ny;
 	else
 		y += dy;
@@ -52,17 +52,17 @@ void Sprite::fall2() {
 void Sprite::walk(int ndx) {
 	x += ndx;
 
-	int ny = platform_y(x, y);
+	int ny = level().terrain.platform_y(x, y);
 
 	if (ny != 0) {
 		y = ny;
 	} else {
-		ny = platform_y(x, y + 5);
+		ny = level().terrain.platform_y(x, y + 5);
 
 		if (ny != 0) {
 			y = ny;
 		} else {
-			ny = platform_y(x, y - 5);
+			ny = level().terrain.platform_y(x, y - 5);
 
 			if (ny != 0) y = ny;
 		}

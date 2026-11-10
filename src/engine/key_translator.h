@@ -2,7 +2,7 @@
 
 #include <string>
 
-std::string DIK_to_string(int n);
+std::string DIK_to_string(int n, bool french);
 
 // Stable English names for the settings file, unlike the localized DIK_to_string
 std::string codeName(unsigned int code);

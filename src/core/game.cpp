@@ -1,5 +1,3 @@
-#define GAME_CPP_FILE
-
 #include <cmath>
 #include <numbers>
 #include <algorithm>
@@ -16,7 +14,7 @@
 #include "menus/character_selection.h"
 #include "menus/join_screen.h"
 #include "cinematics/cine_player.h"
-#include "core/config.h"
+#include "core/app.h"
 #include "engine/graphics.h"
 #include "entities/enemies/enemy.h"
 #include "level/events/event_bonus.h"
@@ -42,7 +40,6 @@
 #include "level/bonus_generator.h"
 #include "level/enemy_generator.h"
 #include "level/world.h"
-#include "core/assets.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 #include "entities/make_bonus.h"
@@ -50,11 +47,9 @@
 #include "menus/title_screen.h"
 #include "level/weather_snow.h"
 #include "level/weather_rain.h"
-#include "level/scroll.h"
 #include "entities/cool_text.h"
 #include "entities/shots/shot_bb.h"
 #include "entities/shots/shot_bb_cow.h"
-#include "core/text_data.h"
 #include "entities/vehicle.h"
 #include <json.h>
 #include "core/asset_path.h"
@@ -63,8 +58,6 @@
 
 using json = nlohmann::json;
 
-Character dummyPlayer;
-
 #define TXT_TIME 828
 
 // Out of line so the owned entity types are complete here
@@ -72,13 +65,13 @@ Game::Game() = default;
 Game::~Game() = default;
 
 Task<> Game::playGame(int player_count, int player_idx) {
-	if (app_killed) co_return;
+	if (in.quitRequested()) co_return;
 
 	CINEPlayer cine;
 	bool letsgo = true;
 	int i;
 
-	mbk_interl.stop();
+	assets().music.interl.stop();
 
 	if (!loadGame()) {
 		releaseGame();
@@ -86,7 +79,6 @@ Task<> Game::playGame(int player_count, int player_idx) {
 	}
 
 	wait_for_death = 0;
-	current_track = -1;
 
 	if (player_idx == 0)
 		player1 = std::make_unique<Blip>();
@@ -94,7 +86,7 @@ Task<> Game::playGame(int player_count, int player_idx) {
 		player1 = std::make_unique<Blop>();
 
 	player1->ctrl = &controllers_[0];
-	list_players.push_back(player1.get());
+	session().players.push_back(player1.get());
 
 	if (player_count == 2) {
 		if (player_idx == 0)
@@ -103,35 +95,35 @@ Task<> Game::playGame(int player_count, int player_idx) {
 			player2 = std::make_unique<Blip>();
 
 		player2->ctrl = &controllers_[1];
-		list_players.push_back(player2.get());
+		session().players.push_back(player2.get());
 	}
 
-	cowBombOn = false;
+	session().cow_bomb = false;
 	last_perfect1 = last_perfect2 = false;
 	i = 0;
 
-	while (i < nb_part && letsgo && !app_killed) {
+	while (i < nb_part && letsgo && !in.quitRequested()) {
 		if (type_part[i] == PART_LEVEL) {
 			letsgo = co_await playLevel(file_names[i].c_str(), type_lvl[i]);
 
-			if (!cowBombOn) {
+			if (!session().cow_bomb) {
 				if (player1 != NULL) player1->nb_cow_bomb = 1;
 
 				if (player2 != NULL) player2->nb_cow_bomb = 1;
 
-				cowBombOn = true;
+				session().cow_bomb = true;
 			}
 		} else if (type_part[i] == PART_BRIEFING) {
 			showBriefing(file_names[i].c_str());
 		} else {
-			co_await cine.playScene(file_names[i].c_str(), backSurface);
+			co_await cine.playScene(file_names[i].c_str(), graphics.back());
 		}
 
 		i += 1;
 		co_await nextFrame();
 	}
 
-	if (letsgo && !app_killed) {
+	if (letsgo && !in.quitRequested()) {
 		MusicBank mbk;
 		MusicBank mbk2;
 		PictureBank pbk;
@@ -141,12 +133,12 @@ Task<> Game::playGame(int player_count, int player_idx) {
 		mbk2.open("end.mbk", false);
 		cine.loadPBK("end.gfx");
 		mbk.play(1);
-		co_await cine.playScene("end.cin", backSurface);
+		co_await cine.playScene("end.cin", graphics.back());
 		mbk.stop();
 
-		pbk.pic("cow_crush")->PasteTo(backSurface, 0, 0);
+		pbk.pic("cow_crush")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
-		pbk.pic("cow_crush")->PasteTo(backSurface, 0, 0);
+		pbk.pic("cow_crush")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
 
 		if (!in.anyKeyPressed()) mbk2.play(0);
@@ -159,9 +151,9 @@ Task<> Game::playGame(int player_count, int player_idx) {
 		mbk.play(0);
 		co_await showCredits(true);
 
-		pbk.pic("the_end")->PasteTo(backSurface, 0, 0);
+		pbk.pic("the_end")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
-		pbk.pic("the_end")->PasteTo(backSurface, 0, 0);
+		pbk.pic("the_end")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
 
 		co_await in.waitClean();
@@ -175,9 +167,9 @@ Task<> Game::playGame(int player_count, int player_idx) {
 
 	releaseGame();
 
-	pbk_inter.loadGFX("inter.gfx");
+	assets().pics.inter.loadGFX("inter.gfx");
 
-	if (!skipped && !app_killed) {
+	if (!skipped && !in.quitRequested()) {
 		if (!letsgo) {
 			co_await showGameOver();
 		}
@@ -204,28 +196,11 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 	timer_tick = 0;
 	go_.Reset();
 
-	scroll_locked = false;
-	scroll_speed = 0;
-	no_scroll1 = false;
-	no_scroll2 = false;
-
-	hold_fire = false;
-
-	weather_intensity = 0;
-
-	n_cache = 0;
-
-	for (int i = 0; i <= 10; i++) game_flag[i] = 0;
-
-	clearCoolText();
+	world_.resetLevel();
 
 	if (!loadLevel(level_name)) co_return false;
 
-	if (std::string_view(level_name) == "lvl/snorkniv.lvl" || std::string_view(level_name) == "lvl/snorkniv2.lvl") {
-		okFlamethrower = false;
-	} else {
-		okFlamethrower = true;
-	}
+	level().rules.flamethrower_ok = std::string_view(level_name) != "lvl/snorkniv.lvl" && std::string_view(level_name) != "lvl/snorkniv2.lvl";
 
 	if (player1 != NULL && player1->nb_life > 0) {
 		player1->x = xstart1;
@@ -266,7 +241,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 	}
 
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
-		nb_enemies_created = 0;
+		session().enemies_created = 0;
 
 		if (player1 != NULL) {
 			player1->setKilled(0);
@@ -307,16 +282,11 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 	bonus_level = type == LVL_BONUS;
 
-	Sprite* s = list_players[0];
-	offset = s->x;
-	offset -= (offset % 640);
+	Sprite* s = session().players[0];
+	level().camera.offset = s->x;
+	level().camera.offset -= (level().camera.offset % 640);
 
-	n_img = 0;
-	xTex = 0;
-	n_cache = 0;
-	next_x = 0;
-
-	for (Chrono pause; pause.elapsed() < 2000 && !app_killed;) {
+	for (Chrono pause; pause.elapsed() < 2000 && !in.quitRequested();) {
 		graphics.Flip();
 		co_await nextFrame();
 	}
@@ -329,26 +299,26 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		r.top = 0;
 		r.bottom = 480;
 
-		backSurface->FillRect(&r, 0);
+		graphics.back()->FillRect(&r, 0);
 
-		pbk_briefing.pic("briefing")->PasteTo(backSurface, 0, 0);
-		fnt_rpg.printC(backSurface, 320, 460, "Press a key to start.");
+		pbk_briefing.pic("briefing")->PasteTo(graphics.back(), 0, 0);
+		assets().fonts.rpg.printC(graphics.back(), 320, 460, "Press a key to start.");
 		graphics.Flip();
 
-		mbk_inter.play(2);
+		assets().music.inter.play(2);
 		co_await in.waitClean();
 		co_await in.waitKey();
 		briefing = false;
 	}
 
-	if (!app_killed) debug << "Now getting into game loop.\n";
+	if (!in.quitRequested()) debug << "Now getting into game loop.\n";
 
 	updateEvents();
 	updateAll();
 
 	update_regulator_.Skip();
 
-	while (!players_dead && !level_done && !skipped && !app_killed) {
+	while (!players_dead && !level_done && !skipped && !in.quitRequested()) {
 		co_await gameLoop();
 		updateVictoryAndDefeat();
 
@@ -358,7 +328,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 	if (players_dead) debug << "Players died\n";
 	if (level_done) debug << "Level complete\n";
 	if (skipped) debug << "User skipped\n";
-	if (app_killed) debug << "Application killed\n";
+	if (in.quitRequested()) debug << "Application killed\n";
 
 	if (player1 != NULL) {
 		player1->endLevel();
@@ -368,15 +338,14 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		player2->endLevel();
 	}
 
-	current_track = -1;
-	if (music_on) mbk_level.stop();
+	assets().music.level.stop();
 
 	// A bonus level gives the lives back and cannot be lost
-	if (type == LVL_BONUS && !skipped && !app_killed) {
+	if (type == LVL_BONUS && !skipped && !in.quitRequested()) {
 		if (player1 != NULL && p1_bringBack) {
 			if (player1->destroyed && p1_life > 0) {
 				player1->destroyed = false;
-				list_players.push_back(player1.get());
+				session().players.push_back(player1.get());
 			}
 
 			player1->nb_life = p1_life;
@@ -385,7 +354,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		if (player2 != NULL && p2_bringBack) {
 			if (player2->destroyed && p2_life > 0) {
 				player2->destroyed = false;
-				list_players.push_back(player2.get());
+				session().players.push_back(player2.get());
 			}
 
 			player2->nb_life = p2_life;
@@ -399,7 +368,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		graphics.Flip();
 		drawAll(false);
 
-		if ((type == LVL_BONUS && !skipped && game_flag[FLAG_TIMER] > 0) || type == LVL_COMPLETE || type == LVL_LAST) {
+		if ((type == LVL_BONUS && !skipped && level().rules.flags[FLAG_TIMER] > 0) || type == LVL_COMPLETE || type == LVL_LAST) {
 			if (player1 != NULL) {
 				last_perfect1 = player1->perfect;
 			}
@@ -455,40 +424,36 @@ bool Game::loadLevel(const char* level_name) {
 		return true;
 	};
 
-	bool loaded = load("gfx_decors", "gfx/", "background", true, [](const char* f) { return pbk_decor.loadGFX(f); }) &&
-				  load("gfx_niveau", "gfx/", "level stuff", false, [](const char* f) { return pbk_level.loadGFX(f); }) &&
-				  load("gfx_ennemis", "gfx/", "ennemies", false, [](const char* f) { return pbk_enemies.loadGFX(f); }) &&
-				  load("sbk_ennemis", "sfx/", "SBK", false, [](const char* f) { return sbk_level.loadSFX(f); }) &&
-				  load("fichier_mbk", "mbk/", "MBK", false,
-					   [](const char* f) {
-						   current_mbk = f;
-						   return !music_on || mbk_level.open(f);
-					   }) &&
+	bool loaded = load("gfx_decors", "gfx/", "background", true, [](const char* f) { return assets().pics.decor.loadGFX(f); }) &&
+				  load("gfx_niveau", "gfx/", "level stuff", false, [](const char* f) { return assets().pics.level.loadGFX(f); }) &&
+				  load("gfx_ennemis", "gfx/", "ennemies", false, [](const char* f) { return assets().pics.enemies.loadGFX(f); }) &&
+				  load("sbk_ennemis", "sfx/", "SBK", false, [](const char* f) { return assets().sounds.level.loadSFX(f); }) &&
+				  load("fichier_mbk", "mbk/", "MBK", false, [](const char* f) { return assets().music.level.open(f); }) &&
 				  load("fichier_rpg", "rpg/", "RPG file", false,
 					   [&](const char* f) {
 						   rpg.attachFile(f);
 						   return true;
 					   }) &&
-				  load("gfx_rpg", "gfx/", "RPG GFX", false, [](const char* f) { return pbk_rpg.loadGFX(f); });
+				  load("gfx_rpg", "gfx/", "RPG GFX", false, [](const char* f) { return assets().pics.rpg.loadGFX(f); });
 	if (!loaded) return false;
-	if (data["fichier_mbk"].get<std::string>().empty()) current_mbk.clear();
 
-	scr_level_size = data["num_decor"].size();
-	level_size = scr_level_size * 640;
+	Terrain& terrain = level().terrain;
+	terrain.screens = data["num_decor"].size();
+	terrain.width = terrain.screens * 640;
 
 	auto platform_str = from_base64(data["y_plat"]);
 	auto solid_walls_str = from_base64(data["murs_opaques"]);
 	auto bloody_walls_str = from_base64(data["murs_sanglants"]);
-	size_t level_size_8 = level_size / 8;
-	if (platform_str.size() < NB_MAX_PLATFORMS * level_size * sizeof(int32_t) || solid_walls_str.size() < 60 * level_size_8 ||
+	size_t level_size_8 = terrain.width / 8;
+	if (platform_str.size() < NB_MAX_PLATFORMS * terrain.width * sizeof(int32_t) || solid_walls_str.size() < 60 * level_size_8 ||
 		bloody_walls_str.size() < 60 * level_size_8) {
 		debug << "Game::chargeNiveau() -> Truncated collision data in <" << json_path << ">\n";
 		return false;
 	}
 
-	num_decor.resize(scr_level_size);
-	for (size_t i = 0; i < scr_level_size; i++) {
-		num_decor[i] = data["num_decor"][i];
+	terrain.decor.resize(terrain.screens);
+	for (size_t i = 0; i < terrain.screens; i++) {
+		terrain.decor[i] = data["num_decor"][i];
 	}
 
 	xstart1 = data["xstart1"];
@@ -502,19 +467,19 @@ bool Game::loadLevel(const char* level_name) {
 	vic_flag2 = data["vic_flag2"];
 	vic_val2 = data["vic_val2"];
 
-	y_platform.assign(NB_MAX_PLATFORMS, std::vector<int32_t>(level_size));
+	terrain.platforms.assign(NB_MAX_PLATFORMS, std::vector<int32_t>(terrain.width));
 	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
-		std::memcpy(y_platform[i].data(), &platform_str[i * level_size * sizeof(int32_t)], level_size * sizeof(int32_t));
+		std::memcpy(terrain.platforms[i].data(), &platform_str[i * terrain.width * sizeof(int32_t)], terrain.width * sizeof(int32_t));
 	}
 
-	solid_walls.resize(60);
+	terrain.solid.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		solid_walls[i].assign(solid_walls_str.begin() + i * level_size_8, solid_walls_str.begin() + (i + 1) * level_size_8);
+		terrain.solid[i].assign(solid_walls_str.begin() + i * level_size_8, solid_walls_str.begin() + (i + 1) * level_size_8);
 	}
 
-	bloody_walls.resize(60);
+	terrain.bloody.resize(60);
 	for (size_t i = 0; i < 60; i++) {
-		bloody_walls[i].assign(bloody_walls_str.begin() + i * level_size_8, bloody_walls_str.begin() + (i + 1) * level_size_8);
+		terrain.bloody[i].assign(bloody_walls_str.begin() + i * level_size_8, bloody_walls_str.begin() + (i + 1) * level_size_8);
 	}
 
 	size_t nb_events = data["events"].size();
@@ -735,95 +700,69 @@ bool Game::loadLevel(const char* level_name) {
 }
 
 void Game::releaseLevel() {
-	num_decor.clear();
-	y_platform.clear();
-	bloody_walls.clear();
-	solid_walls.clear();
-
+	world_.resetLevel();
 	list_event_dormant.clear();
 	list_event.clear();
-
-	list_bb_shots.clear();
-	list_cow.clear();
 	list_impacts.clear();
-
-	list_vehicles.clear();
-
-	list_enemies.clear();
-	list_enemy_shots.clear();
-	list_enemy_gens.clear();
-
-	list_bonus.clear();
-	list_gen_bonus.clear();
-
-	list_txt_cool.clear();
-
-	list_animated_bgs.clear();
-	list_static_bgs.clear();
-	list_foregrounds.clear();
-	list_moving_platforms.clear();
-
-	list_splatters.clear();
-	list_gore.clear();
-
 	list_weather.clear();
 	list_bubbles.clear();
 }
 
 void Game::updateAll() {
-	phase = !phase;
+	Entities& entities = level().entities;
+	session().phase = !session().phase;
 
-	if (phase) slow_phase = !slow_phase;
+	if (session().phase) slow_phase = !slow_phase;
 
-	okBonus = false;
+	level().rules.bonus_ok = false;
 
 	if (player1 != NULL) {
-		okBonus = okBonus || player1->okBonus();
+		level().rules.bonus_ok = level().rules.bonus_ok || player1->okBonus();
 	}
 
 	if (player2 != NULL) {
-		okBonus = okBonus || player2->okBonus();
+		level().rules.bonus_ok = level().rules.bonus_ok || player2->okBonus();
 	}
 
-	if (!no_scroll1 && !no_scroll2) updateScrolling(false);
+	if (!level().camera.frozen) level().camera.follow(session().players, false, (int)level().terrain.width);
 
 	updateEvents();
 
 	// Scroll again so locks set by the events apply
-	if (!no_scroll1 && !no_scroll2) updateScrolling();
+	if (!level().camera.frozen) level().camera.follow(session().players, true, (int)level().terrain.width);
 
 	updateCheat();
 
-	if (game_flag[FLAG_BUBBLES]) updateBubbles();
+	if (level().rules.flags[FLAG_BUBBLES]) updateBubbles();
 
-	if (weather_type == WEATHER_RAIN || weather_type == WEATHER_SNOW) updateWeather();
+	if (level().rules.weather_type == WEATHER_RAIN || level().rules.weather_type == WEATHER_SNOW) updateWeather();
 
-	UpdateCollection(list_static_bgs);
-	UpdateCollection(list_animated_bgs);
-	UpdateCollection(list_moving_platforms);
-	UpdateCollection(list_vehicles);
-	UpdateCollection(list_players);
-	UpdateCollection(list_bb_shots);
-	UpdateCollection(list_cow);
+	UpdateCollection(entities.static_bgs);
+	UpdateCollection(entities.animated_bgs);
+	UpdateCollection(entities.moving_platforms);
+	UpdateCollection(entities.vehicles);
+	UpdateCollection(session().players);
+	UpdateCollection(entities.bb_shots);
+	UpdateCollection(entities.cows);
 	UpdateCollection(list_impacts);
-	// Before list_splatters, a splatter follows its enemy and must see it destroyed in the same frame
-	UpdateCollection(list_enemies);
-	UpdateCollection(list_gore);
-	UpdateCollection(list_enemy_shots);
-	UpdateCollection(list_splatters);
-	UpdateCollection(list_bonus);
-	UpdateCollection(list_foregrounds);
+	// Before the splatters, a splatter follows its enemy and must see it destroyed in the same frame
+	UpdateCollection(entities.enemies);
+	UpdateCollection(entities.gore);
+	UpdateCollection(entities.enemy_shots);
+	UpdateCollection(entities.splatters);
+	UpdateCollection(entities.bonus);
+	UpdateCollection(entities.foregrounds);
 
-	UpdateCollection(list_txt_cool);
-	UpdateCollection(list_enemy_gens);
-	UpdateCollection(list_gen_bonus);
+	UpdateCollection(entities.cool_texts);
+	UpdateCollection(entities.enemy_gens);
+	UpdateCollection(entities.bonus_gens);
 	updateLock();
 	updateHoldFire();
 	updateTargetedPlayer();
 	updateFlags();
 	updateGoArrow();
 
-	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) updateDeformation();
+	if (level().rules.weather_type == WEATHER_DISTORT && level().rules.weather_intensity != 0) updateDeformation();
 
 	manageCollisions();
 
@@ -831,8 +770,9 @@ void Game::updateAll() {
 }
 
 void Game::drawAll(bool flip) {
+	Entities& entities = level().entities;
 	if (!flip) {
-		phase = false;
+		session().phase = false;
 		slow_phase = false;
 	}
 
@@ -844,49 +784,37 @@ void Game::drawAll(bool flip) {
 		fps_start = SDL_GetTicks();
 	}
 
-	drawScrolling();
-	DrawCollection(list_static_bgs);
-	DrawCollection(list_animated_bgs);
+	world_.scroll.draw(level().camera, level().terrain);
+	DrawCollection(entities.static_bgs);
+	DrawCollection(entities.animated_bgs);
 
-	if (game_flag[FLAG_BUBBLES]) {
+	if (level().rules.flags[FLAG_BUBBLES]) {
 		DrawCollection(list_bubbles);
 	}
 
-	DrawCollection(list_moving_platforms);
-	DrawCollection(list_splatters);
-	DrawCollection(list_gore);
+	DrawCollection(entities.moving_platforms);
+	DrawCollection(entities.splatters);
+	DrawCollection(entities.gore);
 
-	DrawCollection(list_enemies);
-	DrawCollection(list_enemy_shots);
-	DrawCollection(list_bonus);
-	DrawCollection(list_bb_shots);
-	DrawCollection(list_players);
-	DrawCollection(list_vehicles);
+	DrawCollection(entities.enemies);
+	DrawCollection(entities.enemy_shots);
+	DrawCollection(entities.bonus);
+	DrawCollection(entities.bb_shots);
+	DrawCollection(session().players);
+	DrawCollection(entities.vehicles);
 	DrawCollection(list_impacts);
-	DrawCollection(list_cow);
+	DrawCollection(entities.cows);
 	DrawCollection(list_weather);
-	DrawCollection(list_foregrounds);
+	DrawCollection(entities.foregrounds);
 
-	if (weather_type == WEATHER_DISTORT && weather_intensity != 0) drawDeformation();
+	if (level().rules.weather_type == WEATHER_DISTORT && level().rules.weather_intensity != 0) drawDeformation();
 
 	drawHUB();
 	drawTimer();
 	go_.Draw();
-	DrawCollection(list_txt_cool);
+	DrawCollection(entities.cool_texts);
 
 	drawDebugInfos();
-
-	// Hides the glitchy strip at the right edge
-	if (vbuffer_wide == 640) {
-		Rect r;
-
-		r.left = 638;
-		r.right = 640;
-		r.top = 0;
-		r.bottom = 480;
-
-		backSurface->FillRect(&r, 0);
-	}
 
 	Rect r;
 
@@ -903,7 +831,7 @@ void Game::drawAll(bool flip) {
 Task<> Game::gameLoop() {
 	int n_updates = update_regulator_.Step();
 	// A dialog starts as soon as an event asks for it, like it did inside updateAll
-	for (; n_updates > 0 && rpg_to_play == -1; --n_updates) {
+	for (; n_updates > 0 && session().rpg_to_play == -1; --n_updates) {
 		updateAll();
 	}
 
@@ -913,54 +841,54 @@ Task<> Game::gameLoop() {
 	drawAll();
 }
 
-void Game::releaseGame() { list_players.clear(); }
+void Game::releaseGame() { session().players.clear(); }
 
 bool Game::loadGame() {
 	debug << "---------------------------------------------------------------\n";
 	debug << "Loading global game files...\n";
 	debug << "---------------------------------------------------------------\n";
 
-	if (!pbk_blip.loadGFX("blip.gfx")) return false;
+	if (!assets().pics.blip.loadGFX("blip.gfx")) return false;
 
 	debug << "Successfully loaded <blip.gfx>\n";
 
-	if (!pbk_blop.loadGFX("blop.gfx")) return false;
+	if (!assets().pics.blop.loadGFX("blop.gfx")) return false;
 
 	debug << "Successfully loaded <blop.gfx>\n";
 
-	if (!pbk_bb.loadGFX("bb.gfx")) return false;
+	if (!assets().pics.bb.loadGFX("bb.gfx")) return false;
 
 	debug << "Successfully loaded <bb.gfx>\n";
 
-	if (!pbk_misc.loadGFX("misc.gfx")) return false;
+	if (!assets().pics.misc.loadGFX("misc.gfx")) return false;
 
 	debug << "Successfully loaded <misc.gfx>\n";
 
-	if (!pbk_rpg_bb.loadGFX("rpg_bb.gfx")) return false;
+	if (!assets().pics.rpg_bb.loadGFX("rpg_bb.gfx")) return false;
 
 	debug << "Successfully loaded <rpg_bb.gfx>\n";
 
-	if (!fnt_score_blip.load("scorei.lft")) return false;
+	if (!assets().fonts.score_blip.load("scorei.lft")) return false;
 
 	debug << "Successfully loaded <scorei.lft>\n";
 
-	if (!fnt_score_blop.load("scoreo.lft")) return false;
+	if (!assets().fonts.score_blop.load("scoreo.lft")) return false;
 
 	debug << "Successfully loaded <scoreo.lft>\n";
 
-	if (!fnt_ammo.load("ammo1.lft")) return false;
+	if (!assets().fonts.ammo.load("ammo1.lft")) return false;
 
 	debug << "Successfully loaded <ammo1.lft>\n";
 
-	if (!fnt_ammo_used.load("ammo2.lft")) return false;
+	if (!assets().fonts.ammo_used.load("ammo2.lft")) return false;
 
 	debug << "Successfully loaded <ammo2.lft>\n";
 
-	if (!sbk_misc.loadSFX("misc.sfx")) return false;
+	if (!assets().sounds.misc.loadSFX("misc.sfx")) return false;
 
 	debug << "Successfully loaded <misc.sfx>\n";
 
-	if (!sbk_bb.loadSFX("bb.sfx")) return false;
+	if (!assets().sounds.bb.loadSFX("bb.sfx")) return false;
 
 	debug << "Successfully loaded <bb.sfx>\n";
 
@@ -985,24 +913,25 @@ void Game::RemoveDestroyed(T& xs) {
 }
 
 void Game::cleanLists() {
-	RemoveDestroyed(list_players);
-	RemoveDestroyed(list_static_bgs);
-	RemoveDestroyed(list_bb_shots);
-	RemoveDestroyed(list_cow);
+	Entities& entities = level().entities;
+	RemoveDestroyed(session().players);
+	RemoveDestroyed(entities.static_bgs);
+	RemoveDestroyed(entities.bb_shots);
+	RemoveDestroyed(entities.cows);
 	RemoveDestroyed(list_bubbles);
 	RemoveDestroyed(list_impacts);
-	RemoveDestroyed(list_enemies);
-	RemoveDestroyed(list_bonus);
-	RemoveDestroyed(list_enemy_gens);
-	RemoveDestroyed(list_gen_bonus);
-	RemoveDestroyed(list_txt_cool);
-	RemoveDestroyed(list_animated_bgs);
-	RemoveDestroyed(list_foregrounds);
-	RemoveDestroyed(list_splatters);
-	RemoveDestroyed(list_enemy_shots);
+	RemoveDestroyed(entities.enemies);
+	RemoveDestroyed(entities.bonus);
+	RemoveDestroyed(entities.enemy_gens);
+	RemoveDestroyed(entities.bonus_gens);
+	RemoveDestroyed(entities.cool_texts);
+	RemoveDestroyed(entities.animated_bgs);
+	RemoveDestroyed(entities.foregrounds);
+	RemoveDestroyed(entities.splatters);
+	RemoveDestroyed(entities.enemy_shots);
 	RemoveDestroyed(list_weather);
-	RemoveDestroyed(list_gore);
-	RemoveDestroyed(list_moving_platforms);
+	RemoveDestroyed(entities.gore);
+	RemoveDestroyed(entities.moving_platforms);
 }
 
 void Game::updateEvents() {
@@ -1028,24 +957,25 @@ void Game::updateEvents() {
 }
 
 void Game::manageCollisions() {
-	for (Shot* shot : list_bb_shots) {
-		for (auto& enemy : list_enemies) {
+	Entities& entities = level().entities;
+	for (Shot* shot : entities.bb_shots) {
+		for (auto& enemy : entities.enemies) {
 			if (shot->collision(enemy.get())) {
 				enemy->takeHit(shot);
 			}
 		}
 	}
 
-	for (auto& shot : list_cow) {
-		for (auto& enemy : list_enemies) {
+	for (auto& shot : entities.cows) {
+		for (auto& enemy : entities.enemies) {
 			if (shot->collision(enemy.get())) {
 				enemy->takeHit(shot.get());
 			}
 		}
 	}
 
-	for (auto& bonus : list_bonus) {
-		for (Ball* ball : list_players) {
+	for (auto& bonus : entities.bonus) {
+		for (Ball* ball : session().players) {
 			if (bonus->collision(ball)) {
 				bonus->onPickup(ball);
 			}
@@ -1053,14 +983,14 @@ void Game::manageCollisions() {
 	}
 
 	if (wait_for_victory <= 0) {
-		for (auto& enemy : list_enemies) {
-			for (Ball* hero : list_players) {
+		for (auto& enemy : entities.enemies) {
+			for (Ball* hero : session().players) {
 				if (enemy->collision(hero)) hero->takeHit(enemy->damage());
 			}
 		}
 
-		for (auto& shot : list_enemy_shots) {
-			for (Ball* hero : list_players) {
+		for (auto& shot : entities.enemy_shots) {
+			for (Ball* hero : session().players) {
 				if (shot->collision(hero)) {
 					hero->takeHit(shot->damage());
 				}
@@ -1070,19 +1000,16 @@ void Game::manageCollisions() {
 }
 
 void Game::updateLock() {
-	if (!scroll_locked) return;
-
-	if ((cond_end_lock == 0 && list_enemies.empty()) || (cond_end_lock == 1 && list_enemy_gens.empty()) ||
-		(cond_end_lock == 2 && game_flag[flag_end_lock] == val_end_lock) || (cond_end_lock == 3 && game_flag[flag_end_lock] >= val_end_lock)) {
-		scroll_locked = false;
+	Camera::Lock& lock = level().camera.lock;
+	if (lock.on && lock.released(level().entities, level().rules.flags)) {
+		lock.on = false;
 		go_.Come();
 	}
 }
 
 void Game::updateHoldFire() {
-	if (!hold_fire) return;
-
-	if (game_flag[flag_hold_fire] == val_hold_fire) hold_fire = false;
+	LevelRules& rules = level().rules;
+	if (rules.hold_fire.on && rules.hold_fire.released(rules.flags)) rules.hold_fire.on = false;
 }
 
 void Game::drawHUB() {
@@ -1101,42 +1028,40 @@ void Game::drawHUBhp(int x, int y, int hp) {
 	static const int x_hp[] = {3, 0, 13, 44, 31};
 	static const int y_hp[] = {0, 21, 48, 21, 0};
 
-	for (int i = 0; i < hp; i++) pbk_bb.anim("health_full")[4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = 0; i < hp; i++) assets().pics.bb.anim("health_full")[4 - i]->BlitTo(graphics.back(), x + x_hp[i], y + y_hp[i]);
 
-	for (int i = hp; i < 5; i++) pbk_bb.anim("health_empty")[4 - i]->BlitTo(backSurface, x + x_hp[i], y + y_hp[i]);
+	for (int i = hp; i < 5; i++) assets().pics.bb.anim("health_empty")[4 - i]->BlitTo(graphics.back(), x + x_hp[i], y + y_hp[i]);
 }
 
 void Game::drawDebugInfos() {
 	if (show_fps) {
-		fnt_rpg.print(backSurface, 10, 130, ("FPS = " + std::to_string(fps_count)).c_str());
+		assets().fonts.rpg.print(graphics.back(), 10, 130, ("FPS = " + std::to_string(fps_count)).c_str());
 	}
 }
 
 void Game::updateTargetedPlayer() {
-	static int targeted_idx = 0;
-
-	if (list_players.empty()) {
-		dummyPlayer.x = offset + 320;
-		dummyPlayer.y = y_platform[0][offset + 320];
-		targeted_player = &dummyPlayer;
+	if (session().players.empty()) {
+		dummy_player_.x = level().camera.offset + 320;
+		dummy_player_.y = level().terrain.platforms[0][level().camera.offset + 320];
+		session().targeted_player = &dummy_player_;
 		return;
 	}
 
-	targeted_idx += 1;
-	targeted_idx %= list_players.size();
-	targeted_player = list_players[targeted_idx];
+	targeted_idx_ += 1;
+	targeted_idx_ %= session().players.size();
+	session().targeted_player = session().players[targeted_idx_];
 }
 
 Task<> Game::updateRPG() {
-	if (rpg_to_play == -1) co_return;
+	if (session().rpg_to_play == -1) co_return;
 
 	bool continued = true;
 
-	rpg.startPlay(rpg_to_play);
+	rpg.startPlay(session().rpg_to_play);
 
-	while (continued && !app_killed) {
+	while (continued && !in.quitRequested()) {
 		drawAll(false);
-		continued = rpg.drawScene(backSurface);
+		continued = rpg.drawScene(graphics.back());
 		graphics.Flip();
 
 		co_await nextFrame();
@@ -1144,12 +1069,12 @@ Task<> Game::updateRPG() {
 
 	rpg.stopPlay();
 	co_await in.waitClean();
-	rpg_to_play = -1;
+	session().rpg_to_play = -1;
 	update_regulator_.Skip();
 }
 
 void Game::updateVictoryAndDefeat() {
-	if (list_players.empty()) {
+	if (session().players.empty()) {
 		wait_for_death += 1;
 
 		if (wait_for_death >= 200) players_dead = true;
@@ -1157,11 +1082,11 @@ void Game::updateVictoryAndDefeat() {
 		return;
 	}
 
-	if (offset >= vic_x && game_flag[vic_flag1] == vic_val1 && game_flag[vic_flag2] == vic_val2) {
-		hold_fire = true;
+	if (level().camera.offset >= vic_x && level().rules.flags[vic_flag1] == vic_val1 && level().rules.flags[vic_flag2] == vic_val2) {
+		level().rules.hold_fire.on = true;
 		wait_for_victory += 1;
 
-		if (game_flag[1] == 999) wait_for_victory = 200;
+		if (level().rules.flags[1] == 999) wait_for_victory = 200;
 
 		if (wait_for_victory >= 200) level_done = true;
 	} else {
@@ -1170,26 +1095,26 @@ void Game::updateVictoryAndDefeat() {
 }
 
 void Game::updateFlags() {
-	game_flag[FLAG_NB_GEN] = (int)list_enemy_gens.size();
-	game_flag[FLAG_NB_ENEMIES] = (int)list_enemies.size();
-	makeb_current_mode = game_flag[FLAG_BONUS];
+	level().rules.flags[FLAG_NB_GEN] = (int)level().entities.enemy_gens.size();
+	level().rules.flags[FLAG_NB_ENEMIES] = (int)level().entities.enemies.size();
+	level().rules.bonus_mode = level().rules.flags[FLAG_BONUS];
 
-	if (game_flag[FLAG_TIMER] > 0 && wait_for_victory == -1) {
+	if (level().rules.flags[FLAG_TIMER] > 0 && wait_for_victory == -1) {
 		timer_tick += 1;
 		timer_tick %= 80;
 
 		if (timer_tick == 0) {
-			game_flag[FLAG_TIMER] -= 1;
+			level().rules.flags[FLAG_TIMER] -= 1;
 
-			if (game_flag[FLAG_TIMER] == 0 && bonus_level) level_done = true;
+			if (level().rules.flags[FLAG_TIMER] == 0 && bonus_level) level_done = true;
 		}
 	}
 }
 
 void Game::drawTimer() {
-	if (game_flag[FLAG_TIMER] > 0) {
-		fnt_cool.printC(backSurface, 320, 20, txt_data[TXT_TIME]);
-		fnt_cool.printC(backSurface, 320, 50, std::to_string(game_flag[FLAG_TIMER]));
+	if (level().rules.flags[FLAG_TIMER] > 0) {
+		assets().fonts.cool.printC(graphics.back(), 320, 20, texts()[TXT_TIME]);
+		assets().fonts.cool.printC(graphics.back(), 320, 50, std::to_string(level().rules.flags[FLAG_TIMER]));
 	}
 }
 
@@ -1204,14 +1129,14 @@ Task<> Game::updateMenu() {
 		drawAll(false);
 		graphics.Flip();
 
-		menu.Draw(backSurface);
+		menu.Draw(graphics.back());
 		graphics.Flip();
 
 		co_await in.waitClean();
 
-		while (!(r = menu.Update()) && !app_killed) {
+		while (!(r = menu.Update()) && !in.quitRequested()) {
 			drawAll(false);
-			menu.Draw(backSurface);
+			menu.Draw(graphics.back());
 
 			graphics.Flip();
 
@@ -1235,7 +1160,7 @@ Task<> Game::updateMenu() {
 void Game::updateCheat() {
 	if (wait_cheat < 20) wait_cheat += 1;
 
-	if (!cheat_on) return;
+	if (!settings().cheat) return;
 
 	if (player1 != NULL) {
 		if (in.scanKey(DIK_F1)) player1->ammo[player1->weapon_id] += 10;
@@ -1329,16 +1254,16 @@ struct PlayerTotals {
 	}
 
 	void draw(int timer) {
-		if (life_up > 0) fnt_rpg.printC(backSurface, xbase + 105, 270, "LIFE UP");
+		if (life_up > 0) assets().fonts.rpg.printC(graphics.back(), xbase + 105, 270, "LIFE UP");
 
 		auto line = [&](int y, const char* label, int value) {
-			fnt_rpg.print(backSurface, xbase, y, label);
-			fnt->printR(backSurface, xbase + 210, y, std::to_string(value).c_str());
+			assets().fonts.rpg.print(graphics.back(), xbase, y, label);
+			fnt->printR(graphics.back(), xbase + 210, y, std::to_string(value).c_str());
 		};
 		if (perfect > 0) line(180, "PERFECT", c_perfect);
 		if (obj > 0) line(200, "Objective", c_obj);
 		line(220, "Casualties", c_killed);
-		fnt_rpg.printR(backSurface, xbase + 220, 220, "%");
+		assets().fonts.rpg.printR(graphics.back(), xbase + 220, 220, "%");
 		if (timer > 0) line(240, "Time left", c_time);
 		line(300, "BONUS", total_bonus);
 		line(320, "SCORE", total);
@@ -1357,18 +1282,18 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
 
-	systemSurface->BltFast(0, 0, backSurface, NULL);
+	graphics.spare()->BltFast(0, 0, graphics.back(), NULL);
 
 	Rect r;
 	r.top = 100;
 	r.left = 60;
 	r.right = 580;
 	r.bottom = 400;
-	halfTone(systemSurface, &r);
+	halfTone(graphics.spare(), &r);
 
-	mbk_inter.play(0);
+	assets().music.inter.play(0);
 
-	if (list_players.size() == 2) {
+	if (session().players.size() == 2) {
 		totals[0].calc = totals[1].calc = 0;
 		totals[0].xbase = 80;
 		totals[1].xbase = 350;
@@ -1382,14 +1307,14 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 
 	for (auto& t : totals) {
 		if (t.calc == 4) continue;
-		t.fnt = t.player->id_ball == ID_BLIP ? &fnt_score_blip : &fnt_score_blop;
-		if (nb_enemies_created > 0) t.killed = (100 * t.player->getKilled()) / nb_enemies_created;
-		if (!bonus || (game_flag[FLAG_TIMER] > 0 && !players_dead)) t.obj = 50000;
+		t.fnt = t.player->id_ball == ID_BLIP ? &assets().fonts.score_blip : &assets().fonts.score_blop;
+		if (session().enemies_created > 0) t.killed = (100 * t.player->getKilled()) / session().enemies_created;
+		if (!bonus || (level().rules.flags[FLAG_TIMER] > 0 && !players_dead)) t.obj = 50000;
 		if (t.obj > 0 && t.player->perfect) t.perfect = 50000;
 		t.total = t.player->getScore();
 		if (bonus_failed) t.perfect = t.obj = t.killed = 0;
 	}
-	if (bonus_failed) game_flag[FLAG_TIMER] = 0;
+	if (bonus_failed) level().rules.flags[FLAG_TIMER] = 0;
 
 	int tally_tick = 0;
 
@@ -1401,23 +1326,23 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 		if (in.anyKeyPressed()) tally_tick = 0;
 
 		if (tally_tick == 0) {
-			for (auto& t : totals) t.step(game_flag[FLAG_TIMER]);
+			for (auto& t : totals) t.step(level().rules.flags[FLAG_TIMER]);
 		}
 
-		backSurface->BltFast(0, 0, systemSurface, NULL);
+		graphics.back()->BltFast(0, 0, graphics.spare(), NULL);
 
-		fnt_cool.printC(backSurface, 320, 120, bonus_failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
+		assets().fonts.cool.printC(graphics.back(), 320, 120, bonus_failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
 		for (auto& t : totals) {
-			if (t.fnt) t.draw(game_flag[FLAG_TIMER]);
+			if (t.fnt) t.draw(level().rules.flags[FLAG_TIMER]);
 		}
 
 		graphics.Flip();
 
 		co_await nextFrame();
-	} while (!app_killed && (totals[0].calc < 4 || totals[1].calc < 4));
+	} while (!in.quitRequested() && (totals[0].calc < 4 || totals[1].calc < 4));
 
-	if (!app_killed) {
+	if (!in.quitRequested()) {
 		co_await in.waitClean();
 		co_await in.waitKey();
 	}
@@ -1426,7 +1351,7 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 		if (t.fnt) t.player->setScore(t.total);
 	}
 
-	mbk_inter.stop();
+	assets().music.inter.stop();
 }
 
 void Game::updateWeather() {
@@ -1434,42 +1359,42 @@ void Game::updateWeather() {
 		pl->update();
 	}
 
-	while (list_weather.size() < (size_t)weather_intensity) {
-		if (weather_type == WEATHER_SNOW) {
+	while (list_weather.size() < (size_t)level().rules.weather_intensity) {
+		if (level().rules.weather_type == WEATHER_SNOW) {
 			next_snowflake = (next_snowflake + 1) % NB_SNOWFLAKES;
 			WeatherSnow* snowflake = &snow[next_snowflake];
 
 			int d = rand() % 3;
 
 			snowflake->destroyed = false;
-			snowflake->xbase = offset + rand() % 800;
+			snowflake->xbase = level().camera.offset + rand() % 800;
 			snowflake->y = rand() % 480 - 500;
 
 			if (d <= 1)
-				snowflake->pic = pbk_misc.pic("snowflake_small");
+				snowflake->pic = assets().pics.misc.pic("snowflake_small");
 			else
-				snowflake->pic = pbk_misc.pic("snowflake_large");
+				snowflake->pic = assets().pics.misc.pic("snowflake_large");
 
-			snowflake->dy = weather_intensity / 20 + d;
+			snowflake->dy = level().rules.weather_intensity / 20 + d;
 			snowflake->phi = rand() % 360;
 			snowflake->xwide = 10 + d * 4;
 
-			if (solid_wall(snowflake->xbase, 0)) snowflake->y -= 550;
+			if (level().terrain.solid_wall(snowflake->xbase, 0)) snowflake->y -= 550;
 
 			list_weather.emplace_back(snowflake);
-		} else if (weather_type == WEATHER_RAIN) {
+		} else if (level().rules.weather_type == WEATHER_RAIN) {
 			next_raindrop = (next_raindrop + 1) % NB_RAINDROPS;
 			WeatherRain* raindrop = &rain[next_raindrop];
 
 			int d = rand() % 4;
 
 			raindrop->destroyed = false;
-			raindrop->x = offset + rand() % 800;
+			raindrop->x = level().camera.offset + rand() % 800;
 			raindrop->y = rand() % 480 - 480;
-			raindrop->pic = pbk_misc.anim("raindrop")[d];
+			raindrop->pic = assets().pics.misc.anim("raindrop")[d];
 			raindrop->dy = 7 + d * 2;
 
-			if (solid_wall(raindrop->x, 0)) raindrop->y -= 550;
+			if (level().terrain.solid_wall(raindrop->x, 0)) raindrop->y -= 550;
 
 			list_weather.emplace_back(raindrop);
 		}
@@ -1485,8 +1410,8 @@ void Game::UpdateCollection(const T& xs) {
 
 void Game::updateGoArrow() {
 	go_.Update();
-	if (last_x_go_ != offset) {
-		last_x_go_ = offset;
+	if (last_x_go_ != level().camera.offset) {
+		last_x_go_ = level().camera.offset;
 		go_.Leave();
 	}
 }
@@ -1525,7 +1450,7 @@ void Game::drawDeformation() {
 			r.right = 640 - x;
 		}
 
-		backSurface->BltFast(x, y, backSurface, &r);
+		graphics.back()->BltFast(x, y, graphics.back(), &r);
 
 		if (xt < 0) {
 			r.left = 640 + xt;
@@ -1535,16 +1460,16 @@ void Game::drawDeformation() {
 			r.right = xt;
 		}
 
-		backSurface->FillRect(&r, 0);
+		graphics.back()->FillRect(&r, 0);
 	}
 }
 
 void Game::updateBubbles() {
-	for (Ball* pl : list_players) {
+	for (Ball* pl : session().players) {
 		spawnBubble(pl);
 	}
 
-	for (auto& pl : list_enemies) {
+	for (auto& pl : level().entities.enemies) {
 		if (list_bubbles.size() < 15) {
 			break;
 		}
@@ -1564,7 +1489,7 @@ void Game::spawnBubble(Sprite* s) {
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
-		b->pic = pbk_misc.anim("bubble")[rand() % 3];
+		b->pic = assets().pics.misc.anim("bubble")[rand() % 3];
 		b->dphi = 5 + rand() % 3;
 		b->dy = -(2 + rand() % 2);
 
@@ -1611,13 +1536,13 @@ void Game::drawLoading() {
 	r.top = 195;
 	r.bottom = 245;
 
-	fnt_cool.printC(backSurface, 320, 205, "LOADING");
+	assets().fonts.cool.printC(graphics.back(), 320, 205, "LOADING");
 }
 
 Task<> Game::getHiscore() {
-	if (player1 != NULL && hi_scores.isGood(player1->getScore())) co_await getName(player1.get(), 1);
+	if (player1 != NULL && hiScores().isGood(player1->getScore())) co_await getName(player1.get(), 1);
 
-	if (player2 != NULL && hi_scores.isGood(player2->getScore())) co_await getName(player2.get(), 2);
+	if (player2 != NULL && hiScores().isGood(player2->getScore())) co_await getName(player2.get(), 2);
 }
 
 Task<> Game::getName(Player* hero, int player_num) {
@@ -1626,25 +1551,25 @@ Task<> Game::getName(Player* hero, int player_num) {
 	int key = -1;
 	int x = 640;
 
-	while (!app_killed && x >= 40) {
+	while (!in.quitRequested() && x >= 40) {
 		x -= 20;
 
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 
-		fnt_menu.printC(backSurface, 320 - x, 160, title);
-		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
+		assets().fonts.menu.printC(graphics.back(), 320 - x, 160, title);
+		assets().fonts.menu.printC(graphics.back(), 320 + x, 210, "PLEASE ENTER YOUR NAME :");
 
 		graphics.Flip();
 
 		co_await nextFrame();
 	}
 
-	while (!app_killed && key != DIK_RETURN) {
+	while (!in.quitRequested() && key != DIK_RETURN) {
 		co_await in.waitClean();
 		key = co_await in.waitKey();
 		if (in.scanKey(DIK_RETURN)) key = DIK_RETURN;
 
-		std::string key_tmp = DIK_to_string(key);
+		std::string key_tmp = DIK_to_string(key, settings().lang == LANG_FR);
 
 		if (key == DIK_SPACE && name.size() < 19) name += ' ';
 		if (key == DIK_BACKSPACE && !name.empty()) {
@@ -1653,45 +1578,45 @@ Task<> Game::getName(Player* hero, int player_num) {
 			name += key_tmp[0];
 		}
 
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
-		fnt_menu.printC(backSurface, 320 - x, 160, title);
-		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
-		fnt_menu.printC(backSurface, 320, 260, name);
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
+		assets().fonts.menu.printC(graphics.back(), 320 - x, 160, title);
+		assets().fonts.menu.printC(graphics.back(), 320 + x, 210, "PLEASE ENTER YOUR NAME :");
+		assets().fonts.menu.printC(graphics.back(), 320, 260, name);
 		graphics.Flip();
 
 		co_await nextFrame();
 	}
 
-	while (!app_killed && x < 640) {
+	while (!in.quitRequested() && x < 640) {
 		x += 20;
 
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 
-		fnt_menu.printC(backSurface, 320 - x, 160, title);
-		fnt_menu.printC(backSurface, 320 + x, 210, "PLEASE ENTER YOUR NAME :");
-		fnt_menu.printC(backSurface, 320, 260 + x, name);
+		assets().fonts.menu.printC(graphics.back(), 320 - x, 160, title);
+		assets().fonts.menu.printC(graphics.back(), 320 + x, 210, "PLEASE ENTER YOUR NAME :");
+		assets().fonts.menu.printC(graphics.back(), 320, 260 + x, name);
 
 		graphics.Flip();
 
 		co_await nextFrame();
 	}
 
-	hi_scores.add(hero->getScore(), name);
-	save_settings();
+	hiScores().add(hero->getScore(), name);
+	App::current().save();
 }
 
 Task<> Game::showGameOver() {
 	Chrono t;
 
-	mbk_inter.play(1);
+	assets().music.inter.play(1);
 
-	while (!app_killed && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
-		pbk_inter.pic("game_over")->PasteTo(backSurface, 0, 0);
+	while (!in.quitRequested() && t.elapsed() <= 5000 && !in.anyKeyPressed()) {
+		assets().pics.inter.pic("game_over")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
 
 		co_await nextFrame();
 	}
-	mbk_inter.stop();
+	assets().music.inter.stop();
 }
 
 Task<> Game::showHighScores() {
@@ -1700,30 +1625,30 @@ Task<> Game::showHighScores() {
 	for (int i = 0; i < HS_NB_SCORES; i++) x[i] = 400 + 160 * i;
 
 	Chrono scores_timer;
-	while (!app_killed && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+	while (!in.quitRequested() && !in.anyKeyPressed() && (scores_timer.elapsed() <= 10000)) {
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (x[i] > 0) x[i] -= 20;
 
-			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, std::to_string(hi_scores.getScore(i)).c_str());
+			assets().fonts.cool.printR(graphics.back(), 300 - x[i], 160 + 30 * i, std::to_string(hiScores().getScore(i)).c_str());
 
-			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
+			assets().fonts.cool.print(graphics.back(), 320 + x[i], 160 + 30 * i, hiScores().getName(i));
 		}
 
 		graphics.Flip();
 		co_await nextFrame();
 	}
 
-	while (!app_killed && x[HS_NB_SCORES - 1] < 350) {
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+	while (!in.quitRequested() && x[HS_NB_SCORES - 1] < 350) {
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 
 		for (int i = 0; i < HS_NB_SCORES; i++) {
 			if (i == 0 || x[i - 1] >= 160) x[i] += 20;
 
-			fnt_cool.printR(backSurface, 300 - x[i], 160 + 30 * i, std::to_string(hi_scores.getScore(i)).c_str());
+			assets().fonts.cool.printR(graphics.back(), 300 - x[i], 160 + 30 * i, std::to_string(hiScores().getScore(i)).c_str());
 
-			fnt_cool.print(backSurface, 320 + x[i], 160 + 30 * i, hi_scores.getName(i));
+			assets().fonts.cool.print(graphics.back(), 320 + x[i], 160 + 30 * i, hiScores().getName(i));
 		}
 
 		graphics.Flip();
@@ -1736,20 +1661,18 @@ Task<> Game::showHighScores() {
 Task<> Game::go() {
 	TitleScreen menu;
 	int r;
-	static int attract_step = 0;
 
 	{
-		backSurface->FillRect(nullptr, 0);
-		fnt_cool.printC(backSurface, 320, 240, "PLEASE WAIT");
+		graphics.back()->FillRect(nullptr, 0);
+		assets().fonts.cool.printC(graphics.back(), 320, 240, "PLEASE WAIT");
 	}
 
 	CINEPlayer cine;
 
 	cine.loadPBK("intro.gfx");
-	mbk_interl.play(0);
-	co_await cine.playScene("intro.cin", backSurface, true);
+	assets().music.interl.play(0);
+	co_await cine.playScene("intro.cin", graphics.back(), true);
 
-	menu.start();
 	debug << "Title menu\n";
 	co_await in.waitClean();
 
@@ -1758,13 +1681,13 @@ Task<> Game::go() {
 	do {
 		r = RET_CONTINUE;
 
-		while (!r && !app_killed) {
+		while (!r && !in.quitRequested()) {
 			if (in.anyKeyPressed()) {
 				diff_start.Reset();
 			}
 
 			if (diff_start.elapsed() >= 10000) {
-				switch (attract_step) {
+				switch (attract_step_) {
 					case 0:
 					case 2:
 					case 4:
@@ -1783,24 +1706,21 @@ Task<> Game::go() {
 					case 3:
 					case 7:
 						cine.loadPBK("intro.gfx");
-						co_await cine.playScene("intro.cin", backSurface, true);
+						co_await cine.playScene("intro.cin", graphics.back(), true);
 						break;
 				}
 
-				attract_step = (attract_step + 1) % 8;
-
-				menu.stop();
-				menu.start();
+				attract_step_ = (attract_step_ + 1) % 8;
 
 				if (in.anyKeyPressed()) {
 					diff_start.Reset();
 					co_await in.waitClean();
 				}
 			} else {
-				pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+				assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 
 				r = menu.update();
-				menu.draw(backSurface);
+				menu.draw(graphics.back());
 
 				graphics.Flip();
 			}
@@ -1817,7 +1737,7 @@ Task<> Game::go() {
 			JoinScreen join;
 
 			auto joined = JoinScreen::Output::Continue;
-			while (joined == JoinScreen::Output::Continue && !app_killed) {
+			while (joined == JoinScreen::Output::Continue && !in.quitRequested()) {
 				joined = join.update();
 				join.draw();
 				graphics.Flip();
@@ -1831,7 +1751,7 @@ Task<> Game::go() {
 				CharacterSelection select;
 
 				auto selected = CharacterSelection::Output::Continue;
-				while (selected == CharacterSelection::Output::Continue && !app_killed) {
+				while (selected == CharacterSelection::Output::Continue && !in.quitRequested()) {
 					selected = select.update();
 					select.draw();
 					graphics.Flip();
@@ -1845,21 +1765,17 @@ Task<> Game::go() {
 				graphics.Flip();
 
 				co_await playGame(join.players(), int(selected));
-				mbk_interl.play(0);
+				assets().music.interl.play(0);
 			}
 
-			menu.stop();
-			menu.start();
 			diff_start.Reset();
 		}
 
 		co_await nextFrame();
 
-	} while (r != RET_EXIT && !app_killed);
+	} while (r != RET_EXIT && !in.quitRequested());
 
-	menu.stop();
-
-	mbk_interl.stop();
+	assets().music.interl.stop();
 }
 
 void Game::showBriefing(const char* fn) {
@@ -1874,18 +1790,18 @@ void Game::showBriefing(const char* fn) {
 	r.top = 0;
 	r.bottom = 480;
 
-	backSurface->FillRect(&r, 0);
+	graphics.back()->FillRect(&r, 0);
 
-	pbk_briefing.pic("briefing")->PasteTo(backSurface, 0, 0);
-	fnt_rpg.printC(backSurface, 320, 460, "Loading...");
+	pbk_briefing.pic("briefing")->PasteTo(graphics.back(), 0, 0);
+	assets().fonts.rpg.printC(graphics.back(), 320, 460, "Loading...");
 	graphics.Flip();
 }
 
 Task<> Game::showMainScreen() {
 	Chrono t;
 
-	while (!in.anyKeyPressed() && !app_killed && t.elapsed() <= 5000) {
-		pbk_inter.pic("title")->PasteTo(backSurface, 0, 0);
+	while (!in.anyKeyPressed() && !in.quitRequested() && t.elapsed() <= 5000) {
+		assets().pics.inter.pic("title")->PasteTo(graphics.back(), 0, 0);
 		graphics.Flip();
 
 		co_await nextFrame();
@@ -1914,7 +1830,7 @@ Task<> Game::showCredits(bool theEnd) {
 
 	update_regulator_.Skip();
 
-	while (!app_killed && (!in.anyKeyPressed() || theEnd) && last_y > 0) {
+	while (!in.quitRequested() && (!in.anyKeyPressed() || theEnd) && last_y > 0) {
 		int n_updates = update_regulator_.Step();
 		for (; n_updates > 0; --n_updates) {
 			ey = (ey + 1) % SSPEED;
@@ -1931,176 +1847,176 @@ Task<> Game::showCredits(bool theEnd) {
 			r.top = 0;
 			r.bottom = 480;
 
-			backSurface->FillRect(&r, 0);
+			graphics.back()->FillRect(&r, 0);
 		}
 
 		if (theEnd) {
-			pbk_cred.anim("pages")[npage]->PasteTo(backSurface, 0, 0);
+			pbk_cred.anim("pages")[npage]->PasteTo(graphics.back(), 0, 0);
 		} else {
-			pbk_inter.pic("title")->BlitTo(backSurface, 0, 0);
+			assets().pics.inter.pic("title")->BlitTo(graphics.back(), 0, 0);
 		}
 
-		fnt_rpg.printC(backSurface, xcred, y + LINE_GAP, "Credits");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y + LINE_GAP, "Credits");
 
 		int y1 = y + LINE_GAP + SECTION_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y1, "CODE");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 0, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 1, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 3, "2019 REVAMP");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 4, "Guillaume Sanchez");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 6, "Web port");
-		fnt_rpg.printC(backSurface, xcred, y1 + TITLE_GAP + LINE_GAP * 7, "Adam Kecskes");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1, "CODE");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 0, "Benjamin Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 1, "Sylvain Bugat");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 3, "2019 REVAMP");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 4, "Guillaume Sanchez");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 6, "Web port");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y1 + TITLE_GAP + LINE_GAP * 7, "Adam Kecskes");
 
 		int y2 = y1 + 4 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y2, "MUSIC AND SOUND");
-		fnt_rpg.printC(backSurface, xcred, y2 + LINE_GAP, "DESIGN");
-		fnt_rpg.printC(backSurface, xcred, y2 + TITLE_GAP + LINE_GAP, "Gerard Kelly");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y2, "MUSIC AND SOUND");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y2 + LINE_GAP, "DESIGN");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y2 + TITLE_GAP + LINE_GAP, "Gerard Kelly");
 
 		int y3 = y2 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y3, "ADDITIONAL MUSIC");
-		fnt_rpg.printC(backSurface, xcred, y3 + TITLE_GAP + 0 * LINE_GAP, "El Mobo");
-		fnt_rpg.printC(backSurface, xcred, y3 + TITLE_GAP + 1 * LINE_GAP, "Rik Ede");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y3, "ADDITIONAL MUSIC");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y3 + TITLE_GAP + 0 * LINE_GAP, "El Mobo");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y3 + TITLE_GAP + 1 * LINE_GAP, "Rik Ede");
 
 		int y4 = y3 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y4, "ARTWORK");
-		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 0, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 1, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 2, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 3, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y4 + TITLE_GAP + LINE_GAP * 4, "Sylvain Bugat");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4, "ARTWORK");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4 + TITLE_GAP + LINE_GAP * 0, "Laurent Schneider");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4 + TITLE_GAP + LINE_GAP * 1, "Jérémie Comarmond");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4 + TITLE_GAP + LINE_GAP * 2, "Jérôme Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4 + TITLE_GAP + LINE_GAP * 3, "Didier Colin");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y4 + TITLE_GAP + LINE_GAP * 4, "Sylvain Bugat");
 
 		int y5 = y4 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y5, "ADDITIONAL SOUND");
-		fnt_rpg.printC(backSurface, xcred, y5 + LINE_GAP, "AND VOCAL EFFECTS");
-		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
-		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 2 * LINE_GAP, "Jérôme Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 3 * LINE_GAP, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y5 + TITLE_GAP + 4 * LINE_GAP, "Vincent Lagarrigue");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5, "ADDITIONAL SOUND");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5 + LINE_GAP, "AND VOCAL EFFECTS");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5 + TITLE_GAP + 2 * LINE_GAP, "Jérôme Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5 + TITLE_GAP + 3 * LINE_GAP, "Benjamin Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y5 + TITLE_GAP + 4 * LINE_GAP, "Vincent Lagarrigue");
 
 		int y6 = y5 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y6, "STORYLINE");
-		fnt_rpg.printC(backSurface, xcred, y6 + TITLE_GAP + 0 * LINE_GAP, "Benjamin Karaban");
-		fnt_rpg.printC(backSurface, xcred, y6 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y6, "STORYLINE");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y6 + TITLE_GAP + 0 * LINE_GAP, "Benjamin Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y6 + TITLE_GAP + 1 * LINE_GAP, "Eric Khodja");
 
 		int y7 = y6 + 2 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y7, "ORIGINAL CONCEPT");
-		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 0 * LINE_GAP, "Laurent Schneider");
-		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 1 * LINE_GAP, "Jérémie Comarmond");
-		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 2 * LINE_GAP, "Didier Colin");
-		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 3 * LINE_GAP, "Sylvain Bugat");
-		fnt_rpg.printC(backSurface, xcred, y7 + TITLE_GAP + 4 * LINE_GAP, "Benjamin Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7, "ORIGINAL CONCEPT");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7 + TITLE_GAP + 0 * LINE_GAP, "Laurent Schneider");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7 + TITLE_GAP + 1 * LINE_GAP, "Jérémie Comarmond");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7 + TITLE_GAP + 2 * LINE_GAP, "Didier Colin");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7 + TITLE_GAP + 3 * LINE_GAP, "Sylvain Bugat");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y7 + TITLE_GAP + 4 * LINE_GAP, "Benjamin Karaban");
 
 		int y8 = y7 + 5 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-		fnt_rpg.printC(backSurface, xcred, y8, "BETA TEST");
-		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 0 * LINE_GAP, "Jérémie Khodja");
-		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 1 * LINE_GAP, "Julien Areas");
-		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 2 * LINE_GAP, "Carlos Sédille");
-		fnt_rpg.printC(backSurface, xcred, y8 + TITLE_GAP + 3 * LINE_GAP, "Juliette Karaban");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y8, "BETA TEST");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y8 + TITLE_GAP + 0 * LINE_GAP, "Jérémie Khodja");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y8 + TITLE_GAP + 1 * LINE_GAP, "Julien Areas");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y8 + TITLE_GAP + 2 * LINE_GAP, "Carlos Sédille");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y8 + TITLE_GAP + 3 * LINE_GAP, "Juliette Karaban");
 
 		int y9 = y8 + 4 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 		int y10 = y9;
 		int y11 = y10;
 
 		if (theEnd) {
-			fnt_rpg.printC(backSurface, xcred, y9, "THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 0 * LINE_GAP, "Arnaud Dubois");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 1 * LINE_GAP, "Carole Schmitt");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 2 * LINE_GAP, "Aasterion staff");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 3 * LINE_GAP, "Aurore Anger");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 4 * LINE_GAP, "Cécile Baudoncourt");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 5 * LINE_GAP, "Nicolas Clément");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 6 * LINE_GAP, "Nathalie Morin");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 7 * LINE_GAP, "Florent and Thomas");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 8 * LINE_GAP, "Bruno Singer");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 9 * LINE_GAP, "Francois Deschamps");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 10 * LINE_GAP, "Colin Auger");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 11 * LINE_GAP, "TP122 students");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 12 * LINE_GAP, "Jeff");
-			fnt_rpg.printC(backSurface, xcred, y9 + TITLE_GAP + 13 * LINE_GAP, "Flavy");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9, "THANKS TO");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 0 * LINE_GAP, "Arnaud Dubois");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 1 * LINE_GAP, "Carole Schmitt");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 2 * LINE_GAP, "Aasterion staff");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 3 * LINE_GAP, "Aurore Anger");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 4 * LINE_GAP, "Cécile Baudoncourt");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 5 * LINE_GAP, "Nicolas Clément");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 6 * LINE_GAP, "Nathalie Morin");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 7 * LINE_GAP, "Florent and Thomas");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 8 * LINE_GAP, "Bruno Singer");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 9 * LINE_GAP, "Francois Deschamps");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 10 * LINE_GAP, "Colin Auger");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 11 * LINE_GAP, "TP122 students");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 12 * LINE_GAP, "Jeff");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y9 + TITLE_GAP + 13 * LINE_GAP, "Flavy");
 
 			y10 = y9 + 14 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 
-			fnt_rpg.printC(backSurface, xcred, y10, "SPECIAL THANKS TO");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 0 * LINE_GAP, "La Guinguette Pirate");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 1 * LINE_GAP, "TiPunch power!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10, "SPECIAL THANKS TO");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 0 * LINE_GAP, "La Guinguette Pirate");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 1 * LINE_GAP, "TiPunch power!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 3 * LINE_GAP, "La Pirogue");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 4 * LINE_GAP, "I love you Séverine!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 3 * LINE_GAP, "La Pirogue");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 4 * LINE_GAP, "I love you Séverine!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 6 * LINE_GAP, "Le Montbauron");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 7 * LINE_GAP, "mind the 8 ball!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 6 * LINE_GAP, "Le Montbauron");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 7 * LINE_GAP, "mind the 8 ball!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 9 * LINE_GAP, "La Fleche d'Or");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 10 * LINE_GAP, "avoid the toilets!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 9 * LINE_GAP, "La Fleche d'Or");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 10 * LINE_GAP, "avoid the toilets!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 12 * LINE_GAP, "Hippochine Restaurant");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 13 * LINE_GAP, "great music!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 12 * LINE_GAP, "Hippochine Restaurant");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 13 * LINE_GAP, "great music!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 15 * LINE_GAP, "Vitigno Pizzeria");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 16 * LINE_GAP, "pizza! good!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 15 * LINE_GAP, "Vitigno Pizzeria");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 16 * LINE_GAP, "pizza! good!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 18 * LINE_GAP, "Max Linder Theatre");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 19 * LINE_GAP, "THX rules!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 18 * LINE_GAP, "Max Linder Theatre");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 19 * LINE_GAP, "THX rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 21 * LINE_GAP, "UNEF");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 22 * LINE_GAP, "cheap beer 4 all!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 21 * LINE_GAP, "UNEF");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 22 * LINE_GAP, "cheap beer 4 all!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 24 * LINE_GAP, "Hayao Myazaki");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 25 * LINE_GAP, "Totoro! To-to-ro!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 24 * LINE_GAP, "Hayao Myazaki");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 25 * LINE_GAP, "Totoro! To-to-ro!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 27 * LINE_GAP, "Kevin Smith");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 28 * LINE_GAP, "thirty seven?");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 27 * LINE_GAP, "Kevin Smith");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 28 * LINE_GAP, "thirty seven?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 30 * LINE_GAP, "Peter Jackson");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 31 * LINE_GAP, "Bad Taste rules!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 30 * LINE_GAP, "Peter Jackson");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 31 * LINE_GAP, "Bad Taste rules!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 33 * LINE_GAP, "Monty Python");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 34 * LINE_GAP, "behind the rabbit?");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 33 * LINE_GAP, "Monty Python");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 34 * LINE_GAP, "behind the rabbit?");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 36 * LINE_GAP, "John Boorman");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 37 * LINE_GAP, "Zardoz has spoken!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 36 * LINE_GAP, "John Boorman");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 37 * LINE_GAP, "Zardoz has spoken!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 39 * LINE_GAP, "Luc Besson");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 40 * LINE_GAP, "nah... just kidding!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 39 * LINE_GAP, "Luc Besson");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 40 * LINE_GAP, "nah... just kidding!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 42 * LINE_GAP, "Christopher Lambert");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 43 * LINE_GAP, "watch your back!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 42 * LINE_GAP, "Christopher Lambert");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 43 * LINE_GAP, "watch your back!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 45 * LINE_GAP, "Jeremy Irons");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 46 * LINE_GAP, "lord Profion!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 45 * LINE_GAP, "Jeremy Irons");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 46 * LINE_GAP, "lord Profion!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 48 * LINE_GAP, "Wayne Scott");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 49 * LINE_GAP, "Rambo! Rambo!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 48 * LINE_GAP, "Wayne Scott");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 49 * LINE_GAP, "Rambo! Rambo!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 51 * LINE_GAP, "Les Joyeux Urbains");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 52 * LINE_GAP, "va chez ta mère!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 51 * LINE_GAP, "Les Joyeux Urbains");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 52 * LINE_GAP, "va chez ta mère!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 54 * LINE_GAP, "Toss");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 55 * LINE_GAP, "da! da! da!");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 54 * LINE_GAP, "Toss");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 55 * LINE_GAP, "da! da! da!");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 57 * LINE_GAP, "Le cassoulet");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 58 * LINE_GAP, "best served at 4 AM");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 57 * LINE_GAP, "Le cassoulet");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 58 * LINE_GAP, "best served at 4 AM");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 60 * LINE_GAP, "Gamedev.net");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 61 * LINE_GAP, "DirectX vs hamsters");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 60 * LINE_GAP, "Gamedev.net");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 61 * LINE_GAP, "DirectX vs hamsters");
 
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 64 * LINE_GAP, "THANK");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 65 * LINE_GAP, "YOU");
-			fnt_rpg.printC(backSurface, xcred, y10 + TITLE_GAP + 66 * LINE_GAP, "FOR PLAYING");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 64 * LINE_GAP, "THANK");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 65 * LINE_GAP, "YOU");
+			assets().fonts.rpg.printC(graphics.back(), xcred, y10 + TITLE_GAP + 66 * LINE_GAP, "FOR PLAYING");
 
 			y11 = y10 + 72 * LINE_GAP + SECTION_GAP + TITLE_GAP;
 		}
 
-		fnt_rpg.printC(backSurface, xcred, y11, "LOADED Studio");
-		fnt_rpg.printC(backSurface, xcred, y11 + LINE_GAP, "May 2002");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y11, "LOADED Studio");
+		assets().fonts.rpg.printC(graphics.back(), xcred, y11 + LINE_GAP, "May 2002");
 
 		last_y = y11 + 2 * LINE_GAP;
 

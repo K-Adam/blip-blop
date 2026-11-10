@@ -7,7 +7,7 @@
 #endif
 
 void EnemyGeneratorTMP::update() {
-	if (game_flag[FLAG_GEN_OFF] != 0) return;
+	if (level().rules.flags[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
 	t %= period;
@@ -26,5 +26,5 @@ void EnemyGeneratorTMP::update() {
 		if (capacity <= 0) destroyed = true;
 	}
 
-	if ((facing == FACING_RIGHT && x < offset - 200) || (facing == FACING_LEFT && x < offset + 690)) destroyed = true;
+	if ((facing == FACING_RIGHT && x < level().camera.offset - 200) || (facing == FACING_LEFT && x < level().camera.offset + 690)) destroyed = true;
 }

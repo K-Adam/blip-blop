@@ -9,7 +9,7 @@ const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0
 EnemyMarioHologram::EnemyMarioHologram()
 	: speed(1), speed_tick(0), fireball(0), wait_for_blink(0), blink_delay(10 + rand() % 10), attack_delay(50 + rand() % 50), wait_for_attack(0) {
 	hp = 1;
-	pic = pbk_enemies.anim("mario_walk_right")[0];
+	pic = assets().pics.enemies.anim("mario_walk_right")[0];
 }
 
 void EnemyMarioHologram::update() {
@@ -60,23 +60,23 @@ void EnemyMarioHologram::update() {
 }
 
 void EnemyMarioHologram::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
 		onJump();
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 600 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 600 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_attack++;
-	if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
-		if (((dir == FACING_RIGHT) && (targeted_player->x > x)) || ((dir == FACING_LEFT) && (targeted_player->x < x))) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+		if (((dir == FACING_RIGHT) && (session().targeted_player->x > x)) || ((dir == FACING_LEFT) && (session().targeted_player->x < x))) {
 			anim_step = 0;
 			anim_tick = 0;
 			speed = 0;
@@ -84,8 +84,8 @@ void EnemyMarioHologram::onWalk() {
 			wait_for_attack = 0;
 			attack_delay = 50 + rand() % 50;
 			status = STATE_SHOOT;
-			y_target = targeted_player->y;
-			x_target = targeted_player->x;
+			y_target = session().targeted_player->y;
+			x_target = session().targeted_player->x;
 			attack_step = 0;
 			fireball = 1;
 			attack_type = rand() % 2;
@@ -103,10 +103,10 @@ void EnemyMarioHologram::onWalk() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim(look_ + "walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
+		pic = assets().pics.enemies.anim(look_ + "walk_right")[animate(anim_mario_walk_right, 4, 16 - (3 * speed))];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim(look_ + "walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
+		pic = assets().pics.enemies.anim(look_ + "walk_left")[animate(anim_mario_walk_left, 4, 16 - (3 * speed))];
 	}
 	if (speed < MARIO_SPEED) {
 		speed_tick++;
@@ -132,17 +132,17 @@ void EnemyMarioHologram::onJump() {
 	}
 
 	// A boss off screen could not be hit
-	if ((dir == FACING_LEFT) && (x - speed < xmin || solid_wall(x - speed, y))) {
+	if ((dir == FACING_LEFT) && (x - speed < xmin || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
 	}
 
-	else if ((dir == FACING_RIGHT) && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+	else if ((dir == FACING_RIGHT) && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -153,16 +153,16 @@ void EnemyMarioHologram::onJump() {
 	if (dir == FACING_RIGHT) {
 		x += speed;
 		if (dy < 0) {
-			pic = pbk_enemies.anim(look_ + "jump_right")[0];
+			pic = assets().pics.enemies.anim(look_ + "jump_right")[0];
 		} else {
-			pic = pbk_enemies.anim(look_ + "jump_right")[1];
+			pic = assets().pics.enemies.anim(look_ + "jump_right")[1];
 		}
 	} else {
 		x -= speed;
 		if (dy < 0) {
-			pic = pbk_enemies.anim(look_ + "jump_left")[0];
+			pic = assets().pics.enemies.anim(look_ + "jump_left")[0];
 		} else {
-			pic = pbk_enemies.anim(look_ + "jump_left")[1];
+			pic = assets().pics.enemies.anim(look_ + "jump_left")[1];
 		}
 	}
 
@@ -175,19 +175,19 @@ void EnemyMarioHologram::render() {
 	Sprite::render();
 	if (fireball) {
 		if (dir == FACING_RIGHT) {
-			draw(x + 29, y - 33, pbk_enemies.anim("mario_muzzle_right")[anim_step]);
+			draw(x + 29, y - 33, assets().pics.enemies.anim("mario_muzzle_right")[anim_step]);
 		} else {
-			draw(x - 29, y - 33, pbk_enemies.anim("mario_muzzle_left")[anim_step]);
+			draw(x - 29, y - 33, assets().pics.enemies.anim("mario_muzzle_left")[anim_step]);
 		}
 	}
 }
 
 void EnemyMarioHologram::onShoot() {
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim(look_ + "shoot_right")[0];
+		pic = assets().pics.enemies.anim(look_ + "shoot_right")[0];
 
 	else
-		pic = pbk_enemies.anim(look_ + "shoot_left")[0];
+		pic = assets().pics.enemies.anim(look_ + "shoot_left")[0];
 
 	if ((y - 25 < y_target) && (y_target < 400)) {
 		if (y > y_target - 60) {
@@ -250,10 +250,10 @@ void EnemyMarioHologram::onShoot() {
 
 void EnemyMarioHologram::onShootVertical() {
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.pic("mario_shoot_right");
+		pic = assets().pics.enemies.pic("mario_shoot_right");
 
 	else
-		pic = pbk_enemies.pic("mario_shoot_left");
+		pic = assets().pics.enemies.pic("mario_shoot_left");
 
 	anim_tick++;
 	anim_tick %= 4;
@@ -275,7 +275,7 @@ void EnemyMarioHologram::onShootVertical() {
 		}
 		shot->y = y - 38;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	} else if (attack_step == 80) {
 		status = STATE_WALK;
 		anim_step = 0;
@@ -295,7 +295,7 @@ inline void EnemyMarioHologram::shoot_fireball() {
 		shot->x = x + 38;
 		shot->y = y - 31;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	} else {
 		ShotMarioFireball* shot = new ShotMarioFireball(-1);
 
@@ -303,7 +303,7 @@ inline void EnemyMarioHologram::shoot_fireball() {
 		shot->x = x - 38;
 		shot->y = y - 31;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	}
 }
 
@@ -313,9 +313,9 @@ void EnemyMarioHologram::fall_mario() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;

@@ -9,7 +9,7 @@ int MenuList::ComputeWidth() const {
 	int width = 0;
 
 	for (const std::string& s : items_) {
-		int tmp = fnt_menu.width(s);
+		int tmp = assets().fonts.menu.width(s);
 
 		if (tmp > width) {
 			width = tmp;
@@ -45,9 +45,9 @@ void MenuList::Draw(SDL::Surface* surf) const {
 	int y = 240 - (int)items_.size() * 15;
 	for (size_t i = 0; i < items_.size(); ++i) {
 		if (focused_ == i)
-			fnt_menus.printC(surf, 320, y, items_[i]);
+			assets().fonts.menus.printC(surf, 320, y, items_[i]);
 		else
-			fnt_menu.printC(surf, 320, y, items_[i]);
+			assets().fonts.menu.printC(surf, 320, y, items_[i]);
 
 		y += 30;
 	}

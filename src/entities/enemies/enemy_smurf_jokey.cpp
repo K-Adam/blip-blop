@@ -54,9 +54,9 @@ void EnemySmurfJokey::onDrawWeapon() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("smurf_jokey_draw_right")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_jokey_draw_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("smurf_jokey_draw_left")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_jokey_draw_left")[anim_step];
 }
 
 void EnemySmurfJokey::onDropGift() {
@@ -78,7 +78,7 @@ void EnemySmurfJokey::onDropGift() {
 		else
 			shot->x = x - 26;
 		shot->y = y;
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 
 		anim_step = 0;
 		anim_tick = 0;
@@ -91,14 +91,14 @@ void EnemySmurfJokey::onWalk() {
 	if (carries_bomb) {
 		wait_for_bomb += 1;
 
-		if (wait_for_bomb > bomb_delay && platform_y(x, y) != 0) {
+		if (wait_for_bomb > bomb_delay && level().terrain.platform_y(x, y) != 0) {
 			status = STATE_WAIT;
 			wait_for_bomb = 0;
 			bomb_delay = 50 + rand() % 250;
 			anim_step = 0;
 			anim_tick = 0;
 		}
-	} else if (platform_y(x, y) != 0) {
+	} else if (level().terrain.platform_y(x, y) != 0) {
 		wait_for_new_bomb += 1;
 		if (wait_for_new_bomb > new_bomb_delay) {
 			wait_for_new_bomb = 0;
@@ -109,23 +109,23 @@ void EnemySmurfJokey::onWalk() {
 		}
 	}
 
-	if (x - SMURF_JOKEY_SPEED < xmin || solid_wall(x - SMURF_JOKEY_SPEED, y))
+	if (x - SMURF_JOKEY_SPEED < xmin || level().terrain.solid_wall(x - SMURF_JOKEY_SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SMURF_JOKEY_SPEED > offset + 640 || solid_wall(x + SMURF_JOKEY_SPEED, y))
+	else if (x + SMURF_JOKEY_SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SMURF_JOKEY_SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SMURF_JOKEY_SPEED);
 		if (carries_bomb)
-			pic = pbk_enemies.anim("smurf_jokey_walk_right")[animate(anim_smurf_jokey_walk_right, 8, 4)];
+			pic = assets().pics.enemies.anim("smurf_jokey_walk_right")[animate(anim_smurf_jokey_walk_right, 8, 4)];
 		else
-			pic = pbk_enemies.anim("smurf_walk_right")[animate(anim_smurf_walk_right, 8, 4)];
+			pic = assets().pics.enemies.anim("smurf_walk_right")[animate(anim_smurf_walk_right, 8, 4)];
 	} else {
 		walk(-SMURF_JOKEY_SPEED);
 		if (carries_bomb)
-			pic = pbk_enemies.anim("smurf_jokey_walk_left")[animate(anim_smurf_jokey_walk_left, 8, 4)];
+			pic = assets().pics.enemies.anim("smurf_jokey_walk_left")[animate(anim_smurf_jokey_walk_left, 8, 4)];
 		else
-			pic = pbk_enemies.anim("smurf_walk_left")[animate(anim_smurf_walk_left, 8, 4)];
+			pic = assets().pics.enemies.anim("smurf_walk_left")[animate(anim_smurf_walk_left, 8, 4)];
 	}
 	colFromPic();
 }
@@ -144,7 +144,7 @@ void EnemySmurfJokey::onDie() {
 		} else {
 			shot->x = x - 26;
 		}
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 		onCharred();
 	} else {
 		anim_tick += 1;
@@ -158,13 +158,13 @@ void EnemySmurfJokey::onDie() {
 		}
 
 		if (dir == FACING_LEFT) {
-			if (!solid_wall(x - SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x -= SMURF_JOKEY_SPEED;
+			if (!level().terrain.solid_wall(x - SMURF_JOKEY_SPEED, y) && level().terrain.platform_y(x, y) == 0) x -= SMURF_JOKEY_SPEED;
 
-			pic = pbk_enemies.anim("smurf_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_die_left")[anim_step];
 		} else {
-			if (!solid_wall(x + SMURF_JOKEY_SPEED, y) && platform_y(x, y) == 0) x += SMURF_JOKEY_SPEED;
+			if (!level().terrain.solid_wall(x + SMURF_JOKEY_SPEED, y) && level().terrain.platform_y(x, y) == 0) x += SMURF_JOKEY_SPEED;
 
-			pic = pbk_enemies.anim("smurf_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_die_right")[anim_step];
 		}
 	}
 }
@@ -179,9 +179,9 @@ void EnemySmurfJokey::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_jokey_blown_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_jokey_blown_left")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurf_jokey_blown_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_jokey_blown_right")[anim_step];
 	}
 }
 
@@ -194,8 +194,8 @@ void EnemySmurfJokey::takeHit(Shot* shot) {
 
 	if (status == STATE_DYING) {
 		if (carries_bomb)
-			sbk_misc.play(11);
+			assets().sounds.misc.play(11);
 		else
-			sbk_level.play(4 + rand() % 10);
+			assets().sounds.level.play(4 + rand() % 10);
 	}
 }

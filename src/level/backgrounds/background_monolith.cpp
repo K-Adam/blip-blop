@@ -7,12 +7,12 @@ const int monolith_levitation[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 
 const int monolith_animation[] = {0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 0, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 8, 7, 7, 7, 6, 6, 5};
 
 BackgroundMonolith::BackgroundMonolith() : levitation_tick(0), levitation_step(0) {
-	pic = pbk_level.anim("cruiser_hit_bottom")[1];
+	pic = assets().pics.level.anim("cruiser_hit_bottom")[1];
 	dy = 0;
 }
 
 void BackgroundMonolith::update() {
-	pic = pbk_level.anim("monolith_float")[animate(monolith_animation, 36, 3)];
+	pic = assets().pics.level.anim("monolith_float")[animate(monolith_animation, 36, 3)];
 	levitation_tick++;
 	levitation_tick %= 4;
 	if (levitation_tick == 0) {
@@ -24,10 +24,10 @@ void BackgroundMonolith::update() {
 
 	int xtmp;
 
-	for (Ball* hero : list_players) {
+	for (Ball* hero : session().players) {
 		xtmp = hero->x;
 
-		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, hero->y) == y - 20) {
+		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && level().terrain.platform_y(xtmp, hero->y) == y - 20) {
 			if (levitation_step <= 22) {
 				hero->y += monolith_levitation[levitation_step];
 			} else {
@@ -36,10 +36,10 @@ void BackgroundMonolith::update() {
 		}
 	}
 
-	for (auto& enemies : list_enemies) {
+	for (auto& enemies : level().entities.enemies) {
 		xtmp = enemies->x;
 
-		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && platform_y(xtmp, enemies->y) == y - 20) {
+		if (xtmp >= x - 138 && xtmp < x + pic->xSize() - 118 && level().terrain.platform_y(xtmp, enemies->y) == y - 20) {
 			if (levitation_step <= 22) {
 				enemies->y += monolith_levitation[levitation_step];
 			} else {
@@ -54,7 +54,7 @@ void BackgroundMonolith::update() {
 		y -= monolith_levitation[levitation_step - 22];
 	}
 
-	for (int i = x - 118; i < x + pic->xSize() - 138; i++) set_platform(4, i, y - 20);
+	for (int i = x - 118; i < x + pic->xSize() - 138; i++) level().terrain.set_platform(4, i, y - 20);
 
 	colFromPic();
 }

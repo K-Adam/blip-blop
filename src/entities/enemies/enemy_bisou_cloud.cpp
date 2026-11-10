@@ -42,9 +42,9 @@ void EnemyBisouCloud::onDieEnd() {
 		if (anim_tick == 0) anim_step += 1;
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("cloud_die_end_right")[anim_step];
+			pic = assets().pics.enemies.anim("cloud_die_end_right")[anim_step];
 		} else {
-			pic = pbk_enemies.anim("cloud_die_end_left")[anim_step];
+			pic = assets().pics.enemies.anim("cloud_die_end_left")[anim_step];
 		}
 	} else {
 		engrave(x, y, pic);
@@ -58,11 +58,11 @@ void EnemyBisouCloud::onDieFall() {
 	step(8, 2);
 
 	if (dir == FACING_LEFT)
-		pic = pbk_enemies.anim("cloud_die_fall_left")[anim_step];
+		pic = assets().pics.enemies.anim("cloud_die_fall_left")[anim_step];
 	else
-		pic = pbk_enemies.anim("cloud_die_fall_right")[anim_step];
+		pic = assets().pics.enemies.anim("cloud_die_fall_right")[anim_step];
 
-	if (platform_y(x, y) != 0) {
+	if (level().terrain.platform_y(x, y) != 0) {
 		anim_step = anim_tick = 0;
 		status = STATE_DYING_4;
 	}
@@ -72,9 +72,9 @@ void EnemyBisouCloud::onDieWait() {
 	anim_step += 1;
 
 	if (dir == FACING_LEFT)
-		pic = pbk_enemies.pic("cloud_stunned_left");
+		pic = assets().pics.enemies.pic("cloud_stunned_left");
 	else
-		pic = pbk_enemies.pic("cloud_stunned_right");
+		pic = assets().pics.enemies.pic("cloud_stunned_right");
 
 	if (anim_step >= 30) {
 		anim_step = anim_tick = 0;
@@ -86,22 +86,22 @@ void EnemyBisouCloud::onNormal() {
 	static const int anim_left[] = {0, 1, 2, 1};
 	static const int anim_right[] = {0, 1, 2, 1};
 
-	if (x > (offset + 320)) {
+	if (x > (level().camera.offset + 320)) {
 		dir = FACING_LEFT;
-		pic = pbk_enemies.anim("cloud_fly_left")[animate(anim_left, 4, 10)];
+		pic = assets().pics.enemies.anim("cloud_fly_left")[animate(anim_left, 4, 10)];
 	} else {
 		dir = FACING_RIGHT;
-		pic = pbk_enemies.anim("cloud_fly_right")[animate(anim_right, 4, 10)];
+		pic = assets().pics.enemies.anim("cloud_fly_right")[animate(anim_right, 4, 10)];
 	}
 
-	if (shoot_step >= wait_shoot && x <= offset + 640) {
+	if (shoot_step >= wait_shoot && x <= level().camera.offset + 640) {
 		ShotCloud* s = new ShotCloud();
 
 		s->x = x;
 		s->y = y - 17;
 		s->dir = dir;
 
-		list_enemy_shots.emplace_back(s);
+		level().entities.enemy_shots.emplace_back(s);
 
 		shoot_step = 0;
 		wait_shoot = 250 + rand() % 250;

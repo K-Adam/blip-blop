@@ -7,8 +7,13 @@ const int shot_dy[] = {4, 5, 6, 6, 5, 4};
 #include "entities/enemies/enemy_smurf_wild.h"
 #include "entities/shots/shot_smurf_wild.h"
 
-int EnemySmurfWild::wait_shoot;
-int EnemySmurfWild::wait_step;
+namespace {
+// One countdown for every wild smurf, so they drop in one at a time
+struct SmurfAmbush {
+	int wait_shoot = 0;
+	int wait_step = 0;
+};
+}  // namespace
 
 EnemySmurfWild::EnemySmurfWild() : shoot_step(0), position(false) {
 	first_loop = true;
@@ -16,29 +21,31 @@ EnemySmurfWild::EnemySmurfWild() : shoot_step(0), position(false) {
 	anim_step = 1;
 	nb_shoot = 0;
 	dead = false;
-	target = targeted_player;
+	target = session().targeted_player;
 	angle_tick = angle = 0;
 	angleIncreasing = true;
 
-	wait_shoot = 100 + rand() % 100;
-	wait_step = 0;
+	SmurfAmbush& ambush = level().shared<SmurfAmbush>();
+	ambush.wait_shoot = 100 + rand() % 100;
+	ambush.wait_step = 0;
 	status = STATE_WAITING;
 
 	switch (dir) {
 		case FACING_RIGHT:
 			hang = "smurf_wild_hang_right";
-			pic = pbk_enemies.anim("smurf_wild_hang_right")[0];
+			pic = assets().pics.enemies.anim("smurf_wild_hang_right")[0];
 			shoot_direction = DOWN_RIGHT;
 			break;
 		case FACING_LEFT:
 			hang = "smurf_wild_hang_left";
-			pic = pbk_enemies.anim("smurf_wild_hang_left")[0];
+			pic = assets().pics.enemies.anim("smurf_wild_hang_left")[0];
 			shoot_direction = DOWN_LEFT;
 			break;
 	}
 }
 
 void EnemySmurfWild::update() {
+	auto& [wait_shoot, wait_step] = level().shared<SmurfAmbush>();
 	if (x > 5850) x = 5850;
 
 	shooting = false;
@@ -49,7 +56,7 @@ void EnemySmurfWild::update() {
 	}
 
 	if (target == NULL || target->isDestroyed()) {
-		target = targeted_player;
+		target = session().targeted_player;
 	}
 
 	if (status != STATE_DYING) {
@@ -81,7 +88,7 @@ void EnemySmurfWild::update() {
 			shoot_direction = DOWN_RIGHT;
 	}
 
-	if (status != STATE_DYING && anim_step > 0) pic = pbk_enemies.anim(hang)[anim_step - 1];
+	if (status != STATE_DYING && anim_step > 0) pic = assets().pics.enemies.anim(hang)[anim_step - 1];
 
 	if (blood != 0) blood -= 1;
 
@@ -96,16 +103,16 @@ void EnemySmurfWild::update() {
 			if (++wait_step >= wait_shoot) {
 				status = STATE_FALL;
 
-				sbk_level.play(17);
+				assets().sounds.level.play(17);
 
 				if (rand() % 2 == 0)
-					x = offset + 320 - rand() % 150;
+					x = level().camera.offset + 320 - rand() % 150;
 				else
-					x = offset + 320 + rand() % 150;
+					x = level().camera.offset + 320 + rand() % 150;
 
 				int j = 100 + rand() % 140;
 
-				while (solid_wall(x, j)) j = 100 + rand() % 140;
+				while (level().terrain.solid_wall(x, j)) j = 100 + rand() % 140;
 
 				nb_shoot = 0;
 				height_px = j;
@@ -151,7 +158,7 @@ void EnemySmurfWild::onFall() {
 		status = STATE_SHOOT;
 	}
 
-	wait_step = 0;
+	level().shared<SmurfAmbush>().wait_step = 0;
 	colFromPic();
 }
 
@@ -174,9 +181,9 @@ void EnemySmurfWild::onShoot() {
 		shot->y = y + shot_start_y[shoot_direction];
 		shot->dx = shot_dx[shoot_direction];
 		shot->dy = shot_dy[shoot_direction];
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 
-		if (nb_shoot == 0) sbk_level.play(18);
+		if (nb_shoot == 0) assets().sounds.level.play(18);
 		nb_shoot += 1;
 	}
 
@@ -187,7 +194,7 @@ void EnemySmurfWild::onShoot() {
 
 void EnemySmurfWild::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
-	if (status == STATE_DYING) sbk_level.play(4 + rand() % 10);
+	if (status == STATE_DYING) assets().sounds.level.play(4 + rand() % 10);
 }
 
 void EnemySmurfWild::onDie() {
@@ -197,18 +204,18 @@ void EnemySmurfWild::onDie() {
 		colFromPic();
 		y1 = 0;
 
-		for (auto& s : list_static_bgs) {
+		for (auto& s : level().entities.static_bgs) {
 			ok = ok && !collision(s.get());
 		}
 
 		col_on = false;
 
 		if (ok) {
-			engrave(x, y - 50, pbk_enemies.pic("smurf_wild_rope"));
-			engrave(x, y - 100, pbk_enemies.pic("smurf_wild_rope"));
-			engrave(x, y - 150, pbk_enemies.pic("smurf_wild_rope"));
-			engrave(x, y - 200, pbk_enemies.pic("smurf_wild_rope"));
-			engrave(x, y - 250, pbk_enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 50, assets().pics.enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 100, assets().pics.enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 150, assets().pics.enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 200, assets().pics.enemies.pic("smurf_wild_rope"));
+			engrave(x, y - 250, assets().pics.enemies.pic("smurf_wild_rope"));
 			engrave(x, y, pic);
 			destroyed = true;
 		}
@@ -219,9 +226,9 @@ void EnemySmurfWild::onDie() {
 		if (anim_tick == 0) {
 			anim_step += 1;
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies.anim("smurf_wild_die_right")[anim_step - 1];
+				pic = assets().pics.enemies.anim("smurf_wild_die_right")[anim_step - 1];
 			else
-				pic = pbk_enemies.anim("smurf_wild_die_left")[anim_step - 1];
+				pic = assets().pics.enemies.anim("smurf_wild_die_left")[anim_step - 1];
 		}
 	}
 }
@@ -237,8 +244,8 @@ void EnemySmurfWild::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_burn_left")[anim_step];
 		else
-			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
+			pic = assets().pics.enemies.anim("smurf_burn_right")[anim_step];
 	}
 }

@@ -30,7 +30,7 @@ class Bonus : public Sprite {
 
 		if (anim_step == 0) local_phase = !local_phase;
 
-		if (x < offset - 50) destroyed = true;
+		if (x < level().camera.offset - 50) destroyed = true;
 
 		y -= 15;
 		colFromPic();
@@ -41,7 +41,7 @@ class Bonus : public Sprite {
 		y -= 15;
 		Sprite::render();
 
-		Flipbook corners = pbk_misc.anim(local_phase ? "bonus_corners_on" : "bonus_corners_off");
+		Flipbook corners = assets().pics.misc.anim(local_phase ? "bonus_corners_on" : "bonus_corners_off");
 
 		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
 

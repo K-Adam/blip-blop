@@ -208,7 +208,7 @@ void EventEnemy::doEvent() {
 	new_enemy->y = y;
 	new_enemy->dir = facing;
 
-	list_enemies.emplace_back(new_enemy);
+	level().entities.enemies.emplace_back(new_enemy);
 
-	if (new_enemy->count()) nb_enemies_created += 1;
+	if (new_enemy->count()) session().enemies_created += 1;
 }

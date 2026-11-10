@@ -2,7 +2,6 @@
 #include <iterator>
 #include <string>
 
-#include "core/config.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 
@@ -62,8 +61,8 @@ static std::string pad_to_string(int n, bool fr) {
 	return std::string(fr ? "MANETTE " : "PAD ") + name;
 }
 
-std::string DIK_to_string(int n) {
-	if (lang_type == LANG_FR) {
+std::string DIK_to_string(int n, bool french) {
+	if (french) {
 		return DIK_to_string_fr(n);
 	} else {
 		return DIK_to_string_us(n);

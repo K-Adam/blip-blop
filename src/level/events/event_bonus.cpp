@@ -48,6 +48,6 @@ void EventBonus::doEvent() {
 		bonus->x = x;
 		bonus->y = y;
 
-		list_bonus.emplace_back(bonus);
+		level().entities.bonus.emplace_back(bonus);
 	}
 }

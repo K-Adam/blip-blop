@@ -1,4 +1,3 @@
-#include "core/config.h"
 
 #include "level/events/event_animated_background.h"
 
@@ -173,7 +172,7 @@ void EventAnimatedBackground::doEvent() {
 	s->y = y;
 
 	if (it->second.moving_platform)
-		list_moving_platforms.emplace_back(s);
+		level().entities.moving_platforms.emplace_back(s);
 	else
-		list_animated_bgs.emplace_back(s);
+		level().entities.animated_bgs.emplace_back(s);
 }

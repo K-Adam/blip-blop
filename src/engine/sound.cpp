@@ -2,12 +2,15 @@
 
 #include "core/debug.h"
 
-bool audio_init() {
+Audio audio;
+
+bool Audio::init() {
 	// Music is ogg only, sound effects still work without it
 	if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) == 0) debug << "Mix_Init: " << Mix_GetError() << "\n";
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		debug << "Mix_OpenAudio: " << Mix_GetError() << "\n";
+		music_ = sound_ = false;
 		return false;
 	}
 	return true;

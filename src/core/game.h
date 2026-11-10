@@ -13,6 +13,7 @@
 #include "engine/update_regulator.h"
 #include "entities/go_arrow.h"
 #include "level/hud.h"
+#include "level/world.h"
 
 #include "level/weather_snow.h"
 #include "level/weather_rain.h"
@@ -40,6 +41,7 @@ class Sprite;
 
 class Game {
    protected:
+	World world_;
 	HUD hud_;
 	UpdateRegulator update_regulator_;
 	PictureBank pbk_briefing;
@@ -60,7 +62,7 @@ class Game {
 	int nframe = 0;
 	int timer_tick = 0;
 
-	// Victory needs offset >= vic_x, game_flag[vic_flag1] == vic_val1 and game_flag[vic_flag2] == vic_val2
+	// Victory needs the camera offset >= vic_x, flags[vic_flag1] == vic_val1 and flags[vic_flag2] == vic_val2
 	int vic_x = 0;
 	int vic_flag1 = 0;
 	int vic_val1 = 0;
@@ -83,6 +85,11 @@ class Game {
 
 	GoArrow go_;
 	int last_x_go_ = 0;
+
+	// Enemies aim at it when no player is alive
+	Character dummy_player_;
+	size_t targeted_idx_ = 0;
+	int attract_step_ = 0;
 
 	bool show_fps = false;
 	bool show_lists = false;

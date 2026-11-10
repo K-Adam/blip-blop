@@ -3,7 +3,7 @@
 EnemyPokemon::EnemyPokemon(const PokemonSpec& spec) : spec_(spec) { hp = 100; }
 
 Flipbook EnemyPokemon::facing(const std::string& action) const {
-	return pbk_enemies.anim(spec_.name + ("_" + action) + (dir == FACING_RIGHT ? "_right" : "_left"));
+	return assets().pics.enemies.anim(spec_.name + ("_" + action) + (dir == FACING_RIGHT ? "_right" : "_left"));
 }
 
 void EnemyPokemon::update() {
@@ -33,9 +33,9 @@ void EnemyPokemon::onWalk() {
 	fall();
 	step(8, 2);
 
-	if (x - speed < xmin || solid_wall(x - speed, y))
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y))
 		dir = FACING_RIGHT;
-	else if (x + speed > offset + 640 || solid_wall(x + speed, y))
+	else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))
 		dir = FACING_LEFT;
 
 	walk(dir == FACING_RIGHT ? speed : -speed);
@@ -53,9 +53,9 @@ void EnemyPokemon::onDie() {
 	if (anim_tick == 0 && anim_step < spec_.die_frames) anim_step += 1;
 
 	if (anim_step >= spec_.die_frames) {
-		int yy = platform_y(x, y);
+		int yy = level().terrain.platform_y(x, y);
 
-		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
+		if (yy != 0 && yy != level().terrain.platforms[4][x]) engrave(x, y, pic);
 
 		destroyed = true;
 	} else {
@@ -83,6 +83,6 @@ void EnemyPokemon::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		sbk_misc.play(8 + rand() % 2);
+		assets().sounds.misc.play(8 + rand() % 2);
 	}
 }

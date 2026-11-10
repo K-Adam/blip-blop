@@ -22,10 +22,10 @@ void ShotBisouHeart::update() {
 			if (anim_step >= 2) ok = true;
 		}
 
-		pic = pbk_enemies.anim("heart_shot")[anim_step];
+		pic = assets().pics.enemies.anim("heart_shot")[anim_step];
 	}
 
-	if (solid_wall(x, y)) destroyed = true;
+	if (level().terrain.solid_wall(x, y)) destroyed = true;
 
 	colFromPic();
 	updateDestroyed();

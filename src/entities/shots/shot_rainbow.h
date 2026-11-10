@@ -12,9 +12,9 @@ class ShotRainbow : public Shot {
 			destroyed = true;
 		} else {
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies.anim("sky_rainbow_right")[anim_step];
+				pic = assets().pics.enemies.anim("sky_rainbow_right")[anim_step];
 			else
-				pic = pbk_enemies.anim("sky_rainbow_left")[anim_step];
+				pic = assets().pics.enemies.anim("sky_rainbow_left")[anim_step];
 
 			colFromPic();
 		}

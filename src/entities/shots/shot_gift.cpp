@@ -1,12 +1,12 @@
 #include "entities/shots/shot_gift.h"
 
 ShotGift::ShotGift() {
-	pic = pbk_enemies.pic("smurf_jokey_gift");
+	pic = assets().pics.enemies.pic("smurf_jokey_gift");
 	noCol();
 }
 
 void ShotGift::update() {
-	if (!solid_wall(x, y)) fall();
+	if (!level().terrain.solid_wall(x, y)) fall();
 
 	anim_tick += 1;
 	anim_tick %= 6;
@@ -15,13 +15,13 @@ void ShotGift::update() {
 		anim_step += 1;
 
 		if (anim_step == 20) {
-			sbk_misc.play(11);
+			assets().sounds.misc.play(11);
 		}
 	}
 
 	if (anim_step >= 20) {
 		col_on = true;
-		pic = pbk_enemies.anim("gift_explode")[anim_step - 20];
+		pic = assets().pics.enemies.anim("gift_explode")[anim_step - 20];
 	}
 
 	if (anim_step > 35) destroyed = true;

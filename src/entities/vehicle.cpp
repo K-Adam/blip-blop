@@ -28,7 +28,7 @@ Ball* Vehicle::seekRider() {
 	int ddx;
 	int ddy;
 
-	for (Ball* c : list_players) {
+	for (Ball* c : session().players) {
 		ddx = c->x - x;
 		ddy = c->y - y;
 

@@ -1,27 +1,21 @@
 #pragma once
 
-#include "core/hi_scores.h"
-
-extern bool vSyncOn;
-extern bool fullscreen;
+class Input;
 
 #define LANG_FR 0
 #define LANG_UK 1
 
-extern int lang_type;
-
-extern bool music_on;
-extern bool sound_on;
-
-extern bool cheat_on;
-
-extern HiScores hi_scores;
-
 #define CONFIG_FILE "config/settings.json"
 #define HISCORES_FILE "config/hiscores.json"
 
-void restore_default_saves();
-void save_settings();
-void load_BB3_config(const char* cfg_file);
-void save_BB3_config(const char* cfg_file);
-void set_default_config(bool reset_lang = false);
+// The player's preferences, the settings file also stores the key bindings held by Input
+struct Settings {
+	bool vsync = true;
+	bool fullscreen = false;
+	int lang = LANG_UK;
+	bool cheat = false;
+
+	void load(const char* file, Input& input);
+	void save(const char* file, const Input& input) const;
+	void setDefaults(Input& input, bool reset_lang = false);
+};

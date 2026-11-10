@@ -37,15 +37,15 @@ void EnemyBisouHeart::onWalk() {
 	if (dir == FACING_LEFT) {
 		x -= SPEED;
 
-		if (solid_wall(x, y) || x < xmin) dir = FACING_RIGHT;
+		if (level().terrain.solid_wall(x, y) || x < xmin) dir = FACING_RIGHT;
 
-		pic = pbk_enemies.anim("heart_walk_left")[animate(anim_left, 6, 7)];
+		pic = assets().pics.enemies.anim("heart_walk_left")[animate(anim_left, 6, 7)];
 	} else {
 		x += SPEED;
 
-		if (solid_wall(x, y) || x > offset + 600) dir = FACING_LEFT;
+		if (level().terrain.solid_wall(x, y) || x > level().camera.offset + 600) dir = FACING_LEFT;
 
-		pic = pbk_enemies.anim("heart_walk_right")[animate(anim_right, 6, 7)];
+		pic = assets().pics.enemies.anim("heart_walk_right")[animate(anim_right, 6, 7)];
 	}
 
 	if (anim_step == 3 && anim_tick == 0) {
@@ -58,7 +58,7 @@ void EnemyBisouHeart::onWalk() {
 
 		shot->y = y;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 	}
 
 	colFromPic();
@@ -89,15 +89,15 @@ void EnemyBisouHeart::onDie() {
 			else
 				head->x = x - 11;
 
-			list_gore.emplace_back(head);
+			level().entities.gore.emplace_back(head);
 		}
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("heart_die_right")[anim_step];
+		pic = assets().pics.enemies.anim("heart_die_right")[anim_step];
 		x += SPEED;
 	} else {
-		pic = pbk_enemies.anim("heart_die_left")[anim_step];
+		pic = assets().pics.enemies.anim("heart_die_left")[anim_step];
 		x -= SPEED;
 	}
 }
@@ -118,5 +118,5 @@ void EnemyBisouHeart::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rand() % 9));
 }

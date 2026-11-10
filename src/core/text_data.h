@@ -3,8 +3,11 @@
 #include <string>
 #include <vector>
 
-#ifndef TXT_DATA_CPP
-extern std::vector<std::string> txt_data;
-#endif
+// Localized strings, indexed by the TXT_ ids
+class TextData {
+	std::vector<std::string> lines_;
 
-bool loadTxtData(const char* file);
+   public:
+	bool load(const char* file);
+	const std::string& operator[](size_t id) const { return lines_[id]; }
+};

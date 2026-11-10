@@ -34,7 +34,7 @@ void HiScores::add(int scr, const std::string& name) {
 	}
 }
 
-bool HiScores::save(const char* file) {
+bool HiScores::save(const char* file) const {
 	json result;
 	result["items"] = json::array();
 	for (int i = 0; i < HS_NB_SCORES; i++) {

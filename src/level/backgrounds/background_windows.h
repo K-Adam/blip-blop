@@ -19,7 +19,7 @@ class BackgroundWindows : public Sprite {
 				break;
 		}
 
-		pic = pbk_level.anim("windows")[i];
+		pic = assets().pics.level.anim("windows")[i];
 
 		updateDestroyed();
 	};

@@ -15,9 +15,9 @@ void EnemyTails::placeInSky() {
 	placed = true;
 
 	fly = true;
-	if (targeted_player != NULL) {
-		x_target = targeted_player->x;
-		y_target = targeted_player->y;
+	if (session().targeted_player != NULL) {
+		x_target = session().targeted_player->x;
+		y_target = session().targeted_player->y;
 	} else {
 		x_target = x - 10;
 		y_target = 240;
@@ -63,7 +63,7 @@ void EnemyTails::update() {
 }
 
 void EnemyTails::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -74,10 +74,10 @@ void EnemyTails::onWalk() {
 		return;
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
@@ -90,8 +90,8 @@ void EnemyTails::onWalk() {
 		anim_tick = 0;
 
 		fly = true;
-		x_target = targeted_player->x;
-		y_target = targeted_player->y;
+		x_target = session().targeted_player->x;
+		y_target = session().targeted_player->y;
 		if (x_target > x) {
 			dir = FACING_RIGHT;
 			direction = 1;
@@ -113,10 +113,10 @@ void EnemyTails::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim("tails_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("tails_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim("tails_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("tails_walk_left")[anim_step];
 	}
 	if (speed < TAILS_SPEED) {
 		speed_tick++;
@@ -135,13 +135,13 @@ void EnemyTails::onDie() {
 		int yp;
 		step(4, 2);
 		if (dir == FACING_RIGHT) {
-			if (!solid_wall(x + speed, y)) walk(speed);
-			pic = pbk_enemies.anim("tails_fly_die_right")[anim_step];
+			if (!level().terrain.solid_wall(x + speed, y)) walk(speed);
+			pic = assets().pics.enemies.anim("tails_fly_die_right")[anim_step];
 		} else {
-			if (!solid_wall(x - speed, y)) walk(-speed);
-			pic = pbk_enemies.anim("tails_fly_die_left")[anim_step];
+			if (!level().terrain.solid_wall(x - speed, y)) walk(-speed);
+			pic = assets().pics.enemies.anim("tails_fly_die_left")[anim_step];
 		}
-		if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+		if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 			dy = 0;
 			y = yp;
 			fly = false;
@@ -154,24 +154,24 @@ void EnemyTails::onDie() {
 		if (anim_tick == 0 && anim_step < 11) anim_step += 1;
 
 		if (anim_step >= 11) {
-			int yy = platform_y(x, y);
+			int yy = level().terrain.platform_y(x, y);
 
-			if (yy != 0 && yy != y_platform[4][x]) {
+			if (yy != 0 && yy != level().terrain.platforms[4][x]) {
 				engrave(x, y, pic);
 				destroyed = true;
 			} else {
-				if (dir == FACING_LEFT && !solid_wall(x - speed, y))
+				if (dir == FACING_LEFT && !level().terrain.solid_wall(x - speed, y))
 					walk(-speed);
-				else if (!solid_wall(x + speed, y))
+				else if (!level().terrain.solid_wall(x + speed, y))
 					walk(speed);
 			}
 		} else {
 			if (dir == FACING_LEFT) {
-				if (!solid_wall(x - speed, y)) walk(-speed);
-				pic = pbk_enemies.anim("tails_die_left")[anim_step];
+				if (!level().terrain.solid_wall(x - speed, y)) walk(-speed);
+				pic = assets().pics.enemies.anim("tails_die_left")[anim_step];
 			} else {
-				if (!solid_wall(x + speed, y)) walk(speed);
-				pic = pbk_enemies.anim("tails_die_right")[anim_step];
+				if (!level().terrain.solid_wall(x + speed, y)) walk(speed);
+				pic = assets().pics.enemies.anim("tails_die_right")[anim_step];
 			}
 		}
 	}
@@ -182,7 +182,7 @@ void EnemyTails::onFly() {
 	bool may_land_left = from_sky ? dir == FACING_LEFT : attack;
 	bool may_land_right = from_sky ? dir == FACING_RIGHT : attack;
 
-	if (may_land_left && (x - speed < xmin || solid_wall(x - speed, y))) {
+	if (may_land_left && (x - speed < xmin || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
 		status = STATE_WALK;
@@ -193,7 +193,7 @@ void EnemyTails::onFly() {
 		anim_tick = 0;
 		onWalk();
 		return;
-	} else if (may_land_right && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+	} else if (may_land_right && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
 		status = STATE_WALK;
@@ -210,15 +210,15 @@ void EnemyTails::onFly() {
 	anim_step %= 2;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("tails_fly_right")[anim_step];
+		pic = assets().pics.enemies.anim("tails_fly_right")[anim_step];
 	} else {
-		pic = pbk_enemies.anim("tails_fly_left")[anim_step];
+		pic = assets().pics.enemies.anim("tails_fly_left")[anim_step];
 	}
 
 	{}
 
 	if (attack) {
-		if ((y_target <= y) || (y >= y_platform[0][x])) {
+		if ((y_target <= y) || (y >= level().terrain.platforms[0][x])) {
 			speed = TAILS_FLY_SPEED;
 		} else if ((y_target - 80 > y) && (y > y_target - 110)) {
 			y += 4;
@@ -256,7 +256,7 @@ void EnemyTails::onFall() {
 	fall();
 	step(3, 2);
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -269,10 +269,10 @@ void EnemyTails::onFall() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies.anim("tails_fly_right")[anim_step];
+		pic = assets().pics.enemies.anim("tails_fly_right")[anim_step];
 	} else {
 		x -= speed;
-		pic = pbk_enemies.anim("tails_fly_left")[anim_step];
+		pic = assets().pics.enemies.anim("tails_fly_left")[anim_step];
 	}
 
 	colFromPic();
@@ -289,9 +289,9 @@ void EnemyTails::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("tails_burn_right")[anim_step];
+			pic = assets().pics.enemies.anim("tails_burn_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("tails_burn_left")[anim_step];
+			pic = assets().pics.enemies.anim("tails_burn_left")[anim_step];
 	}
 }
 
@@ -303,6 +303,6 @@ void EnemyTails::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		sbk_misc.play(10);
+		assets().sounds.misc.play(10);
 	}
 }

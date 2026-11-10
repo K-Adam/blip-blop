@@ -11,7 +11,7 @@ void EventForeground::doEvent() {
 
 	s->x = x;
 	s->y = y;
-	s->pic = pbk_level.frame(pic);
+	s->pic = assets().pics.level.frame(pic);
 
-	list_foregrounds.emplace_back(s);
+	level().entities.foregrounds.emplace_back(s);
 }

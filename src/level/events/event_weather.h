@@ -9,7 +9,7 @@ class EventWeather : public Event {
 	int type;
 
 	void doEvent() override {
-		weather_intensity = intensity;
-		weather_type = type;
+		level().rules.weather_intensity = intensity;
+		level().rules.weather_type = type;
 	};
 };

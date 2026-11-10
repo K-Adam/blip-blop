@@ -22,9 +22,9 @@ class EnemySmurfJokey : public Enemy {
 	inline void render() override {
 		if (carries_bomb) {
 			if (dir == FACING_RIGHT)
-				draw(x + 26, y - gift_dy, pbk_enemies.pic("smurf_jokey_gift"));
+				draw(x + 26, y - gift_dy, assets().pics.enemies.pic("smurf_jokey_gift"));
 			else
-				draw(x - 26, y - gift_dy, pbk_enemies.pic("smurf_jokey_gift"));
+				draw(x - 26, y - gift_dy, assets().pics.enemies.pic("smurf_jokey_gift"));
 		}
 
 		draw(x, y, pic);

@@ -2,10 +2,8 @@
 #include "cinematics/rpg_player.h"
 #include "engine/input.h"
 #include "level/world.h"
-#include "core/assets.h"
-#include "core/text_data.h"
+#include "core/app.h"
 #include "entities/ball.h"
-#include "level/scroll.h"
 #include "engine/half_tone.h"
 #include <json.h>
 #include "core/asset_path.h"
@@ -93,7 +91,7 @@ bool RPGPlayer::startPlay(int n) {
 	ntxt[0] = -1;
 	ntxt[1] = -1;
 
-	nb_players = list_players.size();
+	nb_players = session().players.size();
 	key_released = false;
 	skiped = false;
 	focus = 0;
@@ -102,7 +100,7 @@ bool RPGPlayer::startPlay(int n) {
 
 	int i = 0;
 
-	for (Ball* c : list_players) {
+	for (Ball* c : session().players) {
 		if (c->id_ball == ID_BLIP)
 			player_sheet[i] = "blip";
 		else
@@ -162,15 +160,11 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 
 	if (const Picture* p = portrait(0)) p->PasteTo(surf, 0, 120);
 
-	if (vbuffer_wide > 640) {
-		if (const Picture* p = portrait(1)) p->PasteTo(surf, 540, 300);
-	} else {
-		if (const Picture* p = portrait(1)) p->PasteTo(surf, 538, 300);
-	}
+	if (const Picture* p = portrait(1)) p->PasteTo(surf, 540, 300);
 
-	if (ntxt[0] != -1) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]], 640);
+	if (ntxt[0] != -1) assets().fonts.rpg.printMW(surf, 120, 135, texts()[ntxt[0]], 640);
 
-	if (ntxt[1] != -1) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]], 535);
+	if (ntxt[1] != -1) assets().fonts.rpg.printMW(surf, 20, 315, texts()[ntxt[1]], 535);
 
 	return not_finished;
 }
@@ -202,11 +196,11 @@ bool RPGPlayer::updateScene() {
 					error(buffer2_);
 			} else if (buffer1_ == "id") {
 				if (buffer2_ == "joueur") {
-					pic_tab[focus] = &pbk_rpg_bb;
+					pic_tab[focus] = &assets().pics.rpg_bb;
 					sheet[focus] = player_sheet[cur_player];
 					id[focus] = ID_PLAYER;
 				} else if (buffer2_ == "ennemi") {
-					pic_tab[focus] = &pbk_rpg;
+					pic_tab[focus] = &assets().pics.rpg;
 					sheet[focus] = "portraits";
 					id[focus] = ID_ENEMY;
 				} else
@@ -226,7 +220,7 @@ bool RPGPlayer::updateScene() {
 				int val = std::stoi(buffer2_.substr(pos + 1));
 				buffer2_ = buffer2_.substr(0, pos);
 
-				game_flag[std::stoi(buffer2_)] = val;
+				level().rules.flags[std::stoi(buffer2_)] = val;
 			} else {
 				error(buffer1_);
 			}

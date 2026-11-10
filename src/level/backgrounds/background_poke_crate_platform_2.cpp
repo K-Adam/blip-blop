@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = pbk_level.pic("crate_hoist"); }
+BackgroundPokeCratePlatform2::BackgroundPokeCratePlatform2() { pic = assets().pics.level.pic("crate_hoist"); }
 
 void BackgroundPokeCratePlatform2::update() {
 	if (y < 20) {
@@ -15,11 +15,11 @@ void BackgroundPokeCratePlatform2::update() {
 
 		if (y + 28 != 0) {
 			for (int i = x - 90; i < x + 140; i++) {
-				set_platform(3, i, y + 28);
+				level().terrain.set_platform(3, i, y + 28);
 			}
 		} else {
 			for (int i = x - 90; i < x + 140; i++) {
-				set_platform(3, i, y + 29);
+				level().terrain.set_platform(3, i, y + 29);
 			}
 		}
 	}

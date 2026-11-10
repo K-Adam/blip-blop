@@ -3,9 +3,9 @@
 #include "core/debug.h"
 
 void EventLock::doEvent() {
-	scroll_locked = true;
-	x_lock = x_activation;
-	cond_end_lock = cond;
-	flag_end_lock = flag;
-	val_end_lock = val;
+	level().camera.lock.on = true;
+	level().camera.lock.x = x_activation;
+	level().camera.lock.cond = cond;
+	level().camera.lock.flag = flag;
+	level().camera.lock.val = val;
 }

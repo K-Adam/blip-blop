@@ -2,14 +2,14 @@
 #include <fstream>
 #include <string>
 #include "core/debug.h"
-#include "core/config.h"
+#include "engine/sound.h"
 #include "core/asset_path.h"
 #include <json.h>
 
 using json = nlohmann::json;
 
 bool MusicBank::open(const char* file, bool loop) {
-	if (!music_on) return true;
+	if (!audio.music()) return true;
 
 	auto dir = asset_path_prefix("mbk", file);
 	std::ifstream input(dir + ".json");
@@ -41,7 +41,7 @@ bool MusicBank::open(const char* file, bool loop) {
 }
 
 void MusicBank::play(int n) {
-	if (!music_on) return;
+	if (!audio.music()) return;
 
 	if (n < 0 || (size_t)n >= musics_.size()) {
 		debug << "MusicBank::play() -> Trying to play missing music " << n << "\n";
@@ -52,5 +52,5 @@ void MusicBank::play(int n) {
 }
 
 void MusicBank::stop() {
-	if (music_on) Mix_HaltMusic();
+	if (audio.music()) Mix_HaltMusic();
 }

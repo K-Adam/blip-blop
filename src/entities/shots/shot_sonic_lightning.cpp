@@ -12,7 +12,7 @@ void ShotSonicLightning::update() {
 	if (anim_tick == 0) {
 		anim_step += 1;
 	}
-	pic = pbk_enemies.anim("sonic_lightning")[anim_tick];
+	pic = assets().pics.enemies.anim("sonic_lightning")[anim_tick];
 
 	if (anim_step > 30) {
 		colFromPic();

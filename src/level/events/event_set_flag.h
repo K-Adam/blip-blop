@@ -7,5 +7,5 @@ class EventSetFlag : public Event {
 	int flag;
 	int val;
 
-	void doEvent() override { game_flag[flag] = val; };
+	void doEvent() override { level().rules.flags[flag] = val; };
 };

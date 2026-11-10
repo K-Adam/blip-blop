@@ -34,11 +34,11 @@ void ShotCloud::onCreation() {
 	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = FACING_LEFT;
+		if (x > level().camera.offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = FACING_RIGHT;
+		if (x < level().camera.offset + 30) dir = FACING_RIGHT;
 	}
 
 	if (anim_tick == 0) {
@@ -48,7 +48,7 @@ void ShotCloud::onCreation() {
 			anim_tick = anim_step = 0;
 			status = 1;
 		} else {
-			pic = pbk_enemies.anim("cloud_shot_grow")[anim_step];
+			pic = assets().pics.enemies.anim("cloud_shot_grow")[anim_step];
 		}
 	}
 
@@ -72,7 +72,7 @@ void ShotCloud::onDestruction() {
 		if (anim_step >= 3)
 			destroyed = true;
 		else
-			pic = pbk_enemies.anim("cloud_shot_grow")[2 - anim_step];
+			pic = assets().pics.enemies.anim("cloud_shot_grow")[2 - anim_step];
 	}
 
 	noCol();
@@ -89,21 +89,21 @@ void ShotCloud::onNormal() {
 		status = 2;
 	}
 
-	pic = pbk_enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
+	pic = assets().pics.enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
 
 	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = FACING_LEFT;
+		if (x > level().camera.offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = FACING_RIGHT;
+		if (x < level().camera.offset + 30) dir = FACING_RIGHT;
 	}
 
 	if (shoot_step == 0) {
-		if (targeted_player != NULL && targeted_player->y > y) {
-			int ddx = x - targeted_player->x;
+		if (session().targeted_player != NULL && session().targeted_player->y > y) {
+			int ddx = x - session().targeted_player->x;
 
 			if (ddx > -10 && ddx < 10) {
 				shoot_step = 0;
@@ -135,12 +135,12 @@ void ShotCloud::onShoot() {
 		status = 2;
 	}
 
-	pic = pbk_enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
+	pic = assets().pics.enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
 
 	shoot_step += 1;
 
 	if (shoot_step == 50) {
-		sbk_level.play(24);
+		assets().sounds.level.play(24);
 	}
 
 	if (shoot_step >= 100) {
@@ -163,7 +163,7 @@ void ShotCloud::render() {
 
 	if (status == 3 && shoot_step > 50) {
 		for (int yy = y - 10 + dy; yy < 480; yy += 100) {
-			draw(x, yy, pbk_enemies.anim("cloud_shot_lightning")[bolt_frame]);
+			draw(x, yy, assets().pics.enemies.anim("cloud_shot_lightning")[bolt_frame]);
 
 			bolt_frame = (bolt_frame + 1) % 4;
 		}

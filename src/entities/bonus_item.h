@@ -13,13 +13,13 @@ struct ItemSpec {
 class BonusItem : public Bonus {
    public:
 	explicit BonusItem(const ItemSpec& s) : s_(s) {
-		pic = pbk_misc.pic(s.pic);
+		pic = assets().pics.misc.pic(s.pic);
 		col_on = true;
 	}
 
 	void onPickup(Ball* c) override {
 		if (!s_.apply(c)) return;
-		if (s_.sound >= 0) sbk_misc.play(s_.sound);
+		if (s_.sound >= 0) assets().sounds.misc.play(s_.sound);
 		Bonus::onPickup(c);
 	}
 

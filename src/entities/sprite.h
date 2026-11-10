@@ -34,7 +34,7 @@ class Sprite {
 
 	inline virtual bool isOnBloodyWall() const	// Blood stained wall
 	{
-		return bloody_wall(x, y);
+		return level().terrain.bloody_wall(x, y);
 	}
 
 	inline virtual int animate(const int* tab, int nb_steps, int delay) {
@@ -58,7 +58,7 @@ class Sprite {
 	inline virtual void render() { draw(x, y, pic); };
 
 	inline virtual void updateDestroyed() {
-		if (x < offset - 250 || x > offset + 900 || y < -200 || y > 600) destroyed = true;
+		if (x < level().camera.offset - 250 || x > level().camera.offset + 900 || y < -200 || y > 600) destroyed = true;
 	};
 
 	virtual void update() = 0;

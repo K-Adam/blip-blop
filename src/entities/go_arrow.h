@@ -52,7 +52,7 @@ class GoArrow {
 
 	void Draw() {
 		if (phase_ != Phase::No) {
-			pbk_misc.anim("go_arrow")[anim_step_ / kSpriteDuration]->BlitTo(backSurface, x_, 150);
+			assets().pics.misc.anim("go_arrow")[anim_step_ / kSpriteDuration]->BlitTo(graphics.back(), x_, 150);
 		}
 	}
 

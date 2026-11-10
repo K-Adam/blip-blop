@@ -16,13 +16,13 @@ void BackgroundAssembler::render() {
 	r.top = anim_step;
 	r.left = 0;
 
-	if (x + 75 > offset + 640)
-		width_px = offset + 640 - x;
+	if (x + 75 > level().camera.offset + 640)
+		width_px = level().camera.offset + 640 - x;
 	else
 		width_px = 75;
 
 	r.right = width_px;
 	r.bottom = 87 + anim_step;
 
-	pbk_level.pic("assembler_listing")->BlitPart(backSurface, x - offset, y, r);
+	assets().pics.level.pic("assembler_listing")->BlitPart(graphics.back(), x - level().camera.offset, y, r);
 }

@@ -17,5 +17,5 @@ void EventEnemyGenerator::doEvent() {
 	gen->period = period;
 	gen->capacity = capacity;
 
-	list_enemy_gens.emplace_back(gen);
+	level().entities.enemy_gens.emplace_back(gen);
 }

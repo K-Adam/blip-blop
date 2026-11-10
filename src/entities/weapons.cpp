@@ -153,14 +153,14 @@ int jitter() { return rand() % 11 - 5; }
 WeaponM16::WeaponM16() : Weapon({.icon = "icon_m16", .anim_steps = 5, .fire_interval = 10, .turn_delay = 1, .low_ammo = 0, .loop_sound = -1}) {}
 
 void WeaponM16::fire(Ball& b, const GunPose& g) {
-	sbk_bb.play(3);
+	assets().sounds.bb.play(3);
 	ShotBBM16* t = nextShot(shots_, next_, b);
 	// Drawn y first in separate statements, the order MSVC used inside the old calls, so all builds match
 	int jitter_y = jitter();
 	int jitter_x = jitter();
 	placeAtMuzzle(t, b, g, dx_m16, dy_m16, dx_shot_m16[g.sector] + jitter_x, dy_shot_m16[g.sector] + jitter_y);
 	t->setAngle(g.angle, 9);
-	list_bb_shots.push_back(t);
+	level().entities.bb_shots.push_back(t);
 }
 
 void WeaponM16::draw(const Ball& b, int x, int y, const GunPose& g) const {
@@ -174,20 +174,20 @@ void WeaponM16::draw(const Ball& b, int x, int y, const GunPose& g) const {
 	pen.put(pen.gx + x_recoil[s][r], pen.gy + y_recoil[s][r], b.pbk_own.anim("gun_m16")[s]);
 	const int* fx = b.id_ball == ID_BLIP ? dx_m16_flash : dx_m16o_flash;
 	const int* fy = b.id_ball == ID_BLIP ? dy_m16_flash : dy_m16o_flash;
-	pen.putTurned(x + fx[s] + x_recoil[s][r], y + fy[s] + y_recoil[s][r], pbk_bb.anim("flash_m16")[anim_flash[b.weapon_step]]);
+	pen.putTurned(x + fx[s] + x_recoil[s][r], y + fy[s] + y_recoil[s][r], assets().pics.bb.anim("flash_m16")[anim_flash[b.weapon_step]]);
 }
 
 WeaponShotgun::WeaponShotgun() : Weapon({.icon = "icon_shotgun", .anim_steps = 15, .fire_interval = 45, .turn_delay = 1, .low_ammo = 4, .loop_sound = -1}) {}
 
 void WeaponShotgun::fire(Ball& b, const GunPose& g) {
-	sbk_bb.play(1);
+	assets().sounds.bb.play(1);
 	for (int i = 0; i < 17; i++) {
 		ShotBBShotgun* pellet = nextShot(shots_, next_, b);
 		int jitter_y = jitter();
 		int jitter_x = jitter();
 		placeAtMuzzle(pellet, b, g, dx_shotgun, dy_shotgun, dx_shot_shotgun[g.sector] + jitter_x, dy_shot_shotgun[g.sector] + jitter_y);
 		pellet->aim(g.angle);
-		list_bb_shots.push_back(pellet);
+		level().entities.bb_shots.push_back(pellet);
 	}
 }
 
@@ -205,7 +205,7 @@ void WeaponShotgun::draw(const Ball& b, int x, int y, const GunPose& g) const {
 		pen.put(pen.gx + x_recoil[s][step] * 2, pen.gy + y_recoil[s][step] * 2, b.pbk_own.anim("gun_shotgun")[s]);
 		pen.put(x + dx_hand_shotgun[s] + x_recoil_shotgun[s][step], y + dy_hand_shotgun[s] + y_recoil_shotgun[s][step], b.pbk_own.anim("shotgun_hand")[hand]);
 		pen.putTurned(x + dx_shotgun_flash[s] + x_recoil_shotgun[s][step], y + dy_shotgun_flash[s] + y_recoil_shotgun[s][step],
-					  pbk_bb.anim("flash_shotgun")[anim_flash[step]]);
+					  assets().pics.bb.anim("flash_shotgun")[anim_flash[step]]);
 	} else {  // Reload
 		int ea = (step - 5) / 2;
 		pen.put(pen.gx, pen.gy, b.pbk_own.anim("gun_shotgun")[s]);
@@ -215,7 +215,7 @@ void WeaponShotgun::draw(const Ball& b, int x, int y, const GunPose& g) const {
 
 WeaponPM::WeaponPM() : Weapon({.icon = "icon_pm", .anim_steps = 5, .fire_interval = 5, .turn_delay = 5, .low_ammo = 30, .loop_sound = -1}) {}
 
-void WeaponPM::pullTrigger() { sbk_bb.play(0); }
+void WeaponPM::pullTrigger() { assets().sounds.bb.play(0); }
 
 void WeaponPM::fire(Ball& b, const GunPose& g) {
 	ShotBBPM* t = nextShot(shots_, next_, b);
@@ -223,7 +223,7 @@ void WeaponPM::fire(Ball& b, const GunPose& g) {
 	int jitter_x = jitter();
 	placeAtMuzzle(t, b, g, dx_pm, dy_pm, dx_shot_pm[g.sector] + jitter_x, dy_shot_pm[g.sector] + jitter_y);
 	t->setAngle(g.angle, 12);
-	list_bb_shots.push_back(t);
+	level().entities.bb_shots.push_back(t);
 }
 
 void WeaponPM::draw(const Ball& b, int x, int y, const GunPose& g) const {
@@ -248,7 +248,7 @@ void WeaponLF::fire(Ball& b, const GunPose& g) {
 		puff->deg = deg;
 		placeAtMuzzle(puff, b, g, dx_lf, dy_lf, dx_shot_lf[g.sector] + x_recoil[g.sector][r], dy_shot_lf[g.sector] + y_recoil[g.sector][r]);
 		puff->aim(g.angle);
-		list_bb_shots.push_back(puff);
+		level().entities.bb_shots.push_back(puff);
 	}
 }
 
@@ -266,7 +266,7 @@ void WeaponLaser::fire(Ball& b, const GunPose& g) {
 	placeAtMuzzle(beam, b, g, dx_laser, dy_laser, dx_shot_laser[g.sector] + x_recoil[g.sector][r], dy_shot_laser[g.sector] + y_recoil[g.sector][r]);
 	beam->aim(g.angle);
 	beam->anim_step = b.weapon_step;
-	list_bb_shots.push_back(beam);
+	level().entities.bb_shots.push_back(beam);
 }
 
 void WeaponLaser::draw(const Ball& b, int x, int y, const GunPose& g) const {
@@ -278,7 +278,7 @@ void WeaponLaser::draw(const Ball& b, int x, int y, const GunPose& g) const {
 		return;
 	}
 	pen.put(pen.gx + x_recoil[s][r], pen.gy + y_recoil[s][r], b.pbk_own.anim("gun_laser")[s]);
-	pen.putTurned(x + dx_laser_part[s] + x_recoil[s][r], y + dy_laser_part[s] + y_recoil[s][r], pbk_bb.anim("laser_glow")[b.weapon_step]);
+	pen.putTurned(x + dx_laser_part[s] + x_recoil[s][r], y + dy_laser_part[s] + y_recoil[s][r], assets().pics.bb.anim("laser_glow")[b.weapon_step]);
 	if (b.weapon_dir == b.dir)
-		pen.putTurned(x + dx_laser_flash[s] + x_recoil[s][r], y + dy_laser_flash[s] + y_recoil[s][r], pbk_bb.anim("laser_muzzle")[b.weapon_step]);
+		pen.putTurned(x + dx_laser_flash[s] + x_recoil[s][r], y + dy_laser_flash[s] + y_recoil[s][r], assets().pics.bb.anim("laser_muzzle")[b.weapon_step]);
 }

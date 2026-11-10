@@ -5,9 +5,7 @@
 #include "cinematics/cine_player.h"
 #include "core/debug.h"
 #include "engine/input.h"
-#include "core/text_data.h"
-#include "core/assets.h"
-#include "core/config.h"
+#include "core/app.h"
 #include <json.h>
 #include "core/asset_path.h"
 
@@ -90,11 +88,11 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 		}
 	}
 
-	while (!finished && !app_killed) {
+	while (!finished && !in.quitRequested()) {
 		updateState();
 		update_regulator_.Skip();
 
-		while (frame_to_draw > 0 && !finished && !app_killed) {
+		while (frame_to_draw > 0 && !finished && !in.quitRequested()) {
 			renderLoop();
 
 			// Enter also reads a click or pad A, a fresh press so fire held from the level does not skip
@@ -393,7 +391,7 @@ void CINEPlayer::drawSprite(int n) {
 }
 
 void CINEPlayer::drawText(int n) {
-	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt]);
+	if (n < NB_OBJ) assets().fonts.rpg.printC(back_surf, obj[n].x, obj[n].y, texts()[obj[n].txt]);
 }
 
 bool CINEPlayer::getCommand() {

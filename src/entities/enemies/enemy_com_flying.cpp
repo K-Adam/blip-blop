@@ -2,8 +2,8 @@
 
 EnemyCOMFlying::EnemyCOMFlying() : speed(0), attack(true) {
 	hp = 100;
-	if (targeted_player != NULL) {
-		y_target = targeted_player->y;
+	if (session().targeted_player != NULL) {
+		y_target = session().targeted_player->y;
 	} else {
 		y_target = 100 + rand() % 200;
 		;
@@ -29,20 +29,20 @@ void EnemyCOMFlying::update() {
 void EnemyCOMFlying::onWalk() {
 	step(8, 2);
 
-	if ((dir == FACING_LEFT) && (x - speed < offset || solid_wall(x - speed, y))) {
+	if ((dir == FACING_LEFT) && (x - speed < level().camera.offset || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		attack = false;
-		if (targeted_player != NULL) {
-			y_target = targeted_player->y;
+		if (session().targeted_player != NULL) {
+			y_target = session().targeted_player->y;
 		} else {
 			y_target = 100 + rand() % 200;
 			;
 		}
-	} else if ((dir == FACING_RIGHT) && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+	} else if ((dir == FACING_RIGHT) && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		attack = false;
-		if (targeted_player != NULL) {
-			y_target = targeted_player->y;
+		if (session().targeted_player != NULL) {
+			y_target = session().targeted_player->y;
 		} else {
 			y_target = 100 + rand() % 200;
 			;
@@ -83,14 +83,14 @@ void EnemyCOMFlying::onWalk() {
 	else
 		x -= speed;
 
-	pic = pbk_enemies.anim("com_fly")[anim_step];
+	pic = assets().pics.enemies.anim("com_fly")[anim_step];
 
 	colFromPic();
 }
 
 void EnemyCOMFlying::onDie() {
 	if (anim_tick == 0 && anim_step == 0) {
-		sbk_level.play(6);
+		assets().sounds.level.play(6);
 	}
 
 	anim_tick += 1;
@@ -101,6 +101,6 @@ void EnemyCOMFlying::onDie() {
 	if (anim_step >= 22) {
 		destroyed = true;
 	} else {
-		pic = pbk_enemies.anim("com_die")[anim_step];
+		pic = assets().pics.enemies.anim("com_die")[anim_step];
 	}
 }

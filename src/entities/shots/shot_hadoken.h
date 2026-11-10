@@ -22,14 +22,14 @@ class ShotHadoken : public Shot {
 		} else {
 			if (dir == FACING_RIGHT) {
 				x += SPEED;
-				pic = pbk_enemies.anim("smurf_hefty_hadoken_right")[anim_step];
+				pic = assets().pics.enemies.anim("smurf_hefty_hadoken_right")[anim_step];
 			} else {
 				x -= SPEED;
-				pic = pbk_enemies.anim("smurf_hefty_hadoken_left")[anim_step];
+				pic = assets().pics.enemies.anim("smurf_hefty_hadoken_left")[anim_step];
 			}
 		}
 
-		if (solid_wall(x, y)) destroyed = true;
+		if (level().terrain.solid_wall(x, y)) destroyed = true;
 
 		updateDestroyed();
 		colFromPic();

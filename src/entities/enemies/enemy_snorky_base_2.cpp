@@ -6,7 +6,7 @@ const int anim_snorky_base_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySnorkyBase2::EnemySnorkyBase2() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
 	hp = 150;
-	pic = pbk_enemies.anim("snorky_walk_right")[0];
+	pic = assets().pics.enemies.anim("snorky_walk_right")[0];
 	dy = 0;
 }
 
@@ -41,7 +41,7 @@ void EnemySnorkyBase2::update() {
 }
 
 void EnemySnorkyBase2::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -50,14 +50,15 @@ void EnemySnorkyBase2::onWalk() {
 	}
 
 	wait_for_shoot++;
-	if ((targeted_player != NULL) && (wait_for_shoot > shoot_delay) && ((dir == FACING_RIGHT && x > offset + 80) || (dir == FACING_LEFT && x < offset + 560))) {
+	if ((session().targeted_player != NULL) && (wait_for_shoot > shoot_delay) &&
+		((dir == FACING_RIGHT && x > level().camera.offset + 80) || (dir == FACING_LEFT && x < level().camera.offset + 560))) {
 		wait_for_shoot = 0;
 		shoot_delay = 50 + rand() % 200;
 		anim_step = 0;
 		anim_tick = 0;
 		status = STATE_SHOOT;
-		x_target = targeted_player->x;
-		y_target = targeted_player->y;
+		x_target = session().targeted_player->x;
+		y_target = session().targeted_player->y;
 		onShoot();
 		return;
 	}
@@ -65,15 +66,15 @@ void EnemySnorkyBase2::onWalk() {
 	if (dir == FACING_LEFT) {
 		walk(-SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies.anim("snorky2_walk_left")[animate(anim_snorky_base_walk_left, 8, 4)];
+		pic = assets().pics.enemies.anim("snorky2_walk_left")[animate(anim_snorky_base_walk_left, 8, 4)];
 
-		if (solid_wall(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = FACING_RIGHT;
+		if (level().terrain.solid_wall(x - SNORKY_BASE_SPEED, y) || (x - SNORKY_BASE_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		walk(SNORKY_BASE_SPEED);
 
-		pic = pbk_enemies.anim("snorky2_walk_right")[animate(anim_snorky_base_walk_right, 8, 4)];
+		pic = assets().pics.enemies.anim("snorky2_walk_right")[animate(anim_snorky_base_walk_right, 8, 4)];
 
-		if (solid_wall(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > offset + 640)) dir = FACING_LEFT;
+		if (level().terrain.solid_wall(x + SNORKY_BASE_SPEED, y) || (x + SNORKY_BASE_SPEED > level().camera.offset + 640)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
@@ -82,7 +83,7 @@ void EnemySnorkyBase2::onWalk() {
 void EnemySnorkyBase2::onFall() {
 	fall();
 
-	if (platform_y(x, y) != 0) status = STATE_WALK;
+	if (level().terrain.platform_y(x, y) != 0) status = STATE_WALK;
 
 	colFromPic();
 }
@@ -116,16 +117,16 @@ void EnemySnorkyBase2::onDie() {
 	}
 
 	if (anim_step == 10) {
-		if (platform_y(x, y) != 0) engrave(x, y, pic);
+		if (level().terrain.platform_y(x, y) != 0) engrave(x, y, pic);
 
 		destroyed = true;
 		return;
 	}
 
 	if (dir == FACING_LEFT) {
-		pic = pbk_enemies.anim("snorky2_die_left")[anim_step];
+		pic = assets().pics.enemies.anim("snorky2_die_left")[anim_step];
 	} else {
-		pic = pbk_enemies.anim("snorky2_die_right")[anim_step];
+		pic = assets().pics.enemies.anim("snorky2_die_right")[anim_step];
 	}
 }
 
@@ -152,22 +153,22 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), 6, vy);
+				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), 6, vy);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(shot);
 
 			} else {
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), 6, 1);
+				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), 6, 1);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(shot);
 			}
-			pic = pbk_enemies.anim("snorky2_shoot_right")[0];
+			pic = assets().pics.enemies.anim("snorky2_shoot_right")[0];
 		} else {
 			if ((x_target < x) && (x_target - x != 0)) {
 				int vy = ((y_target - y + 50) * 6) / (x_target - x);
@@ -175,30 +176,30 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), -6, -vy);
+				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), -6, -vy);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(shot);
 
 			} else {
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), -6, 1);
+				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), -6, 1);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(shot);
 			}
-			pic = pbk_enemies.anim("snorky2_shoot_left")[0];
+			pic = assets().pics.enemies.anim("snorky2_shoot_left")[0];
 		}
 	}
 
 	if (anim_step < 10) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("snorky2_shoot_right")[anim_step];
+			pic = assets().pics.enemies.anim("snorky2_shoot_right")[anim_step];
 		} else {
-			pic = pbk_enemies.anim("snorky2_shoot_left")[anim_step];
+			pic = assets().pics.enemies.anim("snorky2_shoot_left")[anim_step];
 		}
 	}
 	colFromPic();
@@ -214,9 +215,9 @@ void EnemySnorkyBase2::onCharred() {
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("snorky2_burn_left")[anim_step];
+			pic = assets().pics.enemies.anim("snorky2_burn_left")[anim_step];
 		else
-			pic = pbk_enemies.anim("snorky2_burn_right")[anim_step];
+			pic = assets().pics.enemies.anim("snorky2_burn_right")[anim_step];
 	}
 }
 
@@ -228,6 +229,6 @@ void EnemySnorkyBase2::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_snorkbase2, dy_splatter_snorkbase2);
 
 	if (status == STATE_DYING) {
-		sbk_level.play(18);
+		assets().sounds.level.play(18);
 	}
 }

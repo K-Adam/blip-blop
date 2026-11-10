@@ -15,11 +15,11 @@ const int anim_luigi_death[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemyLuigi::EnemyLuigi() : speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), knockback(0) {
 	hp = 10000;
-	xmin = offset + 20;
+	xmin = level().camera.offset + 20;
 }
 
 void EnemyLuigi::update() {
-	if (game_flag[0] == 7) destroyed = true;
+	if (level().rules.flags[0] == 7) destroyed = true;
 
 	if (blood > 0) blood -= 1;
 
@@ -52,30 +52,30 @@ void EnemyLuigi::update() {
 }
 
 void EnemyLuigi::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
 		onJump();
 	}
 
-	if (x - speed < (xmin + 20) || solid_wall(x - speed, y)) {
+	if (x - speed < (xmin + 20) || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 600 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 600 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 
-	if (game_flag[0] >= 3) {
+	if (level().rules.flags[0] >= 3) {
 		wait_for_attack++;
-	} else if (x < offset + 600) {
-		game_flag[0] = 2;
+	} else if (x < level().camera.offset + 600) {
+		level().rules.flags[0] = 2;
 	}
 
-	if ((wait_for_attack >= attack_delay) && (targeted_player != NULL)) {
-		int dif_y = targeted_player->y - y;
-		int dif_x = targeted_player->x - x;
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+		int dif_y = session().targeted_player->y - y;
+		int dif_x = session().targeted_player->x - x;
 
 		if (dif_y == 0) {
 			dif_y = 1;
@@ -116,7 +116,7 @@ void EnemyLuigi::onWalk() {
 				attack_frame = 0;
 				status = STATE_SHOOT;
 				nb_shots = 0;
-				sbk_level.play(9);
+				assets().sounds.level.play(9);
 				onAttack();
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_x < 0) && ((slope_ratio <= -2) || (slope_ratio >= 2))) {
@@ -130,7 +130,7 @@ void EnemyLuigi::onWalk() {
 				attack_frame = 0;
 				status = STATE_SHOOT;
 				nb_shots = 0;
-				sbk_level.play(9);
+				assets().sounds.level.play(9);
 				onAttack();
 				return;
 			}
@@ -143,7 +143,7 @@ void EnemyLuigi::onWalk() {
 			speed = -6;
 
 		walk(speed);
-		pic = pbk_enemies.anim("luigi_walk_right")[animate(anim_luigi_walk_right, 4, 14 - (2 * speed))];
+		pic = assets().pics.enemies.anim("luigi_walk_right")[animate(anim_luigi_walk_right, 4, 14 - (2 * speed))];
 
 		if (knockback < 0) {
 			if (speed > -knockback / GROUND_SPEED_DIVISOR) {
@@ -165,7 +165,7 @@ void EnemyLuigi::onWalk() {
 			speed = -6;
 
 		walk(-speed);
-		pic = pbk_enemies.anim("luigi_walk_left")[animate(anim_luigi_walk_left, 4, 14 - (2 * speed))];
+		pic = assets().pics.enemies.anim("luigi_walk_left")[animate(anim_luigi_walk_left, 4, 14 - (2 * speed))];
 
 		if (knockback > 0) {
 			if (speed > knockback / GROUND_SPEED_DIVISOR) {
@@ -183,7 +183,7 @@ void EnemyLuigi::onWalk() {
 	}
 
 	if (knockback >= GROUND_RECOIL_DIVISOR) {
-		if (x + knockback / GROUND_RECOIL_DIVISOR < offset + 620) {
+		if (x + knockback / GROUND_RECOIL_DIVISOR < level().camera.offset + 620) {
 			x += knockback / GROUND_RECOIL_DIVISOR;
 		}
 	} else if (knockback <= -GROUND_RECOIL_DIVISOR) {
@@ -205,41 +205,41 @@ void EnemyLuigi::onWalk() {
 }
 
 void EnemyLuigi::onDie() {
-	if (game_flag[1] == 0) {
+	if (level().rules.flags[1] == 0) {
 		fall();
-		if (x - 3 < xmin || solid_wall(x - 3, y)) {
+		if (x - 3 < xmin || level().terrain.solid_wall(x - 3, y)) {
 			dir = FACING_RIGHT;
-		} else if (x + 3 > offset + 640 || solid_wall(x + 3, y)) {
+		} else if (x + 3 > level().camera.offset + 640 || level().terrain.solid_wall(x + 3, y)) {
 			dir = FACING_LEFT;
 		}
 		if (dir == FACING_RIGHT) {
 			walk(3);
-			pic = pbk_enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
+			pic = assets().pics.enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
 		} else {
 			walk(-3);
-			pic = pbk_enemies.anim("luigi_dazed_left")[animate(anim_luigi_walk_dead_left, 4, 8)];
+			pic = assets().pics.enemies.anim("luigi_dazed_left")[animate(anim_luigi_walk_dead_left, 4, 8)];
 		}
-		if ((platform_y2(x, y) == 0) && (x > 1500) && (x < 1550)) {
+		if ((level().terrain.platform_y2(x, y) == 0) && (x > 1500) && (x < 1550)) {
 			dir = FACING_LEFT;
-			game_flag[1] = 1;
+			level().rules.flags[1] = 1;
 			attack_delay = 0;
 		}
-	} else if (game_flag[1] == 1) {
+	} else if (level().rules.flags[1] == 1) {
 		attack_delay++;
 		if (attack_delay >= EXPLODE_DELAY) {
-			game_flag[1] = 2;
+			level().rules.flags[1] = 2;
 			dir = FACING_RIGHT;
 		} else {
-			pic = pbk_enemies.anim("luigi_death")[animate(anim_luigi_death, 8, 6)];
+			pic = assets().pics.enemies.anim("luigi_death")[animate(anim_luigi_death, 8, 6)];
 		}
-	} else if (game_flag[1] == 2) {
+	} else if (level().rules.flags[1] == 2) {
 		walk(3);
-		pic = pbk_enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
-		if (x > offset + 680) {
-			game_flag[1] = 3;
+		pic = assets().pics.enemies.anim("luigi_dazed_right")[animate(anim_luigi_walk_dead_right, 4, 8)];
+		if (x > level().camera.offset + 680) {
+			level().rules.flags[1] = 3;
 			attack_delay = 0;
 		}
-	} else if (game_flag[1] == 3) {
+	} else if (level().rules.flags[1] == 3) {
 		attack_delay++;
 		if (attack_delay >= NB_SPLATTERS) {
 			Enemy* sonic = new EnemyPacmanCar();
@@ -247,16 +247,16 @@ void EnemyLuigi::onDie() {
 			sonic->x = 1960;
 			sonic->y = y;
 			sonic->dir = FACING_LEFT;
-			list_enemies.emplace_back(sonic);
+			level().entities.enemies.emplace_back(sonic);
 
-			nb_enemies_created++;
+			session().enemies_created++;
 
 			sonic = new EnemySonic();
 
 			sonic->x = 1960;
 			sonic->y = y;
 			sonic->dir = FACING_LEFT;
-			list_enemies.emplace_back(sonic);
+			level().entities.enemies.emplace_back(sonic);
 			destroyed = true;
 
 		} else {
@@ -265,7 +265,7 @@ void EnemyLuigi::onDie() {
 				Sprite* s = new GoreSplatter(-rand() % 10 - 2, -1 - rand() % 10);
 				s->x = x + rand() % 20 - 10;
 				s->y = y - rand() % 60 - 10;
-				list_splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(s);
 			}
 		}
 	}
@@ -283,16 +283,16 @@ void EnemyLuigi::onAttack() {
 
 	if (nb_shots < 50) {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("luigi_attack_right")[0];
+			pic = assets().pics.enemies.anim("luigi_attack_right")[0];
 		else
-			pic = pbk_enemies.anim("luigi_attack_left")[0];
+			pic = assets().pics.enemies.anim("luigi_attack_left")[0];
 
 		colFromPic();
 		return;
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("luigi_attack_right")[animate(anim_luigi_attack_right, 4, 2)];
+		pic = assets().pics.enemies.anim("luigi_attack_right")[animate(anim_luigi_attack_right, 4, 2)];
 		attack_frame_tick += 1;
 		attack_frame_tick %= 4;
 		if (attack_frame_tick == 0) {
@@ -303,8 +303,8 @@ void EnemyLuigi::onAttack() {
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -314,13 +314,13 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 
 					break;
 				case 1:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -330,12 +330,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -345,12 +345,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[0], 9, 3, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[6], 9, -3, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[0], 9, 3, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[6], 9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -360,12 +360,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -375,12 +375,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -390,17 +390,17 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 			}
 
-			if (x > offset + 30) {
+			if (x > level().camera.offset + 30) {
 				x -= 1;
 			}
 		}
 	} else {
-		pic = pbk_enemies.anim("luigi_attack_left")[animate(anim_luigi_attack_left, 4, 2)];
+		pic = assets().pics.enemies.anim("luigi_attack_left")[animate(anim_luigi_attack_left, 4, 2)];
 		attack_frame_tick += 1;
 		attack_frame_tick %= 4;
 		if (attack_frame_tick == 0) {
@@ -411,8 +411,8 @@ void EnemyLuigi::onAttack() {
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -422,13 +422,13 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 
 					break;
 				case 1:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -438,12 +438,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -453,12 +453,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[0], -9, 3, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[6], -9, -3, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[0], -9, 3, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[6], -9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -468,12 +468,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -483,12 +483,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1, true);
-					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1, true);
+					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -498,12 +498,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					list_enemy_shots.emplace_back(shot1);
-					list_enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(shot1);
+					level().entities.enemy_shots.emplace_back(shot2);
 					break;
 			}
 
-			if (x < offset + 610) {
+			if (x < level().camera.offset + 610) {
 				x += 1;
 			}
 		}
@@ -521,17 +521,17 @@ void EnemyLuigi::onJump() {
 	}
 
 	// A boss off screen could not be hit
-	if ((x - speed < xmin || solid_wall(x - speed, y))) {
+	if ((x - speed < xmin || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
 	}
 
-	else if ((x + speed > offset + 600 || solid_wall(x + speed, y))) {
+	else if ((x + speed > level().camera.offset + 600 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -540,12 +540,12 @@ void EnemyLuigi::onJump() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		if (x + speed < offset + 620) x += speed;
+		if (x + speed < level().camera.offset + 620) x += speed;
 
 		if (dy < 0) {
-			pic = pbk_enemies.anim("luigi_jump_right")[0];
+			pic = assets().pics.enemies.anim("luigi_jump_right")[0];
 		} else {
-			pic = pbk_enemies.anim("luigi_jump_right")[1];
+			pic = assets().pics.enemies.anim("luigi_jump_right")[1];
 		}
 
 		if (knockback != 0) {
@@ -574,9 +574,9 @@ void EnemyLuigi::onJump() {
 		if (x - speed > xmin) x -= speed;
 
 		if (dy < 0) {
-			pic = pbk_enemies.anim("luigi_jump_left")[0];
+			pic = assets().pics.enemies.anim("luigi_jump_left")[0];
 		} else {
-			pic = pbk_enemies.anim("luigi_jump_left")[1];
+			pic = assets().pics.enemies.anim("luigi_jump_left")[1];
 		}
 
 		if (knockback != 0) {
@@ -616,9 +616,9 @@ void EnemyLuigi::fall_luigi() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;
@@ -640,7 +640,7 @@ void EnemyLuigi::takeHit(Shot* shot) {
 		s->x = x + rand() % 11 - 5;
 		s->y = y - rand() % 30 - 10;
 
-		list_splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(s);
 	}
 
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {

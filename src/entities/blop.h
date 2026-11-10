@@ -4,7 +4,7 @@
 
 class Blop : public Ball {
    public:
-	Blop() : Ball(pbk_blop) { id_ball = ID_BLOP; };
+	Blop() : Ball(assets().pics.blop) { id_ball = ID_BLOP; };
 
 	void rearm() override {
 		ammo[ID_SHOTGUN] = 10;

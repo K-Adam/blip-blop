@@ -18,13 +18,13 @@ class GoreBisouBoom : public Sprite {
 
 			if (anim_tick == 0) anim_step += 1;
 
-			pic = pbk_enemies.anim(dir == FACING_RIGHT ? right_ : left_)[anim_step];
+			pic = assets().pics.enemies.anim(dir == FACING_RIGHT ? right_ : left_)[anim_step];
 		}
 
-		if ((platform_y(x, y) != 0 && anim_step >= 5) || solid_wall(x, y)) {
+		if ((level().terrain.platform_y(x, y) != 0 && anim_step >= 5) || level().terrain.solid_wall(x, y)) {
 			engrave(x, y, pic);
 			destroyed = true;
-			sbk_misc.play(6 + (rand() % 2));
+			assets().sounds.misc.play(6 + (rand() % 2));
 		} else {
 			x += dir == FACING_RIGHT ? drift_ : -drift_;
 		}

@@ -57,7 +57,7 @@ void EnemyBisouStar::onDieWhole() {
 		feet->dir = dir;
 		feet->y = y;
 
-		list_gore.emplace_back(feet);
+		level().entities.gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
@@ -67,9 +67,9 @@ void EnemyBisouStar::onDieWhole() {
 		onDieTop();
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("star_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("star_die_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("star_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("star_die_left")[anim_step];
 	}
 }
 
@@ -92,16 +92,16 @@ void EnemyBisouStar::onDieTop() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("star_die_top_right")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies.anim("star_die_top_left")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_left")[anim_step];
 		x -= 1;
 	}
 
 	fall();
 
-	if (platform_y(x, y) != 0 && anim_step >= 3) {
+	if (level().terrain.platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
 		status = STATE_DYING_3;
 		onDieTopEnd();
@@ -115,9 +115,9 @@ void EnemyBisouStar::onDieTopEnd() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("star_die_top_end_right")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_end_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("star_die_top_end_left")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_end_left")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -132,29 +132,31 @@ void EnemyBisouStar::onWalk() {
 
 	step(4, 8);
 
-	if (x - SPEED < xmin || solid_wall(x - SPEED, y) || (platform_y(x - SPEED, y) == 0 && platform_y(x - SPEED, y + 5) == 0))
+	if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y) ||
+		(level().terrain.platform_y(x - SPEED, y) == 0 && level().terrain.platform_y(x - SPEED, y + 5) == 0))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 680 || solid_wall(x + SPEED, y) || (platform_y(x + SPEED, y) == 0 && platform_y(x + SPEED, y + 5) == 0))
+	else if (x + SPEED > level().camera.offset + 680 || level().terrain.solid_wall(x + SPEED, y) ||
+			 (level().terrain.platform_y(x + SPEED, y) == 0 && level().terrain.platform_y(x + SPEED, y + 5) == 0))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("star_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("star_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("star_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("star_walk_left")[anim_step];
 	}
 
 	shoot_step += 1;
 
-	if (anim_step == 4 && shoot_step >= wait_shoot && x > offset) {
+	if (anim_step == 4 && shoot_step >= wait_shoot && x > level().camera.offset) {
 		ShotStar* s = new ShotStar();
 
 		s->x = x;
 		s->y = y - 30;
 		s->dir = dir;
 
-		list_enemy_shots.emplace_back(s);
+		level().entities.enemy_shots.emplace_back(s);
 
 		anim_tick = 0;
 		status = STATE_SHOOT;
@@ -177,9 +179,9 @@ void EnemyBisouStar::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("sky_star_charred_right")[anim_step];
+		pic = assets().pics.enemies.anim("sky_star_charred_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("sky_star_charred_left")[anim_step];
+		pic = assets().pics.enemies.anim("sky_star_charred_left")[anim_step];
 }
 
 void EnemyBisouStar::takeHit(Shot* shot) {
@@ -189,5 +191,5 @@ void EnemyBisouStar::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rand() % 9));
 }

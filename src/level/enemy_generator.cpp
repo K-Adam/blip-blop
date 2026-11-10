@@ -11,7 +11,7 @@
 EnemyGenerator::EnemyGenerator() : t(0), destroyed(false) {}
 
 void EnemyGenerator::update() {
-	if (game_flag[FLAG_GEN_OFF] != 0) return;
+	if (level().rules.flags[FLAG_GEN_OFF] != 0) return;
 
 	t += 1;
 	t %= period;
@@ -19,7 +19,7 @@ void EnemyGenerator::update() {
 	if (t == 0) {
 		bool ok = true;
 
-		for (Ball* s : list_players) {
+		for (Ball* s : session().players) {
 			ok = (s->x < x - 100 || s->x > x + 100 || s->y < y - 100 || s->y > y + 100);
 		}
 
@@ -38,5 +38,5 @@ void EnemyGenerator::update() {
 		if (capacity <= 0) destroyed = true;
 	}
 
-	if (x < offset - 100) destroyed = true;
+	if (x < level().camera.offset - 100) destroyed = true;
 }

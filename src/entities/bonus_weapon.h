@@ -12,12 +12,12 @@ struct WeaponSpec {
 class BonusWeapon : public Bonus {
    public:
 	explicit BonusWeapon(const WeaponSpec& w) : w_(w) {
-		pic = pbk_misc.pic(w.pic);
+		pic = assets().pics.misc.pic(w.pic);
 		col_on = true;
 	}
 
 	void onPickup(Ball* c) override {
-		sbk_misc.play(w_.sound);
+		assets().sounds.misc.play(w_.sound);
 
 		bool carried = c->carries(w_.id);
 		c->ammo[w_.id] = std::min(c->ammo[w_.id] + w_.ammo, w_.max_ammo);

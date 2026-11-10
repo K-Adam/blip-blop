@@ -1,11 +1,16 @@
 #include "entities/vehicle_stork.h"
 
-static bool first;
+namespace {
+// The first stork of a batch drops its rider higher so two riders do not land on each other
+struct StorkDrop {
+	bool first = true;
+};
+}  // namespace
 
 VehicleStork::VehicleStork() {
-	pic = pbk_enemies.pic("red_car");
+	pic = assets().pics.enemies.pic("red_car");
 	hasBeenUsed = false;
-	first = true;
+	level().shared<StorkDrop>().first = true;
 };
 
 void VehicleStork::render() { Sprite::render(); }
@@ -22,6 +27,7 @@ void VehicleStork::updateUsed() {
 	hero->y = y - 20;
 
 	if (x >= 1480) {
+		bool& first = level().shared<StorkDrop>().first;
 		if (first)
 			hero->y = y - 80;
 		else

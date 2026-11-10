@@ -34,7 +34,8 @@ void EnemySnorkyHyporider::update() {
 
 void EnemySnorkyHyporider::onWalk() {
 	wait_for_charge++;
-	if ((wait_for_charge > charge_delay) && ((dir == FACING_RIGHT && x > offset + 80) || (dir == FACING_LEFT && x < offset + 560))) {
+	if ((wait_for_charge > charge_delay) &&
+		((dir == FACING_RIGHT && x > level().camera.offset + 80) || (dir == FACING_LEFT && x < level().camera.offset + 560))) {
 		wait_for_charge = 0;
 		charge_delay = 50 + rand() % 200;
 		anim_step = 0;
@@ -54,15 +55,15 @@ void EnemySnorkyHyporider::onWalk() {
 
 	if (dir == FACING_LEFT) {
 		x -= HYPORIDER_SPEED;
-		pic = pbk_enemies.pic("hyporider_ride_left");
+		pic = assets().pics.enemies.pic("hyporider_ride_left");
 
-		if (solid_wall(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin)) dir = FACING_RIGHT;
+		if (level().terrain.solid_wall(x - HYPORIDER_SPEED, y) || (x - HYPORIDER_SPEED < xmin)) dir = FACING_RIGHT;
 	} else {
 		x += HYPORIDER_SPEED;
 
-		pic = pbk_enemies.pic("hyporider_ride_right");
+		pic = assets().pics.enemies.pic("hyporider_ride_right");
 
-		if (solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) dir = FACING_LEFT;
+		if (level().terrain.solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > level().camera.offset + 640)) dir = FACING_LEFT;
 	}
 
 	colFromPic();
@@ -90,27 +91,27 @@ void EnemySnorkyHyporider::onDie() {
 		s->y = y;
 		s->x = x;
 
-		list_splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(s);
 
-		sbk_level.play(8);
+		assets().sounds.level.play(8);
 		dy = 0;
 	}
 	if (anim_step >= 7) {
 		fin = 0;
 		if (dir == FACING_LEFT) {
 			x -= 4;
-			pic = pbk_enemies.pic("hyporider_mount_left");
+			pic = assets().pics.enemies.pic("hyporider_mount_left");
 		} else {
 			x += 4;
-			pic = pbk_enemies.pic("hyporider_mount_right");
+			pic = assets().pics.enemies.pic("hyporider_mount_right");
 		}
 	} else {
 		if (dir == FACING_LEFT) {
 			x -= HYPORIDER_SPEED;
-			pic = pbk_enemies.anim("hyporider_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("hyporider_die_left")[anim_step];
 		} else {
 			x += HYPORIDER_SPEED;
-			pic = pbk_enemies.anim("hyporider_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("hyporider_die_right")[anim_step];
 		}
 	}
 }
@@ -129,7 +130,7 @@ void EnemySnorkyHyporider::onCharge() {
 	if (attack_step > 40) {
 		fin = 0;
 		if (dir == FACING_RIGHT) {
-			if (solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > offset + 640)) {
+			if (level().terrain.solid_wall(x + HYPORIDER_SPEED, y) || (x + HYPORIDER_SPEED > level().camera.offset + 640)) {
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_WALK;
@@ -140,9 +141,9 @@ void EnemySnorkyHyporider::onCharge() {
 			}
 
 			x += HYPORIDER_CHARGE_SPEED;
-			pic = pbk_enemies.anim("hyporider_charge_right")[1];
+			pic = assets().pics.enemies.anim("hyporider_charge_right")[1];
 		} else {
-			if (solid_wall(x - HYPORIDER_CHARGE_SPEED, y) || (x - HYPORIDER_CHARGE_SPEED < xmin)) {
+			if (level().terrain.solid_wall(x - HYPORIDER_CHARGE_SPEED, y) || (x - HYPORIDER_CHARGE_SPEED < xmin)) {
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_WALK;
@@ -153,13 +154,13 @@ void EnemySnorkyHyporider::onCharge() {
 			}
 
 			x -= HYPORIDER_CHARGE_SPEED;
-			pic = pbk_enemies.anim("hyporider_charge_left")[1];
+			pic = assets().pics.enemies.anim("hyporider_charge_left")[1];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("hyporider_charge_right")[0];
+			pic = assets().pics.enemies.anim("hyporider_charge_right")[0];
 		} else {
-			pic = pbk_enemies.anim("hyporider_charge_left")[0];
+			pic = assets().pics.enemies.anim("hyporider_charge_left")[0];
 		}
 	}
 	colFromPic();
@@ -174,13 +175,13 @@ void EnemySnorkyHyporider::onCharred() {
 
 	if (dir == FACING_RIGHT) {
 		x += 6;
-		pic = pbk_enemies.pic("hyporider_mount_right");
+		pic = assets().pics.enemies.pic("hyporider_mount_right");
 	} else {
 		x -= 6;
-		pic = pbk_enemies.pic("hyporider_mount_left");
+		pic = assets().pics.enemies.pic("hyporider_mount_left");
 	}
 
-	if ((x - 6 < xmin) || (x + 6 > offset + 640)) {
+	if ((x - 6 < xmin) || (x + 6 > level().camera.offset + 640)) {
 		destroyed = true;
 	}
 }
@@ -190,17 +191,17 @@ void EnemySnorkyHyporider::render() {
 
 	if ((status == STATE_CHARRED) && (anim_step < 9)) {
 		if (dir == FACING_RIGHT) {
-			draw(x, y, pbk_enemies.anim("hyporider_burn_right")[anim_step]);
+			draw(x, y, assets().pics.enemies.anim("hyporider_burn_right")[anim_step]);
 		} else {
-			draw(x, y, pbk_enemies.anim("hyporider_burn_left")[anim_step]);
+			draw(x, y, assets().pics.enemies.anim("hyporider_burn_left")[anim_step]);
 		}
 	}
 
 	if (fin) {
 		if (dir == FACING_RIGHT) {
-			draw(x + 15, y + 20, pbk_enemies.anim("hyporider_fin_right")[anim_step % 4]);
+			draw(x + 15, y + 20, assets().pics.enemies.anim("hyporider_fin_right")[anim_step % 4]);
 		} else {
-			draw(x - 15, y + 20, pbk_enemies.anim("hyporider_fin_left")[anim_step % 4]);
+			draw(x - 15, y + 20, assets().pics.enemies.anim("hyporider_fin_left")[anim_step % 4]);
 		}
 	}
 }
@@ -213,6 +214,6 @@ void EnemySnorkyHyporider::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_hyporider, dy_splatter_hyporider);
 
 	if (status == STATE_DYING) {
-		sbk_level.play(7);
+		assets().sounds.level.play(7);
 	}
 }

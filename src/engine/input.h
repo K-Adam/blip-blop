@@ -160,10 +160,6 @@ struct Pad {
 	int rx = 0, ry = 0;
 };
 
-extern bool app_killed;
-// Frame count after which the game exits, 0 means never. Set by /autoquit
-extern int autoquit_frames;
-
 class Input {
    private:
 	struct State {
@@ -178,6 +174,8 @@ class Input {
 	std::uint32_t wheel_until_[2] = {};
 	unsigned int aliastab[256] = {};
 	std::vector<std::pair<std::uint32_t, SDL_Keycode>> script_;
+	bool quit_ = false;
+	int autoquit_frames_ = 0;
 
 	static int scan(const State &s, unsigned int k);
 	static int scanMenu(const State &s, unsigned int k);
@@ -205,6 +203,12 @@ class Input {
 		x = cur_.pads[slot].rx;
 		y = cur_.pads[slot].ry;
 	}
+
+	bool quitRequested() const { return quit_; }
+	// Exits after that many frames, set by /autoquit
+	void setAutoquit(int frames) { autoquit_frames_ = frames; }
+	// Unattended runs must not block on dialogs or write the player's files
+	bool isTestRun() const { return autoquit_frames_ > 0; }
 
 	bool open();
 	void setAlias(int a, unsigned int val);

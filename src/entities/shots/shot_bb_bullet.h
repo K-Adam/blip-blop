@@ -13,12 +13,12 @@ class ShotBBBullet : public ShotBB {
 	void update() override {
 		moveAlongAngle();
 
-		if (solid_wall(x, y) || x < offset - 20 || x > offset + 690 || y < -20 || y > 500) {
+		if (level().terrain.solid_wall(x, y) || x < level().camera.offset - 20 || x > level().camera.offset + 690 || y < -20 || y > 500) {
 			pic = NULL;
 			noCol();
 			destroyed = true;
 		} else {
-			pic = pbk_bb.pic(pic_);
+			pic = assets().pics.bb.pic(pic_);
 			colAlongAngle();
 		}
 	}

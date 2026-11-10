@@ -8,18 +8,13 @@
 #include <string_view>
 
 #include "core/debug.h"
-#include "core/config.h"
-#include "engine/font.h"
+#include "core/app.h"
 #include "core/game.h"
 #include "core/task.h"
-#include "core/assets.h"
 #include "engine/input.h"
-#include "engine/music_bank.h"
 #include "engine/picture.h"
-#include "engine/picture_bank.h"
-#include "level/scroll.h"
-#include "engine/sound_bank.h"
-#include "core/text_data.h"
+#include "level/world.h"
+#include "engine/sound.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -29,21 +24,16 @@ Game game;
 
 #if _WIN32
 #include <windows.h>
-HWND WinHandle = NULL;
-#endif
 
-static bool safeMode = false;
-
-#if _WIN32
 static void report(const char* txt, const wchar_t* title, UINT icon) {
 	// A message box would hang an unattended test run
-	if (autoquit_frames > 0) {
+	if (in.isTestRun()) {
 		std::cerr << (icon == MB_ICONERROR ? "Bug: " : "Warning: ") << txt << "\n";
 		return;
 	}
 	std::wstring wide(MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0), L'\0');
 	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wide.data(), (int)wide.size());
-	MessageBoxW(WinHandle, wide.c_str(), title, MB_OK | icon);
+	MessageBoxW(NULL, wide.c_str(), title, MB_OK | icon);
 }
 
 void Bug(const char* txt) { report(txt, L"Blip'n Blop : Error reporting", MB_ICONERROR); }
@@ -53,21 +43,27 @@ void Bug(const char* txt) { std::cerr << "Bug: " << txt << "\n"; }
 void Warning(const char* txt) { std::cerr << "Warning: " << txt << "\n"; }
 #endif
 
-static void parseCmdLine(int argc, char** argv) {
+// Returns true for /safe, which keeps the window whatever the settings say
+static bool parseCmdLine(int argc, char** argv) {
+	bool safe_mode = false;
 	for (int i = 1; i < argc; i++) {
 		std::string_view arg = argv[i];
-		if (arg == "/safe") safeMode = true;
-		if (arg == "/cheat") cheat_on = true;
-		if (arg == "/quiet") music_on = false;
+		if (arg == "/safe") safe_mode = true;
+		if (arg == "/cheat") settings().cheat = true;
+		if (arg == "/quiet") audio.muteMusic();
 		if (arg == "/input" && i + 1 < argc && !in.setScript(argv[++i])) std::cerr << "Bug: bad /input script\n";
 		if (arg == "/autoquit" && i + 1 < argc) {
 			std::string_view n = argv[++i];
-			std::from_chars(n.data(), n.data() + n.size(), autoquit_frames);
+			int frames = 0;
+			std::from_chars(n.data(), n.data() + n.size(), frames);
+			in.setAutoquit(frames);
+			graphics.EnableFrameHash();
 		}
 	}
+	return safe_mode;
 }
 
-static bool InitApp(int nCmdShow) {
+static bool InitApp(bool safe_mode) {
 	struct {
 		int height;
 		int width;
@@ -77,38 +73,12 @@ static bool InitApp(int nCmdShow) {
 	debug << "Blip & Blop - (c) LOADED Studio - " << __DATE__ << "\n";
 	debug << "---------------------------------------------------------------\n";
 
-	if (!audio_init()) {
-		Warning("Cannot initialise audio. Sound will be turned off");
-		sound_on = false;
-		music_on = false;
-	}
+	if (!audio.init()) Warning("Cannot initialise audio. Sound will be turned off");
 
-	restore_default_saves();
-	// Tests run with the default controls whatever the local settings say
-	if (autoquit_frames > 0)
-		set_default_config(true);
-	else
-		load_BB3_config(CONFIG_FILE);
-
-	hi_scores.init();
-
-	if (!hi_scores.load(HISCORES_FILE)) {
-		debug << "Cannot load hi-scores file. Use default hi-scores\n";
-		hi_scores.init();
-	} else {
-		debug << "Using " << HISCORES_FILE << " as hiscores file\n";
-	}
-
-	if (lang_type == LANG_UK) {
-		if (!loadTxtData("uk.dat")) {
-			Bug("Cannot open the file 'uk.dat'");
-			return false;
-		}
-	} else {
-		if (!loadTxtData("fr.dat")) {
-			Bug("Cannot open the file 'fr.dat'");
-			return false;
-		}
+	App& app = App::current();
+	if (!app.load()) {
+		Bug("Cannot open the texts file");
+		return false;
 	}
 
 	graphics.Init();
@@ -123,75 +93,52 @@ static bool InitApp(int nCmdShow) {
 
 	debug << "Exclusive mode set\n";
 
-	if (safeMode) {
+	if (safe_mode) {
 		debug << "Safe mode enabled, using default 640x480x16 refresh rate.\n";
-		graphics.SetGfxMode(win_size.width, win_size.height, false);
+		graphics.SetGfxMode(win_size.width, win_size.height, false, app.settings.vsync);
 	} else {
 		debug << "Trying to create window\n";
-		graphics.SetGfxMode(win_size.width, win_size.height, fullscreen);
+		graphics.SetGfxMode(win_size.width, win_size.height, app.settings.fullscreen, app.settings.vsync);
 		debug << "Window creation done\n";
 	}
 
-	backSurface = graphics.CreateSurface(win_size.width, win_size.height);
+	graphics.CreateScreens(win_size.width, win_size.height);
 
-	if (backSurface == NULL) {
-		Bug("Cannot get a primary surface. Please reboot your PC and try to "
-			"launch Blip'n Blop again.\nBe sure you have at least 2 Mb of "
-			"video memory on your video card.");
-		return false;
-	}
-	debug << "Creating systemSurface\n";
-	systemSurface = graphics.CreateSurface(win_size.width, win_size.height);
+	World::current().scroll.init();
 
-	if (systemSurface == NULL) {
-		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free memory. Try to "
-			"close all other applications and launch Blip'n Blop again.");
-		return false;
-	}
-	debug << "systemSurface created\n";
-
-	videoA = graphics.CreateSurface(WANTED_VBUFFER_WIDE, 480);
-
-	if (videoA == NULL) {
-		Bug("Not enough memory. Blip'n Blop needs 32 Mo of free "
-			"memory. Try to close all other applications and "
-			"launch Blip'n Blop again.");
-		return false;
-	}
-
-	if (!fnt_menu.load("menu.lft")) {
+	if (!assets().fonts.menu.load("menu.lft")) {
 		Bug("Cannot open the file menu.lft");
 		return false;
 	}
 
-	if (!fnt_menus.load("menus.lft")) {
+	if (!assets().fonts.menus.load("menus.lft")) {
 		Bug("Cannot open the file menus.lft");
 		return false;
 	}
 
-	if (!fnt_cool.load("cool.lft")) {
+	if (!assets().fonts.cool.load("cool.lft")) {
 		Bug("Cannot open the file cool.lft");
 		return false;
 	}
 
-	if (!fnt_rpg.load("rpg.lft")) {
+	if (!assets().fonts.rpg.load("rpg.lft")) {
 		Bug("Cannot open the file rpg.lft");
 		return false;
 	}
 
-	if (!pbk_inter.loadGFX("inter.gfx")) {
+	if (!assets().pics.inter.loadGFX("inter.gfx")) {
 		debug << "Cannot load interface.\n";
 		return false;
 	} else {
 		debug << "Successfully loaded interface.\n";
 	}
 
-	if (!mbk_inter.open("inter.mbk", false)) {
+	if (!assets().music.inter.open("inter.mbk", false)) {
 		debug << "Cannot load interface musics.\n";
 		return false;
 	}
 
-	if (!mbk_interl.open("interl.mbk", true)) {
+	if (!assets().music.interl.open("interl.mbk", true)) {
 		debug << "Cannot load interface musics (p2).\n";
 		return false;
 	}
@@ -206,16 +153,14 @@ void cleanup() {
 	debug << "Releasing Blip & Blop\n";
 	debug << "---------------------------------------------------------------\n";
 
-	save_settings();
+	App::current().save();
 }
 
 int main(int argc, char** argv) {
-	int nCmdShow = 0;
-
-	parseCmdLine(argc, argv);
+	bool safe_mode = parseCmdLine(argc, argv);
 
 	try {
-		if (!InitApp(nCmdShow)) return -1;
+		if (!InitApp(safe_mode)) return -1;
 	} catch (const std::exception& e) {
 		Bug(e.what());
 		return -1;

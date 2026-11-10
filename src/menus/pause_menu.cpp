@@ -1,14 +1,14 @@
 #include "menus/pause_menu.h"
 
-#include "core/text_data.h"
+#include "core/app.h"
 #include "menus/txt_defines.h"
 
 #include <cassert>
 
 PauseMenu::PauseMenu() {
-	items_.AddEntry(txt_data[TXT_RESUME]);
-	items_.AddEntry(txt_data[TXT_OPTIONS]);
-	items_.AddEntry(txt_data[TXT_EXIT]);
+	items_.AddEntry(texts()[TXT_RESUME]);
+	items_.AddEntry(texts()[TXT_OPTIONS]);
+	items_.AddEntry(texts()[TXT_EXIT]);
 }
 int PauseMenu::ProcessEvent() {
 	if (items_.Navigate()) {

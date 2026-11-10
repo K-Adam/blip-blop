@@ -21,7 +21,7 @@ void BackgroundBattleCruiser::update() {
 	{
 		x += 1;
 		x_opponent -= 1;
-		pic = pbk_level.anim("cruiser_fly_right")[animate(anim_cruiser_right, 4, 12)];
+		pic = assets().pics.level.anim("cruiser_fly_right")[animate(anim_cruiser_right, 4, 12)];
 
 		int dif_y = y_opponent - y;
 		int dif_x = x_opponent - x;
@@ -31,30 +31,30 @@ void BackgroundBattleCruiser::update() {
 
 			if (attack_step == 2) attack_step = -2;
 
-			pic = pbk_level.anim("cruiser_attack_right")[2 + attack_step];
+			pic = assets().pics.level.anim("cruiser_attack_right")[2 + attack_step];
 			Sprite* s = new ShotCruiser((dif_x * SHOT_SPEED) / dif_y, (int)(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y),
-										pbk_level.anim("cruiser_shot")[2 + attack_step]);
+										assets().pics.level.anim("cruiser_shot")[2 + attack_step]);
 			s->x = x - 8 * attack_step;
 			s->y = y + 6;
-			list_animated_bgs.emplace_back(s);
+			level().entities.animated_bgs.emplace_back(s);
 
 			s = new ShotCruiser(-(dif_x * SHOT_SPEED) / dif_y, (int)(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y),
-								pbk_level.anim("cruiser_shot")[1 - attack_step]);
+								assets().pics.level.anim("cruiser_shot")[1 - attack_step]);
 			s->x = x_opponent - 8 * attack_step;
 			s->y = y_opponent - 6;
-			list_animated_bgs.emplace_back(s);
+			level().entities.animated_bgs.emplace_back(s);
 
 			if (attack_step == -2) {
-				s = new ShotCruiserLaser(1, pbk_level.anim("cruiser_laser_right")[3 - (dif_x / dif_y)]);
+				s = new ShotCruiserLaser(1, assets().pics.level.anim("cruiser_laser_right")[3 - (dif_x / dif_y)]);
 				s->x = x + 16;
 				s->y = y;
-				list_animated_bgs.emplace_back(s);
+				level().entities.animated_bgs.emplace_back(s);
 			}
 			if (attack_step == 0) {
-				s = new ShotCruiserLaser(-1, pbk_level.anim("cruiser_laser_left")[3 - (dif_x / dif_y)]);
+				s = new ShotCruiserLaser(-1, assets().pics.level.anim("cruiser_laser_left")[3 - (dif_x / dif_y)]);
 				s->x = x_opponent - 16;
 				s->y = y_opponent;
-				list_animated_bgs.emplace_back(s);
+				level().entities.animated_bgs.emplace_back(s);
 			}
 
 		} else {
@@ -72,9 +72,9 @@ void BackgroundBattleCruiser::update() {
 void BackgroundBattleCruiser::render() {
 	Sprite::render();
 	if (attack_step == -3) {
-		draw(x_opponent, y_opponent, pbk_level.anim("cruiser_fly_left")[anim_cruiser_left[anim_step]]);
+		draw(x_opponent, y_opponent, assets().pics.level.anim("cruiser_fly_left")[anim_cruiser_left[anim_step]]);
 	} else {
-		draw(x_opponent, y_opponent, pbk_level.anim("cruiser_attack_left")[1 - attack_step]);
+		draw(x_opponent, y_opponent, assets().pics.level.anim("cruiser_attack_left")[1 - attack_step]);
 	}
 
 	if (((fire_tick >= 0) && (fire_tick <= 2)) || ((fire_tick >= 10) && (fire_tick <= 12))) {
@@ -84,33 +84,33 @@ void BackgroundBattleCruiser::render() {
 
 		switch (fire_step) {
 			case 0:
-				draw(x + 21, y - 2, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent - 20, y_opponent - 2, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x + 21, y - 2, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent - 20, y_opponent - 2, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 
 			case 1:
-				draw(x - 10, y - 7, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent + 11, y_opponent - 7, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x - 10, y - 7, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent + 11, y_opponent - 7, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 
 			case 2:
-				draw(x + 8, y - 6, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent - 7, y_opponent - 6, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x + 8, y - 6, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent - 7, y_opponent - 6, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 
 			case 3:
-				draw(x - 8, y + 6, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent + 7, y_opponent + 6, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x - 8, y + 6, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent + 7, y_opponent + 6, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 
 			case 4:
-				draw(x - 10, y - 7, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent + 11, y_opponent - 7, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x - 10, y - 7, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent + 11, y_opponent - 7, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 
 			case 5:
-				draw(x + 21, y + 2, pbk_level.anim("cruiser_muzzle_right")[tmp]);
-				draw(x_opponent - 20, y_opponent + 2, pbk_level.anim("cruiser_muzzle_left")[tmp]);
+				draw(x + 21, y + 2, assets().pics.level.anim("cruiser_muzzle_right")[tmp]);
+				draw(x_opponent - 20, y_opponent + 2, assets().pics.level.anim("cruiser_muzzle_left")[tmp]);
 				break;
 		}
 	}

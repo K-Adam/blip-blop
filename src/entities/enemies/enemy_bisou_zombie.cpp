@@ -6,9 +6,14 @@
 #define STATE_CRAWL 100
 #define STATE_SEVERED 101
 
-static int moan_timer = 199;
-static int num_moan = 0;
-static bool local_phase;
+namespace {
+// One moan every 200 frames for the whole horde, not one per zombie
+struct ZombieChorus {
+	int moan_timer = 199;
+	int num_moan = 0;
+	bool local_phase = false;
+};
+}  // namespace
 
 EnemyBisouZombie::EnemyBisouZombie() : anim_step2(0) {
 	hp = 1000;
@@ -18,7 +23,7 @@ EnemyBisouZombie::EnemyBisouZombie() : anim_step2(0) {
 void EnemyBisouZombie::update() {
 	if (blood > 0) blood -= 1;
 
-	if (game_flag[0] == 7 && status != STATE_CHARRED && status != STATE_CHARRED_TOP) {
+	if (level().rules.flags[0] == 7 && status != STATE_CHARRED && status != STATE_CHARRED_TOP) {
 		anim_step = anim_tick = 0;
 
 		if (status == STATE_SEVERED)
@@ -27,18 +32,19 @@ void EnemyBisouZombie::update() {
 			status = STATE_CHARRED;
 	}
 
-	if (local_phase != phase && game_flag[2] == 0) {
-		moan_timer += 1;
-		moan_timer %= 200;
+	ZombieChorus& chorus = level().shared<ZombieChorus>();
+	if (chorus.local_phase != session().phase && level().rules.flags[2] == 0) {
+		chorus.moan_timer += 1;
+		chorus.moan_timer %= 200;
 
-		if (moan_timer == 0) {
-			num_moan += 1;
-			num_moan %= 3;
+		if (chorus.moan_timer == 0) {
+			chorus.num_moan += 1;
+			chorus.num_moan %= 3;
 
-			sbk_level.play(10 + num_moan);
+			assets().sounds.level.play(10 + chorus.num_moan);
 		}
 
-		local_phase = phase;
+		chorus.local_phase = session().phase;
 	}
 
 	switch (status) {
@@ -85,17 +91,17 @@ void EnemyBisouZombie::onWalk() {
 	my_phase = !my_phase;
 
 	if (my_phase) {
-		if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+		if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y))
 			dir = FACING_RIGHT;
-		else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+		else if (x + SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SPEED, y))
 			dir = FACING_LEFT;
 
 		if (dir == FACING_RIGHT) {
 			walk(SPEED);
-			pic = pbk_enemies.anim("zombie_walk_right")[anim_step];
+			pic = assets().pics.enemies.anim("zombie_walk_right")[anim_step];
 		} else {
 			walk(-SPEED);
-			pic = pbk_enemies.anim("zombie_walk_left")[anim_step];
+			pic = assets().pics.enemies.anim("zombie_walk_left")[anim_step];
 		}
 	}
 
@@ -125,7 +131,7 @@ void EnemyBisouZombie::takeHit(Shot* shot) {
 		hp = 0;
 		col_on = false;
 
-		game_flag[FLAG_NB_KILL] += 1;
+		level().rules.flags[FLAG_NB_KILL] += 1;
 
 		if (status == STATE_CRAWL) {
 			anim_step = 0;
@@ -166,16 +172,16 @@ void EnemyBisouZombie::onFall() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("zombie_fall_right")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_fall_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies.anim("zombie_fall_left")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_fall_left")[anim_step];
 		x -= 1;
 	}
 
 	fall();
 
-	if (platform_y(x, y) != 0 && anim_step >= 3) {
+	if (level().terrain.platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
 		status = STATE_CRAWL;
 		col_on = true;
@@ -192,9 +198,9 @@ void EnemyBisouZombie::onDie() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("zombie_die_right")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_die_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("zombie_die_left")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_die_left")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -217,7 +223,7 @@ void EnemyBisouZombie::onSevered() {
 		feet->dir = dir;
 		feet->y = y;
 
-		list_gore.emplace_back(feet);
+		level().entities.gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
@@ -227,9 +233,9 @@ void EnemyBisouZombie::onSevered() {
 		onFall();
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("zombie_severed_right")[anim_step];
+			pic = assets().pics.enemies.anim("zombie_severed_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("zombie_severed_left")[anim_step];
+			pic = assets().pics.enemies.anim("zombie_severed_left")[anim_step];
 	}
 }
 
@@ -251,9 +257,9 @@ void EnemyBisouZombie::onCrawl() {
 	anim_step2 = (anim_step2 + 1) % 4;
 
 	if (anim_step2 == 0) {
-		if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+		if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y))
 			dir = FACING_RIGHT;
-		else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+		else if (x + SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SPEED, y))
 			dir = FACING_LEFT;
 
 		if (dir == FACING_RIGHT)
@@ -265,9 +271,9 @@ void EnemyBisouZombie::onCrawl() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("zombie_crawl_right")[animate(anim_right, 4, 16)];
+		pic = assets().pics.enemies.anim("zombie_crawl_right")[animate(anim_right, 4, 16)];
 	else
-		pic = pbk_enemies.anim("zombie_crawl_left")[animate(anim_left, 4, 16)];
+		pic = assets().pics.enemies.anim("zombie_crawl_left")[animate(anim_left, 4, 16)];
 }
 
 void EnemyBisouZombie::onCharred() {
@@ -284,9 +290,9 @@ void EnemyBisouZombie::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("zombie_charred_right")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_charred_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("zombie_charred_left")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_charred_left")[anim_step];
 }
 
 void EnemyBisouZombie::onCharredTop() {
@@ -303,7 +309,7 @@ void EnemyBisouZombie::onCharredTop() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("zombie_charred_top_right")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_charred_top_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("zombie_charred_top_left")[anim_step];
+		pic = assets().pics.enemies.anim("zombie_charred_top_left")[anim_step];
 }

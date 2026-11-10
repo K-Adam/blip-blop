@@ -3,10 +3,6 @@
 #include "entities/character.h"
 #include "entities/shots/shot.h"
 
-#ifndef ENEMY_CPP
-extern Character* targeted_player;
-#endif
-
 class Enemy : public Character {
    public:
 	Enemy();

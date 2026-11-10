@@ -1,7 +1,7 @@
 #include <fstream>
 
 #include "core/asset_path.h"
-#include "core/config.h"
+#include "engine/sound.h"
 #include "core/debug.h"
 #include "engine/sound_bank.h"
 #include <json.h>
@@ -9,7 +9,7 @@
 using json = nlohmann::json;
 
 bool SoundBank::loadSFX(const char* file_name) {
-	if (!sound_on) return true;
+	if (!audio.sound()) return true;
 
 	auto dir = asset_path_prefix("sfx", file_name);
 	std::ifstream input(dir + ".json");
@@ -39,7 +39,7 @@ bool SoundBank::loadSFX(const char* file_name) {
 }
 
 void SoundBank::play(int n, int flags) {
-	if (!sound_on) return;
+	if (!audio.sound()) return;
 
 	if ((size_t)n >= tab_.size()) {
 		debug << "Trying to play missing sound " << n << "\n";
@@ -50,7 +50,7 @@ void SoundBank::play(int n, int flags) {
 }
 
 void SoundBank::stop(int n) {
-	if (!sound_on) return;
+	if (!audio.sound()) return;
 
 	tab_[n].stop();
 }

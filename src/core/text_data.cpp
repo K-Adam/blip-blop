@@ -1,5 +1,3 @@
-#define TXT_DATA_CPP
-
 #include "core/text_data.h"
 
 #include <fstream>
@@ -10,9 +8,7 @@
 
 using json = nlohmann::json;
 
-std::vector<std::string> txt_data;
-
-bool loadTxtData(const char* file) {
+bool TextData::load(const char* file) {
 	auto dir = asset_path(file);
 	std::ifstream input(dir + ".json");
 	if (!input.good()) {
@@ -22,7 +18,7 @@ bool loadTxtData(const char* file) {
 	json data = json::parse(input);
 	auto items = data["items"];
 
-	txt_data.resize(1024);
+	lines_.resize(1024);
 
 	std::string buffer;
 	for (json::iterator it = items.begin(); it != items.end(); it++) {
@@ -30,11 +26,11 @@ bool loadTxtData(const char* file) {
 
 		unsigned long num = std::stoul(key);
 
-		if (num >= txt_data.size()) {
-			txt_data.resize(num + 1);
+		if (num >= lines_.size()) {
+			lines_.resize(num + 1);
 		}
 
-		txt_data[num] = it.value();
+		lines_[num] = it.value();
 	}
 
 	return true;

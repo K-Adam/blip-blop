@@ -11,8 +11,8 @@ class BackgroundFish : public Sprite {
 	void update() override {
 		step(9, 3);
 		x += dir ? 1 : -1;
-		pic = pbk_level.anim(dir ? right_ : left_)[anim_step];
-		if (x < offset - 100 || x > offset + 740) destroyed = true;
+		pic = assets().pics.level.anim(dir ? right_ : left_)[anim_step];
+		if (x < level().camera.offset - 100 || x > level().camera.offset + 740) destroyed = true;
 	}
 
    private:

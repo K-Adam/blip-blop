@@ -1,9 +1,5 @@
 #pragma once
 
-#ifndef COOL_TEXT_CPP
-extern bool txt_cool_free[];
-#endif
-
 class CoolText {
    public:
 	int y;
@@ -19,5 +15,3 @@ class CoolText {
 
 	bool isDestroyed() { return x <= -320; };
 };
-
-void clearCoolText();

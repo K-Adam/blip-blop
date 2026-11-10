@@ -99,7 +99,7 @@ class Ball : public Character, public Player {
 	virtual bool okBonus();
 	virtual void setSuperWeapon();
 	virtual void endLevel() {
-		if (looping_sound_ >= 0) sbk_bb.stop(looping_sound_);
+		if (looping_sound_ >= 0) assets().sounds.bb.stop(looping_sound_);
 	};
 
    private:

@@ -11,8 +11,6 @@
 #include "engine/key_translator.h"
 
 Input in;
-bool app_killed = false;
-int autoquit_frames = 0;
 
 // A quarter of the travel, so resting triggers do not register
 static const int TRIGGER_THRESHOLD = 8192;
@@ -35,10 +33,10 @@ Pad* Input::padById(SDL_JoystickID id) {
 
 void Input::update() {
 	prev_ = cur_;
-	for (int w = 0; w < 2; w++) cur_.mouse[MOUSE_WHEEL_UP + w] = frames_played < wheel_until_[w];
+	for (int w = 0; w < 2; w++) cur_.mouse[MOUSE_WHEEL_UP + w] = FrameClock::frames() < wheel_until_[w];
 	mouse_moved_ = new_press_ = false;
-	frames_played++;
-	if (autoquit_frames > 0 && (int)frames_played >= autoquit_frames) app_killed = true;
+	std::uint32_t frames_played = ++FrameClock::frames_;
+	if (isTestRun() && (int)frames_played >= autoquit_frames_) quit_ = true;
 	for (auto [frame, key] : script_) {
 		if (frame != frames_played && frame + 2 != frames_played) continue;
 		SDL_Event k{};
@@ -52,7 +50,7 @@ void Input::update() {
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
 			case SDL_QUIT:
-				app_killed = true;
+				quit_ = true;
 				break;
 
 			case SDL_RENDER_TARGETS_RESET:
@@ -116,7 +114,7 @@ void Input::update() {
 				if (dy) {
 					int w = dy > 0 ? 0 : 1;
 					cur_.mouse[MOUSE_WHEEL_UP + w] = true;
-					wheel_until_[w] = frames_played + 2;
+					wheel_until_[w] = FrameClock::frames() + 2;
 				}
 				break;
 			}
@@ -190,12 +188,12 @@ int Input::heldCode(int devices) const {
 Task<int> Input::waitKey() {
 	co_await waitClean();
 	int k;
-	while ((k = heldCode()) < 0 && !app_killed) co_await nextFrame();
+	while ((k = heldCode()) < 0 && !quit_) co_await nextFrame();
 	co_return k < 0 ? 0 : k;
 }
 
 Task<> Input::waitClean() {
-	while (heldCode() >= 0 && !app_killed) co_await nextFrame();
+	while (heldCode() >= 0 && !quit_) co_await nextFrame();
 }
 
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }

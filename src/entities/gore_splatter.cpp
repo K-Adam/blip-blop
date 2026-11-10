@@ -16,19 +16,19 @@ GoreSplatter::GoreSplatter(int vx, int vy) : dx(vx) {
 		pic_offset = 7;
 	}
 	if (dy >= 6) {
-		pic = pbk_misc.anim("gore_drop")[6 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[6 + pic_offset];
 	} else if (dy >= 4) {
-		pic = pbk_misc.anim("gore_drop")[5 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[5 + pic_offset];
 	} else if (dy >= 1) {
-		pic = pbk_misc.anim("gore_drop")[4 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[4 + pic_offset];
 	} else if (dy >= 0) {
-		pic = pbk_misc.anim("gore_drop")[3 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[3 + pic_offset];
 	} else if (dy >= -2) {
-		pic = pbk_misc.anim("gore_drop")[2 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[2 + pic_offset];
 	} else if (dy >= -4) {
-		pic = pbk_misc.anim("gore_drop")[1 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[1 + pic_offset];
 	} else {
-		pic = pbk_misc.anim("gore_drop")[pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[pic_offset];
 	}
 }
 
@@ -41,24 +41,24 @@ void GoreSplatter::update() {
 	}
 
 	if (dy >= 6) {
-		pic = pbk_misc.anim("gore_drop")[6 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[6 + pic_offset];
 	} else if (dy >= 4) {
-		pic = pbk_misc.anim("gore_drop")[5 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[5 + pic_offset];
 	} else if (dy >= 1) {
-		pic = pbk_misc.anim("gore_drop")[4 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[4 + pic_offset];
 	} else if (dy >= 0) {
-		pic = pbk_misc.anim("gore_drop")[3 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[3 + pic_offset];
 	} else if (dy >= -2) {
-		pic = pbk_misc.anim("gore_drop")[2 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[2 + pic_offset];
 	} else if (dy >= -4) {
-		pic = pbk_misc.anim("gore_drop")[1 + pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[1 + pic_offset];
 	} else {
-		pic = pbk_misc.anim("gore_drop")[pic_offset];
+		pic = assets().pics.misc.anim("gore_drop")[pic_offset];
 	}
 	x += dx;
 	fall();
 
-	if ((dy > 0) && platform_y(x, y) != 0) {
+	if ((dy > 0) && level().terrain.platform_y(x, y) != 0) {
 		destroyed = true;
 	}
 	updateDestroyed();

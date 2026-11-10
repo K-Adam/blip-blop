@@ -15,6 +15,6 @@ class EventBonusGenerator : public Event {
 		gb->type = type;
 		gb->x = x_activation;
 
-		list_gen_bonus.emplace_back(gb);
+		level().entities.bonus_gens.emplace_back(gb);
 	};
 };

@@ -18,13 +18,13 @@ class GoreFeetBisou : public Sprite {
 
 		if (dir == FACING_RIGHT) {
 			walk(-1);
-			pic = pbk_enemies.anim(right_)[anim_step];
+			pic = assets().pics.enemies.anim(right_)[anim_step];
 		} else {
 			walk(1);
-			pic = pbk_enemies.anim(left_)[anim_step];
+			pic = assets().pics.enemies.anim(left_)[anim_step];
 		}
 
-		if (anim_step == 3 && platform_y(x, y) != 0) {
+		if (anim_step == 3 && level().terrain.platform_y(x, y) != 0) {
 			engrave(x, y, pic);
 			destroyed = true;
 		}

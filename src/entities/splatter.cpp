@@ -14,7 +14,7 @@ void Splatter::update() {
 	if (anim_step == 4)
 		destroyed = true;
 	else
-		pic = pbk_misc.anim("splatter")[dir * 4 + anim_step];
+		pic = assets().pics.misc.anim("splatter")[dir * 4 + anim_step];
 
 	x = parent->x + deltax;
 	y = parent->y + deltay;

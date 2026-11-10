@@ -1,22 +1,25 @@
-#define COOL_TEXT_CPP
-
 #include "level/world.h"
-#include "core/assets.h"
 #include "entities/cool_text.h"
-#include "core/text_data.h"
+#include "core/app.h"
 
-bool text_cool_free[10];
+namespace {
+// Screen rows a cool text can slide into, one text per row
+struct CoolTextRows {
+	bool free[10] = {true, true, true, true, true, true, true, true, true, true};
+};
+}  // namespace
 
 CoolText::CoolText() : x(960), t(0) {
+	bool* free = level().shared<CoolTextRows>().free;
 	nn = 0;
 
-	while (nn < 10 && !text_cool_free[nn]) nn++;
+	while (nn < 10 && !free[nn]) nn++;
 
 	if (nn >= 10) nn = 0;
 
 	y = 150 + nn * 30;
 
-	text_cool_free[nn] = false;
+	free[nn] = false;
 }
 
 void CoolText::update() {
@@ -25,14 +28,10 @@ void CoolText::update() {
 
 		if (t >= 350) {
 			x -= 16;
-			text_cool_free[nn] = true;
+			level().shared<CoolTextRows>().free[nn] = true;
 		}
 	} else
 		x -= 16;
 }
 
-void CoolText::render() { fnt_cool.printC(backSurface, x, y, txt_data[ntxt]); }
-
-void clearCoolText() {
-	for (int i = 0; i < 10; i++) text_cool_free[i] = true;
-}
+void CoolText::render() { assets().fonts.cool.printC(graphics.back(), x, y, texts()[ntxt]); }

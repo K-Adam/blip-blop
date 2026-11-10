@@ -7,8 +7,8 @@ class BackgroundFan : public Sprite {
 	void update() override {
 		step(3, 4);
 
-		pic = pbk_level.anim("fan_spin")[anim_step];
+		pic = assets().pics.level.anim("fan_spin")[anim_step];
 
-		if (x < offset - 100) destroyed = true;
+		if (x < level().camera.offset - 100) destroyed = true;
 	};
 };

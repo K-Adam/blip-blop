@@ -17,7 +17,7 @@ void ShotBBLaser::aim(double angle) {
 	// Stops at the first wall or past the screen, in 8 px steps
 	double px = x, py = y + BEAM_HALF_WIDTH;
 	length_ = 0;
-	while (px > offset - 5 && px < offset + 645 && py > -5 && py < 485 && !solid_wall((int)px, (int)py)) {
+	while (px > level().camera.offset - 5 && px < level().camera.offset + 645 && py > -5 && py < 485 && !level().terrain.solid_wall((int)px, (int)py)) {
 		px += ux_ * 8;
 		py += uy_ * 8;
 		length_ += 8;
@@ -41,10 +41,10 @@ void ShotBBLaser::render() {
 	if (length_ <= 0) return;
 	// The horizontal beam strip, cropped to the beam and turned around its start
 	Rect r{0, 0, length_, 2 * BEAM_HALF_WIDTH};
-	pbk_bb.anim("laser_beam")[anim_step]->BlitRotatedPart(backSurface, x - offset, y, r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
+	assets().pics.bb.anim("laser_beam")[anim_step]->BlitRotatedPart(graphics.back(), x - level().camera.offset, y, r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
 	int ex = x + (int)std::lround(ux_ * length_);
 	int ey = y + BEAM_HALF_WIDTH + (int)std::lround(uy_ * length_);
-	draw(ex, ey, pbk_misc.anim("laser_impact")[anim_step]);
+	draw(ex, ey, assets().pics.misc.anim("laser_impact")[anim_step]);
 }
 
 bool ShotBBLaser::collision(const Sprite* s) const {

@@ -3,20 +3,20 @@
 
 ShotLaserSword::ShotLaserSword() : target(NULL), thrower(NULL), isdead(false), returning(false), accel(1) {
 	lifespan = 200 + rand() % 100;
-	sbk_level.play(13, SOUND_LOOP);
+	assets().sounds.level.play(13, SOUND_LOOP);
 }
 
-ShotLaserSword::~ShotLaserSword() { sbk_level.stop(13); }
+ShotLaserSword::~ShotLaserSword() { assets().sounds.level.stop(13); }
 
 void ShotLaserSword::update() {
 	step(4, 24);
 
-	pic = pbk_enemies.anim("jedi_sword_spin")[anim_step];
+	pic = assets().pics.enemies.anim("jedi_sword_spin")[anim_step];
 
 	x += dx / 10;
 	y += dy / 10;
 
-	int xc = offset - 400;
+	int xc = level().camera.offset - 400;
 	int yc = 240;
 
 	if (!isdead) {

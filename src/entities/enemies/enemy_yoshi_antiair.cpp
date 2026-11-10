@@ -34,25 +34,25 @@ void EnemyYoshiAntiair::update() {
 void EnemyYoshiAntiair::onWalk() {
 	fall();
 	wait_for_attack++;
-	if (wait_for_attack >= attack_delay && x <= offset + 640) {
+	if (wait_for_attack >= attack_delay && x <= level().camera.offset + 640) {
 		wait_for_attack = 0;
 		attack_delay = 50 + rand() % 150;
-		if (targeted_player->x > x) {
+		if (session().targeted_player->x > x) {
 			dir = FACING_RIGHT;
 		} else {
 			dir = FACING_LEFT;
 		}
 		anim_step = 0;
 		status = STATE_SHOOT;
-		sbk_level.play(35);
+		assets().sounds.level.play(35);
 		onShoot();
 		return;
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("yoshi_walk_right")[0];
+		pic = assets().pics.enemies.anim("yoshi_walk_right")[0];
 	} else {
-		pic = pbk_enemies.anim("yoshi_walk_left")[0];
+		pic = assets().pics.enemies.anim("yoshi_walk_left")[0];
 	}
 
 	colFromPic();
@@ -67,16 +67,16 @@ void EnemyYoshiAntiair::onDie() {
 	if (anim_tick == 0 && anim_step < 9) anim_step += 1;
 
 	if (anim_step >= 9) {
-		int yy = platform_y(x, y);
+		int yy = level().terrain.platform_y(x, y);
 
-		if (yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
+		if (yy != 0 && yy != level().terrain.platforms[4][x]) engrave(x, y, pic);
 
 		destroyed = true;
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("yoshi_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("yoshi_die_left")[anim_step];
 		else
-			pic = pbk_enemies.anim("yoshi_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("yoshi_die_right")[anim_step];
 	}
 }
 
@@ -98,7 +98,7 @@ void EnemyYoshiAntiair::onShoot() {
 
 		shot->y = y - 23;
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(shot);
 
 		anim_step = 0;
 		status = STATE_WALK;
@@ -106,9 +106,9 @@ void EnemyYoshiAntiair::onShoot() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("yoshi_throw_right")[anim_step];
+		pic = assets().pics.enemies.anim("yoshi_throw_right")[anim_step];
 	} else {
-		pic = pbk_enemies.anim("yoshi_throw_left")[anim_step];
+		pic = assets().pics.enemies.anim("yoshi_throw_left")[anim_step];
 	}
 
 	colFromPic();
@@ -125,9 +125,9 @@ void EnemyYoshiAntiair::onCharred() {
 		destroyed = true;
 	else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("yoshi_burn_right")[anim_step];
+			pic = assets().pics.enemies.anim("yoshi_burn_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("yoshi_burn_left")[anim_step];
+			pic = assets().pics.enemies.anim("yoshi_burn_left")[anim_step];
 	}
 }
 
@@ -139,6 +139,6 @@ void EnemyYoshiAntiair::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		sbk_misc.play(6 + rand() % 3);
+		assets().sounds.misc.play(6 + rand() % 3);
 	}
 }

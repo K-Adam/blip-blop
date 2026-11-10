@@ -54,7 +54,7 @@ void EnemyBisouSky::onDieWhole() {
 		feet->dir = dir;
 		feet->y = y;
 
-		list_gore.emplace_back(feet);
+		level().entities.gore.emplace_back(feet);
 
 		y -= 19;
 		dy = 0;
@@ -64,9 +64,9 @@ void EnemyBisouSky::onDieWhole() {
 		onDieTop();
 	} else {
 		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("sky_die_right")[anim_step];
+			pic = assets().pics.enemies.anim("sky_die_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("sky_die_left")[anim_step];
+			pic = assets().pics.enemies.anim("sky_die_left")[anim_step];
 	}
 }
 
@@ -87,16 +87,16 @@ void EnemyBisouSky::onDieTop() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("sky_die_top_right")[anim_step];
+		pic = assets().pics.enemies.anim("sky_die_top_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies.anim("sky_die_top_left")[anim_step];
+		pic = assets().pics.enemies.anim("sky_die_top_left")[anim_step];
 		x -= 1;
 	}
 
 	fall();
 
-	if (platform_y(x, y) != 0 && anim_step >= 3) {
+	if (level().terrain.platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
 		status = STATE_DYING_3;
 		onDieTopEnd();
@@ -110,9 +110,9 @@ void EnemyBisouSky::onDieTopEnd() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("sky_die_top_end_right")[anim_step];
+		pic = assets().pics.enemies.anim("sky_die_top_end_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("sky_die_top_end_left")[anim_step];
+		pic = assets().pics.enemies.anim("sky_die_top_end_left")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -127,47 +127,47 @@ void EnemyBisouSky::onWalk() {
 
 	step(4, 8);
 
-	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
+	if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 640 || solid_wall(x + SPEED, y))
+	else if (x + SPEED > level().camera.offset + 640 || level().terrain.solid_wall(x + SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("sky_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("sky_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("sky_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("sky_walk_left")[anim_step];
 	}
 
-	if (wait_for_pee == 0 && anim_step == 4) {					 // Frame 4 looks best
-		if (targeted_player != NULL && platform_y(x, y) != 0) {	 // No shooting while falling
-			int ddx = x - targeted_player->x;
-			int ddy = y - targeted_player->y;
+	if (wait_for_pee == 0 && anim_step == 4) {											   // Frame 4 looks best
+		if (session().targeted_player != NULL && level().terrain.platform_y(x, y) != 0) {  // No shooting while falling
+			int ddx = x - session().targeted_player->x;
+			int ddy = y - session().targeted_player->y;
 
 			if (ddy > -10 && ddy < 20) {
 				if (dir == FACING_LEFT) {
 					if (ddx > 0 && ddx < 90) {
-						sbk_level.play(9);
+						assets().sounds.level.play(9);
 						ShotRainbow* s = new ShotRainbow();
 						s->x = x - 15;
 						s->y = y - 25;
 						s->dir = FACING_LEFT;
 
-						list_enemy_shots.emplace_back(s);
+						level().entities.enemy_shots.emplace_back(s);
 
 						anim_tick = 0;
 						status = STATE_SHOOT;
 					}
 				} else {
 					if (ddx < 0 && ddx > -90) {
-						sbk_level.play(9);
+						assets().sounds.level.play(9);
 						ShotRainbow* s = new ShotRainbow();
 						s->x = x + 15;
 						s->y = y - 25;
 						s->dir = FACING_RIGHT;
 
-						list_enemy_shots.emplace_back(s);
+						level().entities.enemy_shots.emplace_back(s);
 
 						anim_tick = 0;
 						status = STATE_SHOOT;
@@ -194,9 +194,9 @@ void EnemyBisouSky::onCharred() {
 	}
 
 	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("sky_star_charred_right")[anim_step];
+		pic = assets().pics.enemies.anim("sky_star_charred_right")[anim_step];
 	else
-		pic = pbk_enemies.anim("sky_star_charred_left")[anim_step];
+		pic = assets().pics.enemies.anim("sky_star_charred_left")[anim_step];
 }
 
 void EnemyBisouSky::takeHit(Shot* shot) {
@@ -206,5 +206,5 @@ void EnemyBisouSky::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rand() % 9));
 }

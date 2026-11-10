@@ -19,7 +19,7 @@ void EventVehicle::doEvent() {
 		v->y = y;
 		v->dir = dir;
 
-		list_vehicles.push_back(std::unique_ptr<Vehicle>(v));
+		level().entities.vehicles.push_back(std::unique_ptr<Vehicle>(v));
 	} else {
 		debug << "Unknown vehicle ID : " << vehicle_id << "\n";
 	}

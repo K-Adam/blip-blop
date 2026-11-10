@@ -4,7 +4,7 @@
 
 class Blip : public Ball {
    public:
-	Blip() : Ball(pbk_blip) { id_ball = ID_BLIP; }
+	Blip() : Ball(assets().pics.blip) { id_ball = ID_BLIP; }
 
 	void rearm() override {
 		ammo[ID_PM] = 100;
