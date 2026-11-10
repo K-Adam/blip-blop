@@ -4,8 +4,7 @@
 
 class EnemyBisouZombie : public Enemy {
    public:
-	bool my_phase;
-	bool my_phase2;
+	bool my_phase = false;
 	int anim_step2;
 
 	EnemyBisouZombie();

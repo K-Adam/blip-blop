@@ -118,7 +118,7 @@ void ShotCloud::onNormal() {
 }
 
 void ShotCloud::onShoot() {
-	static const int anim[] = {253, 254, 255, 254};
+	static const int anim[] = {0, 1, 2, 1};
 
 	lightning_timer += 1;
 	lightning_timer %= 2;
