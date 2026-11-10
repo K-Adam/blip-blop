@@ -1,6 +1,7 @@
 #include "engine/picture.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include "engine/graphics.h"
 
@@ -28,6 +29,12 @@ void Picture::BlitTo(SDL::Surface* s, int x, int y) const {
 
 void Picture::BlitRotated(SDL::Surface* s, int x, int y, double deg) const {
 	BlitRotatedPart(s, x - xspot, y - yspot, Rect{0, 0, src.w, src.h}, SDL_Point{xspot, yspot}, -deg);
+}
+
+void Picture::BlitScaled(SDL::Surface* s, int x, int y, double scale) const {
+	auto at = [&](double v) { return int(std::lround(v * scale)); };
+	SDL_Rect d{x - at(xspot), y - at(yspot), at(src.w), at(src.h)};
+	s->BltStretched(d, surf, src);
 }
 
 void Picture::BlitPart(SDL::Surface* s, int x, int y, Rect r) const {

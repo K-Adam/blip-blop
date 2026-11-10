@@ -25,6 +25,8 @@ class Picture {
 	void PasteTo(SDL::Surface *s, int x, int y) const { BlitTo(s, x, y); }
 	// Rotated counterclockwise around the hotspot, in degrees
 	void BlitRotated(SDL::Surface *s, int x, int y, double deg) const;
+	// Resized around the hotspot
+	void BlitScaled(SDL::Surface *s, int x, int y, double scale) const;
 	// Part r of the frame, ignoring the hotspot. Clipped to the frame so it never shows its neighbours
 	void BlitPart(SDL::Surface *s, int x, int y, Rect r) const;
 	void BlitRotatedPart(SDL::Surface *s, int x, int y, Rect r, SDL_Point center, double clockwise_deg) const;

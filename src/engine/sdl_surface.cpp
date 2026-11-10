@@ -14,6 +14,8 @@ Surface::Surface(SDL_Surface* image) : texture_(SDL_CreateTextureFromSurface(ren
 	SDL_FreeSurface(image);
 	if (!texture_) debug << "Cannot create texture: " << SDL_GetError() << "\n";
 	SDL_SetTextureBlendMode(texture_, SDL_BLENDMODE_BLEND);
+	// Rotated and shrunk sprites average their pixels, a 1:1 copy samples texel centres and stays exact
+	SDL_SetTextureScaleMode(texture_, SDL_ScaleModeLinear);
 }
 
 Surface::Surface(int width, int height)
@@ -73,6 +75,11 @@ void Surface::BltRotated(int x, int y, Surface* src, Rect* r, SDL_Point center, 
 	SDL_Rect s = r ? SDL_Rect{r->left, r->top, r->right - r->left, r->bottom - r->top} : SDL_Rect{0, 0, src->w_, src->h_};
 	SDL_Rect d{x, y, s.w, s.h};
 	SDL_RenderCopyEx(renderer(), src->texture_, &s, &d, clockwise_deg, &center, SDL_FLIP_NONE);
+}
+
+void Surface::BltStretched(const SDL_Rect& dst, Surface* src, const SDL_Rect& r) {
+	Target();
+	SDL_RenderCopy(renderer(), src->texture_, &r, &dst);
 }
 
 void Surface::FillRect(Rect* r, unsigned int color) {

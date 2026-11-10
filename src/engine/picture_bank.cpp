@@ -64,6 +64,27 @@ static SDL_Surface* loadImage(const std::string& path) {
 	return image;
 }
 
+// Transparent pixels are stored black, filtering would mix that into the edges as a dark halo.
+// They take the colour of their opaque neighbours instead, still fully transparent
+static void bleedEdges(SDL_Surface* s) {
+	std::vector<Uint32> src((Uint32*)s->pixels, (Uint32*)s->pixels + s->w * s->h);
+	Uint32* dst = (Uint32*)s->pixels;
+	for (int y = 0; y < s->h; y++) {
+		for (int x = 0; x < s->w; x++) {
+			if (src[y * s->w + x] >> 24) continue;
+			int r = 0, g = 0, b = 0, n = 0;
+			for (int ny = std::max(y - 1, 0); ny <= std::min(y + 1, s->h - 1); ny++) {
+				for (int nx = std::max(x - 1, 0); nx <= std::min(x + 1, s->w - 1); nx++) {
+					Uint32 p = src[ny * s->w + nx];
+					if (!(p >> 24)) continue;
+					r += p >> 16 & 0xFF, g += p >> 8 & 0xFF, b += p & 0xFF, n++;
+				}
+			}
+			if (n) dst[y * s->w + x] = Uint32(r / n) << 16 | Uint32(g / n) << 8 | Uint32(b / n);
+		}
+	}
+}
+
 static const int ATLAS_MAX = 2048;
 
 bool PictureBank::loadGFX(const char* file) {
@@ -84,7 +105,6 @@ bool PictureBank::loadGFX(const char* file) {
 	};
 	std::vector<SDL_Surface*> images;
 	std::vector<Frame> frames;
-	std::vector<int> derived;  // Frames whose image is their own derive() result, until packed
 	std::map<std::string, std::pair<int, int>, std::less<>> sheets;
 	auto fail = [&](const std::string& why) {
 		debug << "Can not load " << file << ": " << why << "\n";
@@ -119,7 +139,6 @@ bool PictureBank::loadGFX(const char* file) {
 				if (!images.back()) return fail("bad op in " + name);
 				fr.image = int(images.size()) - 1;
 				fr.r = {0, 0, images.back()->w, images.back()->h};
-				derived.push_back(int(frames.size()));
 			} else if (f.contains("path")) {
 				images.push_back(loadImage(f["path"]));
 				if (!images.back()) return fail(f["path"]);
@@ -127,42 +146,50 @@ bool PictureBank::loadGFX(const char* file) {
 				fr.r = {0, 0, images.back()->w, images.back()->h};
 			} else {
 				if (sheet_image < 0) return fail(name + " has no image");
-				fr.r = {f["x"], f["y"], f["w"], f["h"]};
+				fr.r = {f["x"].get<int>(), f["y"].get<int>(), f["w"].get<int>(), f["h"].get<int>()};
+				// derive() reads raw pixels of the frame
+				const SDL_Surface* img = images[sheet_image];
+				if (fr.r.x < 0 || fr.r.y < 0 || fr.r.w <= 0 || fr.r.h <= 0 || fr.r.x + fr.r.w > img->w || fr.r.y + fr.r.h > img->h)
+					return fail("frame outside " + name);
 			}
 			frames.push_back(fr);
 		}
 		sheets[name] = {first, int(frames.size()) - first};
 	}
 
-	// Derived frames share atlases instead of one small texture each
-	for (size_t n = 0; n < derived.size();) {
+	// Repacked with a transparent border, so filtered sampling of a rotated or shrunk frame never reaches its neighbours
+	size_t sources = images.size();
+	for (size_t n = 0; n < frames.size();) {
 		int w = 0, x = 0, y = 0, rowh = 0;
 		size_t end = n;
 		std::vector<SDL_Point> pos;
-		for (; end < derived.size(); end++) {
-			const SDL_Rect& r = frames[derived[end]].r;
-			if (x && x + r.w > ATLAS_MAX) x = 0, y += rowh, rowh = 0;
-			if (y && y + r.h > ATLAS_MAX) break;
-			pos.push_back({x, y});
-			x += r.w;
+		for (; end < frames.size(); end++) {
+			int w2 = frames[end].r.w + 2, h2 = frames[end].r.h + 2;
+			if (x && x + w2 > ATLAS_MAX) x = 0, y += rowh, rowh = 0;
+			if (y && y + h2 > ATLAS_MAX) break;
+			pos.push_back({x + 1, y + 1});
+			x += w2;
 			w = std::max(w, x);
-			rowh = std::max(rowh, r.h);
+			rowh = std::max(rowh, h2);
 		}
 		SDL_Surface* atlas = SDL_CreateRGBSurfaceWithFormat(0, w, y + rowh, 32, SDL_PIXELFORMAT_ARGB8888);
 		if (!atlas) return fail("no memory");
 		images.push_back(atlas);
 		for (size_t m = n; m < end; m++) {
-			Frame& fr = frames[derived[m]];
+			Frame& fr = frames[m];
 			SDL_Surface* part = images[fr.image];
 			SDL_SetSurfaceBlendMode(part, SDL_BLENDMODE_NONE);
 			SDL_Rect d{pos[m - n].x, pos[m - n].y, fr.r.w, fr.r.h};
-			SDL_BlitSurface(part, nullptr, atlas, &d);
-			SDL_FreeSurface(part);
-			images[fr.image] = nullptr;
+			SDL_BlitSurface(part, &fr.r, atlas, &d);
 			fr.image = int(images.size()) - 1;
 			fr.r = d;
 		}
+		bleedEdges(atlas);
 		n = end;
+	}
+	for (size_t i = 0; i < sources; i++) {
+		SDL_FreeSurface(images[i]);
+		images[i] = nullptr;
 	}
 	textures_.clear();
 	for (SDL_Surface* image : images) textures_.push_back(image ? std::make_unique<SDL::Surface>(image) : nullptr);

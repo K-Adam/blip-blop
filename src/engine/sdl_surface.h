@@ -28,6 +28,7 @@ class Surface {
 
 	void BltFast(int x, int y, Surface *src, Rect *r);
 	void BltRotated(int x, int y, Surface *src, Rect *r, SDL_Point center, double clockwise_deg);
+	void BltStretched(const SDL_Rect &dst, Surface *src, const SDL_Rect &r);
 	// color is 0xAABBGGRR, written as is without blending
 	void FillRect(Rect *r, unsigned int color);
 	void Darken(Rect *r);
