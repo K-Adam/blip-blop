@@ -44,6 +44,8 @@ void restore_default_saves() {
 }
 
 void save_settings() {
+	// Test runs start from the repo, saving would rewrite the tracked config files
+	if (autoquit_frames > 0) return;
 	if (!hi_scores.save(HISCORES_FILE)) debug << "Cannot save hi-scores\n";
 	save_BB3_config(CONFIG_FILE);
 #ifdef __EMSCRIPTEN__

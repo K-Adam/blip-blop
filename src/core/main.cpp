@@ -206,8 +206,7 @@ void cleanup() {
 	debug << "Releasing Blip & Blop\n";
 	debug << "---------------------------------------------------------------\n";
 
-	// Test runs start from the repo, saving would rewrite the tracked config files
-	if (autoquit_frames == 0) save_settings();
+	save_settings();
 }
 
 int main(int argc, char** argv) {
