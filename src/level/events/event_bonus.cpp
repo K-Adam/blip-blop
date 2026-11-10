@@ -1,9 +1,6 @@
 #include "level/events/event_bonus.h"
 #include "entities/bonus_weapon.h"
-#include "entities/bonus_beer.h"
-#include "entities/bonus_invincible.h"
-#include "entities/bonus_barrel.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
 void EventBonus::doEvent() {
 	Bonus* bonus;

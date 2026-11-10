@@ -1,5 +1,5 @@
 #include "entities/enemies/enemy_snorky_base_2.h"
-#include "entities/shots/shot_snorky_base_2.h"
+#include "entities/shots/shot_thorn.h"
 
 const int anim_snorky_base_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_snorky_base_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
@@ -152,7 +152,7 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotSnorkyBase2* shot = new ShotSnorkyBase2(6, vy);
+				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), 6, vy);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
@@ -160,7 +160,7 @@ void EnemySnorkyBase2::onShoot() {
 				list_enemy_shots.emplace_back(shot);
 
 			} else {
-				ShotSnorkyBase2* shot = new ShotSnorkyBase2(6, 1);
+				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), 6, 1);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
@@ -175,7 +175,7 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotSnorkyBase2* shot = new ShotSnorkyBase2(-6, -vy);
+				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), -6, -vy);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
@@ -183,7 +183,7 @@ void EnemySnorkyBase2::onShoot() {
 				list_enemy_shots.emplace_back(shot);
 
 			} else {
-				ShotSnorkyBase2* shot = new ShotSnorkyBase2(-6, 1);
+				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snorky2_shot"), -6, 1);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;

@@ -1,11 +1,16 @@
 #include "entities/enemies/enemy_rayman.h"
 #include "entities/shots/shot_rayman_fist.h"
 #include "entities/piece_rayman.h"
-#include "entities/enemies/enemy_pikachu_hero.h"
-#include "entities/enemies/enemy_bulbasaur_hero.h"
+#include "entities/enemies/enemy_pokemon_hero.h"
 #include "entities/enemies/enemy_com_hero.h"
-#include "entities/enemies/enemy_ember_hero.h"
 #include "entities/piece_rayman_head.h"
+
+static const PokemonHeroSpec PIKACHU{
+	.name = "pikachu", .hp = 1500, .throw_dx = -2, .throw_dy = -8, .treasure = 100, .land_sound = 15, .speed = 3, .die_frames = 10, .leaves_body = true};
+static const PokemonHeroSpec BULBASAUR{
+	.name = "bulbasaur", .hp = 1500, .throw_dx = -2, .throw_dy = -8, .treasure = 5, .land_sound = -1, .speed = 2, .die_frames = 8, .leaves_body = true};
+static const PokemonHeroSpec EMBER{
+	.name = "ember", .hp = 1000, .throw_dx = -1, .throw_dy = -7, .treasure = 5, .land_sound = -1, .speed = 2, .die_frames = 14, .leaves_body = false};
 
 EnemyRayman::EnemyRayman() : attack_delay(100 + rand() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(NULL) {
 	hp = 15000;
@@ -49,7 +54,7 @@ void EnemyRayman::update() {
 void EnemyRayman::onWalk() {
 	if ((game_flag[1] <= dorkemon) && (game_flag[0] == 2) && (game_flag[1] > 0)) {
 		if (game_flag[1] == 4) {
-			EnemyBulbasaurHero* bulbasaur = new EnemyBulbasaurHero();
+			EnemyPokemonHero* bulbasaur = new EnemyPokemonHero(BULBASAUR);
 
 			bulbasaur->x = x - 10;
 			bulbasaur->y = y - 25;
@@ -63,7 +68,7 @@ void EnemyRayman::onWalk() {
 
 			dorkemon--;
 		} else if (game_flag[1] == 3) {
-			EnemyEmberHero* ember = new EnemyEmberHero();
+			EnemyPokemonHero* ember = new EnemyPokemonHero(EMBER);
 
 			ember->x = x - 10;
 			ember->y = y - 25;
@@ -82,7 +87,7 @@ void EnemyRayman::onWalk() {
 			dorkemon -= 2;
 
 		} else if (game_flag[1] == 1) {
-			EnemyPikachuHero* pika = new EnemyPikachuHero();
+			EnemyPokemonHero* pika = new EnemyPokemonHero(PIKACHU);
 
 			nb_enemies_created++;
 

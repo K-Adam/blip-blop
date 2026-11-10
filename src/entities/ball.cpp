@@ -1,7 +1,5 @@
 #include "core/config.h"
 #include "entities/ball.h"
-#include "entities/shots/shot_bb_m16.h"
-#include "entities/shots/shot_bb_pm.h"
 #include "entities/shots/shot_bb_shotgun.h"
 #include "entities/shots/shot_bb_laser.h"
 #include "entities/shots/shot_bb_cow.h"

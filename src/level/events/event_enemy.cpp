@@ -1,4 +1,6 @@
 #include "level/events/event_enemy.h"
+
+#include <unordered_map>
 #include "entities/enemies/enemy.h"
 
 #include "entities/enemies/enemy_smurf.h"
@@ -16,14 +18,12 @@
 #include "entities/enemies/enemy_papa_smurf.h"
 #include "entities/enemies/enemy_smurf_stork.h"
 
-#include "entities/enemies/enemy_pikachu.h"
-#include "entities/enemies/enemy_bulbasaur.h"
+#include "entities/enemies/enemy_pokemon.h"
 #include "entities/enemies/enemy_ember.h"
 #include "entities/enemies/enemy_com.h"
 #include "entities/enemies/enemy_com_flying.h"
 
 #include "entities/enemies/enemy_lemmings.h"
-#include "entities/enemies/enemy_lemmings_flying.h"
 
 #include "entities/enemies/enemy_bisou_sky.h"
 #include "entities/enemies/enemy_bisou_star.h"
@@ -50,7 +50,6 @@
 #include "entities/enemies/enemy_princess_guard.h"
 #include "entities/enemies/enemy_princess.h"
 #include "entities/enemies/enemy_tails.h"
-#include "entities/enemies/enemy_tails_flying.h"
 #include "entities/enemies/enemy_knuckles.h"
 #include "entities/enemies/enemy_rayman.h"
 
@@ -121,235 +120,95 @@
 
 #define ENEMYID_MARIO 700
 
+static const PokemonSpec PIKACHU{.name = "pikachu", .speed = 3, .die_delay = 4, .die_frames = 10};
+static const PokemonSpec BULBASAUR{.name = "bulbasaur", .speed = 1, .die_delay = 5, .die_frames = 8};
+
+template <class T>
+static Enemy* make() {
+	return new T();
+}
+
+static const std::unordered_map<int, Enemy* (*)()> ENEMIES = {
+	{ENEMYID_SMURF,
+	 []() -> Enemy* {
+		 switch (rand() % 6) {
+			 case 0:
+				 return new EnemySmurf();
+			 case 1:
+				 return new EnemySmurfGlasses();
+			 case 2:
+				 return new EnemySmurfVain();
+			 case 3:
+				 return new EnemySmurfChilly();
+			 case 4:
+				 return new EnemySmurfLazy();
+			 default:
+				 return new EnemySmurfPeon();
+		 }
+	 }},
+	{ENEMYID_SMURF_GREEDY, make<EnemySmurfGreedy>},
+	{ENEMYID_SMURF_JOKEY, make<EnemySmurfJokey>},
+	{ENEMYID_SMURF_WILD, make<EnemySmurfWild>},
+	{ENEMYID_SMURF_FARMER, make<EnemySmurfFarmer>},
+	{ENEMYID_SMURF_HEFTY, make<EnemySmurfHefty>},
+	{ENEMYID_SMURFETTE, make<EnemySmurfette>},
+	{ENEMYID_PAPA_SMURF, make<EnemyPapaSmurf>},
+	{ENEMYID_SMURF_STORK, make<EnemySmurfStork>},
+	{ENEMYID_PIKACHU, []() -> Enemy* { return new EnemyPokemon(PIKACHU); }},
+	{ENEMYID_BULBASAUR, []() -> Enemy* { return new EnemyPokemon(BULBASAUR); }},
+	{ENEMYID_EMBER, make<EnemyEmber>},
+	{ENEMYID_COM, make<EnemyCOM>},
+	{ENEMYID_BISOU_SKY, make<EnemyBisouSky>},
+	{ENEMYID_BISOU_STAR, make<EnemyBisouStar>},
+	{ENEMYID_BISOU_BOOM, make<EnemyBisouBoom>},
+	{ENEMYID_BISOU_CLOUD, make<EnemyBisouCloud>},
+	{ENEMYID_BISOU_ZOMBIE, make<EnemyBisouZombie>},
+	{ENEMYID_BISOU_SHAMAN, make<EnemyBisouShaman>},
+	{ENEMYID_BISOU_HEART, make<EnemyBisouHeart>},
+	{ENEMYID_BISOU_JEDI, make<EnemyBisouJedi>},
+	{ENEMYID_BISOU_JEDI_HERO, make<EnemyBisouJediHero>},
+	{ENEMYID_BISOU_SIB, make<EnemyBisouSIB>},
+	{ENEMYID_LEMMINGS, make<EnemyLemmings>},
+	{ENEMYID_LEMMINGS_FLYING, make<EnemyLemmings>},
+	{ENEMYID_COM_FLYING, make<EnemyCOMFlying>},
+	{ENEMYID_SNORKY_BASE_1, make<EnemySnorkyBase1>},
+	{ENEMYID_SNORKY_BASE_2, make<EnemySnorkyBase2>},
+	{ENEMYID_SNORKY_GOVERNOR, make<EnemySnorkyGovernor>},
+	{ENEMYID_SNORKY_MAGE, make<EnemySnorkyMage>},
+	{ENEMYID_SNORKY_RIDER, make<EnemySnorkyHyporider>},
+	{ENEMYID_DIABOLO, make<EnemyDiabolo>},
+	{ENEMYID_SNORK_IN_BLACK, make<EnemySnorkInBlack>},
+	{ENEMYID_SNORK_IN_BLACK_BOSS, make<EnemySnorkInBlackBoss>},
+	{ENEMYID_TOAD, make<EnemyToad>},
+	{ENEMYID_YOSHI, make<EnemyYoshi>},
+	{ENEMYID_YOSHI_ANTIAIR, make<EnemyYoshiAntiair>},
+	{ENEMYID_PRINCESS, make<EnemyPrincess>},
+	{ENEMYID_TAILS, make<EnemyTails>},
+	{ENEMYID_KNUCKLES, make<EnemyKnuckles>},
+	{ENEMYID_RAYMAN, make<EnemyRayman>},
+	{ENEMYID_TAILS_FLYING, []() -> Enemy* { return new EnemyTails(true); }},
+	{ENEMYID_LUIGI, make<EnemyLuigi>},
+	{ENEMYID_SONIC, make<EnemySonic>},
+	{ENEMYID_MARIO_SWATTER, make<EnemyMarioSwatter>},
+	{ENEMYID_LARA, make<EnemyLara>},
+	{ENEMYID_SPIKES, make<EnemySpikes>},
+	{ENEMYID_WEIGHT, make<EnemyWeight>},
+	{ENEMYID_MARIO, make<EnemyMario>},
+};
+
 void EventEnemy::doEvent() {
-	Enemy* new_enemy = NULL;
-
-	switch (enemy_id) {
-		case ENEMYID_SMURF:
-			switch (rand() % 6) {
-				case 0:
-					new_enemy = new EnemySmurf();
-					break;
-				case 1:
-					new_enemy = new EnemySmurfGlasses();
-					break;
-				case 2:
-					new_enemy = new EnemySmurfVain();
-					break;
-				case 3:
-					new_enemy = new EnemySmurfChilly();
-					break;
-				case 4:
-					new_enemy = new EnemySmurfLazy();
-					break;
-				case 5:
-					new_enemy = new EnemySmurfPeon();
-					break;
-			}
-			break;
-
-		case ENEMYID_SMURF_GREEDY:
-			new_enemy = new EnemySmurfGreedy();
-			break;
-
-		case ENEMYID_SMURF_JOKEY:
-			new_enemy = new EnemySmurfJokey();
-			break;
-
-		case ENEMYID_SMURF_WILD:
-			new_enemy = new EnemySmurfWild();
-			break;
-
-		case ENEMYID_SMURF_FARMER:
-			new_enemy = new EnemySmurfFarmer();
-			break;
-
-		case ENEMYID_SMURF_HEFTY:
-			new_enemy = new EnemySmurfHefty();
-			break;
-
-		case ENEMYID_SMURFETTE:
-			new_enemy = new EnemySmurfette();
-			break;
-
-		case ENEMYID_PAPA_SMURF:
-			new_enemy = new EnemyPapaSmurf();
-			break;
-
-		case ENEMYID_SMURF_STORK:
-			new_enemy = new EnemySmurfStork();
-			break;
-
-		case ENEMYID_PIKACHU:
-			new_enemy = new EnemyPikachu();
-			break;
-
-		case ENEMYID_BULBASAUR:
-			new_enemy = new EnemyBulbasaur();
-			break;
-
-		case ENEMYID_EMBER:
-			new_enemy = new EnemyEmber();
-			break;
-
-		case ENEMYID_COM:
-			new_enemy = new EnemyCOM();
-			break;
-
-		case ENEMYID_BISOU_SKY:
-			new_enemy = new EnemyBisouSky();
-			break;
-
-		case ENEMYID_BISOU_STAR:
-			new_enemy = new EnemyBisouStar();
-			break;
-
-		case ENEMYID_BISOU_BOOM:
-			new_enemy = new EnemyBisouBoom();
-			break;
-
-		case ENEMYID_BISOU_CLOUD:
-			new_enemy = new EnemyBisouCloud();
-			break;
-
-		case ENEMYID_BISOU_ZOMBIE:
-			new_enemy = new EnemyBisouZombie();
-			break;
-
-		case ENEMYID_BISOU_SHAMAN:
-			new_enemy = new EnemyBisouShaman();
-			break;
-
-		case ENEMYID_BISOU_HEART:
-			new_enemy = new EnemyBisouHeart();
-			break;
-
-		case ENEMYID_BISOU_JEDI:
-			new_enemy = new EnemyBisouJedi();
-			break;
-
-		case ENEMYID_BISOU_JEDI_HERO:
-			new_enemy = new EnemyBisouJediHero();
-			break;
-
-		case ENEMYID_BISOU_SIB:
-			new_enemy = new EnemyBisouSIB();
-			break;
-
-		case ENEMYID_LEMMINGS:
-			new_enemy = new EnemyLemmings();
-			break;
-
-		case ENEMYID_LEMMINGS_FLYING:
-			new_enemy = new EnemyLemmingsFlying();
-			break;
-
-		case ENEMYID_COM_FLYING:
-			new_enemy = new EnemyCOMFlying();
-			break;
-
-		case ENEMYID_SNORKY_BASE_1:
-			new_enemy = new EnemySnorkyBase1();
-			break;
-
-		case ENEMYID_SNORKY_BASE_2:
-			new_enemy = new EnemySnorkyBase2();
-			break;
-
-		case ENEMYID_SNORKY_GOVERNOR:
-			new_enemy = new EnemySnorkyGovernor();
-			break;
-
-		case ENEMYID_SNORKY_MAGE:
-			new_enemy = new EnemySnorkyMage();
-			break;
-
-		case ENEMYID_SNORKY_RIDER:
-			new_enemy = new EnemySnorkyHyporider();
-			break;
-
-		case ENEMYID_DIABOLO:
-			new_enemy = new EnemyDiabolo();
-			break;
-
-		case ENEMYID_SNORK_IN_BLACK:
-			new_enemy = new EnemySnorkInBlack();
-			break;
-
-		case ENEMYID_SNORK_IN_BLACK_BOSS:
-			new_enemy = new EnemySnorkInBlackBoss();
-			break;
-
-		case ENEMYID_TOAD:
-			new_enemy = new EnemyToad();
-			break;
-
-		case ENEMYID_YOSHI:
-			new_enemy = new EnemyYoshi();
-			break;
-
-		case ENEMYID_YOSHI_ANTIAIR:
-			new_enemy = new EnemyYoshiAntiair();
-			break;
-
-		case ENEMYID_PRINCESS:
-			new_enemy = new EnemyPrincess();
-			break;
-
-		case ENEMYID_TAILS:
-			new_enemy = new EnemyTails();
-			break;
-
-		case ENEMYID_KNUCKLES:
-			new_enemy = new EnemyKnuckles();
-			break;
-
-		case ENEMYID_RAYMAN:
-			new_enemy = new EnemyRayman();
-			break;
-
-		case ENEMYID_TAILS_FLYING:
-			new_enemy = new EnemyTailsFlying();
-			break;
-
-		case ENEMYID_LUIGI:
-			new_enemy = new EnemyLuigi();
-			break;
-
-		case ENEMYID_SONIC:
-			new_enemy = new EnemySonic();
-			break;
-
-		case ENEMYID_MARIO_SWATTER:
-			new_enemy = new EnemyMarioSwatter();
-			break;
-
-		case ENEMYID_LARA:
-			new_enemy = new EnemyLara();
-			break;
-
-		case ENEMYID_SPIKES:
-			new_enemy = new EnemySpikes();
-			break;
-
-		case ENEMYID_WEIGHT:
-			new_enemy = new EnemyWeight();
-			break;
-
-		case ENEMYID_MARIO:
-			new_enemy = new EnemyMario();
-			break;
-	}
-
-	if (new_enemy != NULL) {
-		new_enemy->x = x;
-		new_enemy->y = y;
-		new_enemy->dir = facing;
-
-		list_enemies.emplace_back(new_enemy);
-
-		if (new_enemy->count()) nb_enemies_created += 1;
-	} else {
+	auto it = ENEMIES.find(enemy_id);
+	if (it == ENEMIES.end()) {
 		debug << "Unknown enemy id (" << enemy_id << ")\n";
+		return;
 	}
+
+	Enemy* new_enemy = it->second();
+	new_enemy->x = x;
+	new_enemy->y = y;
+	new_enemy->dir = facing;
+
+	list_enemies.emplace_back(new_enemy);
+
+	if (new_enemy->count()) nb_enemies_created += 1;
 }

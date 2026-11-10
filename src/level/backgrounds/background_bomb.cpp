@@ -3,7 +3,7 @@
 #include "level/backgrounds/background_bomb.h"
 #include "entities/bonus_weapon.h"
 #include "entities/enemies/enemy.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
 int save_time = 0;
 

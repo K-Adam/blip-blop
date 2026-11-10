@@ -1,5 +1,5 @@
 #include "entities/enemies/enemy_luigi.h"
-#include "entities/shots/shot_plunger.h"
+#include "entities/shots/shot_thorn.h"
 #include "entities/gore_splatter.h"
 #include "entities/enemies/enemy_sonic.h"
 #include "entities/enemies/enemy_pacman_car.h"
@@ -298,13 +298,13 @@ void EnemyLuigi::onAttack() {
 		if (attack_frame_tick == 0) {
 			attack_frame += 1;
 			attack_frame %= 6;
-			ShotPlunger* shot1;
-			ShotPlunger* shot2;
+			ShotThorn* shot1;
+			ShotThorn* shot2;
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[3], 12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -319,8 +319,8 @@ void EnemyLuigi::onAttack() {
 
 					break;
 				case 1:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -334,8 +334,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -349,8 +349,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[0], 9, 3);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[6], 9, -3);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[0], 9, 3, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[6], 9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -364,8 +364,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -379,8 +379,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -406,13 +406,13 @@ void EnemyLuigi::onAttack() {
 		if (attack_frame_tick == 0) {
 			attack_frame += 1;
 			attack_frame %= 6;
-			ShotPlunger* shot1;
-			ShotPlunger* shot2;
+			ShotThorn* shot1;
+			ShotThorn* shot2;
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[3], -12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -427,8 +427,8 @@ void EnemyLuigi::onAttack() {
 
 					break;
 				case 1:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -442,8 +442,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 2:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -457,8 +457,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 3:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[0], -9, 3);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[6], -9, -3);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[0], -9, 3, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[6], -9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -472,8 +472,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 4:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -487,8 +487,8 @@ void EnemyLuigi::onAttack() {
 					list_enemy_shots.emplace_back(shot2);
 					break;
 				case 5:
-					shot1 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1);
-					shot2 = new ShotPlunger(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1);
+					shot1 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = new ShotThorn(pbk_enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;

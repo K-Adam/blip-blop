@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_princess.h"
 #include "entities/enemies/enemy_princess_guard.h"
 #include "entities/cool_text.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
 EnemyPrincess::EnemyPrincess() : walking(false), guards_called(false) {
 	hp = 3700;

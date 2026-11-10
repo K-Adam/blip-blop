@@ -125,10 +125,9 @@ void EnemyLara::onWalk() {
 					dy = (dy * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 					shot->x = x - 60;
 					shot->y = y - 144;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 
 					bust_pic_num = 27;
@@ -149,11 +148,10 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 
 					shot->x = x - 58;
 					shot->y = y - 154;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 					anim_tick = 0;
 					anim_step = 1;
@@ -172,11 +170,10 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 
 					shot->x = x - 57;
 					shot->y = y - 165;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 					bust_pic_num = 15;
 					anim_tick = 0;
@@ -196,10 +193,9 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 					shot->x = x - 53;
 					shot->y = y - 175;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 					anim_tick = 0;
 					anim_step = 1;
@@ -221,11 +217,10 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 
 					shot->x = x - 59;
 					shot->y = y - 129;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 					// Frame aimed at -10 degrees
 					bust_pic_num = 33;
@@ -246,11 +241,10 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1);
+					shot = new ShotThorn(pbk_enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
 
 					shot->x = x - 60;
 					shot->y = y - 144;
-					shot->traverse = true;
 					list_enemy_shots.emplace_back(shot);
 					bust_pic_num = 27;
 					anim_tick = 0;

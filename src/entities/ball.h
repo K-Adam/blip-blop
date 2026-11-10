@@ -7,8 +7,7 @@
 #include "entities/player.h"
 #include "entities/shots/shot.h"
 
-#include "entities/shots/shot_bb_m16.h"
-#include "entities/shots/shot_bb_pm.h"
+#include "entities/shots/shot_bb_bullet.h"
 #include "entities/shots/shot_bb_shotgun.h"
 #include "entities/shots/shot_bb_laser.h"
 #include "entities/shots/shot_bb_lf.h"

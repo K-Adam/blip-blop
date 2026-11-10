@@ -5,6 +5,4 @@
 class EnemySmurfLazy : public EnemySmurf {
    public:
 	EnemySmurfLazy() { dy_jump = -4; }
-
-	inline void render() override { EnemySmurf::render(); }
 };

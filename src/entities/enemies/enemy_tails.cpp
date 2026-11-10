@@ -1,11 +1,39 @@
 #include "entities/enemies/enemy_tails.h"
 
-EnemyTails::EnemyTails() : speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false) {
+EnemyTails::EnemyTails(bool from_sky) : speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false), from_sky(from_sky) {
 	treasure = 8;
 	hp = 150;
 }
 
+void EnemyTails::placeInSky() {
+	y = -20;
+	status = STATE_SHOOT;
+	attack = false;
+	speed = 0;
+	anim_step = 0;
+	anim_tick = 0;
+	placed = true;
+
+	fly = true;
+	if (targeted_player != NULL) {
+		x_target = targeted_player->x;
+		y_target = targeted_player->y;
+	} else {
+		x_target = x - 10;
+		y_target = 240;
+	}
+	if (x_target > x) {
+		dir = FACING_RIGHT;
+		direction = 1;
+	} else {
+		dir = FACING_LEFT;
+		direction = -1;
+	}
+}
+
 void EnemyTails::update() {
+	if (from_sky && !placed) placeInSky();
+
 	if (blood > 0) blood -= 1;
 
 	switch (status) {
@@ -150,7 +178,11 @@ void EnemyTails::onDie() {
 }
 
 void EnemyTails::onFly() {
-	if (attack && (x - speed < xmin || solid_wall(x - speed, y))) {
+	// Coming from the sky it lands at the first wall it heads into, otherwise only once attacking
+	bool may_land_left = from_sky ? dir == FACING_LEFT : attack;
+	bool may_land_right = from_sky ? dir == FACING_RIGHT : attack;
+
+	if (may_land_left && (x - speed < xmin || solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		speed = 1;
 		status = STATE_WALK;
@@ -161,7 +193,7 @@ void EnemyTails::onFly() {
 		anim_tick = 0;
 		onWalk();
 		return;
-	} else if (attack && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
+	} else if (may_land_right && (x + speed > offset + 640 || solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		speed = 1;
 		status = STATE_WALK;

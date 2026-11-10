@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <span>
 
 #include "entities/sprite.h"
 
@@ -25,44 +26,16 @@ class BackgroundAnimated : public Sprite {
 	bool expire_;
 };
 
-class BackgroundBossFan : public BackgroundAnimated {
+// Plays a hand timed order of the frames of one pbk_level animation
+class BackgroundSequence : public Sprite {
    public:
-	BackgroundBossFan() : BackgroundAnimated("boss_fan", 3, true) {}
-};
+	BackgroundSequence(const char* sheet, std::span<const int> order, int delay) : sheet_(sheet), order_(order), delay_(delay) {}
+	void update() override { pic = pbk_level.anim(sheet_)[animate(order_.data(), int(order_.size()), delay_)]; }
 
-class BackgroundDos : public BackgroundAnimated {
-   public:
-	BackgroundDos() : BackgroundAnimated("dos_prompt", 40, true) {}
-};
-
-class BackgroundFlag : public BackgroundAnimated {
-   public:
-	BackgroundFlag() : BackgroundAnimated("flag_wave", 5, false) {}
-};
-
-class BackgroundSnowScreen : public BackgroundAnimated {
-   public:
-	BackgroundSnowScreen() : BackgroundAnimated("snow_screen", 4, true) {}
-};
-
-class BackgroundSunflower1 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower1() : BackgroundAnimated("sunflower_1", 10, false) {}
-};
-
-class BackgroundSunflower2 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower2() : BackgroundAnimated("sunflower_2", 10, false) {}
-};
-
-class BackgroundSunflower3 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower3() : BackgroundAnimated("sunflower_3", 10, false) {}
-};
-
-class BackgroundSunflower4 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower4() : BackgroundAnimated("sunflower_4", 10, false) {}
+   private:
+	const char* sheet_;
+	std::span<const int> order_;
+	int delay_;
 };
 
 // Lets a string literal name the sheet as a template argument

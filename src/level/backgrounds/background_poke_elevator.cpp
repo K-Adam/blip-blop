@@ -2,13 +2,13 @@
 
 #include "entities/ball.h"
 
-BackgroundPokeElevator::BackgroundPokeElevator() {
+BackgroundPokeElevator::BackgroundPokeElevator(int active_after, bool hidden) : active_after_(active_after), hidden_(hidden) {
 	pic = pbk_level.pic("elevator");
 	dy = 1;
 }
 
 void BackgroundPokeElevator::update() {
-	if (game_flag[2] > 0) {
+	if (game_flag[2] > active_after_) {
 		int xtmp;
 
 		if (y <= 96)
@@ -29,5 +29,7 @@ void BackgroundPokeElevator::update() {
 		colFromPic();
 
 		if (x < offset - 400) destroyed = true;
+	} else if (hidden_) {
+		y = -60;
 	}
 }

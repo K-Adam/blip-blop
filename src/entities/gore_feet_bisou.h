@@ -2,8 +2,10 @@
 
 #include "entities/sprite.h"
 
-class GoreFeetBisouSky : public Sprite {
+class GoreFeetBisou : public Sprite {
    public:
+	GoreFeetBisou(const char* right, const char* left) : right_(right), left_(left) {}
+
 	void update() override {
 		fall();
 
@@ -16,10 +18,10 @@ class GoreFeetBisouSky : public Sprite {
 
 		if (dir == FACING_RIGHT) {
 			walk(-1);
-			pic = pbk_enemies.anim("sky_feet_right")[anim_step];
+			pic = pbk_enemies.anim(right_)[anim_step];
 		} else {
 			walk(1);
-			pic = pbk_enemies.anim("sky_feet_left")[anim_step];
+			pic = pbk_enemies.anim(left_)[anim_step];
 		}
 
 		if (anim_step == 3 && platform_y(x, y) != 0) {
@@ -27,4 +29,8 @@ class GoreFeetBisouSky : public Sprite {
 			destroyed = true;
 		}
 	};
+
+   private:
+	const char* right_;
+	const char* left_;
 };

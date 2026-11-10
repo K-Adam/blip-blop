@@ -1,5 +1,5 @@
 #include "entities/enemies/enemy_bisou_sky.h"
-#include "entities/gore_feet_bisou_sky.h"
+#include "entities/gore_feet_bisou.h"
 #include "entities/shots/shot_rainbow.h"
 
 EnemyBisouSky::EnemyBisouSky() : wait_for_pee(0) { hp = 175; }
@@ -48,7 +48,7 @@ void EnemyBisouSky::onDieWhole() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouSky* feet = new GoreFeetBisouSky();
+		GoreFeetBisou* feet = new GoreFeetBisou("sky_feet_right", "sky_feet_left");
 
 		feet->x = x;
 		feet->dir = dir;

@@ -1,17 +1,22 @@
-#include "entities/enemies/enemy_ember_hero.h"
+#include "entities/enemies/enemy_pokemon_hero.h"
 
-EnemyEmberHero::EnemyEmberHero() : dorkeball(2) {
-	hp = 1000;
-	dy = -7;
-	dx = -1;
+EnemyPokemonHero::EnemyPokemonHero(const PokemonHeroSpec& spec) : spec_(spec), dx(spec.throw_dx) {
+	hp = spec.hp;
+	dy = spec.throw_dy;
+	treasure = spec.treasure;
 }
 
-void EnemyEmberHero::update() {
+Flipbook EnemyPokemonHero::anim(const std::string& action) const { return pbk_enemies.anim(spec_.name + ("_" + action)); }
+
+Flipbook EnemyPokemonHero::facing(const std::string& action) const { return anim(action + (dir == FACING_RIGHT ? "_right" : "_left")); }
+
+void EnemyPokemonHero::update() {
 	if (dorkeball == 2) {
 		x += dx;
 		fall();
 		int yp;
 		if ((dy > 0) && (yp = platform_y(x, y + dy)) != 0) {
+			if (spec_.land_sound >= 0) sbk_level.play(spec_.land_sound);
 			status = STATE_NORMAL;
 			dy = 0;
 			y = yp;
@@ -20,13 +25,7 @@ void EnemyEmberHero::update() {
 			dorkeball = 1;
 			return;
 		} else {
-			anim_tick++;
-			anim_tick %= 5;
-			if (anim_tick == 0) {
-				anim_step++;
-				anim_step %= 4;
-			}
-			pic = pbk_enemies.anim("dorkeball_spin")[anim_step];
+			pic = pbk_enemies.anim("dorkeball_spin")[step(5, 4)];
 		}
 	} else if (dorkeball == 1) {
 		anim_tick++;
@@ -38,7 +37,7 @@ void EnemyEmberHero::update() {
 				anim_step = 0;
 				anim_tick = 0;
 			} else {
-				pic = pbk_enemies.anim("ember_release")[anim_step];
+				pic = anim("release")[anim_step];
 			}
 		}
 
@@ -61,7 +60,7 @@ void EnemyEmberHero::update() {
 	}
 }
 
-void EnemyEmberHero::onWalk() {
+void EnemyPokemonHero::onWalk() {
 	fall();
 
 	step(8, 2);
@@ -71,36 +70,32 @@ void EnemyEmberHero::onWalk() {
 	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
 		dir = FACING_LEFT;
 
-	if (dir == FACING_RIGHT) {
-		walk(2);
-		pic = pbk_enemies.anim("ember_walk_right")[anim_step];
-	} else {
-		walk(-2);
-		pic = pbk_enemies.anim("ember_walk_left")[anim_step];
-	}
+	walk(dir == FACING_RIGHT ? spec_.speed : -spec_.speed);
+	pic = facing("walk")[anim_step];
 	colFromPic();
 }
 
-void EnemyEmberHero::onDie() {
+void EnemyPokemonHero::onDie() {
 	fall();
 
 	anim_tick += 1;
 	anim_tick %= 4;
 
-	if (anim_tick == 0 && anim_step < 14) anim_step += 1;
+	if (anim_tick == 0 && anim_step < spec_.die_frames) anim_step += 1;
 
-	if (anim_step >= 14) {
-		game_flag[1]--;
+	if (anim_step >= spec_.die_frames) {
+		int yy = platform_y(x, y);
+
+		if (spec_.leaves_body && yy != 0 && yy != y_platform[4][x]) engrave(x, y, pic);
+
 		destroyed = true;
+		game_flag[1]--;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("ember_die_left")[anim_step];
-		else
-			pic = pbk_enemies.anim("ember_die_right")[anim_step];
+		pic = facing("die")[anim_step];
 	}
 }
 
-void EnemyEmberHero::takeHit(Shot* shot) {
+void EnemyPokemonHero::takeHit(Shot* shot) {
 	static const int dx_splatter[] = {0, 10, 15, 10, 0, -10, -15, -10};
 	static const int dy_splatter[] = {-15, -25, -25, -25, -35, -25, -25, -25};
 

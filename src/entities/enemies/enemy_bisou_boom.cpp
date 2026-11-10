@@ -63,7 +63,7 @@ void EnemyBisouBoom::onDie() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 7 && anim_tick == 0) {
-		Sprite* s = new GoreFeetBisouBoom();
+		Sprite* s = new GoreBisouBoom("boom_feet_right", "boom_feet_left", -2);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x - 60;
@@ -79,7 +79,7 @@ void EnemyBisouBoom::onDie() {
 
 		list_gore.emplace_back(s);
 
-		s = new GoreHeadBisouBoom();
+		s = new GoreBisouBoom("boom_head_right", "boom_head_left", 2);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x + 46;
@@ -95,7 +95,7 @@ void EnemyBisouBoom::onDie() {
 
 		list_gore.emplace_back(s);
 	} else if (anim_step == 8 && anim_tick == 0) {
-		Sprite* s = new GoreBellyBisouBoom();
+		Sprite* s = new GoreBisouBoom("boom_belly_right", "boom_belly_left", 1);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x + 59;

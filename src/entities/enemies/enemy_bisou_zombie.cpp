@@ -1,5 +1,5 @@
 #include "entities/enemies/enemy_bisou_zombie.h"
-#include "entities/gore_feet_bisou_zombie.h"
+#include "entities/gore_feet_bisou.h"
 
 #define STATE_CHARRED_TOP 102
 
@@ -211,7 +211,7 @@ void EnemyBisouZombie::onSevered() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouZombie* feet = new GoreFeetBisouZombie();
+		GoreFeetBisou* feet = new GoreFeetBisou("zombie_feet_right", "zombie_feet_left");
 
 		feet->x = x;
 		feet->dir = dir;

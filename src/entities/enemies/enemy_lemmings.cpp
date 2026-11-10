@@ -1,5 +1,5 @@
 #include "entities/enemies/enemy_lemmings.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
 static int wait_no = 0;
 
