@@ -651,21 +651,21 @@
     },
     {
       "event_id": 2,
-      "x_activation": 4294967274,
+      "x_activation": -22,
       "id_fond": 104,
       "x": 718,
       "y": 230
     },
     {
       "event_id": 2,
-      "x_activation": 4294967249,
+      "x_activation": -47,
       "id_fond": 101,
       "x": 693,
       "y": 0
     },
     {
       "event_id": 1,
-      "x_activation": 4294967234,
+      "x_activation": -62,
       "id_ennemi": 103,
       "x": 738,
       "y": 359,
@@ -676,7 +676,7 @@
     },
     {
       "event_id": 1,
-      "x_activation": 4294967232,
+      "x_activation": -64,
       "id_ennemi": 103,
       "x": 736,
       "y": 225,
@@ -687,7 +687,7 @@
     },
     {
       "event_id": 1,
-      "x_activation": 4294967226,
+      "x_activation": -70,
       "id_ennemi": 101,
       "x": 730,
       "y": 454,
@@ -698,7 +698,7 @@
     },
     {
       "event_id": 1,
-      "x_activation": 4294967226,
+      "x_activation": -70,
       "id_ennemi": 100,
       "x": 730,
       "y": 452,
@@ -709,7 +709,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967144,
+      "x_activation": -152,
       "id_ennemi": 103,
       "x": 598,
       "y": 329,
@@ -717,7 +717,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967141,
+      "x_activation": -155,
       "id_ennemi": 101,
       "x": 595,
       "y": 457,
@@ -725,7 +725,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967136,
+      "x_activation": -160,
       "id_ennemi": 103,
       "x": 590,
       "y": 154,
@@ -733,56 +733,56 @@
     },
     {
       "event_id": 2,
-      "x_activation": 4294967057,
+      "x_activation": -239,
       "id_fond": 103,
       "x": 501,
       "y": 302
     },
     {
       "event_id": 2,
-      "x_activation": 4294967036,
+      "x_activation": -260,
       "id_fond": 109,
       "x": 480,
       "y": 108
     },
     {
       "event_id": 2,
-      "x_activation": 4294967029,
+      "x_activation": -267,
       "id_fond": 106,
       "x": 473,
       "y": 335
     },
     {
       "event_id": 2,
-      "x_activation": 4294966972,
+      "x_activation": -324,
       "id_fond": 110,
       "x": 416,
       "y": 305
     },
     {
       "event_id": 2,
-      "x_activation": 4294966971,
+      "x_activation": -325,
       "id_fond": 111,
       "x": 415,
       "y": 26
     },
     {
       "event_id": 2,
-      "x_activation": 4294966816,
+      "x_activation": -480,
       "id_fond": 100,
       "x": 260,
       "y": 1
     },
     {
       "event_id": 2,
-      "x_activation": 4294966761,
+      "x_activation": -535,
       "id_fond": 105,
       "x": 205,
       "y": 98
     },
     {
       "event_id": 1,
-      "x_activation": 4294966497,
+      "x_activation": -799,
       "id_ennemi": 102,
       "x": 1,
       "y": 0,

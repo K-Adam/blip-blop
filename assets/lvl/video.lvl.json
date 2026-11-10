@@ -1936,14 +1936,14 @@
     },
     {
       "event_id": 2,
-      "x_activation": 4294967290,
+      "x_activation": -6,
       "id_fond": 501,
       "x": 734,
       "y": 29
     },
     {
       "event_id": 1,
-      "x_activation": 4294967284,
+      "x_activation": -12,
       "id_ennemi": 500,
       "x": 788,
       "y": 40,
@@ -1954,7 +1954,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967257,
+      "x_activation": -39,
       "id_ennemi": 500,
       "x": 711,
       "y": 151,
@@ -1962,7 +1962,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967244,
+      "x_activation": -52,
       "id_ennemi": 505,
       "x": 698,
       "y": 157,
@@ -1970,14 +1970,14 @@
     },
     {
       "event_id": 2,
-      "x_activation": 4294967233,
+      "x_activation": -63,
       "id_fond": 501,
       "x": 677,
       "y": 30
     },
     {
       "event_id": 0,
-      "x_activation": 4294967227,
+      "x_activation": -69,
       "id_ennemi": 500,
       "x": 681,
       "y": 431,
@@ -1985,7 +1985,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967212,
+      "x_activation": -84,
       "id_ennemi": 500,
       "x": 666,
       "y": 153,
@@ -1994,13 +1994,13 @@
     {
       "event_id": 4,
       "pic": "pipe_green",
-      "x_activation": 4294967124,
+      "x_activation": -172,
       "x": 568,
       "y": 0
     },
     {
       "event_id": 1,
-      "x_activation": 4294967097,
+      "x_activation": -199,
       "id_ennemi": 500,
       "x": 601,
       "y": 88,
@@ -2011,63 +2011,63 @@
     },
     {
       "event_id": 2,
-      "x_activation": 4294966949,
+      "x_activation": -347,
       "id_fond": 501,
       "x": 393,
       "y": 270
     },
     {
       "event_id": 2,
-      "x_activation": 4294966899,
+      "x_activation": -397,
       "id_fond": 501,
       "x": 343,
       "y": 270
     },
     {
       "event_id": 2,
-      "x_activation": 4294966847,
+      "x_activation": -449,
       "id_fond": 501,
       "x": 291,
       "y": 272
     },
     {
       "event_id": 18,
-      "x_activation": 4294966763,
+      "x_activation": -533,
       "type": 1,
       "x": 207,
       "y": 432
     },
     {
       "event_id": 2,
-      "x_activation": 4294966758,
+      "x_activation": -538,
       "id_fond": 500,
       "x": 202,
       "y": 339
     },
     {
       "event_id": 2,
-      "x_activation": 4294966727,
+      "x_activation": -569,
       "id_fond": 500,
       "x": 171,
       "y": 339
     },
     {
       "event_id": 18,
-      "x_activation": 4294966705,
+      "x_activation": -591,
       "type": 0,
       "x": 149,
       "y": 344
     },
     {
       "event_id": 2,
-      "x_activation": 4294966696,
+      "x_activation": -600,
       "id_fond": 500,
       "x": 140,
       "y": 339
     },
     {
       "event_id": 2,
-      "x_activation": 4294966665,
+      "x_activation": -631,
       "id_fond": 500,
       "x": 109,
       "y": 339
@@ -2075,14 +2075,14 @@
     {
       "event_id": 4,
       "pic": "pipe_cyan",
-      "x_activation": 4294966623,
+      "x_activation": -673,
       "x": 67,
       "y": 0
     },
     {
       "event_id": 4,
       "pic": "pipe_green",
-      "x_activation": 4294966556,
+      "x_activation": -740,
       "x": 0,
       "y": 0
     }

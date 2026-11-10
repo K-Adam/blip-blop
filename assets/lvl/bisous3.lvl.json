@@ -693,7 +693,7 @@
     {
       "event_id": 4,
       "pic": "ledge_1",
-      "x_activation": 4294967236,
+      "x_activation": -60,
       "x": 680,
       "y": 111
     }
