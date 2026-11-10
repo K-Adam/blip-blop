@@ -289,13 +289,7 @@ void EnemyBisouShaman::render() {
 void EnemyBisouShaman::onWalk() {
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 6;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(6, 8);
 
 	if (x < offset + 320) {
 		pic = pbk_enemies.anim("shaman_teleport_right")[0];

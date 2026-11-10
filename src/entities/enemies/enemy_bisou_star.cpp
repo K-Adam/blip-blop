@@ -130,13 +130,7 @@ void EnemyBisouStar::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 4;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(4, 8);
 
 	if (x - SPEED < xmin || solid_wall(x - SPEED, y) || (platform_y(x - SPEED, y) == 0 && platform_y(x - SPEED, y + 5) == 0))
 		dir = FACING_RIGHT;

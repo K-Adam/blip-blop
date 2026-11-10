@@ -222,13 +222,7 @@ void EnemySmurfHefty::onShootDragonPunch() {
 void EnemySmurfHefty::onShootHurricaneKick() {
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 4;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 6;
-	}
+	step(4, 6);
 
 	int x2 = x + dx;
 

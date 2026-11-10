@@ -26,13 +26,7 @@ void EnemyBisouBoom::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 3;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(3, 8);
 
 	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;

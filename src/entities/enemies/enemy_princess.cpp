@@ -54,21 +54,11 @@ void EnemyPrincess::onWalk() {
 		}
 		if (dir == FACING_RIGHT) {
 			if (x - offset > 400) {
-				anim_tick += 1;
-				anim_tick %= 6;
-				if (anim_tick == 0) {
-					anim_step += 1;
-					anim_step %= 2;
-				}
+				step(6, 2);
 				walk(PRINCESS_SPEED);
 				pic = pbk_enemies.anim("princess_walk")[anim_step];
 			} else {
-				anim_tick += 1;
-				anim_tick %= 6;
-				if (anim_tick == 0) {
-					anim_step += 1;
-					anim_step %= 2;
-				}
+				step(6, 2);
 				walk(2);
 				pic = pbk_enemies.anim("princess_walk")[anim_step];
 			}
@@ -79,12 +69,7 @@ void EnemyPrincess::onWalk() {
 		}
 	} else {
 		if ((x < 5760)) {
-			anim_tick += 1;
-			anim_tick %= 6;
-			if (anim_tick == 0) {
-				anim_step += 1;
-				anim_step %= 2;
-			}
+			step(6, 2);
 			walk(PRINCESS_SPEED);
 			pic = pbk_enemies.anim("princess_walk")[anim_step];
 		} else if (x > 7500) {

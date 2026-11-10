@@ -105,12 +105,7 @@ void EnemyTails::onDie() {
 
 	if (fly) {
 		int yp;
-		anim_tick += 1;
-		anim_tick %= 4;
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 2;
-		}
+		step(4, 2);
 		if (dir == FACING_RIGHT) {
 			if (!solid_wall(x + speed, y)) walk(speed);
 			pic = pbk_enemies.anim("tails_fly_die_right")[anim_step];
@@ -227,12 +222,7 @@ void EnemyTails::onFall() {
 	int yp;
 
 	fall();
-	anim_tick += 1;
-	anim_tick %= 3;
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 2;
-	}
+	step(3, 2);
 
 	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;

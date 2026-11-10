@@ -15,13 +15,7 @@ class ShotHadoken : public Shot {
 	void update() override {
 		static const int SPEED = 8;
 
-		anim_tick += 1;
-		anim_tick %= 2;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 3;
-		}
+		step(2, 3);
 
 		if (anim_step == 2) {
 			pic = NULL;

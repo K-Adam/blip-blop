@@ -28,13 +28,7 @@ void EnemyPikachu::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 8;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 2;
-	}
+	step(8, 2);
 
 	if (x - SPEED < xmin || solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;

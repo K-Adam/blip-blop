@@ -278,12 +278,7 @@ void EnemySonic::onAttackhorizontal() {
 		if (nb_shots == 50) {
 			attack_phase = 0;
 		} else {
-			anim_tick += 1;
-			anim_tick %= 2;
-			if (anim_tick == 0) {
-				anim_step += 1;
-				anim_step %= 5;
-			}
+			step(2, 5);
 			if (dir == FACING_RIGHT) {
 				pic = pbk_enemies.anim("sonic_dash_right")[anim_step];
 			} else {
@@ -383,12 +378,7 @@ void EnemySonic::onAttackvertical() {
 		if (nb_shots == 50) {
 			attack_phase = 0;
 		} else {
-			anim_tick += 1;
-			anim_tick %= 2;
-			if (anim_tick == 0) {
-				anim_step += 1;
-				anim_step %= 5;
-			}
+			step(2, 5);
 			if (dir == FACING_RIGHT) {
 				pic = pbk_enemies.anim("sonic_dash_right")[anim_step];
 			} else {

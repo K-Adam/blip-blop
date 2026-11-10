@@ -15,13 +15,7 @@ class ShotStar : public Shot {
 
 		if (platform_y(x, y) != 0 || platform_y(x, y + 5)) dy = -3 - rand() % 2;
 
-		anim_tick += 1;
-		anim_tick %= 3;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 24;
-		}
+		step(3, 24);
 
 		pic = pbk_enemies.anim("star_shot")[anim_step];
 

@@ -80,13 +80,7 @@ void EnemyBisouZombie::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 15;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(15, 8);
 
 	my_phase = !my_phase;
 

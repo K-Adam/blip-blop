@@ -4,13 +4,7 @@
 void ShotBBCow::update() {
 	y += dy;
 
-	anim_tick += 1;
-	anim_tick %= 8;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(8, 8);
 
 	if (solid_wall(x, y) && y > 50) {
 		pic = NULL;

@@ -19,13 +19,7 @@ class ShotBisouDeadly : public Shot {
 	void update() override {
 		static const int ACCEL = 1;
 
-		anim_tick += 1;
-		anim_tick %= 5;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 2;
-		}
+		step(5, 2);
 
 		if (dx > 0)
 			dir = FACING_RIGHT;

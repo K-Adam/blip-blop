@@ -1091,13 +1091,7 @@ void Ball::onComeBack() {
 	no_scroll1 = true;
 
 	if (y < y_to_go) {
-		anim_tick += 1;
-		anim_tick %= 3;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 8;
-		}
+		step(3, 8);
 
 		y += 5;
 
@@ -1114,13 +1108,7 @@ void Ball::onComeBack() {
 void Ball::onSomersault() {
 	int yp;
 
-	anim_tick += 1;
-	anim_tick %= 3;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(3, 8);
 
 	fall2();
 

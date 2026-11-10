@@ -34,13 +34,7 @@ void EnemyBisouJedi::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 6;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
+	step(6, 8);
 
 	if (x - SPEED < offset + 20 || solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;

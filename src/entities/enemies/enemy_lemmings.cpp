@@ -47,13 +47,7 @@ void EnemyLemmings::update() {
 }
 
 void EnemyLemmings::onWalk() {
-	anim_tick += 1;
-	anim_tick %= 5;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 14;
-	}
+	step(5, 14);
 
 	if (dir == FACING_LEFT) {
 		x -= LEM_SPEED;

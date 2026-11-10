@@ -49,6 +49,12 @@ class Sprite {
 		return tab[anim_step];
 	};
 
+	int step(int delay, int frames) {
+		anim_tick = (anim_tick + 1) % delay;
+		if (anim_tick == 0) anim_step = (anim_step + 1) % frames;
+		return anim_step;
+	}
+
 	inline virtual void render() { draw(x, y, pic); };
 
 	inline virtual void updateDestroyed() {

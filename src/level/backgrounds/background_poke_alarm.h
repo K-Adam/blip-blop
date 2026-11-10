@@ -5,13 +5,7 @@
 class BackgroundPokeAlarm1 : public Sprite {
    public:
 	void update() override {
-		anim_tick += 1;
-		anim_tick %= 3;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 14;
-		}
+		step(3, 14);
 
 		pic = pbk_level.anim("alarm_1")[anim_step];
 		updateDestroyed();
@@ -21,13 +15,7 @@ class BackgroundPokeAlarm1 : public Sprite {
 class BackgroundPokeAlarm2 : public Sprite {
    public:
 	void update() override {
-		anim_tick += 1;
-		anim_tick %= 3;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 14;
-		}
+		step(3, 14);
 
 		pic = pbk_level.anim("alarm_2")[anim_step];
 		updateDestroyed();
@@ -37,13 +25,7 @@ class BackgroundPokeAlarm2 : public Sprite {
 class BackgroundPokeAlarm3 : public Sprite {
    public:
 	void update() override {
-		anim_tick += 1;
-		anim_tick %= 3;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 14;
-		}
+		step(3, 14);
 
 		pic = pbk_level.anim("alarm_3")[anim_step];
 		updateDestroyed();

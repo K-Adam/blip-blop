@@ -9,13 +9,7 @@ ShotLaserSword::ShotLaserSword() : target(NULL), thrower(NULL), isdead(false), r
 ShotLaserSword::~ShotLaserSword() { sbk_level.stop(13); }
 
 void ShotLaserSword::update() {
-	anim_tick += 1;
-	anim_tick %= 4;
-
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 24;
-	}
+	step(4, 24);
 
 	pic = pbk_enemies.anim("jedi_sword_spin")[anim_step];
 
