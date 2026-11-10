@@ -20,7 +20,7 @@ class HUD {
 		} else {
 			DrawLives(player->nb_life, location);
 		}
-		DrawWeapon(player->weapon_id, location);
+		DrawWeapon(player, location);
 
 		if (player->hasUnlimitedAmmo()) {
 			DrawAmmo(-1, false, location);
@@ -61,41 +61,17 @@ class HUD {
 		int dx = location == Location::Left ? 36 : -36;
 		for (int id = 0; id < NB_WEAPONS; id++) {
 			if (id == player->weapon_id || !player->carries(id)) continue;
-			WeaponIcon(id)->BlitScaled(backSurface, x, 50, 0.5);
+			WeaponIcon(player, id)->BlitScaled(backSurface, x, 50, 0.5);
 			x += dx;
 		}
 	}
 
-	void DrawWeapon(int weapon, Location location) {
+	void DrawWeapon(const Ball* player, Location location) {
 		int x = (location == Location::Left) ? 135 : 510;
-		WeaponIcon(weapon)->BlitTo(backSurface, x, 50);
+		WeaponIcon(player, player->weapon_id)->BlitTo(backSurface, x, 50);
 	}
 
-	static const Picture* WeaponIcon(int weapon) {
-		const Picture* pic = nullptr;
-
-		switch (weapon) {
-			case ID_M16:
-				pic = pbk_misc.pic("icon_m16");
-				break;
-			case ID_PM:
-				pic = pbk_misc.pic("icon_pm");
-				break;
-			case ID_LF:
-				pic = pbk_misc.pic("icon_lf");
-				break;
-			case ID_SHOTGUN:
-				pic = pbk_misc.pic("icon_shotgun");
-				break;
-			case ID_LASER:
-				pic = pbk_misc.pic("icon_laser");
-				break;
-			default:
-				assert(false);
-		}
-
-		return pic;
-	}
+	static const Picture* WeaponIcon(const Ball* player, int id) { return pbk_misc.pic(player->weaponAt(id).stats.icon); }
 
 	void DrawBonusStage(Location location) {
 		if (location == Location::Left) {

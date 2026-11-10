@@ -1,7 +1,5 @@
 #include "core/config.h"
 #include "entities/ball.h"
-#include "entities/shots/shot_bb_shotgun.h"
-#include "entities/shots/shot_bb_laser.h"
 #include "entities/shots/shot_bb_cow.h"
 
 #include <algorithm>
@@ -12,117 +10,6 @@ const int anim_walk[] = {0, 1, 2, 1};
 const int anim_jump[] = {2, 2, 2, 1, 1, 0, 0, 3, 3, 3, 3};
 
 const int hop_offsets[] = {0, 2, 4, 2};
-
-const int anim_m16_flash[] = {0, 1, 2, 1, 0};
-const int anim_pm_flash[] = {0, 1, 2, 1, 0};
-const int anim_shotgun_flash[] = {0, 1, 2, 1, 0};
-
-const int dx_m16[] = {3, 6, 0, 2, 7, -7, -2, 0, -6, -3};
-const int dy_m16[] = {-15, -9, -12, -10, -10, -10, -10, -12, -9, -15};
-
-const int dx_pm[] = {2, 6, 0, 0, 7, -7, 0, 0, -6, -2};
-const int dy_pm[] = {-12, -6, -10, -15, -9, -9, -15, -10, -6, -12};
-
-const int dx_lf[] = {-10, -10, -10, -10, -10, 10, 10, 10, 10, 10};
-const int dy_lf[] = {-10, -10, -10, -10, -10, -10, -10, -10, -10, -10};
-
-const int dx_shotgun[] = {1, -4, -6, -4, -4, 4, 4, 6, 4, -1};
-const int dy_shotgun[] = {-14, -12, -11, -10, -9, -9, -10, -11, -12, -14};
-
-const int dx_hand_shotgun[] = {0, 17, 24, 18, -3, 3, -18, -24, -17, 0};
-const int dy_hand_shotgun[] = {16, 10, -10, -31, -40, -38, -31, -10, 10, 16};
-
-const int dx_laser[] = {1, -4, -6, -4, -4, 4, 4, 6, 4, -1};
-const int dy_laser[] = {-12, -12, -11, -10, -9, -9, -10, -11, -12, -11};
-
-const int dx_laser_part[] = {-2, -1, 0, 3, -1, 1, -3, 0, 0, 2};
-const int dy_laser_part[] = {-6, -5, -8, -13, -15, -15, -13, -8, -5, -5};
-
-const int dx_m16_flash[] = {-2, 20, 30, 22, -3, 3, -21, -30, -20, 2};
-const int dy_m16_flash[] = {24, 20, -9, -31, -49, -49, -31, -9, 20, 24};
-
-const int dx_m16o_flash[] = {1, 17, 22, 15, -4, 4, -15, -23, -20, -1};
-const int dy_m16o_flash[] = {16, 9, -10, -25, -33, -33, -25, -10, 8, 16};
-
-const int dx_pm_flash[] = {-6, 12, 12, 11, -6, 6, -11, -12, -13, -1};
-const int dy_pm_flash[] = {6, 5, -11, -22, -28, -30, -22, -11, 5, 6};
-
-const int dx_shotgun_flash[] = {2, 29, 41, 29, -5, 5, -29, -41, -30, -2};
-const int dy_shotgun_flash[] = {33, 21, -12, -44, -57, -57, -44, -12, 21, 33};
-
-const int dx_laser_flash[] = {-3, 24, 37, 29, -1, 0, -29, -37, -24, 2};
-const int dy_laser_flash[] = {32, 21, -8, -39, -53, -53, -39, -8, 21, 32};
-
-const int dx_shot_m16[] = {-2, 25, 35, 27, -3, 3, -26, -30, -25, 2};
-const int dy_shot_m16[] = {29, 25, -9, -36, -54, -54, -36, -9, 25, 29};
-
-const int dx_shot_pm[] = {-2, 25, 35, 27, -3, 3, -26, -30, -25, 2};
-const int dy_shot_pm[] = {29, 25, -9, -36, -54, -54, -36, -9, 25, 29};
-
-const int dx_shot_shotgun[] = {2, 29, 41, 29, -5, 5, -29, -41, -30, -2};
-const int dy_shot_shotgun[] = {33, 21, -12, -44, -57, -57, -44, -12, 21, 33};
-const int dx_shot_laser[] = {-2, 42, 57, 56, 0, 1, -56, -57, -42, 3};
-const int dy_shot_laser[] = {52, 33, -10, -71, -73, -73, -71, -10, 33, 52};
-
-const int dx_shot_lf[] = {-2, 32, 44, 31, 0, 1, -31, -44, -32, 2};
-const int dy_shot_lf[] = {46, 33, -7, -46, -63, -63, -46, -7, 33, 46};
-
-const int x_recoil[][5] = {
-	{0, 0, 0, 0, 0},	 // BBDIR_BAS_B_D
-	{0, -1, -2, -1, 0},	 // BBDIR_BAS_DROITE
-	{0, -2, -3, -2, 0},	 // BBDIR_DROITE
-	{0, -1, -2, -1, 0},	 // BBDIR_HAUT_DROITE
-	{0, 0, 0, 0, 0},	 // BBDIR_HAUT_H_D
-	{0, 0, 0, 0, 0},	 // BBDIR_HAUT_H_G
-	{0, 1, 2, 1, 0},	 // BBDIR_HAUT_GAUCHE
-	{0, 2, 3, 2, 0},	 // BBDIR_GAUCHE
-	{0, 1, 2, 1, 0},	 // BBDIR_BAS_GAUCHE
-	{0, 0, 0, 0, 0}		 // BBDIR_BAS_B_G
-};
-
-const int y_recoil[][5] = {
-	{0, -2, -3, -2, 0},	 // BBDIR_BAS_B_D
-	{0, -1, -2, -1, 0},	 // BBDIR_BAS_DROITE
-	{0, 0, 0, 0, 0},	 // BBDIR_DROITE
-	{0, 1, 2, 1, 0},	 // BBDIR_HAUT_DROITE
-	{0, 2, 3, 2, 0},	 // BBDIR_HAUT_H_D
-	{0, 2, 3, 2, 0},	 // BBDIR_HAUT_H_G
-	{0, 1, 2, 1, 0},	 // BBDIR_HAUT_GAUCHE
-	{0, 0, 0, 0, 0},	 // BBDIR_GAUCHE
-	{0, -1, -2, -1, 0},	 // BBDIR_BAS_GAUCHE
-	{0, -2, -3, -2, 0}	 // BBDIR_BAS_B_G
-};
-
-const int x_recoil_shotgun[][5] = {
-	{0, 0, 0, 0, 0},	 // BBDIR_BAS_B_D
-	{0, -2, -4, -2, 0},	 // BBDIR_BAS_DROITE
-	{0, -4, -6, -4, 0},	 // BBDIR_DROITE
-	{0, -2, -4, -2, 0},	 // BBDIR_HAUT_DROITE
-	{0, 0, 0, 0, 0},	 // BBDIR_HAUT_H_D
-	{0, 0, 0, 0, 0},	 // BBDIR_HAUT_H_G
-	{0, 2, 4, 2, 0},	 // BBDIR_HAUT_GAUCHE
-	{0, 4, 6, 4, 0},	 // BBDIR_GAUCHE
-	{0, 2, 4, 2, 0},	 // BBDIR_BAS_GAUCHE
-	{0, 0, 0, 0, 0}		 // BBDIR_BAS_B_G
-};
-
-const int y_recoil_shotgun[][5] = {
-	{0, -4, -6, -4, 0},	 // BBDIR_BAS_B_D
-	{0, -2, -4, -2, 0},	 // BBDIR_BAS_DROITE
-	{0, 0, 0, 0, 0},	 // BBDIR_DROITE
-	{0, 2, 4, 2, 0},	 // BBDIR_HAUT_DROITE
-	{0, 4, 6, 4, 0},	 // BBDIR_HAUT_H_D
-	{0, 4, 6, 4, 0},	 // BBDIR_HAUT_H_G
-	{0, 2, 4, 2, 0},	 // BBDIR_HAUT_GAUCHE
-	{0, 0, 0, 0, 0},	 // BBDIR_GAUCHE
-	{0, -2, -4, -2, 0},	 // BBDIR_BAS_GAUCHE
-	{0, -4, -6, -4, 0}	 // BBDIR_BAS_B_G
-};
-
-// Below low_ammo the player may receive weapon bonuses
-static const struct {
-	int anim_steps, fire_interval, turn_delay, low_ammo;
-} WEAPONS[NB_WEAPONS] = {{5, 10, 1, 0}, {15, 45, 1, 4}, {5, 5, 5, 30}, {5, 1, 5, 100}, {4, 1, 1, 100}};
 
 Ball::Ball(const PictureBank& pbk)
 	: pbk_own(pbk),
@@ -154,13 +41,6 @@ Ball::Ball(const PictureBank& pbk)
 	  time_down(0),
 	  locked_fire(false),
 	  locked_dir(false),
-	  fire_lf(false),
-	  fire_laser(false),
-	  next_m16(0),
-	  next_pm(0),
-	  next_shotgun(0),
-	  next_laser(0),
-	  next_lf(0),
 	  mod_life(0) {
 	dir = BBDIR_RIGHT;
 	col_on = true;
@@ -222,128 +102,17 @@ double Ball::gunAngle() const {
 	return precise ? aim_angle_ : a;
 }
 
-void Ball::gunSector(int& gun_sector, double& residual) const {
+GunPose Ball::gunPose() const {
+	// Hand drawn sprites cover 45 degree steps, the rest of the aim rotates them around the grip
 	double a = gunAngle();
 	bool right = weapon_dir <= BBLIM_RIGHT;
 	// Sprites 0..4 run from down to up on the right, 5..9 from up to down on the left
 	int step = std::clamp((int)std::lround(right ? (a + 90) / 45 : (a - 90) / 45), 0, 4);
-	gun_sector = right ? step : 5 + step;
-	double sector = right ? -90 + 45 * step : 90 + 45 * step;
-	residual = a - sector;
+	double drawn = right ? -90 + 45 * step : 90 + 45 * step;
+	return {right ? step : 5 + step, a - drawn, a};
 }
 
-void Ball::renderWeapon(int xtmp, int ytmp) {
-	// Hand drawn sprites cover 45 degree steps, the rest of the aim rotates them around the grip
-	int gun_sector;
-	double rot;
-	gunSector(gun_sector, rot);
-	int gx = xtmp, gy = ytmp;
-	auto put = [&](int px, int py, const Picture* pic) {
-		if (rot == 0) return draw(px, py, pic);
-		rotateAround(px, py, gx, gy, rot);
-		drawRotated(px, py, pic, rot);
-	};
-	// Shared effects come drawn pointing down only
-	double turn = gunAngle() + 90;
-	auto putTurned = [&](int px, int py, const Picture* pic) {
-		rotateAround(px, py, gx, gy, rot);
-		drawRotated(px, py, pic, turn);
-	};
-
-	int gun_sector2 = gun_sector % 5;
-
-	switch (weapon_id) {
-		case ID_M16:
-			gx = xtmp + dx_m16[gun_sector];
-			gy = ytmp + dy_m16[gun_sector];
-			if (is_firing)
-				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own.anim("gun_m16")[gun_sector]);
-			else
-				put(gx, gy, pbk_own.anim("gun_m16")[gun_sector]);
-			break;
-
-		case ID_PM:
-			gx = xtmp + dx_pm[gun_sector];
-			gy = ytmp + dy_pm[gun_sector];
-			if (is_firing)
-				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own.anim("gun_pm")[gun_sector]);
-			else
-				put(gx, gy, pbk_own.anim("gun_pm")[gun_sector]);
-			break;
-
-		case ID_LF:
-			gx = xtmp + dx_lf[gun_sector];
-			gy = ytmp + dy_lf[gun_sector];
-			put(gx, gy, pbk_own.anim("gun_lf")[gun_sector]);
-			break;
-
-		case ID_SHOTGUN:
-			gx = xtmp + dx_shotgun[gun_sector];
-			gy = ytmp + dy_shotgun[gun_sector];
-			if (is_firing) {
-				if (weapon_step < 5) {	// Recoil
-					put(gx + x_recoil[gun_sector][weapon_step] * 2, gy + y_recoil[gun_sector][weapon_step] * 2, pbk_own.anim("gun_shotgun")[gun_sector]);
-
-					put(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-						ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step], pbk_own.anim("shotgun_hand")[gun_sector2]);
-				} else {  // Reload
-					int ea = (weapon_step - 5) / 2;
-
-					put(gx, gy, pbk_own.anim("gun_shotgun")[gun_sector]);
-					put(xtmp + dx_hand_shotgun[gun_sector] + x_recoil_shotgun[gun_sector][ea],
-						ytmp + dy_hand_shotgun[gun_sector] + y_recoil_shotgun[gun_sector][ea], pbk_own.anim("shotgun_hand")[gun_sector2]);
-				}
-			} else {
-				put(gx, gy, pbk_own.anim("gun_shotgun")[gun_sector]);
-				put(xtmp + dx_hand_shotgun[gun_sector], ytmp + dy_hand_shotgun[gun_sector], pbk_own.anim("shotgun_hand")[gun_sector2]);
-			}
-			break;
-
-		case ID_LASER:
-			gx = xtmp + dx_laser[gun_sector];
-			gy = ytmp + dy_laser[gun_sector];
-			if (is_firing) {
-				put(gx + x_recoil[gun_sector][recoil_step], gy + y_recoil[gun_sector][recoil_step], pbk_own.anim("gun_laser")[gun_sector]);
-				putTurned(xtmp + dx_laser_part[gun_sector] + x_recoil[gun_sector][recoil_step],
-						  ytmp + dy_laser_part[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb.anim("laser_glow")[weapon_step]);
-			} else {
-				put(gx, gy, pbk_own.anim("gun_laser")[gun_sector]);
-			}
-			break;
-	}
-
-	if (is_firing) {
-		switch (weapon_id) {
-			case ID_M16:
-				if (id_ball == ID_BLIP) {
-					putTurned(xtmp + dx_m16_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-							  ytmp + dy_m16_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb.anim("flash_m16")[anim_m16_flash[weapon_step]]);
-				} else {
-					putTurned(xtmp + dx_m16o_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-							  ytmp + dy_m16o_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb.anim("flash_m16")[anim_m16_flash[weapon_step]]);
-				}
-				break;
-
-			case ID_PM:
-				put(xtmp + dx_pm_flash[gun_sector] + x_recoil[gun_sector][recoil_step], ytmp + dy_pm_flash[gun_sector] + y_recoil[gun_sector][recoil_step],
-					pbk_own.anim("flash_pm")[gun_sector * 3 + anim_pm_flash[weapon_step]]);
-				break;
-
-			case ID_SHOTGUN:
-				if (weapon_step < 5)
-					putTurned(xtmp + dx_shotgun_flash[gun_sector] + x_recoil_shotgun[gun_sector][weapon_step],
-							  ytmp + dy_shotgun_flash[gun_sector] + y_recoil_shotgun[gun_sector][weapon_step],
-							  pbk_bb.anim("flash_shotgun")[anim_shotgun_flash[weapon_step]]);
-				break;
-
-			case ID_LASER:
-				if (weapon_dir == dir)
-					putTurned(xtmp + dx_laser_flash[gun_sector] + x_recoil[gun_sector][recoil_step],
-							  ytmp + dy_laser_flash[gun_sector] + y_recoil[gun_sector][recoil_step], pbk_bb.anim("laser_muzzle")[weapon_step]);
-				break;
-		}
-	}
-}
+void Ball::renderWeapon(int xtmp, int ytmp) { weapon().draw(*this, xtmp, ytmp, gunPose()); }
 
 void Ball::renderEye(int xtmp, int ytmp) {
 	int delta;
@@ -394,30 +163,11 @@ void Ball::update() {
 		blink_step %= 4;
 	}
 
-	if (weapon_id == ID_LF) {
-		if (is_firing && !fire_lf) {
-			sbk_bb.play(2, SOUND_LOOP);
-			fire_lf = true;
-		} else if (!is_firing && fire_lf) {
-			sbk_bb.stop(2);
-			fire_lf = false;
-		}
-	} else if (fire_lf) {
-		sbk_bb.stop(2);
-		fire_lf = false;
-	}
-
-	if (weapon_id == ID_LASER) {
-		if (is_firing && !fire_laser) {
-			sbk_bb.play(4, SOUND_LOOP);
-			fire_laser = true;
-		} else if (!is_firing && fire_laser) {
-			sbk_bb.stop(4);
-			fire_laser = false;
-		}
-	} else if (fire_laser) {
-		sbk_bb.stop(4);
-		fire_laser = false;
+	int loop = is_firing ? weapon().stats.loop_sound : -1;
+	if (loop != looping_sound_) {
+		if (looping_sound_ >= 0) sbk_bb.stop(looping_sound_);
+		if (loop >= 0) sbk_bb.play(loop, SOUND_LOOP);
+		looping_sound_ = loop;
 	}
 
 	if (nb_life <= 0) return;
@@ -800,7 +550,7 @@ void Ball::manageDirection() {
 		weapon_dir = 17 - weapon_dir;
 
 	gun_turn_tick += 1;
-	gun_turn_tick %= gun_turn_delay;
+	gun_turn_tick %= weapon().stats.turn_delay;
 
 	if (gun_turn_tick == 0) {
 		if (weapon_dir < dir)
@@ -833,7 +583,7 @@ void Ball::updateWeapon() {
 
 		if (weapon_tick == 0) weapon_step += 1;
 
-		if (weapon_step == nb_weapon_steps) is_firing = false;
+		if (weapon_step == weapon().stats.anim_steps) is_firing = false;
 	}
 
 	// A frame runs zero to several updates, so the press edge is taken here rather than per frame
@@ -846,158 +596,19 @@ void Ball::updateWeapon() {
 		weapon_step = 0;
 		weapon_tick = 0;
 
-		switch (weapon_id) {
-			case ID_M16:
-				break;
+		weapon().pullTrigger();
 
-			case ID_PM:
-				sbk_bb.play(0);
-				break;
-
-			case ID_LF:
-				break;
-
-			case ID_SHOTGUN:
-				break;
-
-			case ID_LASER:
-				break;
-		}
-
-		gun_fire_tick = fire_interval - 1;
+		gun_fire_tick = weapon().stats.fire_interval - 1;
 	}
 
 	recoil_step += 1;
 	recoil_step %= 5;
 
 	gun_fire_tick += 1;
-	gun_fire_tick %= fire_interval;
+	gun_fire_tick %= weapon().stats.fire_interval;
 
-	if (is_firing && gun_fire_tick == 0 && !(gun_turn_delay <= 1 && weapon_dir != dir)) {
-		int gun_sector;
-		double rot;
-		gunSector(gun_sector, rot);
-		// Muzzle of the rotated gun, from the sprite's grip
-		auto muzzle = [&](ShotBB* t, const int* gdx, const int* gdy, int mx, int my) {
-			t->x = x + mx;
-			t->y = y + my;
-			rotateAround(t->x, t->y, x + gdx[gun_sector], y + gdy[gun_sector], rot);
-		};
-
-		ShotBB* t = NULL;
-		int i;
-		// Drawn y first in separate statements, the order MSVC used inside the old calls, so all builds match
-		int jitter_x = 0, jitter_y = 0;
-
-		switch (weapon_id) {
-			case ID_M16:
-
-				sbk_bb.play(3);
-
-				next_m16 = (next_m16 + 1) % NB_SHOTS_M16;
-				t = &shots_m16[next_m16];
-				t->destroyed = false;
-
-				t->hero = this;
-				jitter_y = rand() % 11 - 5;
-				jitter_x = rand() % 11 - 5;
-				muzzle(t, dx_m16, dy_m16, dx_shot_m16[gun_sector] + jitter_x, dy_shot_m16[gun_sector] + jitter_y);
-
-				if (status == STATE_LOCKED_VEHICLE)
-					t->dxScroll = scroll_speed;
-				else
-					t->dxScroll = 0;
-
-				t->setAngle(gunAngle(), 9);
-				list_bb_shots.push_back(t);
-				break;
-
-			case ID_PM:
-
-				next_pm = (next_pm + 1) % NB_SHOTS_PM;
-				t = &shots_pm[next_pm];
-				t->destroyed = false;
-
-				t->hero = this;
-				jitter_y = rand() % 11 - 5;
-				jitter_x = rand() % 11 - 5;
-				muzzle(t, dx_pm, dy_pm, dx_shot_pm[gun_sector] + jitter_x, dy_shot_pm[gun_sector] + jitter_y);
-
-				if (status == STATE_LOCKED_VEHICLE)
-					t->dxScroll = scroll_speed;
-				else
-					t->dxScroll = 0;
-
-				t->setAngle(gunAngle(), 12);
-				list_bb_shots.push_back(t);
-				break;
-
-			case ID_SHOTGUN:
-
-				sbk_bb.play(1);
-
-				for (i = 0; i < 17; i++) {
-					next_shotgun = (next_shotgun + 1) % NB_SHOTS_SHOTGUN;
-					ShotBBShotgun* pellet = &shots_shotgun[next_shotgun];
-					pellet->destroyed = false;
-
-					pellet->hero = this;
-					jitter_y = rand() % 11 - 5;
-					jitter_x = rand() % 11 - 5;
-					muzzle(pellet, dx_shotgun, dy_shotgun, dx_shot_shotgun[gun_sector] + jitter_x, dy_shot_shotgun[gun_sector] + jitter_y);
-
-					if (status == STATE_LOCKED_VEHICLE)
-						pellet->dxScroll = scroll_speed;
-					else
-						pellet->dxScroll = 0;
-
-					pellet->aim(gunAngle());
-					list_bb_shots.push_back(pellet);
-				}
-				break;
-
-			case ID_LASER: {
-				next_laser = (next_laser + 1) % NB_SHOTS_LASER;
-				ShotBBLaser* beam = &shots_laser[next_laser];
-				beam->destroyed = false;
-
-				beam->hero = this;
-				muzzle(beam, dx_laser, dy_laser, dx_shot_laser[gun_sector] + x_recoil[gun_sector][recoil_step],
-					   dy_shot_laser[gun_sector] + y_recoil[gun_sector][recoil_step]);
-				beam->aim(gunAngle());
-				beam->anim_step = weapon_step;
-				list_bb_shots.push_back(beam);
-				break;
-			}
-
-			case ID_LF: {
-				ShotBBLF* puff;
-				next_lf = (next_lf + 1) % NB_SHOTS_LF;
-				puff = &shots_lf[next_lf];
-				puff->destroyed = false;
-
-				puff->deg = 2;
-				puff->hero = this;
-				muzzle(puff, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step],
-					   dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
-				puff->aim(gunAngle());
-
-				list_bb_shots.push_back(puff);
-
-				next_lf = (next_lf + 1) % NB_SHOTS_LF;
-				puff = &shots_lf[next_lf];
-				puff->destroyed = false;
-
-				puff->deg = 1;
-				puff->hero = this;
-				muzzle(puff, dx_lf, dy_lf, dx_shot_lf[gun_sector] + x_recoil[gun_sector][recoil_step],
-					   dy_shot_lf[gun_sector] + y_recoil[gun_sector][recoil_step]);
-				puff->aim(gunAngle());
-
-				list_bb_shots.push_back(puff);
-				break;
-			}
-		}
+	if (is_firing && gun_fire_tick == 0 && !(weapon().stats.turn_delay <= 1 && weapon_dir != dir)) {
+		weapon().fire(*this, gunPose());
 
 		if (!hasUnlimitedAmmo() && --ammo[weapon_id] == 0) {
 			// The strongest weapon left takes over
@@ -1134,7 +745,7 @@ void Ball::onSomersault() {
 bool Ball::okBonus() {
 	// Every carried weapon counts, or switching to the M16 would farm bonuses
 	for (int id = ID_M16 + 1; id < NB_WEAPONS; id++) {
-		if (ammo[id] > WEAPONS[id].low_ammo) return false;
+		if (ammo[id] > weapons_[id]->stats.low_ammo) return false;
 	}
 	return true;
 }
@@ -1151,9 +762,6 @@ void Ball::setSuperWeapon() {
 
 void Ball::equip(int id) {
 	weapon_id = id;
-	nb_weapon_steps = WEAPONS[id].anim_steps;
-	fire_interval = WEAPONS[id].fire_interval;
-	gun_turn_delay = WEAPONS[id].turn_delay;
 
 	weapon_step = 0;
 	weapon_tick = 0;
