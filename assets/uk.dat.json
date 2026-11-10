@@ -135,6 +135,8 @@
     "831": "START 1 PLAYER GAME",
     "832": "START 2 PLAYERS GAME",
     "833": "EXIT",
-    "834": "CANCEL"
+    "834": "CANCEL",
+    "835": "NEXT WEAPON",
+    "836": "PREV WEAPON"
   }
 }

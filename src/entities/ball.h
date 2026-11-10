@@ -31,8 +31,13 @@ class Ball : public Character, public Player {
 
 	int weapon_id;
 	int weapon_dir;
-	int ammo;
+	// A weapon is carried while it has ammo
+	int ammo[NB_WEAPONS];
 	bool hasUnlimitedAmmo() const { return weapon_id == ID_M16; }
+	bool carries(int id) const { return id == ID_M16 || ammo[id] > 0; }
+	void equip(int id);
+	void dropWeapons();
+	void cycleWeapon(int step);
 
 	int weapon_step;  // Muzzle flash step
 	int weapon_tick;
@@ -130,4 +135,5 @@ class Ball : public Character, public Player {
 	// Hand drawn sprite nearest the gun angle, and what is left to rotate it by
 	void gunSector(int& gun_sector, double& residual) const;
 	double aim_angle_ = 0;
+	bool switch_held_ = false;
 };

@@ -35,6 +35,7 @@ Pad* Input::padById(SDL_JoystickID id) {
 
 void Input::update() {
 	prev_ = cur_;
+	for (int w = 0; w < 2; w++) cur_.mouse[MOUSE_WHEEL_UP + w] = frames_played < wheel_until_[w];
 	mouse_moved_ = new_press_ = false;
 	frames_played++;
 	if (autoquit_frames > 0 && (int)frames_played >= autoquit_frames) app_killed = true;
@@ -105,9 +106,20 @@ void Input::update() {
 
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
-				if (e.button.button < MOUSE_BUTTONS) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
+				// Higher buttons would read as the wheel
+				if (e.button.button < MOUSE_WHEEL_UP) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
 				if (e.button.state == SDL_PRESSED) new_press_ = true;
 				break;
+
+			case SDL_MOUSEWHEEL: {
+				int dy = e.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -e.wheel.y : e.wheel.y;
+				if (dy) {
+					int w = dy > 0 ? 0 : 1;
+					cur_.mouse[MOUSE_WHEEL_UP + w] = true;
+					wheel_until_[w] = frames_played + 2;
+				}
+				break;
+			}
 
 			// SDL already reports these in the 640x480 logical space of the renderer
 			case SDL_MOUSEMOTION:

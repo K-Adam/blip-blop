@@ -139,7 +139,10 @@
 // Mouse buttons use a slot far above the pads, b is an SDL_BUTTON_* index
 #define MOUSE_SLOT 0x80
 #define MOUSE_CODE(b) ((MOUSE_SLOT << 10) | (b))
-#define MOUSE_BUTTONS 6
+// The wheel reads as two buttons held for a few frames after a scroll, so at least one game update sees them
+#define MOUSE_WHEEL_UP 6
+#define MOUSE_WHEEL_DOWN 7
+#define MOUSE_BUTTONS 8
 
 // Device filters for heldCode
 #define DEV_KEYS 1
@@ -172,6 +175,7 @@ class Input {
 	State cur_, prev_;
 	int mouse_x_ = 0, mouse_y_ = 0;
 	bool mouse_moved_ = false, new_press_ = false;
+	std::uint32_t wheel_until_[2] = {};
 	unsigned int aliastab[256] = {};
 	std::vector<std::pair<std::uint32_t, SDL_Keycode>> script_;
 

@@ -6,8 +6,7 @@
 
 struct WeaponSpec {
 	const char* pic;
-	int sound, id, ammo, max_ammo, anim_steps, shot_interval, turn_delay;
-	bool light;
+	int sound, id, ammo, max_ammo;
 };
 
 class BonusWeapon : public Bonus {
@@ -18,26 +17,11 @@ class BonusWeapon : public Bonus {
 	}
 
 	void onPickup(Ball* c) override {
-		// A light weapon must not replace a well stocked flamethrower or laser
-		if (w_.light && (c->weapon_id == ID_LF || c->weapon_id == ID_LASER) && c->ammo >= 100) return;
-
 		sbk_misc.play(w_.sound);
 
-		if (c->weapon_id == w_.id) {
-			c->ammo = std::min(c->ammo + w_.ammo, w_.max_ammo);
-		} else {
-			c->weapon_id = w_.id;
-			c->ammo = w_.ammo;
-			c->weapon_anim_delay = 3;
-			c->nb_weapon_steps = w_.anim_steps;
-			c->fire_interval = w_.shot_interval;
-			c->gun_turn_delay = w_.turn_delay;
-
-			c->weapon_step = 0;
-			c->weapon_tick = 0;
-			c->recoil_step = 0;
-			c->is_firing = false;
-		}
+		bool carried = c->carries(w_.id);
+		c->ammo[w_.id] = std::min(c->ammo[w_.id] + w_.ammo, w_.max_ammo);
+		if (!carried) c->equip(w_.id);
 
 		Bonus::onPickup(c);
 	}
@@ -48,20 +32,20 @@ class BonusWeapon : public Bonus {
 
 class BonusPM : public BonusWeapon {
    public:
-	BonusPM() : BonusWeapon({"icon_pm", 4, ID_PM, 200, 400, 5, 5, 5, true}) {}
+	BonusPM() : BonusWeapon({"icon_pm", 4, ID_PM, 200, 400}) {}
 };
 
 class BonusShotgun : public BonusWeapon {
    public:
-	BonusShotgun() : BonusWeapon({"icon_shotgun", 0, ID_SHOTGUN, 20, 40, 15, 45, 1, true}) {}
+	BonusShotgun() : BonusWeapon({"icon_shotgun", 0, ID_SHOTGUN, 20, 40}) {}
 };
 
 class BonusLaser : public BonusWeapon {
    public:
-	BonusLaser() : BonusWeapon({"icon_laser", 3, ID_LASER, 750, 1500, 4, 1, 1, false}) {}
+	BonusLaser() : BonusWeapon({"icon_laser", 3, ID_LASER, 750, 1500}) {}
 };
 
 class BonusLF : public BonusWeapon {
    public:
-	BonusLF() : BonusWeapon({"icon_lf", 2, ID_LF, 1000, 2000, 5, 1, 5, false}) {}
+	BonusLF() : BonusWeapon({"icon_lf", 2, ID_LF, 1000, 2000}) {}
 };

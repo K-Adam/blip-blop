@@ -25,9 +25,10 @@ class HUD {
 		if (player->hasUnlimitedAmmo()) {
 			DrawAmmo(-1, false, location);
 		} else {
-			DrawAmmo(player->ammo, player->is_firing, location);
+			DrawAmmo(player->ammo[player->weapon_id], player->is_firing, location);
 		}
 		DrawCowBomb(player->nb_cow_bomb, location);
+		DrawInventory(player, location);
 	}
 
    private:
@@ -54,7 +55,23 @@ class HUD {
 		}
 	}
 
+	void DrawInventory(const Ball* player, Location location) {
+		// Grows toward the middle of the screen, away from the weapon in hand
+		int x = location == Location::Left ? 190 : 455;
+		int dx = location == Location::Left ? 36 : -36;
+		for (int id = 0; id < NB_WEAPONS; id++) {
+			if (id == player->weapon_id || !player->carries(id)) continue;
+			WeaponIcon(id)->BlitScaled(backSurface, x, 50, 0.5);
+			x += dx;
+		}
+	}
+
 	void DrawWeapon(int weapon, Location location) {
+		int x = (location == Location::Left) ? 135 : 510;
+		WeaponIcon(weapon)->BlitTo(backSurface, x, 50);
+	}
+
+	static const Picture* WeaponIcon(int weapon) {
 		const Picture* pic = nullptr;
 
 		switch (weapon) {
@@ -77,8 +94,7 @@ class HUD {
 				assert(false);
 		}
 
-		int x = (location == Location::Left) ? 135 : 510;
-		pic->BlitTo(backSurface, x, 50);
+		return pic;
 	}
 
 	void DrawBonusStage(Location location) {

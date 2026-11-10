@@ -17,6 +17,10 @@ static std::string mouse_to_string(int n, bool fr) {
 			return fr ? "SOURIS DROITE" : "MOUSE RIGHT";
 		case SDL_BUTTON_MIDDLE:
 			return fr ? "SOURIS MILIEU" : "MOUSE MIDDLE";
+		case MOUSE_WHEEL_UP:
+			return fr ? "MOLETTE HAUT" : "WHEEL UP";
+		case MOUSE_WHEEL_DOWN:
+			return fr ? "MOLETTE BAS" : "WHEEL DOWN";
 	}
 	return (fr ? "SOURIS " : "MOUSE ") + std::to_string(n & 0x3FF);
 }

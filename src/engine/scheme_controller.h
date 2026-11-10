@@ -26,6 +26,8 @@ class SchemeController : public Controller {
 	int fire() const override { return in.scanCode(code(ACTION_FIRE)); }
 	int jump() const override { return in.scanCode(code(ACTION_JUMP)); }
 	int super() const override { return in.scanCode(code(ACTION_SUPER)); }
+	int nextWeapon() const override { return in.scanCode(code(ACTION_NEXT_WEAPON)); }
+	int prevWeapon() const override { return in.scanCode(code(ACTION_PREV_WEAPON)); }
 
 	void aim(int px, int py, int& vx, int& vy) const override {
 		if (scheme_ == SCHEME_PAD) {

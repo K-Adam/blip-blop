@@ -277,11 +277,6 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 				player1->y_to_go = ystart1;
 			}
 
-			player1->weapon_id = ID_M16;
-			player1->weapon_anim_delay = 3;
-			player1->nb_weapon_steps = 5;
-			player1->fire_interval = 10;
-			player1->gun_turn_delay = 1;
 			player1->perfect = true;
 			player1->hp = 5;
 
@@ -299,11 +294,6 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 				player2->y_to_go = ystart2;
 			}
 
-			player2->weapon_id = ID_M16;
-			player2->weapon_anim_delay = 3;
-			player2->nb_weapon_steps = 5;
-			player2->fire_interval = 10;
-			player2->gun_turn_delay = 1;
 			player2->perfect = true;
 			player2->hp = 5;
 
@@ -1248,7 +1238,7 @@ void Game::updateCheat() {
 	if (!cheat_on) return;
 
 	if (player1 != NULL) {
-		if (in.scanKey(DIK_F1)) player1->ammo += 10;
+		if (in.scanKey(DIK_F1)) player1->ammo[player1->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
 
@@ -1264,7 +1254,7 @@ void Game::updateCheat() {
 	}
 
 	if (player2 != NULL) {
-		if (in.scanKey(DIK_F5)) player2->ammo += 10;
+		if (in.scanKey(DIK_F5)) player2->ammo[player2->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
 

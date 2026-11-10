@@ -9,7 +9,7 @@
 #include "engine/key_translator.h"
 #include "menus/txt_defines.h"
 
-static const int ACTION_TEXT[NB_ACTIONS] = {TXT_UP, TXT_DOWN, TXT_LEFT, TXT_RIGHT, TXT_FIRE, TXT_JUMP, TXT_SPECIAL};
+static const int ACTION_TEXT[NB_ACTIONS] = {TXT_UP, TXT_DOWN, TXT_LEFT, TXT_RIGHT, TXT_FIRE, TXT_JUMP, TXT_SPECIAL, TXT_NEXT_WEAPON, TXT_PREV_WEAPON};
 
 KeysMenu::KeysMenu(int scheme)
 	: scheme_(scheme),

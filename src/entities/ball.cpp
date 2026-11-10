@@ -121,6 +121,11 @@ const int y_recoil_shotgun[][5] = {
 	{0, -4, -6, -4, 0}	 // BBDIR_BAS_B_G
 };
 
+// Below low_ammo the player may receive weapon bonuses
+static const struct {
+	int anim_steps, fire_interval, turn_delay, low_ammo;
+} WEAPONS[NB_WEAPONS] = {{5, 10, 1, 0}, {15, 45, 1, 4}, {5, 5, 5, 30}, {5, 1, 5, 100}, {4, 1, 1, 100}};
+
 Ball::Ball(const PictureBank& pbk)
 	: pbk_own(pbk),
 	  perfect(true),
@@ -128,14 +133,11 @@ Ball::Ball(const PictureBank& pbk)
 	  hop_idx(0),
 	  weapon_id(ID_M16),
 	  weapon_dir(0),
-	  ammo(0),
+	  ammo{},
 	  weapon_step(0),
 	  weapon_tick(0),
-	  nb_weapon_steps(5),
 	  weapon_anim_delay(3),
-	  fire_interval(10),
 	  gun_fire_tick(0),
-	  gun_turn_delay(1),
 	  gun_turn_tick(0),
 	  is_firing(false),
 	  dx_jump(0),
@@ -165,6 +167,7 @@ Ball::Ball(const PictureBank& pbk)
 	dir = BBDIR_RIGHT;
 	col_on = true;
 	hp = 5;
+	equip(ID_M16);
 }
 
 void Ball::render() {
@@ -501,16 +504,10 @@ void Ball::update() {
 		hp = 5;
 		weapon_dir = dir = BBDIR_RIGHT;
 		invincible = 400;
-		weapon_id = ID_M16;
-		weapon_anim_delay = 3;
-		nb_weapon_steps = 5;
-		fire_interval = 10;
-		gun_turn_delay = 1;
-		ammo = 0;
+		dropWeapons();
 		pic = pbk_own.anim("jump_right")[2];
 		dy = -5;  // So the eye and gun are drawn at jump height
 		dx_jump = 0;
-		is_firing = false;
 	}
 
 	if (invincible > 0) {
@@ -841,6 +838,11 @@ void Ball::updateWeapon() {
 		if (weapon_step == nb_weapon_steps) is_firing = false;
 	}
 
+	// A frame runs zero to several updates, so the press edge is taken here rather than per frame
+	int step = ctrl->nextWeapon() ? 1 : ctrl->prevWeapon() ? -1 : 0;
+	if (step && !switch_held_) cycleWeapon(step);
+	switch_held_ = step != 0;
+
 	if (!is_firing && ctrl->fire() && !hold_fire) {
 		is_firing = true;
 		weapon_step = 0;
@@ -999,17 +1001,11 @@ void Ball::updateWeapon() {
 			}
 		}
 
-		if (!hasUnlimitedAmmo()) {
-			ammo -= 1;
-
-			if (ammo <= 0) {
-				weapon_id = ID_M16;
-				weapon_anim_delay = 3;
-				nb_weapon_steps = 5;
-				fire_interval = 10;
-				gun_turn_delay = 1;
-				is_firing = false;
-			}
+		if (!hasUnlimitedAmmo() && --ammo[weapon_id] == 0) {
+			// The strongest weapon left takes over
+			int id = NB_WEAPONS - 1;
+			while (!carries(id)) id--;
+			equip(id);
 		}
 	}
 
@@ -1065,6 +1061,7 @@ void Ball::onDie() {
 		weapon_dir = dir = BBDIR_RIGHT;
 		invincible = 400;
 
+		dropWeapons();
 		rearm();
 
 		pic = pbk_own.anim("jump_right")[2];
@@ -1149,36 +1146,46 @@ void Ball::onSomersault() {
 }
 
 bool Ball::okBonus() {
-	return (weapon_id == ID_M16 || (weapon_id == ID_PM && ammo <= 30) || (weapon_id == ID_SHOTGUN && ammo <= 4) || (weapon_id == ID_LF && ammo <= 100) ||
-			(weapon_id == ID_LASER && ammo <= 100));
+	// Every carried weapon counts, or switching to the M16 would farm bonuses
+	for (int id = ID_M16 + 1; id < NB_WEAPONS; id++) {
+		if (ammo[id] > WEAPONS[id].low_ammo) return false;
+	}
+	return true;
 }
 
 void Ball::setSuperWeapon() {
 	if (id_ball == ID_BLIP || !okFlamethrower) {
-		weapon_id = ID_LASER;
-		ammo = 750;
-		weapon_anim_delay = 3;
-		nb_weapon_steps = 4;
-		fire_interval = 1;
-		gun_turn_delay = 1;
-
-		weapon_step = 0;
-		weapon_tick = 0;
-		recoil_step = 0;
-		is_firing = false;
+		ammo[ID_LASER] = std::max(ammo[ID_LASER], 750);
+		equip(ID_LASER);
 	} else {
-		weapon_id = ID_LF;
-		ammo = 1000;
-		weapon_anim_delay = 3;
-		nb_weapon_steps = 5;
-		fire_interval = 1;
-		gun_turn_delay = 5;
-
-		weapon_step = 0;
-		weapon_tick = 0;
-		recoil_step = 0;
-		is_firing = false;
+		ammo[ID_LF] = std::max(ammo[ID_LF], 1000);
+		equip(ID_LF);
 	}
+}
+
+void Ball::equip(int id) {
+	weapon_id = id;
+	nb_weapon_steps = WEAPONS[id].anim_steps;
+	fire_interval = WEAPONS[id].fire_interval;
+	gun_turn_delay = WEAPONS[id].turn_delay;
+
+	weapon_step = 0;
+	weapon_tick = 0;
+	recoil_step = 0;
+	is_firing = false;
+}
+
+void Ball::dropWeapons() {
+	std::fill(std::begin(ammo), std::end(ammo), 0);
+	equip(ID_M16);
+}
+
+void Ball::cycleWeapon(int step) {
+	int id = weapon_id;
+	do {
+		id = (id + step + NB_WEAPONS) % NB_WEAPONS;
+	} while (!carries(id));
+	if (id != weapon_id) equip(id);
 }
 
 void Ball::colFromPic() {
