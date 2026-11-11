@@ -50,7 +50,7 @@ The game loads `assets/` and `config/` from the working directory. Run it from t
       pip install clang-format==13.0.1
       git config core.hooksPath .githooks
 
-- **Tests:** `ctest --test-dir build -C Release`. These GoogleTest end to end tests run the game headless with scripted input. They check the log for expected lines and that two runs draw identical frames.
+- **Tests:** `ctest --test-dir build -C Release`. These GoogleTest integration tests run the game in-process with headless SDL. They load the real levels and step them frame by frame to check loading, movement, level reset and that the same inputs give the same outcome.
 - **CI:** every push builds on Linux, Windows and Emscripten, and checks formatting. Pushes to `main` deploy the web build to GitHub Pages.
 
 ### Command line

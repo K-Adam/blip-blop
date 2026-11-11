@@ -4,7 +4,11 @@
 #include "engine/graphics.h"
 #include "level/world.h"
 
-void ScrollRenderer::init() { buffer_.reset(graphics.CreateSurface(WIDTH, 480)); }
+// Created on first use so the renderer needs no setup call after the window opens
+SDL::Surface* ScrollRenderer::buffer() {
+	if (!buffer_) buffer_.reset(graphics.CreateSurface(WIDTH, 480));
+	return buffer_.get();
+}
 
 void ScrollRenderer::reset() {
 	next_x_ = 0;
@@ -34,7 +38,7 @@ void ScrollRenderer::draw(Camera& camera, const Terrain& terrain) {
 		r.left = x_tex_;
 		r.right = x_tex_ + 2;
 
-		assets().pics.decor.anim("screens")[terrain.decor[n_img_]]->BlitPart(buffer_.get(), next_x_, 0, r);
+		assets().pics.decor.anim("screens")[terrain.decor[n_img_]]->BlitPart(buffer(), next_x_, 0, r);
 
 		x_tex_ += 2;
 
@@ -55,17 +59,17 @@ void ScrollRenderer::draw(Camera& camera, const Terrain& terrain) {
 		r.left = x1;
 		r.right = x1 + 640;
 
-		graphics.back()->BltFast(0, 0, buffer_.get(), &r);
+		graphics.back()->BltFast(0, 0, buffer(), &r);
 	} else {
 		r.left = x1;
 		r.right = WIDTH;
 
-		graphics.back()->BltFast(0, 0, buffer_.get(), &r);
+		graphics.back()->BltFast(0, 0, buffer(), &r);
 
 		r.left = 0;
 		r.right = x2;
 
-		graphics.back()->BltFast(WIDTH - x1, 0, buffer_.get(), &r);
+		graphics.back()->BltFast(WIDTH - x1, 0, buffer(), &r);
 	}
 }
 
@@ -126,24 +130,24 @@ bool ScrollRenderer::stamp(int x, int y, const Picture* pic) {
 		r.left = next_x_;
 		r.right = WIDTH;
 
-		clippedBlit(buffer_.get(), pic, x, y, &r);
+		clippedBlit(buffer(), pic, x, y, &r);
 
 		r.left = 0;
 		r.right = next_x_;
 
-		clippedBlit(buffer_.get(), pic, x - WIDTH, y, &r);
+		clippedBlit(buffer(), pic, x - WIDTH, y, &r);
 
 		return true;
 	} else if (ni == n_cache_) {
 		r.left = 0;
 		r.right = next_x_;
 
-		clippedBlit(buffer_.get(), pic, x, y, &r);
+		clippedBlit(buffer(), pic, x, y, &r);
 
 		r.left = next_x_;
 		r.right = WIDTH;
 
-		clippedBlit(buffer_.get(), pic, x + WIDTH, y, &r);
+		clippedBlit(buffer(), pic, x + WIDTH, y, &r);
 
 		return true;
 	}

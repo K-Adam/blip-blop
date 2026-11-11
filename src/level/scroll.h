@@ -13,13 +13,14 @@ class ScrollRenderer {
    public:
 	static constexpr int WIDTH = 840;
 
-	void init();
 	void reset();
 	void draw(Camera& camera, const Terrain& terrain);
 	// Stamps pic into the cached decor, false when x is not cached
 	bool stamp(int x, int y, const Picture* pic);
 
    private:
+	SDL::Surface* buffer();
+
 	std::unique_ptr<SDL::Surface> buffer_;
 	int next_x_ = 0;
 	int x_tex_ = 0;
