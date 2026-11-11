@@ -91,16 +91,16 @@ void EnemyPapaSmurf::onAtata() {
 			dx = 1;
 		}
 
-		int x2 = x + dx;
+		int x_next = x + dx;
 
-		if (!level().terrain.solid_wall(x2, y) && x2 > level().camera.offset + 50 && x2 < level().camera.offset + 600) x = x2;
+		if (!level().terrain.solid_wall(x_next, y) && x_next > level().camera.offset + 50 && x_next < level().camera.offset + 600) x = x_next;
 	}
 }
 
 void EnemyPapaSmurf::onWalk() {
-	int x2 = x + dx;
+	int x_next = x + dx;
 
-	if (!level().terrain.solid_wall(x2, y) && x2 > level().camera.offset + 50 && x2 < level().camera.offset + 600) x = x2;
+	if (!level().terrain.solid_wall(x_next, y) && x_next > level().camera.offset + 50 && x_next < level().camera.offset + 600) x = x_next;
 
 	if (dx <= 0) {
 		if (dir == FACING_LEFT)

@@ -67,7 +67,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 		for (auto item_it = items.begin(); item_it != items.end(); ++item_it) {
 			auto item = *item_it;
 
-			std::string name = item["name"];
+			std::string item_name = item["name"];
 			std::stringstream param_stream;
 
 			bool first = true;
@@ -80,7 +80,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 				param_stream << " " << param;
 			}
 
-			file_ << name << "(" << param_stream.str() << ")";
+			file_ << item_name << "(" << param_stream.str() << ")";
 
 			if ((block_it + 1) != blocks.end() || (item_it + 1) != items.end()) {
 				file_ << "\n";

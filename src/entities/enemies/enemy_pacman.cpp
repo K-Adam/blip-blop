@@ -90,4 +90,4 @@ void EnemyPacman::render() {
 	Sprite::render();
 }
 
-void EnemyPacman::takeHit(Shot* shot) {}
+void EnemyPacman::takeHit(Shot*) {}

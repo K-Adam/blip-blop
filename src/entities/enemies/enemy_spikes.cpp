@@ -80,4 +80,4 @@ void EnemySpikes::colFromPic() {
 	x1 += 25;
 }
 
-void EnemySpikes::takeHit(Shot* shot) {}
+void EnemySpikes::takeHit(Shot*) {}

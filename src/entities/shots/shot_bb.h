@@ -30,9 +30,9 @@ class ShotBB : public Shot {
 	// For sprites drawn pointing down, turned to the shot angle
 	void drawAlongAngle() const { drawRotated(x, y, pic, angle_ + 90); }
 	void colAlongAngle();
-	void push(double dx, double dy) {
-		fx_ += dx;
-		fy_ += dy;
+	void push(double ddx, double ddy) {
+		fx_ += ddx;
+		fy_ += ddy;
 	}
 	void accelerate(double dvx, double dvy) {
 		vx_ += dvx;

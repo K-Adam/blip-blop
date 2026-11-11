@@ -622,7 +622,7 @@ void Ball::updateWeapon() {
 	y = yback;
 }
 
-void Ball::takeHit(const Shot* shot) {}
+void Ball::takeHit(const Shot*) {}
 
 void Ball::takeHit(int damage) {
 	if (invincible > 0 || status == STATE_DYING) return;

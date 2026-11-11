@@ -67,7 +67,7 @@ void EnemyBisouSIB::update() {
 	updateDestroyed();
 }
 
-void EnemyBisouSIB::takeHit(Shot* shot) {
+void EnemyBisouSIB::takeHit(Shot*) {
 	if (++hits_taken > 300) {
 		if (status == STATE_WAITING_HURT)
 			status = STATE_HURT_RECOVER;

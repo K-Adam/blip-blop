@@ -323,4 +323,4 @@ void EnemyMarioHologram::fall_mario() {
 		y += dy;
 }
 
-void EnemyMarioHologram::takeHit(Shot* shot) {}
+void EnemyMarioHologram::takeHit(Shot*) {}

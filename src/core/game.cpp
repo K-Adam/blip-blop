@@ -183,10 +183,11 @@ Task<> Game::playGame(int player_count, int player_idx) {
 }
 
 Task<bool> Game::playLevel(const char* level_name, int type) {
-	int p1_life;  // Restored after a bonus level
-	bool p1_bringBack;
-	int p2_life;
-	bool p2_bringBack;
+	// Restored after a bonus level
+	int p1_life = 0;
+	bool p1_bringBack = false;
+	int p2_life = 0;
+	bool p2_bringBack = false;
 
 	players_dead = false;
 	level_done = false;
@@ -217,8 +218,6 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 			if (p1_life > 0) player1->nb_life = 1;
 		}
-	} else {
-		p1_bringBack = false;
 	}
 
 	if (player2 != NULL && player2->nb_life > 0) {
@@ -236,8 +235,6 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 			if (p2_life > 0) player2->nb_life = 1;
 		}
-	} else {
-		p2_bringBack = false;
 	}
 
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
@@ -815,13 +812,6 @@ void Game::drawAll(bool flip) {
 	DrawCollection(entities.cool_texts);
 
 	drawDebugInfos();
-
-	Rect r;
-
-	r.top = 0;
-	r.left = 0;
-	r.right = 640;
-	r.bottom = 480;
 
 	if (flip) {
 		graphics.Flip();
@@ -1528,16 +1518,7 @@ bool Game::loadList(const char* file_path) {
 	return true;
 }
 
-void Game::drawLoading() {
-	Rect r;
-
-	r.left = 0;
-	r.right = 640;
-	r.top = 195;
-	r.bottom = 245;
-
-	assets().fonts.cool.printC(graphics.back(), 320, 205, "LOADING");
-}
+void Game::drawLoading() { assets().fonts.cool.printC(graphics.back(), 320, 205, "LOADING"); }
 
 Task<> Game::getHiscore() {
 	if (player1 != NULL && hiScores().isGood(player1->getScore())) co_await getName(player1.get(), 1);

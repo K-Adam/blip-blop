@@ -19,6 +19,7 @@ void EnemySmurfFarmer::update() {
 	switch (status) {
 		case STATE_DYING:
 			onDie();
+			[[fallthrough]];
 		case STATE_NORMAL:
 		case STATE_WALK:
 			onWalk();

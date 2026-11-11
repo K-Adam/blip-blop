@@ -183,7 +183,7 @@ bool RPGPlayer::updateScene() {
 			buffer1_ = buffer1_.substr(0, pos);
 
 			if (buffer1_ == "ifnbj") {
-				if (nb_players != std::stoi(buffer2_)) {
+				if (nb_players != std::stoul(buffer2_)) {
 					while (read() && buffer1_ != "endif")
 						;
 				}
@@ -216,9 +216,9 @@ bool RPGPlayer::updateScene() {
 				wait_.Reset(std::stoi(buffer2_));
 				ready_to_draw = true;
 			} else if (buffer1_ == "flag") {
-				size_t pos = buffer2_.find('.');
-				int val = std::stoi(buffer2_.substr(pos + 1));
-				buffer2_ = buffer2_.substr(0, pos);
+				size_t dot = buffer2_.find('.');
+				int val = std::stoi(buffer2_.substr(dot + 1));
+				buffer2_ = buffer2_.substr(0, dot);
 
 				level().rules.flags[std::stoi(buffer2_)] = val;
 			} else {

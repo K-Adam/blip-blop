@@ -114,14 +114,14 @@ void EnemySmurfHefty::onCharred() {
 void EnemySmurfHefty::onDie() {
 	fall();
 
-	int x2;
+	int x_next;
 
 	if (level().terrain.platform_y(x, y) == 0)
-		x2 = x + dx;
+		x_next = x + dx;
 	else
-		x2 = x;
+		x_next = x;
 
-	if (!level().terrain.solid_wall(x2, y)) x = x2;
+	if (!level().terrain.solid_wall(x_next, y)) x = x_next;
 
 	if (anim_step < 13) {
 		anim_tick += 1;
@@ -224,9 +224,9 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 
 	step(4, 6);
 
-	int x2 = x + dx;
+	int x_next = x + dx;
 
-	if (!level().terrain.solid_wall(x2, y) && x2 > xmin && x2 < level().camera.offset + 740) x = x2;
+	if (!level().terrain.solid_wall(x_next, y) && x_next > xmin && x_next < level().camera.offset + 740) x = x_next;
 
 	if (dy > 0 && level().terrain.platform_y(x, y) != 0) {
 		anim_tick = anim_step = 0;

@@ -38,33 +38,33 @@ void EnemyLara::update() {
 
 void EnemyLara::onWalk() {
 	if (!pics) {
-		Enemy* pic;
+		Enemy* spike;
 		int i, j;
 		for (i = 2; i >= 0; i--) {
 			for (j = 0; j < 6; j++) {
-				pic = new EnemySpikes();
+				spike = new EnemySpikes();
 
 				if (i != 1) {
-					pic->x = 515 + j * 65 - i * 20;
+					spike->x = 515 + j * 65 - i * 20;
 				} else {
-					pic->x = 547 + j * 65 - i * 20;
+					spike->x = 547 + j * 65 - i * 20;
 				}
 
 				switch (i) {
 					case 0:
-						pic->y = 429;
+						spike->y = 429;
 						break;
 					case 1:
-						pic->y = 449;
+						spike->y = 449;
 						break;
 
 					case 2:
-						pic->y = 471;
+						spike->y = 471;
 						break;
 				}
 
-				pic->dir = FACING_LEFT;
-				level().entities.enemies.emplace_back(pic);
+				spike->dir = FACING_LEFT;
+				level().entities.enemies.emplace_back(spike);
 			}
 		}
 
@@ -116,16 +116,16 @@ void EnemyLara::onWalk() {
 			if (dif_y != 0) {
 				int slope = (dif_x * 10) / dif_y;
 				if (slope > 40) {
-					int dx = session().targeted_player->x + 20 - x + 60;
-					int dy = session().targeted_player->y - y + 144;
+					int aim_x = session().targeted_player->x + 20 - x + 60;
+					int aim_y = session().targeted_player->y - y + 144;
 
-					int dist = (int)(sqrt((dx * dx) + (dy * dy)));
+					int dist = (int)(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 					shot->x = x - 60;
 					shot->y = y - 144;
 					level().entities.enemy_shots.emplace_back(shot);
@@ -138,17 +138,17 @@ void EnemyLara::onWalk() {
 					return;
 				} else if (slope > 30) {
 					bust_pic_num = 9;
-					int dx = session().targeted_player->x + 20 - x + 58;
-					int dy = session().targeted_player->y - y + 154;
+					int aim_x = session().targeted_player->x + 20 - x + 58;
+					int aim_y = session().targeted_player->y - y + 154;
 
-					int dist = (int)sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 
 					shot->x = x - 58;
 					shot->y = y - 154;
@@ -160,17 +160,17 @@ void EnemyLara::onWalk() {
 					return;
 
 				} else if (slope > 20) {
-					int dx = session().targeted_player->x + 20 - x + 57;
-					int dy = session().targeted_player->y - y + 165;
+					int aim_x = session().targeted_player->x + 20 - x + 57;
+					int aim_y = session().targeted_player->y - y + 165;
 
-					int dist = (int)sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 
 					shot->x = x - 57;
 					shot->y = y - 165;
@@ -183,17 +183,17 @@ void EnemyLara::onWalk() {
 					return;
 				} else if (slope > 5) {
 					bust_pic_num = 21;
-					int dx = session().targeted_player->x + 20 - x + 53;
-					int dy = session().targeted_player->y - y + 175;
+					int aim_x = session().targeted_player->x + 20 - x + 53;
+					int aim_y = session().targeted_player->y - y + 175;
 
-					int dist = (int)sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 					shot->x = x - 53;
 					shot->y = y - 175;
 					level().entities.enemy_shots.emplace_back(shot);
@@ -207,17 +207,17 @@ void EnemyLara::onWalk() {
 
 					bust_pic_num = 27;
 				} else if (slope > -40) {
-					int dx = session().targeted_player->x + 20 - x + 59;
-					int dy = session().targeted_player->y - y + 129;
+					int aim_x = session().targeted_player->x + 20 - x + 59;
+					int aim_y = session().targeted_player->y - y + 129;
 
-					int dist = (int)sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 
 					shot->x = x - 59;
 					shot->y = y - 129;
@@ -231,17 +231,17 @@ void EnemyLara::onWalk() {
 					onShoot();
 					return;
 				} else {
-					int dx = session().targeted_player->x - x + 60;
-					int dy = session().targeted_player->y - y + 144;
+					int aim_x = session().targeted_player->x - x + 60;
+					int aim_y = session().targeted_player->y - y + 144;
 
-					int dist = (int)sqrt((dx * dx) + (dy * dy));
+					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
 
-					dx = (dx * LARA_SHOT_SPEED) / dist;
-					dy = (dy * LARA_SHOT_SPEED) / dist;
+					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
+					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), dx, dy + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
 
 					shot->x = x - 60;
 					shot->y = y - 144;

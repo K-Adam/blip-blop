@@ -213,8 +213,8 @@ void EnemyBisouShaman::onShoot() {
 				bool use_fireball = false;
 				int xc;
 				int yc;
-				int ddx;
-				int ddy;
+				int ddx = 0;
+				int ddy = 0;
 
 				if (session().targeted_player != NULL) {
 					xc = session().targeted_player->x;

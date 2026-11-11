@@ -12,12 +12,14 @@ list(REMOVE_ITEM SRC ${CMAKE_SOURCE_DIR}/src/core/main.cpp)
 
 # OBJECT so the tests link every translation unit the game does
 add_library(blipblop_core OBJECT ${SRC})
-target_include_directories(blipblop_core PUBLIC src include)
+target_include_directories(blipblop_core PUBLIC src)
+# Vendored third party headers, their warnings are not ours to fix
+target_include_directories(blipblop_core SYSTEM PUBLIC include)
 
 if(MSVC)
-    target_compile_options(blipblop_core PUBLIC /W3 /utf-8)
+    target_compile_options(blipblop_core PUBLIC /W4 /utf-8)
 else()
-    target_compile_options(blipblop_core PUBLIC -Wall)
+    target_compile_options(blipblop_core PUBLIC -Wall -Wextra)
 endif()
 
 add_executable(blipblop src/core/main.cpp)

@@ -598,8 +598,8 @@ void EnemyMario::onBurstVertical() {
 
 			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int x_target = x - attack_step * 100 - rand() % 20;
-			if (x_target < level().camera.offset - 100) {
+			int x_fire = x - attack_step * 100 - rand() % 20;
+			if (x_fire < level().camera.offset - 100) {
 				anim_step = 0;
 				anim_tick = 0;
 				speed = 0;
@@ -608,7 +608,7 @@ void EnemyMario::onBurstVertical() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_target);
+			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_fire);
 
 			shot->setDir(dir);
 			shot->x = x - 38;
@@ -700,8 +700,8 @@ void EnemyMario::onBurstVerticalReverse() {
 
 			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int x_target = level().camera.offset + 640 - attack_step * 100 - rand() % 20;
-			if (x_target > x - 20) {
+			int x_fire = level().camera.offset + 640 - attack_step * 100 - rand() % 20;
+			if (x_fire > x - 20) {
 				anim_step = 0;
 				anim_tick = 0;
 				speed = 0;
@@ -710,7 +710,7 @@ void EnemyMario::onBurstVerticalReverse() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_target);
+			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_fire);
 
 			shot->setDir(dir);
 			shot->x = x - 38;

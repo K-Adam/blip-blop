@@ -14,7 +14,7 @@ class Bonus : public Sprite {
 
 	Bonus() : phi(0), local_phase(0){};
 
-	virtual void onPickup(Ball* c) {
+	virtual void onPickup(Ball*) {
 		destroyed = true;
 		col_on = false;
 	};

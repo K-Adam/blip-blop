@@ -44,7 +44,7 @@ void MenuList::Draw(SDL::Surface* surf) const {
 
 	int y = 240 - (int)items_.size() * 15;
 	for (size_t i = 0; i < items_.size(); ++i) {
-		if (focused_ == i)
+		if ((size_t)focused_ == i)
 			assets().fonts.menus.printC(surf, 320, y, items_[i]);
 		else
 			assets().fonts.menu.printC(surf, 320, y, items_[i]);

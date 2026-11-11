@@ -18,7 +18,7 @@ class Controller {
 	virtual int prevWeapon() const = 0;
 
 	// Aim vector of any length from the player's screen position, the move keys give 8 directions
-	virtual void aim(int px, int py, int& vx, int& vy) const {
+	virtual void aim(int, int, int& vx, int& vy) const {
 		vx = rightHeld() ? 1 : leftHeld() ? -1 : 0;
 		vy = upHeld() ? -1 : downHeld() ? 1 : 0;
 	}

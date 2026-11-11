@@ -66,4 +66,4 @@ void EnemyPacmanCar::render() {
 	Sprite::render();
 }
 
-void EnemyPacmanCar::takeHit(Shot* shot) {}
+void EnemyPacmanCar::takeHit(Shot*) {}
