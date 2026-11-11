@@ -8,15 +8,7 @@
 class EnemyLara : public Enemy {
    private:
 	int bust_pic_num;
-	int attack_delay;
 	int wait_for_attack;
-	int attack_step;
-	int attack_tick;
-	int attack_type;
-	int attack_phase;
-	int nb_rain;
-	int x_target;
-	int y_target;
 	int pics;
 	int rayman_head;
 

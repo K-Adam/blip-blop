@@ -8,8 +8,8 @@ class GoreHeadBisouHeart : public Sprite {
 	bool play_sound;
 
 	GoreHeadBisouHeart() : play_sound(false) {
-		dy = -1 - rand() % 3;
-		dx = -2 + rand() % 5;
+		dy = -1 - rnd() % 3;
+		dx = -2 + rnd() % 5;
 	};
 
 	void update() override {
@@ -18,13 +18,13 @@ class GoreHeadBisouHeart : public Sprite {
 		anim_tick += 1;
 		anim_tick %= 5;
 
-		if (platform_y(x, y) == 0) {
+		if (level().terrain.platform_y(x, y) == 0) {
 			x += dx;
 		}
 
-		if (anim_tick == 0 && (anim_step < 3 || platform_y(x, y) != 0)) {
-			if (!play_sound && platform_y(x, y) != 0) {
-				sbk_misc.play(6 + (rand() % 2));
+		if (anim_tick == 0 && (anim_step < 3 || level().terrain.platform_y(x, y) != 0)) {
+			if (!play_sound && level().terrain.platform_y(x, y) != 0) {
+				assets().sounds.misc.play(6 + (rnd() % 2));
 				play_sound = true;
 			}
 
@@ -37,9 +37,6 @@ class GoreHeadBisouHeart : public Sprite {
 			}
 		}
 
-		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("heart_head_right")[anim_step];
-		else
-			pic = pbk_enemies.anim("heart_head_left")[anim_step];
+		pic = facing(assets().pics.enemies, "heart_head")[anim_step];
 	};
 };

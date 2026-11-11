@@ -3,7 +3,7 @@
 
 EnemyBisouJedi::EnemyBisouJedi() : shoot_step(0), has_sword(true) {
 	hp = 250;
-	wait_shoot = 200 + rand() % 250;
+	wait_shoot = 200 + rnd() % 250;
 }
 
 void EnemyBisouJedi::update() {
@@ -34,41 +34,35 @@ void EnemyBisouJedi::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 6;
+	step(6, 8);
 
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
-
-	if (x - SPEED < offset + 20 || solid_wall(x - SPEED, y))
+	if (x - SPEED < level().camera.offset + 20 || level().terrain.solid_wall(x - SPEED, y))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 600 || solid_wall(x + SPEED, y))
+	else if (x + SPEED > level().camera.offset + 600 || level().terrain.solid_wall(x + SPEED, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("jedi_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("jedi_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("jedi_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("jedi_walk_left")[anim_step];
 	}
 
-	if (shoot_step > wait_shoot && targeted_player != NULL) {
-		ShotLaserSword* t = new ShotLaserSword;
+	if (shoot_step > wait_shoot && session().targeted_player != nullptr) {
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
 		t->dy = 0;
 		t->dx = -20;
 		t->thrower = this;
-		t->target = targeted_player;
+		t->target = session().targeted_player;
 
-		list_enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 
@@ -77,7 +71,7 @@ void EnemyBisouJedi::onWalk() {
 
 void EnemyBisouJedi::onDie() {
 	if (has_sword) {
-		ShotLaserSword* t = new ShotLaserSword;
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
@@ -85,15 +79,15 @@ void EnemyBisouJedi::onDie() {
 		t->dx = -20;
 		t->thrower = this;
 
-		if (targeted_player == NULL)
+		if (session().targeted_player == nullptr)
 			t->isdead = true;
 		else
-			t->target = targeted_player;
+			t->target = session().targeted_player;
 
-		list_enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 
@@ -104,17 +98,14 @@ void EnemyBisouJedi::onDie() {
 		anim_step += 1;
 
 		if (anim_step > 20) {
-			if (platform_y(x, y) != 0) engrave(x, y, pic);
+			if (level().terrain.platform_y(x, y) != 0) engrave(x, y, pic);
 
 			destroyed = true;
 			return;
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("jedi_die_right")[anim_step];
-	else
-		pic = pbk_enemies.anim("jedi_die_left")[anim_step];
+	pic = facing(assets().pics.enemies, "jedi_die")[anim_step];
 }
 
 void EnemyBisouJedi::takeHit(Shot* shot) {
@@ -127,7 +118,7 @@ void EnemyBisouJedi::takeHit(Shot* shot) {
 
 void EnemyBisouJedi::onCharred() {
 	if (has_sword) {
-		ShotLaserSword* t = new ShotLaserSword;
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
@@ -135,15 +126,15 @@ void EnemyBisouJedi::onCharred() {
 		t->dx = -20;
 		t->thrower = this;
 
-		if (targeted_player == NULL)
+		if (session().targeted_player == nullptr)
 			t->isdead = true;
 		else
-			t->target = targeted_player;
+			t->target = session().targeted_player;
 
-		list_enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 
@@ -159,10 +150,7 @@ void EnemyBisouJedi::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("jedi_charred_right")[anim_step];
-	else
-		pic = pbk_enemies.anim("jedi_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "jedi_charred")[anim_step];
 }
 
 void EnemyBisouJedi::render() {
@@ -174,8 +162,8 @@ void EnemyBisouJedi::render() {
 
 	if (has_sword) {
 		if (dir == FACING_RIGHT)
-			draw(x + dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies.anim("jedi_sword_right")[sword_frames[anim_step]]);
+			draw(x + dx_sword[anim_step], y + dy_sword[anim_step], assets().pics.enemies.anim("jedi_sword_right")[sword_frames[anim_step]]);
 		else
-			draw(x - dx_sword[anim_step], y + dy_sword[anim_step], pbk_enemies.anim("jedi_sword_left")[sword_frames[anim_step]]);
+			draw(x - dx_sword[anim_step], y + dy_sword[anim_step], assets().pics.enemies.anim("jedi_sword_left")[sword_frames[anim_step]]);
 	}
 }

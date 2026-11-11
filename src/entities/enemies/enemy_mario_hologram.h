@@ -21,7 +21,6 @@ class EnemyMarioHologram : public Enemy {
 	int wait_for_attack;
 	int attack_step;
 	int attack_type;
-	int attack_phase;
 	int x_target;
 	int y_target;
 

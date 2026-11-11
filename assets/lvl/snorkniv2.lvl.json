@@ -871,7 +871,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967278,
+      "x_activation": -18,
       "id_ennemi": 301,
       "x": 732,
       "y": 385,
@@ -879,7 +879,7 @@
     },
     {
       "event_id": 0,
-      "x_activation": 4294967229,
+      "x_activation": -67,
       "id_ennemi": 300,
       "x": 683,
       "y": 390,
@@ -887,7 +887,7 @@
     },
     {
       "event_id": 18,
-      "x_activation": 4294966955,
+      "x_activation": -341,
       "type": 0,
       "x": 399,
       "y": 363

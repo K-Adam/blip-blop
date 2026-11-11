@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+#include <memory>
 #include <vector>
 
 #include "engine/controller.h"
@@ -7,18 +9,8 @@
 #include "entities/player.h"
 #include "entities/shots/shot.h"
 
-#include "entities/shots/shot_bb_m16.h"
-#include "entities/shots/shot_bb_pm.h"
-#include "entities/shots/shot_bb_shotgun.h"
-#include "entities/shots/shot_bb_laser.h"
-#include "entities/shots/shot_bb_lf.h"
+#include "entities/weapons.h"
 #include "core/constants.h"
-
-#define NB_SHOTS_M16 16
-#define NB_SHOTS_PM 20
-#define NB_SHOTS_SHOTGUN 40
-#define NB_SHOTS_LASER 2
-#define NB_SHOTS_LF 300
 
 class Ball : public Character, public Player {
    public:
@@ -31,18 +23,23 @@ class Ball : public Character, public Player {
 
 	int weapon_id;
 	int weapon_dir;
-	int ammo;
+	// A weapon is carried while it has ammo
+	int ammo[NB_WEAPONS];
 	bool hasUnlimitedAmmo() const { return weapon_id == ID_M16; }
+	bool carries(int id) const { return id == ID_M16 || ammo[id] > 0; }
+	void equip(int id);
+	void dropWeapons();
+	void cycleWeapon(int step);
+	const Weapon& weaponAt(int id) const { return *weapons_[id]; }
+	Weapon& weapon() { return *weapons_[weapon_id]; }
+	const Weapon& weapon() const { return *weapons_[weapon_id]; }
 
 	int weapon_step;  // Muzzle flash step
 	int weapon_tick;
-	int nb_weapon_steps;
 	int weapon_anim_delay;
 
-	int fire_interval;	// Frames between shots
 	int gun_fire_tick;	// Shot timer
 
-	int gun_turn_delay;	 // Gun turning delay
 	int gun_turn_tick;
 
 	bool is_firing;	 // Currently firing
@@ -67,24 +64,6 @@ class Ball : public Character, public Player {
 
 	bool locked_fire;
 	bool locked_dir;
-
-	bool fire_lf;
-	bool fire_laser;
-
-	ShotBBM16 shots_m16[NB_SHOTS_M16];
-	int next_m16;
-
-	ShotBBPM shots_pm[NB_SHOTS_PM];
-	int next_pm;
-
-	ShotBBShotgun shots_shotgun[NB_SHOTS_SHOTGUN];
-	int next_shotgun;
-
-	ShotBBLaser shots_laser[NB_SHOTS_LASER];
-	int next_laser;
-
-	ShotBBLF shots_lf[NB_SHOTS_LF];
-	int next_lf;
 
    public:
 	int mod_life;
@@ -120,14 +99,17 @@ class Ball : public Character, public Player {
 	virtual bool okBonus();
 	virtual void setSuperWeapon();
 	virtual void endLevel() {
-		sbk_bb.stop(2);
-		sbk_bb.stop(4);
+		if (looping_sound_ >= 0) assets().sounds.bb.stop(looping_sound_);
 	};
 
    private:
 	// Drawn and fired angle of the gun, in degrees counterclockwise from the right
 	double gunAngle() const;
-	// Hand drawn sprite nearest the gun angle, and what is left to rotate it by
-	void gunSector(int& gun_sector, double& residual) const;
+	GunPose gunPose() const;
 	double aim_angle_ = 0;
+	bool switch_held_ = false;
+	int looping_sound_ = -1;
+	// Indexed by weapon id
+	std::array<std::unique_ptr<Weapon>, NB_WEAPONS> weapons_{std::make_unique<WeaponM16>(), std::make_unique<WeaponShotgun>(), std::make_unique<WeaponPM>(),
+															 std::make_unique<WeaponLF>(), std::make_unique<WeaponLaser>()};
 };

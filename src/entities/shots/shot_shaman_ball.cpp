@@ -22,9 +22,9 @@ void ShotShamanBall::update() {
 		}
 
 		if (dx > 0)
-			pic = pbk_enemies.anim("shaman_ball_explode_right")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_explode_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("shaman_ball_explode_left")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_explode_left")[anim_step];
 
 	} else if (ok) {
 		if (anim_tick == 0) {
@@ -32,15 +32,15 @@ void ShotShamanBall::update() {
 			anim_step %= 5;
 		}
 
-		if (solid_wall(x, y)) {
+		if (level().terrain.solid_wall(x, y)) {
 			anim_step = anim_tick = 0;
 			boom = true;
 		}
 
 		if (dx > 0)
-			pic = pbk_enemies.anim("shaman_ball_fly_right")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_fly_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("shaman_ball_fly_left")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_fly_left")[anim_step];
 	} else {
 		if (anim_tick == 0) {
 			anim_step += 1;
@@ -52,9 +52,9 @@ void ShotShamanBall::update() {
 		}
 
 		if (dx > 0)
-			pic = pbk_enemies.anim("shaman_ball_appear_right")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_appear_right")[anim_step];
 		else
-			pic = pbk_enemies.anim("shaman_ball_appear_left")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_ball_appear_left")[anim_step];
 	}
 
 	colFromPic();

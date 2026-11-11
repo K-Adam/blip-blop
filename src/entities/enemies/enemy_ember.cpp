@@ -21,25 +21,19 @@ void EnemyEmber::update() {
 void EnemyEmber::onWalk() {
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 8;
+	step(8, 2);
 
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 2;
-	}
-
-	if (x - 1 < xmin || solid_wall(x - 1, y))
+	if (x - 1 < xmin || level().terrain.solid_wall(x - 1, y))
 		dir = FACING_RIGHT;
-	else if (x + 1 > offset + 640 || solid_wall(x + 1, y))
+	else if (x + 1 > level().camera.offset + 640 || level().terrain.solid_wall(x + 1, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(2);
-		pic = pbk_enemies.anim("ember_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("ember_walk_right")[anim_step];
 	} else {
 		walk(-2);
-		pic = pbk_enemies.anim("ember_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("ember_walk_left")[anim_step];
 	}
 
 	colFromPic();
@@ -56,10 +50,7 @@ void EnemyEmber::onDie() {
 	if (anim_step >= 14) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("ember_die_left")[anim_step];
-		else
-			pic = pbk_enemies.anim("ember_die_right")[anim_step];
+		pic = facing(assets().pics.enemies, "ember_die")[anim_step];
 	}
 }
 

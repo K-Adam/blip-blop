@@ -1,0 +1,14 @@
+Checks: >-
+  -*,
+  bugprone-use-after-move,
+  modernize-use-nullptr,
+  modernize-use-override,
+  modernize-use-bool-literals,
+  modernize-redundant-void-arg,
+  modernize-deprecated-headers,
+  modernize-use-using,
+  modernize-use-equals-default,
+  modernize-make-unique,
+  google-readability-casting
+WarningsAsErrors: '*'
+HeaderFilterRegex: '/(src|tests)/'

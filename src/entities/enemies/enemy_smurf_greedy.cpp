@@ -1,11 +1,11 @@
 #include "entities/enemies/enemy_smurf_greedy.h"
 #include "entities/shots/shot_cake.h"
 
-#define STATE_HOLD 15
+constexpr int STATE_HOLD = 15;
 
 EnemySmurfGreedy::EnemySmurfGreedy() : wait_for_shoot(0) {
 	hp = 150;
-	shoot_delay = 50 + rand() % 100;
+	shoot_delay = 50 + rnd() % 100;
 }
 
 void EnemySmurfGreedy::update() {
@@ -33,7 +33,7 @@ void EnemySmurfGreedy::update() {
 			break;
 	}
 
-	if (x < offset - 20) destroyed = true;
+	if (x < level().camera.offset - 20) destroyed = true;
 
 	updateDestroyed();
 }
@@ -43,15 +43,15 @@ void EnemySmurfGreedy::onNormal() {
 
 	wait_for_shoot += 1;
 
-	if (wait_for_shoot > shoot_delay && x > offset && x < offset + 640 && targeted_player != NULL) {
-		sbk_level.play(14 + rand() % 2);
+	if (wait_for_shoot > shoot_delay && x > level().camera.offset && x < level().camera.offset + 640 && session().targeted_player != nullptr) {
+		assets().sounds.level.play(14 + rnd() % 2);
 		status = STATE_SHOOT;
 		wait_for_shoot = 0;
-		shoot_delay = 100 + rand() % 250;
+		shoot_delay = 100 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
-		xtarget = targeted_player->x;
-		ytarget = targeted_player->y;
+		xtarget = session().targeted_player->x;
+		ytarget = session().targeted_player->y;
 
 		if (xtarget > x)
 			dir = FACING_RIGHT;
@@ -61,11 +61,7 @@ void EnemySmurfGreedy::onNormal() {
 		onShoot();
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("smurf_greedy_throw_right")[0];
-	} else {
-		pic = pbk_enemies.anim("smurf_greedy_throw_left")[0];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[0];
 
 	colFromPic();
 }
@@ -77,7 +73,7 @@ void EnemySmurfGreedy::onShoot() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step >= 5) {
-		ShotCake* shot = new ShotCake();
+		auto shot = std::make_unique<ShotCake>();
 
 		shot->setDir(dir);
 
@@ -90,18 +86,14 @@ void EnemySmurfGreedy::onShoot() {
 
 		lobShot(shot->x, shot->y, xtarget, ytarget, shot->dx, shot->dy);
 
-		list_enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		anim_step = 0;
 		status = STATE_HOLD;
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("smurf_greedy_throw_right")[anim_step];
-	} else {
-		pic = pbk_enemies.anim("smurf_greedy_throw_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[anim_step];
 
 	colFromPic();
 }
@@ -115,16 +107,16 @@ void EnemySmurfGreedy::onDie() {
 	if (anim_tick == 0 && anim_step < 11) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		if (!solid_wall(x - 2, y)) x -= 2;
+		if (!level().terrain.solid_wall(x - 2, y)) x -= 2;
 
-		pic = pbk_enemies.anim("smurf_greedy_die_right")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_greedy_die_right")[anim_step];
 	} else {
-		if (!solid_wall(x + 2, y)) x += 2;
+		if (!level().terrain.solid_wall(x + 2, y)) x += 2;
 
-		pic = pbk_enemies.anim("smurf_greedy_die_left")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_greedy_die_left")[anim_step];
 	}
 
-	if (anim_step >= 11 && platform_y(x, y) != 0) {
+	if (anim_step >= 11 && level().terrain.platform_y(x, y) != 0) {
 		destroyed = true;
 		engrave(x, y, pic);
 	}
@@ -142,7 +134,7 @@ void EnemySmurfGreedy::takeHit(Shot* shot) {
 	else
 		dir = FACING_RIGHT;
 
-	if (status == STATE_DYING) sbk_level.play(rand() % 4);
+	if (status == STATE_DYING) assets().sounds.level.play(rnd() % 4);
 }
 
 void EnemySmurfGreedy::onHold() {
@@ -154,11 +146,7 @@ void EnemySmurfGreedy::onHold() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("smurf_greedy_throw_right")[5];
-	} else {
-		pic = pbk_enemies.anim("smurf_greedy_throw_left")[5];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[5];
 
 	colFromPic();
 }
@@ -172,9 +160,6 @@ void EnemySmurfGreedy::onCharred() {
 	if (anim_step == 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
-		else
-			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_burn")[anim_step];
 	}
 }

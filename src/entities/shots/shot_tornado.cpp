@@ -32,7 +32,7 @@ void ShotTornado::update() {
 		return;
 	}
 
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
+	if (x < level().camera.offset - 100 || x > level().camera.offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	speed_tick++;
 	speed_tick %= TORNADO_ACCELERATION;
@@ -47,9 +47,9 @@ void ShotTornado::update() {
 	x += dx;
 
 	if (dx <= 0) {
-		pic = pbk_enemies.anim("snorky_die_left")[9 + anim_step];
+		pic = assets().pics.enemies.anim("snorky_die_left")[9 + anim_step];
 	} else {
-		pic = pbk_enemies.anim("snorky_trunk")[anim_step];
+		pic = assets().pics.enemies.anim("snorky_trunk")[anim_step];
 	}
 	if (anim_step <= 8) {
 		colFromPic();

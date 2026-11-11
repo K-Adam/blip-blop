@@ -1,39 +1,19 @@
 #pragma once
 
-#define FISH_SPEED 1
+#include "entities/sprite.h"
 
-class BackgroundFishRed : public Sprite {
-   private:
-	int dir;
-
+class BackgroundFish : public Sprite {
    public:
-	BackgroundFishRed();
-	void update() override;
-};
+	BackgroundFish(const char* right, const char* left) : right_(right), left_(left) { dir = rnd() % 2; }
 
-class BackgroundFishPurple : public Sprite {
+	void update() override {
+		step(9, 3);
+		x += dir ? 1 : -1;
+		pic = assets().pics.level.anim(dir ? right_ : left_)[anim_step];
+		if (x < level().camera.offset - 100 || x > level().camera.offset + 740) destroyed = true;
+	}
+
    private:
-	int dir;
-
-   public:
-	BackgroundFishPurple();
-	void update() override;
-};
-
-class BackgroundFishRedCamouflaged : public Sprite {
-   private:
-	int dir;
-
-   public:
-	BackgroundFishRedCamouflaged();
-	void update() override;
-};
-
-class BackgroundFishPurpleCamouflaged : public Sprite {
-   private:
-	int dir;
-
-   public:
-	BackgroundFishPurpleCamouflaged();
-	void update() override;
+	const char* right_;
+	const char* left_;
 };

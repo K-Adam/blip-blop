@@ -2,10 +2,12 @@
 
 #include "entities/shots/shot.h"
 
+class EnemyBisouJedi;
+
 class ShotLaserSword : public Shot {
    public:
 	Sprite* target;
-	Sprite* thrower;
+	EnemyBisouJedi* thrower;
 	bool isdead;
 	bool returning;
 	int dx;
@@ -13,7 +15,7 @@ class ShotLaserSword : public Shot {
 	int accel;
 
 	ShotLaserSword();
-	virtual ~ShotLaserSword();
+	~ShotLaserSword() override;
 
 	int damage() const override { return 1; };
 

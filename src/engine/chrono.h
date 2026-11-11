@@ -5,8 +5,14 @@
 
 #include <SDL2/SDL.h>
 
-// Frames played so far, counted once per frame by Input::update
-inline std::uint32_t frames_played = 0;
+// Frames played so far. Only Input::update advances it, once per frame
+class FrameClock {
+	inline static std::uint32_t frames_ = 0;
+	friend class Input;
+
+   public:
+	static std::uint32_t frames() { return frames_; }
+};
 
 // Tests set BB_FIXEDSTEP so time follows frames and every run repeats exactly. Read lazily since
 // global objects build their timers before main
@@ -19,7 +25,7 @@ inline bool fixedStep() {
 inline constexpr int UPDATE_PERIOD_MS = 11;
 
 // One update period per frame in fixed step mode
-inline std::uint32_t now() { return fixedStep() ? frames_played * UPDATE_PERIOD_MS : SDL_GetTicks(); }
+inline std::uint32_t now() { return fixedStep() ? FrameClock::frames() * UPDATE_PERIOD_MS : SDL_GetTicks(); }
 
 class Chrono {
    private:
@@ -49,5 +55,5 @@ class Countdown {
 
 	void Reset(int duration) { end_ = now() + duration; }
 
-	bool is_zero() const { return int(end_) - int(now()) < 0; }
+	bool is_zero() const { return static_cast<int>(end_) - static_cast<int>(now()) < 0; }
 };

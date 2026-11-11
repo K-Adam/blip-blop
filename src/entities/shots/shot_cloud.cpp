@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy.h"
 #include "entities/shots/shot_cloud.h"
 
-ShotCloud::ShotCloud() : shoot_step(0), status(0), lightning(0), lightning_timer(0) { lifespan = 600 + rand() % 400; }
+ShotCloud::ShotCloud() : status(0), shoot_step(0), lightning_timer(0), lightning(0) { lifespan = 600 + rnd() % 400; }
 
 void ShotCloud::update() {
 	switch (status) {
@@ -34,11 +34,11 @@ void ShotCloud::onCreation() {
 	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = FACING_LEFT;
+		if (x > level().camera.offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = FACING_RIGHT;
+		if (x < level().camera.offset + 30) dir = FACING_RIGHT;
 	}
 
 	if (anim_tick == 0) {
@@ -48,7 +48,7 @@ void ShotCloud::onCreation() {
 			anim_tick = anim_step = 0;
 			status = 1;
 		} else {
-			pic = pbk_enemies.anim("cloud_shot_grow")[anim_step];
+			pic = assets().pics.enemies.anim("cloud_shot_grow")[anim_step];
 		}
 	}
 
@@ -72,7 +72,7 @@ void ShotCloud::onDestruction() {
 		if (anim_step >= 3)
 			destroyed = true;
 		else
-			pic = pbk_enemies.anim("cloud_shot_grow")[2 - anim_step];
+			pic = assets().pics.enemies.anim("cloud_shot_grow")[2 - anim_step];
 	}
 
 	noCol();
@@ -89,21 +89,21 @@ void ShotCloud::onNormal() {
 		status = 2;
 	}
 
-	pic = pbk_enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
+	pic = assets().pics.enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
 
 	if (dir == FACING_RIGHT) {
 		x += SPEED;
 
-		if (x > offset + 600) dir = FACING_LEFT;
+		if (x > level().camera.offset + 600) dir = FACING_LEFT;
 	} else {
 		x -= SPEED;
 
-		if (x < offset + 30) dir = FACING_RIGHT;
+		if (x < level().camera.offset + 30) dir = FACING_RIGHT;
 	}
 
 	if (shoot_step == 0) {
-		if (targeted_player != NULL && targeted_player->y > y) {
-			int ddx = x - targeted_player->x;
+		if (session().targeted_player != nullptr && session().targeted_player->y > y) {
+			int ddx = x - session().targeted_player->x;
 
 			if (ddx > -10 && ddx < 10) {
 				shoot_step = 0;
@@ -118,8 +118,7 @@ void ShotCloud::onNormal() {
 }
 
 void ShotCloud::onShoot() {
-	static const int anim[] = {253, 254, 255, 254};
-	static const int SPEED = 1;
+	static const int anim[] = {0, 1, 2, 1};
 
 	lightning_timer += 1;
 	lightning_timer %= 2;
@@ -136,12 +135,12 @@ void ShotCloud::onShoot() {
 		status = 2;
 	}
 
-	pic = pbk_enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
+	pic = assets().pics.enemies.anim("cloud_shot_float")[animate(anim, 4, 9)];
 
 	shoot_step += 1;
 
 	if (shoot_step == 50) {
-		sbk_level.play(24);
+		assets().sounds.level.play(24);
 	}
 
 	if (shoot_step >= 100) {
@@ -156,7 +155,7 @@ void ShotCloud::onShoot() {
 		col_on = true;
 	}
 
-	dy = rand() % 20;
+	dy = rnd() % 20;
 }
 
 void ShotCloud::render() {
@@ -164,7 +163,7 @@ void ShotCloud::render() {
 
 	if (status == 3 && shoot_step > 50) {
 		for (int yy = y - 10 + dy; yy < 480; yy += 100) {
-			draw(x, yy, pbk_enemies.anim("cloud_shot_lightning")[bolt_frame]);
+			draw(x, yy, assets().pics.enemies.anim("cloud_shot_lightning")[bolt_frame]);
 
 			bolt_frame = (bolt_frame + 1) % 4;
 		}

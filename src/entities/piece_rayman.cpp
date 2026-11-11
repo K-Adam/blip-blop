@@ -9,9 +9,9 @@ void PieceRayman::update() {
 	x += dx;
 	fall();
 
-	if (platform_y(x, y) != 0) {
-		game_flag[0] = 2;
-		game_flag[2] = piece;
+	if (level().terrain.platform_y(x, y) != 0) {
+		level().rules.flags[0] = 2;
+		level().rules.flags[2] = piece;
 		engrave(x, y, pic);
 		destroyed = true;
 	}

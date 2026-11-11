@@ -2,16 +2,12 @@
 
 #include <vector>
 
-#include "engine/input.h"
-#include "core/config.h"
 #include "core/debug.h"
 #include "engine/chrono.h"
 #include "engine/errors.h"
 
 // Never destroyed, global picture banks free their textures at exit and need the renderer alive
 Graphics& graphics = *new Graphics;
-SDL::Surface* backSurface = nullptr;
-SDL::Surface* systemSurface = nullptr;
 
 void Graphics::Init() {
 	if (SDL_Init((SDL_INIT_EVERYTHING & ~SDL_INIT_HAPTIC)) == -1) {
@@ -24,7 +20,7 @@ void Graphics::ToggleFullscreen() {
 	SDL_SetWindowFullscreen(window_.get(), fullscreen_ ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 }
 
-void Graphics::SetGfxMode(int width, int height, bool fullscreen) {
+void Graphics::SetGfxMode(int width, int height, bool fullscreen, bool vsync) {
 	fullscreen_ = fullscreen;
 	renderer_.reset();
 #ifdef __EMSCRIPTEN__
@@ -41,7 +37,7 @@ void Graphics::SetGfxMode(int width, int height, bool fullscreen) {
 	// Naming a driver turns batching off unless asked for
 	SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
 #endif
-	Uint32 flags = SDL_RENDERER_TARGETTEXTURE | (vSyncOn ? SDL_RENDERER_PRESENTVSYNC : 0);
+	Uint32 flags = SDL_RENDERER_TARGETTEXTURE | (vsync ? SDL_RENDERER_PRESENTVSYNC : 0);
 	renderer_.reset(SDL_ErrWrap(SDL_CreateRenderer(window_.get(), -1, flags)));
 	// The game draws a fixed 640x480 frame, the renderer scales it to the window and letterboxes the rest
 	SDL_RenderSetLogicalSize(renderer_.get(), width, height);
@@ -49,7 +45,12 @@ void Graphics::SetGfxMode(int width, int height, bool fullscreen) {
 
 void Graphics::SetVSync(bool on) { SDL_RenderSetVSync(renderer_.get(), on); }
 
-SDL::Surface* Graphics::CreateSurface(int width, int height) { return new SDL::Surface(width, height); }
+std::unique_ptr<SDL::Surface> Graphics::CreateSurface(int width, int height) { return std::make_unique<SDL::Surface>(width, height); }
+
+void Graphics::CreateScreens(int width, int height) {
+	back_ = CreateSurface(width, height);
+	spare_ = CreateSurface(width, height);
+}
 
 bool Graphics::TakeTargetsLost() {
 	bool lost = targets_lost_;
@@ -57,9 +58,9 @@ bool Graphics::TakeTargetsLost() {
 	return lost;
 }
 
-// Tests compare these to prove a refactor draws exactly the same frames
 static void PrintFrameHash(SDL::Surface* frame) {
 	static std::uint32_t last = 0;
+	std::uint32_t frames_played = FrameClock::frames();
 	if (frames_played % 60 != 0 || frames_played == last) return;
 	last = frames_played;
 	std::vector<Uint8> pixels(frame->w() * frame->h() * 4);
@@ -75,9 +76,9 @@ void Graphics::Flip() {
 	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
 	SDL_RenderClear(r);
 	// The window shows the frame as opaque, whatever alpha the fills left in it
-	SDL_SetTextureBlendMode(backSurface->Get(), SDL_BLENDMODE_NONE);
-	SDL_RenderCopy(r, backSurface->Get(), nullptr, nullptr);
-	SDL_SetTextureBlendMode(backSurface->Get(), SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(back_->Get(), SDL_BLENDMODE_NONE);
+	SDL_RenderCopy(r, back_->Get(), nullptr, nullptr);
+	SDL_SetTextureBlendMode(back_->Get(), SDL_BLENDMODE_BLEND);
 	SDL_RenderPresent(r);
-	if (autoquit_frames > 0) PrintFrameHash(backSurface);
+	if (frame_hash_) PrintFrameHash(back_.get());
 }

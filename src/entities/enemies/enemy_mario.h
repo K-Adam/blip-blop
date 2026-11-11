@@ -14,7 +14,6 @@ class EnemyMario : public Enemy {
 	int speed;
 	int speed_tick;	 // Acceleration delay
 	int fireball;	 // Fireball held in hands
-	int hologram;
 
 	int attack_delay;
 	int wait_for_attack;

@@ -5,7 +5,7 @@ const int anim_smurf_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySmurf::EnemySmurf() : wait_for_jump(0) {
 	hp = 100;
-	jump_delay = 50 + rand() % 250;
+	jump_delay = 50 + rnd() % 250;
 	dy_jump = -5;
 	speed = 1;
 }
@@ -37,7 +37,7 @@ void EnemySmurf::update() {
 }
 
 void EnemySmurf::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -51,21 +51,21 @@ void EnemySmurf::onWalk() {
 		dy = dy_jump;
 		grav_tick = 0;	// Otherwise jump heights vary
 		wait_for_jump = 0;
-		jump_delay = 50 + rand() % 250;
+		jump_delay = 50 + rnd() % 250;
 		onJump();
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y))
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y))
 		dir = FACING_RIGHT;
-	else if (x + speed > offset + 640 || solid_wall(x + speed, y))
+	else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim("smurf_walk_right")[animate(anim_smurf_walk_right, 8, 5)];
+		pic = assets().pics.enemies.anim("smurf_walk_right")[animate(anim_smurf_walk_right, 8, 5)];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim("smurf_walk_left")[animate(anim_smurf_walk_left, 8, 5)];
+		pic = assets().pics.enemies.anim("smurf_walk_left")[animate(anim_smurf_walk_left, 8, 5)];
 	}
 
 	colFromPic();
@@ -76,7 +76,7 @@ void EnemySmurf::onJump() {
 
 	fall();
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -86,10 +86,10 @@ void EnemySmurf::onJump() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies.pic("smurf_jump_right");
+		pic = assets().pics.enemies.pic("smurf_jump_right");
 	} else {
 		x -= speed;
-		pic = pbk_enemies.pic("smurf_jump_left");
+		pic = assets().pics.enemies.pic("smurf_jump_left");
 	}
 
 	colFromPic();
@@ -109,13 +109,13 @@ void EnemySmurf::onDie() {
 	}
 
 	if (dir == FACING_LEFT) {
-		if (!solid_wall(x - speed, y) && platform_y(x, y) == 0) x -= speed;
+		if (!level().terrain.solid_wall(x - speed, y) && level().terrain.platform_y(x, y) == 0) x -= speed;
 
-		pic = pbk_enemies.anim("smurf_die_left")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_die_left")[anim_step];
 	} else {
-		if (!solid_wall(x + speed, y) && platform_y(x, y) == 0) x += speed;
+		if (!level().terrain.solid_wall(x + speed, y) && level().terrain.platform_y(x, y) == 0) x += speed;
 
-		pic = pbk_enemies.anim("smurf_die_right")[anim_step];
+		pic = assets().pics.enemies.anim("smurf_die_right")[anim_step];
 	}
 }
 
@@ -126,7 +126,7 @@ void EnemySmurf::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter_smurf, dy_splatter_smurf);
 
-	if (status == STATE_DYING) sbk_level.play(4 + rand() % 10);
+	if (status == STATE_DYING) assets().sounds.level.play(4 + rnd() % 10);
 }
 
 void EnemySmurf::onCharred() {
@@ -138,9 +138,6 @@ void EnemySmurf::onCharred() {
 	if (anim_step == 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
-		else
-			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_burn")[anim_step];
 	}
 }

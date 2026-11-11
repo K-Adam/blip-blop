@@ -4,6 +4,8 @@
     "FIRE": "Pad righttrigger",
     "JUMP": "Pad lefttrigger",
     "LEFT": "Pad left",
+    "NEXT_WEAPON": "Pad y",
+    "PREV_WEAPON": "Pad leftshoulder",
     "RIGHT": "Pad right",
     "SUPER": "Pad rightshoulder",
     "UP": "Pad up"
@@ -14,6 +16,8 @@
     "FIRE": "X",
     "JUMP": "Z",
     "LEFT": "Left",
+    "NEXT_WEAPON": "V",
+    "PREV_WEAPON": "Left Shift",
     "RIGHT": "Right",
     "SUPER": "C",
     "UP": "Up"
@@ -23,6 +27,8 @@
     "FIRE": "Mouse 1",
     "JUMP": "W",
     "LEFT": "A",
+    "NEXT_WEAPON": "Mouse 7",
+    "PREV_WEAPON": "Mouse 6",
     "RIGHT": "D",
     "SUPER": "Mouse 3",
     "UP": ""

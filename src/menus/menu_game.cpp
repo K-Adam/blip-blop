@@ -1,10 +1,8 @@
 #include "menus/menu_game.h"
-#include "core/config.h"
 #include "engine/control_alias.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 #include "menus/txt_defines.h"
-#include "core/text_data.h"
 
 int MenuGame::Update() {
 	MenuType next = MenuType(active_->ProcessEvent());
@@ -19,6 +17,9 @@ int MenuGame::Update() {
 			break;
 		case MenuType::Options:
 			active_ = &options_menu_;
+			break;
+		default:
+			break;
 	}
 	return 0;
 }

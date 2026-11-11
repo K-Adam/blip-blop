@@ -1,7 +1,7 @@
 #include "entities/shots/shot_cake.h"
 #include "core/debug.h"
 
-ShotCake::ShotCake() { pic = pbk_enemies.pic("smurf_greedy_cake"); }
+ShotCake::ShotCake() { pic = assets().pics.enemies.pic("smurf_greedy_cake"); }
 
 void ShotCake::update() {
 	grav_tick += 1;
@@ -13,7 +13,7 @@ void ShotCake::update() {
 
 	x += dx;
 
-	if (solid_wall(x, y) || x < offset - 100 || x > offset + 700 || y > 520 || y < -50) destroyed = true;
+	if (level().terrain.solid_wall(x, y) || x < level().camera.offset - 100 || x > level().camera.offset + 700 || y > 520 || y < -50) destroyed = true;
 
 	colFromPic();
 }

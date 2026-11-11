@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rand() % 360; }
+ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rnd() % 360; }
 
 void ShotBisouHeart::update() {
 	y += 1;
@@ -10,7 +10,7 @@ void ShotBisouHeart::update() {
 	phi += 5;
 	phi %= 360;
 
-	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
+	x = xbase + static_cast<int>(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (!ok) {
 		anim_tick += 1;
@@ -22,10 +22,10 @@ void ShotBisouHeart::update() {
 			if (anim_step >= 2) ok = true;
 		}
 
-		pic = pbk_enemies.anim("heart_shot")[anim_step];
+		pic = assets().pics.enemies.anim("heart_shot")[anim_step];
 	}
 
-	if (solid_wall(x, y)) destroyed = true;
+	if (level().terrain.solid_wall(x, y)) destroyed = true;
 
 	colFromPic();
 	updateDestroyed();

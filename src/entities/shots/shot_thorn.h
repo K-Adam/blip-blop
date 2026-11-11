@@ -5,9 +5,9 @@
 class ShotThorn : public Shot {
    public:
 	int dx;
-	bool traverse;
+	bool through_walls;
 
-	ShotThorn(const Picture* p, int vx, int vy);
+	ShotThorn(const Picture* p, int vx, int vy, bool through_walls = false);
 
 	int damage() const override { return 1; };
 

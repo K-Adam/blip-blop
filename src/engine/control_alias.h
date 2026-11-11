@@ -8,7 +8,9 @@
 #define ACTION_FIRE 4
 #define ACTION_JUMP 5
 #define ACTION_SUPER 6
-#define NB_ACTIONS 7
+#define ACTION_NEXT_WEAPON 7
+#define ACTION_PREV_WEAPON 8
+#define NB_ACTIONS 9
 
 #define SCHEME_KEYBOARD 0
 #define SCHEME_MOUSE 10

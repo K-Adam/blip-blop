@@ -1,62 +1,41 @@
-#define BENSOUND_CPP_FILE
-
-#include <fcntl.h>
-#include "core/debug.h"
 #include "engine/sound.h"
 
-Sound::Sound() : sample(NULL), channel(-1) {}
+#include "core/debug.h"
 
-Sound::~Sound() { close(); }
+Audio audio;
 
-bool Sound::load(const char* file_path) {
-	sample = FSOUND_Sample_Load_File(file_path);
+bool Audio::init() {
+	// Music is ogg only, sound effects still work without it
+	if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) == 0) debug << "Mix_Init: " << Mix_GetError() << "\n";
 
-	if (sample == NULL) return false;
-
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		debug << "Mix_OpenAudio: " << Mix_GetError() << "\n";
+		music_ = sound_ = false;
+		return false;
+	}
 	return true;
 }
 
-bool Sound::loadFromMem(void* ptr, int length) {
-	sample = FSOUND_Sample_Load(FSOUND_FREE, (char*)ptr, FSOUND_LOADMEMORY | FSOUND_LOOP_OFF, length);
-
-	if (sample == NULL) {
-		debug << "Sound::loadFromMem\n";
-		return false;
-	}
-
-	channel = -1;
-	loop_count = 0;
-
-	return true;
+void Sound::load(const char* file_path) {
+	chunk_.reset(Mix_LoadWAV(file_path));
+	if (!chunk_) debug << "Mix_LoadWAV(" << file_path << "): " << Mix_GetError() << "\n";
 }
 
 void Sound::play(int flags) {
-	if (flags & SOUND_LOOP) {
-		FSOUND_Sample_SetLoopMode(sample, FSOUND_LOOP_NORMAL);
+	if (!chunk_) return;
 
-		if (loop_count++ == 0) {
-			channel = FSOUND_PlaySound(FSOUND_FREE, sample);
-		}
+	if (flags & SOUND_LOOP) {
+		// Several sources may hold the same looping sound, it stops when the last one releases it
+		if (loop_count_++ == 0) channel_ = Mix_PlayChannel(-1, chunk_.get(), -1);
 	} else {
-		FSOUND_Sample_SetLoopMode(sample, FSOUND_LOOP_OFF);
-		channel = FSOUND_PlaySound(FSOUND_FREE, sample);
+		channel_ = Mix_PlayChannel(-1, chunk_.get(), 0);
 	}
 }
-
-void Sound::setVolume(int v) {}
 
 void Sound::stop() {
-	if (channel != -1) {
-		if (loop_count > 0) {
-			if (--loop_count == 0) {
-				FSOUND_StopSound(channel);
-				channel = -1;
-			}
-		} else {
-			FSOUND_StopSound(channel);
-			channel = -1;
-		}
-	}
-}
+	if (channel_ == -1) return;
+	if (loop_count_ > 0 && --loop_count_ > 0) return;
 
-void Sound::close() { FSOUND_Sample_Free(sample); }
+	Mix_HaltChannel(channel_);
+	channel_ = -1;
+}

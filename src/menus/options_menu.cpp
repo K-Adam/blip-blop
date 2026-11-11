@@ -1,6 +1,6 @@
 #include "menus/options_menu.h"
 
-#include "core/config.h"
+#include "core/app.h"
 #include "engine/input.h"
 
 int OptionsMenu::ProcessEvent() {
@@ -8,7 +8,7 @@ int OptionsMenu::ProcessEvent() {
 	switch (next) {
 		case MenuType::Main:
 			active_menu_ = &options_menu_;
-			save_settings();
+			App::current().save();
 			return MenuType::Main;
 		case MenuType::Options:
 			active_menu_ = &options_menu_;
@@ -22,6 +22,8 @@ int OptionsMenu::ProcessEvent() {
 			active_menu_ = keys;
 			break;
 		}
+		default:
+			break;
 	}
 	return MenuType::Options;
 }

@@ -14,21 +14,21 @@ void ShotBBLF::aim(double angle) {
 	anim_step = 0;
 	anim_tick = 0;
 	delay = 0;
-	type = rand() % 2;
+	type = rnd() % 2;
 	finished = false;
-	pic = NULL;
+	pic = nullptr;
 
 	if (type == 1)
-		speed = 2 + rand() % 2;
+		speed = 2 + rnd() % 2;
 	else if (type == 0)
-		speed = 4 + rand() % 3;
+		speed = 4 + rnd() % 3;
 	else
-		speed = 5 + rand() % 3;
+		speed = 5 + rnd() % 3;
 
 	// A puff leaves along the aim with a little sideways scatter
-	setAngle(angle, 3 + rand() % 3);
+	setAngle(angle, 3 + rnd() % 3);
 	double a = angle * std::numbers::pi / 180;
-	double across = 1 - rand() % 3;
+	double across = 1 - rnd() % 3;
 	accelerate(std::sin(a) * across, std::cos(a) * across);
 }
 
@@ -44,17 +44,17 @@ void ShotBBLF::update() {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb.anim("explosion_a")[anim_step];
+					pic = assets().pics.bb.anim("explosion_a")[anim_step];
 			} else if (type == 1) {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb.anim("explosion_b")[anim_step];
+					pic = assets().pics.bb.anim("explosion_b")[anim_step];
 			} else {
 				if (anim_step < 0)
 					destroyed = true;
 				else
-					pic = pbk_bb.anim("explosion_c")[anim_step];
+					pic = assets().pics.bb.anim("explosion_c")[anim_step];
 			}
 		} else {
 			anim_step += 1;
@@ -63,17 +63,17 @@ void ShotBBLF::update() {
 				if (anim_step >= 5)
 					finished = true;
 				else
-					pic = pbk_bb.anim("explosion_a")[anim_step];
+					pic = assets().pics.bb.anim("explosion_a")[anim_step];
 			} else if (type == 1) {
 				if (anim_step >= 10)
 					finished = true;
 				else
-					pic = pbk_bb.anim("explosion_b")[anim_step];
+					pic = assets().pics.bb.anim("explosion_b")[anim_step];
 			} else {
 				if (anim_step >= 5)
 					finished = true;
 				else
-					pic = pbk_bb.anim("explosion_c")[anim_step];
+					pic = assets().pics.bb.anim("explosion_c")[anim_step];
 			}
 		}
 	}

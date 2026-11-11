@@ -6,5 +6,5 @@ class EventScrollSpeed : public Event {
    public:
 	int speed;
 
-	void doEvent() override { scroll_speed = speed; };
+	void doEvent() override { level().camera.speed = speed; };
 };

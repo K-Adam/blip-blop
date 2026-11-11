@@ -1,14 +1,14 @@
 #include "entities/enemies/enemy_pacman_car.h"
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacmanCar::EnemyPacmanCar() : summoned_pacman(false) {
+EnemyPacmanCar::EnemyPacmanCar() {
 	hp = 1000;
-	pic = pbk_enemies.pic("pacman_car");
+	pic = assets().pics.enemies.pic("pacman_car");
 	wait_end = 0;
 }
 
 void EnemyPacmanCar::update() {
-	if ((game_flag[2] == 1) || (game_flag[2] == 2)) {
+	if ((level().rules.flags[2] == 1) || (level().rules.flags[2] == 2)) {
 		anim_step++;
 		if (anim_step > 160) {
 			fallCar();
@@ -20,20 +20,20 @@ void EnemyPacmanCar::update() {
 				x += 3;
 			} else if (x < 1600) {
 				x += 2;
-			} else if (platform_y2(x, y + dy) == 1) {
-				y = platform_y(x, y + dy);
+			} else if (level().terrain.platform_y2(x, y + dy) == 1) {
+				y = level().terrain.platform_y(x, y + dy);
 
-				game_flag[2] = 3;
+				level().rules.flags[2] = 3;
 
 				anim_step = 0;
 				anim_tick = 0;
 			}
 		}
-	} else if (game_flag[2] == 3) {
+	} else if (level().rules.flags[2] == 3) {
 		wait_end++;
 
-		if (wait_end >= 250 && game_flag[0] < 6) {
-			game_flag[0] = 6;
+		if (wait_end >= 250 && level().rules.flags[0] < 6) {
+			level().rules.flags[0] = 6;
 		}
 	} else {
 		x = 1400;
@@ -47,11 +47,11 @@ void EnemyPacmanCar::fallCar() {
 
 	if (grav_tick == 0 && dy < GRAVITY_MAX_CAR) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
-	if (ny != 0 && dy > 0 && platform_y(x, y) == 0)
+	if (ny != 0 && dy > 0 && level().terrain.platform_y(x, y) == 0)
 		y = ny;
 	else
 		y += dy;
@@ -60,10 +60,10 @@ void EnemyPacmanCar::fallCar() {
 int EnemyPacmanCar::damage() { return 0; };
 
 void EnemyPacmanCar::render() {
-	if (game_flag[2] >= 4) {
-		draw(x + 48, y - 82, pbk_enemies.anim("pacman_car_door")[anim_step]);
+	if (level().rules.flags[2] >= 4) {
+		draw(x + 48, y - 82, assets().pics.enemies.anim("pacman_car_door")[anim_step]);
 	}
 	Sprite::render();
 }
 
-void EnemyPacmanCar::takeHit(Shot* shot) {}
+void EnemyPacmanCar::takeHit(Shot*) {}

@@ -12,7 +12,7 @@ EnemySnorkInBlackBoss::EnemySnorkInBlackBoss() : position(1), type_attack(0), at
 	hp = 15000;
 	dy = 0;
 	dir = FACING_LEFT;
-	pic = pbk_enemies.anim("snork_boss_idle")[0];
+	pic = assets().pics.enemies.anim("snork_boss_idle")[0];
 }
 
 void EnemySnorkInBlackBoss::update() {
@@ -39,13 +39,13 @@ void EnemySnorkInBlackBoss::update() {
 			break;
 	}
 
-	if (x > offset + 1000) destroyed = true;
+	if (x > level().camera.offset + 1000) destroyed = true;
 }
 
 void EnemySnorkInBlackBoss::onWalk() {
-	if (game_flag[0] == 1) {
+	if (level().rules.flags[0] == 1) {
 		if (anim_tick == 0 && anim_step == 0) {
-			sbk_level.play(0);
+			assets().sounds.level.play(0);
 		}
 
 		anim_tick++;
@@ -56,30 +56,30 @@ void EnemySnorkInBlackBoss::onWalk() {
 		}
 
 		if (anim_step >= 18) {
-			game_flag[0] = 2;
+			level().rules.flags[0] = 2;
 			anim_step = 0;
 			anim_tick = 0;
-			mbk_level.play(1);
-			game_flag[FLAG_TIMER] = 50;
+			assets().music.level.play(1);
+			level().rules.flags[FLAG_TIMER] = 50;
 		} else {
-			pic = pbk_enemies.anim("snork_boss_intro")[anim_step];
+			pic = assets().pics.enemies.anim("snork_boss_intro")[anim_step];
 		}
-	} else if (game_flag[0] == 2) {
+	} else if (level().rules.flags[0] == 2) {
 		anim_step++;
 		if (anim_step > 20) {
 			if (attack) {
 				attack = false;
 				anim_tick = 0;
 
-				int destination = rand() % 4;
+				int destination = rnd() % 4;
 
-				if (targeted_player->x > 6200 && targeted_player->y > 200) {
+				if (session().targeted_player->x > 6200 && session().targeted_player->y > 200) {
 					destination = 2;
-				} else if (targeted_player->x < 5950 && targeted_player->y > 200) {
+				} else if (session().targeted_player->x < 5950 && session().targeted_player->y > 200) {
 					destination = 3;
-				} else if (targeted_player->x > 6200 && targeted_player->y < 200) {
+				} else if (session().targeted_player->x > 6200 && session().targeted_player->y < 200) {
 					destination = 0;
-				} else if (targeted_player->x < 5950 && targeted_player->y < 200) {
+				} else if (session().targeted_player->x < 5950 && session().targeted_player->y < 200) {
 					destination = 1;
 				}
 
@@ -182,10 +182,10 @@ void EnemySnorkInBlackBoss::onWalk() {
 				anim_step = 0;
 				anim_tick = 0;
 
-				if (targeted_player != NULL) {
+				if (session().targeted_player != nullptr) {
 					switch (position) {
 						case 0:
-							if (targeted_player->x > x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
+							if (session().targeted_player->x > x && (y < session().targeted_player->y) && (y > session().targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -193,7 +193,7 @@ void EnemySnorkInBlackBoss::onWalk() {
 							break;
 
 						case 1:
-							if (targeted_player->x < x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
+							if (session().targeted_player->x < x && (y < session().targeted_player->y) && (y > session().targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -201,7 +201,7 @@ void EnemySnorkInBlackBoss::onWalk() {
 							break;
 
 						case 2:
-							if (targeted_player->x > x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
+							if (session().targeted_player->x > x && (y < session().targeted_player->y) && (y > session().targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -209,7 +209,7 @@ void EnemySnorkInBlackBoss::onWalk() {
 							break;
 
 						case 3:
-							if (targeted_player->x < x && (y < targeted_player->y) && (y > targeted_player->y - 50)) {
+							if (session().targeted_player->x < x && (y < session().targeted_player->y) && (y > session().targeted_player->y - 50)) {
 								type_attack = 1;
 							} else {
 								type_attack = 0;
@@ -219,9 +219,9 @@ void EnemySnorkInBlackBoss::onWalk() {
 				}
 
 				if (type_attack == 0) {
-					sbk_level.play(2);
+					assets().sounds.level.play(2);
 				} else {
-					sbk_level.play(3);
+					assets().sounds.level.play(3);
 				}
 
 				attack = true;
@@ -232,10 +232,10 @@ void EnemySnorkInBlackBoss::onWalk() {
 
 		if (position == 0 || position == 2) {
 			dir = FACING_RIGHT;
-			pic = pbk_enemies.pic("snork_boss_stand_right");
+			pic = assets().pics.enemies.pic("snork_boss_stand_right");
 		} else {
 			dir = FACING_LEFT;
-			pic = pbk_enemies.anim("snork_boss_intro")[17];
+			pic = assets().pics.enemies.anim("snork_boss_intro")[17];
 		}
 	}
 
@@ -269,9 +269,9 @@ void EnemySnorkInBlackBoss::onFall() {
 	}
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("snork_boss_jump_right")[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
+		pic = assets().pics.enemies.anim("snork_boss_jump_right")[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
 	} else {
-		pic = pbk_enemies.anim("snork_boss_jump_left")[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
+		pic = assets().pics.enemies.anim("snork_boss_jump_left")[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
 	}
 
 	colFromPic();
@@ -279,18 +279,18 @@ void EnemySnorkInBlackBoss::onFall() {
 
 void EnemySnorkInBlackBoss::onDie() {
 	col_on = false;
-	if (game_flag[0] == 2 && !jump) {
+	if (level().rules.flags[0] == 2 && !jump) {
 		int destination = 0;
 
 		if (destination == position) {
-			game_flag[0] = 3;
+			level().rules.flags[0] = 3;
 
 			if (position == 0 || position == 2) {
 				dir = FACING_RIGHT;
-				pic = pbk_enemies.pic("snork_boss_stand_right");
+				pic = assets().pics.enemies.pic("snork_boss_stand_right");
 			} else {
 				dir = FACING_LEFT;
-				pic = pbk_enemies.anim("snork_boss_intro")[17];
+				pic = assets().pics.enemies.anim("snork_boss_intro")[17];
 			}
 		} else {
 			switch (position) {
@@ -382,7 +382,7 @@ void EnemySnorkInBlackBoss::onDie() {
 			grav_tick = 0;
 			return;
 		}
-	} else if (game_flag[0] == 2 && jump) {
+	} else if (level().rules.flags[0] == 2 && jump) {
 		grav_tick += 1;
 		grav_tick %= GRAVITY_DELAY;
 
@@ -408,11 +408,11 @@ void EnemySnorkInBlackBoss::onDie() {
 		}
 
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("snork_boss_jump_right")[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
+			pic = assets().pics.enemies.anim("snork_boss_jump_right")[animate(anim_snork_in_black_boss_jump_right, 4, 6)];
 		} else {
-			pic = pbk_enemies.anim("snork_boss_jump_left")[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
+			pic = assets().pics.enemies.anim("snork_boss_jump_left")[animate(anim_snork_in_black_boss_jump_left, 4, 6)];
 		}
-	} else if (game_flag[0] == 3) {
+	} else if (level().rules.flags[0] == 3) {
 		shark = true;
 		x_shark += 5;
 
@@ -423,9 +423,9 @@ void EnemySnorkInBlackBoss::onDie() {
 		}
 
 		if (x_shark > 6800) {
-			game_flag[0] = 4;
+			level().rules.flags[0] = 4;
 		}
-	} else if (game_flag[0] == 4) {
+	} else if (level().rules.flags[0] == 4) {
 		x_shark += 5;
 	}
 }
@@ -446,132 +446,128 @@ void EnemySnorkInBlackBoss::onShoot() {
 			return;
 		} else if (anim_tick == 1) {
 			if (dir == FACING_RIGHT) {
-				ShotThorn* shot;
+				std::unique_ptr<ShotThorn> shot;
 				switch (anim_step) {
 					case 0:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[1], 4, -6);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[1], 4, -6);
 						shot->setDir(dir);
 						shot->x = x + 36;
 						shot->y = y - 51;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 1:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[2], 5, -5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[2], 5, -5);
 						shot->setDir(dir);
 						shot->x = x + 36;
 						shot->y = y - 51;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 2:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[3], 6, -4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[3], 6, -4);
 						shot->setDir(dir);
 						shot->x = x + 52;
 						shot->y = y - 16;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 3:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[4], 7, 0);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[4], 7, 0);
 						shot->setDir(dir);
 						shot->x = x + 52;
 						shot->y = y - 16;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 4:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[5], 6, 4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[5], 6, 4);
 						shot->setDir(dir);
 						shot->x = x + 35;
 						shot->y = y + 25;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 5:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[6], 5, 5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[6], 5, 5);
 						shot->setDir(dir);
 						shot->x = x + 35;
 						shot->y = y + 25;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 				}
 			} else {
-				ShotThorn* shot;
+				std::unique_ptr<ShotThorn> shot;
 
 				switch (anim_step) {
 					case 0:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[15], -4, -6);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[15], -4, -6);
 						shot->setDir(dir);
 						shot->x = x - 36;
 						shot->y = y - 51;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 1:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[14], -5, -5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[14], -5, -5);
 						shot->setDir(dir);
 						shot->x = x - 36;
 						shot->y = y - 51;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 2:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[13], -6, -4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[13], -6, -4);
 						shot->setDir(dir);
 						shot->x = x - 52;
 						shot->y = y - 16;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 3:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[12], -7, 0);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[12], -7, 0);
 						shot->setDir(dir);
 						shot->x = x - 52;
 						shot->y = y - 16;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 4:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[11], -6, 4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[11], -6, 4);
 						shot->setDir(dir);
 						shot->x = x - 35;
 						shot->y = y + 25;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 5:
-						shot = new ShotThorn(pbk_enemies.anim("snork_boss_thorn")[10], -5, 5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[10], -5, 5);
 						shot->setDir(dir);
 						shot->x = x - 35;
 						shot->y = y + 25;
 
-						list_enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 				}
 			}
 		}
 
-		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("snork_boss_shoot_right")[2 * (anim_step / 2) + anim_tick / 3];
-		} else {
-			pic = pbk_enemies.anim("snork_boss_shoot_left")[2 * (anim_step / 2) + anim_tick / 3];
-		}
+		pic = facing(assets().pics.enemies, "snork_boss_shoot")[2 * (anim_step / 2) + anim_tick / 3];
 	} else {
 		anim_tick++;
 		anim_tick %= 5;
@@ -582,21 +578,21 @@ void EnemySnorkInBlackBoss::onShoot() {
 
 		if (anim_step >= 1) {
 			if (dir == FACING_RIGHT) {
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snork_boss_laser_right"), 14, 0);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snork_boss_laser_right"), 14, 0);
 
 				shot->setDir(dir);
 				shot->x = x + 77;
 				shot->y = y - 2;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			} else {
-				ShotThorn* shot = new ShotThorn(pbk_enemies.pic("snork_boss_laser_left"), -14, 0);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snork_boss_laser_left"), -14, 0);
 
 				shot->setDir(dir);
 				shot->x = x - 77;
 				shot->y = y - 2;
 
-				list_enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			}
 
 			status = STATE_NORMAL;
@@ -605,11 +601,7 @@ void EnemySnorkInBlackBoss::onShoot() {
 			onWalk();
 			return;
 		} else {
-			if (dir == FACING_RIGHT) {
-				pic = pbk_enemies.pic("snork_boss_aim_right");
-			} else {
-				pic = pbk_enemies.pic("snork_boss_aim_left");
-			}
+			pic = facing(assets().pics.enemies, "snork_boss_aim")[0];
 		}
 	}
 	colFromPic();
@@ -629,9 +621,9 @@ void EnemySnorkInBlackBoss::render() {
 	}
 	if (shark) {
 		if (x_shark < 5904) {
-			draw(x_shark, y_shark, pbk_enemies.pic("snork_boss_shark_bite"));
+			draw(x_shark, y_shark, assets().pics.enemies.pic("snork_boss_shark_bite"));
 		} else {
-			draw(x_shark, y_shark, pbk_enemies.pic("snork_boss_shark_swim"));
+			draw(x_shark, y_shark, assets().pics.enemies.pic("snork_boss_shark_swim"));
 		}
 	}
 }

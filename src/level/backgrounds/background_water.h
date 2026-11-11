@@ -2,37 +2,32 @@
 
 #include "entities/sprite.h"
 
-int water_seed = 0;
-int water_seed2 = 5;
-
-class BackgroundWater1 : public Sprite {
-   public:
-	void update() override {
-		pic = pbk_level.anim("water")[water_seed];
-
-		if (x < offset - 400) destroyed = true;
-	};
+// All tiles share one frame counter, alternate tiles run half a cycle apart
+struct WaterClock {
+	int frame = 0;
 };
 
-class BackgroundWater2 : public Sprite {
-	void update() override {
-		pic = pbk_level.anim("water")[water_seed2];
+class BackgroundWaterTile : public Sprite {
+   public:
+	explicit BackgroundWaterTile(int phase) : phase_(phase) {}
 
-		if (x < offset - 400) destroyed = true;
+	void update() override {
+		pic = assets().pics.level.anim("water")[(level().shared<WaterClock>().frame + phase_) % 10];
+
+		if (x < level().camera.offset - 400) destroyed = true;
 	};
+
+   private:
+	int phase_;
 };
 
 class BackgroundWater : public Sprite {
    public:
 	BackgroundWater() {
-		Sprite* ptr;
 		bool b = false;
 
-		for (int i = 0; i < ((((int)level_size) / pbk_level.anim("water")[0]->xSize()) + 1); i++) {
-			if (b)
-				ptr = new BackgroundWater1();
-			else
-				ptr = new BackgroundWater2();
+		for (int i = 0; i < static_cast<int>(level().terrain.width) / assets().pics.level.anim("water")[0]->xSize() + 1; i++) {
+			auto ptr = std::make_unique<BackgroundWaterTile>(b ? 0 : 5);
 
 			ptr->x = x;
 			ptr->y = 454;
@@ -40,7 +35,7 @@ class BackgroundWater : public Sprite {
 			x += 376;
 			b = !b;
 
-			list_animated_bgs.emplace_back(ptr);
+			level().entities.animated_bgs.emplace_back(std::move(ptr));
 		}
 	};
 
@@ -49,11 +44,8 @@ class BackgroundWater : public Sprite {
 		anim_tick %= 7;
 
 		if (anim_tick == 0) {
-			water_seed += 1;
-			water_seed %= 10;
-
-			water_seed2 += 1;
-			water_seed2 %= 10;
+			int& frame = level().shared<WaterClock>().frame;
+			frame = (frame + 1) % 10;
 		}
 	};
 };

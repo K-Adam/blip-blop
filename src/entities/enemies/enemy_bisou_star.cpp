@@ -4,7 +4,7 @@
 
 EnemyBisouStar::EnemyBisouStar() : shoot_step(0) {
 	hp = 200;
-	wait_shoot = 200 + rand() % 250;
+	wait_shoot = 200 + rnd() % 250;
 }
 
 void EnemyBisouStar::update() {
@@ -51,13 +51,13 @@ void EnemyBisouStar::onDieWhole() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouStar* feet = new GoreFeetBisouStar();
+		auto feet = std::make_unique<GoreFeetBisouStar>();
 
 		feet->x = x;
 		feet->dir = dir;
 		feet->y = y;
 
-		list_gore.emplace_back(feet);
+		level().entities.gore.emplace_back(std::move(feet));
 
 		y -= 19;
 		dy = 0;
@@ -66,10 +66,7 @@ void EnemyBisouStar::onDieWhole() {
 		status = STATE_DYING_2;
 		onDieTop();
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("star_die_right")[anim_step];
-		else
-			pic = pbk_enemies.anim("star_die_left")[anim_step];
+		pic = facing(assets().pics.enemies, "star_die")[anim_step];
 	}
 }
 
@@ -79,7 +76,7 @@ void EnemyBisouStar::onShoot() {
 	if (anim_tick >= 60) {
 		anim_tick = 0;
 		status = STATE_WALK;
-		wait_shoot = 200 + rand() % 500;
+		wait_shoot = 200 + rnd() % 500;
 		;
 		shoot_step = 0;
 	}
@@ -92,16 +89,16 @@ void EnemyBisouStar::onDieTop() {
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
 	if (dir == FACING_RIGHT) {
-		pic = pbk_enemies.anim("star_die_top_right")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_right")[anim_step];
 		x += 1;
 	} else {
-		pic = pbk_enemies.anim("star_die_top_left")[anim_step];
+		pic = assets().pics.enemies.anim("star_die_top_left")[anim_step];
 		x -= 1;
 	}
 
 	fall();
 
-	if (platform_y(x, y) != 0 && anim_step >= 3) {
+	if (level().terrain.platform_y(x, y) != 0 && anim_step >= 3) {
 		anim_step = anim_tick = 0;
 		status = STATE_DYING_3;
 		onDieTopEnd();
@@ -114,10 +111,7 @@ void EnemyBisouStar::onDieTopEnd() {
 
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("star_die_top_end_right")[anim_step];
-	else
-		pic = pbk_enemies.anim("star_die_top_end_left")[anim_step];
+	pic = facing(assets().pics.enemies, "star_die_top_end")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -130,37 +124,33 @@ void EnemyBisouStar::onWalk() {
 
 	fall();
 
-	anim_tick += 1;
-	anim_tick %= 4;
+	step(4, 8);
 
-	if (anim_tick == 0) {
-		anim_step += 1;
-		anim_step %= 8;
-	}
-
-	if (x - SPEED < xmin || solid_wall(x - SPEED, y) || (platform_y(x - SPEED, y) == 0 && platform_y(x - SPEED, y + 5) == 0))
+	if (x - SPEED < xmin || level().terrain.solid_wall(x - SPEED, y) ||
+		(level().terrain.platform_y(x - SPEED, y) == 0 && level().terrain.platform_y(x - SPEED, y + 5) == 0))
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 680 || solid_wall(x + SPEED, y) || (platform_y(x + SPEED, y) == 0 && platform_y(x + SPEED, y + 5) == 0))
+	else if (x + SPEED > level().camera.offset + 680 || level().terrain.solid_wall(x + SPEED, y) ||
+			 (level().terrain.platform_y(x + SPEED, y) == 0 && level().terrain.platform_y(x + SPEED, y + 5) == 0))
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {
 		walk(SPEED);
-		pic = pbk_enemies.anim("star_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("star_walk_right")[anim_step];
 	} else {
 		walk(-SPEED);
-		pic = pbk_enemies.anim("star_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("star_walk_left")[anim_step];
 	}
 
 	shoot_step += 1;
 
-	if (anim_step == 4 && shoot_step >= wait_shoot && x > offset) {
-		ShotStar* s = new ShotStar();
+	if (anim_step == 4 && shoot_step >= wait_shoot && x > level().camera.offset) {
+		auto s = std::make_unique<ShotStar>();
 
 		s->x = x;
 		s->y = y - 30;
 		s->dir = dir;
 
-		list_enemy_shots.emplace_back(s);
+		level().entities.enemy_shots.emplace_back(std::move(s));
 
 		anim_tick = 0;
 		status = STATE_SHOOT;
@@ -182,10 +172,7 @@ void EnemyBisouStar::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = pbk_enemies.anim("sky_star_charred_right")[anim_step];
-	else
-		pic = pbk_enemies.anim("sky_star_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "sky_star_charred")[anim_step];
 }
 
 void EnemyBisouStar::takeHit(Shot* shot) {
@@ -195,5 +182,5 @@ void EnemyBisouStar::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) sbk_level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rnd() % 9));
 }

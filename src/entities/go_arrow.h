@@ -52,7 +52,7 @@ class GoArrow {
 
 	void Draw() {
 		if (phase_ != Phase::No) {
-			pbk_misc.anim("go_arrow")[anim_step_ / kSpriteDuration]->BlitTo(backSurface, x_, 150);
+			assets().pics.misc.anim("go_arrow")[anim_step_ / kSpriteDuration]->BlitTo(graphics.back(), x_, 150);
 		}
 	}
 
@@ -77,7 +77,7 @@ class GoArrow {
 		update_anim();
 
 		theta_ = (theta_ + 3) % 360;
-		int x = int(100 * std::sin(theta_ * std::numbers::pi / 180));
+		int x = static_cast<int>(100 * std::sin(theta_ * std::numbers::pi / 180));
 
 		if (x < 0) {
 			x = -x;

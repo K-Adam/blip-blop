@@ -2,7 +2,7 @@
 #include "core/assets.h"
 #include "level/backgrounds/background_poke_sky.h"
 
-BackgroundPokeSky::BackgroundPokeSky() { pic = pbk_level.pic("sky_frame"); }
+BackgroundPokeSky::BackgroundPokeSky() { pic = assets().pics.level.pic("sky_frame"); }
 
 void BackgroundPokeSky::update() {
 	anim_step += 4;
@@ -21,22 +21,22 @@ void BackgroundPokeSky::render() {
 	r.top = 0;
 	r.left = anim_step;
 
-	if (x + 192 > offset + 640) {
-		width_px = offset + 640 - x;
+	if (x + 192 > level().camera.offset + 640) {
+		width_px = level().camera.offset + 640 - x;
 	}
 
-	else if (x < offset) {
+	else if (x < level().camera.offset) {
 		width_px = 192;
-		r.left = offset - x + anim_step;
-		pic_offset = offset - x;
+		r.left = level().camera.offset - x + anim_step;
+		pic_offset = level().camera.offset - x;
 	} else {
 		width_px = 192;
 	}
 
 	r.right = anim_step + width_px;
-	r.bottom = pbk_level.pic("sky_clouds")->ySize();
+	r.bottom = assets().pics.level.pic("sky_clouds")->ySize();
 
-	pbk_level.pic("sky_clouds")->BlitPart(backSurface, x - offset + pic_offset, y + 50, r);
+	assets().pics.level.pic("sky_clouds")->BlitPart(graphics.back(), x - level().camera.offset + pic_offset, y + 50, r);
 
-	draw(x, y, pbk_level.pic("sky_strut"));
+	draw(x, y, assets().pics.level.pic("sky_strut"));
 }

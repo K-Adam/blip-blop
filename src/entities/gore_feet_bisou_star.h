@@ -25,13 +25,13 @@ class GoreFeetBisouStar : public Sprite {
 
 			if (dir == FACING_RIGHT) {
 				walk(-1);
-				pic = pbk_enemies.anim("star_feet_right")[anim_step];
+				pic = assets().pics.enemies.anim("star_feet_right")[anim_step];
 			} else {
 				walk(1);
-				pic = pbk_enemies.anim("star_feet_left")[anim_step];
+				pic = assets().pics.enemies.anim("star_feet_left")[anim_step];
 			}
 
-			if (anim_step == 3 && platform_y(x, y) != 0) {
+			if (anim_step == 3 && level().terrain.platform_y(x, y) != 0) {
 				status = 1;
 				anim_tick = anim_step = 0;
 			}
@@ -39,9 +39,9 @@ class GoreFeetBisouStar : public Sprite {
 			nb += 1;
 
 			if (dir == FACING_RIGHT)
-				pic = pbk_enemies.anim("star_feet_right")[animate(anim_right, 4, 5)];
+				pic = assets().pics.enemies.anim("star_feet_right")[animate(anim_right, 4, 5)];
 			else
-				pic = pbk_enemies.anim("star_feet_left")[animate(anim_left, 4, 5)];
+				pic = assets().pics.enemies.anim("star_feet_left")[animate(anim_left, 4, 5)];
 
 			if (nb >= 100) {
 				engrave(x, y, pic);

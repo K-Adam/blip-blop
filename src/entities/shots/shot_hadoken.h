@@ -15,27 +15,21 @@ class ShotHadoken : public Shot {
 	void update() override {
 		static const int SPEED = 8;
 
-		anim_tick += 1;
-		anim_tick %= 2;
-
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 3;
-		}
+		step(2, 3);
 
 		if (anim_step == 2) {
-			pic = NULL;
+			pic = nullptr;
 		} else {
 			if (dir == FACING_RIGHT) {
 				x += SPEED;
-				pic = pbk_enemies.anim("smurf_hefty_hadoken_right")[anim_step];
+				pic = assets().pics.enemies.anim("smurf_hefty_hadoken_right")[anim_step];
 			} else {
 				x -= SPEED;
-				pic = pbk_enemies.anim("smurf_hefty_hadoken_left")[anim_step];
+				pic = assets().pics.enemies.anim("smurf_hefty_hadoken_left")[anim_step];
 			}
 		}
 
-		if (solid_wall(x, y)) destroyed = true;
+		if (level().terrain.solid_wall(x, y)) destroyed = true;
 
 		updateDestroyed();
 		colFromPic();

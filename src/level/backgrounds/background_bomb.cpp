@@ -3,45 +3,53 @@
 #include "level/backgrounds/background_bomb.h"
 #include "entities/bonus_weapon.h"
 #include "entities/enemies/enemy.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
-int save_time = 0;
+namespace {
+// Timer left when the cow bonus stopped the countdown, restored once the cow is done
+struct BombTimer {
+	int saved = 0;
+};
+}  // namespace
 
 const int anim_warning[] = {0, 0, 0, 0, 0, 1, 1, 2, 1, 1};
 const int anim_nuke[] = {0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 7, 7, 7, 6, 6, 5, 4, 3, 2, 2, 1, 1, 1, 0, 0};
 
-BackgroundBomb::BackgroundBomb() : counter_step(0), warning_step(0), warning_tick(0), nuke_step(0), nuke_tick(0), armed(true) { pic = pbk_level.pic("bomb"); }
+BackgroundBomb::BackgroundBomb() : counter_step(0), armed(true), warning_step(0), warning_tick(0), nuke_step(0), nuke_tick(0) {
+	pic = assets().pics.level.pic("bomb");
+}
 
 void BackgroundBomb::update() {
 	if (armed) {
-		if (targeted_player != NULL) {
-			if ((targeted_player->x > x - 50) && (targeted_player->x < x + 50) && (targeted_player->y > y - 10) && (targeted_player->y < y + 51)) {
-				game_flag[0]++;
+		if (session().targeted_player != nullptr) {
+			if ((session().targeted_player->x > x - 50) && (session().targeted_player->x < x + 50) && (session().targeted_player->y > y - 10) &&
+				(session().targeted_player->y < y + 51)) {
+				level().rules.flags[0]++;
 				armed = false;
-				Bonus* bonus = nullptr;
-				switch (game_flag[0]) {
+				std::unique_ptr<Bonus> bonus;
+				switch (level().rules.flags[0]) {
 					case 1:
-						bonus = new BonusShotgun();
+						bonus = std::make_unique<BonusShotgun>();
 						break;
 
 					case 2:
-						bonus = new BonusPM();
+						bonus = std::make_unique<BonusPM>();
 						break;
 
 					case 3:
-						bonus = new BonusCow();
-						save_time = game_flag[FLAG_TIMER];
-						game_flag[FLAG_GEN_OFF] = 1;
+						bonus = std::make_unique<BonusCow>();
+						level().shared<BombTimer>().saved = level().rules.flags[FLAG_TIMER];
+						level().rules.flags[FLAG_GEN_OFF] = 1;
 						break;
 				}
 
 				if (bonus) {
 					bonus->x = x;
 					bonus->y = 0;
-					list_bonus.emplace_back(bonus);
+					level().entities.bonus.emplace_back(std::move(bonus));
 				}
 
-				sbk_level.play(1);
+				assets().sounds.level.play(1);
 			}
 		}
 		anim_tick++;
@@ -64,10 +72,10 @@ void BackgroundBomb::update() {
 			counter_step = 0;
 		}
 
-		if (game_flag[FLAG_TIMER] < 40) {
+		if (level().rules.flags[FLAG_TIMER] < 40) {
 			warning_tick++;
-			if (game_flag[FLAG_TIMER] / 3 > 0) {
-				warning_tick %= game_flag[FLAG_TIMER] / 3;
+			if (level().rules.flags[FLAG_TIMER] / 3 > 0) {
+				warning_tick %= level().rules.flags[FLAG_TIMER] / 3;
 			} else {
 				warning_tick = 0;
 			}
@@ -77,42 +85,42 @@ void BackgroundBomb::update() {
 				warning_step %= 10;
 			}
 		}
-		seconds = game_flag[FLAG_TIMER];
+		seconds = level().rules.flags[FLAG_TIMER];
 		hundredths = counter_step;
-	} else if (game_flag[0] == 3) {
-		game_flag[FLAG_TIMER] = save_time;
+	} else if (level().rules.flags[0] == 3) {
+		level().rules.flags[FLAG_TIMER] = level().shared<BombTimer>().saved;
 	}
 }
 
 void BackgroundBomb::render() {
 	Sprite::render();
 	if (armed) {
-		draw(x, y, pbk_level.anim("bomb_lights")[anim_step]);
+		draw(x, y, assets().pics.level.anim("bomb_lights")[anim_step]);
 
-		draw(x, y, pbk_level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
+		draw(x, y, assets().pics.level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
 
-		if (game_flag[FLAG_TIMER] >= 100) {
-			draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[9]);
-			draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[9]);
-			draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9]);
-			draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9]);
+		if (level().rules.flags[FLAG_TIMER] >= 100) {
+			draw(x + 6, y - 27, assets().pics.level.anim("bomb_digits")[9]);
+			draw(x + 11, y - 27, assets().pics.level.anim("bomb_digits")[9]);
+			draw(x + 16, y - 27, assets().pics.level.anim("bomb_digits")[9]);
+			draw(x + 21, y - 27, assets().pics.level.anim("bomb_digits")[9]);
 		} else {
-			draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[game_flag[FLAG_TIMER] / 10]);
-			draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[game_flag[FLAG_TIMER] % 10]);
-			draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9 - counter_step / 10]);
-			draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9 - counter_step % 10]);
+			draw(x + 6, y - 27, assets().pics.level.anim("bomb_digits")[level().rules.flags[FLAG_TIMER] / 10]);
+			draw(x + 11, y - 27, assets().pics.level.anim("bomb_digits")[level().rules.flags[FLAG_TIMER] % 10]);
+			draw(x + 16, y - 27, assets().pics.level.anim("bomb_digits")[9 - counter_step / 10]);
+			draw(x + 21, y - 27, assets().pics.level.anim("bomb_digits")[9 - counter_step % 10]);
 		}
 
-		if (game_flag[FLAG_TIMER] < 40) {
-			draw(x, y - 35, pbk_level.anim("bomb_warning")[anim_warning[warning_step]]);
-		} else if (game_flag[FLAG_TIMER] < 60) {
-			draw(x, y - 35, pbk_level.anim("bomb_warning")[0]);
+		if (level().rules.flags[FLAG_TIMER] < 40) {
+			draw(x, y - 35, assets().pics.level.anim("bomb_warning")[anim_warning[warning_step]]);
+		} else if (level().rules.flags[FLAG_TIMER] < 60) {
+			draw(x, y - 35, assets().pics.level.anim("bomb_warning")[0]);
 		}
 	} else {
-		draw(x, y, pbk_level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
-		draw(x + 6, y - 27, pbk_level.anim("bomb_digits")[seconds / 10]);
-		draw(x + 11, y - 27, pbk_level.anim("bomb_digits")[seconds % 10]);
-		draw(x + 16, y - 27, pbk_level.anim("bomb_digits")[9 - hundredths / 10]);
-		draw(x + 21, y - 27, pbk_level.anim("bomb_digits")[9 - hundredths % 10]);
+		draw(x, y, assets().pics.level.anim("bomb_nuke_sign")[anim_nuke[nuke_step]]);
+		draw(x + 6, y - 27, assets().pics.level.anim("bomb_digits")[seconds / 10]);
+		draw(x + 11, y - 27, assets().pics.level.anim("bomb_digits")[seconds % 10]);
+		draw(x + 16, y - 27, assets().pics.level.anim("bomb_digits")[9 - hundredths / 10]);
+		draw(x + 21, y - 27, assets().pics.level.anim("bomb_digits")[9 - hundredths % 10]);
 	}
 }

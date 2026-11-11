@@ -13,8 +13,8 @@ class EventRPG : public Event {
 		if (cond == 0)
 			return true;
 		else
-			return (game_flag[flag] == val);
+			return (level().rules.flags[flag] == val);
 	};
 
-	void doEvent() override { rpg_to_play = num; };
+	void doEvent() override { session().rpg_to_play = num; };
 };

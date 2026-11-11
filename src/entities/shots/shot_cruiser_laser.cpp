@@ -71,9 +71,9 @@ void ShotCruiserLaser::update() {
 
 		if (anim_step > 0) {
 			if (dx > 0) {
-				pic = pbk_level.anim("cruiser_hit_bottom")[anim_step - 1];
+				pic = assets().pics.level.anim("cruiser_hit_bottom")[anim_step - 1];
 			} else {
-				pic = pbk_level.anim("cruiser_hit_top")[anim_step - 1];
+				pic = assets().pics.level.anim("cruiser_hit_top")[anim_step - 1];
 			}
 		}
 	}

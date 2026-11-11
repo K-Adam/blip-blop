@@ -7,11 +7,11 @@ class ForegroundLayer : public Sprite {
 };
 
 void EventForeground::doEvent() {
-	ForegroundLayer* s = new ForegroundLayer();
+	auto s = std::make_unique<ForegroundLayer>();
 
 	s->x = x;
 	s->y = y;
-	s->pic = pbk_level.frame(pic);
+	s->pic = assets().pics.level.frame(pic);
 
-	list_foregrounds.emplace_back(s);
+	level().entities.foregrounds.emplace_back(std::move(s));
 }

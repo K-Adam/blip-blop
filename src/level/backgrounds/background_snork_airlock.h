@@ -7,8 +7,6 @@ class BackgroundSnorkAirlock1 : public Sprite {
 	int players_inside;
 
    public:
-	static int status;
-
 	BackgroundSnorkAirlock1();
 	void update() override;
 	void render() override;

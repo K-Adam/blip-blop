@@ -26,6 +26,7 @@
 #define ID_PM 2
 #define ID_LF 3
 #define ID_LASER 4
+#define NB_WEAPONS 5
 
 #define ID_BLIP 0
 #define ID_BLOP 1

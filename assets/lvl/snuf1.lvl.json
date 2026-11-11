@@ -1280,14 +1280,14 @@
     {
       "event_id": 4,
       "pic": "stone_pillar_1",
-      "x_activation": 4294967196,
+      "x_activation": -100,
       "x": 640,
       "y": 163
     },
     {
       "event_id": 4,
       "pic": "bush",
-      "x_activation": 4294966765,
+      "x_activation": -531,
       "x": 209,
       "y": 420
     }

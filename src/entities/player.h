@@ -2,12 +2,10 @@
 
 class Player {
    protected:
-	int score;
-	int nb_killed;
+	int score = 0;
+	int nb_killed = 0;
 
    public:
-	Player() : score(0){};
-
 	inline void setKilled(int n) { nb_killed = n; };
 
 	inline void addKilled() { nb_killed += 1; };

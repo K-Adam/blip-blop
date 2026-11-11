@@ -19,13 +19,7 @@ class TitleScreen {
 	AbstractMenu* active_menu_;
 
    public:
-	// Compared with sound_on/music_on when the menu ends to reload only what changed
-	bool start_sound_on;
-	bool start_music_on;
-
 	TitleScreen() : active_menu_(&first_menu_) {}
-	void start();
 	int update();  // One of the RET_ codes
-	void stop();
 	void draw(SDL::Surface* surf);
 };

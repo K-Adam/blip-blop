@@ -2,10 +2,8 @@
 #include "cinematics/rpg_player.h"
 #include "engine/input.h"
 #include "level/world.h"
-#include "core/assets.h"
-#include "core/text_data.h"
+#include "core/app.h"
 #include "entities/ball.h"
-#include "level/scroll.h"
 #include "engine/half_tone.h"
 #include <json.h>
 #include "core/asset_path.h"
@@ -13,8 +11,8 @@
 using json = nlohmann::json;
 
 RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false) {
-	pic_tab[0] = NULL;
-	pic_tab[1] = NULL;
+	pic_tab[0] = nullptr;
+	pic_tab[1] = nullptr;
 
 	nimage[0] = 0;
 	nimage[1] = 0;
@@ -64,6 +62,8 @@ bool RPGPlayer::startPlay(int n) {
 			if (item.size() == 2) {
 				std::string value = remove_quotes(item[1].dump());
 				file_ << key << "=" << value << "\n";
+			} else if (item.size() == 3) {
+				file_ << key << "=" << item[1].get<int>() << "." << item[2].get<int>() << "\n";
 			} else {
 				file_ << key << "\n";
 			}
@@ -82,7 +82,7 @@ bool RPGPlayer::startPlay(int n) {
 	while (!file_.eof() && buffer1_ != buffer2_) std::getline(file_, buffer2_);
 
 	if (file_.eof()) {
-		debug << "RPGPlayer::startPlay() -> Ne trouve pas la scene " << n << "\n";
+		debug << "RPGPlayer::startPlay() -> Cannot find scene " << n << "\n";
 		return false;
 	}
 
@@ -91,7 +91,7 @@ bool RPGPlayer::startPlay(int n) {
 	ntxt[0] = -1;
 	ntxt[1] = -1;
 
-	nb_players = list_players.size();
+	nb_players = session().players.size();
 	key_released = false;
 	skiped = false;
 	focus = 0;
@@ -100,7 +100,7 @@ bool RPGPlayer::startPlay(int n) {
 
 	int i = 0;
 
-	for (Ball* c : list_players) {
+	for (Ball* c : session().players) {
 		if (c->id_ball == ID_BLIP)
 			player_sheet[i] = "blip";
 		else
@@ -119,7 +119,7 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 
 	if (in.anyKeyPressed()) {
 		// The caller waits for the release once the dialog is over
-		if (in.scanKey(DIK_ESCAPE)) {
+		if (in.scanKey(SDLK_ESCAPE)) {
 			while (updateScene())
 				;
 
@@ -160,15 +160,11 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 
 	if (const Picture* p = portrait(0)) p->PasteTo(surf, 0, 120);
 
-	if (vbuffer_wide > 640) {
-		if (const Picture* p = portrait(1)) p->PasteTo(surf, 540, 300);
-	} else {
-		if (const Picture* p = portrait(1)) p->PasteTo(surf, 538, 300);
-	}
+	if (const Picture* p = portrait(1)) p->PasteTo(surf, 540, 300);
 
-	if (ntxt[0] != -1) fnt_rpg.printMW(surf, 120, 135, txt_data[ntxt[0]], 640);
+	if (ntxt[0] != -1) assets().fonts.rpg.printMW(surf, 120, 135, texts()[ntxt[0]], 640);
 
-	if (ntxt[1] != -1) fnt_rpg.printMW(surf, 20, 315, txt_data[ntxt[1]], 535);
+	if (ntxt[1] != -1) assets().fonts.rpg.printMW(surf, 20, 315, texts()[ntxt[1]], 535);
 
 	return not_finished;
 }
@@ -187,7 +183,7 @@ bool RPGPlayer::updateScene() {
 			buffer1_ = buffer1_.substr(0, pos);
 
 			if (buffer1_ == "ifnbj") {
-				if (nb_players != std::stoi(buffer2_)) {
+				if (nb_players != std::stoul(buffer2_)) {
 					while (read() && buffer1_ != "endif")
 						;
 				}
@@ -200,11 +196,11 @@ bool RPGPlayer::updateScene() {
 					error(buffer2_);
 			} else if (buffer1_ == "id") {
 				if (buffer2_ == "joueur") {
-					pic_tab[focus] = &pbk_rpg_bb;
+					pic_tab[focus] = &assets().pics.rpg_bb;
 					sheet[focus] = player_sheet[cur_player];
 					id[focus] = ID_PLAYER;
 				} else if (buffer2_ == "ennemi") {
-					pic_tab[focus] = &pbk_rpg;
+					pic_tab[focus] = &assets().pics.rpg;
 					sheet[focus] = "portraits";
 					id[focus] = ID_ENEMY;
 				} else
@@ -220,11 +216,11 @@ bool RPGPlayer::updateScene() {
 				wait_.Reset(std::stoi(buffer2_));
 				ready_to_draw = true;
 			} else if (buffer1_ == "flag") {
-				size_t pos = buffer2_.find('.');
-				int val = std::stoi(buffer2_.substr(pos + 1));
-				buffer2_ = buffer2_.substr(0, pos);
+				size_t dot = buffer2_.find('.');
+				int val = std::stoi(buffer2_.substr(dot + 1));
+				buffer2_ = buffer2_.substr(0, dot);
 
-				game_flag[std::stoi(buffer2_)] = val;
+				level().rules.flags[std::stoi(buffer2_)] = val;
 			} else {
 				error(buffer1_);
 			}
@@ -242,10 +238,10 @@ bool RPGPlayer::read() {
 	return !file_.eof();
 }
 
-void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Erreur de syntaxe :'" << err_msg << "'\n"; }
+void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Syntax error: '" << err_msg << "'\n"; }
 
 const Picture* RPGPlayer::portrait(int n) const {
-	if (pic_tab[n] == NULL || nimage[n] < 0) return nullptr;
+	if (pic_tab[n] == nullptr || nimage[n] < 0) return nullptr;
 	Flipbook f = pic_tab[n]->anim(sheet[n]);
 	return nimage[n] < f.size() ? f[nimage[n]] : nullptr;
 }

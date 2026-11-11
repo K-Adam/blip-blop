@@ -15,7 +15,7 @@ bool Font::load(const char* file_path) {
 	auto font_path = asset_path_prefix("lft", file_path);
 	std::ifstream input(font_path + ".json");
 	if (!input.good()) {
-		debug << "Font::load->Ne peut pas ouvrir " << font_path + ".json"
+		debug << "Font::load->Cannot open " << font_path + ".json"
 			  << "\n";
 		return false;
 	}
@@ -30,7 +30,7 @@ bool Font::load(const char* file_path) {
 
 	std::string image_path = asset_path_prefix("lft", data["path"].get<std::string>().c_str());
 	SDL_Surface* surf = IMG_Load(image_path.c_str());
-	if (surf == NULL) {
+	if (surf == nullptr) {
 		debug << "Can not load image " << image_path << "\n";
 		return false;
 	}
@@ -50,7 +50,7 @@ void Font::print(SDL::Surface* surf, int x, int y, std::string_view txt) {
 	for (unsigned char c : txt) {
 		if (c == ' ') {
 			curx += spc;
-		} else if (pictab_[c] != NULL) {
+		} else if (pictab_[c] != nullptr) {
 			pictab_[c]->BlitTo(surf, curx, y);
 			curx += pictab_[c]->xSize();
 		}
@@ -64,7 +64,7 @@ void Font::printM(SDL::Surface* surf, int x, int y, std::string_view txt, int ym
 	for (unsigned char c : txt) {
 		if (c == ' ') {
 			curx += spc;
-		} else if (pictab_[c] != NULL) {
+		} else if (pictab_[c] != nullptr) {
 			int nx = curx + pictab_[c]->xSize();
 
 			if (nx >= ym) {
@@ -113,7 +113,7 @@ int Font::width(std::string_view txt) {
 	for (unsigned char c : txt) {
 		if (c == ' ')
 			l += spc;
-		else if (pictab_[c] != NULL)
+		else if (pictab_[c] != nullptr)
 			l += pictab_[c]->xSize();
 	}
 

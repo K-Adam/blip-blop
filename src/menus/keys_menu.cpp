@@ -2,14 +2,13 @@
 
 #include <vector>
 
-#include "core/config.h"
-#include "core/text_data.h"
+#include "core/app.h"
 #include "engine/control_alias.h"
 #include "engine/input.h"
 #include "engine/key_translator.h"
 #include "menus/txt_defines.h"
 
-static const int ACTION_TEXT[NB_ACTIONS] = {TXT_UP, TXT_DOWN, TXT_LEFT, TXT_RIGHT, TXT_FIRE, TXT_JUMP, TXT_SPECIAL};
+static const int ACTION_TEXT[NB_ACTIONS] = {TXT_UP, TXT_DOWN, TXT_LEFT, TXT_RIGHT, TXT_FIRE, TXT_JUMP, TXT_SPECIAL, TXT_NEXT_WEAPON, TXT_PREV_WEAPON};
 
 KeysMenu::KeysMenu(int scheme)
 	: scheme_(scheme),
@@ -19,10 +18,12 @@ KeysMenu::KeysMenu(int scheme)
 	  // UP is action 0 and the mouse scheme aims instead
 	  first_(scheme == SCHEME_MOUSE ? 1 : 0) {
 	for (int a = first_; a < NB_ACTIONS; a++) items_.AddEntry(KeyText(a));
-	items_.AddEntry(txt_data[TXT_RETURN]);
+	items_.AddEntry(texts()[TXT_RETURN]);
 }
 
-std::string KeysMenu::KeyText(int action) const { return txt_data[ACTION_TEXT[action]] + " = " + DIK_to_string(in.getAlias(scheme_ + action)); }
+std::string KeysMenu::KeyText(int action) const {
+	return texts()[ACTION_TEXT[action]] + " = " + keyToString(in.getAlias(scheme_ + action), settings().lang == LANG_FR);
+}
 
 void KeysMenu::Refresh() {
 	for (int a = first_; a < NB_ACTIONS; a++) items_.ChangeEntry(a - first_, KeyText(a));
@@ -47,7 +48,7 @@ int KeysMenu::ProcessEvent() {
 		if (in.heldCode() < 0) state_ = State::WaitingKey;
 	} else if (state_ == State::WaitingKey) {
 		// Menu Escape, so a pad can cancel a keyboard binding it cannot fill
-		if (in.pressedKey(DIK_ESCAPE)) {
+		if (in.pressedKey(SDLK_ESCAPE)) {
 			Refresh();
 			state_ = State::Browsing;
 			return self_;
@@ -62,9 +63,9 @@ int KeysMenu::ProcessEvent() {
 		if (key >= 0) SetKey(key);
 	} else {
 		if (items_.Navigate()) {
-			if (items_.focused() == (int)items_.size() - 1) return MenuType::Options;
+			if (items_.focused() == static_cast<int>(items_.size()) - 1) return MenuType::Options;
 			state_ = State::WaitingRelease;
-			items_.ChangeEntry(items_.focused(), txt_data[ACTION_TEXT[first_ + items_.focused()]] + " = ...");
+			items_.ChangeEntry(items_.focused(), texts()[ACTION_TEXT[first_ + items_.focused()]] + " = ...");
 		}
 	}
 	return self_;

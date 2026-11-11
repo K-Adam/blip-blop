@@ -1,16 +1,16 @@
 #include "entities/enemies/enemy_bisou_sib.h"
 
-#define STATE_WAITING_HURT 100
-#define STATE_WAITING 101
-#define STATE_RUN_FOREST 102
-#define STATE_HURT_RECOVER 103
+constexpr int STATE_WAITING_HURT = 100;
+constexpr int STATE_WAITING = 101;
+constexpr int STATE_RUN_FOREST = 102;
+constexpr int STATE_HURT_RECOVER = 103;
 
 static const int anim_run[] = {0, 1, 2, 1};
 
 EnemyBisouSIB::EnemyBisouSIB() {
-	if (game_flag[FLAG_USER1] != 0) {
+	if (level().rules.flags[FLAG_USER1] != 0) {
 		status = STATE_WAITING_HURT;
-		game_flag[FLAG_USER1] = 0;
+		level().rules.flags[FLAG_USER1] = 0;
 	} else {
 		status = STATE_WAITING;
 	}
@@ -24,18 +24,18 @@ void EnemyBisouSIB::update() {
 
 	switch (status) {
 		case STATE_WAITING_HURT:
-			pic = pbk_enemies.anim("sib_get_up")[0];
+			pic = assets().pics.enemies.anim("sib_get_up")[0];
 			colFromPic();
 
-			if (x < offset + 440 || game_flag[1] == 0) status = STATE_HURT_RECOVER;
+			if (x < level().camera.offset + 440 || level().rules.flags[1] == 0) status = STATE_HURT_RECOVER;
 
 			break;
 
 		case STATE_WAITING:
-			pic = pbk_enemies.anim("sib_get_up")[4];
+			pic = assets().pics.enemies.anim("sib_get_up")[4];
 			colFromPic();
 
-			if (x - targeted_player->x < 200) status = STATE_RUN_FOREST;
+			if (x - session().targeted_player->x < 200) status = STATE_RUN_FOREST;
 
 			break;
 
@@ -50,7 +50,7 @@ void EnemyBisouSIB::update() {
 					anim_step = anim_tick = 0;
 					status = STATE_RUN_FOREST;
 				} else {
-					pic = pbk_enemies.anim("sib_get_up")[anim_step];
+					pic = assets().pics.enemies.anim("sib_get_up")[anim_step];
 				}
 			}
 
@@ -58,7 +58,7 @@ void EnemyBisouSIB::update() {
 			break;
 
 		case STATE_RUN_FOREST:
-			pic = pbk_enemies.anim("sib_run_right")[animate(anim_run, 4, 5)];
+			pic = assets().pics.enemies.anim("sib_run_right")[animate(anim_run, 4, 5)];
 			walk(3);
 			noCol();
 			break;
@@ -67,7 +67,7 @@ void EnemyBisouSIB::update() {
 	updateDestroyed();
 }
 
-void EnemyBisouSIB::takeHit(Shot* shot) {
+void EnemyBisouSIB::takeHit(Shot*) {
 	if (++hits_taken > 300) {
 		if (status == STATE_WAITING_HURT)
 			status = STATE_HURT_RECOVER;

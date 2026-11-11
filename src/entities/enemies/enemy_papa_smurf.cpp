@@ -3,23 +3,23 @@
 #define ATT_ATATA 0
 #define ATT_BOOM 1
 
-EnemyPapaSmurf::EnemyPapaSmurf() : wait_change_target(0), dx(0), target(NULL), attack_wanted(ATT_BOOM) { hp = 5000; }
+EnemyPapaSmurf::EnemyPapaSmurf() : target(nullptr), wait_change_target(0), dx(0), attack_wanted(ATT_BOOM) { hp = 5000; }
 
 void EnemyPapaSmurf::updateTarget() {
-	if (wait_change_target > 0 && target != NULL && !target->destroyed) {
+	if (wait_change_target > 0 && target != nullptr && !target->destroyed) {
 		wait_change_target -= 1;
 	} else {
-		if (targeted_player != NULL && !targeted_player->destroyed) {
-			target = targeted_player;
-			wait_change_target = 200 + rand() % 100;
+		if (session().targeted_player != nullptr && !session().targeted_player->destroyed) {
+			target = session().targeted_player;
+			wait_change_target = 200 + rnd() % 100;
 		} else {
-			target = NULL;
+			target = nullptr;
 		}
 	}
 }
 
 void EnemyPapaSmurf::updateChoice() {
-	if (target == NULL) return;
+	if (target == nullptr) return;
 
 	int ddx = target->x - x;
 
@@ -37,7 +37,7 @@ void EnemyPapaSmurf::updateChoice() {
 		else
 			dx = 3;
 	} else {
-		if (ddx < -400 || ddx > 400 || x <= offset + 60 || x >= offset + 580)
+		if (ddx < -400 || ddx > 400 || x <= level().camera.offset + 60 || x >= level().camera.offset + 580)
 			attack_wanted = ATT_ATATA;
 		else if (ddx < 0)
 			dx = 3;
@@ -81,36 +81,36 @@ void EnemyPapaSmurf::onAtata() {
 	if (anim_step > 50) {
 		anim_step = anim_tick = 0;
 		status = STATE_NORMAL;
-		attack_wanted = rand() % 2;
+		attack_wanted = rnd() % 2;
 	} else {
 		if (dir == FACING_LEFT) {
-			pic = pbk_enemies.anim("smurf_walk_right")[3 + (anim_step % 3)];
+			pic = assets().pics.enemies.anim("smurf_walk_right")[3 + (anim_step % 3)];
 			dx = -1;
 		} else {
-			pic = pbk_enemies.anim("smurf_walk_right")[(anim_step % 3)];
+			pic = assets().pics.enemies.anim("smurf_walk_right")[(anim_step % 3)];
 			dx = 1;
 		}
 
-		int x2 = x + dx;
+		int x_next = x + dx;
 
-		if (!solid_wall(x2, y) && x2 > offset + 50 && x2 < offset + 600) x = x2;
+		if (!level().terrain.solid_wall(x_next, y) && x_next > level().camera.offset + 50 && x_next < level().camera.offset + 600) x = x_next;
 	}
 }
 
 void EnemyPapaSmurf::onWalk() {
-	int x2 = x + dx;
+	int x_next = x + dx;
 
-	if (!solid_wall(x2, y) && x2 > offset + 50 && x2 < offset + 600) x = x2;
+	if (!level().terrain.solid_wall(x_next, y) && x_next > level().camera.offset + 50 && x_next < level().camera.offset + 600) x = x_next;
 
 	if (dx <= 0) {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_walk_left")[4];
+			pic = assets().pics.enemies.anim("smurf_walk_left")[4];
 		else
-			pic = pbk_enemies.anim("smurf_burn_left")[3];
+			pic = assets().pics.enemies.anim("smurf_burn_left")[3];
 	} else {
 		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_burn_right")[0];
+			pic = assets().pics.enemies.anim("smurf_burn_right")[0];
 		else
-			pic = pbk_enemies.anim("smurf_walk_left")[1];
+			pic = assets().pics.enemies.anim("smurf_walk_left")[1];
 	}
 }

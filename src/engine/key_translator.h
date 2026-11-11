@@ -2,9 +2,9 @@
 
 #include <string>
 
-std::string DIK_to_string(int n);
+std::string keyToString(int n, bool french);
 
-// Stable English names for the settings file, unlike the localized DIK_to_string
+// Stable English names for the settings file, unlike the localized keyToString
 std::string codeName(unsigned int code);
 constexpr unsigned int UNKNOWN_CODE = ~0u;
 

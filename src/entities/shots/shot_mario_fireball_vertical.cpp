@@ -1,9 +1,9 @@
 #include "entities/shots/shot_mario_fireball_vertical.h"
 
-ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : x_target(xc), dx(vx) { dy = -12; }
+ShotMarioFireballVertical::ShotMarioFireballVertical(int vx, int xc) : dx(vx), x_target(xc) { dy = -12; }
 
 void ShotMarioFireballVertical::update() {
-	if (x < offset - 100 || x > offset + 700 || y > 520 || y < -250) destroyed = true;
+	if (x < level().camera.offset - 100 || x > level().camera.offset + 700 || y > 520 || y < -250) destroyed = true;
 	if (dy > 0) {
 		fireball_fall();
 	} else {
@@ -25,19 +25,19 @@ void ShotMarioFireballVertical::update() {
 	}
 
 	if (dy > 12) {
-		pic = pbk_enemies.anim("fireball_down_fast")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_down_fast")[anim_step];
 	} else if (dy > 6) {
-		pic = pbk_enemies.anim("fireball_down_medium")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_down_medium")[anim_step];
 	} else if (dy > 0) {
-		pic = pbk_enemies.anim("fireball_down_slow")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_down_slow")[anim_step];
 	}
 
 	if (dy < -12) {
-		pic = pbk_enemies.anim("fireball_up_fast")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_up_fast")[anim_step];
 	} else if (dy < -6) {
-		pic = pbk_enemies.anim("fireball_up_medium")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_up_medium")[anim_step];
 	} else if (dy < 0) {
-		pic = pbk_enemies.anim("fireball_up_slow")[anim_step];
+		pic = assets().pics.enemies.anim("fireball_up_slow")[anim_step];
 	}
 
 	colFromPic();
@@ -49,7 +49,7 @@ void ShotMarioFireballVertical::fireball_fall() {
 
 	if (grav_tick == 0 && dy < GRAVITY_FIREBALL) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = GRAVITY_FIREBALL;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = GRAVITY_FIREBALL;
 
 	y += dy;
 }

@@ -1,6 +1,6 @@
 #include "entities/shots/shot_shaman_column.h"
 
-ShotShamanColumn::ShotShamanColumn() : status(0) { lifespan = 250 + rand() % 100; }
+ShotShamanColumn::ShotShamanColumn() : status(0) { lifespan = 250 + rnd() % 100; }
 
 void ShotShamanColumn::update() {
 	travel();
@@ -20,7 +20,7 @@ void ShotShamanColumn::update() {
 				}
 			}
 
-			pic = pbk_enemies.anim("shaman_column_grow")[4 - anim_step];
+			pic = assets().pics.enemies.anim("shaman_column_grow")[4 - anim_step];
 
 			break;
 
@@ -39,7 +39,7 @@ void ShotShamanColumn::update() {
 				return;
 			}
 
-			pic = pbk_enemies.anim("shaman_column_burn")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_column_burn")[anim_step];
 
 			break;
 
@@ -54,7 +54,7 @@ void ShotShamanColumn::update() {
 				}
 			}
 
-			pic = pbk_enemies.anim("shaman_column_grow")[anim_step];
+			pic = assets().pics.enemies.anim("shaman_column_grow")[anim_step];
 
 			break;
 	}
@@ -68,9 +68,9 @@ void ShotShamanColumn::travel() {
 
 	fall();
 
-	if (solid_wall(x - SPEED, y) || x + SPEED < offset)
+	if (level().terrain.solid_wall(x - SPEED, y) || x + SPEED < level().camera.offset)
 		dir = FACING_RIGHT;
-	else if (x + SPEED > offset + 640)
+	else if (x + SPEED > level().camera.offset + 640)
 		dir = FACING_LEFT;
 
 	if (dir == FACING_RIGHT) {

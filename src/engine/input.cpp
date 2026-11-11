@@ -11,8 +11,6 @@
 #include "engine/key_translator.h"
 
 Input in;
-bool app_killed = false;
-int autoquit_frames = 0;
 
 // A quarter of the travel, so resting triggers do not register
 static const int TRIGGER_THRESHOLD = 8192;
@@ -35,9 +33,10 @@ Pad* Input::padById(SDL_JoystickID id) {
 
 void Input::update() {
 	prev_ = cur_;
+	for (int w = 0; w < 2; w++) cur_.mouse[MOUSE_WHEEL_UP + w] = FrameClock::frames() < wheel_until_[w];
 	mouse_moved_ = new_press_ = false;
-	frames_played++;
-	if (autoquit_frames > 0 && (int)frames_played >= autoquit_frames) app_killed = true;
+	std::uint32_t frames_played = ++FrameClock::frames_;
+	if (isTestRun() && static_cast<int>(frames_played) >= autoquit_frames_) quit_ = true;
 	for (auto [frame, key] : script_) {
 		if (frame != frames_played && frame + 2 != frames_played) continue;
 		SDL_Event k{};
@@ -51,7 +50,7 @@ void Input::update() {
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
 			case SDL_QUIT:
-				app_killed = true;
+				quit_ = true;
 				break;
 
 			case SDL_RENDER_TARGETS_RESET:
@@ -105,9 +104,20 @@ void Input::update() {
 
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
-				if (e.button.button < MOUSE_BUTTONS) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
+				// Higher buttons would read as the wheel
+				if (e.button.button < MOUSE_WHEEL_UP) cur_.mouse[e.button.button] = e.button.state == SDL_PRESSED;
 				if (e.button.state == SDL_PRESSED) new_press_ = true;
 				break;
+
+			case SDL_MOUSEWHEEL: {
+				int dy = e.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -e.wheel.y : e.wheel.y;
+				if (dy) {
+					int w = dy > 0 ? 0 : 1;
+					cur_.mouse[MOUSE_WHEEL_UP + w] = true;
+					wheel_until_[w] = FrameClock::frames() + 2;
+				}
+				break;
+			}
 
 			// SDL already reports these in the 640x480 logical space of the renderer
 			case SDL_MOUSEMOTION:
@@ -178,12 +188,18 @@ int Input::heldCode(int devices) const {
 Task<int> Input::waitKey() {
 	co_await waitClean();
 	int k;
-	while ((k = heldCode()) < 0 && !app_killed) co_await nextFrame();
+	while ((k = heldCode()) < 0 && !quit_) co_await nextFrame();
 	co_return k < 0 ? 0 : k;
 }
 
 Task<> Input::waitClean() {
-	while (heldCode() >= 0 && !app_killed) co_await nextFrame();
+	while (heldCode() >= 0 && !quit_) co_await nextFrame();
+}
+
+void Input::rumble(int slot, int strength, int ms) {
+	// Pads without motors just report an error, which changes nothing for the player
+	auto s = static_cast<Uint16>(strength);
+	if (SDL_GameController* c = cur_.pads[slot].ctrl) SDL_GameControllerRumble(c, s, s, ms);
 }
 
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }
@@ -230,13 +246,13 @@ int Input::scanMenu(const State& st, unsigned int k) {
 	if (scan(st, k)) return 1;
 
 	// Menus, cutscenes and the hi-score entry work with whatever device the player holds
-	if (k == DIK_RETURN && st.mouse[SDL_BUTTON_LEFT]) return 1;
-	int joy = k == DIK_UP ? JOY_UP : k == DIK_DOWN ? JOY_DOWN : k == DIK_LEFT ? JOY_LEFT : k == DIK_RIGHT ? JOY_RIGHT : 0;
+	if (k == SDLK_RETURN && st.mouse[SDL_BUTTON_LEFT]) return 1;
+	int joy = k == SDLK_UP ? JOY_UP : k == SDLK_DOWN ? JOY_DOWN : k == SDLK_LEFT ? JOY_LEFT : k == SDLK_RIGHT ? JOY_RIGHT : 0;
 	for (int s = 0; s < MAX_JOY; s++) {
 		const Pad& p = st.pads[s];
 		if (joy && scan(st, PAD_CODE(s, joy))) return 1;
-		if (k == DIK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
-		if (k == DIK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
+		if (k == SDLK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
+		if (k == SDLK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
 	}
 	return 0;
 }
@@ -253,7 +269,7 @@ bool Input::setScript(std::string_view script) {
 		unsigned int key = codeFromName(std::string(step.substr(colon + 1)));
 		bool keyboard = key < 255 || (key & SDLK_SCANCODE_MASK);
 		if (err != std::errc() || end != step.data() + colon || frame == 0 || key == 0 || !keyboard) return false;
-		script_.emplace_back(frame, SDL_Keycode(key));
+		script_.emplace_back(frame, static_cast<SDL_Keycode>(key));
 	}
 	return true;
 }

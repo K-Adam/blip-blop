@@ -4,11 +4,15 @@
 #include "entities/make_bonus.h"
 #include "entities/splatter.h"
 
-Character* targeted_player;
-int wait_for_bonus;
-int splatter_num;
+namespace {
+// Kills of any enemy add up towards the next weapon drop, and blood stains cycle through their frames
+struct EnemyDrops {
+	int wait_for_bonus = 0;
+	int splatter_num = 0;
+};
+}  // namespace
 
-Enemy::Enemy() : xmin(offset), blood(0), treasure(5) {}
+Enemy::Enemy() : xmin(level().camera.offset), blood(0), treasure(5) {}
 
 void Enemy::takeHit(Shot* shot) {
 	int dmg = shot->damage();
@@ -30,27 +34,29 @@ void Enemy::takeHit(Shot* shot) {
 			status = STATE_DYING;
 			shot->onKill();
 
-			if (pic != NULL) {
-				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
+			if (pic != nullptr) {
+				int y_trace = y - ((pic->ySize()) >> 1) - rnd() % 15;
 
-				if (bloody_wall(x, y_trace)) {
+				if (level().terrain.bloody_wall(x, y_trace)) {
+					int& splatter_num = session().shared<EnemyDrops>().splatter_num;
 					splatter_num += 1;
 					splatter_num %= 14;
 
-					engrave(x, y_trace, pbk_misc.anim("blood_stain")[splatter_num]);
+					engrave(x, y_trace, assets().pics.misc.anim("blood_stain")[splatter_num]);
 				}
 			}
 		}
 
 		if (count()) {
+			int& wait_for_bonus = session().shared<EnemyDrops>().wait_for_bonus;
 			wait_for_bonus += treasure;
 
-			if (wait_for_bonus >= 50 && okBonus) {
+			if (wait_for_bonus >= 50 && level().rules.bonus_ok) {
 				MakeBonusWeapon(x, y);
 				wait_for_bonus = 0;
 			}
 
-			game_flag[FLAG_NB_KILL] += 1;
+			level().rules.flags[FLAG_NB_KILL] += 1;
 		}
 	}
 }
@@ -58,7 +64,7 @@ void Enemy::takeHit(Shot* shot) {
 void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 	if (blood > 0 || shot->enflame()) return;
 
-	Splatter* splatter = new Splatter();
+	auto splatter = std::make_unique<Splatter>();
 
 	splatter->parent = this;
 	int d = splatter->dir = shot->getSplatterDir();
@@ -67,7 +73,7 @@ void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 
 	blood = 20;
 
-	list_splatters.emplace_back(splatter);
+	level().entities.splatters.emplace_back(std::move(splatter));
 }
 
 void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int& yspeed) const {
@@ -75,7 +81,7 @@ void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int
 	int ddx = xdest - xshot;
 
 	if (yshot < ydest) {
-		yspeed = rand() % 3 - 5;
+		yspeed = rnd() % 3 - 5;
 
 		int ddy = yspeed;
 
@@ -87,7 +93,7 @@ void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int
 			nsteps += 1;
 		};
 	} else {
-		yspeed = rand() % 2 - 6;
+		yspeed = rnd() % 2 - 6;
 
 		int ddy = yspeed;
 

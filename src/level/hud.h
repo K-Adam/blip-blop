@@ -20,82 +20,74 @@ class HUD {
 		} else {
 			DrawLives(player->nb_life, location);
 		}
-		DrawWeapon(player->weapon_id, location);
+		DrawWeapon(player, location);
 
 		if (player->hasUnlimitedAmmo()) {
 			DrawAmmo(-1, false, location);
 		} else {
-			DrawAmmo(player->ammo, player->is_firing, location);
+			DrawAmmo(player->ammo[player->weapon_id], player->is_firing, location);
 		}
 		DrawCowBomb(player->nb_cow_bomb, location);
+		DrawInventory(player, location);
 	}
 
    private:
 	void DrawCowBomb(int nb, Location location) {
 		if (location == Location::Left) {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc.pic("icon_cow_bomb")->BlitTo(backSurface, 90 + dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) assets().pics.misc.pic("icon_cow_bomb")->BlitTo(graphics.back(), 90 + dxt, 65);
 		} else {
-			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) pbk_misc.pic("icon_cow_bomb")->BlitTo(backSurface, 520 - dxt, 65);
+			for (int i = 0, dxt = 0; i < nb; i++, dxt += 23) assets().pics.misc.pic("icon_cow_bomb")->BlitTo(graphics.back(), 520 - dxt, 65);
 		}
 	}
 
 	void DrawAmmo(int ammo, bool firing, Location location) {
 		int x = location == Location::Left ? 135 : 505;
 		if (ammo == -1) {
-			fnt_ammo.printC(backSurface, x, 43, "*");
+			assets().fonts.ammo.printC(graphics.back(), x, 43, "*");
 			return;
 		}
 
 		std::string ammo_str = std::to_string(ammo);
 		if (firing) {
-			fnt_ammo_used.printC(backSurface, x, 43, ammo_str);
+			assets().fonts.ammo_used.printC(graphics.back(), x, 43, ammo_str);
 		} else {
-			fnt_ammo.printC(backSurface, x, 43, ammo_str);
+			assets().fonts.ammo.printC(graphics.back(), x, 43, ammo_str);
 		}
 	}
 
-	void DrawWeapon(int weapon, Location location) {
-		const Picture* pic = nullptr;
-
-		switch (weapon) {
-			case ID_M16:
-				pic = pbk_misc.pic("icon_m16");
-				break;
-			case ID_PM:
-				pic = pbk_misc.pic("icon_pm");
-				break;
-			case ID_LF:
-				pic = pbk_misc.pic("icon_lf");
-				break;
-			case ID_SHOTGUN:
-				pic = pbk_misc.pic("icon_shotgun");
-				break;
-			case ID_LASER:
-				pic = pbk_misc.pic("icon_laser");
-				break;
-			default:
-				assert(false);
+	void DrawInventory(const Ball* player, Location location) {
+		// Grows toward the middle of the screen, away from the weapon in hand
+		int x = location == Location::Left ? 190 : 455;
+		int dx = location == Location::Left ? 36 : -36;
+		for (int id = 0; id < NB_WEAPONS; id++) {
+			if (id == player->weapon_id || !player->carries(id)) continue;
+			WeaponIcon(player, id)->BlitScaled(graphics.back(), x, 50, 0.5);
+			x += dx;
 		}
+	}
 
+	void DrawWeapon(const Ball* player, Location location) {
 		int x = (location == Location::Left) ? 135 : 510;
-		pic->BlitTo(backSurface, x, 50);
+		WeaponIcon(player, player->weapon_id)->BlitTo(graphics.back(), x, 50);
 	}
+
+	static const Picture* WeaponIcon(const Ball* player, int id) { return assets().pics.misc.pic(player->weaponAt(id).stats.icon); }
 
 	void DrawBonusStage(Location location) {
 		if (location == Location::Left) {
-			fnt_rpg.print(backSurface, 4, 5, "Bonus");
-			fnt_rpg.print(backSurface, 4, 20, "Stage");
+			assets().fonts.rpg.print(graphics.back(), 4, 5, "Bonus");
+			assets().fonts.rpg.print(graphics.back(), 4, 20, "Stage");
 		} else {
-			fnt_rpg.printR(backSurface, 635, 5, "Bonus");
-			fnt_rpg.printR(backSurface, 635, 20, "Stage");
+			assets().fonts.rpg.printR(graphics.back(), 635, 5, "Bonus");
+			assets().fonts.rpg.printR(graphics.back(), 635, 20, "Stage");
 		}
 	}
 
 	void DrawLives(int lives, Location location) {
 		if (location == Location::Left) {
-			fnt_cool.print(backSurface, 5, 5, std::to_string(lives));
+			assets().fonts.cool.print(graphics.back(), 5, 5, std::to_string(lives));
 		} else {
-			fnt_cool.printR(backSurface, 635, 5, std::to_string(lives));
+			assets().fonts.cool.printR(graphics.back(), 635, 5, std::to_string(lives));
 		}
 	}
 
@@ -106,9 +98,9 @@ class HUD {
 
 		int x = (location == Location::Left) ? 100 : 450;
 		if (color == Color::Blue) {
-			fnt_score_blip.print(backSurface, x, 20, s);
+			assets().fonts.score_blip.print(graphics.back(), x, 20, s);
 		} else {
-			fnt_score_blop.print(backSurface, x, 20, s);
+			assets().fonts.score_blop.print(graphics.back(), x, 20, s);
 		}
 	}
 
@@ -117,15 +109,15 @@ class HUD {
 		static const int y_health[] = {0, 21, 48, 21, 0};
 		static const int pos[2][2] = {{20, 20}, {560, 20}};
 
-		int x = pos[int(location)][0];
-		int y = pos[int(location)][1];
+		int x = pos[static_cast<int>(location)][0];
+		int y = pos[static_cast<int>(location)][1];
 
 		for (int i = 0; i < health; i++) {
-			pbk_bb.anim("health_full")[4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			assets().pics.bb.anim("health_full")[4 - i]->BlitTo(graphics.back(), x + x_health[i], y + y_health[i]);
 		}
 
 		for (int i = health; i < 5; i++) {
-			pbk_bb.anim("health_empty")[4 - i]->BlitTo(backSurface, x + x_health[i], y + y_health[i]);
+			assets().pics.bb.anim("health_empty")[4 - i]->BlitTo(graphics.back(), x + x_health[i], y + y_health[i]);
 		}
 	}
 };

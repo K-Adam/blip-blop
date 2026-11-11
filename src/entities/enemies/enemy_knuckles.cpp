@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_knuckles.h"
 
-EnemyKnuckles::EnemyKnuckles() : speed(1), speed_tick(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
+EnemyKnuckles::EnemyKnuckles() : speed(1), speed_tick(0), charge_delay(100 + rnd() % 150), wait_for_charge(0) {
 	treasure = 7;
 	hp = 150;
 }
@@ -38,7 +38,7 @@ void EnemyKnuckles::update() {
 }
 
 void EnemyKnuckles::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		grav_tick = 0;
@@ -46,38 +46,38 @@ void EnemyKnuckles::onWalk() {
 		return;
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_charge++;
-	if (wait_for_charge >= charge_delay && targeted_player != NULL) {
-		if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
-			(((dir == FACING_RIGHT) && (x > (targeted_player->x - 200)) && (targeted_player->x > x)) ||
-			 ((dir == FACING_LEFT) && (x < (targeted_player->x + 200)) && (targeted_player->x < x)))) {
+	if (wait_for_charge >= charge_delay && session().targeted_player != nullptr) {
+		if ((level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y)) &&
+			(((dir == FACING_RIGHT) && (x > (session().targeted_player->x - 200)) && (session().targeted_player->x > x)) ||
+			 ((dir == FACING_LEFT) && (x < (session().targeted_player->x + 200)) && (session().targeted_player->x < x)))) {
 			status = STATE_SHOOT;
-			sbk_level.play(6);
+			assets().sounds.level.play(6);
 			speed = KNUCKLES_CHARGE_SPEED;
 			anim_step = 0;
 			anim_tick = 0;
 			onCharge();
 			return;
-		} else if ((targeted_player->y < y) && (targeted_player->x > x - 30) && (targeted_player->x < x + 30)) {
+		} else if ((session().targeted_player->y < y) && (session().targeted_player->x > x - 30) && (session().targeted_player->x < x + 30)) {
 			status = STATE_JUMP;
 			speed = 0;
 			anim_step = 0;
 			anim_tick = 0;
 			grav_tick = 0;	// Otherwise jump heights vary
 			dy = 0;
-			sbk_level.play(7);
+			assets().sounds.level.play(7);
 			onJump();
 			return;
 		} else {
 			wait_for_charge = 0;
-			charge_delay = 10 + rand() % 10;
+			charge_delay = 10 + rnd() % 10;
 		}
 	}
 
@@ -91,10 +91,10 @@ void EnemyKnuckles::onWalk() {
 
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim("knuckles_walk_right")[anim_step];
+		pic = assets().pics.enemies.anim("knuckles_walk_right")[anim_step];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim("knuckles_walk_left")[anim_step];
+		pic = assets().pics.enemies.anim("knuckles_walk_left")[anim_step];
 	}
 	if (speed < KNUCKLES_SPEED) {
 		speed_tick++;
@@ -115,24 +115,24 @@ void EnemyKnuckles::onDie() {
 		if (anim_tick == 0 && anim_step < 10) anim_step += 1;
 
 		if (anim_step >= 10) {
-			int yy = platform_y(x, y);
+			int yy = level().terrain.platform_y(x, y);
 
 			if (yy != 0) {
 				engrave(x, y, pic);
 				destroyed = true;
 			} else {
-				if (dir == FACING_LEFT && !solid_wall(x - speed, y))
+				if (dir == FACING_LEFT && !level().terrain.solid_wall(x - speed, y))
 					x -= speed;
-				else if (!solid_wall(x + speed, y))
+				else if (!level().terrain.solid_wall(x + speed, y))
 					x += speed;
 			}
 		} else {
 			if (dir == FACING_LEFT) {
-				if (!solid_wall(x - speed, y)) x -= speed;
-				pic = pbk_enemies.anim("knuckles_die_left")[anim_step];
+				if (!level().terrain.solid_wall(x - speed, y)) x -= speed;
+				pic = assets().pics.enemies.anim("knuckles_die_left")[anim_step];
 			} else {
-				if (!solid_wall(x + speed, y)) x += speed;
-				pic = pbk_enemies.anim("knuckles_die_right")[anim_step];
+				if (!level().terrain.solid_wall(x + speed, y)) x += speed;
+				pic = assets().pics.enemies.anim("knuckles_die_right")[anim_step];
 			}
 		}
 	}
@@ -149,7 +149,7 @@ void EnemyKnuckles::onJump() {
 	fall();
 
 	int yp;
-	if ((dy > 0 && (yp = platform_y(x, y + dy)) != 0) && anim_step > 0) {
+	if ((dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) && anim_step > 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -157,15 +157,11 @@ void EnemyKnuckles::onJump() {
 		wait_for_charge = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		charge_delay = 50 + rand() % 150;
+		charge_delay = 50 + rnd() % 150;
 		onWalk();
 		return;
 	}
-	if (dir == FACING_LEFT) {
-		pic = pbk_enemies.anim("knuckles_jump_left")[anim_step];
-	} else {
-		pic = pbk_enemies.anim("knuckles_jump_right")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "knuckles_jump")[anim_step];
 	colFromPic();
 }
 
@@ -180,7 +176,7 @@ void EnemyKnuckles::onCharge() {
 		status = STATE_WALK;
 		speed = 1;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 150;
+		charge_delay = 50 + rnd() % 150;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
@@ -192,31 +188,31 @@ void EnemyKnuckles::onCharge() {
 	}
 
 	if (dir == FACING_LEFT) {
-		if (!solid_wall(x - speed, y)) {
+		if (!level().terrain.solid_wall(x - speed, y)) {
 			walk(-speed);
 		} else {
 			status = STATE_WALK;
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 150;
+			charge_delay = 50 + rnd() % 150;
 			anim_step = 0;
 			anim_tick = 0;
 			onWalk();
 			return;
 		}
-		if (anim_step < 2) pic = pbk_enemies.anim("knuckles_charge_left")[anim_step];
+		if (anim_step < 2) pic = assets().pics.enemies.anim("knuckles_charge_left")[anim_step];
 	} else {
-		if (!solid_wall(x + speed, y)) {
+		if (!level().terrain.solid_wall(x + speed, y)) {
 			walk(speed);
 		} else {
 			status = STATE_WALK;
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 150;
+			charge_delay = 50 + rnd() % 150;
 			anim_step = 0;
 			anim_tick = 0;
 			onWalk();
 			return;
 		}
-		if (anim_step < 2) pic = pbk_enemies.anim("knuckles_charge_right")[anim_step];
+		if (anim_step < 2) pic = assets().pics.enemies.anim("knuckles_charge_right")[anim_step];
 	}
 	colFromPic();
 }
@@ -226,7 +222,7 @@ void EnemyKnuckles::onFall() {
 
 	fall();
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -237,10 +233,10 @@ void EnemyKnuckles::onFall() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies.anim("knuckles_walk_right")[0];
+		pic = assets().pics.enemies.anim("knuckles_walk_right")[0];
 	} else {
 		x -= speed;
-		pic = pbk_enemies.anim("knuckles_walk_left")[0];
+		pic = assets().pics.enemies.anim("knuckles_walk_left")[0];
 	}
 
 	colFromPic();
@@ -256,10 +252,7 @@ void EnemyKnuckles::onCharred() {
 	if (anim_step >= 10)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("knuckles_burn_right")[anim_step];
-		else
-			pic = pbk_enemies.anim("knuckles_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "knuckles_burn")[anim_step];
 	}
 }
 
@@ -271,7 +264,7 @@ void EnemyKnuckles::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		sbk_misc.play(10);
+		assets().sounds.misc.play(10);
 	}
 }
 
@@ -281,9 +274,9 @@ void EnemyKnuckles::fall() {
 
 	if (grav_tick == 0 && dy < KNUCKLES_GRAVITY_MAX) dy += 1;
 
-	if (dy < 0 && solid_wall(x, y + dy)) dy = KNUCKLES_GRAVITY_MAX;
+	if (dy < 0 && level().terrain.solid_wall(x, y + dy)) dy = KNUCKLES_GRAVITY_MAX;
 
-	int ny = platform_y(x, y + dy);
+	int ny = level().terrain.platform_y(x, y + dy);
 
 	if (ny != 0 && dy > 0)
 		y = ny;

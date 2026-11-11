@@ -6,7 +6,7 @@ class EnemySmurfVain : public EnemySmurf {
    public:
 	EnemySmurfVain() {
 		dy_jump = -6;
-		speed = 1 + rand() % 2;
+		speed = 1 + rnd() % 2;
 	}
 
 	inline void render() override {
@@ -14,10 +14,10 @@ class EnemySmurfVain : public EnemySmurf {
 		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x + 3, y - 31, pbk_enemies.pic("smurf_vain_flower"));
+					draw(x + 3, y - 31, assets().pics.enemies.pic("smurf_vain_flower"));
 					break;
 				case FACING_RIGHT:
-					draw(x - 3, y - 31, pbk_enemies.pic("smurf_vain_flower"));
+					draw(x - 3, y - 31, assets().pics.enemies.pic("smurf_vain_flower"));
 					break;
 			}
 		}

@@ -3,7 +3,7 @@
 
 const int anim_guard_walk_left[] = {0, 1, 2, 1};
 
-EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : princess(Princess), cover_distance(distance) {
+EnemyPrincessGuard::EnemyPrincessGuard(EnemyPrincess* Princess, int distance) : cover_distance(distance), princess(Princess) {
 	hp = 2500;
 	treasure = 100;
 	dir = FACING_LEFT;
@@ -32,21 +32,21 @@ void EnemyPrincessGuard::onWalk() {
 		destroyed = true;
 	}
 
-	if (game_flag[2]) {
+	if (level().rules.flags[2]) {
 		status = STATE_DYING;
 		onDie();
 		return;
 	}
 	fall();
-	if (princess != NULL) {
+	if (princess != nullptr) {
 		if ((x + cover_distance + GUARD_SPEED) < princess->x) {
 			walk(GUARD_SPEED);
-			pic = pbk_enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
+			pic = assets().pics.enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
 		} else if ((x + cover_distance - GUARD_SPEED) > princess->x) {
 			walk(-GUARD_SPEED * 3);
-			pic = pbk_enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
+			pic = assets().pics.enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];
 		} else {
-			pic = pbk_enemies.anim("princess_guard_walk_left")[0];
+			pic = assets().pics.enemies.anim("princess_guard_walk_left")[0];
 		}
 	} else {
 		destroyed = true;
@@ -64,15 +64,15 @@ void EnemyPrincessGuard::onDie() {
 	if (anim_tick == 0 && anim_step < 10) anim_step += 1;
 
 	if (anim_step >= 10) {
-		int yy = platform_y(x, y);
+		int yy = level().terrain.platform_y(x, y);
 
-		if (yy != 0 && yy != y_platform[4][x]) {
+		if (yy != 0 && yy != level().terrain.platforms[4][x]) {
 			engrave(x, y, pic);
 			destroyed = true;
-			game_flag[3] -= 1;
+			level().rules.flags[3] -= 1;
 		}
 	} else {
-		pic = pbk_enemies.anim("princess_guard_die")[anim_step];
+		pic = assets().pics.enemies.anim("princess_guard_die")[anim_step];
 	}
 }
 

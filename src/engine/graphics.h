@@ -10,10 +10,17 @@
 class Graphics {
    public:
 	void Init();
-	void SetGfxMode(int width, int height, bool fullscreen);
+	void SetGfxMode(int width, int height, bool fullscreen, bool vsync);
 	void ToggleFullscreen();
 	void SetVSync(bool on);
-	SDL::Surface* CreateSurface(int width, int height);
+	std::unique_ptr<SDL::Surface> CreateSurface(int width, int height);
+	void CreateScreens(int width, int height);
+	// The frame being drawn
+	SDL::Surface* back() const { return back_.get(); }
+	// A full screen copy for effects drawn over a frozen frame
+	SDL::Surface* spare() const { return spare_.get(); }
+	// Tests compare the printed hashes to prove a refactor draws exactly the same frames
+	void EnableFrameHash() { frame_hash_ = true; }
 	void Flip();
 	SDL_Renderer* renderer() const { return renderer_.get(); }
 
@@ -31,12 +38,11 @@ class Graphics {
 
 	std::unique_ptr<SDL_Window, WindowDeleter> window_;
 	std::unique_ptr<SDL_Renderer, RendererDeleter> renderer_;
+	std::unique_ptr<SDL::Surface> back_;
+	std::unique_ptr<SDL::Surface> spare_;
+	bool frame_hash_ = false;
 	bool fullscreen_ = false;
 	bool targets_lost_ = false;
 };
 
 extern Graphics& graphics;
-
-// The frame being drawn, and a spare full screen copy
-extern SDL::Surface* backSurface;
-extern SDL::Surface* systemSurface;

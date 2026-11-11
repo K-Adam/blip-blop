@@ -15,16 +15,16 @@ class EventText : public Event {
 		if (cond == 0)
 			return true;
 		else if (cond == 1)
-			return (game_flag[flag] == val);
+			return (level().rules.flags[flag] == val);
 		else
-			return (game_flag[flag] >= val);
+			return (level().rules.flags[flag] >= val);
 	};
 
 	void doEvent() override {
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 
 		txt->ntxt = ntxt;
 
-		list_txt_cool.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	};
 };

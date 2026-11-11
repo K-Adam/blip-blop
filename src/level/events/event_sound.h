@@ -6,5 +6,5 @@ class EventSound : public Event {
    public:
 	int nsnd;
 
-	void doEvent() override { sbk_level.play(nsnd); };
+	void doEvent() override { assets().sounds.level.play(nsnd); };
 };

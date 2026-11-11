@@ -38,6 +38,8 @@
 #define TXT_EXIT 833
 
 #define TXT_CANCEL 834
+#define TXT_NEXT_WEAPON 835
+#define TXT_PREV_WEAPON 836
 
 #define MENU_MAIN 0
 

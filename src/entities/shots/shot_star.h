@@ -13,25 +13,19 @@ class ShotStar : public Shot {
 
 		fall();
 
-		if (platform_y(x, y) != 0 || platform_y(x, y + 5)) dy = -3 - rand() % 2;
+		if (level().terrain.platform_y(x, y) != 0 || level().terrain.platform_y(x, y + 5)) dy = -3 - rnd() % 2;
 
-		anim_tick += 1;
-		anim_tick %= 3;
+		step(3, 24);
 
-		if (anim_tick == 0) {
-			anim_step += 1;
-			anim_step %= 24;
-		}
-
-		pic = pbk_enemies.anim("star_shot")[anim_step];
+		pic = assets().pics.enemies.anim("star_shot")[anim_step];
 
 		if (dir == FACING_RIGHT) {
-			if (solid_wall(x + SPEED, y))
+			if (level().terrain.solid_wall(x + SPEED, y))
 				dir = FACING_RIGHT;
 			else
 				x += SPEED;
 		} else {
-			if (solid_wall(x - SPEED, y))
+			if (level().terrain.solid_wall(x - SPEED, y))
 				dir = FACING_RIGHT;
 			else
 				x -= SPEED;
@@ -39,7 +33,7 @@ class ShotStar : public Shot {
 
 		life_time -= 1;
 
-		if (solid_wall(x, y) || life_time <= 0) destroyed = true;
+		if (level().terrain.solid_wall(x, y) || life_time <= 0) destroyed = true;
 
 		colFromPic();
 		updateDestroyed();

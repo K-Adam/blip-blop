@@ -10,14 +10,14 @@ class EnemySmurfChilly : public EnemySmurf {
 		if (status != STATE_DYING && status != STATE_CHARRED) {
 			switch (dir) {
 				case FACING_LEFT:
-					draw(x + 7, y - 18, pbk_enemies.pic("smurf_chilly_scarf_left"));
+					draw(x + 7, y - 18, assets().pics.enemies.pic("smurf_chilly_scarf_left"));
 					EnemySmurf::render();
-					draw(x, y - 20, pbk_enemies.pic("smurf_chilly_hat_left"));
+					draw(x, y - 20, assets().pics.enemies.pic("smurf_chilly_hat_left"));
 					break;
 				case FACING_RIGHT:
-					draw(x - 7, y - 18, pbk_enemies.pic("smurf_chilly_scarf_right"));
+					draw(x - 7, y - 18, assets().pics.enemies.pic("smurf_chilly_scarf_right"));
 					EnemySmurf::render();
-					draw(x, y - 20, pbk_enemies.pic("smurf_chilly_hat_right"));
+					draw(x, y - 20, assets().pics.enemies.pic("smurf_chilly_hat_right"));
 					break;
 			}
 		} else
@@ -25,7 +25,7 @@ class EnemySmurfChilly : public EnemySmurf {
 	}
 
 	void onWalk() override {
-		speed = 1 + rand() % 3;
+		speed = 1 + rnd() % 3;
 		EnemySmurf::onWalk();
 	}
 };

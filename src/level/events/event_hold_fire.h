@@ -8,8 +8,8 @@ class EventHoldFire : public Event {
 	int val;
 
 	void doEvent() override {
-		hold_fire = true;
-		flag_hold_fire = flag;
-		val_hold_fire = val;
+		level().rules.hold_fire.on = true;
+		level().rules.hold_fire.flag = flag;
+		level().rules.hold_fire.val = val;
 	};
 };

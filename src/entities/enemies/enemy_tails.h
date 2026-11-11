@@ -16,9 +16,12 @@ class EnemyTails : public Enemy {
 	bool attack;  // Attacking, otherwise moving to the right height
 	bool fly;
 	int direction;
+	bool from_sky;	// Enters flying down at the player instead of walking in
+	bool placed = false;
+	void placeInSky();
 
    public:
-	EnemyTails();
+	explicit EnemyTails(bool from_sky = false);
 	void update() override;
 	virtual void onWalk();
 	virtual void onDie();

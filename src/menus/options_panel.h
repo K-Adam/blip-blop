@@ -10,7 +10,7 @@ class OptionsPanel : public AbstractMenu {
    public:
 	OptionsPanel();
 	void Draw(SDL::Surface* surf) const override { items_.Draw(surf); }
-	int ProcessEvent();
+	int ProcessEvent() override;
 
    private:
 	void RefreshVsync();

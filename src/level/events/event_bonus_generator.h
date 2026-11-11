@@ -9,12 +9,12 @@ class EventBonusGenerator : public Event {
 	int period;
 
 	void doEvent() override {
-		BonusGenerator* gb = new BonusGenerator();
+		auto gb = std::make_unique<BonusGenerator>();
 
 		gb->period = period;
 		gb->type = type;
 		gb->x = x_activation;
 
-		list_gen_bonus.emplace_back(gb);
+		level().entities.bonus_gens.emplace_back(std::move(gb));
 	};
 };

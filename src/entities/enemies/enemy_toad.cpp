@@ -3,19 +3,25 @@
 const int anim_toad_walk_right[] = {0, 1, 2, 1};
 const int anim_toad_walk_left[] = {0, 1, 2, 1};
 
-static int wait_brain_hurts = 1000;
-static bool local_phase;
-static int brain_hurts = 9;
+namespace {
+// Shared by all toads so the special death lines play at most once in a while
+struct ToadBrain {
+	int wait_brain_hurts = 1000;
+	bool local_phase = false;
+	int brain_hurts = 9;
+};
+}  // namespace
 
-EnemyToad::EnemyToad() : speed(0), speed_tick(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
+EnemyToad::EnemyToad() : speed(0), speed_tick(0), charge_delay(50 + rnd() % 250), wait_for_charge(0), hokuto(rnd() % 5) {
 	treasure = 7;
 	hp = 300;
 }
 
 void EnemyToad::update() {
-	if (local_phase != phase) {
-		wait_brain_hurts++;
-		local_phase = phase;
+	ToadBrain& brain = level().shared<ToadBrain>();
+	if (brain.local_phase != session().phase) {
+		brain.wait_brain_hurts++;
+		brain.local_phase = session().phase;
 	}
 
 	if (blood > 0) blood -= 1;
@@ -48,7 +54,7 @@ void EnemyToad::update() {
 }
 
 void EnemyToad::onWalk() {
-	if (platform_y(x, y) == 0) {
+	if (level().terrain.platform_y(x, y) == 0) {
 		status = STATE_FALL;
 		dy = 0;
 		anim_step = 0;
@@ -57,29 +63,29 @@ void EnemyToad::onWalk() {
 		onJump();
 	}
 
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
-	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 	}
 	wait_for_charge++;
 	if (wait_for_charge >= charge_delay) {
-		if ((platform_y2(targeted_player->x, targeted_player->y) == platform_y2(x, y)) &&
-			(((dir == FACING_RIGHT) && (x < targeted_player->x)) || ((dir == FACING_LEFT) && (x > targeted_player->x)))) {
+		if ((level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y)) &&
+			(((dir == FACING_RIGHT) && (x < session().targeted_player->x)) || ((dir == FACING_LEFT) && (x > session().targeted_player->x)))) {
 			charge_step = 0;
 			speed = 0;
 			anim_step = 0;
 			anim_tick = 0;
 			dy = 0;
 			status = STATE_SHOOT;
-			sbk_level.play(34);
+			assets().sounds.level.play(34);
 			onCharge();
 			return;
 		} else {
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 250;
+			charge_delay = 50 + rnd() % 250;
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_JUMP;
@@ -91,10 +97,10 @@ void EnemyToad::onWalk() {
 	}
 	if (dir == FACING_RIGHT) {
 		walk(speed);
-		pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 12 - 3 * speed)];
+		pic = assets().pics.enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 12 - 3 * speed)];
 	} else {
 		walk(-speed);
-		pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 12 - 3 * speed)];
+		pic = assets().pics.enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 12 - 3 * speed)];
 	}
 	if (speed < TOAD_SPEED) {
 		speed_tick++;
@@ -119,45 +125,45 @@ void EnemyToad::onDie() {
 	}
 
 	if (anim_step == 5 && anim_tick == 0) {
-		sbk_misc.play(9 + rand() % 2);
+		assets().sounds.misc.play(9 + rnd() % 2);
 	}
 
 	if (anim_step >= 10) {
-		int yy = platform_y(x, y);
+		int yy = level().terrain.platform_y(x, y);
 
-		if (yy != 0 && yy != y_platform[4][x]) {
+		if (yy != 0 && yy != level().terrain.platforms[4][x]) {
 			engrave(x, y, pic);
 			destroyed = true;
 		}
 	} else {
 		if (dir == FACING_LEFT) {
-			if (!solid_wall(x - speed, y) && platform_y(x, y) == 0) x -= speed;
-			pic = pbk_enemies.anim("toad_die_left")[anim_step];
+			if (!level().terrain.solid_wall(x - speed, y) && level().terrain.platform_y(x, y) == 0) x -= speed;
+			pic = assets().pics.enemies.anim("toad_die_left")[anim_step];
 		} else {
-			if (!solid_wall(x + speed, y) && platform_y(x, y) == 0) x += speed;
-			pic = pbk_enemies.anim("toad_die_right")[anim_step];
+			if (!level().terrain.solid_wall(x + speed, y) && level().terrain.platform_y(x, y) == 0) x += speed;
+			pic = assets().pics.enemies.anim("toad_die_right")[anim_step];
 		}
 	}
 }
 
 void EnemyToad::onCharge() {
 	speed = TOAD_CHARGE_SPEED;
-	if (x - speed < xmin || solid_wall(x - speed, y)) {
+	if (x - speed < xmin || level().terrain.solid_wall(x - speed, y)) {
 		dir = FACING_RIGHT;
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 250;
+		charge_delay = 50 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
 		return;
-	} else if (x + speed > offset + 640 || solid_wall(x + speed, y)) {
+	} else if (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y)) {
 		dir = FACING_LEFT;
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 250;
+		charge_delay = 50 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
@@ -166,17 +172,17 @@ void EnemyToad::onCharge() {
 	charge_step += 1;
 	if (charge_step < 80) {
 		if (dir == FACING_RIGHT) {
-			pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 3)];
+			pic = assets().pics.enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 3)];
 		} else {
-			pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 3)];
+			pic = assets().pics.enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 3)];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
 			walk(speed);
-			pic = pbk_enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 2)];
+			pic = assets().pics.enemies.anim("toad_walk_right")[animate(anim_toad_walk_right, 4, 2)];
 		} else {
 			walk(-speed);
-			pic = pbk_enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 2)];
+			pic = assets().pics.enemies.anim("toad_walk_left")[animate(anim_toad_walk_left, 4, 2)];
 		}
 	}
 
@@ -188,7 +194,7 @@ void EnemyToad::onJump() {
 
 	fall();
 
-	if (dy > 0 && (yp = platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (yp = level().terrain.platform_y(x, y + dy)) != 0) {
 		status = STATE_NORMAL;
 		dy = 0;
 		y = yp;
@@ -200,10 +206,10 @@ void EnemyToad::onJump() {
 
 	if (dir == FACING_RIGHT) {
 		x += speed;
-		pic = pbk_enemies.pic("toad_jump_right");
+		pic = assets().pics.enemies.pic("toad_jump_right");
 	} else {
 		x -= speed;
-		pic = pbk_enemies.pic("toad_jump_left");
+		pic = assets().pics.enemies.pic("toad_jump_left");
 	}
 
 	colFromPic();
@@ -221,10 +227,7 @@ void EnemyToad::onCharred() {
 	if (anim_step >= 13)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = pbk_enemies.anim("toad_burn_right")[anim_step];
-		else
-			pic = pbk_enemies.anim("toad_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "toad_burn")[anim_step];
 	}
 }
 
@@ -236,20 +239,21 @@ void EnemyToad::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		if (wait_brain_hurts >= 140 && wait_brain_hurts <= 200) {
-			wait_brain_hurts = 250;
-			sbk_level.play(29);
+		ToadBrain& brain = level().shared<ToadBrain>();
+		if (brain.wait_brain_hurts >= 140 && brain.wait_brain_hurts <= 200) {
+			brain.wait_brain_hurts = 250;
+			assets().sounds.level.play(29);
 			hokuto = 7;
 		} else {
-			brain_hurts += 1;
-			brain_hurts %= 10;
+			brain.brain_hurts += 1;
+			brain.brain_hurts %= 10;
 
-			if (brain_hurts == 0) {
-				wait_brain_hurts = 0;
+			if (brain.brain_hurts == 0) {
+				brain.wait_brain_hurts = 0;
 				hokuto = 6;
-				sbk_level.play(28);
+				assets().sounds.level.play(28);
 			} else {
-				sbk_level.play(30 + rand() % 2);
+				assets().sounds.level.play(30 + rnd() % 2);
 			}
 		}
 	}

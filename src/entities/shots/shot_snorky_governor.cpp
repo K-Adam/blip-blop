@@ -1,6 +1,6 @@
 #include "entities/shots/shot_snorky_governor.h"
 
-ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : homing_target(target), dx(vx), dx_tick(0), dy_tick(0), time(0) { dy = vy; }
+ShotSnorkyGovernor::ShotSnorkyGovernor(Character* target, int vx, int vy) : dx(vx), dx_tick(0), dy_tick(0), time(0), homing_target(target) { dy = vy; }
 
 void ShotSnorkyGovernor::update() {
 	anim_tick++;
@@ -11,7 +11,7 @@ void ShotSnorkyGovernor::update() {
 		anim_step %= 4;
 	}
 
-	if (x < offset - 100 || x > offset + 740 || y > 580 || y < -100) destroyed = true;
+	if (x < level().camera.offset - 100 || x > level().camera.offset + 740 || y > 580 || y < -100) destroyed = true;
 
 	time++;
 
@@ -57,12 +57,12 @@ void ShotSnorkyGovernor::update() {
 	y += dy;
 
 	if (dx <= 0) {
-		pic = pbk_enemies.anim("governor_shot")[anim_step];
+		pic = assets().pics.enemies.anim("governor_shot")[anim_step];
 	} else {
-		pic = pbk_enemies.anim("governor_shot")[3 - anim_step];
+		pic = assets().pics.enemies.anim("governor_shot")[3 - anim_step];
 	}
 
-	if (solid_wall(x + dx, y + dy) != 0) destroyed = true;
+	if (level().terrain.solid_wall(x + dx, y + dy) != 0) destroyed = true;
 
 	colFromPic();
 }

@@ -1,56 +1,53 @@
 #include "level/events/event_bonus.h"
 #include "entities/bonus_weapon.h"
-#include "entities/bonus_beer.h"
-#include "entities/bonus_invincible.h"
-#include "entities/bonus_barrel.h"
-#include "entities/bonus_cow.h"
+#include "entities/bonus_item.h"
 
 void EventBonus::doEvent() {
-	Bonus* bonus;
+	std::unique_ptr<Bonus> bonus;
 
 	switch (type) {
 		case BPM:
-			bonus = new BonusPM();
+			bonus = std::make_unique<BonusPM>();
 			break;
 
 		case BSHOTGUN:
-			bonus = new BonusShotgun();
+			bonus = std::make_unique<BonusShotgun>();
 			break;
 
 		case BLF:
-			bonus = new BonusLF();
+			bonus = std::make_unique<BonusLF>();
 			break;
 
 		case BLASER:
-			bonus = new BonusLaser();
+			bonus = std::make_unique<BonusLaser>();
 			break;
 
 		case BBEER:
-			bonus = new BonusBeer();
+			bonus = std::make_unique<BonusBeer>();
 			break;
 
 		case BINV:
-			bonus = new BonusInvincible();
+			bonus = std::make_unique<BonusInvincible>();
 			break;
 
 		case BBARREL:
-			bonus = new BonusBarrel();
+			bonus = std::make_unique<BonusBarrel>();
 			break;
 
 		case BCOW:
-			bonus = new BonusCow();
+			bonus = std::make_unique<BonusCow>();
 			break;
 
 		default:
-			bonus = NULL;
+			bonus = nullptr;
 			debug << "Unknown bonus type\n";
 			break;
 	}
 
-	if (bonus != NULL) {
+	if (bonus != nullptr) {
 		bonus->x = x;
 		bonus->y = y;
 
-		list_bonus.emplace_back(bonus);
+		level().entities.bonus.emplace_back(std::move(bonus));
 	}
 }

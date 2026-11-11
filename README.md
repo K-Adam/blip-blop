@@ -50,7 +50,7 @@ The game loads `assets/` and `config/` from the working directory. Run it from t
       pip install clang-format==13.0.1
       git config core.hooksPath .githooks
 
-- **Tests:** `ctest --test-dir build -C Release`. These GoogleTest end to end tests run the game headless with scripted input. They check the log for expected lines and that two runs draw identical frames.
+- **Tests:** `ctest --test-dir build -C Release`. These GoogleTest integration tests run the game in-process with headless SDL. They load the real levels and step them frame by frame to check loading, movement, level reset and that the same inputs give the same outcome.
 - **CI:** every push builds on Linux, Windows and Emscripten, and checks formatting. Pushes to `main` deploy the web build to GitHub Pages.
 
 ### Command line
@@ -92,4 +92,3 @@ Help is welcome on any of these:
 - **Tests:** cover more ground. The tests reach only the first world.
 - **Data formats:** document the JSON formats of levels, cutscenes and dialogues, or add an editor for them.
 - **Global state:** group it into objects, starting with `src/level/world.h` and `src/core/assets.h`.
-- **Legacy shims:** replace the FMOD-style sound layer and the `DIK_` key aliases with direct SDL calls.

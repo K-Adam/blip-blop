@@ -17,7 +17,7 @@ void ShotCruiser::update() {
 			if (anim_step == 3) {
 				destroyed = true;
 			} else {
-				pic = pbk_level.anim("cruiser_hit_bottom")[anim_step];
+				pic = assets().pics.level.anim("cruiser_hit_bottom")[anim_step];
 			}
 		}
 	}
@@ -31,7 +31,7 @@ void ShotCruiser::update() {
 			if (anim_step == 3) {
 				destroyed = true;
 			} else {
-				pic = pbk_level.anim("cruiser_hit_top")[anim_step];
+				pic = assets().pics.level.anim("cruiser_hit_top")[anim_step];
 			}
 		}
 	} else {

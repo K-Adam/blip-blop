@@ -5,9 +5,7 @@
 #include "cinematics/cine_player.h"
 #include "core/debug.h"
 #include "engine/input.h"
-#include "core/text_data.h"
-#include "core/assets.h"
-#include "core/config.h"
+#include "core/app.h"
 #include <json.h>
 #include "core/asset_path.h"
 
@@ -69,10 +67,10 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 		for (auto item_it = items.begin(); item_it != items.end(); ++item_it) {
 			auto item = *item_it;
 
-			std::string name = item["name"];
+			std::string item_name = item["name"];
 			std::stringstream param_stream;
 
-			bool first = false;
+			bool first = true;
 			for (auto param : item["params"]) {
 				if (first) {
 					first = false;
@@ -82,7 +80,7 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 				param_stream << " " << param;
 			}
 
-			file_ << name << "(" << param_stream.str() << ")";
+			file_ << item_name << "(" << param_stream.str() << ")";
 
 			if ((block_it + 1) != blocks.end() || (item_it + 1) != items.end()) {
 				file_ << "\n";
@@ -90,15 +88,15 @@ Task<bool> CINEPlayer::playScene(const char* file, SDL::Surface* back, bool anyI
 		}
 	}
 
-	while (!finished && !app_killed) {
+	while (!finished && !in.quitRequested()) {
 		updateState();
 		update_regulator_.Skip();
 
-		while (frame_to_draw > 0 && !finished && !app_killed) {
+		while (frame_to_draw > 0 && !finished && !in.quitRequested()) {
 			renderLoop();
 
 			// Enter also reads a click or pad A, a fresh press so fire held from the level does not skip
-			if (anyInputSkips ? in.anyNewPress() : in.scanKey(DIK_ESCAPE) || in.pressedKey(DIK_RETURN)) {
+			if (anyInputSkips ? in.anyNewPress() : in.scanKey(SDLK_ESCAPE) || in.pressedKey(SDLK_RETURN)) {
 				finished = true;
 				skiped = true;
 			}
@@ -183,9 +181,9 @@ void CINEPlayer::updateState() {
 		if (cmd_name == "endscene") {
 			finished = true;
 		} else if (cmd_name == "loadgfx") {
-			if (!pbk.loadGFX(str_arg[0].c_str())) error("ne peut pas charger le fichier GFX");
+			if (!pbk.loadGFX(str_arg[0].c_str())) error("cannot load GFX file");
 		} else if (cmd_name == "loadmbk") {
-			if (!mbk.open(str_arg[0].c_str())) error("ne peut pas charger la MBK");
+			if (!mbk.open(str_arg[0].c_str())) error("cannot load MBK");
 		} else if (cmd_name == "playmusic") {
 			mbk.play(int_arg[0]);
 		} else if (cmd_name == "stopmusic") {
@@ -194,7 +192,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].x = int_arg[1];
 				obj[n].y = int_arg[2];
@@ -203,12 +201,12 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				const Picture* pic = pbk.frame(str_arg[1]);
 
 				if (pic == nullptr)
-					error("numéro d'image invalide");
+					error("invalid picture number");
 				else {
 					obj[n].id = OBJ_SPRITE;
 					obj[n].pic = pic;
@@ -219,7 +217,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].dx = int_arg[1];
 				obj[n].dy = int_arg[2];
@@ -229,7 +227,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].id = OBJ_TEXT;
 				obj[n].txt = int_arg[1];
@@ -239,7 +237,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].show = false;
 				obj[n].dx = 0;
@@ -271,7 +269,9 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
+			else if (nb_args < 5)
+				error("setanim needs at least one frame");
 			else {
 				obj[n].speed_anim = int_arg[1];
 				if (int_arg[2])
@@ -294,7 +294,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].x_warp = true;
 				obj[n].x_warp1 = int_arg[1];
@@ -304,7 +304,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].y_warp = true;
 				obj[n].y_warp1 = int_arg[1];
@@ -314,7 +314,7 @@ void CINEPlayer::updateState() {
 			n = int_arg[0];
 
 			if (n < 0 || n >= NB_OBJ)
-				error("numéro d'objet invalide");
+				error("invalid object number");
 			else {
 				obj[n].nb_anim = false;
 			}
@@ -324,9 +324,9 @@ void CINEPlayer::updateState() {
 		} else if (cmd_name == "setdeltaalpha") {
 			delta_alpha = int_arg[0];
 		} else if (cmd_name == "setbackcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("invalid layer number");
 		} else if (cmd_name == "setclipcolor") {
-			if (int_arg[0] < 0 || int_arg[0] > 1) error("mauvais numéro de calque");
+			if (int_arg[0] < 0 || int_arg[0] > 1) error("invalid layer number");
 		} else if (cmd_name == "setvolume") {
 			delta_vol = 0;
 		} else if (cmd_name == "setdeltavolume") {
@@ -343,7 +343,7 @@ void CINEPlayer::updateState() {
 void CINEPlayer::drawScene() {
 	Rect r;
 
-	back_surf->FillRect(0, 0xFF000000);
+	back_surf->FillRect(nullptr, 0xFF000000);
 
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
@@ -391,7 +391,7 @@ void CINEPlayer::drawSprite(int n) {
 }
 
 void CINEPlayer::drawText(int n) {
-	if (n < NB_OBJ) fnt_rpg.printC(back_surf, obj[n].x, obj[n].y, txt_data[obj[n].txt]);
+	if (n < NB_OBJ) assets().fonts.rpg.printC(back_surf, obj[n].x, obj[n].y, texts()[obj[n].txt]);
 }
 
 bool CINEPlayer::getCommand() {
@@ -409,7 +409,7 @@ bool CINEPlayer::getCommand() {
 	std::string clean;
 	for (char c : line) {
 		if (c == ';') break;
-		if (c != ' ' && c != '"') clean += char(std::tolower((unsigned char)c));
+		if (c != ' ' && c != '"') clean += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
 	}
 
 	size_t paren = clean.find('(');

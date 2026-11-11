@@ -1,11 +1,8 @@
-#include <cstdlib>
 #include "level/backgrounds/background_light.h"
 
-#define STATE_BLINK 100
-
-BackgroundLight::BackgroundLight() : lit(false), wait_for_blink(0) {
-	blink_interval = 50 + rand() % 200;
-	pic = pbk_level.anim("light_blink")[0];
+BackgroundLight::BackgroundLight(const char* sheet) : lit(false), wait_for_blink(0), sheet_(sheet) {
+	blink_interval = 50 + rnd() % 200;
+	pic = assets().pics.level.anim(sheet_)[0];
 }
 
 void BackgroundLight::update() {
@@ -21,14 +18,14 @@ void BackgroundLight::update() {
 			anim_step = 0;
 		}
 	} else {
-		pic = pbk_level.anim("light_blink")[animate(anim_blink, 58, 3)];
+		pic = assets().pics.level.anim(sheet_)[animate(anim_blink, 58, 3)];
 
 		if (anim_step == 57) {
 			lit = true;
 			wait_for_blink = 0;
-			blink_interval = 50 + rand() % 200;
+			blink_interval = 50 + rnd() % 200;
 		}
 	}
 
-	if (x < offset - 300) destroyed = true;
+	if (x < level().camera.offset - 300) destroyed = true;
 }

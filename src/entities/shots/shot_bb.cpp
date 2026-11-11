@@ -7,7 +7,7 @@
 
 void ShotBB::setAngle(double deg, double speed) {
 	angle_ = deg;
-	dir = (int)std::lround((deg + 90) / 22.5) & 15;
+	dir = static_cast<int>(std::lround((deg + 90) / 22.5)) & 15;
 	double a = deg * std::numbers::pi / 180;
 	vx_ = std::cos(a) * speed;
 	vy_ = -std::sin(a) * speed;
@@ -18,8 +18,8 @@ void ShotBB::setAngle(double deg, double speed) {
 void ShotBB::moveAlongAngle() {
 	fx_ += vx_ + dxScroll;
 	fy_ += vy_;
-	x = (int)std::lround(fx_);
-	y = (int)std::lround(fy_);
+	x = static_cast<int>(std::lround(fx_));
+	y = static_cast<int>(std::lround(fy_));
 }
 
 void ShotBB::colAlongAngle() {

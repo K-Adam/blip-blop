@@ -18,49 +18,50 @@ void BackgroundPokeSwitch::update() {
 	}
 
 	if (status) {
-		pic = pbk_level.anim("switch_on")[anim_switch_on[anim_step]];
+		pic = assets().pics.level.anim("switch_on")[anim_switch_on[anim_step]];
 	} else {
-		if (targeted_player != NULL) {
-			if ((targeted_player->x > x - 10) && (targeted_player->x < x + 33) && (targeted_player->y > y - 10) && (targeted_player->y < y + 51)) {
-				game_flag[2]++;
+		if (session().targeted_player != nullptr) {
+			if ((session().targeted_player->x > x - 10) && (session().targeted_player->x < x + 33) && (session().targeted_player->y > y - 10) &&
+				(session().targeted_player->y < y + 51)) {
+				level().rules.flags[2]++;
 				status = true;
-				sbk_level.play(2);
+				assets().sounds.level.play(2);
 			}
 		}
-		pic = pbk_level.anim("switch_off")[anim_switch_off[anim_step]];
+		pic = assets().pics.level.anim("switch_off")[anim_switch_off[anim_step]];
 	}
 
-	if (x < offset - 100) destroyed = true;
+	if (x < level().camera.offset - 100) destroyed = true;
 
-	if (game_flag[0] == 0) {
-		if (wait_msg || game_flag[2] == 0) {
-			game_flag[7] = 1;
+	if (level().rules.flags[0] == 0) {
+		if (wait_msg || level().rules.flags[2] == 0) {
+			level().rules.flags[7] = 1;
 		} else {
-			game_flag[7] = 0;
+			level().rules.flags[7] = 0;
 		}
 	}
 
-	if (!wait_msg && game_flag[2] == 0 && game_flag[6] <= 80) {
+	if (!wait_msg && level().rules.flags[2] == 0 && level().rules.flags[6] <= 80) {
 		wait_msg = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 104;
-		list_txt_cool.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 
-	if (!elevator_msg && wait_msg && game_flag[2] == 1) {
+	if (!elevator_msg && wait_msg && level().rules.flags[2] == 1) {
 		elevator_msg = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 105;
-		list_txt_cool.emplace_back(txt);
-		txt = new CoolText();
+		level().entities.cool_texts.emplace_back(std::move(txt));
+		txt = std::make_unique<CoolText>();
 		txt->ntxt = 106;
-		list_txt_cool.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 
-	if (!bravo && elevator_msg && game_flag[0] == 1) {
+	if (!bravo && elevator_msg && level().rules.flags[0] == 1) {
 		bravo = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 107;
-		list_txt_cool.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 };

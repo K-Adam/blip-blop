@@ -19,6 +19,7 @@ void EnemySmurfFarmer::update() {
 	switch (status) {
 		case STATE_DYING:
 			onDie();
+			[[fallthrough]];
 		case STATE_NORMAL:
 		case STATE_WALK:
 			onWalk();
@@ -48,26 +49,26 @@ void EnemySmurfFarmer::onDie() {
 void EnemySmurfFarmer::onWalk() {
 	fall();
 
-	if (solid_wall(x - SMURF_FARMER_SPEED, y))
+	if (level().terrain.solid_wall(x - SMURF_FARMER_SPEED, y))
 		dir = FACING_RIGHT;
-	else if (solid_wall(x + SMURF_FARMER_SPEED, y))
+	else if (level().terrain.solid_wall(x + SMURF_FARMER_SPEED, y))
 		dir = FACING_LEFT;
 
 	if (status == STATE_DYING) {
 		if (dir == FACING_RIGHT) {
 			walk(SMURF_FARMER_SPEED);
-			pic = pbk_enemies.anim("smurf_farmer_beheaded_right")[animate(smurf_farmer_beheaded_right, 4, 3)];
+			pic = assets().pics.enemies.anim("smurf_farmer_beheaded_right")[animate(smurf_farmer_beheaded_right, 4, 3)];
 		} else {
 			walk(-SMURF_FARMER_SPEED);
-			pic = pbk_enemies.anim("smurf_farmer_beheaded_left")[animate(smurf_farmer_beheaded_left, 4, 3)];
+			pic = assets().pics.enemies.anim("smurf_farmer_beheaded_left")[animate(smurf_farmer_beheaded_left, 4, 3)];
 		}
 	} else {
 		if (dir == FACING_RIGHT) {
 			walk(SMURF_FARMER_SPEED);
-			pic = pbk_enemies.anim("smurf_farmer_charge_right")[animate(smurf_farmer_charge_right, 4, 3)];
+			pic = assets().pics.enemies.anim("smurf_farmer_charge_right")[animate(smurf_farmer_charge_right, 4, 3)];
 		} else {
 			walk(-SMURF_FARMER_SPEED);
-			pic = pbk_enemies.anim("smurf_farmer_charge_left")[animate(smurf_farmer_charge_left, 4, 3)];
+			pic = assets().pics.enemies.anim("smurf_farmer_charge_left")[animate(smurf_farmer_charge_left, 4, 3)];
 		}
 		colFromPic();
 	}
@@ -82,10 +83,7 @@ void EnemySmurfFarmer::onCharred() {
 	if (anim_step == 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = pbk_enemies.anim("smurf_burn_left")[anim_step];
-		else
-			pic = pbk_enemies.anim("smurf_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_burn")[anim_step];
 	}
 }
 
@@ -96,5 +94,5 @@ void EnemySmurfFarmer::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter_smurf_farmer, dy_splatter_smurf_farmer);
 
-	if (status == STATE_DYING) sbk_misc.play(8 + rand() % 3);
+	if (status == STATE_DYING) assets().sounds.misc.play(8 + rnd() % 3);
 }

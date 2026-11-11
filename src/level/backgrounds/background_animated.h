@@ -2,16 +2,17 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <span>
 
 #include "entities/sprite.h"
 
-// Loops the frames of one pbk_level animation
+// Loops the frames of one level bank animation
 class BackgroundAnimated : public Sprite {
    public:
 	BackgroundAnimated(const char* sheet, int latency, bool expire) : sheet_(sheet), latency_(latency), expire_(expire) {}
 
 	void update() override {
-		Flipbook frames = pbk_level.anim(sheet_);
+		Flipbook frames = assets().pics.level.anim(sheet_);
 		anim_tick = (anim_tick + 1) % latency_;
 		if (anim_tick == 0) anim_step = (anim_step + 1) % frames.size();
 
@@ -25,44 +26,16 @@ class BackgroundAnimated : public Sprite {
 	bool expire_;
 };
 
-class BackgroundBossFan : public BackgroundAnimated {
+// Plays a hand timed order of the frames of one level bank animation
+class BackgroundSequence : public Sprite {
    public:
-	BackgroundBossFan() : BackgroundAnimated("boss_fan", 3, true) {}
-};
+	BackgroundSequence(const char* sheet, std::span<const int> order, int delay) : sheet_(sheet), order_(order), delay_(delay) {}
+	void update() override { pic = assets().pics.level.anim(sheet_)[animate(order_.data(), static_cast<int>(order_.size()), delay_)]; }
 
-class BackgroundDos : public BackgroundAnimated {
-   public:
-	BackgroundDos() : BackgroundAnimated("dos_prompt", 40, true) {}
-};
-
-class BackgroundFlag : public BackgroundAnimated {
-   public:
-	BackgroundFlag() : BackgroundAnimated("flag_wave", 5, false) {}
-};
-
-class BackgroundSnowScreen : public BackgroundAnimated {
-   public:
-	BackgroundSnowScreen() : BackgroundAnimated("snow_screen", 4, true) {}
-};
-
-class BackgroundSunflower1 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower1() : BackgroundAnimated("sunflower_1", 10, false) {}
-};
-
-class BackgroundSunflower2 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower2() : BackgroundAnimated("sunflower_2", 10, false) {}
-};
-
-class BackgroundSunflower3 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower3() : BackgroundAnimated("sunflower_3", 10, false) {}
-};
-
-class BackgroundSunflower4 : public BackgroundAnimated {
-   public:
-	BackgroundSunflower4() : BackgroundAnimated("sunflower_4", 10, false) {}
+   private:
+	const char* sheet_;
+	std::span<const int> order_;
+	int delay_;
 };
 
 // Lets a string literal name the sheet as a template argument
@@ -77,21 +50,24 @@ template <SheetName SHEET, int LATENCY>
 class BackgroundSynced : public Sprite {
    public:
 	void update() override {
-		Flipbook frames = pbk_level.anim(SHEET.s);
-		if (synchro_ != phase) {
-			synchro_ = phase;
-			anim_tick_ = (anim_tick_ + 1) % LATENCY;
-			if (anim_tick_ == 0) anim_frame_ = (anim_frame_ + 1) % frames.size();
+		Flipbook frames = assets().pics.level.anim(SHEET.s);
+		Clock& clock = level().shared<Clock>();
+		if (clock.synchro != session().phase) {
+			clock.synchro = session().phase;
+			clock.tick = (clock.tick + 1) % LATENCY;
+			if (clock.tick == 0) clock.frame = (clock.frame + 1) % frames.size();
 		}
 
-		pic = frames[anim_frame_];
-		if (x < offset - 100) destroyed = true;
+		pic = frames[clock.frame];
+		if (x < level().camera.offset - 100) destroyed = true;
 	}
 
    private:
-	static inline int anim_frame_ = 0;
-	static inline int anim_tick_ = 0;
-	static inline bool synchro_ = false;
+	struct Clock {
+		int frame = 0;
+		int tick = 0;
+		bool synchro = false;
+	};
 };
 
 class BackgroundCube : public BackgroundSynced<"cube_spin", 5> {};

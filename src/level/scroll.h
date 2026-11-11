@@ -1,16 +1,29 @@
 #pragma once
 
+#include <memory>
+
 #include "engine/sdl_surface.h"
 
-#define WANTED_VBUFFER_WIDE 840
+class Picture;
+class Terrain;
+struct Camera;
 
-extern int vbuffer_wide;
-// Ring buffer of decor columns the scroll draws from
-extern SDL::Surface* videoA;
-extern int next_x;
-extern int xTex;
-extern int n_img;
-extern int n_cache;
+// Ring buffer of decor columns, filled two pixels at a time as the camera moves right
+class ScrollRenderer {
+   public:
+	static constexpr int WIDTH = 840;
 
-void updateScrolling(bool forceOk = true);
-void drawScrolling();
+	void reset();
+	void draw(Camera& camera, const Terrain& terrain);
+	// Stamps pic into the cached decor, false when x is not cached
+	bool stamp(int x, int y, const Picture* pic);
+
+   private:
+	SDL::Surface* buffer();
+
+	std::unique_ptr<SDL::Surface> buffer_;
+	int next_x_ = 0;
+	int x_tex_ = 0;
+	int n_img_ = 0;
+	int n_cache_ = 0;
+};

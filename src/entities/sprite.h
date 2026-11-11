@@ -4,6 +4,8 @@
 #include "level/world.h"
 #include "core/assets.h"
 
+enum { FACING_LEFT, FACING_RIGHT };
+
 class Sprite {
    public:
 	int x;
@@ -26,6 +28,8 @@ class Sprite {
 
 	Sprite();
 
+	Flipbook facing(const PictureBank& bank, std::string_view name) const { return bank.anim(std::string(name) + (dir == FACING_RIGHT ? "_right" : "_left")); }
+
 	inline virtual int getX() const { return x; };
 	inline virtual int getY() const { return y; };
 	inline virtual int getAnimStep() const { return anim_step; };
@@ -34,7 +38,7 @@ class Sprite {
 
 	inline virtual bool isOnBloodyWall() const	// Blood stained wall
 	{
-		return bloody_wall(x, y);
+		return level().terrain.bloody_wall(x, y);
 	}
 
 	inline virtual int animate(const int* tab, int nb_steps, int delay) {
@@ -49,10 +53,16 @@ class Sprite {
 		return tab[anim_step];
 	};
 
+	int step(int delay, int frames) {
+		anim_tick = (anim_tick + 1) % delay;
+		if (anim_tick == 0) anim_step = (anim_step + 1) % frames;
+		return anim_step;
+	}
+
 	inline virtual void render() { draw(x, y, pic); };
 
 	inline virtual void updateDestroyed() {
-		if (x < offset - 250 || x > offset + 900 || y < -200 || y > 600) destroyed = true;
+		if (x < level().camera.offset - 250 || x > level().camera.offset + 900 || y < -200 || y > 600) destroyed = true;
 	};
 
 	virtual void update() = 0;
@@ -70,5 +80,5 @@ class Sprite {
 			return !((s->x2 < x1) || (s->x1 > x2) || (s->y2 < y1) || (s->y1 > y2));
 	};
 
-	virtual ~Sprite(){};
+	virtual ~Sprite() = default;
 };

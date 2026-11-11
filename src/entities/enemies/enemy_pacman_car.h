@@ -7,7 +7,6 @@
 
 class EnemyPacmanCar : public Enemy {
    private:
-	int summoned_pacman;
 	int wait_end;
 
    public:

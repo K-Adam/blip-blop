@@ -1,14 +1,14 @@
 #include "entities/enemies/enemy_pacman.h"
 
-EnemyPacman::EnemyPacman() : shot_tick(0), shot_step(0), shot(false), dx(-2) {
+EnemyPacman::EnemyPacman() : shot(false), shot_step(0), shot_tick(0), dx(-2) {
 	hp = 1000;
-	pic = pbk_enemies.anim("pacman_walk")[0];
+	pic = assets().pics.enemies.anim("pacman_walk")[0];
 	col_on = false;
 	dy = -8;
 }
 
 void EnemyPacman::update() {
-	if (game_flag[2] == 5) {
+	if (level().rules.flags[2] == 5) {
 		x += dx;
 		fall();
 		anim_tick++;
@@ -18,7 +18,7 @@ void EnemyPacman::update() {
 			anim_step %= 7;
 		}
 
-		pic = pbk_enemies.anim("pacman_walk")[anim_step];
+		pic = assets().pics.enemies.anim("pacman_walk")[anim_step];
 
 		if (shot) {
 			shot_tick++;
@@ -40,28 +40,28 @@ void EnemyPacman::update() {
 			}
 		}
 
-		if (platform_y2(x, y) == 3) {
+		if (level().terrain.platform_y2(x, y) == 3) {
 			anim_step = 0;
 			anim_tick = 0;
-			game_flag[2] = 6;
+			level().rules.flags[2] = 6;
 		}
-	} else if (game_flag[2] == 6) {
-		pic = pbk_enemies.anim("pacman_eat")[0];
+	} else if (level().rules.flags[2] == 6) {
+		pic = assets().pics.enemies.anim("pacman_eat")[0];
 		anim_step++;
 		if (anim_step > 40) {
-			game_flag[2] = 7;
+			level().rules.flags[2] = 7;
 			dy = 0;
 		}
-	} else if (game_flag[2] == 7) {
-		pic = pbk_enemies.anim("pacman_walk")[0];
+	} else if (level().rules.flags[2] == 7) {
+		pic = assets().pics.enemies.anim("pacman_walk")[0];
 		fall2();
-		if (y + 2 * dy > y_platform[0][x]) {
-			y = y_platform[0][x];
-			game_flag[2] = 8;
+		if (y + 2 * dy > level().terrain.platforms[0][x]) {
+			y = level().terrain.platforms[0][x];
+			level().rules.flags[2] = 8;
 			anim_step = 0;
 			anim_tick = 0;
 		}
-	} else if (game_flag[2] == 8) {
+	} else if (level().rules.flags[2] == 8) {
 		anim_tick++;
 		anim_tick %= 40;
 		if (anim_tick == 0) {
@@ -69,14 +69,14 @@ void EnemyPacman::update() {
 		}
 
 		if (anim_step >= 2) {
-			game_flag[2] = 9;
+			level().rules.flags[2] = 9;
 			anim_step = 0;
 			anim_tick = 0;
 		} else {
-			pic = pbk_enemies.anim("pacman_eat")[anim_step];
+			pic = assets().pics.enemies.anim("pacman_eat")[anim_step];
 		}
-	} else if (game_flag[2] == 9) {
-		pic = pbk_enemies.anim("pacman_eat")[0];
+	} else if (level().rules.flags[2] == 9) {
+		pic = assets().pics.enemies.anim("pacman_eat")[0];
 	}
 }
 
@@ -84,10 +84,10 @@ int EnemyPacman::damage() { return 0; };
 
 void EnemyPacman::render() {
 	if (shot) {
-		draw(x + 30, y - 20, pbk_enemies.anim("pacman_slash")[shot_step]);
+		draw(x + 30, y - 20, assets().pics.enemies.anim("pacman_slash")[shot_step]);
 	}
 
 	Sprite::render();
 }
 
-void EnemyPacman::takeHit(Shot* shot) {}
+void EnemyPacman::takeHit(Shot*) {}

@@ -2,25 +2,17 @@
 
 #include "entities/sprite.h"
 
-class BackgroundElectronic1 : public Sprite {
+class BackgroundElectronic : public Sprite {
    public:
-	void update() override;
-	void render() override;
-};
+	explicit BackgroundElectronic(const char* overlay = nullptr) : overlay_(overlay) {}
 
-class BackgroundElectronic2 : public Sprite {
-   public:
-	void update() override;
-	void render() override;
-};
+	void update() override { pic = assets().pics.level.anim("electronic_board")[step(2, 15)]; }
 
-class BackgroundElectronic3 : public Sprite {
-   public:
-	void update() override;
-	void render() override;
-};
+	void render() override {
+		Sprite::render();
+		if (overlay_) draw(x, y, assets().pics.level.pic(overlay_));
+	}
 
-class BackgroundElectronic4 : public Sprite {
-   public:
-	void update() override;
+   private:
+	const char* overlay_;
 };

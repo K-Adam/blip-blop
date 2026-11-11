@@ -8,7 +8,10 @@ class BackgroundLight : public Sprite {
 	int wait_for_blink;
 	int blink_interval;
 
-	BackgroundLight();
+	explicit BackgroundLight(const char* sheet);
 
 	void update() override;
+
+   private:
+	const char* sheet_;
 };

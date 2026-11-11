@@ -2,7 +2,7 @@
 
 EnemyRaymanHead::EnemyRaymanHead() : dx(3) {
 	hp = 1;
-	pic = pbk_enemies.anim("rayman_head_spin")[0];
+	pic = assets().pics.enemies.anim("rayman_head_spin")[0];
 }
 
 void EnemyRaymanHead::update() {
@@ -33,12 +33,12 @@ void EnemyRaymanHead::onWalk() {
 	if (anim_tick == 0) {
 		anim_step++;
 		anim_step %= 8;
-		pic = pbk_enemies.anim("rayman_head_spin")[anim_step];
+		pic = assets().pics.enemies.anim("rayman_head_spin")[anim_step];
 	}
 
-	if (dy > 0 && (platform_y(x, y + dy)) != 0) {
+	if (dy > 0 && (level().terrain.platform_y(x, y + dy)) != 0) {
 		engrave(x, y, pic);
-		game_flag[0] = 2;
+		level().rules.flags[0] = 2;
 		destroyed = true;
 	}
 }
@@ -49,10 +49,10 @@ void EnemyRaymanHead::onDie() {
 	if (anim_tick == 0) {
 		anim_step++;
 		if (anim_step >= 6) {
-			game_flag[0] = 2;
+			level().rules.flags[0] = 2;
 			destroyed = true;
 		} else {
-			pic = pbk_enemies.anim("rayman_head_die")[anim_step];
+			pic = assets().pics.enemies.anim("rayman_head_die")[anim_step];
 		}
 	}
 }

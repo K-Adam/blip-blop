@@ -30,7 +30,7 @@
     "204": "Hey you! Raise your fucking hands above your head.",
     "205": "Let's catch this bastard!",
     "206": "GET HIM QUICKLY!",
-    "207": "I'm the great undead Scare Bears� ruler! All living creatures are doomed here!",
+    "207": "I'm the great undead Scare Bears' ruler! All living creatures are doomed here!",
     "208": "Really? I wouldn't bet on it.",
     "209": "You! So, you survived the plane attack!",
     "210": "What! You were behind this!",
@@ -65,14 +65,14 @@
     "501": "While you were fighting my bold soldiers, the five members of the high council unleashed a terrible assault on the main capitals of the free world.",
     "502": "I'm not frightened by these so called members, coz I'm going to kill them anyway.",
     "503": "They also destroyed every brewery in the entire world.",
-    "504": "These members are nuts! You�re gonna pay for what they did!",
+    "504": "These members are nuts! You're gonna pay for what they did!",
     "505": "You slut!",
     "506": "No, Bitch, princess Bitch!",
     "507": "Just shut the fuck up!",
     "520": "I'm pretty sure this is the entrance to the high council headquarters.",
     "521": "It is indeed! But you won't enter! You must not disturb the masters!",
     "522": "The masters? Tell us who they are or we're going to kick your ass!",
-    "523": "You don't stand a chance, because I'm one of them. I'm known as the Dorkemons� trainer.",
+    "523": "You don't stand a chance, because I'm one of them. I'm known as the Dorkemons' trainer.",
     "524": "Ok, let's kick their asses first then!",
     "525": "Lazy artists... It really pisses me off!    ",
     "526": "These guys have no respect for anything at all!",
@@ -135,6 +135,8 @@
     "831": "START 1 PLAYER GAME",
     "832": "START 2 PLAYERS GAME",
     "833": "EXIT",
-    "834": "CANCEL"
+    "834": "CANCEL",
+    "835": "NEXT WEAPON",
+    "836": "PREV WEAPON"
   }
 }
