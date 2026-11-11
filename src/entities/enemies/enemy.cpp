@@ -35,7 +35,7 @@ void Enemy::takeHit(Shot* shot) {
 			shot->onKill();
 
 			if (pic != NULL) {
-				int y_trace = y - ((pic->ySize()) >> 1) - rand() % 15;
+				int y_trace = y - ((pic->ySize()) >> 1) - rnd() % 15;
 
 				if (level().terrain.bloody_wall(x, y_trace)) {
 					int& splatter_num = session().shared<EnemyDrops>().splatter_num;
@@ -81,7 +81,7 @@ void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int
 	int ddx = xdest - xshot;
 
 	if (yshot < ydest) {
-		yspeed = rand() % 3 - 5;
+		yspeed = rnd() % 3 - 5;
 
 		int ddy = yspeed;
 
@@ -93,7 +93,7 @@ void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int
 			nsteps += 1;
 		};
 	} else {
-		yspeed = rand() % 2 - 6;
+		yspeed = rnd() % 2 - 6;
 
 		int ddy = yspeed;
 

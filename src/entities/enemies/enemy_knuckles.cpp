@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_knuckles.h"
 
-EnemyKnuckles::EnemyKnuckles() : speed(1), speed_tick(0), charge_delay(100 + rand() % 150), wait_for_charge(0) {
+EnemyKnuckles::EnemyKnuckles() : speed(1), speed_tick(0), charge_delay(100 + rnd() % 150), wait_for_charge(0) {
 	treasure = 7;
 	hp = 150;
 }
@@ -77,7 +77,7 @@ void EnemyKnuckles::onWalk() {
 			return;
 		} else {
 			wait_for_charge = 0;
-			charge_delay = 10 + rand() % 10;
+			charge_delay = 10 + rnd() % 10;
 		}
 	}
 
@@ -157,7 +157,7 @@ void EnemyKnuckles::onJump() {
 		wait_for_charge = 0;
 		anim_step = 0;
 		anim_tick = 0;
-		charge_delay = 50 + rand() % 150;
+		charge_delay = 50 + rnd() % 150;
 		onWalk();
 		return;
 	}
@@ -180,7 +180,7 @@ void EnemyKnuckles::onCharge() {
 		status = STATE_WALK;
 		speed = 1;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 150;
+		charge_delay = 50 + rnd() % 150;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
@@ -197,7 +197,7 @@ void EnemyKnuckles::onCharge() {
 		} else {
 			status = STATE_WALK;
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 150;
+			charge_delay = 50 + rnd() % 150;
 			anim_step = 0;
 			anim_tick = 0;
 			onWalk();
@@ -210,7 +210,7 @@ void EnemyKnuckles::onCharge() {
 		} else {
 			status = STATE_WALK;
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 150;
+			charge_delay = 50 + rnd() % 150;
 			anim_step = 0;
 			anim_tick = 0;
 			onWalk();

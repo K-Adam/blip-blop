@@ -13,7 +13,7 @@ void WeatherSnow::update() {
 
 	if (y > -25 && y < -10 && level().terrain.solid_wall(x, 0)) {
 		destroyed = true;
-	} else if ((level().terrain.platform_y(x, y) != 0 && ((rand() % 6) == 0)) || level().terrain.solid_wall(x, y)) {
+	} else if ((level().terrain.platform_y(x, y) != 0 && ((rnd() % 6) == 0)) || level().terrain.solid_wall(x, y)) {
 		destroyed = true;
 	} else if (y > 500) {
 		destroyed = true;

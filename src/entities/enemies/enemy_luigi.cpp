@@ -13,7 +13,7 @@ const int anim_luigi_walk_dead_right[] = {0, 1, 2, 1};
 const int anim_luigi_walk_dead_left[] = {0, 1, 2, 1};
 const int anim_luigi_death[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
-EnemyLuigi::EnemyLuigi() : speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), knockback(0) {
+EnemyLuigi::EnemyLuigi() : speed(1), speed_tick(0), attack_delay(50 + rnd() % 250), wait_for_attack(0), knockback(0) {
 	hp = 10000;
 	xmin = level().camera.offset + 20;
 }
@@ -83,7 +83,7 @@ void EnemyLuigi::onWalk() {
 		int slope_ratio = dif_x / dif_y;
 		if ((dir == FACING_RIGHT) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 			wait_for_attack = 0;
-			attack_delay = 10 + rand() % 50;
+			attack_delay = 10 + rnd() % 50;
 			speed = (int)((dif_x * -9) / dif_y);
 			dy = (int)(-9 + speed * 0.25);
 			anim_step = 0;
@@ -95,7 +95,7 @@ void EnemyLuigi::onWalk() {
 
 		} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
 			wait_for_attack = 0;
-			attack_delay = 10 + rand() % 50;
+			attack_delay = 10 + rnd() % 50;
 			speed = (int)((dif_x * 9) / dif_y);
 			dy = (int)(-9 + speed * 0.25);
 			anim_step = 0;
@@ -107,7 +107,7 @@ void EnemyLuigi::onWalk() {
 		} else if (hp >= 1000) {
 			if ((dir == FACING_RIGHT) && (dif_x > 0) && ((slope_ratio <= -2) || (slope_ratio >= 2))) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 250;
+				attack_delay = 50 + rnd() % 250;
 				attack_type = 1;
 				anim_tick = 0;
 				anim_step = 0;
@@ -121,7 +121,7 @@ void EnemyLuigi::onWalk() {
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_x < 0) && ((slope_ratio <= -2) || (slope_ratio >= 2))) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 250;
+				attack_delay = 50 + rnd() % 250;
 				attack_type = 1;
 				anim_tick = 0;
 				anim_step = 0;
@@ -262,9 +262,9 @@ void EnemyLuigi::onDie() {
 		} else {
 			int i;
 			for (i = 0; i < 16; i++) {
-				Sprite* s = new GoreSplatter(-rand() % 10 - 2, -1 - rand() % 10);
-				s->x = x + rand() % 20 - 10;
-				s->y = y - rand() % 60 - 10;
+				Sprite* s = new GoreSplatter(-rnd() % 10 - 2, -1 - rnd() % 10);
+				s->x = x + rnd() % 20 - 10;
+				s->y = y - rnd() % 60 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		}
@@ -631,14 +631,14 @@ void EnemyLuigi::takeHit(Shot* shot) {
 
 	for (int i = 0; i < 4; i++) {
 		if ((shot->dir >= 2) && (shot->dir <= 6)) {
-			s = new GoreSplatter(rand() % 6, -2 - rand() % 6);
+			s = new GoreSplatter(rnd() % 6, -2 - rnd() % 6);
 		} else if ((shot->dir >= 10) && (shot->dir <= 14)) {
-			s = new GoreSplatter(-rand() % 5 - 1, -2 - rand() % 6);
+			s = new GoreSplatter(-rnd() % 5 - 1, -2 - rnd() % 6);
 		} else {
-			s = new GoreSplatter(rand() % 11 - 5, -2 - rand() % 6);
+			s = new GoreSplatter(rnd() % 11 - 5, -2 - rnd() % 6);
 		}
-		s->x = x + rand() % 11 - 5;
-		s->y = y - rand() % 30 - 10;
+		s->x = x + rnd() % 11 - 5;
+		s->y = y - rnd() % 30 - 10;
 
 		level().entities.splatters.emplace_back(s);
 	}

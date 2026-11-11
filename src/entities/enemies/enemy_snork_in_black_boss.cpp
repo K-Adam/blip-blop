@@ -71,7 +71,7 @@ void EnemySnorkInBlackBoss::onWalk() {
 				attack = false;
 				anim_tick = 0;
 
-				int destination = rand() % 4;
+				int destination = rnd() % 4;
 
 				if (session().targeted_player->x > 6200 && session().targeted_player->y > 200) {
 					destination = 2;

@@ -12,7 +12,7 @@ static const PokemonHeroSpec BULBASAUR{
 static const PokemonHeroSpec EMBER{
 	.name = "ember", .hp = 1000, .throw_dx = -1, .throw_dy = -7, .treasure = 5, .land_sound = -1, .speed = 2, .die_frames = 14, .leaves_body = false};
 
-EnemyRayman::EnemyRayman() : attack_delay(100 + rand() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(NULL) {
+EnemyRayman::EnemyRayman() : attack_delay(100 + rnd() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(NULL) {
 	hp = 15000;
 	xmin = 10428;
 	treasure = 0;
@@ -144,9 +144,9 @@ void EnemyRayman::onWalk() {
 				if (fist1) {
 					Sprite* s;
 					if (x - level().camera.offset > 320) {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, -1 - rnd() % 3, -3 - rnd() % 3);
 					} else {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, 1 + rnd() % 3, -3 - rnd() % 3);
 					}
 
 					s->dir = dir;
@@ -189,9 +189,9 @@ void EnemyRayman::onWalk() {
 				if (fist2) {
 					Sprite* s;
 					if (x - level().camera.offset > 320) {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, -1 - rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, -1 - rnd() % 3, -3 - rnd() % 3);
 					} else {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, 1 + rand() % 3, -3 - rand() % 3);
+						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, 1 + rnd() % 3, -3 - rnd() % 3);
 					}
 
 					s->dir = dir;
@@ -232,9 +232,9 @@ void EnemyRayman::onWalk() {
 
 			} else if ((x - level().camera.offset >= 80) && (x - level().camera.offset <= 600)) {
 				if (feet) {
-					int vy = -3 - rand() % 3;
+					int vy = -3 - rnd() % 3;
 
-					Sprite* s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_right"), 3, 1 + rand() % 3, vy);
+					Sprite* s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_right"), 3, 1 + rnd() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -242,7 +242,7 @@ void EnemyRayman::onWalk() {
 
 					level().entities.splatters.emplace_back(s);
 
-					s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_left"), 3, -1 - rand() % 3, vy);
+					s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_left"), 3, -1 - rnd() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
@@ -290,9 +290,9 @@ void EnemyRayman::onDie() {
 	if ((anim_step == 0) && (anim_tick == 1)) {
 		Sprite* head;
 		if (x - level().camera.offset > 320) {
-			head = new PieceRaymanHead(-1 - rand() % 3, -3 - rand() % 3);
+			head = new PieceRaymanHead(-1 - rnd() % 3, -3 - rnd() % 3);
 		} else {
-			head = new PieceRaymanHead(1 + rand() % 3, -3 - rand() % 3);
+			head = new PieceRaymanHead(1 + rnd() % 3, -3 - rnd() % 3);
 		}
 		head->x = x;
 		head->y = y - 60;
@@ -358,7 +358,7 @@ void EnemyRayman::onShoot() {
 				anim_tick = 0;
 				wait_for_attack = 0;
 				fist_shot->destroyed = true;
-				attack_delay = 50 + rand() % 150;
+				attack_delay = 50 + rnd() % 150;
 				onWalk();
 				return;
 			} else if ((dir == FACING_LEFT) && (fist_shot->x > x)) {
@@ -367,7 +367,7 @@ void EnemyRayman::onShoot() {
 				anim_tick = 0;
 				wait_for_attack = 0;
 				fist_shot->destroyed = true;
-				attack_delay = 50 + rand() % 150;
+				attack_delay = 50 + rnd() % 150;
 				onWalk();
 				return;
 			}
@@ -421,7 +421,7 @@ void EnemyRayman::onShoot() {
 				anim_tick = 0;
 				wait_for_attack = 0;
 				fist_shot->destroyed = true;
-				attack_delay = 10 + rand() % 50;
+				attack_delay = 10 + rnd() % 50;
 				onWalk();
 				return;
 			} else if ((dir == FACING_LEFT) && (fist_shot->x > x)) {
@@ -430,7 +430,7 @@ void EnemyRayman::onShoot() {
 				anim_tick = 0;
 				wait_for_attack = 0;
 				fist_shot->destroyed = true;
-				attack_delay = 10 + rand() % 50;
+				attack_delay = 10 + rnd() % 50;
 				onWalk();
 				return;
 			}

@@ -6,7 +6,7 @@
 #define STATE_SHOOT_HKICK 1002
 
 EnemySmurfHefty::EnemySmurfHefty() : shoot_step(0), dx(0) {
-	wait_shoot = 50 + rand() % 50;
+	wait_shoot = 50 + rnd() % 50;
 	hp = 2000;
 }
 
@@ -161,7 +161,7 @@ void EnemySmurfHefty::onShootHadoken() {
 		if (anim_step > 7) {
 			anim_step = anim_tick = 0;
 			status = STATE_WALK;
-			wait_shoot = 100 + rand() % 50;
+			wait_shoot = 100 + rnd() % 50;
 			shoot_step = 0;
 			onWalk();
 			return;
@@ -203,7 +203,7 @@ void EnemySmurfHefty::onShootDragonPunch() {
 
 		if (level().terrain.platform_y(x, y) != 0) {
 			anim_tick = anim_step = 0;
-			wait_shoot = 100 + rand() % 50;
+			wait_shoot = 100 + rnd() % 50;
 			shoot_step = 0;
 			status = STATE_NORMAL;
 			onWalk();
@@ -230,7 +230,7 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 
 	if (dy > 0 && level().terrain.platform_y(x, y) != 0) {
 		anim_tick = anim_step = 0;
-		wait_shoot = 100 + rand() % 50;
+		wait_shoot = 100 + rnd() % 50;
 		shoot_step = 0;
 		status = STATE_NORMAL;
 		onWalk();

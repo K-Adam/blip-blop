@@ -3,7 +3,7 @@
 
 EnemyBisouJedi::EnemyBisouJedi() : shoot_step(0), has_sword(true) {
 	hp = 250;
-	wait_shoot = 200 + rand() % 250;
+	wait_shoot = 200 + rnd() % 250;
 }
 
 void EnemyBisouJedi::update() {
@@ -62,7 +62,7 @@ void EnemyBisouJedi::onWalk() {
 		level().entities.enemy_shots.emplace_back(t);
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 
@@ -87,7 +87,7 @@ void EnemyBisouJedi::onDie() {
 		level().entities.enemy_shots.emplace_back(t);
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 
@@ -137,7 +137,7 @@ void EnemyBisouJedi::onCharred() {
 		level().entities.enemy_shots.emplace_back(t);
 
 		shoot_step = 0;
-		wait_shoot = 200 + rand() % 250;
+		wait_shoot = 200 + rnd() % 250;
 		has_sword = false;
 	}
 

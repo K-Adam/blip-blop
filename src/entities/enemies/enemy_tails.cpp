@@ -1,6 +1,6 @@
 #include "entities/enemies/enemy_tails.h"
 
-EnemyTails::EnemyTails(bool from_sky) : speed(1), speed_tick(0), fly_delay(100 + rand() % 350), wait_for_fly(0), fly(false), from_sky(from_sky) {
+EnemyTails::EnemyTails(bool from_sky) : speed(1), speed_tick(0), fly_delay(100 + rnd() % 350), wait_for_fly(0), fly(false), from_sky(from_sky) {
 	treasure = 8;
 	hp = 150;
 }
@@ -187,7 +187,7 @@ void EnemyTails::onFly() {
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_fly = 0;
-		fly_delay = 100 + rand() % 350;
+		fly_delay = 100 + rnd() % 350;
 		fly = false;
 		anim_step = 0;
 		anim_tick = 0;
@@ -199,7 +199,7 @@ void EnemyTails::onFly() {
 		status = STATE_WALK;
 		wait_for_fly = 0;
 		fly = false;
-		fly_delay = 100 + rand() % 350;
+		fly_delay = 100 + rnd() % 350;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();

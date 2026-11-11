@@ -13,7 +13,7 @@ const int sonic_anim_super_saiyan[] = {0, 1, 2, 1, 0, 1, 2, 3, 2, 1, 2, 3, 4, 3,
 									   6, 5, 4, 5, 6, 7, 6, 5, 6, 7, 8, 7, 6, 7, 8, 9, 8, 7, 8, 9, 10};
 
 EnemySonic::EnemySonic()
-	: speed(1), speed_tick(0), attack_delay(50 + rand() % 250), wait_for_attack(0), hp_subcritical(3750), hp_critical(2500), hp_supercritical(1250), ring(90) {
+	: speed(1), speed_tick(0), attack_delay(50 + rnd() % 250), wait_for_attack(0), hp_subcritical(3750), hp_critical(2500), hp_supercritical(1250), ring(90) {
 	hp = 10000;
 	xmin = 1280;
 	attack_frame_tick = 0;
@@ -94,8 +94,7 @@ void EnemySonic::onWalk() {
 		if (session().targeted_player != NULL) {
 			if ((session().targeted_player->y > 0) && (((dir == FACING_RIGHT) && (((session().targeted_player->x) - x) > 0)) ||
 													   ((dir == FACING_LEFT) && (((session().targeted_player->x) - x) < 0)))) {
-				int rnd = rand() % 3;
-				switch (rnd) {
+				switch (rnd() % 3) {
 					case 0:
 						attack_type = 0;
 						speed = 12;
@@ -336,7 +335,7 @@ void EnemySonic::onAttackhorizontal() {
 				speed = 1;
 				status = STATE_WALK;
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 250;
+				attack_delay = 50 + rnd() % 250;
 				anim_tick = 0;
 				anim_step = 0;
 				onWalk();
@@ -346,7 +345,7 @@ void EnemySonic::onAttackhorizontal() {
 				speed = 1;
 				status = STATE_WALK;
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 250;
+				attack_delay = 50 + rnd() % 250;
 				anim_tick = 0;
 				anim_step = 0;
 				onWalk();
@@ -449,7 +448,7 @@ void EnemySonic::onAttackvertical() {
 				speed = 1;
 				status = STATE_WALK;
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 250;
+				attack_delay = 50 + rnd() % 250;
 				onWalk();
 				return;
 			} else {
@@ -473,7 +472,7 @@ void EnemySonic::onAttackThorns() {
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_attack = 0;
-		attack_delay = 50 + rand() % 250;
+		attack_delay = 50 + rnd() % 250;
 		anim_tick = 0;
 		anim_step = 0;
 		onWalk();
@@ -519,7 +518,7 @@ void EnemySonic::onAttackLightning() {
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_attack = 0;
-		attack_delay = 50 + rand() % 250;
+		attack_delay = 50 + rnd() % 250;
 		anim_tick = 0;
 		anim_step = 0;
 		onWalk();

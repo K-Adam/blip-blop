@@ -3,7 +3,7 @@
 
 const int snorky_mage_oscillation[] = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
-EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rand() % 200), oscillation_step(0) {
+EnemySnorkyMage::EnemySnorkyMage() : wait_for_shoot(0), shoot_delay(50 + rnd() % 200), oscillation_step(0) {
 	hp = 200;
 	pic = assets().pics.enemies.anim("snorky_walk_right")[0];
 	dy = 0;
@@ -57,7 +57,7 @@ void EnemySnorkyMage::onWalk() {
 		if ((dir == FACING_RIGHT) && (dif_y > 0) && (dif_x > 0) && (dif_y - dif_x >= -30) && (dif_y - dif_x <= 30)) {
 			anim_step = 0;
 			wait_for_shoot = 0;
-			shoot_delay = 50 + rand() % 200;
+			shoot_delay = 50 + rnd() % 200;
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_SHOOT;
@@ -67,7 +67,7 @@ void EnemySnorkyMage::onWalk() {
 		} else if ((dir == FACING_LEFT) && (dif_y > 0) && (dif_x < 0) && (dif_y + dif_x >= -30) && (dif_y + dif_x <= 30)) {
 			anim_step = 0;
 			wait_for_shoot = 0;
-			shoot_delay = 50 + rand() % 200;
+			shoot_delay = 50 + rnd() % 200;
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_SHOOT;

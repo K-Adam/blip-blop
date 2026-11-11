@@ -125,7 +125,7 @@ void EnemyLara::onWalk() {
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
 					ShotThorn* shot;
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 					shot->x = x - 60;
 					shot->y = y - 144;
 					level().entities.enemy_shots.emplace_back(shot);
@@ -148,7 +148,7 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 58;
 					shot->y = y - 154;
@@ -170,7 +170,7 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 57;
 					shot->y = y - 165;
@@ -193,7 +193,7 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 					shot->x = x - 53;
 					shot->y = y - 175;
 					level().entities.enemy_shots.emplace_back(shot);
@@ -217,7 +217,7 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 59;
 					shot->y = y - 129;
@@ -241,7 +241,7 @@ void EnemyLara::onWalk() {
 
 					ShotThorn* shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rand() % 3 - 1, true);
+					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 60;
 					shot->y = y - 144;

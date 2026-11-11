@@ -26,7 +26,7 @@ EnemySmurfWild::EnemySmurfWild() : shoot_step(0), position(false) {
 	angleIncreasing = true;
 
 	SmurfAmbush& ambush = level().shared<SmurfAmbush>();
-	ambush.wait_shoot = 100 + rand() % 100;
+	ambush.wait_shoot = 100 + rnd() % 100;
 	ambush.wait_step = 0;
 	status = STATE_WAITING;
 
@@ -105,14 +105,14 @@ void EnemySmurfWild::update() {
 
 				assets().sounds.level.play(17);
 
-				if (rand() % 2 == 0)
-					x = level().camera.offset + 320 - rand() % 150;
+				if (rnd() % 2 == 0)
+					x = level().camera.offset + 320 - rnd() % 150;
 				else
-					x = level().camera.offset + 320 + rand() % 150;
+					x = level().camera.offset + 320 + rnd() % 150;
 
-				int j = 100 + rand() % 140;
+				int j = 100 + rnd() % 140;
 
-				while (level().terrain.solid_wall(x, j)) j = 100 + rand() % 140;
+				while (level().terrain.solid_wall(x, j)) j = 100 + rnd() % 140;
 
 				nb_shoot = 0;
 				height_px = j;
@@ -130,7 +130,7 @@ void EnemySmurfWild::update() {
 			wait_step = 0;
 
 			if (y <= -100) {
-				wait_shoot = 100 + rand() % 100;
+				wait_shoot = 100 + rnd() % 100;
 				status = STATE_WAITING;
 				destroyed = true;
 				target = NULL;
@@ -194,7 +194,7 @@ void EnemySmurfWild::onShoot() {
 
 void EnemySmurfWild::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
-	if (status == STATE_DYING) assets().sounds.level.play(4 + rand() % 10);
+	if (status == STATE_DYING) assets().sounds.level.play(4 + rnd() % 10);
 }
 
 void EnemySmurfWild::onDie() {

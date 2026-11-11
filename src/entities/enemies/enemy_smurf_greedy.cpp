@@ -5,7 +5,7 @@
 
 EnemySmurfGreedy::EnemySmurfGreedy() : wait_for_shoot(0) {
 	hp = 150;
-	shoot_delay = 50 + rand() % 100;
+	shoot_delay = 50 + rnd() % 100;
 }
 
 void EnemySmurfGreedy::update() {
@@ -44,10 +44,10 @@ void EnemySmurfGreedy::onNormal() {
 	wait_for_shoot += 1;
 
 	if (wait_for_shoot > shoot_delay && x > level().camera.offset && x < level().camera.offset + 640 && session().targeted_player != NULL) {
-		assets().sounds.level.play(14 + rand() % 2);
+		assets().sounds.level.play(14 + rnd() % 2);
 		status = STATE_SHOOT;
 		wait_for_shoot = 0;
-		shoot_delay = 100 + rand() % 250;
+		shoot_delay = 100 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
 		xtarget = session().targeted_player->x;
@@ -142,7 +142,7 @@ void EnemySmurfGreedy::takeHit(Shot* shot) {
 	else
 		dir = FACING_RIGHT;
 
-	if (status == STATE_DYING) assets().sounds.level.play(rand() % 4);
+	if (status == STATE_DYING) assets().sounds.level.play(rnd() % 4);
 }
 
 void EnemySmurfGreedy::onHold() {

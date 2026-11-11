@@ -83,6 +83,6 @@ void EnemyPokemon::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		assets().sounds.misc.play(8 + rand() % 2);
+		assets().sounds.misc.play(8 + rnd() % 2);
 	}
 }

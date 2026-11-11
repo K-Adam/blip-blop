@@ -12,7 +12,7 @@ struct ToadBrain {
 };
 }  // namespace
 
-EnemyToad::EnemyToad() : speed(0), speed_tick(0), charge_delay(50 + rand() % 250), wait_for_charge(0), hokuto(rand() % 5) {
+EnemyToad::EnemyToad() : speed(0), speed_tick(0), charge_delay(50 + rnd() % 250), wait_for_charge(0), hokuto(rnd() % 5) {
 	treasure = 7;
 	hp = 300;
 }
@@ -85,7 +85,7 @@ void EnemyToad::onWalk() {
 			return;
 		} else {
 			wait_for_charge = 0;
-			charge_delay = 50 + rand() % 250;
+			charge_delay = 50 + rnd() % 250;
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_JUMP;
@@ -125,7 +125,7 @@ void EnemyToad::onDie() {
 	}
 
 	if (anim_step == 5 && anim_tick == 0) {
-		assets().sounds.misc.play(9 + rand() % 2);
+		assets().sounds.misc.play(9 + rnd() % 2);
 	}
 
 	if (anim_step >= 10) {
@@ -153,7 +153,7 @@ void EnemyToad::onCharge() {
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 250;
+		charge_delay = 50 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
@@ -163,7 +163,7 @@ void EnemyToad::onCharge() {
 		speed = 1;
 		status = STATE_WALK;
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 250;
+		charge_delay = 50 + rnd() % 250;
 		anim_step = 0;
 		anim_tick = 0;
 		onWalk();
@@ -256,7 +256,7 @@ void EnemyToad::takeHit(Shot* shot) {
 				hokuto = 6;
 				assets().sounds.level.play(28);
 			} else {
-				assets().sounds.level.play(30 + rand() % 2);
+				assets().sounds.level.play(30 + rnd() % 2);
 			}
 		}
 	}

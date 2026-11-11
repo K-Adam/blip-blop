@@ -4,7 +4,7 @@
 const int anim_snorky_base_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_snorky_base_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
-EnemySnorkyBase2::EnemySnorkyBase2() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
+EnemySnorkyBase2::EnemySnorkyBase2() : wait_for_shoot(0), shoot_delay(50 + rnd() % 200) {
 	hp = 150;
 	pic = assets().pics.enemies.anim("snorky_walk_right")[0];
 	dy = 0;
@@ -53,7 +53,7 @@ void EnemySnorkyBase2::onWalk() {
 	if ((session().targeted_player != NULL) && (wait_for_shoot > shoot_delay) &&
 		((dir == FACING_RIGHT && x > level().camera.offset + 80) || (dir == FACING_LEFT && x < level().camera.offset + 560))) {
 		wait_for_shoot = 0;
-		shoot_delay = 50 + rand() % 200;
+		shoot_delay = 50 + rnd() % 200;
 		anim_step = 0;
 		anim_tick = 0;
 		status = STATE_SHOOT;

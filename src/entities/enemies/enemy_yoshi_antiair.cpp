@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_yoshi_antiair.h"
 #include "entities/shots/shot_shell.h"
 
-EnemyYoshiAntiair::EnemyYoshiAntiair() : attack_delay(50 + rand() % 150), wait_for_attack(0) {
+EnemyYoshiAntiair::EnemyYoshiAntiair() : attack_delay(50 + rnd() % 150), wait_for_attack(0) {
 	treasure = 12;
 	hp = 400;
 }
@@ -36,7 +36,7 @@ void EnemyYoshiAntiair::onWalk() {
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= level().camera.offset + 640) {
 		wait_for_attack = 0;
-		attack_delay = 50 + rand() % 150;
+		attack_delay = 50 + rnd() % 150;
 		if (session().targeted_player->x > x) {
 			dir = FACING_RIGHT;
 		} else {
@@ -139,6 +139,6 @@ void EnemyYoshiAntiair::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		assets().sounds.misc.play(6 + rand() % 3);
+		assets().sounds.misc.play(6 + rnd() % 3);
 	}
 }

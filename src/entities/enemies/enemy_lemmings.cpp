@@ -146,7 +146,7 @@ void EnemyLemmings::takeHit(Shot* shot) {
 		if (wait_no == 0) {
 			assets().sounds.level.play(1);
 		} else {
-			assets().sounds.misc.play(7 + rand() % 3);
+			assets().sounds.misc.play(7 + rnd() % 3);
 		}
 	}
 }

@@ -4,7 +4,7 @@
 const int anim_snork_in_black_walk_right[] = {0, 1, 2, 1};
 const int anim_snork_in_black_walk_left[] = {0, 1, 2, 1};
 
-EnemySnorkInBlack::EnemySnorkInBlack() : nb_shots(0), wait_for_shoot(0), shoot_delay(50 + rand() % 100) {
+EnemySnorkInBlack::EnemySnorkInBlack() : nb_shots(0), wait_for_shoot(0), shoot_delay(50 + rnd() % 100) {
 	hp = 250;
 	dy = 0;
 }
@@ -59,19 +59,19 @@ void EnemySnorkInBlack::onWalk() {
 
 			if ((dir == FACING_RIGHT) && (x < x_target) && (vy < 2) && (vy > -2)) {
 				wait_for_shoot = 0;
-				shoot_delay = 50 + rand() % 100;
+				shoot_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				nb_shots = rand() % 3;
+				nb_shots = rnd() % 3;
 				status = STATE_SHOOT;
 				onShoot();
 				return;
 			} else if ((dir == FACING_LEFT) && (x > x_target) && (vy < 2) && (vy > -2)) {
 				wait_for_shoot = 0;
-				shoot_delay = 50 + rand() % 100;
+				shoot_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
-				nb_shots = rand() % 3;
+				nb_shots = rnd() % 3;
 				status = STATE_SHOOT;
 				onShoot();
 				return;
@@ -139,8 +139,8 @@ void EnemySnorkInBlack::onShoot() {
 
 	if ((anim_step == 1) && (anim_tick == 0)) {
 		if (dir == FACING_RIGHT) {
-			int vx = 5 + rand() % 2;
-			int vy = rand() % 5 - 2;
+			int vx = 5 + rnd() % 2;
+			int vy = rnd() % 5 - 2;
 
 			ShotThorn* shot = new ShotThorn(assets().pics.enemies.anim("snork_in_black_thorn")[0], vx, vy);
 
@@ -150,8 +150,8 @@ void EnemySnorkInBlack::onShoot() {
 
 			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int vx = -5 - rand() % 2;
-			int vy = rand() % 5 - 2;
+			int vx = -5 - rnd() % 2;
+			int vy = rnd() % 5 - 2;
 
 			ShotThorn* shot = new ShotThorn(assets().pics.enemies.anim("snork_in_black_thorn")[1], vx, vy);
 
@@ -217,6 +217,6 @@ void EnemySnorkInBlack::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_snorkbase1, dy_splatter_snorkbase1);
 
 	if (status == STATE_DYING) {
-		assets().sounds.level.play(21 + rand() % 3);
+		assets().sounds.level.play(21 + rnd() % 3);
 	}
 }

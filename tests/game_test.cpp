@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 
 #include <climits>
-#include <cstdlib>
 #include <filesystem>
 #include <string>
 
@@ -50,7 +49,6 @@ struct TestGame : Game {
 	HeldKeys pad;
 
 	bool start(const char* level_name) {
-		srand(1);
 		if (!loadGame() || !loadLevel(level_name)) return false;
 		player1 = std::make_unique<Blip>();
 		player1->ctrl = &pad;

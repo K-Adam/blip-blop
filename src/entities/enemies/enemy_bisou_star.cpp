@@ -4,7 +4,7 @@
 
 EnemyBisouStar::EnemyBisouStar() : shoot_step(0) {
 	hp = 200;
-	wait_shoot = 200 + rand() % 250;
+	wait_shoot = 200 + rnd() % 250;
 }
 
 void EnemyBisouStar::update() {
@@ -79,7 +79,7 @@ void EnemyBisouStar::onShoot() {
 	if (anim_tick >= 60) {
 		anim_tick = 0;
 		status = STATE_WALK;
-		wait_shoot = 200 + rand() % 500;
+		wait_shoot = 200 + rnd() % 500;
 		;
 		shoot_step = 0;
 	}
@@ -191,5 +191,5 @@ void EnemyBisouStar::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) assets().sounds.level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rnd() % 9));
 }

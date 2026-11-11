@@ -131,7 +131,7 @@ static Enemy* make() {
 static const std::unordered_map<int, Enemy* (*)()> ENEMIES = {
 	{ENEMYID_SMURF,
 	 []() -> Enemy* {
-		 switch (rand() % 6) {
+		 switch (rnd() % 6) {
 			 case 0:
 				 return new EnemySmurf();
 			 case 1:

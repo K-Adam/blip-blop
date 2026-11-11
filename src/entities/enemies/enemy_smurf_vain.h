@@ -6,7 +6,7 @@ class EnemySmurfVain : public EnemySmurf {
    public:
 	EnemySmurfVain() {
 		dy_jump = -6;
-		speed = 1 + rand() % 2;
+		speed = 1 + rnd() % 2;
 	}
 
 	inline void render() override {

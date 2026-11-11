@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy.h"
 #include "entities/shots/shot_cloud.h"
 
-ShotCloud::ShotCloud() : status(0), shoot_step(0), lightning_timer(0), lightning(0) { lifespan = 600 + rand() % 400; }
+ShotCloud::ShotCloud() : status(0), shoot_step(0), lightning_timer(0), lightning(0) { lifespan = 600 + rnd() % 400; }
 
 void ShotCloud::update() {
 	switch (status) {
@@ -155,7 +155,7 @@ void ShotCloud::onShoot() {
 		col_on = true;
 	}
 
-	dy = rand() % 20;
+	dy = rnd() % 20;
 }
 
 void ShotCloud::render() {

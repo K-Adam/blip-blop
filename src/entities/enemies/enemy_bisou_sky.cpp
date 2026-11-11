@@ -206,5 +206,5 @@ void EnemyBisouSky::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter, dy_splatter);
 
-	if (status == STATE_DYING) assets().sounds.level.play((rand() % 9));
+	if (status == STATE_DYING) assets().sounds.level.play((rnd() % 9));
 }

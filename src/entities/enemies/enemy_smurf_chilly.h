@@ -25,7 +25,7 @@ class EnemySmurfChilly : public EnemySmurf {
 	}
 
 	void onWalk() override {
-		speed = 1 + rand() % 3;
+		speed = 1 + rnd() % 3;
 		EnemySmurf::onWalk();
 	}
 };

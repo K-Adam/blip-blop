@@ -2,7 +2,7 @@
 #include "entities/shots/shot_bisou_deadly.h"
 
 EnemySmurfette::EnemySmurfette() : shoot_step(0) {
-	wait_shoot = 100 + rand() % 100;
+	wait_shoot = 100 + rnd() % 100;
 	hp = 200;
 }
 
@@ -109,7 +109,7 @@ void EnemySmurfette::onShoot() {
 		} else if (anim_step >= 9) {
 			status = STATE_WALK;
 			anim_step = anim_tick = shoot_step = 0;
-			wait_shoot = 200 + rand() % 100;
+			wait_shoot = 200 + rnd() % 100;
 			onWalk();
 			return;
 		}

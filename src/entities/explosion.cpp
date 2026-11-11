@@ -1,12 +1,12 @@
 #include "entities/explosion.h"
 
 Explosion::Explosion() : finished(false) {
-	type = rand() % 2;
+	type = rnd() % 2;
 
 	if (type == 1)
-		speed = 2 + rand() % 2;
+		speed = 2 + rnd() % 2;
 	else
-		speed = 4 + rand() % 3;
+		speed = 4 + rnd() % 3;
 }
 
 void Explosion::update() {

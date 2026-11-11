@@ -6,11 +6,11 @@ const int anim_smurf_jokey_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySmurfJokey::EnemySmurfJokey() {
 	hp = 150;
-	bomb_delay = 100 + rand() % 400;
+	bomb_delay = 100 + rnd() % 400;
 	wait_for_bomb = 0;
 	carries_bomb = true;
 	wait_for_new_bomb = 0;
-	new_bomb_delay = 50 + rand() % 200;
+	new_bomb_delay = 50 + rnd() % 200;
 	gift_dy = 5;
 }
 
@@ -70,7 +70,7 @@ void EnemySmurfJokey::onDropGift() {
 		carries_bomb = false;
 		gift_dy = 5;
 		wait_for_new_bomb = 0;
-		new_bomb_delay = 50 + rand() % 200;
+		new_bomb_delay = 50 + rnd() % 200;
 
 		ShotGift* shot = new ShotGift();
 		if (dir == FACING_RIGHT)
@@ -94,7 +94,7 @@ void EnemySmurfJokey::onWalk() {
 		if (wait_for_bomb > bomb_delay && level().terrain.platform_y(x, y) != 0) {
 			status = STATE_WAIT;
 			wait_for_bomb = 0;
-			bomb_delay = 50 + rand() % 250;
+			bomb_delay = 50 + rnd() % 250;
 			anim_step = 0;
 			anim_tick = 0;
 		}
@@ -102,7 +102,7 @@ void EnemySmurfJokey::onWalk() {
 		wait_for_new_bomb += 1;
 		if (wait_for_new_bomb > new_bomb_delay) {
 			wait_for_new_bomb = 0;
-			new_bomb_delay = 50 + rand() % 200;
+			new_bomb_delay = 50 + rnd() % 200;
 			status = STATE_DRAW_WEAPON;
 			anim_step = 0;
 			anim_tick = 0;
@@ -196,6 +196,6 @@ void EnemySmurfJokey::takeHit(Shot* shot) {
 		if (carries_bomb)
 			assets().sounds.misc.play(11);
 		else
-			assets().sounds.level.play(4 + rand() % 10);
+			assets().sounds.level.play(4 + rnd() % 10);
 	}
 }

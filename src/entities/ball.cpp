@@ -193,15 +193,15 @@ void Ball::update() {
 		ShotBBCow* ptr;
 
 		for (int i = 0; i < 11; i++) {
-			int xCow = level().camera.offset + i * 64 + rand() % 20;
+			int xCow = level().camera.offset + i * 64 + rnd() % 20;
 
 			if (!level().terrain.solid_wall(xCow, 0)) {
 				ptr = new ShotBBCow();
 
 				ptr->x = xCow;
-				ptr->y = rand() % 180 - 200;
-				ptr->dy = 5 + rand() % 3;
-				ptr->anim_step = rand() % 8;
+				ptr->y = rnd() % 180 - 200;
+				ptr->dy = 5 + rnd() % 3;
+				ptr->anim_step = rnd() % 8;
 				ptr->hero = this;
 
 				level().entities.cows.push_back(std::unique_ptr<ShotBBCow>(ptr));

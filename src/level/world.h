@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <numbers>
+#include <random>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
@@ -171,6 +172,8 @@ class World {
    public:
 	Session session;
 	ScrollRenderer scroll;
+	// Same sequence on every standard library, unlike rand()
+	std::mt19937 rng;
 
 	World();
 	~World();
@@ -189,6 +192,8 @@ class World {
 
 inline Level& level() { return World::current().level(); }
 inline Session& session() { return World::current().session; }
+// Shift keeps the result non-negative so rand() % n call sites stay valid
+inline int rnd() { return (int)(World::current().rng() >> 1); }
 
 bool engrave(int x, int y, const Picture* pic);
 

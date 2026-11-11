@@ -15,7 +15,7 @@ static const int yteleport[] = {296, 130, 188};
 
 EnemyBisouShaman::EnemyBisouShaman() : shoot_step(0), nb_touch(0), n_pos(1) {
 	hp = 11000;
-	wait_shoot = 250 + rand() % 50;
+	wait_shoot = 250 + rnd() % 50;
 	treasure = 0;
 }
 
@@ -104,7 +104,7 @@ void EnemyBisouShaman::onTeleport() {
 			if (new_pos != n_pos) {
 				n_pos = new_pos;
 			} else {
-				n_pos += rand() % 2 + 1;
+				n_pos += rnd() % 2 + 1;
 				n_pos %= 3;
 			}
 
@@ -184,7 +184,7 @@ void EnemyBisouShaman::onLowerStaff() {
 		if (anim_step > 2) {
 			anim_step = anim_tick = 0;
 			status = STATE_WALK;
-			wait_shoot = 100 + rand() % 50;
+			wait_shoot = 100 + rnd() % 50;
 			shoot_step = 0;
 			return;
 		}

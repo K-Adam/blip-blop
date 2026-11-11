@@ -1,6 +1,6 @@
 #include "entities/shots/shot_shaman_column.h"
 
-ShotShamanColumn::ShotShamanColumn() : status(0) { lifespan = 250 + rand() % 100; }
+ShotShamanColumn::ShotShamanColumn() : status(0) { lifespan = 250 + rnd() % 100; }
 
 void ShotShamanColumn::update() {
 	travel();

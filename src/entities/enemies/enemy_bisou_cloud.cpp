@@ -3,7 +3,7 @@
 
 EnemyBisouCloud::EnemyBisouCloud() : shoot_step(0) {
 	hp = 250;
-	wait_shoot = 150 + rand() % 150;
+	wait_shoot = 150 + rnd() % 150;
 }
 
 void EnemyBisouCloud::update() {
@@ -104,7 +104,7 @@ void EnemyBisouCloud::onNormal() {
 		level().entities.enemy_shots.emplace_back(s);
 
 		shoot_step = 0;
-		wait_shoot = 250 + rand() % 250;
+		wait_shoot = 250 + rnd() % 250;
 	}
 
 	colFromPic();

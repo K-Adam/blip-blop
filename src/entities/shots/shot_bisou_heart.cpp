@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rand() % 360; }
+ShotBisouHeart::ShotBisouHeart() : ok(false) { phi = rnd() % 360; }
 
 void ShotBisouHeart::update() {
 	y += 1;

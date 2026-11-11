@@ -4,7 +4,7 @@
 const int anim_governor_walk_right[] = {0, 1, 2, 3, 2, 1};
 const int anim_governor_walk_left[] = {0, 1, 2, 3, 2, 1};
 
-EnemySnorkyGovernor::EnemySnorkyGovernor() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
+EnemySnorkyGovernor::EnemySnorkyGovernor() : wait_for_shoot(0), shoot_delay(50 + rnd() % 200) {
 	hp = 150;
 	pic = assets().pics.enemies.anim("snorky_walk_right")[0];
 	dy = 0;
@@ -53,7 +53,7 @@ void EnemySnorkyGovernor::onWalk() {
 	if ((wait_for_shoot > shoot_delay) &&
 		((dir == FACING_RIGHT && x > level().camera.offset + 40) || (dir == FACING_LEFT && x < level().camera.offset + 600))) {
 		wait_for_shoot = 0;
-		shoot_delay = 50 + rand() % 200;
+		shoot_delay = 50 + rnd() % 200;
 		anim_step = 0;
 		anim_tick = 0;
 		nb_shots = 0;
@@ -126,7 +126,7 @@ void EnemySnorkyGovernor::onShoot() {
 
 	if (anim_step == 6 && anim_tick == 0) {
 		if (session().targeted_player != NULL) {
-			ShotSnorkyGovernor* shot = new ShotSnorkyGovernor(session().targeted_player, rand() % 6 - 2, -5 - rand() % 5);
+			ShotSnorkyGovernor* shot = new ShotSnorkyGovernor(session().targeted_player, rnd() % 6 - 2, -5 - rnd() % 5);
 
 			shot->setDir(dir);
 			shot->x = x;
@@ -179,6 +179,6 @@ void EnemySnorkyGovernor::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_governor, dy_splatter_governor);
 
 	if (status == STATE_DYING) {
-		assets().sounds.level.play(4 + rand() % 2);
+		assets().sounds.level.play(4 + rnd() % 2);
 	}
 }

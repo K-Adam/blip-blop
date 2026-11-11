@@ -8,8 +8,8 @@ class GoreHeadBisouHeart : public Sprite {
 	bool play_sound;
 
 	GoreHeadBisouHeart() : play_sound(false) {
-		dy = -1 - rand() % 3;
-		dx = -2 + rand() % 5;
+		dy = -1 - rnd() % 3;
+		dx = -2 + rnd() % 5;
 	};
 
 	void update() override {
@@ -24,7 +24,7 @@ class GoreHeadBisouHeart : public Sprite {
 
 		if (anim_tick == 0 && (anim_step < 3 || level().terrain.platform_y(x, y) != 0)) {
 			if (!play_sound && level().terrain.platform_y(x, y) != 0) {
-				assets().sounds.misc.play(6 + (rand() % 2));
+				assets().sounds.misc.play(6 + (rnd() % 2));
 				play_sound = true;
 			}
 

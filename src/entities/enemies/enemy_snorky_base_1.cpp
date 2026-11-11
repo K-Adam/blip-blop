@@ -5,7 +5,7 @@
 const int anim_snorky_base_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_snorky_base_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
-EnemySnorkyBase1::EnemySnorkyBase1() : wait_for_shoot(0), shoot_delay(50 + rand() % 200) {
+EnemySnorkyBase1::EnemySnorkyBase1() : wait_for_shoot(0), shoot_delay(50 + rnd() % 200) {
 	hp = 200;
 	pic = assets().pics.enemies.anim("snorky_walk_right")[0];
 	dy = 0;
@@ -54,7 +54,7 @@ void EnemySnorkyBase1::onWalk() {
 	if ((wait_for_shoot > shoot_delay) &&
 		((dir == FACING_RIGHT && x > level().camera.offset + 40) || (dir == FACING_LEFT && x < level().camera.offset + 600))) {
 		wait_for_shoot = 0;
-		shoot_delay = 50 + rand() % 200;
+		shoot_delay = 50 + rnd() % 200;
 		anim_step = 0;
 		anim_tick = 0;
 		status = STATE_SHOOT;
@@ -195,6 +195,6 @@ void EnemySnorkyBase1::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter_snorkbase1, dy_splatter_snorkbase1);
 
 	if (status == STATE_DYING) {
-		assets().sounds.level.play(14 + rand() % 3);
+		assets().sounds.level.play(14 + rnd() % 3);
 	}
 }

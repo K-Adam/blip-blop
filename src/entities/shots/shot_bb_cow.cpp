@@ -18,9 +18,9 @@ void ShotBBCow::update() {
 		GoreSplatter* s;
 
 		for (int i = 0; i < 15; i++) {
-			s = new GoreSplatter(rand() % 11 - 5, -2 - rand() % 6);
-			s->x = x + rand() % 11 - 5;
-			s->y = y - rand() % 30 - 10;
+			s = new GoreSplatter(rnd() % 11 - 5, -2 - rnd() % 6);
+			s->x = x + rnd() % 11 - 5;
+			s->y = y - rnd() % 30 - 10;
 			level().entities.gore.emplace_back(s);
 		}
 

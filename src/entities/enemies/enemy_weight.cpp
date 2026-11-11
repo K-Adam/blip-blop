@@ -56,9 +56,9 @@ void EnemyWeight::onDie() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 8; i++) {
-				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
-				s->x = x + rand() % 80 - 40;
-				s->y = y - rand() % 30 - 10;
+				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s->x = x + rnd() % 80 - 40;
+				s->y = y - rnd() % 30 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 15)) {
@@ -66,9 +66,9 @@ void EnemyWeight::onDie() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 6; i++) {
-				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
-				s->x = x + rand() % 80 - 40;
-				s->y = y - rand() % 30 - 10;
+				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s->x = x + rnd() % 80 - 40;
+				s->y = y - rnd() % 30 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 20)) {
@@ -76,9 +76,9 @@ void EnemyWeight::onDie() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 5; i++) {
-				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
-				s->x = x + rand() % 80 - 40;
-				s->y = y - rand() % 30 - 10;
+				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s->x = x + rnd() % 80 - 40;
+				s->y = y - rnd() % 30 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 25)) {
@@ -87,9 +87,9 @@ void EnemyWeight::onDie() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 4; i++) {
-				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
-				s->x = x + rand() % 80 - 40;
-				s->y = y - rand() % 30 - 10;
+				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s->x = x + rnd() % 80 - 40;
+				s->y = y - rnd() % 30 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 30)) {
@@ -97,9 +97,9 @@ void EnemyWeight::onDie() {
 			int i;
 			Sprite* s;
 			for (i = 0; i < 3; i++) {
-				s = new GoreSplatter(rand() % 15 - 7, -1 - rand() % 10);
-				s->x = x + rand() % 80 - 40;
-				s->y = y - rand() % 30 - 10;
+				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s->x = x + rnd() % 80 - 40;
+				s->y = y - rnd() % 30 - 10;
 				level().entities.splatters.emplace_back(s);
 			}
 		} else {

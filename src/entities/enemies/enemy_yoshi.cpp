@@ -6,7 +6,7 @@ const int anim_yoshi_walk_left[] = {0, 1, 2, 1};
 const int anim_yoshi_attack_right[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 const int anim_yoshi_attack_left[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 
-EnemyYoshi::EnemyYoshi() : attack_delay(50 + rand() % 250), wait_for_attack(0) {
+EnemyYoshi::EnemyYoshi() : attack_delay(50 + rnd() % 250), wait_for_attack(0) {
 	treasure = 10;
 	hp = 500;
 }
@@ -58,7 +58,7 @@ void EnemyYoshi::onWalk() {
 	wait_for_attack++;
 	if (wait_for_attack >= attack_delay && x <= level().camera.offset + 640) {
 		wait_for_attack = 0;
-		attack_delay = 50 + rand() % 250;
+		attack_delay = 50 + rnd() % 250;
 		anim_step = 0;
 		status = STATE_SHOOT;
 		attack = true;
@@ -223,6 +223,6 @@ void EnemyYoshi::takeHit(Shot* shot) {
 	splatter(shot, dx_splatter, dy_splatter);
 
 	if (status == STATE_DYING) {
-		assets().sounds.misc.play(6 + rand() % 3);
+		assets().sounds.misc.play(6 + rnd() % 3);
 	}
 }

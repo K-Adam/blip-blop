@@ -97,5 +97,5 @@ void EnemySmurfFarmer::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter_smurf_farmer, dy_splatter_smurf_farmer);
 
-	if (status == STATE_DYING) assets().sounds.misc.play(8 + rand() % 3);
+	if (status == STATE_DYING) assets().sounds.misc.play(8 + rnd() % 3);
 }

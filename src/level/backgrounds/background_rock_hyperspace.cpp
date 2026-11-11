@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 
-BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rand() % 360), sinusoid_delay(1), y_base(0) {}
+BackgroundRockHyperspace::BackgroundRockHyperspace() : placed(1), delta(rnd() % 360), sinusoid_delay(1), y_base(0) {}
 
 void BackgroundRockHyperspace::update() {
 	delta += sinusoid_delay;
@@ -10,24 +10,24 @@ void BackgroundRockHyperspace::update() {
 
 	if (placed) {
 		if ((x >= 0) && (x < 200)) {
-			x_delay = 2 + rand() % 3;
+			x_delay = 2 + rnd() % 3;
 			rock_layer = 2;
-			pic = assets().pics.level.anim("rock_hyperspace_far")[rand() % 7];
-			sinusoid_delay = 2 + rand() % 2;
+			pic = assets().pics.level.anim("rock_hyperspace_far")[rnd() % 7];
+			sinusoid_delay = 2 + rnd() % 2;
 		} else if ((x >= 200) && (x < 420)) {
-			x_delay = 4 + rand() % 5;
+			x_delay = 4 + rnd() % 5;
 			rock_layer = 1;
-			pic = assets().pics.level.anim("rock_hyperspace_mid")[rand() % 5];
-			sinusoid_delay = 3 + rand() % 2;
+			pic = assets().pics.level.anim("rock_hyperspace_mid")[rnd() % 5];
+			sinusoid_delay = 3 + rnd() % 2;
 		} else if ((x >= 420) && (x < 640)) {
-			x_delay = 8 + rand() % 4;
+			x_delay = 8 + rnd() % 4;
 			rock_layer = 0;
-			pic = assets().pics.level.anim("rock_hyperspace_near")[rand() % 5];
-			sinusoid_delay = 4 + rand() % 2;
+			pic = assets().pics.level.anim("rock_hyperspace_near")[rnd() % 5];
+			sinusoid_delay = 4 + rnd() % 2;
 		}
-		x = rand() % 640;
-		y_base = rand() % 380;
-		y = rand() % 380;
+		x = rnd() % 640;
+		y_base = rnd() % 380;
+		y = rnd() % 380;
 		placed = 0;
 	}
 	anim_tick++;
@@ -50,25 +50,25 @@ void BackgroundRockHyperspace::update() {
 
 	if (x > level().camera.offset + 700) {
 		x = level().camera.offset - 80;
-		y_base = rand() % 380;
-		y = rand() % 380;
+		y_base = rnd() % 380;
+		y = rnd() % 380;
 		switch (rock_layer) {
 			case 0:
-				x_delay = 8 + rand() % 4;
-				pic = assets().pics.level.anim("rock_hyperspace_near")[rand() % 5];
-				sinusoid_delay = 4 + rand() % 2;
+				x_delay = 8 + rnd() % 4;
+				pic = assets().pics.level.anim("rock_hyperspace_near")[rnd() % 5];
+				sinusoid_delay = 4 + rnd() % 2;
 				break;
 
 			case 1:
-				x_delay = 4 + rand() % 5;
-				pic = assets().pics.level.anim("rock_hyperspace_mid")[rand() % 5];
-				sinusoid_delay = 3 + rand() % 2;
+				x_delay = 4 + rnd() % 5;
+				pic = assets().pics.level.anim("rock_hyperspace_mid")[rnd() % 5];
+				sinusoid_delay = 3 + rnd() % 2;
 				break;
 
 			case 2:
-				x_delay = 2 + rand() % 3;
-				pic = assets().pics.level.anim("rock_hyperspace_far")[rand() % 7];
-				sinusoid_delay = 2 + rand() % 2;
+				x_delay = 2 + rnd() % 3;
+				pic = assets().pics.level.anim("rock_hyperspace_far")[rnd() % 7];
+				sinusoid_delay = 2 + rnd() % 2;
 				break;
 		}
 	}

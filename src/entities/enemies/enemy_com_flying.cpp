@@ -5,7 +5,7 @@ EnemyCOMFlying::EnemyCOMFlying() : speed(0), attack(true) {
 	if (session().targeted_player != NULL) {
 		y_target = session().targeted_player->y;
 	} else {
-		y_target = 100 + rand() % 200;
+		y_target = 100 + rnd() % 200;
 		;
 	}
 }
@@ -35,7 +35,7 @@ void EnemyCOMFlying::onWalk() {
 		if (session().targeted_player != NULL) {
 			y_target = session().targeted_player->y;
 		} else {
-			y_target = 100 + rand() % 200;
+			y_target = 100 + rnd() % 200;
 			;
 		}
 	} else if ((dir == FACING_RIGHT) && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
@@ -44,7 +44,7 @@ void EnemyCOMFlying::onWalk() {
 		if (session().targeted_player != NULL) {
 			y_target = session().targeted_player->y;
 		} else {
-			y_target = 100 + rand() % 200;
+			y_target = 100 + rnd() % 200;
 			;
 		}
 	}

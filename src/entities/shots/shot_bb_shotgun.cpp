@@ -30,7 +30,7 @@ void ShotBBShotgun::aim(double deg) {
 	drift_delay_ = delay_big[n_delay_big];
 	drift_tick_ = 0;
 
-	lifespan = 10 + rand() % 7;
+	lifespan = 10 + rnd() % 7;
 	age = 0;
 }
 

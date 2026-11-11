@@ -7,7 +7,7 @@ const int anim_mario_walk_right[] = {0, 1, 2, 1};
 const int anim_mario_walk_left[] = {0, 1, 2, 1};
 const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-EnemyMario::EnemyMario() : speed(1), speed_tick(0), fireball(0), attack_delay(50 + rand() % 50), wait_for_attack(0), nb_rain(0) {
+EnemyMario::EnemyMario() : speed(1), speed_tick(0), fireball(0), attack_delay(50 + rnd() % 50), wait_for_attack(0), nb_rain(0) {
 	hp = 50000;
 	pic = assets().pics.enemies.anim("mario_walk_left")[0];
 }
@@ -139,17 +139,17 @@ void EnemyMario::onWalk() {
 			attack_phase = 0;
 
 			if (hp < MARIO_HP_SUPERCRITICAL) {
-				attack_type = rand() % 5 + 11;
-				attack_delay = 30 + rand() % 30;
+				attack_type = rnd() % 5 + 11;
+				attack_delay = 30 + rnd() % 30;
 			} else if (hp < MARIO_HP_CRITICAL) {
-				attack_type = rand() % 6 + 5;
-				attack_delay = 50 + rand() % 50;
+				attack_type = rnd() % 6 + 5;
+				attack_delay = 50 + rnd() % 50;
 			} else if (hp < MARIO_HP_SUBCRITICAL) {
-				attack_type = rand() % 5 + 2;
-				attack_delay = 100 + rand() % 50;
+				attack_type = rnd() % 5 + 2;
+				attack_delay = 100 + rnd() % 50;
 			} else {
-				attack_type = rand() % 5;
-				attack_delay = 150 + rand() % 50;
+				attack_type = rnd() % 5;
+				attack_delay = 150 + rnd() % 50;
 			}
 			switch (attack_type) {
 				case 0:
@@ -198,44 +198,44 @@ void EnemyMario::onWalk() {
 					break;
 
 				case 8:
-					nb_rain = 4 + rand() % 7;
+					nb_rain = 4 + rnd() % 7;
 					fireball = true;
 					onBurstHorizontalSteady();
 					break;
 
 				case 9:
 					fireball = true;
-					nb_rain = 3 + rand() % 5;
+					nb_rain = 3 + rnd() % 5;
 					onBurstVerticalSteady();
 					break;
 
 				case 10:
 					fireball = true;
-					nb_rain = 4 + rand() % 5;
+					nb_rain = 4 + rnd() % 5;
 					onBurstCross();
 					break;
 
 				case 11:
 					speed = 5;
-					nb_rain = 3 + rand() % 4;
+					nb_rain = 3 + rnd() % 4;
 					onFireRain();
 					break;
 
 				case 12:
 					fireball = true;
-					nb_rain = 3 + rand() % 3;
+					nb_rain = 3 + rnd() % 3;
 					onBurstVerticalHoming();
 					break;
 
 				case 13:
 					fireball = true;
-					nb_rain = 3 + rand() % 3;
+					nb_rain = 3 + rnd() % 3;
 					onBurstHorizontalHoming();
 					break;
 
 				case 14:
 					fireball = true;
-					nb_rain = 3 + rand() % 4;
+					nb_rain = 3 + rnd() % 4;
 					onBurstCrossHoming();
 					break;
 
@@ -580,7 +580,7 @@ void EnemyMario::onBurstVertical() {
 	if (attack_tick == 0) {
 		attack_step++;
 		if (dir == FACING_RIGHT) {
-			x_target = x + attack_step * 100 + rand() % 20;
+			x_target = x + attack_step * 100 + rnd() % 20;
 			if (x_target > level().camera.offset + 720) {
 				anim_step = 0;
 				anim_tick = 0;
@@ -598,7 +598,7 @@ void EnemyMario::onBurstVertical() {
 
 			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int x_fire = x - attack_step * 100 - rand() % 20;
+			int x_fire = x - attack_step * 100 - rnd() % 20;
 			if (x_fire < level().camera.offset - 100) {
 				anim_step = 0;
 				anim_tick = 0;
@@ -682,7 +682,7 @@ void EnemyMario::onBurstVerticalReverse() {
 	if (attack_tick == 0) {
 		attack_step--;
 		if (dir == FACING_RIGHT) {
-			x_target = level().camera.offset + attack_step * 100 + rand() % 20;
+			x_target = level().camera.offset + attack_step * 100 + rnd() % 20;
 			if (x_target < x + 20) {
 				anim_step = 0;
 				anim_tick = 0;
@@ -700,7 +700,7 @@ void EnemyMario::onBurstVerticalReverse() {
 
 			level().entities.enemy_shots.emplace_back(shot);
 		} else {
-			int x_fire = level().camera.offset + 640 - attack_step * 100 - rand() % 20;
+			int x_fire = level().camera.offset + 640 - attack_step * 100 - rnd() % 20;
 			if (x_fire > x - 20) {
 				anim_step = 0;
 				anim_tick = 0;

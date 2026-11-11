@@ -7,7 +7,7 @@ const int anim_mario_walk_left[] = {0, 1, 2, 1};
 const int mario_recoil[] = {4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 EnemyMarioHologram::EnemyMarioHologram()
-	: speed(1), speed_tick(0), fireball(0), wait_for_blink(0), blink_delay(10 + rand() % 10), attack_delay(50 + rand() % 50), wait_for_attack(0) {
+	: speed(1), speed_tick(0), fireball(0), wait_for_blink(0), blink_delay(10 + rnd() % 10), attack_delay(50 + rnd() % 50), wait_for_attack(0) {
 	hp = 1;
 	pic = assets().pics.enemies.anim("mario_walk_right")[0];
 }
@@ -17,7 +17,7 @@ void EnemyMarioHologram::update() {
 	if (wait_for_blink > blink_delay + NB_BLINKS) {
 		look_ = "hologram_";
 		wait_for_blink = 0;
-		blink_delay = 50 + rand() % 50;
+		blink_delay = 50 + rnd() % 50;
 	} else if (wait_for_blink > blink_delay) {
 		look_ = "hologram_";
 	} else {
@@ -82,13 +82,13 @@ void EnemyMarioHologram::onWalk() {
 			speed = 0;
 			dy = -6;
 			wait_for_attack = 0;
-			attack_delay = 50 + rand() % 50;
+			attack_delay = 50 + rnd() % 50;
 			status = STATE_SHOOT;
 			y_target = session().targeted_player->y;
 			x_target = session().targeted_player->x;
 			attack_step = 0;
 			fireball = 1;
-			attack_type = rand() % 2;
+			attack_type = rnd() % 2;
 			switch (attack_type) {
 				case 0:
 					onShoot();

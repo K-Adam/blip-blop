@@ -14,21 +14,21 @@ void ShotBBLF::aim(double angle) {
 	anim_step = 0;
 	anim_tick = 0;
 	delay = 0;
-	type = rand() % 2;
+	type = rnd() % 2;
 	finished = false;
 	pic = NULL;
 
 	if (type == 1)
-		speed = 2 + rand() % 2;
+		speed = 2 + rnd() % 2;
 	else if (type == 0)
-		speed = 4 + rand() % 3;
+		speed = 4 + rnd() % 3;
 	else
-		speed = 5 + rand() % 3;
+		speed = 5 + rnd() % 3;
 
 	// A puff leaves along the aim with a little sideways scatter
-	setAngle(angle, 3 + rand() % 3);
+	setAngle(angle, 3 + rnd() % 3);
 	double a = angle * std::numbers::pi / 180;
-	double across = 1 - rand() % 3;
+	double across = 1 - rnd() % 3;
 	accelerate(std::sin(a) * across, std::cos(a) * across);
 }
 

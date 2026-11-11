@@ -1354,11 +1354,11 @@ void Game::updateWeather() {
 			next_snowflake = (next_snowflake + 1) % NB_SNOWFLAKES;
 			WeatherSnow* snowflake = &snow[next_snowflake];
 
-			int d = rand() % 3;
+			int d = rnd() % 3;
 
 			snowflake->destroyed = false;
-			snowflake->xbase = level().camera.offset + rand() % 800;
-			snowflake->y = rand() % 480 - 500;
+			snowflake->xbase = level().camera.offset + rnd() % 800;
+			snowflake->y = rnd() % 480 - 500;
 
 			if (d <= 1)
 				snowflake->pic = assets().pics.misc.pic("snowflake_small");
@@ -1366,7 +1366,7 @@ void Game::updateWeather() {
 				snowflake->pic = assets().pics.misc.pic("snowflake_large");
 
 			snowflake->dy = level().rules.weather_intensity / 20 + d;
-			snowflake->phi = rand() % 360;
+			snowflake->phi = rnd() % 360;
 			snowflake->xwide = 10 + d * 4;
 
 			if (level().terrain.solid_wall(snowflake->xbase, 0)) snowflake->y -= 550;
@@ -1376,11 +1376,11 @@ void Game::updateWeather() {
 			next_raindrop = (next_raindrop + 1) % NB_RAINDROPS;
 			WeatherRain* raindrop = &rain[next_raindrop];
 
-			int d = rand() % 4;
+			int d = rnd() % 4;
 
 			raindrop->destroyed = false;
-			raindrop->x = level().camera.offset + rand() % 800;
-			raindrop->y = rand() % 480 - 480;
+			raindrop->x = level().camera.offset + rnd() % 800;
+			raindrop->y = rnd() % 480 - 480;
 			raindrop->pic = assets().pics.misc.anim("raindrop")[d];
 			raindrop->dy = 7 + d * 2;
 
@@ -1472,16 +1472,16 @@ void Game::updateBubbles() {
 }
 
 void Game::spawnBubble(Sprite* s) {
-	s->wait_bubble += rand() % 10;
+	s->wait_bubble += rnd() % 10;
 
 	if (s->wait_bubble > 300) {
 		Bubble* b = new Bubble();
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
-		b->pic = assets().pics.misc.anim("bubble")[rand() % 3];
-		b->dphi = 5 + rand() % 3;
-		b->dy = -(2 + rand() % 2);
+		b->pic = assets().pics.misc.anim("bubble")[rnd() % 3];
+		b->dphi = 5 + rnd() % 3;
+		b->dy = -(2 + rnd() % 2);
 
 		list_bubbles.emplace_back(b);
 

@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_snorky_hyporider.h"
 #include "entities/piece_snorky_head.h"
 
-EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rand() % 200), fin(1), attack_step(0) {
+EnemySnorkyHyporider::EnemySnorkyHyporider() : wait_for_charge(0), charge_delay(50 + rnd() % 200), fin(1), attack_step(0) {
 	hp = 350;
 	dy = 0;
 }
@@ -37,7 +37,7 @@ void EnemySnorkyHyporider::onWalk() {
 	if ((wait_for_charge > charge_delay) &&
 		((dir == FACING_RIGHT && x > level().camera.offset + 80) || (dir == FACING_LEFT && x < level().camera.offset + 560))) {
 		wait_for_charge = 0;
-		charge_delay = 50 + rand() % 200;
+		charge_delay = 50 + rnd() % 200;
 		anim_step = 0;
 		anim_tick = 0;
 		status = STATE_SHOOT;

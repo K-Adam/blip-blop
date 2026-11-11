@@ -1,7 +1,5 @@
 #include "entities/weapons.h"
 
-#include <cstdlib>
-
 #include "entities/ball.h"
 
 const int anim_flash[] = {0, 1, 2, 1, 0};
@@ -146,7 +144,7 @@ void placeAtMuzzle(ShotBB* t, const Ball& b, const GunPose& g, const int* gdx, c
 	rotateAround(t->x, t->y, b.x + gdx[g.sector], b.y + gdy[g.sector], g.residual);
 }
 
-int jitter() { return rand() % 11 - 5; }
+int jitter() { return rnd() % 11 - 5; }
 
 }  // namespace
 

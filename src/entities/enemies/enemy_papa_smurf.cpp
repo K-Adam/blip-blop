@@ -11,7 +11,7 @@ void EnemyPapaSmurf::updateTarget() {
 	} else {
 		if (session().targeted_player != NULL && !session().targeted_player->destroyed) {
 			target = session().targeted_player;
-			wait_change_target = 200 + rand() % 100;
+			wait_change_target = 200 + rnd() % 100;
 		} else {
 			target = NULL;
 		}
@@ -81,7 +81,7 @@ void EnemyPapaSmurf::onAtata() {
 	if (anim_step > 50) {
 		anim_step = anim_tick = 0;
 		status = STATE_NORMAL;
-		attack_wanted = rand() % 2;
+		attack_wanted = rnd() % 2;
 	} else {
 		if (dir == FACING_LEFT) {
 			pic = assets().pics.enemies.anim("smurf_walk_right")[3 + (anim_step % 3)];

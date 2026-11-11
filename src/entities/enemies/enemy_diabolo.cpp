@@ -2,7 +2,7 @@
 #include "core/debug.h"
 #include "entities/shots/shot_tornado.h"
 
-EnemyDiabolo::EnemyDiabolo() : wait_for_attack(0), attack_delay(50 + rand() % 100), attack_type(0) {
+EnemyDiabolo::EnemyDiabolo() : wait_for_attack(0), attack_delay(50 + rnd() % 100), attack_type(0) {
 	hp = 30000;
 	dy = 0;
 	xmin = 80;
@@ -63,7 +63,7 @@ void EnemyDiabolo::onWalk() {
 
 			if ((session().targeted_player->y <= y) && (session().targeted_player->y > y - 170)) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;
@@ -74,7 +74,7 @@ void EnemyDiabolo::onWalk() {
 				return;
 			} else if ((dir == FACING_RIGHT) && (dif_x > -40) && (dif_x < 40) && (dif_y + dif_x < 0)) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;
@@ -86,7 +86,7 @@ void EnemyDiabolo::onWalk() {
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_x > -40) && (dif_x < 40) && (dif_y - dif_x < 0)) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;
@@ -97,7 +97,7 @@ void EnemyDiabolo::onWalk() {
 				return;
 			} else if ((dir == FACING_RIGHT) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;
@@ -108,7 +108,7 @@ void EnemyDiabolo::onWalk() {
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;
@@ -120,7 +120,7 @@ void EnemyDiabolo::onWalk() {
 				return;
 			} else {
 				wait_for_attack = 0;
-				attack_delay = 50 + rand() % 100;
+				attack_delay = 50 + rnd() % 100;
 				anim_step = 0;
 				anim_tick = 0;
 				status = STATE_SHOOT;

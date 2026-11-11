@@ -13,10 +13,10 @@ void PieceSnorkyBaseHeadWhole::update() {
 	if (anim_step == 2 && anim_tick == 0) {
 		Sprite* s;
 		if (dir == FACING_RIGHT) {
-			s = new PieceSnorkyBaseTrunk(1 + rand() % 2, -1 + rand() % 2);
+			s = new PieceSnorkyBaseTrunk(1 + rnd() % 2, -1 + rnd() % 2);
 			s->x = x + 19;
 		} else {
-			s = new PieceSnorkyBaseTrunk(-1 - rand() % 2, -1 - rand() % 2);
+			s = new PieceSnorkyBaseTrunk(-1 - rnd() % 2, -1 - rnd() % 2);
 			s->x = x - 19;
 		}
 

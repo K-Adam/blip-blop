@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdlib>
-
 #include "entities/sprite.h"
 
 // Body parts thrown by the exploding kiss enemy, drift is the sideways speed when facing right
@@ -24,7 +22,7 @@ class GoreBisouBoom : public Sprite {
 		if ((level().terrain.platform_y(x, y) != 0 && anim_step >= 5) || level().terrain.solid_wall(x, y)) {
 			engrave(x, y, pic);
 			destroyed = true;
-			assets().sounds.misc.play(6 + (rand() % 2));
+			assets().sounds.misc.play(6 + (rnd() % 2));
 		} else {
 			x += dir == FACING_RIGHT ? drift_ : -drift_;
 		}

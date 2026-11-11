@@ -1,12 +1,10 @@
 #pragma once
 
-#include <cstdlib>
-
 #include "entities/sprite.h"
 
 class BackgroundFish : public Sprite {
    public:
-	BackgroundFish(const char* right, const char* left) : right_(right), left_(left) { dir = rand() % 2; }
+	BackgroundFish(const char* right, const char* left) : right_(right), left_(left) { dir = rnd() % 2; }
 
 	void update() override {
 		step(9, 3);

@@ -2,7 +2,7 @@
 #include "entities/enemies/enemy_bisou_jedi.h"
 
 ShotLaserSword::ShotLaserSword() : target(NULL), thrower(NULL), isdead(false), returning(false), accel(1) {
-	lifespan = 200 + rand() % 100;
+	lifespan = 200 + rnd() % 100;
 	assets().sounds.level.play(13, SOUND_LOOP);
 }
 

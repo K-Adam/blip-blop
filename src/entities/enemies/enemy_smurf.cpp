@@ -5,7 +5,7 @@ const int anim_smurf_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};
 
 EnemySmurf::EnemySmurf() : wait_for_jump(0) {
 	hp = 100;
-	jump_delay = 50 + rand() % 250;
+	jump_delay = 50 + rnd() % 250;
 	dy_jump = -5;
 	speed = 1;
 }
@@ -51,7 +51,7 @@ void EnemySmurf::onWalk() {
 		dy = dy_jump;
 		grav_tick = 0;	// Otherwise jump heights vary
 		wait_for_jump = 0;
-		jump_delay = 50 + rand() % 250;
+		jump_delay = 50 + rnd() % 250;
 		onJump();
 	}
 
@@ -126,7 +126,7 @@ void EnemySmurf::takeHit(Shot* shot) {
 	Enemy::takeHit(shot);
 	splatter(shot, dx_splatter_smurf, dy_splatter_smurf);
 
-	if (status == STATE_DYING) assets().sounds.level.play(4 + rand() % 10);
+	if (status == STATE_DYING) assets().sounds.level.play(4 + rnd() % 10);
 }
 
 void EnemySmurf::onCharred() {

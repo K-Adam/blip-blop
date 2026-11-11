@@ -69,12 +69,12 @@ void EnemyBisouBoom::onDie() {
 			s->x = x - 60;
 			s->y = y - 22;
 			s->dir = dir;
-			s->dy = -(rand() % 4);
+			s->dy = -(rnd() % 4);
 		} else {
 			s->x = x + 60;
 			s->y = y - 26;
 			s->dir = dir;
-			s->dy = -(rand() % 4);
+			s->dy = -(rnd() % 4);
 		}
 
 		level().entities.gore.emplace_back(s);

@@ -13,7 +13,7 @@ class ShotStar : public Shot {
 
 		fall();
 
-		if (level().terrain.platform_y(x, y) != 0 || level().terrain.platform_y(x, y + 5)) dy = -3 - rand() % 2;
+		if (level().terrain.platform_y(x, y) != 0 || level().terrain.platform_y(x, y + 5)) dy = -3 - rnd() % 2;
 
 		step(3, 24);
 
