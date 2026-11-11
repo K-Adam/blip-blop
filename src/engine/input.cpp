@@ -196,6 +196,12 @@ Task<> Input::waitClean() {
 	while (heldCode() >= 0 && !quit_) co_await nextFrame();
 }
 
+void Input::rumble(int slot, int strength, int ms) {
+	// Pads without motors just report an error, which changes nothing for the player
+	auto s = static_cast<Uint16>(strength);
+	if (SDL_GameController* c = cur_.pads[slot].ctrl) SDL_GameControllerRumble(c, s, s, ms);
+}
+
 void Input::setAlias(int a, unsigned int val) { aliastab[a] = val; }
 
 void Input::close() {

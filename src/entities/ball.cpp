@@ -214,6 +214,7 @@ void Ball::update() {
 		inv_cow = true;
 
 		assets().sounds.bb.play(5);
+		ctrl->rumble(0xFFFF, 600);
 	}
 
 	// The scroll pushes players along the left edge
@@ -610,6 +611,7 @@ void Ball::updateWeapon() {
 
 	if (is_firing && gun_fire_tick == 0 && !(weapon().stats.turn_delay <= 1 && weapon_dir != dir)) {
 		weapon().fire(*this, gunPose());
+		ctrl->rumble(0x4000, 60);
 
 		if (!hasUnlimitedAmmo() && --ammo[weapon_id] == 0) {
 			// The strongest weapon left takes over

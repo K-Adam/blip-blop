@@ -231,8 +231,6 @@ void EnemyMarioHologram::onShoot() {
 			speed = 1;
 			onWalk();
 			return;
-			fireball = 0;
-			shoot_fireball();
 		} else if (attack_step >= 40) {
 			if (attack_step == 40) {
 				fireball = 0;

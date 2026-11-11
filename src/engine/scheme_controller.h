@@ -29,6 +29,10 @@ class SchemeController : public Controller {
 	int nextWeapon() const override { return in.scanCode(code(ACTION_NEXT_WEAPON)); }
 	int prevWeapon() const override { return in.scanCode(code(ACTION_PREV_WEAPON)); }
 
+	void rumble(int strength, int ms) const override {
+		if (scheme_ == SCHEME_PAD) in.rumble(pad_, strength, ms);
+	}
+
 	void aim(int px, int py, int& vx, int& vy) const override {
 		if (scheme_ == SCHEME_PAD) {
 			// Twin stick convention, the move directions take over while the right stick rests

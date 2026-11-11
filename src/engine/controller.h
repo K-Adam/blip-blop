@@ -23,6 +23,9 @@ class Controller {
 		vy = upHeld() ? -1 : downHeld() ? 1 : 0;
 	}
 
+	// Strength runs up to 0xFFFF
+	virtual void rumble(int /*strength*/, int /*ms*/) const {}
+
 	virtual bool inertia() const { return inertia_on; };
 
 	virtual void setInertia(bool i) { inertia_on = i; };

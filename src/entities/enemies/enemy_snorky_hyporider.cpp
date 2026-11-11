@@ -137,7 +137,6 @@ void EnemySnorkyHyporider::onCharge() {
 				fin = 1;
 				onWalk();
 				return;
-				dir = FACING_RIGHT;
 			}
 
 			x += HYPORIDER_CHARGE_SPEED;
@@ -150,7 +149,6 @@ void EnemySnorkyHyporider::onCharge() {
 				fin = 1;
 				onWalk();
 				return;
-				dir = FACING_RIGHT;
 			}
 
 			x -= HYPORIDER_CHARGE_SPEED;

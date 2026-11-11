@@ -87,6 +87,7 @@ class Input {
 	bool mouseMoved() const { return mouse_moved_; }
 	// A key, mouse button or pad button went down this frame, unlike the held state of anyKeyPressed
 	bool anyNewPress() const { return new_press_; }
+	void rumble(int slot, int strength, int ms);
 	void padStick(int slot, int &x, int &y) const {
 		x = cur_.pads[slot].rx;
 		y = cur_.pads[slot].ry;
