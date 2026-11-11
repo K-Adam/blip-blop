@@ -16,7 +16,7 @@ bool JoinScreen::press(int scheme, int pad) {
 }
 
 JoinScreen::Output JoinScreen::update() {
-	if (in.pressedCode(DIK_ESCAPE)) return Output::Back;
+	if (in.pressedCode(SDLK_ESCAPE)) return Output::Back;
 
 	bool start = false;
 	if (in.pressedCode(in.getAlias(SCHEME_KEYBOARD + ACTION_JUMP))) start |= press(SCHEME_KEYBOARD, 0);
@@ -53,9 +53,9 @@ void JoinScreen::draw() const {
 	}
 
 	unsigned int click = in.getAlias(SCHEME_MOUSE + ACTION_FIRE);
-	std::string mouse = click == MOUSE_CODE(SDL_BUTTON_LEFT) ? "CLICK" : DIK_to_string(click, settings().lang == LANG_FR);
-	std::string join = "PRESS " + DIK_to_string(in.getAlias(SCHEME_KEYBOARD + ACTION_JUMP), settings().lang == LANG_FR) + ", " + mouse + " OR " +
-					   DIK_to_string(PAD_CODE(0, SDL_CONTROLLER_BUTTON_A), settings().lang == LANG_FR);
+	std::string mouse = click == MOUSE_CODE(SDL_BUTTON_LEFT) ? "CLICK" : keyToString(click, settings().lang == LANG_FR);
+	std::string join = "PRESS " + keyToString(in.getAlias(SCHEME_KEYBOARD + ACTION_JUMP), settings().lang == LANG_FR) + ", " + mouse + " OR " +
+					   keyToString(PAD_CODE(0, SDL_CONTROLLER_BUTTON_A), settings().lang == LANG_FR);
 	if (players_ < 2) assets().fonts.menu.printC(graphics.back(), 320, 260, join + " TO JOIN");
 	if (players_ > 0) assets().fonts.menu.printC(graphics.back(), 320, 300, "PRESS AGAIN TO START");
 }

@@ -240,13 +240,13 @@ int Input::scanMenu(const State& st, unsigned int k) {
 	if (scan(st, k)) return 1;
 
 	// Menus, cutscenes and the hi-score entry work with whatever device the player holds
-	if (k == DIK_RETURN && st.mouse[SDL_BUTTON_LEFT]) return 1;
-	int joy = k == DIK_UP ? JOY_UP : k == DIK_DOWN ? JOY_DOWN : k == DIK_LEFT ? JOY_LEFT : k == DIK_RIGHT ? JOY_RIGHT : 0;
+	if (k == SDLK_RETURN && st.mouse[SDL_BUTTON_LEFT]) return 1;
+	int joy = k == SDLK_UP ? JOY_UP : k == SDLK_DOWN ? JOY_DOWN : k == SDLK_LEFT ? JOY_LEFT : k == SDLK_RIGHT ? JOY_RIGHT : 0;
 	for (int s = 0; s < MAX_JOY; s++) {
 		const Pad& p = st.pads[s];
 		if (joy && scan(st, PAD_CODE(s, joy))) return 1;
-		if (k == DIK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
-		if (k == DIK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
+		if (k == SDLK_RETURN && p.buttons[SDL_CONTROLLER_BUTTON_A]) return 1;
+		if (k == SDLK_ESCAPE && (p.buttons[SDL_CONTROLLER_BUTTON_START] || p.buttons[SDL_CONTROLLER_BUTTON_BACK])) return 1;
 	}
 	return 0;
 }

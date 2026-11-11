@@ -119,7 +119,7 @@ bool RPGPlayer::drawScene(SDL::Surface* surf) {
 
 	if (in.anyKeyPressed()) {
 		// The caller waits for the release once the dialog is over
-		if (in.scanKey(DIK_ESCAPE)) {
+		if (in.scanKey(SDLK_ESCAPE)) {
 			while (updateScene())
 				;
 

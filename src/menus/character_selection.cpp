@@ -43,7 +43,7 @@ CharacterSelection::Output CharacterSelection::update() {
 	if (step_ == APPEAR_BLIP) {
 		if (x_charac_ < 240) {
 			x_charac_ += 20;
-		} else if (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedAlias(SCHEME_MOUSE + ACTION_RIGHT)) {
+		} else if (in.pressedKey(SDLK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedAlias(SCHEME_MOUSE + ACTION_RIGHT)) {
 			step_ = DONE_BLIP;
 		}
 
@@ -52,7 +52,7 @@ CharacterSelection::Output CharacterSelection::update() {
 		}
 
 		if (x_charac_ >= 240 &&
-			(in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
+			(in.pressedKey(SDLK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
 			return Output::Blip;
 		}
 	} else if (step_ == DONE_BLIP) {
@@ -73,7 +73,7 @@ CharacterSelection::Output CharacterSelection::update() {
 	} else if (step_ == APPEAR_BLOP) {
 		if (x_charac_ > 310) {
 			x_charac_ -= 20;
-		} else if (in.pressedKey(DIK_LEFT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT) || in.pressedAlias(SCHEME_MOUSE + ACTION_LEFT)) {
+		} else if (in.pressedKey(SDLK_LEFT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT) || in.pressedAlias(SCHEME_MOUSE + ACTION_LEFT)) {
 			step_ = DONE_BLOP;
 		}
 
@@ -82,7 +82,7 @@ CharacterSelection::Output CharacterSelection::update() {
 		}
 
 		if (x_charac_ <= 310 &&
-			(in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
+			(in.pressedKey(SDLK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_JUMP))) {
 			return Output::Blop;
 		}
 	} else {

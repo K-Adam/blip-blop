@@ -9,8 +9,8 @@
 #define DIAGONAL_DOWN_RIGHT 4
 #define DIAGONAL_RIGHT 5
 
-#define STATE_WAITING 100
-#define STATE_CLIMB 102
+constexpr int STATE_WAITING = 100;
+constexpr int STATE_CLIMB = 102;
 
 class EnemySmurfWild : public Enemy {
    public:

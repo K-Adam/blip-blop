@@ -95,7 +95,7 @@ void EnemySmurfWild::update() {
 	if (!dead && hp < 0) {
 		dead = true;
 		anim_step = 0;
-		status = 0;
+		status = STATE_WALK;
 	}
 
 	switch (status) {

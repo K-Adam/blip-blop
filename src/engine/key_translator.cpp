@@ -5,8 +5,8 @@
 #include "engine/input.h"
 #include "engine/key_translator.h"
 
-static std::string DIK_to_string_us(int n);
-static std::string DIK_to_string_fr(int n);
+static std::string keyToStringUs(int n);
+static std::string keyToStringFr(int n);
 
 static std::string mouse_to_string(int n, bool fr) {
 	switch (n & 0x3FF) {
@@ -61,15 +61,15 @@ static std::string pad_to_string(int n, bool fr) {
 	return std::string(fr ? "MANETTE " : "PAD ") + name;
 }
 
-std::string DIK_to_string(int n, bool french) {
+std::string keyToString(int n, bool french) {
 	if (french) {
-		return DIK_to_string_fr(n);
+		return keyToStringFr(n);
 	} else {
-		return DIK_to_string_us(n);
+		return keyToStringUs(n);
 	}
 }
 
-std::string DIK_to_string_us(int n) {
+std::string keyToStringUs(int n) {
 	if (codeSlot(n) == MOUSE_SLOT) return mouse_to_string(n, false);
 	if (codeSlot(n)) return pad_to_string(n, false);
 
@@ -84,7 +84,7 @@ std::string DIK_to_string_us(int n) {
 	}
 }
 
-std::string DIK_to_string_fr(int n) {
+std::string keyToStringFr(int n) {
 	if (codeSlot(n) == MOUSE_SLOT) return mouse_to_string(n, true);
 	if (codeSlot(n)) return pad_to_string(n, true);
 

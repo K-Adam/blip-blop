@@ -1109,7 +1109,7 @@ void Game::drawTimer() {
 }
 
 Task<> Game::updateMenu() {
-	if (in.scanKey(DIK_ESCAPE)) {
+	if (in.scanKey(SDLK_ESCAPE)) {
 		MenuGame menu;
 		int r;
 		debug << "Pause menu\n";
@@ -1153,47 +1153,47 @@ void Game::updateCheat() {
 	if (!settings().cheat) return;
 
 	if (player1 != nullptr) {
-		if (in.scanKey(DIK_F1)) player1->ammo[player1->weapon_id] += 10;
+		if (in.scanKey(SDLK_F1)) player1->ammo[player1->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
 
-		if (in.scanKey(DIK_F3)) {
+		if (in.scanKey(SDLK_F3)) {
 			player1->nb_life++;
 			wait_cheat = 0;
 		}
 
-		if (in.scanKey(DIK_F2)) {
+		if (in.scanKey(SDLK_F2)) {
 			player1->nb_cow_bomb += 1;
 			wait_cheat = 0;
 		}
 	}
 
 	if (player2 != nullptr) {
-		if (in.scanKey(DIK_F5)) player2->ammo[player2->weapon_id] += 10;
+		if (in.scanKey(SDLK_F5)) player2->ammo[player2->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
 
-		if (in.scanKey(DIK_F7)) {
+		if (in.scanKey(SDLK_F7)) {
 			player2->nb_life++;
 			wait_cheat = 0;
 		}
 
-		if (in.scanKey(DIK_F6)) {
+		if (in.scanKey(SDLK_F6)) {
 			player2->nb_cow_bomb += 1;
 			wait_cheat = 0;
 		}
 	}
 
-	if (in.scanKey(DIK_F9)) level_done = true;
+	if (in.scanKey(SDLK_F9)) level_done = true;
 
 	if (wait_cheat < 20) return;
 
-	if (in.scanKey(DIK_F12)) {
+	if (in.scanKey(SDLK_F12)) {
 		show_fps = !show_fps;
 		wait_cheat = 0;
 	}
 
-	if (in.scanKey(DIK_F11)) {
+	if (in.scanKey(SDLK_F11)) {
 		show_lists = !show_lists;
 		wait_cheat = 0;
 	}
@@ -1545,15 +1545,15 @@ Task<> Game::getName(Player* hero, int player_num) {
 		co_await nextFrame();
 	}
 
-	while (!in.quitRequested() && key != DIK_RETURN) {
+	while (!in.quitRequested() && key != SDLK_RETURN) {
 		co_await in.waitClean();
 		key = co_await in.waitKey();
-		if (in.scanKey(DIK_RETURN)) key = DIK_RETURN;
+		if (in.scanKey(SDLK_RETURN)) key = SDLK_RETURN;
 
-		std::string key_tmp = DIK_to_string(key, settings().lang == LANG_FR);
+		std::string key_tmp = keyToString(key, settings().lang == LANG_FR);
 
-		if (key == DIK_SPACE && name.size() < 19) name += ' ';
-		if (key == DIK_BACKSPACE && !name.empty()) {
+		if (key == SDLK_SPACE && name.size() < 19) name += ' ';
+		if (key == SDLK_BACKSPACE && !name.empty()) {
 			name.pop_back();
 		} else if (key_tmp.size() == 1 && name.size() < 19) {
 			name += key_tmp[0];

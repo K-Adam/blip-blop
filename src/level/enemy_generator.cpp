@@ -3,11 +3,6 @@
 #include "level/events/event_enemy.h"
 #include "entities/ball.h"
 
-#ifndef FACING_LEFT
-#define FACING_LEFT 0
-#define FACING_RIGHT 1
-#endif
-
 EnemyGenerator::EnemyGenerator() : t(0), destroyed(false) {}
 
 void EnemyGenerator::update() {

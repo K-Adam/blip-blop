@@ -71,10 +71,10 @@ void Settings::setDefaults(Input& input, bool reset_lang) {
 	if (reset_lang) lang = LANG_UK;
 
 	// The usual keyboard platformer layout, keeping WASD and the mouse free for a second player
-	const unsigned int keyboard[NB_ACTIONS] = {DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT, DIK_X, DIK_Z, DIK_C, DIK_V, DIK_LSHIFT};
+	const unsigned int keyboard[NB_ACTIONS] = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_x, SDLK_z, SDLK_c, SDLK_v, SDLK_LSHIFT};
 	// The mouse aims, so W is free to jump
 	const unsigned int mouse[NB_ACTIONS] = {
-		0, DIK_S, DIK_A, DIK_D, MOUSE_CODE(SDL_BUTTON_LEFT), DIK_W, MOUSE_CODE(SDL_BUTTON_RIGHT), MOUSE_CODE(MOUSE_WHEEL_DOWN), MOUSE_CODE(MOUSE_WHEEL_UP)};
+		0, SDLK_s, SDLK_a, SDLK_d, MOUSE_CODE(SDL_BUTTON_LEFT), SDLK_w, MOUSE_CODE(SDL_BUTTON_RIGHT), MOUSE_CODE(MOUSE_WHEEL_DOWN), MOUSE_CODE(MOUSE_WHEEL_UP)};
 	// Pad buttons are stored for the first pad, the joining pad replaces the slot.
 	// The thumbs stay on the sticks to move and aim, so the actions go on the triggers and a shoulder
 	const unsigned int pad[NB_ACTIONS] = {PAD_CODE(0, JOY_UP),

@@ -1,10 +1,10 @@
 #include "entities/enemies/enemy_bisou_zombie.h"
 #include "entities/gore_feet_bisou.h"
 
-#define STATE_CHARRED_TOP 102
+constexpr int STATE_CHARRED_TOP = 102;
 
-#define STATE_CRAWL 100
-#define STATE_SEVERED 101
+constexpr int STATE_CRAWL = 100;
+constexpr int STATE_SEVERED = 101;
 
 namespace {
 // One moan every 200 frames for the whole horde, not one per zombie

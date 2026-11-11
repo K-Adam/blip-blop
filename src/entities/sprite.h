@@ -4,6 +4,8 @@
 #include "level/world.h"
 #include "core/assets.h"
 
+enum { FACING_LEFT, FACING_RIGHT };
+
 class Sprite {
    public:
 	int x;

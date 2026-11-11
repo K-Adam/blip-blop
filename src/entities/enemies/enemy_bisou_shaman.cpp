@@ -9,9 +9,9 @@ static const int xteleport[] = {8144,	// Top right
 
 static const int yteleport[] = {296, 130, 188};
 
-#define STATE_RAISE_STAFF 30
-#define STATE_LOWER_STAFF 31
-#define STATE_TELEPORT 32
+constexpr int STATE_RAISE_STAFF = 30;
+constexpr int STATE_LOWER_STAFF = 31;
+constexpr int STATE_TELEPORT = 32;
 
 EnemyBisouShaman::EnemyBisouShaman() : shoot_step(0), nb_touch(0), n_pos(1) {
 	hp = 11000;

@@ -29,7 +29,7 @@ void OptionsPanel::ToggleVsync() {
 }
 
 int OptionsPanel::ProcessEvent() {
-	if (items_.focused() == 0 && (in.pressedKey(DIK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedKey(DIK_LEFT) ||
+	if (items_.focused() == 0 && (in.pressedKey(SDLK_RIGHT) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_RIGHT) || in.pressedKey(SDLK_LEFT) ||
 								  in.pressedAlias(SCHEME_KEYBOARD + ACTION_LEFT))) {
 		ToggleVsync();
 	}

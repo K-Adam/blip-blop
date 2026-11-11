@@ -22,7 +22,7 @@ KeysMenu::KeysMenu(int scheme)
 }
 
 std::string KeysMenu::KeyText(int action) const {
-	return texts()[ACTION_TEXT[action]] + " = " + DIK_to_string(in.getAlias(scheme_ + action), settings().lang == LANG_FR);
+	return texts()[ACTION_TEXT[action]] + " = " + keyToString(in.getAlias(scheme_ + action), settings().lang == LANG_FR);
 }
 
 void KeysMenu::Refresh() {
@@ -48,7 +48,7 @@ int KeysMenu::ProcessEvent() {
 		if (in.heldCode() < 0) state_ = State::WaitingKey;
 	} else if (state_ == State::WaitingKey) {
 		// Menu Escape, so a pad can cancel a keyboard binding it cannot fill
-		if (in.pressedKey(DIK_ESCAPE)) {
+		if (in.pressedKey(SDLK_ESCAPE)) {
 			Refresh();
 			state_ = State::Browsing;
 			return self_;

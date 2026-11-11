@@ -1,7 +1,5 @@
 #include "level/backgrounds/background_light.h"
 
-#define STATE_BLINK 100
-
 BackgroundLight::BackgroundLight(const char* sheet) : lit(false), wait_for_blink(0), sheet_(sheet) {
 	blink_interval = 50 + rnd() % 200;
 	pic = assets().pics.level.anim(sheet_)[0];

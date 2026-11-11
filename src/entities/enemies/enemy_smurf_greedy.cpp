@@ -1,7 +1,7 @@
 #include "entities/enemies/enemy_smurf_greedy.h"
 #include "entities/shots/shot_cake.h"
 
-#define STATE_HOLD 15
+constexpr int STATE_HOLD = 15;
 
 EnemySmurfGreedy::EnemySmurfGreedy() : wait_for_shoot(0) {
 	hp = 150;

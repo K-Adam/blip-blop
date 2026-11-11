@@ -3,7 +3,7 @@
 #include "entities/enemies/enemy.h"
 
 #define SMURF_JOKEY_SPEED 2
-#define STATE_DRAW_WEAPON 11
+constexpr int STATE_DRAW_WEAPON = 11;
 
 const int anim_smurf_walk_right[] = {0, 1, 2, 3, 4, 3, 2, 1};
 const int anim_smurf_walk_left[] = {0, 1, 2, 3, 4, 3, 2, 1};

@@ -1,10 +1,6 @@
 #include "level/enemy_generator_tmp.h"
+#include "entities/sprite.h"
 #include "level/events/event_enemy.h"
-
-#ifndef FACING_LEFT
-#define FACING_LEFT 0
-#define FACING_RIGHT 1
-#endif
 
 void EnemyGeneratorTMP::update() {
 	if (level().rules.flags[FLAG_GEN_OFF] != 0) return;

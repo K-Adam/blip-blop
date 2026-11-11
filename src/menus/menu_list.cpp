@@ -62,9 +62,9 @@ int MenuList::ItemAt(int x, int y) const {
 }
 
 bool MenuList::Navigate() {
-	if (in.pressedKey(DIK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
+	if (in.pressedKey(SDLK_UP) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_UP)) {
 		MoveUp();
-	} else if (in.pressedKey(DIK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
+	} else if (in.pressedKey(SDLK_DOWN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_DOWN)) {
 		MoveDown();
 	}
 	int hovered = ItemAt(in.mouseX(), in.mouseY());
@@ -75,5 +75,5 @@ bool MenuList::Navigate() {
 		focused_ = hovered;
 		return true;
 	}
-	return in.pressedKey(DIK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE);
+	return in.pressedKey(SDLK_RETURN) || in.pressedAlias(SCHEME_KEYBOARD + ACTION_FIRE);
 }

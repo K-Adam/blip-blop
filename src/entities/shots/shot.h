@@ -1,10 +1,5 @@
 #pragma once
 
-#ifndef FACING
-#define FACING_LEFT 0
-#define FACING_RIGHT 1
-#endif
-
 #include "entities/sprite.h"
 
 class Shot : public Sprite {

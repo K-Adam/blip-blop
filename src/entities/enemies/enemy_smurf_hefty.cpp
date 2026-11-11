@@ -1,9 +1,9 @@
 #include "entities/enemies/enemy_smurf_hefty.h"
 #include "entities/shots/shot_hadoken.h"
 
-#define STATE_SHOOT_HADOKEN 1000
-#define STATE_SHOOT_DPUNCH 1001
-#define STATE_SHOOT_HKICK 1002
+constexpr int STATE_SHOOT_HADOKEN = 1000;
+constexpr int STATE_SHOOT_DPUNCH = 1001;
+constexpr int STATE_SHOOT_HKICK = 1002;
 
 EnemySmurfHefty::EnemySmurfHefty() : shoot_step(0), dx(0) {
 	wait_shoot = 50 + rnd() % 50;

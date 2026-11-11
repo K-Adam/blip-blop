@@ -92,4 +92,3 @@ Help is welcome on any of these:
 - **Tests:** cover more ground. The tests reach only the first world.
 - **Data formats:** document the JSON formats of levels, cutscenes and dialogues, or add an editor for them.
 - **Global state:** group it into objects, starting with `src/level/world.h` and `src/core/assets.h`.
-- **Legacy shims:** replace the `DIK_` key aliases with direct SDL calls.

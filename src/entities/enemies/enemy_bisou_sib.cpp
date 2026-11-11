@@ -1,9 +1,9 @@
 #include "entities/enemies/enemy_bisou_sib.h"
 
-#define STATE_WAITING_HURT 100
-#define STATE_WAITING 101
-#define STATE_RUN_FOREST 102
-#define STATE_HURT_RECOVER 103
+constexpr int STATE_WAITING_HURT = 100;
+constexpr int STATE_WAITING = 101;
+constexpr int STATE_RUN_FOREST = 102;
+constexpr int STATE_HURT_RECOVER = 103;
 
 static const int anim_run[] = {0, 1, 2, 1};
 
