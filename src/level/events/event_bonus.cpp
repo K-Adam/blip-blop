@@ -39,12 +39,12 @@ void EventBonus::doEvent() {
 			break;
 
 		default:
-			bonus = NULL;
+			bonus = nullptr;
 			debug << "Unknown bonus type\n";
 			break;
 	}
 
-	if (bonus != NULL) {
+	if (bonus != nullptr) {
 		bonus->x = x;
 		bonus->y = y;
 

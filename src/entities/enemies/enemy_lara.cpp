@@ -72,7 +72,7 @@ void EnemyLara::onWalk() {
 	}
 	if (level().rules.flags[0] == 1) {
 		if (!rayman_head) {
-			if (session().targeted_player != NULL) {
+			if (session().targeted_player != nullptr) {
 				Enemy* head = new EnemyRaymanHead();
 				head->x = session().targeted_player->x + 10;
 				head->y = session().targeted_player->y - 30;
@@ -109,7 +109,7 @@ void EnemyLara::onWalk() {
 		}
 	} else if (level().rules.flags[0] == 4) {
 		wait_for_attack++;
-		if ((wait_for_attack > ATTACK_DELAY) && (session().targeted_player != NULL)) {
+		if ((wait_for_attack > ATTACK_DELAY) && (session().targeted_player != nullptr)) {
 			int dif_y = y - 102 - session().targeted_player->y;
 			int dif_x = x - session().targeted_player->x;
 
@@ -119,7 +119,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x + 20 - x + 60;
 					int aim_y = session().targeted_player->y - y + 144;
 
-					int dist = (int)(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
@@ -141,7 +141,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x + 20 - x + 58;
 					int aim_y = session().targeted_player->y - y + 154;
 
-					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
@@ -163,7 +163,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x + 20 - x + 57;
 					int aim_y = session().targeted_player->y - y + 165;
 
-					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
@@ -186,7 +186,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x + 20 - x + 53;
 					int aim_y = session().targeted_player->y - y + 175;
 
-					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
@@ -210,7 +210,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x + 20 - x + 59;
 					int aim_y = session().targeted_player->y - y + 129;
 
-					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
@@ -234,7 +234,7 @@ void EnemyLara::onWalk() {
 					int aim_x = session().targeted_player->x - x + 60;
 					int aim_y = session().targeted_player->y - y + 144;
 
-					int dist = (int)sqrt((aim_x * aim_x) + (aim_y * aim_y));
+					int dist = static_cast<int>(sqrt((aim_x * aim_x) + (aim_y * aim_y)));
 
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;

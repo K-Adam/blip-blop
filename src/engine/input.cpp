@@ -36,7 +36,7 @@ void Input::update() {
 	for (int w = 0; w < 2; w++) cur_.mouse[MOUSE_WHEEL_UP + w] = FrameClock::frames() < wheel_until_[w];
 	mouse_moved_ = new_press_ = false;
 	std::uint32_t frames_played = ++FrameClock::frames_;
-	if (isTestRun() && (int)frames_played >= autoquit_frames_) quit_ = true;
+	if (isTestRun() && static_cast<int>(frames_played) >= autoquit_frames_) quit_ = true;
 	for (auto [frame, key] : script_) {
 		if (frame != frames_played && frame + 2 != frames_played) continue;
 		SDL_Event k{};
@@ -263,7 +263,7 @@ bool Input::setScript(std::string_view script) {
 		unsigned int key = codeFromName(std::string(step.substr(colon + 1)));
 		bool keyboard = key < 255 || (key & SDLK_SCANCODE_MASK);
 		if (err != std::errc() || end != step.data() + colon || frame == 0 || key == 0 || !keyboard) return false;
-		script_.emplace_back(frame, SDL_Keycode(key));
+		script_.emplace_back(frame, static_cast<SDL_Keycode>(key));
 	}
 	return true;
 }

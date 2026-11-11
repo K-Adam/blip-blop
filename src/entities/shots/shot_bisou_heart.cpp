@@ -10,7 +10,7 @@ void ShotBisouHeart::update() {
 	phi += 5;
 	phi %= 360;
 
-	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
+	x = xbase + static_cast<int>(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (!ok) {
 		anim_tick += 1;

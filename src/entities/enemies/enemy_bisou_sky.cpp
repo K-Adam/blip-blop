@@ -140,8 +140,8 @@ void EnemyBisouSky::onWalk() {
 		pic = assets().pics.enemies.anim("sky_walk_left")[anim_step];
 	}
 
-	if (wait_for_pee == 0 && anim_step == 4) {											   // Frame 4 looks best
-		if (session().targeted_player != NULL && level().terrain.platform_y(x, y) != 0) {  // No shooting while falling
+	if (wait_for_pee == 0 && anim_step == 4) {												  // Frame 4 looks best
+		if (session().targeted_player != nullptr && level().terrain.platform_y(x, y) != 0) {  // No shooting while falling
 			int ddx = x - session().targeted_player->x;
 			int ddy = y - session().targeted_player->y;
 

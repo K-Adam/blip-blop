@@ -20,7 +20,7 @@ void EnemySmurfStork::update() {
 
 	x += 4;
 
-	y = base_y + int(100 * std::sin((x - base_x) / 4 * std::numbers::pi / 180));
+	y = base_y + static_cast<int>(100 * std::sin((x - base_x) / 4 * std::numbers::pi / 180));
 
 	if (x > level().camera.offset + 750 && level().rules.flags[0] < 3) {
 		level().rules.flags[0] = 3;

@@ -124,7 +124,7 @@ void EnemyMario::onWalk() {
 		speed = 1;
 	}
 	wait_for_attack++;
-	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 		if (((dir == FACING_RIGHT) && (session().targeted_player->x > x)) || ((dir == FACING_LEFT) && (session().targeted_player->x < x))) {
 			anim_step = 0;
 			anim_tick = 0;
@@ -547,7 +547,7 @@ void EnemyMario::onBurstHorizontalSteady() {
 void EnemyMario::onBurstHorizontalHoming() {
 	onShootHorizontal();
 	if ((nb_rain > attack_phase) && (attack_step > 50)) {
-		if ((session().targeted_player != NULL) &&
+		if ((session().targeted_player != nullptr) &&
 			((session().targeted_player->x > x && dir == FACING_RIGHT) || (session().targeted_player->x < x && dir == FACING_LEFT))) {
 			attack_phase++;
 			attack_step = 30;
@@ -622,7 +622,7 @@ void EnemyMario::onBurstVertical() {
 
 void EnemyMario::onBurstVerticalHoming() {
 	onShootVertical();
-	if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != NULL)) {
+	if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != nullptr)) {
 		attack_step = 10;
 		attack_tick = 0;
 		fireball = true;
@@ -725,7 +725,7 @@ void EnemyMario::onBurstVerticalReverse() {
 void EnemyMario::onBurstCrossHoming() {
 	if (attack_phase % 2 == 0) {
 		onShootVertical();
-		if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != NULL)) {
+		if ((nb_rain > attack_phase) && (attack_step == 40) && (session().targeted_player != nullptr)) {
 			attack_step = 30;
 			attack_tick = 0;
 			fireball = true;
@@ -735,7 +735,7 @@ void EnemyMario::onBurstCrossHoming() {
 	} else {
 		onShootHorizontal();
 		if ((nb_rain > attack_phase) && (attack_step > 50)) {
-			if ((session().targeted_player != NULL) &&
+			if ((session().targeted_player != nullptr) &&
 				((session().targeted_player->x > x && dir == FACING_RIGHT) || (session().targeted_player->x < x && dir == FACING_LEFT))) {
 				attack_phase++;
 				attack_step = 30;

@@ -57,6 +57,21 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
+  tidy:
+    name: clang-tidy
+    needs: format
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
+          pipx install clang-tidy==18.1.8
+      - name: Configure
+        run: cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      - name: clang-tidy
+        run: jq -r '.[].file' build/compile_commands.json | grep -v _deps | xargs -P 4 -n 8 clang-tidy -p build --quiet
+
   windows:
     name: Windows Build
     needs: format

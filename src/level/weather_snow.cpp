@@ -8,7 +8,7 @@ void WeatherSnow::update() {
 
 	xbase -= 2;
 
-	x = xbase + int(xwide * std::cos(phi * std::numbers::pi / 180));
+	x = xbase + static_cast<int>(xwide * std::cos(phi * std::numbers::pi / 180));
 	y += dy;
 
 	if (y > -25 && y < -10 && level().terrain.solid_wall(x, 0)) {

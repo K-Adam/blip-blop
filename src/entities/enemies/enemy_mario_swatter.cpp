@@ -64,7 +64,7 @@ void EnemyMarioSwatter::onWalk() {
 
 	wait_for_attack++;
 
-	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 		if ((level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y)) &&
 			(((dir == FACING_RIGHT) && (x < session().targeted_player->x)) || ((dir == FACING_LEFT) && (x > session().targeted_player->x)))) {
 			anim_step = 0;
@@ -85,7 +85,7 @@ void EnemyMarioSwatter::onWalk() {
 				wait_for_attack = 0;
 				attack_delay = 50 + rnd() % 250;
 				speed = ((dif_x * -9) / dif_y);
-				dy = (int)(-9 + speed * 0.25);
+				dy = static_cast<int>(-9 + speed * 0.25);
 				status = STATE_JUMP;
 				grav_tick = 0;	// Otherwise jump heights vary
 				onJump();
@@ -96,7 +96,7 @@ void EnemyMarioSwatter::onWalk() {
 				wait_for_attack = 0;
 				attack_delay = 50 + rnd() % 250;
 				speed = ((dif_x * 9) / dif_y);
-				dy = (int)(-9 + speed * 0.25);
+				dy = static_cast<int>(-9 + speed * 0.25);
 				status = STATE_JUMP;
 				grav_tick = 0;	// Otherwise jump heights vary
 				onJump();

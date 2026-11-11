@@ -36,15 +36,15 @@ void BackgroundRockHyperspace::update() {
 
 	switch (rock_layer) {
 		case 0:
-			y = y_base + int(11 * std::cos(delta * std::numbers::pi / 180));
+			y = y_base + static_cast<int>(11 * std::cos(delta * std::numbers::pi / 180));
 			break;
 
 		case 1:
-			y = y_base + int(8 * std::cos(delta * std::numbers::pi / 180));
+			y = y_base + static_cast<int>(8 * std::cos(delta * std::numbers::pi / 180));
 			break;
 
 		case 2:
-			y = y_base + int(8 * std::cos(delta * std::numbers::pi / 180));
+			y = y_base + static_cast<int>(8 * std::cos(delta * std::numbers::pi / 180));
 			break;
 	}
 

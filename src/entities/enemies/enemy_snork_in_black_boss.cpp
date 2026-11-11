@@ -182,7 +182,7 @@ void EnemySnorkInBlackBoss::onWalk() {
 				anim_step = 0;
 				anim_tick = 0;
 
-				if (session().targeted_player != NULL) {
+				if (session().targeted_player != nullptr) {
 					switch (position) {
 						case 0:
 							if (session().targeted_player->x > x && (y < session().targeted_player->y) && (y > session().targeted_player->y - 50)) {

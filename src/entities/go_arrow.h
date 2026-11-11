@@ -77,7 +77,7 @@ class GoArrow {
 		update_anim();
 
 		theta_ = (theta_ + 3) % 360;
-		int x = int(100 * std::sin(theta_ * std::numbers::pi / 180));
+		int x = static_cast<int>(100 * std::sin(theta_ * std::numbers::pi / 180));
 
 		if (x < 0) {
 			x = -x;

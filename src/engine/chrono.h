@@ -55,5 +55,5 @@ class Countdown {
 
 	void Reset(int duration) { end_ = now() + duration; }
 
-	bool is_zero() const { return int(end_) - int(now()) < 0; }
+	bool is_zero() const { return static_cast<int>(end_) - static_cast<int>(now()) < 0; }
 };

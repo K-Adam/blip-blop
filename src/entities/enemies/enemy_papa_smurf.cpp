@@ -3,23 +3,23 @@
 #define ATT_ATATA 0
 #define ATT_BOOM 1
 
-EnemyPapaSmurf::EnemyPapaSmurf() : target(NULL), wait_change_target(0), dx(0), attack_wanted(ATT_BOOM) { hp = 5000; }
+EnemyPapaSmurf::EnemyPapaSmurf() : target(nullptr), wait_change_target(0), dx(0), attack_wanted(ATT_BOOM) { hp = 5000; }
 
 void EnemyPapaSmurf::updateTarget() {
-	if (wait_change_target > 0 && target != NULL && !target->destroyed) {
+	if (wait_change_target > 0 && target != nullptr && !target->destroyed) {
 		wait_change_target -= 1;
 	} else {
-		if (session().targeted_player != NULL && !session().targeted_player->destroyed) {
+		if (session().targeted_player != nullptr && !session().targeted_player->destroyed) {
 			target = session().targeted_player;
 			wait_change_target = 200 + rnd() % 100;
 		} else {
-			target = NULL;
+			target = nullptr;
 		}
 	}
 }
 
 void EnemyPapaSmurf::updateChoice() {
-	if (target == NULL) return;
+	if (target == nullptr) return;
 
 	int ddx = target->x - x;
 

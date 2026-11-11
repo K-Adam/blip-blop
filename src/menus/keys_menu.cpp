@@ -63,7 +63,7 @@ int KeysMenu::ProcessEvent() {
 		if (key >= 0) SetKey(key);
 	} else {
 		if (items_.Navigate()) {
-			if (items_.focused() == (int)items_.size() - 1) return MenuType::Options;
+			if (items_.focused() == static_cast<int>(items_.size()) - 1) return MenuType::Options;
 			state_ = State::WaitingRelease;
 			items_.ChangeEntry(items_.focused(), texts()[ACTION_TEXT[first_ + items_.focused()]] + " = ...");
 		}

@@ -2,7 +2,7 @@
 
 EnemyCOMFlying::EnemyCOMFlying() : speed(0), attack(true) {
 	hp = 100;
-	if (session().targeted_player != NULL) {
+	if (session().targeted_player != nullptr) {
 		y_target = session().targeted_player->y;
 	} else {
 		y_target = 100 + rnd() % 200;
@@ -32,7 +32,7 @@ void EnemyCOMFlying::onWalk() {
 	if ((dir == FACING_LEFT) && (x - speed < level().camera.offset || level().terrain.solid_wall(x - speed, y))) {
 		dir = FACING_RIGHT;
 		attack = false;
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			y_target = session().targeted_player->y;
 		} else {
 			y_target = 100 + rnd() % 200;
@@ -41,7 +41,7 @@ void EnemyCOMFlying::onWalk() {
 	} else if ((dir == FACING_RIGHT) && (x + speed > level().camera.offset + 640 || level().terrain.solid_wall(x + speed, y))) {
 		dir = FACING_LEFT;
 		attack = false;
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			y_target = session().targeted_player->y;
 		} else {
 			y_target = 100 + rnd() % 200;

@@ -12,13 +12,13 @@ class MenuList {
 	void MoveUp() {
 		focused_ -= 1;
 		if (focused_ < 0) {
-			focused_ = (int)items_.size() - 1;
+			focused_ = static_cast<int>(items_.size()) - 1;
 		}
 	}
 
 	void MoveDown() {
 		focused_ += 1;
-		if ((size_t)focused_ >= items_.size()) {
+		if (static_cast<size_t>(focused_) >= items_.size()) {
 			focused_ = 0;
 		}
 	}

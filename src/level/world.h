@@ -193,22 +193,22 @@ class World {
 inline Level& level() { return World::current().level(); }
 inline Session& session() { return World::current().session; }
 // Shift keeps the result non-negative so rand() % n call sites stay valid
-inline int rnd() { return (int)(World::current().rng() >> 1); }
+inline int rnd() { return static_cast<int>(World::current().rng() >> 1); }
 
 bool engrave(int x, int y, const Picture* pic);
 
 inline void draw(int x, int y, const Picture* pic) {
-	if (pic != NULL) pic->BlitTo(graphics.back(), x - level().camera.offset, y);
+	if (pic != nullptr) pic->BlitTo(graphics.back(), x - level().camera.offset, y);
 }
 
 inline void drawRotated(int x, int y, const Picture* pic, double deg) {
-	if (pic != NULL) pic->BlitRotated(graphics.back(), x - level().camera.offset, y, deg);
+	if (pic != nullptr) pic->BlitRotated(graphics.back(), x - level().camera.offset, y, deg);
 }
 
 // Counterclockwise as seen on screen, where y points down
 inline void rotateAround(int& px, int& py, int gx, int gy, double deg) {
 	double a = deg * std::numbers::pi / 180, c = std::cos(a), s = std::sin(a);
 	int ox = px - gx, oy = py - gy;
-	px = gx + (int)std::lround(ox * c + oy * s);
-	py = gy + (int)std::lround(-ox * s + oy * c);
+	px = gx + static_cast<int>(std::lround(ox * c + oy * s));
+	py = gy + static_cast<int>(std::lround(-ox * s + oy * c));
 }

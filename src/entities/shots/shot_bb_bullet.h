@@ -14,7 +14,7 @@ class ShotBBBullet : public ShotBB {
 		moveAlongAngle();
 
 		if (level().terrain.solid_wall(x, y) || x < level().camera.offset - 20 || x > level().camera.offset + 690 || y < -20 || y > 500) {
-			pic = NULL;
+			pic = nullptr;
 			noCol();
 			destroyed = true;
 		} else {

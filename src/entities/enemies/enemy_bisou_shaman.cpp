@@ -135,7 +135,7 @@ void EnemyBisouShaman::onTeleport() {
 				dir = FACING_LEFT;
 			}
 		} else {
-			pic = NULL;
+			pic = nullptr;
 		}
 	} else {
 		if (x < level().camera.offset + 320) {
@@ -216,14 +216,14 @@ void EnemyBisouShaman::onShoot() {
 				int ddx = 0;
 				int ddy = 0;
 
-				if (session().targeted_player != NULL) {
+				if (session().targeted_player != nullptr) {
 					xc = session().targeted_player->x;
 					yc = session().targeted_player->y;
 
 					ddx = xc - x;
 					ddy = yc - (y - 72);
 
-					int dist = int(sqrt(((ddx * ddx) + (ddy * ddy))));
+					int dist = static_cast<int>(sqrt(((ddx * ddx) + (ddy * ddy))));
 
 					ddx = (ddx * 6) / dist;
 					ddy = (ddy * 6) / dist;

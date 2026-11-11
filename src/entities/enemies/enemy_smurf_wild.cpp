@@ -55,12 +55,12 @@ void EnemySmurfWild::update() {
 		first_loop = false;
 	}
 
-	if (target == NULL || target->isDestroyed()) {
+	if (target == nullptr || target->isDestroyed()) {
 		target = session().targeted_player;
 	}
 
 	if (status != STATE_DYING) {
-		if (target != NULL && x != target->x)
+		if (target != nullptr && x != target->x)
 			slope = (abs(target->y - y) * 10) / (x - target->x);
 		else
 			slope = 3;
@@ -133,7 +133,7 @@ void EnemySmurfWild::update() {
 				wait_shoot = 100 + rnd() % 100;
 				status = STATE_WAITING;
 				destroyed = true;
-				target = NULL;
+				target = nullptr;
 			} else {
 				y -= 2;
 			}

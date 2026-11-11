@@ -43,7 +43,7 @@ void EnemySmurfGreedy::onNormal() {
 
 	wait_for_shoot += 1;
 
-	if (wait_for_shoot > shoot_delay && x > level().camera.offset && x < level().camera.offset + 640 && session().targeted_player != NULL) {
+	if (wait_for_shoot > shoot_delay && x > level().camera.offset && x < level().camera.offset + 640 && session().targeted_player != nullptr) {
 		assets().sounds.level.play(14 + rnd() % 2);
 		status = STATE_SHOOT;
 		wait_for_shoot = 0;

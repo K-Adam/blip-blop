@@ -34,7 +34,7 @@ void Enemy::takeHit(Shot* shot) {
 			status = STATE_DYING;
 			shot->onKill();
 
-			if (pic != NULL) {
+			if (pic != nullptr) {
 				int y_trace = y - ((pic->ySize()) >> 1) - rnd() % 15;
 
 				if (level().terrain.bloody_wall(x, y_trace)) {

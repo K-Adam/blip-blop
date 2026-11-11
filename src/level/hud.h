@@ -109,8 +109,8 @@ class HUD {
 		static const int y_health[] = {0, 21, 48, 21, 0};
 		static const int pos[2][2] = {{20, 20}, {560, 20}};
 
-		int x = pos[int(location)][0];
-		int y = pos[int(location)][1];
+		int x = pos[static_cast<int>(location)][0];
+		int y = pos[static_cast<int>(location)][1];
 
 		for (int i = 0; i < health; i++) {
 			assets().pics.bb.anim("health_full")[4 - i]->BlitTo(graphics.back(), x + x_health[i], y + y_health[i]);

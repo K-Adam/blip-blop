@@ -91,7 +91,7 @@ void EnemySonic::onWalk() {
 	}
 	wait_for_attack++;
 	if ((wait_for_attack >= attack_delay) && (ring == 0)) {
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			if ((session().targeted_player->y > 0) && (((dir == FACING_RIGHT) && (((session().targeted_player->x) - x) > 0)) ||
 													   ((dir == FACING_LEFT) && (((session().targeted_player->x) - x) < 0)))) {
 				switch (rnd() % 3) {
@@ -538,7 +538,7 @@ void EnemySonic::onAttackLightning() {
 		}
 	}
 
-	if ((anim_step == 0) && (anim_tick == 1) && (session().targeted_player != NULL)) {
+	if ((anim_step == 0) && (anim_tick == 1) && (session().targeted_player != nullptr)) {
 		ShotSonicLightning* shot;
 		shot = new ShotSonicLightning();
 		shot->setDir(dir);

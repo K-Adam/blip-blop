@@ -12,7 +12,7 @@ class Bonus : public Sprite {
 	int phi;
 	bool local_phase;
 
-	Bonus() : phi(0), local_phase(0){};
+	Bonus() : phi(0), local_phase(false) {}
 
 	virtual void onPickup(Ball*) {
 		destroyed = true;
@@ -43,7 +43,7 @@ class Bonus : public Sprite {
 
 		Flipbook corners = assets().pics.misc.anim(local_phase ? "bonus_corners_on" : "bonus_corners_off");
 
-		int d = int(8 * std::sin(phi * std::numbers::pi / 180));
+		int d = static_cast<int>(8 * std::sin(phi * std::numbers::pi / 180));
 
 		draw(x - CORNER_DIST - d, y - CORNER_DIST - d, corners[3]);
 		draw(x + CORNER_DIST + d, y - CORNER_DIST - d, corners[2]);

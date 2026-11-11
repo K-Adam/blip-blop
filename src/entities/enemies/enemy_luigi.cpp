@@ -73,7 +73,7 @@ void EnemyLuigi::onWalk() {
 		level().rules.flags[0] = 2;
 	}
 
-	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 		int dif_y = session().targeted_player->y - y;
 		int dif_x = session().targeted_player->x - x;
 
@@ -84,8 +84,8 @@ void EnemyLuigi::onWalk() {
 		if ((dir == FACING_RIGHT) && (dif_y < 0) && (dif_x > 0) && (dif_y + dif_x < 0)) {
 			wait_for_attack = 0;
 			attack_delay = 10 + rnd() % 50;
-			speed = (int)((dif_x * -9) / dif_y);
-			dy = (int)(-9 + speed * 0.25);
+			speed = dif_x * -9 / dif_y;
+			dy = static_cast<int>(-9 + speed * 0.25);
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_JUMP;
@@ -96,8 +96,8 @@ void EnemyLuigi::onWalk() {
 		} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
 			wait_for_attack = 0;
 			attack_delay = 10 + rnd() % 50;
-			speed = (int)((dif_x * 9) / dif_y);
-			dy = (int)(-9 + speed * 0.25);
+			speed = dif_x * 9 / dif_y;
+			dy = static_cast<int>(-9 + speed * 0.25);
 			anim_step = 0;
 			anim_tick = 0;
 			status = STATE_JUMP;

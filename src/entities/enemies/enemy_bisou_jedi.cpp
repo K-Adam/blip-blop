@@ -49,7 +49,7 @@ void EnemyBisouJedi::onWalk() {
 		pic = assets().pics.enemies.anim("jedi_walk_left")[anim_step];
 	}
 
-	if (shoot_step > wait_shoot && session().targeted_player != NULL) {
+	if (shoot_step > wait_shoot && session().targeted_player != nullptr) {
 		ShotLaserSword* t = new ShotLaserSword;
 
 		t->x = x;
@@ -79,7 +79,7 @@ void EnemyBisouJedi::onDie() {
 		t->dx = -20;
 		t->thrower = this;
 
-		if (session().targeted_player == NULL)
+		if (session().targeted_player == nullptr)
 			t->isdead = true;
 		else
 			t->target = session().targeted_player;
@@ -129,7 +129,7 @@ void EnemyBisouJedi::onCharred() {
 		t->dx = -20;
 		t->thrower = this;
 
-		if (session().targeted_player == NULL)
+		if (session().targeted_player == nullptr)
 			t->isdead = true;
 		else
 			t->target = session().targeted_player;

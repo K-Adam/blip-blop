@@ -34,7 +34,7 @@ void VehicleStork::updateUsed() {
 			hero->y = y - 40;
 
 		hero->unlockVehicle();
-		hero = NULL;
+		hero = nullptr;
 		hasBeenUsed = true;
 		first = false;
 	}

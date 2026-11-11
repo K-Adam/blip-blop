@@ -43,7 +43,7 @@ bool MusicBank::open(const char* file, bool loop) {
 void MusicBank::play(int n) {
 	if (!audio.music()) return;
 
-	if (n < 0 || (size_t)n >= musics_.size()) {
+	if (n < 0 || static_cast<size_t>(n) >= musics_.size()) {
 		debug << "MusicBank::play() -> Trying to play missing music " << n << "\n";
 		return;
 	}

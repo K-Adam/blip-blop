@@ -125,7 +125,7 @@ void EnemySnorkyGovernor::onShoot() {
 	}
 
 	if (anim_step == 6 && anim_tick == 0) {
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			ShotSnorkyGovernor* shot = new ShotSnorkyGovernor(session().targeted_player, rnd() % 6 - 2, -5 - rnd() % 5);
 
 			shot->setDir(dir);

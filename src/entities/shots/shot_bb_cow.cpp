@@ -7,7 +7,7 @@ void ShotBBCow::update() {
 	step(8, 8);
 
 	if (level().terrain.solid_wall(x, y) && y > 50) {
-		pic = NULL;
+		pic = nullptr;
 		if (anim_step < 4)
 			engrave(x, y, assets().pics.bb.pic("cow_splat_left"));
 		else

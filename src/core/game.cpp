@@ -107,9 +107,9 @@ Task<> Game::playGame(int player_count, int player_idx) {
 			letsgo = co_await playLevel(file_names[i].c_str(), type_lvl[i]);
 
 			if (!session().cow_bomb) {
-				if (player1 != NULL) player1->nb_cow_bomb = 1;
+				if (player1 != nullptr) player1->nb_cow_bomb = 1;
 
-				if (player2 != NULL) player2->nb_cow_bomb = 1;
+				if (player2 != nullptr) player2->nb_cow_bomb = 1;
 
 				session().cow_bomb = true;
 			}
@@ -203,7 +203,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 	level().rules.flamethrower_ok = std::string_view(level_name) != "lvl/snorkniv.lvl" && std::string_view(level_name) != "lvl/snorkniv2.lvl";
 
-	if (player1 != NULL && player1->nb_life > 0) {
+	if (player1 != nullptr && player1->nb_life > 0) {
 		player1->x = xstart1;
 		player1->y = ystart1;
 		player1->status = STATE_NORMAL;
@@ -220,7 +220,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		}
 	}
 
-	if (player2 != NULL && player2->nb_life > 0) {
+	if (player2 != nullptr && player2->nb_life > 0) {
 		player2->x = xstart2;
 		player2->y = ystart2;
 		player2->status = STATE_NORMAL;
@@ -240,7 +240,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 	if (type == LVL_BONUS || type == LVL_COMPLETE || type == LVL_FIRST || type == LVL_END) {
 		session().enemies_created = 0;
 
-		if (player1 != NULL) {
+		if (player1 != nullptr) {
 			player1->setKilled(0);
 
 			if (type != LVL_END) {
@@ -257,7 +257,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 			}
 		}
 
-		if (player2 != NULL) {
+		if (player2 != nullptr) {
 			player2->setKilled(0);
 
 			if (type != LVL_END) {
@@ -327,11 +327,11 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 	if (skipped) debug << "User skipped\n";
 	if (in.quitRequested()) debug << "Application killed\n";
 
-	if (player1 != NULL) {
+	if (player1 != nullptr) {
 		player1->endLevel();
 	}
 
-	if (player2 != NULL) {
+	if (player2 != nullptr) {
 		player2->endLevel();
 	}
 
@@ -339,7 +339,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 
 	// A bonus level gives the lives back and cannot be lost
 	if (type == LVL_BONUS && !skipped && !in.quitRequested()) {
-		if (player1 != NULL && p1_bringBack) {
+		if (player1 != nullptr && p1_bringBack) {
 			if (player1->destroyed && p1_life > 0) {
 				player1->destroyed = false;
 				session().players.push_back(player1.get());
@@ -348,7 +348,7 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 			player1->nb_life = p1_life;
 		}
 
-		if (player2 != NULL && p2_bringBack) {
+		if (player2 != nullptr && p2_bringBack) {
 			if (player2->destroyed && p2_life > 0) {
 				player2->destroyed = false;
 				session().players.push_back(player2.get());
@@ -366,11 +366,11 @@ Task<bool> Game::playLevel(const char* level_name, int type) {
 		drawAll(false);
 
 		if ((type == LVL_BONUS && !skipped && level().rules.flags[FLAG_TIMER] > 0) || type == LVL_COMPLETE || type == LVL_LAST) {
-			if (player1 != NULL) {
+			if (player1 != nullptr) {
 				last_perfect1 = player1->perfect;
 			}
 
-			if (player2 != NULL) {
+			if (player2 != nullptr) {
 				last_perfect2 = player2->perfect;
 			}
 
@@ -713,20 +713,20 @@ void Game::updateAll() {
 
 	level().rules.bonus_ok = false;
 
-	if (player1 != NULL) {
+	if (player1 != nullptr) {
 		level().rules.bonus_ok = level().rules.bonus_ok || player1->okBonus();
 	}
 
-	if (player2 != NULL) {
+	if (player2 != nullptr) {
 		level().rules.bonus_ok = level().rules.bonus_ok || player2->okBonus();
 	}
 
-	if (!level().camera.frozen) level().camera.follow(session().players, false, (int)level().terrain.width);
+	if (!level().camera.frozen) level().camera.follow(session().players, false, static_cast<int>(level().terrain.width));
 
 	updateEvents();
 
 	// Scroll again so locks set by the events apply
-	if (!level().camera.frozen) level().camera.follow(session().players, true, (int)level().terrain.width);
+	if (!level().camera.frozen) level().camera.follow(session().players, true, static_cast<int>(level().terrain.width));
 
 	updateCheat();
 
@@ -1003,12 +1003,12 @@ void Game::updateHoldFire() {
 }
 
 void Game::drawHUB() {
-	if (player1 != NULL && player1->nb_life > 0) {
+	if (player1 != nullptr && player1->nb_life > 0) {
 		auto color = player1->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
 		hud_.Draw(player1.get(), HUD::Location::Left, color, bonus_level);
 	}
 
-	if (player2 != NULL && player2->nb_life > 0) {
+	if (player2 != nullptr && player2->nb_life > 0) {
 		auto color = player2->id_ball == ID_BLIP ? HUD::Color::Blue : HUD::Color::Orange;
 		hud_.Draw(player2.get(), HUD::Location::Right, color, bonus_level);
 	}
@@ -1085,8 +1085,8 @@ void Game::updateVictoryAndDefeat() {
 }
 
 void Game::updateFlags() {
-	level().rules.flags[FLAG_NB_GEN] = (int)level().entities.enemy_gens.size();
-	level().rules.flags[FLAG_NB_ENEMIES] = (int)level().entities.enemies.size();
+	level().rules.flags[FLAG_NB_GEN] = static_cast<int>(level().entities.enemy_gens.size());
+	level().rules.flags[FLAG_NB_ENEMIES] = static_cast<int>(level().entities.enemies.size());
 	level().rules.bonus_mode = level().rules.flags[FLAG_BONUS];
 
 	if (level().rules.flags[FLAG_TIMER] > 0 && wait_for_victory == -1) {
@@ -1152,7 +1152,7 @@ void Game::updateCheat() {
 
 	if (!settings().cheat) return;
 
-	if (player1 != NULL) {
+	if (player1 != nullptr) {
 		if (in.scanKey(DIK_F1)) player1->ammo[player1->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
@@ -1168,7 +1168,7 @@ void Game::updateCheat() {
 		}
 	}
 
-	if (player2 != NULL) {
+	if (player2 != nullptr) {
 		if (in.scanKey(DIK_F5)) player2->ammo[player2->weapon_id] += 10;
 
 		if (wait_cheat < 20) return;
@@ -1272,7 +1272,7 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 	totals[0].player = player1.get();
 	totals[1].player = player2.get();
 
-	graphics.spare()->BltFast(0, 0, graphics.back(), NULL);
+	graphics.spare()->BltFast(0, 0, graphics.back(), nullptr);
 
 	Rect r;
 	r.top = 100;
@@ -1287,10 +1287,10 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 		totals[0].calc = totals[1].calc = 0;
 		totals[0].xbase = 80;
 		totals[1].xbase = 350;
-	} else if (player1 != NULL && player1->nb_life > 0) {
+	} else if (player1 != nullptr && player1->nb_life > 0) {
 		totals[0].calc = 0;
 		totals[0].xbase = 210;
-	} else if (player2 != NULL) {
+	} else if (player2 != nullptr) {
 		totals[1].calc = 0;
 		totals[1].xbase = 210;
 	}
@@ -1319,7 +1319,7 @@ Task<> Game::showPE(bool bonus, bool bonus_failed) {
 			for (auto& t : totals) t.step(level().rules.flags[FLAG_TIMER]);
 		}
 
-		graphics.back()->BltFast(0, 0, graphics.spare(), NULL);
+		graphics.back()->BltFast(0, 0, graphics.spare(), nullptr);
 
 		assets().fonts.cool.printC(graphics.back(), 320, 120, bonus_failed ? "BONUS STAGE FAILED!" : "LEVEL COMPLETE!");
 
@@ -1349,7 +1349,7 @@ void Game::updateWeather() {
 		pl->update();
 	}
 
-	while (list_weather.size() < (size_t)level().rules.weather_intensity) {
+	while (list_weather.size() < static_cast<size_t>(level().rules.weather_intensity)) {
 		if (level().rules.weather_type == WEATHER_SNOW) {
 			next_snowflake = (next_snowflake + 1) % NB_SNOWFLAKES;
 			WeatherSnow* snowflake = &snow[next_snowflake];
@@ -1429,7 +1429,7 @@ void Game::drawDeformation() {
 		r.top = y;
 		r.bottom = y + stride;
 
-		x = xt = int(5 * std::sin(phi * std::numbers::pi / 180));
+		x = xt = static_cast<int>(5 * std::sin(phi * std::numbers::pi / 180));
 
 		if (x < 0) {
 			r.left = -x;
@@ -1521,9 +1521,9 @@ bool Game::loadList(const char* file_path) {
 void Game::drawLoading() { assets().fonts.cool.printC(graphics.back(), 320, 205, "LOADING"); }
 
 Task<> Game::getHiscore() {
-	if (player1 != NULL && hiScores().isGood(player1->getScore())) co_await getName(player1.get(), 1);
+	if (player1 != nullptr && hiScores().isGood(player1->getScore())) co_await getName(player1.get(), 1);
 
-	if (player2 != NULL && hiScores().isGood(player2->getScore())) co_await getName(player2.get(), 2);
+	if (player2 != nullptr && hiScores().isGood(player2->getScore())) co_await getName(player2.get(), 2);
 }
 
 Task<> Game::getName(Player* hero, int player_num) {
@@ -1745,7 +1745,7 @@ Task<> Game::go() {
 				drawLoading();
 				graphics.Flip();
 
-				co_await playGame(join.players(), int(selected));
+				co_await playGame(join.players(), static_cast<int>(selected));
 				assets().music.interl.play(0);
 			}
 

@@ -20,7 +20,7 @@ void BackgroundPokeSwitch::update() {
 	if (status) {
 		pic = assets().pics.level.anim("switch_on")[anim_switch_on[anim_step]];
 	} else {
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			if ((session().targeted_player->x > x - 10) && (session().targeted_player->x < x + 33) && (session().targeted_player->y > y - 10) &&
 				(session().targeted_player->y < y + 51)) {
 				level().rules.flags[2]++;

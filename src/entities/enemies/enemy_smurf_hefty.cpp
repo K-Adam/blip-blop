@@ -243,7 +243,7 @@ void EnemySmurfHefty::onShootHurricaneKick() {
 }
 
 void EnemySmurfHefty::onShoot() {
-	if (session().targeted_player == NULL) return;
+	if (session().targeted_player == nullptr) return;
 
 	anim_step = anim_tick = 0;
 

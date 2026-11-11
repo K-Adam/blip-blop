@@ -32,13 +32,13 @@ void BackgroundBattleCruiser::update() {
 			if (attack_step == 2) attack_step = -2;
 
 			pic = assets().pics.level.anim("cruiser_attack_right")[2 + attack_step];
-			Sprite* s = new ShotCruiser((dif_x * SHOT_SPEED) / dif_y, (int)(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y),
+			Sprite* s = new ShotCruiser((dif_x * SHOT_SPEED) / dif_y, static_cast<int>(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y),
 										assets().pics.level.anim("cruiser_shot")[2 + attack_step]);
 			s->x = x - 8 * attack_step;
 			s->y = y + 6;
 			level().entities.animated_bgs.emplace_back(s);
 
-			s = new ShotCruiser(-(dif_x * SHOT_SPEED) / dif_y, (int)(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y),
+			s = new ShotCruiser(-(dif_x * SHOT_SPEED) / dif_y, static_cast<int>(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y),
 								assets().pics.level.anim("cruiser_shot")[1 - attack_step]);
 			s->x = x_opponent - 8 * attack_step;
 			s->y = y_opponent - 6;

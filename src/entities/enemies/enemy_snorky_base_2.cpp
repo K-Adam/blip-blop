@@ -50,7 +50,7 @@ void EnemySnorkyBase2::onWalk() {
 	}
 
 	wait_for_shoot++;
-	if ((session().targeted_player != NULL) && (wait_for_shoot > shoot_delay) &&
+	if ((session().targeted_player != nullptr) && (wait_for_shoot > shoot_delay) &&
 		((dir == FACING_RIGHT && x > level().camera.offset + 80) || (dir == FACING_LEFT && x < level().camera.offset + 560))) {
 		wait_for_shoot = 0;
 		shoot_delay = 50 + rnd() % 200;

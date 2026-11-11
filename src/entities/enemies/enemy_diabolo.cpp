@@ -56,7 +56,7 @@ void EnemyDiabolo::onWalk() {
 	}
 
 	wait_for_attack++;
-	if ((wait_for_attack > attack_delay) && (session().targeted_player != NULL)) {
+	if ((wait_for_attack > attack_delay) && (session().targeted_player != nullptr)) {
 		if (((dir == FACING_RIGHT) && (session().targeted_player->x > x)) || ((dir == FACING_LEFT) && (session().targeted_player->x < x))) {
 			int dif_y = session().targeted_player->y - y;
 			int dif_x = session().targeted_player->x - x;
@@ -103,7 +103,7 @@ void EnemyDiabolo::onWalk() {
 				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
-				dy = (int)(-8 + dx * 0.25);
+				dy = static_cast<int>(-8 + dx * 0.25);
 				onKneeStrike();
 				return;
 			} else if ((dir == FACING_LEFT) && (dif_y < 0) && (dif_x < 0) && (dif_y - dif_x < 0)) {
@@ -114,7 +114,7 @@ void EnemyDiabolo::onWalk() {
 				status = STATE_SHOOT;
 				attack_type = 2;
 				dx = ((dif_x * -8) / dif_y);
-				dy = (int)(-8 + dx * 0.25);
+				dy = static_cast<int>(-8 + dx * 0.25);
 				debug << "dx: " << dx << "  dy: " << dy << "\n";
 				onKneeStrike();
 				return;

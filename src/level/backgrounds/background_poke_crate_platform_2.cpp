@@ -11,7 +11,7 @@ void BackgroundPokeCratePlatform2::update() {
 		anim_step += 2;
 		anim_step %= 360;
 
-		y = 80 - int(60 * std::cos(anim_step * std::numbers::pi / 180));
+		y = 80 - static_cast<int>(60 * std::cos(anim_step * std::numbers::pi / 180));
 
 		if (y + 28 != 0) {
 			for (int i = x - 90; i < x + 140; i++) {

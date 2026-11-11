@@ -18,14 +18,14 @@ using json = nlohmann::json;
 // Builds a frame stored as a mirror or right angle turn of another one, so the duplicate pixels are not shipped
 static SDL_Surface* derive(SDL_Surface* src, SDL_Rect r, const std::string& op) {
 	static const char* const OPS[] = {"copy", "flip_h", "flip_v", "rot180", "rot90ccw", "rot90cw", "transpose", "transverse"};
-	int k = int(std::find(std::begin(OPS), std::end(OPS), op) - std::begin(OPS));
-	if (k == int(std::size(OPS))) return nullptr;
+	int k = static_cast<int>(std::find(std::begin(OPS), std::end(OPS), op) - std::begin(OPS));
+	if (k == static_cast<int>(std::size(OPS))) return nullptr;
 	int w = r.w, h = r.h;
 	bool turned = k >= 4;
 	SDL_Surface* dst = SDL_CreateRGBSurfaceWithFormat(0, turned ? h : w, turned ? w : h, 32, SDL_PIXELFORMAT_ARGB8888);
 	if (!dst) return nullptr;
 	for (int y = 0; y < dst->h; y++) {
-		Uint32* row = (Uint32*)((Uint8*)dst->pixels + y * dst->pitch);
+		Uint32* row = reinterpret_cast<Uint32*>(static_cast<Uint8*>(dst->pixels) + y * dst->pitch);
 		for (int x = 0; x < dst->w; x++) {
 			int sx = x, sy = y;
 			switch (k) {
@@ -51,7 +51,7 @@ static SDL_Surface* derive(SDL_Surface* src, SDL_Rect r, const std::string& op) 
 					sx = w - 1 - y, sy = h - 1 - x;
 					break;
 			}
-			row[x] = ((Uint32*)((Uint8*)src->pixels + (r.y + sy) * src->pitch))[r.x + sx];
+			row[x] = (reinterpret_cast<Uint32*>(static_cast<Uint8*>(src->pixels) + (r.y + sy) * src->pitch))[r.x + sx];
 		}
 	}
 	return dst;
@@ -67,8 +67,8 @@ static SDL_Surface* loadImage(const std::string& path) {
 // Transparent pixels are stored black, filtering would mix that into the edges as a dark halo.
 // They take the colour of their opaque neighbours instead, still fully transparent
 static void bleedEdges(SDL_Surface* s) {
-	std::vector<Uint32> src((Uint32*)s->pixels, (Uint32*)s->pixels + s->w * s->h);
-	Uint32* dst = (Uint32*)s->pixels;
+	std::vector<Uint32> src(static_cast<Uint32*>(s->pixels), static_cast<Uint32*>(s->pixels) + s->w * s->h);
+	Uint32* dst = static_cast<Uint32*>(s->pixels);
 	for (int y = 0; y < s->h; y++) {
 		for (int x = 0; x < s->w; x++) {
 			if (src[y * s->w + x] >> 24) continue;
@@ -80,7 +80,7 @@ static void bleedEdges(SDL_Surface* s) {
 					r += p >> 16 & 0xFF, g += p >> 8 & 0xFF, b += p & 0xFF, n++;
 				}
 			}
-			if (n) dst[y * s->w + x] = Uint32(r / n) << 16 | Uint32(g / n) << 8 | Uint32(b / n);
+			if (n) dst[y * s->w + x] = static_cast<Uint32>(r / n) << 16 | static_cast<Uint32>(g / n) << 8 | static_cast<Uint32>(b / n);
 		}
 	}
 }
@@ -118,15 +118,15 @@ bool PictureBank::loadGFX(const char* file) {
 		if (sheet.contains("path")) {
 			images.push_back(loadImage(sheet["path"]));
 			if (!images.back()) return fail(sheet["path"]);
-			sheet_image = int(images.size()) - 1;
+			sheet_image = static_cast<int>(images.size()) - 1;
 		}
-		int first = int(frames.size());
+		int first = static_cast<int>(frames.size());
 		for (const json& f : sheet["frames"]) {
 			Frame fr{sheet_image, {0, 0, 0, 0}, f["xSpot"], f["ySpot"]};
 			if (f.contains("from")) {
 				// Sources always come earlier, in this sheet or a previous one
 				std::string from = f["from"];
-				int src_first = first, src_count = int(frames.size()) - first;
+				int src_first = first, src_count = static_cast<int>(frames.size()) - first;
 				if (from != name) {
 					auto it = sheets.find(from);
 					if (it == sheets.end()) return fail("bad source " + from);
@@ -137,12 +137,12 @@ bool PictureBank::loadGFX(const char* file) {
 				const Frame& src = frames[src_first + k];
 				images.push_back(derive(images[src.image], src.r, f["op"]));
 				if (!images.back()) return fail("bad op in " + name);
-				fr.image = int(images.size()) - 1;
+				fr.image = static_cast<int>(images.size()) - 1;
 				fr.r = {0, 0, images.back()->w, images.back()->h};
 			} else if (f.contains("path")) {
 				images.push_back(loadImage(f["path"]));
 				if (!images.back()) return fail(f["path"]);
-				fr.image = int(images.size()) - 1;
+				fr.image = static_cast<int>(images.size()) - 1;
 				fr.r = {0, 0, images.back()->w, images.back()->h};
 			} else {
 				if (sheet_image < 0) return fail(name + " has no image");
@@ -154,7 +154,7 @@ bool PictureBank::loadGFX(const char* file) {
 			}
 			frames.push_back(fr);
 		}
-		sheets[name] = {first, int(frames.size()) - first};
+		sheets[name] = {first, static_cast<int>(frames.size()) - first};
 	}
 
 	// Repacked with a transparent border, so filtered sampling of a rotated or shrunk frame never reaches its neighbours
@@ -181,7 +181,7 @@ bool PictureBank::loadGFX(const char* file) {
 			SDL_SetSurfaceBlendMode(part, SDL_BLENDMODE_NONE);
 			SDL_Rect d{pos[m - n].x, pos[m - n].y, fr.r.w, fr.r.h};
 			SDL_BlitSurface(part, &fr.r, atlas, &d);
-			fr.image = int(images.size()) - 1;
+			fr.image = static_cast<int>(images.size()) - 1;
 			fr.r = d;
 		}
 		bleedEdges(atlas);

@@ -12,7 +12,7 @@ static const PokemonHeroSpec BULBASAUR{
 static const PokemonHeroSpec EMBER{
 	.name = "ember", .hp = 1000, .throw_dx = -1, .throw_dy = -7, .treasure = 5, .land_sound = -1, .speed = 2, .die_frames = 14, .leaves_body = false};
 
-EnemyRayman::EnemyRayman() : attack_delay(100 + rnd() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(NULL) {
+EnemyRayman::EnemyRayman() : attack_delay(100 + rnd() % 250), wait_for_attack(0), fist1(1), fist2(1), feet(1), dorkemon(4), fist_shot(nullptr) {
 	hp = 15000;
 	xmin = 10428;
 	treasure = 0;
@@ -113,7 +113,7 @@ void EnemyRayman::onWalk() {
 					dir = FACING_LEFT;
 				}
 				wait_for_attack++;
-				if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+				if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 					if ((level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y)) &&
 						(((dir == FACING_RIGHT) && (x < session().targeted_player->x)) || ((dir == FACING_LEFT) && (x > session().targeted_player->x)))) {
 						x_target = session().targeted_player->x;
@@ -159,7 +159,7 @@ void EnemyRayman::onWalk() {
 					fist1 = 0;
 				}
 				wait_for_attack++;
-				if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+				if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 					if (level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y))
 
 					{

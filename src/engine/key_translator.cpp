@@ -55,7 +55,7 @@ static std::string pad_to_string(int n, bool fr) {
 		default: {
 			const char* s = d < SDL_CONTROLLER_BUTTON_MAX ? SDL_GameControllerGetStringForButton(SDL_GameControllerButton(d)) : nullptr;
 			name = s ? s : std::to_string(d);
-			for (char& c : name) c = char(toupper(c));
+			for (char& c : name) c = static_cast<char>(toupper(c));
 		}
 	}
 	return std::string(fr ? "MANETTE " : "PAD ") + name;
@@ -112,7 +112,7 @@ std::string codeName(unsigned int code) {
 		const char* s = b < SDL_CONTROLLER_BUTTON_MAX ? SDL_GameControllerGetStringForButton(SDL_GameControllerButton(b)) : nullptr;
 		return s ? std::string("Pad ") + s : std::to_string(code);
 	}
-	std::string name = SDL_GetKeyName(SDL_Keycode(code));
+	std::string name = SDL_GetKeyName(static_cast<SDL_Keycode>(code));
 	// Layout fallback codes read back as another key, those stay numeric
 	if (name.empty() || codeFromName(name) != code) return std::to_string(code);
 	return name;
@@ -130,15 +130,15 @@ unsigned int codeFromName(const std::string& name) {
 	}
 	if (name.rfind("Pad ", 0) == 0) {
 		std::string b = name.substr(4);
-		for (int i = 0; i < (int)std::size(PAD_DIRS); i++) {
+		for (int i = 0; i < static_cast<int>(std::size(PAD_DIRS)); i++) {
 			if (b == PAD_DIRS[i]) return PAD_CODE(0, JOY_UP + i);
 		}
-		for (int i = 0; i < (int)std::size(PAD_EXTRA); i++) {
+		for (int i = 0; i < static_cast<int>(std::size(PAD_EXTRA)); i++) {
 			if (b == PAD_EXTRA[i]) return PAD_CODE(0, PAD_LT + i);
 		}
 		SDL_GameControllerButton btn = SDL_GameControllerGetButtonFromString(b.c_str());
 		return btn == SDL_CONTROLLER_BUTTON_INVALID ? UNKNOWN_CODE : PAD_CODE(0, btn);
 	}
 	SDL_Keycode k = SDL_GetKeyFromName(name.c_str());
-	return k == SDLK_UNKNOWN ? UNKNOWN_CODE : (unsigned int)k;
+	return k == SDLK_UNKNOWN ? UNKNOWN_CODE : static_cast<unsigned int>(k);
 }

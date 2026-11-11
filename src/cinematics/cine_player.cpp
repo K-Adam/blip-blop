@@ -343,7 +343,7 @@ void CINEPlayer::updateState() {
 void CINEPlayer::drawScene() {
 	Rect r;
 
-	back_surf->FillRect(0, 0xFF000000);
+	back_surf->FillRect(nullptr, 0xFF000000);
 
 	for (int i = 0; i < NB_OBJ; i++) {
 		if (obj[i].show) {
@@ -409,7 +409,7 @@ bool CINEPlayer::getCommand() {
 	std::string clean;
 	for (char c : line) {
 		if (c == ';') break;
-		if (c != ' ' && c != '"') clean += char(std::tolower((unsigned char)c));
+		if (c != ' ' && c != '"') clean += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
 	}
 
 	size_t paren = clean.find('(');

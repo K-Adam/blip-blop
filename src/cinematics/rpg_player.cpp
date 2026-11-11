@@ -11,8 +11,8 @@
 using json = nlohmann::json;
 
 RPGPlayer::RPGPlayer() : focus(0), key_released(false), skiped(false) {
-	pic_tab[0] = NULL;
-	pic_tab[1] = NULL;
+	pic_tab[0] = nullptr;
+	pic_tab[1] = nullptr;
 
 	nimage[0] = 0;
 	nimage[1] = 0;
@@ -241,7 +241,7 @@ bool RPGPlayer::read() {
 void RPGPlayer::error(const std::string& err_msg) { debug << "RPGPlayer::updateScene() -> Syntax error: '" << err_msg << "'\n"; }
 
 const Picture* RPGPlayer::portrait(int n) const {
-	if (pic_tab[n] == NULL || nimage[n] < 0) return nullptr;
+	if (pic_tab[n] == nullptr || nimage[n] < 0) return nullptr;
 	Flipbook f = pic_tab[n]->anim(sheet[n]);
 	return nimage[n] < f.size() ? f[nimage[n]] : nullptr;
 }

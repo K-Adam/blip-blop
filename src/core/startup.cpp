@@ -18,9 +18,9 @@ static void report(const char* txt, const wchar_t* title, UINT icon) {
 		std::cerr << (icon == MB_ICONERROR ? "Bug: " : "Warning: ") << txt << "\n";
 		return;
 	}
-	std::wstring wide(MultiByteToWideChar(CP_UTF8, 0, txt, -1, NULL, 0), L'\0');
+	std::wstring wide(MultiByteToWideChar(CP_UTF8, 0, txt, -1, nullptr, 0), L'\0');
 	MultiByteToWideChar(CP_UTF8, 0, txt, -1, wide.data(), (int)wide.size());
-	MessageBoxW(NULL, wide.c_str(), title, MB_OK | icon);
+	MessageBoxW(nullptr, wide.c_str(), title, MB_OK | icon);
 }
 
 void Bug(const char* txt) { report(txt, L"Blip'n Blop : Error reporting", MB_ICONERROR); }

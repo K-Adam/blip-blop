@@ -21,7 +21,7 @@ BackgroundBomb::BackgroundBomb() : counter_step(0), armed(true), warning_step(0)
 
 void BackgroundBomb::update() {
 	if (armed) {
-		if (session().targeted_player != NULL) {
+		if (session().targeted_player != nullptr) {
 			if ((session().targeted_player->x > x - 50) && (session().targeted_player->x < x + 50) && (session().targeted_player->y > y - 10) &&
 				(session().targeted_player->y < y + 51)) {
 				level().rules.flags[0]++;

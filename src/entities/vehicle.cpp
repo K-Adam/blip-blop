@@ -1,12 +1,12 @@
 #include "entities/vehicle.h"
 
-Vehicle::Vehicle() : can_be_used(true), hero(NULL), ctrl(NULL) {}
+Vehicle::Vehicle() : can_be_used(true), hero(nullptr), ctrl(nullptr) {}
 
 void Vehicle::update() {
-	if (hero == NULL) {
+	if (hero == nullptr) {
 		if (can_be_used) hero = seekRider();
 
-		if (hero != NULL) {
+		if (hero != nullptr) {
 			hero->lockVehicle(canFire(), canChangeDir());
 			ctrl = hero->ctrl;
 		} else {
@@ -15,7 +15,7 @@ void Vehicle::update() {
 		}
 	} else {
 		if (hero->status != STATE_LOCKED_VEHICLE || hero->destroyed) {
-			hero = NULL;
+			hero = nullptr;
 			updateNotUsed();
 			return;
 		}
@@ -37,5 +37,5 @@ Ball* Vehicle::seekRider() {
 			return c;
 	}
 
-	return NULL;
+	return nullptr;
 }

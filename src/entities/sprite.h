@@ -76,5 +76,5 @@ class Sprite {
 			return !((s->x2 < x1) || (s->x1 > x2) || (s->y2 < y1) || (s->y1 > y2));
 	};
 
-	virtual ~Sprite(){};
+	virtual ~Sprite() = default;
 };

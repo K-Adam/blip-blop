@@ -15,7 +15,7 @@ BackgroundSnorkAirlock1::BackgroundSnorkAirlock1() : players_inside(0) { anim_st
 void BackgroundSnorkAirlock1::update() {
 	bool& first_closed = level().shared<AirlockState>().first_closed;
 	if (!first_closed) {
-		if ((session().targeted_player != NULL) && (session().targeted_player->x > 1400)) {
+		if ((session().targeted_player != nullptr) && (session().targeted_player->x > 1400)) {
 			players_inside++;
 			if (anim_step < 222) {
 				if (players_inside >= 2) {

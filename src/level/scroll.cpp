@@ -25,7 +25,7 @@ void ScrollRenderer::draw(Camera& camera, const Terrain& terrain) {
 		reset();
 	}
 
-	camera.clamp((int)terrain.width);
+	camera.clamp(static_cast<int>(terrain.width));
 
 	int x1 = camera.offset % WIDTH;
 	int x2 = (camera.offset + 640) % WIDTH;
@@ -34,7 +34,8 @@ void ScrollRenderer::draw(Camera& camera, const Terrain& terrain) {
 	r.top = 0;
 	r.bottom = 480;
 
-	while (n_img_ < ((camera.offset + WIDTH - 2) / 640) || (n_img_ < (int)terrain.screens && (next_x_ != ((x3 + 1) % WIDTH)) && (next_x_ != ((x3) % WIDTH)))) {
+	while (n_img_ < ((camera.offset + WIDTH - 2) / 640) ||
+		   (n_img_ < static_cast<int>(terrain.screens) && (next_x_ != ((x3 + 1) % WIDTH)) && (next_x_ != ((x3) % WIDTH)))) {
 		r.left = x_tex_;
 		r.right = x_tex_ + 2;
 
@@ -74,7 +75,7 @@ void ScrollRenderer::draw(Camera& camera, const Terrain& terrain) {
 }
 
 static void clippedBlit(SDL::Surface* surf, const Picture* pic, int x, int y, Rect* clip) {
-	if (pic == NULL) return;
+	if (pic == nullptr) return;
 
 	Rect r;
 	int x1;

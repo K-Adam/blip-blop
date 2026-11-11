@@ -13,7 +13,7 @@ const int hop_offsets[] = {0, 2, 4, 2};
 Ball::Ball(const PictureBank& pbk)
 	: pbk_own(pbk),
 	  perfect(true),
-	  ctrl(NULL),
+	  ctrl(nullptr),
 	  hop_idx(0),
 	  weapon_id(ID_M16),
 	  weapon_dir(0),
@@ -106,7 +106,7 @@ GunPose Ball::gunPose() const {
 	double a = gunAngle();
 	bool right = weapon_dir <= BBLIM_RIGHT;
 	// Sprites 0..4 run from down to up on the right, 5..9 from up to down on the left
-	int step = std::clamp((int)std::lround(right ? (a + 90) / 45 : (a - 90) / 45), 0, 4);
+	int step = std::clamp(static_cast<int>(std::lround(right ? (a + 90) / 45 : (a - 90) / 45)), 0, 4);
 	double drawn = right ? -90 + 45 * step : 90 + 45 * step;
 	return {right ? step : 5 + step, a - drawn, a};
 }
@@ -534,7 +534,7 @@ void Ball::manageDirection() {
 	int vx, vy;
 	ctrl->aim(x - level().camera.offset, y - 12, vx, vy);
 	double t = std::atan2(-vy, std::abs(vx));
-	int s = (int)std::lround(t / (std::numbers::pi / 8));
+	int s = static_cast<int>(std::lround(t / (std::numbers::pi / 8)));
 	bool right = dir <= BBLIM_RIGHT;
 	// Straight up or down keeps the facing, so the body does not flip while aiming there
 	if (std::abs(s) < 4 && vx != 0) right = vx > 0;

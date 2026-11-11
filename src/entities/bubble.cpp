@@ -11,7 +11,7 @@ void Bubble::update() {
 
 	y += dy;
 
-	x = xbase + int(10 * std::cos(phi * std::numbers::pi / 180));
+	x = xbase + static_cast<int>(10 * std::cos(phi * std::numbers::pi / 180));
 
 	if (xbase < level().camera.offset - 10 || y < -10 || level().terrain.solid_wall(x, y)) destroyed = true;
 }

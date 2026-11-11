@@ -16,7 +16,7 @@ void ShotBBLF::aim(double angle) {
 	delay = 0;
 	type = rnd() % 2;
 	finished = false;
-	pic = NULL;
+	pic = nullptr;
 
 	if (type == 1)
 		speed = 2 + rnd() % 2;

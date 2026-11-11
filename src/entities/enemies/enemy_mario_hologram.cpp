@@ -75,7 +75,7 @@ void EnemyMarioHologram::onWalk() {
 		speed = 1;
 	}
 	wait_for_attack++;
-	if ((wait_for_attack >= attack_delay) && (session().targeted_player != NULL)) {
+	if ((wait_for_attack >= attack_delay) && (session().targeted_player != nullptr)) {
 		if (((dir == FACING_RIGHT) && (session().targeted_player->x > x)) || ((dir == FACING_LEFT) && (session().targeted_player->x < x))) {
 			anim_step = 0;
 			anim_tick = 0;

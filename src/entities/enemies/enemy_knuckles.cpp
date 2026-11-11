@@ -54,7 +54,7 @@ void EnemyKnuckles::onWalk() {
 		speed = 1;
 	}
 	wait_for_charge++;
-	if (wait_for_charge >= charge_delay && session().targeted_player != NULL) {
+	if (wait_for_charge >= charge_delay && session().targeted_player != nullptr) {
 		if ((level().terrain.platform_y2(session().targeted_player->x, session().targeted_player->y) == level().terrain.platform_y2(x, y)) &&
 			(((dir == FACING_RIGHT) && (x > (session().targeted_player->x - 200)) && (session().targeted_player->x > x)) ||
 			 ((dir == FACING_LEFT) && (x < (session().targeted_player->x + 200)) && (session().targeted_player->x < x)))) {

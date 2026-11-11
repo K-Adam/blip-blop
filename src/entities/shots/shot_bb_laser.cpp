@@ -12,21 +12,22 @@ void ShotBBLaser::aim(double angle) {
 	ux_ = std::cos(a);
 	uy_ = -std::sin(a);
 	// Splatters only come in 8 directions
-	dir = (int)std::lround((angle + 90) / 45) & 7;
+	dir = static_cast<int>(std::lround((angle + 90) / 45)) & 7;
 
 	// Stops at the first wall or past the screen, in 8 px steps
 	double px = x, py = y + BEAM_HALF_WIDTH;
 	length_ = 0;
-	while (px > level().camera.offset - 5 && px < level().camera.offset + 645 && py > -5 && py < 485 && !level().terrain.solid_wall((int)px, (int)py)) {
+	while (px > level().camera.offset - 5 && px < level().camera.offset + 645 && py > -5 && py < 485 &&
+		   !level().terrain.solid_wall(static_cast<int>(px), static_cast<int>(py))) {
 		px += ux_ * 8;
 		py += uy_ * 8;
 		length_ += 8;
 	}
 
-	x1 = std::min(x, (int)px) - BEAM_HALF_WIDTH;
-	x2 = std::max(x, (int)px) + BEAM_HALF_WIDTH;
-	y1 = std::min(y, (int)py - BEAM_HALF_WIDTH);
-	y2 = std::max(y + 2 * BEAM_HALF_WIDTH, (int)py + BEAM_HALF_WIDTH);
+	x1 = std::min(x, static_cast<int>(px)) - BEAM_HALF_WIDTH;
+	x2 = std::max(x, static_cast<int>(px)) + BEAM_HALF_WIDTH;
+	y1 = std::min(y, static_cast<int>(py) - BEAM_HALF_WIDTH);
+	y2 = std::max(y + 2 * BEAM_HALF_WIDTH, static_cast<int>(py) + BEAM_HALF_WIDTH);
 	col_on = true;
 	anim_tick = 2;
 }
@@ -42,8 +43,8 @@ void ShotBBLaser::render() {
 	// The horizontal beam strip, cropped to the beam and turned around its start
 	Rect r{0, 0, length_, 2 * BEAM_HALF_WIDTH};
 	assets().pics.bb.anim("laser_beam")[anim_step]->BlitRotatedPart(graphics.back(), x - level().camera.offset, y, r, SDL_Point{0, BEAM_HALF_WIDTH}, -angle_);
-	int ex = x + (int)std::lround(ux_ * length_);
-	int ey = y + BEAM_HALF_WIDTH + (int)std::lround(uy_ * length_);
+	int ex = x + static_cast<int>(std::lround(ux_ * length_));
+	int ey = y + BEAM_HALF_WIDTH + static_cast<int>(std::lround(uy_ * length_));
 	draw(ex, ey, assets().pics.misc.anim("laser_impact")[anim_step]);
 }
 

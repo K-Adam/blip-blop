@@ -27,7 +27,7 @@ int MenuList::ComputeWidth() const {
 }
 
 void MenuList::ShadeTextBox(SDL::Surface* surf) const {
-	int ys = (int)items_.size() * 15;
+	int ys = static_cast<int>(items_.size()) * 15;
 	int width = ComputeWidth();
 
 	Rect rec;
@@ -42,9 +42,9 @@ void MenuList::ShadeTextBox(SDL::Surface* surf) const {
 void MenuList::Draw(SDL::Surface* surf) const {
 	ShadeTextBox(surf);
 
-	int y = 240 - (int)items_.size() * 15;
+	int y = 240 - static_cast<int>(items_.size()) * 15;
 	for (size_t i = 0; i < items_.size(); ++i) {
-		if ((size_t)focused_ == i)
+		if (static_cast<size_t>(focused_) == i)
 			assets().fonts.menus.printC(surf, 320, y, items_[i]);
 		else
 			assets().fonts.menu.printC(surf, 320, y, items_[i]);
@@ -54,11 +54,11 @@ void MenuList::Draw(SDL::Surface* surf) const {
 }
 
 int MenuList::ItemAt(int x, int y) const {
-	int top = 240 - (int)items_.size() * 15;
+	int top = 240 - static_cast<int>(items_.size()) * 15;
 	int width = ComputeWidth();
 	if (x < 320 - width || x >= 320 + width || y < top) return -1;
 	int i = (y - top) / 30;
-	return i < (int)items_.size() ? i : -1;
+	return i < static_cast<int>(items_.size()) ? i : -1;
 }
 
 bool MenuList::Navigate() {

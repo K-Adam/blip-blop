@@ -30,7 +30,7 @@ class BackgroundAnimated : public Sprite {
 class BackgroundSequence : public Sprite {
    public:
 	BackgroundSequence(const char* sheet, std::span<const int> order, int delay) : sheet_(sheet), order_(order), delay_(delay) {}
-	void update() override { pic = assets().pics.level.anim(sheet_)[animate(order_.data(), int(order_.size()), delay_)]; }
+	void update() override { pic = assets().pics.level.anim(sheet_)[animate(order_.data(), static_cast<int>(order_.size()), delay_)]; }
 
    private:
 	const char* sheet_;

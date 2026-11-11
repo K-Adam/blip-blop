@@ -18,7 +18,7 @@ class ShotHadoken : public Shot {
 		step(2, 3);
 
 		if (anim_step == 2) {
-			pic = NULL;
+			pic = nullptr;
 		} else {
 			if (dir == FACING_RIGHT) {
 				x += SPEED;

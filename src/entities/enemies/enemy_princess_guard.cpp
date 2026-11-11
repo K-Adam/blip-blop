@@ -38,7 +38,7 @@ void EnemyPrincessGuard::onWalk() {
 		return;
 	}
 	fall();
-	if (princess != NULL) {
+	if (princess != nullptr) {
 		if ((x + cover_distance + GUARD_SPEED) < princess->x) {
 			walk(GUARD_SPEED);
 			pic = assets().pics.enemies.anim("princess_guard_walk_left")[animate(anim_guard_walk_left, 4, 6)];

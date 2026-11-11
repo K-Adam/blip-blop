@@ -15,7 +15,7 @@ void EnemyTails::placeInSky() {
 	placed = true;
 
 	fly = true;
-	if (session().targeted_player != NULL) {
+	if (session().targeted_player != nullptr) {
 		x_target = session().targeted_player->x;
 		y_target = session().targeted_player->y;
 	} else {

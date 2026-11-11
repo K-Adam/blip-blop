@@ -6,7 +6,7 @@ Sprite::Sprite()
 	  dy(0),
 	  anim_step(0),
 	  anim_tick(0),
-	  pic(NULL),
+	  pic(nullptr),
 	  destroyed(false),
 	  dir(0),
 	  grav_tick(0),
@@ -70,7 +70,7 @@ void Sprite::walk(int ndx) {
 }
 
 void Sprite::colFromPic() {
-	if (pic == NULL) {
+	if (pic == nullptr) {
 		col_on = false;
 	} else {
 		x1 = x - pic->xSpot();

@@ -97,7 +97,7 @@ void EnemySmurfette::onShoot() {
 	if (anim_tick == 0) {
 		anim_step += 1;
 
-		if (anim_step == 4 && anim_tick == 0 && session().targeted_player != NULL) {
+		if (anim_step == 4 && anim_tick == 0 && session().targeted_player != nullptr) {
 			ShotBisouDeadly* t = new ShotBisouDeadly();
 
 			t->x = x;

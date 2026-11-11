@@ -102,7 +102,7 @@ void ShotCloud::onNormal() {
 	}
 
 	if (shoot_step == 0) {
-		if (session().targeted_player != NULL && session().targeted_player->y > y) {
+		if (session().targeted_player != nullptr && session().targeted_player->y > y) {
 			int ddx = x - session().targeted_player->x;
 
 			if (ddx > -10 && ddx < 10) {

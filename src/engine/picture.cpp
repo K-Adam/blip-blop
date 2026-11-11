@@ -32,7 +32,7 @@ void Picture::BlitRotated(SDL::Surface* s, int x, int y, double deg) const {
 }
 
 void Picture::BlitScaled(SDL::Surface* s, int x, int y, double scale) const {
-	auto at = [&](double v) { return int(std::lround(v * scale)); };
+	auto at = [&](double v) { return static_cast<int>(std::lround(v * scale)); };
 	SDL_Rect d{x - at(xspot), y - at(yspot), at(src.w), at(src.h)};
 	s->BltStretched(d, surf, src);
 }

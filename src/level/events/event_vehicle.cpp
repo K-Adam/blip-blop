@@ -6,7 +6,7 @@
 #define VEHICLEID_STORK 0
 
 void EventVehicle::doEvent() {
-	Vehicle* v = NULL;
+	Vehicle* v = nullptr;
 
 	switch (vehicle_id) {
 		case VEHICLEID_STORK:
@@ -14,7 +14,7 @@ void EventVehicle::doEvent() {
 			break;
 	}
 
-	if (v != NULL) {
+	if (v != nullptr) {
 		v->x = x;
 		v->y = y;
 		v->dir = dir;

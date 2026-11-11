@@ -59,7 +59,7 @@ void Camera::follow(const std::vector<Ball*>& players, bool forced, int level_wi
 			x_avg += s->x;
 		}
 
-		x_avg /= (int)players.size();
+		x_avg /= static_cast<int>(players.size());
 		x_avg -= 320;  // Half of the 640 screen width
 
 		if (x_avg > offset) {
@@ -75,11 +75,11 @@ void Camera::follow(const std::vector<Ball*>& players, bool forced, int level_wi
 
 // Moving platforms can reach past the level edges
 void Terrain::set_platform(int n, int x, int y) {
-	if (x >= 0 && size_t(x) < width) platforms[n][x] = y;
+	if (x >= 0 && static_cast<size_t>(x) < width) platforms[n][x] = y;
 }
 
 int Terrain::platform_y(int x, int y) const {
-	if (x < 0 || x >= (int)width || y >= 480) return 0;
+	if (x < 0 || x >= static_cast<int>(width) || y >= 480) return 0;
 
 	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
 		int tmp = platforms[i][x];
@@ -90,7 +90,7 @@ int Terrain::platform_y(int x, int y) const {
 }
 
 int Terrain::platform_y2(int x, int y) const {
-	if (x < 0 || x >= (int)width || y < 0 || y >= 480) return -1;
+	if (x < 0 || x >= static_cast<int>(width) || y < 0 || y >= 480) return -1;
 
 	for (int i = 0; i < NB_MAX_PLATFORMS; i++) {
 		int tmp = platforms[i][x];
@@ -102,19 +102,19 @@ int Terrain::platform_y2(int x, int y) const {
 }
 
 bool Terrain::solid_wall(int x, int y) const {
-	if (x < 0 || x >= (int)width || y < 0 || y >= 480) return false;
+	if (x < 0 || x >= static_cast<int>(width) || y < 0 || y >= 480) return false;
 
 	return solid[y / 8][x / 8];
 }
 
 bool Terrain::bloody_wall(int x, int y) const {
-	if (x < 0 || x >= (int)width || y < 0 || y >= 480) return false;
+	if (x < 0 || x >= static_cast<int>(width) || y < 0 || y >= 480) return false;
 
 	return bloody[y / 8][x / 8];
 }
 
 bool engrave(int x, int y, const Picture* pic) {
-	if (pic == NULL || x > (level().camera.offset + ScrollRenderer::WIDTH - pic->xSize())) return false;
+	if (pic == nullptr || x > (level().camera.offset + ScrollRenderer::WIDTH - pic->xSize())) return false;
 
 	BackgroundStatic s;
 

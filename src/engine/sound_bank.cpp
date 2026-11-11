@@ -41,7 +41,7 @@ bool SoundBank::loadSFX(const char* file_name) {
 void SoundBank::play(int n, int flags) {
 	if (!audio.sound()) return;
 
-	if ((size_t)n >= tab_.size()) {
+	if (static_cast<size_t>(n) >= tab_.size()) {
 		debug << "Trying to play missing sound " << n << "\n";
 		return;
 	}

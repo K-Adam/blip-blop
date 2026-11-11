@@ -1,7 +1,7 @@
 #include "entities/shots/shot_laser_sword.h"
 #include "entities/enemies/enemy_bisou_jedi.h"
 
-ShotLaserSword::ShotLaserSword() : target(NULL), thrower(NULL), isdead(false), returning(false), accel(1) {
+ShotLaserSword::ShotLaserSword() : target(nullptr), thrower(nullptr), isdead(false), returning(false), accel(1) {
 	lifespan = 200 + rnd() % 100;
 	assets().sounds.level.play(13, SOUND_LOOP);
 }
@@ -20,7 +20,7 @@ void ShotLaserSword::update() {
 	int yc = 240;
 
 	if (!isdead) {
-		if (thrower->destroyed || ((Enemy*)thrower)->status == STATE_DYING) {
+		if (thrower->destroyed || thrower->status == STATE_DYING) {
 			isdead = true;
 		}
 	}
@@ -36,7 +36,7 @@ void ShotLaserSword::update() {
 
 		if (ddx > -10 && ddx < 10 && ddy > -10 && ddy < 10) {
 			destroyed = true;
-			((EnemyBisouJedi*)thrower)->has_sword = true;
+			thrower->has_sword = true;
 		}
 	} else {
 		lifespan -= 1;

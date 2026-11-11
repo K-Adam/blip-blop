@@ -2,7 +2,7 @@
 #include "core/assets.h"
 #include "level/backgrounds/background_assembler.h"
 
-BackgroundAssembler::BackgroundAssembler() {}
+BackgroundAssembler::BackgroundAssembler() = default;
 
 void BackgroundAssembler::update() {
 	anim_step += 1;

@@ -41,7 +41,7 @@ void EnemyBisouBoom::onWalk() {
 		pic = assets().pics.enemies.anim("boom_walk_left")[anim_step];
 	}
 
-	if (session().targeted_player != NULL) {
+	if (session().targeted_player != nullptr) {
 		int ddx = x - session().targeted_player->x;
 		int ddy = y - session().targeted_player->y;
 

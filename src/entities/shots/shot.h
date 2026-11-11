@@ -29,6 +29,4 @@ class Shot : public Sprite {
 		destroyed = true;
 		col_on = false;
 	};
-
-	virtual ~Shot(){};
 };

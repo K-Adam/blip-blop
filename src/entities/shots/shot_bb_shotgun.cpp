@@ -42,7 +42,7 @@ void ShotBBShotgun::update() {
 	age += 1;
 
 	if (level().terrain.solid_wall(x, y) || x < level().camera.offset - 20 || x > level().camera.offset + 660 || y < -20 || y > 500) {
-		pic = NULL;
+		pic = nullptr;
 		noCol();
 		destroyed = true;
 	} else {
