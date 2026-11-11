@@ -102,11 +102,7 @@ void EnemySnorkyGovernor::onDie() {
 		return;
 	}
 
-	if (dir == FACING_LEFT) {
-		pic = assets().pics.enemies.anim("governor_die_left")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("governor_die_right")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "governor_die")[anim_step];
 }
 
 void EnemySnorkyGovernor::onShoot() {
@@ -145,11 +141,7 @@ void EnemySnorkyGovernor::onShoot() {
 	}
 
 	if (anim_step < 7) {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("governor_shoot_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("governor_shoot_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "governor_shoot")[anim_step];
 	}
 }
 

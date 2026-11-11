@@ -197,10 +197,7 @@ void EnemyBisouZombie::onDie() {
 
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("zombie_die_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("zombie_die_left")[anim_step];
+	pic = facing(assets().pics.enemies, "zombie_die")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -232,10 +229,7 @@ void EnemyBisouZombie::onSevered() {
 		status = STATE_FALL;
 		onFall();
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("zombie_severed_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("zombie_severed_left")[anim_step];
+		pic = facing(assets().pics.enemies, "zombie_severed")[anim_step];
 	}
 }
 
@@ -289,10 +283,7 @@ void EnemyBisouZombie::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("zombie_charred_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("zombie_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "zombie_charred")[anim_step];
 }
 
 void EnemyBisouZombie::onCharredTop() {
@@ -308,8 +299,5 @@ void EnemyBisouZombie::onCharredTop() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("zombie_charred_top_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("zombie_charred_top_left")[anim_step];
+	pic = facing(assets().pics.enemies, "zombie_charred_top")[anim_step];
 }

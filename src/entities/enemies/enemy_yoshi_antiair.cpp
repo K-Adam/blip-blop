@@ -49,11 +49,7 @@ void EnemyYoshiAntiair::onWalk() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("yoshi_walk_right")[0];
-	} else {
-		pic = assets().pics.enemies.anim("yoshi_walk_left")[0];
-	}
+	pic = facing(assets().pics.enemies, "yoshi_walk")[0];
 
 	colFromPic();
 }
@@ -73,10 +69,7 @@ void EnemyYoshiAntiair::onDie() {
 
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("yoshi_die_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("yoshi_die_right")[anim_step];
+		pic = facing(assets().pics.enemies, "yoshi_die")[anim_step];
 	}
 }
 
@@ -105,11 +98,7 @@ void EnemyYoshiAntiair::onShoot() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("yoshi_throw_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("yoshi_throw_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "yoshi_throw")[anim_step];
 
 	colFromPic();
 }
@@ -124,10 +113,7 @@ void EnemyYoshiAntiair::onCharred() {
 	if (anim_step >= 14)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("yoshi_burn_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("yoshi_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "yoshi_burn")[anim_step];
 	}
 }
 

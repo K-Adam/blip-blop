@@ -123,11 +123,7 @@ void EnemySnorkyBase2::onDie() {
 		return;
 	}
 
-	if (dir == FACING_LEFT) {
-		pic = assets().pics.enemies.anim("snorky2_die_left")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("snorky2_die_right")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "snorky2_die")[anim_step];
 }
 
 void EnemySnorkyBase2::onShoot() {
@@ -196,11 +192,7 @@ void EnemySnorkyBase2::onShoot() {
 	}
 
 	if (anim_step < 10) {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("snorky2_shoot_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("snorky2_shoot_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "snorky2_shoot")[anim_step];
 	}
 	colFromPic();
 }
@@ -214,10 +206,7 @@ void EnemySnorkyBase2::onCharred() {
 	if (anim_step == 9) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("snorky2_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("snorky2_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "snorky2_burn")[anim_step];
 	}
 }
 

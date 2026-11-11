@@ -104,10 +104,7 @@ void EnemySmurfHefty::onCharred() {
 	if (anim_step >= 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("smurf_hefty_burn_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_hefty_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_hefty_burn")[anim_step];
 	}
 }
 
@@ -134,10 +131,7 @@ void EnemySmurfHefty::onDie() {
 		destroyed = true;
 		engrave(x, y, pic);
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("smurf_hefty_die_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_hefty_die_left")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_hefty_die")[anim_step];
 	}
 }
 
@@ -169,10 +163,7 @@ void EnemySmurfHefty::onShootHadoken() {
 	}
 
 	if (anim_step <= 4) {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("smurf_hefty_throw_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_hefty_throw_left")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_hefty_throw")[anim_step];
 	}
 }
 
@@ -211,10 +202,7 @@ void EnemySmurfHefty::onShootDragonPunch() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("smurf_hefty_uppercut_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("smurf_hefty_uppercut_left")[anim_step];
+	pic = facing(assets().pics.enemies, "smurf_hefty_uppercut")[anim_step];
 
 	colFromPic();
 }

@@ -8,7 +8,7 @@ EnemyPokemonHero::EnemyPokemonHero(const PokemonHeroSpec& spec) : spec_(spec), d
 
 Flipbook EnemyPokemonHero::anim(const std::string& action) const { return assets().pics.enemies.anim(spec_.name + ("_" + action)); }
 
-Flipbook EnemyPokemonHero::facing(const std::string& action) const { return anim(action + (dir == FACING_RIGHT ? "_right" : "_left")); }
+Flipbook EnemyPokemonHero::facing(const std::string& action) const { return Sprite::facing(assets().pics.enemies, std::string(spec_.name) + "_" + action); }
 
 void EnemyPokemonHero::update() {
 	if (dorkeball == 2) {

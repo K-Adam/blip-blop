@@ -37,9 +37,6 @@ class GoreHeadBisouHeart : public Sprite {
 			}
 		}
 
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("heart_head_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("heart_head_left")[anim_step];
+		pic = facing(assets().pics.enemies, "heart_head")[anim_step];
 	};
 };

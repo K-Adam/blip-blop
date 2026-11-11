@@ -209,11 +209,7 @@ void EnemyTails::onFly() {
 	anim_step += 1;
 	anim_step %= 2;
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("tails_fly_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("tails_fly_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "tails_fly")[anim_step];
 
 	{}
 
@@ -288,10 +284,7 @@ void EnemyTails::onCharred() {
 	if (anim_step >= 11)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("tails_burn_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("tails_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "tails_burn")[anim_step];
 	}
 }
 

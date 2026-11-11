@@ -113,10 +113,7 @@ void EnemyBisouBoom::onDie() {
 	} else if (anim_step >= 10) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("boom_explode_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("boom_explode_left")[anim_step];
+		pic = facing(assets().pics.enemies, "boom_explode")[anim_step];
 
 		colFromPic();
 	}

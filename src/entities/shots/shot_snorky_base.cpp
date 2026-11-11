@@ -36,11 +36,7 @@ void ShotSnorkyBase::update() {
 		anim_step %= 3;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("snorky_shot_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("snorky_shot_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "snorky_shot")[anim_step];
 
 	if (level().terrain.solid_wall(x, y) != 0) destroyed = true;
 

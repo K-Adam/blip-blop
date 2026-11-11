@@ -61,11 +61,7 @@ void EnemySmurfGreedy::onNormal() {
 		onShoot();
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_right")[0];
-	} else {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_left")[0];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[0];
 
 	colFromPic();
 }
@@ -97,11 +93,7 @@ void EnemySmurfGreedy::onShoot() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[anim_step];
 
 	colFromPic();
 }
@@ -154,11 +146,7 @@ void EnemySmurfGreedy::onHold() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_right")[5];
-	} else {
-		pic = assets().pics.enemies.anim("smurf_greedy_throw_left")[5];
-	}
+	pic = facing(assets().pics.enemies, "smurf_greedy_throw")[5];
 
 	colFromPic();
 }
@@ -172,9 +160,6 @@ void EnemySmurfGreedy::onCharred() {
 	if (anim_step == 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("smurf_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_burn")[anim_step];
 	}
 }

@@ -163,11 +163,7 @@ void EnemySnorkyBase1::onShoot() {
 	}
 
 	if (anim_step < 11) {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("snorky_shoot_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("snorky_shoot_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "snorky_shoot")[anim_step];
 	}
 }
 
@@ -180,10 +176,7 @@ void EnemySnorkyBase1::onCharred() {
 	if (anim_step == 9) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("snorky_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("snorky_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "snorky_burn")[anim_step];
 	}
 }
 

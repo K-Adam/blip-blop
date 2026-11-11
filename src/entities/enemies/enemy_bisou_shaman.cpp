@@ -75,10 +75,7 @@ void EnemyBisouShaman::onDie() {
 		engrave(x, y, pic);
 		destroyed = true;
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("shaman_die_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("shaman_die_left")[anim_step];
+		pic = facing(assets().pics.enemies, "shaman_die")[anim_step];
 	}
 }
 
@@ -166,10 +163,7 @@ void EnemyBisouShaman::onRaiseStaff() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("shaman_staff_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("shaman_staff_left")[anim_step];
+	pic = facing(assets().pics.enemies, "shaman_staff")[anim_step];
 
 	colFromPic();
 }
@@ -190,10 +184,7 @@ void EnemyBisouShaman::onLowerStaff() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("shaman_staff_right")[2 - anim_step];
-	else
-		pic = assets().pics.enemies.anim("shaman_staff_left")[2 - anim_step];
+	pic = facing(assets().pics.enemies, "shaman_staff")[2 - anim_step];
 
 	colFromPic();
 }
@@ -327,10 +318,7 @@ void EnemyBisouShaman::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("shaman_charred_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("shaman_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "shaman_charred")[anim_step];
 }
 
 void EnemyBisouShaman::takeHit(Shot* shot) {

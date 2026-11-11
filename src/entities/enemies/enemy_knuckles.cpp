@@ -161,11 +161,7 @@ void EnemyKnuckles::onJump() {
 		onWalk();
 		return;
 	}
-	if (dir == FACING_LEFT) {
-		pic = assets().pics.enemies.anim("knuckles_jump_left")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("knuckles_jump_right")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "knuckles_jump")[anim_step];
 	colFromPic();
 }
 
@@ -256,10 +252,7 @@ void EnemyKnuckles::onCharred() {
 	if (anim_step >= 10)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("knuckles_burn_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("knuckles_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "knuckles_burn")[anim_step];
 	}
 }
 

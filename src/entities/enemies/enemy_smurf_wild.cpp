@@ -225,10 +225,7 @@ void EnemySmurfWild::onDie() {
 
 		if (anim_tick == 0) {
 			anim_step += 1;
-			if (dir == FACING_RIGHT)
-				pic = assets().pics.enemies.anim("smurf_wild_die_right")[anim_step - 1];
-			else
-				pic = assets().pics.enemies.anim("smurf_wild_die_left")[anim_step - 1];
+			pic = facing(assets().pics.enemies, "smurf_wild_die")[anim_step - 1];
 		}
 	}
 }
@@ -243,9 +240,6 @@ void EnemySmurfWild::onCharred() {
 	if (anim_step == 6) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("smurf_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_burn")[anim_step];
 	}
 }

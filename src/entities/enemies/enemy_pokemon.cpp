@@ -2,9 +2,7 @@
 
 EnemyPokemon::EnemyPokemon(const PokemonSpec& spec) : spec_(spec) { hp = 100; }
 
-Flipbook EnemyPokemon::facing(const std::string& action) const {
-	return assets().pics.enemies.anim(spec_.name + ("_" + action) + (dir == FACING_RIGHT ? "_right" : "_left"));
-}
+Flipbook EnemyPokemon::facing(const std::string& action) const { return Sprite::facing(assets().pics.enemies, std::string(spec_.name) + "_" + action); }
 
 void EnemyPokemon::update() {
 	if (blood > 0) blood -= 1;

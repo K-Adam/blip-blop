@@ -205,7 +205,8 @@ Flipbook PictureBank::anim(std::string_view name) const {
 	auto it = sheets_.find(name);
 	if (it == sheets_.end()) {
 		debug << "Bug: no animation " << name << " in " << file_ << std::endl;
-		return Flipbook(frames_.data(), 0, name);
+		// The caller may pass a temporary, so the flipbook must not keep its name
+		return Flipbook(frames_.data(), 0, "missing");
 	}
 	return Flipbook(frames_.data() + it->second.first, it->second.second, it->first);
 }

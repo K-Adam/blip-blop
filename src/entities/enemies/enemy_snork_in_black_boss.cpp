@@ -567,11 +567,7 @@ void EnemySnorkInBlackBoss::onShoot() {
 			}
 		}
 
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("snork_boss_shoot_right")[2 * (anim_step / 2) + anim_tick / 3];
-		} else {
-			pic = assets().pics.enemies.anim("snork_boss_shoot_left")[2 * (anim_step / 2) + anim_tick / 3];
-		}
+		pic = facing(assets().pics.enemies, "snork_boss_shoot")[2 * (anim_step / 2) + anim_tick / 3];
 	} else {
 		anim_tick++;
 		anim_tick %= 5;
@@ -605,11 +601,7 @@ void EnemySnorkInBlackBoss::onShoot() {
 			onWalk();
 			return;
 		} else {
-			if (dir == FACING_RIGHT) {
-				pic = assets().pics.enemies.pic("snork_boss_aim_right");
-			} else {
-				pic = assets().pics.enemies.pic("snork_boss_aim_left");
-			}
+			pic = facing(assets().pics.enemies, "snork_boss_aim")[0];
 		}
 	}
 	colFromPic();

@@ -196,11 +196,7 @@ void EnemySnorkyMage::onShoot() {
 		}
 
 		if (anim_step < 3) {
-			if (dir == FACING_RIGHT) {
-				pic = assets().pics.enemies.anim("mage_cast_right")[anim_step];
-			} else {
-				pic = assets().pics.enemies.anim("mage_cast_left")[anim_step];
-			}
+			pic = facing(assets().pics.enemies, "mage_cast")[anim_step];
 		}
 	}
 }

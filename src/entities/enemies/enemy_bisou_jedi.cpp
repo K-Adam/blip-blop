@@ -105,10 +105,7 @@ void EnemyBisouJedi::onDie() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("jedi_die_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("jedi_die_left")[anim_step];
+	pic = facing(assets().pics.enemies, "jedi_die")[anim_step];
 }
 
 void EnemyBisouJedi::takeHit(Shot* shot) {
@@ -153,10 +150,7 @@ void EnemyBisouJedi::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("jedi_charred_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("jedi_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "jedi_charred")[anim_step];
 }
 
 void EnemyBisouJedi::render() {

@@ -81,10 +81,7 @@ void EnemySmurfette::onDie() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("smurfette_die_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("smurfette_die_left")[anim_step];
+	pic = facing(assets().pics.enemies, "smurfette_die")[anim_step];
 }
 
 void EnemySmurfette::onShoot() {

@@ -282,10 +282,7 @@ void EnemyLuigi::onAttack() {
 	}
 
 	if (nb_shots < 50) {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("luigi_attack_right")[0];
-		else
-			pic = assets().pics.enemies.anim("luigi_attack_left")[0];
+		pic = facing(assets().pics.enemies, "luigi_attack")[0];
 
 		colFromPic();
 		return;

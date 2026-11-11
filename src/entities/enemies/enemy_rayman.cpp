@@ -180,11 +180,7 @@ void EnemyRayman::onWalk() {
 						return;
 					}
 				}
-				if (dir == FACING_RIGHT) {
-					pic = assets().pics.enemies.pic("rayman_stand_right");
-				} else {
-					pic = assets().pics.enemies.pic("rayman_stand_left");
-				}
+				pic = facing(assets().pics.enemies, "rayman_stand")[0];
 			} else if ((hp > HP_SUPERCRITICAL)) {
 				if (fist2) {
 					std::unique_ptr<Sprite> s;
@@ -254,11 +250,7 @@ void EnemyRayman::onWalk() {
 					feet = 0;
 				}
 
-				if (dir == FACING_RIGHT) {
-					pic = assets().pics.enemies.pic("rayman_stand_footless_right");
-				} else {
-					pic = assets().pics.enemies.pic("rayman_stand_footless_left");
-				}
+				pic = facing(assets().pics.enemies, "rayman_stand_footless")[0];
 			}
 		}
 		colFromPic();
@@ -375,11 +367,7 @@ void EnemyRayman::onShoot() {
 			}
 		}
 
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("rayman_punch_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("rayman_punch_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "rayman_punch")[anim_step];
 	} else {
 		if (attack_step == 0) {
 			anim_tick++;
@@ -440,11 +428,7 @@ void EnemyRayman::onShoot() {
 			}
 		}
 
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("rayman_punch2_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("rayman_punch2_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "rayman_punch2")[anim_step];
 	}
 
 	colFromPic();

@@ -4,11 +4,7 @@
 ShotRaymanFist::ShotRaymanFist(int dx0, int xc) : dx(dx0), x_target(xc) { anim_tick = 1; }
 
 void ShotRaymanFist::update() {
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.pic("rayman_fist_right");
-	} else {
-		pic = assets().pics.enemies.pic("rayman_fist_left");
-	}
+	pic = facing(assets().pics.enemies, "rayman_fist")[0];
 
 	if ((dx != 0) && (((dir == FACING_RIGHT) && (x > x_target)) || ((dir == FACING_LEFT) && (x < x_target)))) {
 		anim_tick++;

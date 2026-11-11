@@ -11,10 +11,7 @@ class ShotRainbow : public Shot {
 		if (anim_step >= 15) {
 			destroyed = true;
 		} else {
-			if (dir == FACING_RIGHT)
-				pic = assets().pics.enemies.anim("sky_rainbow_right")[anim_step];
-			else
-				pic = assets().pics.enemies.anim("sky_rainbow_left")[anim_step];
+			pic = facing(assets().pics.enemies, "sky_rainbow")[anim_step];
 
 			colFromPic();
 		}

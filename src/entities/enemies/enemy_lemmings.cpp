@@ -108,10 +108,7 @@ void EnemyLemmings::onDie() {
 			level().rules.flags[0] = 1;
 		}
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("lemming_die_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("lemming_die_right")[anim_step];
+		pic = facing(assets().pics.enemies, "lemming_die")[anim_step];
 	}
 }
 
@@ -124,10 +121,7 @@ void EnemyLemmings::onCharred() {
 	if (anim_step == 14) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("lemming_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("lemming_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "lemming_burn")[anim_step];
 	}
 }
 

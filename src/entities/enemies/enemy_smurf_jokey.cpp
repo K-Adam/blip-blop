@@ -53,10 +53,7 @@ void EnemySmurfJokey::onDrawWeapon() {
 		return;
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("smurf_jokey_draw_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("smurf_jokey_draw_left")[anim_step];
+	pic = facing(assets().pics.enemies, "smurf_jokey_draw")[anim_step];
 }
 
 void EnemySmurfJokey::onDropGift() {
@@ -178,10 +175,7 @@ void EnemySmurfJokey::onCharred() {
 	if (anim_step == 11) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("smurf_jokey_blown_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("smurf_jokey_blown_right")[anim_step];
+		pic = facing(assets().pics.enemies, "smurf_jokey_blown")[anim_step];
 	}
 }
 

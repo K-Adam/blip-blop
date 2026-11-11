@@ -278,11 +278,7 @@ void EnemySonic::onAttackhorizontal() {
 			attack_phase = 0;
 		} else {
 			step(2, 5);
-			if (dir == FACING_RIGHT) {
-				pic = assets().pics.enemies.anim("sonic_dash_right")[anim_step];
-			} else {
-				pic = assets().pics.enemies.anim("sonic_dash_left")[anim_step];
-			}
+			pic = facing(assets().pics.enemies, "sonic_dash")[anim_step];
 		}
 
 	} else {
@@ -378,11 +374,7 @@ void EnemySonic::onAttackvertical() {
 			attack_phase = 0;
 		} else {
 			step(2, 5);
-			if (dir == FACING_RIGHT) {
-				pic = assets().pics.enemies.anim("sonic_dash_right")[anim_step];
-			} else {
-				pic = assets().pics.enemies.anim("sonic_dash_left")[anim_step];
-			}
+			pic = facing(assets().pics.enemies, "sonic_dash")[anim_step];
 		}
 
 	} else {
@@ -494,11 +486,7 @@ void EnemySonic::onAttackThorns() {
 		anim_step += 1;
 		anim_step %= 5;
 	}
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("sonic_dash_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("sonic_dash_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "sonic_dash")[anim_step];
 	attack_frame_tick += 1;
 	attack_frame_tick %= 1;
 	if (attack_frame_tick == 0) {

@@ -467,11 +467,7 @@ void EnemyMario::onShootCross() {
 }
 
 void EnemyMario::onBurstHorizontal() {
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.pic("mario_shoot_right");
-	} else {
-		pic = assets().pics.enemies.pic("mario_shoot_left");
-	}
+	pic = facing(assets().pics.enemies, "mario_shoot")[0];
 
 	anim_tick++;
 	anim_tick %= 4;
@@ -562,11 +558,7 @@ void EnemyMario::onBurstHorizontalHoming() {
 }
 
 void EnemyMario::onBurstVertical() {
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.pic("mario_shoot_right");
-	} else {
-		pic = assets().pics.enemies.pic("mario_shoot_left");
-	}
+	pic = facing(assets().pics.enemies, "mario_shoot")[0];
 
 	anim_tick++;
 	anim_tick %= 4;
@@ -664,11 +656,7 @@ void EnemyMario::onBurstVerticalDouble() {
 }
 
 void EnemyMario::onBurstVerticalReverse() {
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.pic("mario_shoot_right");
-	} else {
-		pic = assets().pics.enemies.pic("mario_shoot_left");
-	}
+	pic = facing(assets().pics.enemies, "mario_shoot")[0];
 
 	anim_tick++;
 	anim_tick %= 4;

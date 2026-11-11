@@ -28,6 +28,8 @@ class Sprite {
 
 	Sprite();
 
+	Flipbook facing(const PictureBank& bank, std::string_view name) const { return bank.anim(std::string(name) + (dir == FACING_RIGHT ? "_right" : "_left")); }
+
 	inline virtual int getX() const { return x; };
 	inline virtual int getY() const { return y; };
 	inline virtual int getAnimStep() const { return anim_step; };

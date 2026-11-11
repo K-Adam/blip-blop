@@ -66,10 +66,7 @@ void EnemyBisouStar::onDieWhole() {
 		status = STATE_DYING_2;
 		onDieTop();
 	} else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("star_die_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("star_die_left")[anim_step];
+		pic = facing(assets().pics.enemies, "star_die")[anim_step];
 	}
 }
 
@@ -114,10 +111,7 @@ void EnemyBisouStar::onDieTopEnd() {
 
 	if (anim_tick == 0 && anim_step < 3) anim_step += 1;
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("star_die_top_end_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("star_die_top_end_left")[anim_step];
+	pic = facing(assets().pics.enemies, "star_die_top_end")[anim_step];
 
 	if (anim_step >= 3) {
 		engrave(x, y, pic);
@@ -178,10 +172,7 @@ void EnemyBisouStar::onCharred() {
 		}
 	}
 
-	if (dir == FACING_RIGHT)
-		pic = assets().pics.enemies.anim("sky_star_charred_right")[anim_step];
-	else
-		pic = assets().pics.enemies.anim("sky_star_charred_left")[anim_step];
+	pic = facing(assets().pics.enemies, "sky_star_charred")[anim_step];
 }
 
 void EnemyBisouStar::takeHit(Shot* shot) {

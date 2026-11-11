@@ -227,10 +227,7 @@ void EnemyToad::onCharred() {
 	if (anim_step >= 13)
 		destroyed = true;
 	else {
-		if (dir == FACING_RIGHT)
-			pic = assets().pics.enemies.anim("toad_burn_right")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("toad_burn_left")[anim_step];
+		pic = facing(assets().pics.enemies, "toad_burn")[anim_step];
 	}
 }
 

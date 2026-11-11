@@ -27,11 +27,7 @@ void ShotSnorkyMage::update() {
 	x += dx;
 	y += dy;
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("mage_shot_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("mage_shot_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "mage_shot")[anim_step];
 
 	colFromPic();
 }

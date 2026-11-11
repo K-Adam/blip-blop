@@ -86,21 +86,13 @@ void PieceSnorkyHyporiderBody::update() {
 	}
 
 	if (anim_step < 3) {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("hyporider_rider_fall_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("hyporider_rider_fall_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "hyporider_rider_fall")[anim_step];
 	} else if (level().terrain.platform_y(x, y) != 0) {
 		if (anim_tick == 0) {
 			anim_step++;
 		}
 		if (anim_step < 5) {
-			if (dir == FACING_RIGHT) {
-				pic = assets().pics.enemies.anim("hyporider_rider_fall_right")[anim_step];
-			} else {
-				pic = assets().pics.enemies.anim("hyporider_rider_fall_left")[anim_step];
-			}
+			pic = facing(assets().pics.enemies, "hyporider_rider_fall")[anim_step];
 		} else {
 			engrave(x, y, pic);
 			destroyed = true;
@@ -122,11 +114,7 @@ void PieceSnorkyBaseHeadBackPart::update() {
 		anim_step++;
 	}
 
-	if (dir == FACING_RIGHT) {
-		pic = assets().pics.enemies.anim("snorky_head_back_right")[anim_step];
-	} else {
-		pic = assets().pics.enemies.anim("snorky_head_back_left")[anim_step];
-	}
+	pic = facing(assets().pics.enemies, "snorky_head_back")[anim_step];
 
 	if (anim_step == 3 && (level().terrain.platform_y(x, y) != 0)) {
 		engrave(x, y, pic);

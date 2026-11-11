@@ -50,10 +50,7 @@ void EnemyEmber::onDie() {
 	if (anim_step >= 14) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("ember_die_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("ember_die_right")[anim_step];
+		pic = facing(assets().pics.enemies, "ember_die")[anim_step];
 	}
 }
 

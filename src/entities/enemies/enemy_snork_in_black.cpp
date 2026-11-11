@@ -117,11 +117,7 @@ void EnemySnorkInBlack::onDie() {
 
 		destroyed = true;
 	} else {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("snork_in_black_die_right")[anim_step];
-		} else {
-			pic = assets().pics.enemies.anim("snork_in_black_die_left")[anim_step];
-		}
+		pic = facing(assets().pics.enemies, "snork_in_black_die")[anim_step];
 	}
 }
 
@@ -202,10 +198,7 @@ void EnemySnorkInBlack::onCharred() {
 	if (anim_step == 7) {
 		destroyed = true;
 	} else {
-		if (dir == FACING_LEFT)
-			pic = assets().pics.enemies.anim("snork_in_black_burn_left")[anim_step];
-		else
-			pic = assets().pics.enemies.anim("snork_in_black_burn_right")[anim_step];
+		pic = facing(assets().pics.enemies, "snork_in_black_burn")[anim_step];
 	}
 }
 

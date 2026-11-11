@@ -157,11 +157,7 @@ void EnemySnorkyHyporider::onCharge() {
 			pic = assets().pics.enemies.anim("hyporider_charge_left")[1];
 		}
 	} else {
-		if (dir == FACING_RIGHT) {
-			pic = assets().pics.enemies.anim("hyporider_charge_right")[0];
-		} else {
-			pic = assets().pics.enemies.anim("hyporider_charge_left")[0];
-		}
+		pic = facing(assets().pics.enemies, "hyporider_charge")[0];
 	}
 	colFromPic();
 }
@@ -190,11 +186,7 @@ void EnemySnorkyHyporider::render() {
 	Sprite::render();
 
 	if ((status == STATE_CHARRED) && (anim_step < 9)) {
-		if (dir == FACING_RIGHT) {
-			draw(x, y, assets().pics.enemies.anim("hyporider_burn_right")[anim_step]);
-		} else {
-			draw(x, y, assets().pics.enemies.anim("hyporider_burn_left")[anim_step]);
-		}
+		draw(x, y, facing(assets().pics.enemies, "hyporider_burn")[anim_step]);
 	}
 
 	if (fin) {
