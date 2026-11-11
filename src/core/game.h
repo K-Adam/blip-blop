@@ -4,6 +4,7 @@
 #include "engine/scheme_controller.h"
 
 #include <string>
+#include <vector>
 
 #include "engine/graphics.h"
 #include "engine/picture.h"
@@ -13,15 +14,8 @@
 #include "engine/update_regulator.h"
 #include "entities/go_arrow.h"
 #include "level/hud.h"
+#include "level/effects.h"
 #include "level/world.h"
-
-#include "level/weather_snow.h"
-#include "level/weather_rain.h"
-
-#define NB_RAINDROPS 500
-#define NB_SNOWFLAKES 500
-
-#define MAX_PART 50
 
 #define PART_CINE 0
 #define PART_LEVEL 1
@@ -34,23 +28,24 @@
 #define LVL_COMPLETE 4
 #define LVL_END 5
 
-class Bubble;
 class Event;
 class Explosion;
-class Sprite;
 
 class Game {
    protected:
 	World world_;
 	HUD hud_;
+	Effects effects_;
 	UpdateRegulator update_regulator_;
 	PictureBank pbk_briefing;
 	bool briefing = false;
 
-	int nb_part = 0;
-	std::string file_names[MAX_PART];
-	int type_part[MAX_PART];
-	int type_lvl[MAX_PART];
+	struct Part {
+		int type;
+		int lvl;
+		std::string file;
+	};
+	std::vector<Part> parts_;
 
 	bool players_dead = false;
 	bool level_done = false;
@@ -94,22 +89,12 @@ class Game {
 	bool show_fps = false;
 	bool show_lists = false;
 
-	int phi_deform = 0;
-
-	WeatherSnow snow[NB_SNOWFLAKES];
-	int next_snowflake = 0;
-
-	WeatherRain rain[NB_RAINDROPS];
-	int next_raindrop = 0;
-
 	int fps_count = 0;
 	int fps_current_count = 0;
 	bool slow_phase = false;
 	std::list<std::unique_ptr<Explosion>> list_impacts;
 	std::list<std::unique_ptr<Event>> list_event_dormant;
 	std::list<std::unique_ptr<Event>> list_event;
-	std::list<Sprite*> list_weather;
-	std::list<std::unique_ptr<Bubble>> list_bubbles;
 
    public:
 	Game();
@@ -137,15 +122,10 @@ class Game {
 	bool loadGame();
 	bool loadList(const char* file_path);
 
-	void spawnBubble(Sprite* s);
-
 	template <class T>
 	void UpdateCollection(const T& xs);
 	void updateGoArrow();
-	void updateWeather();
 	void updateEvents();
-	void updateDeformation();
-	void updateBubbles();
 
 	void updateLock();
 	void updateHoldFire();
@@ -168,20 +148,16 @@ class Game {
 
 	void drawDebugInfos();
 
-	void drawDeformation();
-
 	void cleanLists();
 	Task<> showPE(bool bonus, bool bonus_failed = false);
 	void drawLoading();
 	Task<> getHiscore();
-	Task<> getName(Player* hero, int i);
 	Task<> showGameOver();
 	Task<> showHighScores();
 
 	void showBriefing(const char* fn);
 
 	Task<> showCredits(bool theEnd = false);
-	Task<> showMainScreen();
 
 	Task<> go();
 };
