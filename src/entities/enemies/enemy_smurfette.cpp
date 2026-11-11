@@ -98,14 +98,14 @@ void EnemySmurfette::onShoot() {
 		anim_step += 1;
 
 		if (anim_step == 4 && anim_tick == 0 && session().targeted_player != nullptr) {
-			ShotBisouDeadly* t = new ShotBisouDeadly();
+			auto t = std::make_unique<ShotBisouDeadly>();
 
 			t->x = x;
 			t->y = y - 25;
 			t->setDir(dir);
 			t->target = session().targeted_player;
 
-			level().entities.enemy_shots.emplace_back(t);
+			level().entities.enemy_shots.emplace_back(std::move(t));
 		} else if (anim_step >= 9) {
 			status = STATE_WALK;
 			anim_step = anim_tick = shoot_step = 0;

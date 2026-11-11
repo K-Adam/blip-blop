@@ -45,11 +45,11 @@ void Graphics::SetGfxMode(int width, int height, bool fullscreen, bool vsync) {
 
 void Graphics::SetVSync(bool on) { SDL_RenderSetVSync(renderer_.get(), on); }
 
-SDL::Surface* Graphics::CreateSurface(int width, int height) { return new SDL::Surface(width, height); }
+std::unique_ptr<SDL::Surface> Graphics::CreateSurface(int width, int height) { return std::make_unique<SDL::Surface>(width, height); }
 
 void Graphics::CreateScreens(int width, int height) {
-	back_.reset(CreateSurface(width, height));
-	spare_.reset(CreateSurface(width, height));
+	back_ = CreateSurface(width, height);
+	spare_ = CreateSurface(width, height);
 }
 
 bool Graphics::TakeTargetsLost() {

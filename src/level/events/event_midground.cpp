@@ -4,11 +4,11 @@
 #include "level/backgrounds/background_static.h"
 
 void EventMidground::doEvent() {
-	Sprite* s = new BackgroundStatic();
+	auto s = std::make_unique<BackgroundStatic>();
 
 	s->x = x;
 	s->y = y;
 	s->pic = assets().pics.level.frame(pic);
 
-	level().entities.static_bgs.emplace_back(s);
+	level().entities.static_bgs.emplace_back(std::move(s));
 }

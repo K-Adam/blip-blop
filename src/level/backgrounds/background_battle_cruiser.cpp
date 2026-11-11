@@ -32,29 +32,30 @@ void BackgroundBattleCruiser::update() {
 			if (attack_step == 2) attack_step = -2;
 
 			pic = assets().pics.level.anim("cruiser_attack_right")[2 + attack_step];
-			Sprite* s = new ShotCruiser((dif_x * SHOT_SPEED) / dif_y, static_cast<int>(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y),
-										assets().pics.level.anim("cruiser_shot")[2 + attack_step]);
+			std::unique_ptr<Sprite> s =
+				std::make_unique<ShotCruiser>((dif_x * SHOT_SPEED) / dif_y, static_cast<int>(SHOT_SPEED - (dif_x * SHOT_SPEED * 0.25) / dif_y),
+											  assets().pics.level.anim("cruiser_shot")[2 + attack_step]);
 			s->x = x - 8 * attack_step;
 			s->y = y + 6;
-			level().entities.animated_bgs.emplace_back(s);
+			level().entities.animated_bgs.emplace_back(std::move(s));
 
-			s = new ShotCruiser(-(dif_x * SHOT_SPEED) / dif_y, static_cast<int>(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y),
-								assets().pics.level.anim("cruiser_shot")[1 - attack_step]);
+			s = std::make_unique<ShotCruiser>(-(dif_x * SHOT_SPEED) / dif_y, static_cast<int>(-SHOT_SPEED + (dif_x * SHOT_SPEED * 0.25) / dif_y),
+											  assets().pics.level.anim("cruiser_shot")[1 - attack_step]);
 			s->x = x_opponent - 8 * attack_step;
 			s->y = y_opponent - 6;
-			level().entities.animated_bgs.emplace_back(s);
+			level().entities.animated_bgs.emplace_back(std::move(s));
 
 			if (attack_step == -2) {
-				s = new ShotCruiserLaser(1, assets().pics.level.anim("cruiser_laser_right")[3 - (dif_x / dif_y)]);
+				s = std::make_unique<ShotCruiserLaser>(1, assets().pics.level.anim("cruiser_laser_right")[3 - (dif_x / dif_y)]);
 				s->x = x + 16;
 				s->y = y;
-				level().entities.animated_bgs.emplace_back(s);
+				level().entities.animated_bgs.emplace_back(std::move(s));
 			}
 			if (attack_step == 0) {
-				s = new ShotCruiserLaser(-1, assets().pics.level.anim("cruiser_laser_left")[3 - (dif_x / dif_y)]);
+				s = std::make_unique<ShotCruiserLaser>(-1, assets().pics.level.anim("cruiser_laser_left")[3 - (dif_x / dif_y)]);
 				s->x = x_opponent - 16;
 				s->y = y_opponent;
-				level().entities.animated_bgs.emplace_back(s);
+				level().entities.animated_bgs.emplace_back(std::move(s));
 			}
 
 		} else {

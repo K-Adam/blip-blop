@@ -72,13 +72,13 @@ void EnemySmurfJokey::onDropGift() {
 		wait_for_new_bomb = 0;
 		new_bomb_delay = 50 + rnd() % 200;
 
-		ShotGift* shot = new ShotGift();
+		auto shot = std::make_unique<ShotGift>();
 		if (dir == FACING_RIGHT)
 			shot->x = x + 26;
 		else
 			shot->x = x - 26;
 		shot->y = y;
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		anim_step = 0;
 		anim_tick = 0;
@@ -136,7 +136,7 @@ void EnemySmurfJokey::onDie() {
 	if (carries_bomb) {
 		status = STATE_CHARRED;
 		carries_bomb = false;
-		ShotGift* shot = new ShotGift();
+		auto shot = std::make_unique<ShotGift>();
 		shot->anim_step = 20;
 		shot->y = y - 5;
 		if (dir == FACING_RIGHT) {
@@ -144,7 +144,7 @@ void EnemySmurfJokey::onDie() {
 		} else {
 			shot->x = x - 26;
 		}
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 		onCharred();
 	} else {
 		anim_tick += 1;

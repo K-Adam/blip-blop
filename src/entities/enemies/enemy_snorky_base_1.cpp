@@ -96,13 +96,13 @@ void EnemySnorkyBase1::onDie() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4 && anim_tick == 1) {
-		Sprite* s = new PieceSnorkyBaseHeadWhole();
+		auto s = std::make_unique<PieceSnorkyBaseHeadWhole>();
 
 		s->dir = dir;
 		s->y = y - 22;
 		s->x = x;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
 		dy = 0;
 	}
@@ -141,22 +141,22 @@ void EnemySnorkyBase1::onShoot() {
 
 	if (anim_step == 10 && anim_tick == 0) {
 		if (dir == FACING_RIGHT) {
-			ShotSnorkyBase* shot = new ShotSnorkyBase(1);
+			auto shot = std::make_unique<ShotSnorkyBase>(1);
 
 			shot->setDir(dir);
 			shot->x = x + 35;
 			shot->y = y - 42;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		} else {
-			ShotSnorkyBase* shot = new ShotSnorkyBase(-1);
+			auto shot = std::make_unique<ShotSnorkyBase>(-1);
 
 			shot->setDir(dir);
 			shot->x = x - 35;
 			shot->y = y - 42;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		}
 
 		assets().sounds.level.play(17);

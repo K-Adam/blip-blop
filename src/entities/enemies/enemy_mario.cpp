@@ -416,7 +416,7 @@ void EnemyMario::onShootVertical() {
 	attack_step++;
 	if (attack_step == 40) {
 		fireball = 0;
-		ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(0, x_target);
+		auto shot = std::make_unique<ShotMarioFireballVertical>(0, x_target);
 
 		shot->setDir(dir);
 		if (dir == FACING_RIGHT) {
@@ -426,7 +426,7 @@ void EnemyMario::onShootVertical() {
 		}
 		shot->y = y - 38;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	} else if (attack_step == 60) {
 		status = STATE_WALK;
 		anim_step = 0;
@@ -590,13 +590,13 @@ void EnemyMario::onBurstVertical() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(attack_step, x_target);
+			auto shot = std::make_unique<ShotMarioFireballVertical>(attack_step, x_target);
 
 			shot->setDir(dir);
 			shot->x = x + 38;
 			shot->y = y - 38;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		} else {
 			int x_fire = x - attack_step * 100 - rnd() % 20;
 			if (x_fire < level().camera.offset - 100) {
@@ -608,13 +608,13 @@ void EnemyMario::onBurstVertical() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_fire);
+			auto shot = std::make_unique<ShotMarioFireballVertical>(-attack_step, x_fire);
 
 			shot->setDir(dir);
 			shot->x = x - 38;
 			shot->y = y - 38;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		}
 	}
 	colFromPic();
@@ -692,13 +692,13 @@ void EnemyMario::onBurstVerticalReverse() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(attack_step, x_target);
+			auto shot = std::make_unique<ShotMarioFireballVertical>(attack_step, x_target);
 
 			shot->setDir(dir);
 			shot->x = x + 38;
 			shot->y = y - 38;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		} else {
 			int x_fire = level().camera.offset + 640 - attack_step * 100 - rnd() % 20;
 			if (x_fire > x - 20) {
@@ -710,13 +710,13 @@ void EnemyMario::onBurstVerticalReverse() {
 				onWalk();
 				return;
 			}
-			ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(-attack_step, x_fire);
+			auto shot = std::make_unique<ShotMarioFireballVertical>(-attack_step, x_fire);
 
 			shot->setDir(dir);
 			shot->x = x - 38;
 			shot->y = y - 38;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		}
 	}
 	colFromPic();
@@ -944,21 +944,21 @@ void EnemyMario::onFireRain() {
 
 inline void EnemyMario::shoot_fireball(int velocity) {
 	if (dir == FACING_RIGHT) {
-		ShotMarioFireball* shot = new ShotMarioFireball(velocity);
+		auto shot = std::make_unique<ShotMarioFireball>(velocity);
 
 		shot->setDir(dir);
 		shot->x = x + 38;
 		shot->y = y - 31;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	} else {
-		ShotMarioFireball* shot = new ShotMarioFireball(-velocity);
+		auto shot = std::make_unique<ShotMarioFireball>(-velocity);
 
 		shot->setDir(dir);
 		shot->x = x - 38;
 		shot->y = y - 31;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	}
 }
 

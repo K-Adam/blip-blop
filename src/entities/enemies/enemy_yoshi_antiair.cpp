@@ -87,7 +87,7 @@ void EnemyYoshiAntiair::onShoot() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step >= 2) {
-		ShotShell* shot = new ShotShell();
+		auto shot = std::make_unique<ShotShell>();
 
 		shot->setDir(dir);
 
@@ -98,7 +98,7 @@ void EnemyYoshiAntiair::onShoot() {
 
 		shot->y = y - 23;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		anim_step = 0;
 		status = STATE_WALK;

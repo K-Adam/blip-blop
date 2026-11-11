@@ -446,122 +446,122 @@ void EnemySnorkInBlackBoss::onShoot() {
 			return;
 		} else if (anim_tick == 1) {
 			if (dir == FACING_RIGHT) {
-				ShotThorn* shot;
+				std::unique_ptr<ShotThorn> shot;
 				switch (anim_step) {
 					case 0:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[1], 4, -6);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[1], 4, -6);
 						shot->setDir(dir);
 						shot->x = x + 36;
 						shot->y = y - 51;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 1:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[2], 5, -5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[2], 5, -5);
 						shot->setDir(dir);
 						shot->x = x + 36;
 						shot->y = y - 51;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 2:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[3], 6, -4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[3], 6, -4);
 						shot->setDir(dir);
 						shot->x = x + 52;
 						shot->y = y - 16;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 3:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[4], 7, 0);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[4], 7, 0);
 						shot->setDir(dir);
 						shot->x = x + 52;
 						shot->y = y - 16;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 4:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[5], 6, 4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[5], 6, 4);
 						shot->setDir(dir);
 						shot->x = x + 35;
 						shot->y = y + 25;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 5:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[6], 5, 5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[6], 5, 5);
 						shot->setDir(dir);
 						shot->x = x + 35;
 						shot->y = y + 25;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 				}
 			} else {
-				ShotThorn* shot;
+				std::unique_ptr<ShotThorn> shot;
 
 				switch (anim_step) {
 					case 0:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[15], -4, -6);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[15], -4, -6);
 						shot->setDir(dir);
 						shot->x = x - 36;
 						shot->y = y - 51;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 1:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[14], -5, -5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[14], -5, -5);
 						shot->setDir(dir);
 						shot->x = x - 36;
 						shot->y = y - 51;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 
 						break;
 
 					case 2:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[13], -6, -4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[13], -6, -4);
 						shot->setDir(dir);
 						shot->x = x - 52;
 						shot->y = y - 16;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 3:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[12], -7, 0);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[12], -7, 0);
 						shot->setDir(dir);
 						shot->x = x - 52;
 						shot->y = y - 16;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 4:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[11], -6, 4);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[11], -6, 4);
 						shot->setDir(dir);
 						shot->x = x - 35;
 						shot->y = y + 25;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 
 					case 5:
-						shot = new ShotThorn(assets().pics.enemies.anim("snork_boss_thorn")[10], -5, 5);
+						shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_boss_thorn")[10], -5, 5);
 						shot->setDir(dir);
 						shot->x = x - 35;
 						shot->y = y + 25;
 
-						level().entities.enemy_shots.emplace_back(shot);
+						level().entities.enemy_shots.emplace_back(std::move(shot));
 						break;
 				}
 			}
@@ -582,21 +582,21 @@ void EnemySnorkInBlackBoss::onShoot() {
 
 		if (anim_step >= 1) {
 			if (dir == FACING_RIGHT) {
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snork_boss_laser_right"), 14, 0);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snork_boss_laser_right"), 14, 0);
 
 				shot->setDir(dir);
 				shot->x = x + 77;
 				shot->y = y - 2;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			} else {
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snork_boss_laser_left"), -14, 0);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snork_boss_laser_left"), -14, 0);
 
 				shot->setDir(dir);
 				shot->x = x - 77;
 				shot->y = y - 2;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			}
 
 			status = STATE_NORMAL;

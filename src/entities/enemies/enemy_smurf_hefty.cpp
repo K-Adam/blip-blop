@@ -149,13 +149,13 @@ void EnemySmurfHefty::onShootHadoken() {
 		anim_step += 1;
 
 		if (anim_step == 4) {
-			ShotHadoken* t = new ShotHadoken();
+			auto t = std::make_unique<ShotHadoken>();
 
 			t->x = x;
 			t->y = y - 30;
 			t->setDir(dir);
 
-			level().entities.enemy_shots.emplace_back(t);
+			level().entities.enemy_shots.emplace_back(std::move(t));
 		}
 
 		if (anim_step > 7) {

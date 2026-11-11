@@ -95,13 +95,13 @@ void EnemyBisouCloud::onNormal() {
 	}
 
 	if (shoot_step >= wait_shoot && x <= level().camera.offset + 640) {
-		ShotCloud* s = new ShotCloud();
+		auto s = std::make_unique<ShotCloud>();
 
 		s->x = x;
 		s->y = y - 17;
 		s->dir = dir;
 
-		level().entities.enemy_shots.emplace_back(s);
+		level().entities.enemy_shots.emplace_back(std::move(s));
 
 		shoot_step = 0;
 		wait_shoot = 250 + rnd() % 250;

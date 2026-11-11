@@ -11,35 +11,35 @@ void PieceSnorkyBaseHeadWhole::update() {
 	}
 
 	if (anim_step == 2 && anim_tick == 0) {
-		Sprite* s;
+		std::unique_ptr<Sprite> s;
 		if (dir == FACING_RIGHT) {
-			s = new PieceSnorkyBaseTrunk(1 + rnd() % 2, -1 + rnd() % 2);
+			s = std::make_unique<PieceSnorkyBaseTrunk>(1 + rnd() % 2, -1 + rnd() % 2);
 			s->x = x + 19;
 		} else {
-			s = new PieceSnorkyBaseTrunk(-1 - rnd() % 2, -1 - rnd() % 2);
+			s = std::make_unique<PieceSnorkyBaseTrunk>(-1 - rnd() % 2, -1 - rnd() % 2);
 			s->x = x - 19;
 		}
 
 		s->dir = dir;
 		s->y = y - 26;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 	}
 
 	if (anim_step == 3 && anim_tick == 0) {
-		Sprite* s;
+		std::unique_ptr<Sprite> s;
 		if (dir == FACING_RIGHT) {
-			s = new PieceSnorkyBaseHeadBackPart(1, 0);
+			s = std::make_unique<PieceSnorkyBaseHeadBackPart>(1, 0);
 			s->x = x + 0;
 		} else {
-			s = new PieceSnorkyBaseHeadBackPart(-1, 0);
+			s = std::make_unique<PieceSnorkyBaseHeadBackPart>(-1, 0);
 			s->x = x - 0;
 		}
 
 		s->dir = dir;
 		s->y = y + 10;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 	}
 
 	if (anim_step == 6) {

@@ -15,13 +15,13 @@ void ShotBBCow::update() {
 		col_on = false;
 		destroyed = true;
 
-		GoreSplatter* s;
+		std::unique_ptr<GoreSplatter> s;
 
 		for (int i = 0; i < 15; i++) {
-			s = new GoreSplatter(rnd() % 11 - 5, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(rnd() % 11 - 5, -2 - rnd() % 6);
 			s->x = x + rnd() % 11 - 5;
 			s->y = y - rnd() % 30 - 10;
-			level().entities.gore.emplace_back(s);
+			level().entities.gore.emplace_back(std::move(s));
 		}
 
 		assets().sounds.misc.play(11);

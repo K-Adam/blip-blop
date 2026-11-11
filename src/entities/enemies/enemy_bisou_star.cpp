@@ -51,13 +51,13 @@ void EnemyBisouStar::onDieWhole() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisouStar* feet = new GoreFeetBisouStar();
+		auto feet = std::make_unique<GoreFeetBisouStar>();
 
 		feet->x = x;
 		feet->dir = dir;
 		feet->y = y;
 
-		level().entities.gore.emplace_back(feet);
+		level().entities.gore.emplace_back(std::move(feet));
 
 		y -= 19;
 		dy = 0;
@@ -150,13 +150,13 @@ void EnemyBisouStar::onWalk() {
 	shoot_step += 1;
 
 	if (anim_step == 4 && shoot_step >= wait_shoot && x > level().camera.offset) {
-		ShotStar* s = new ShotStar();
+		auto s = std::make_unique<ShotStar>();
 
 		s->x = x;
 		s->y = y - 30;
 		s->dir = dir;
 
-		level().entities.enemy_shots.emplace_back(s);
+		level().entities.enemy_shots.emplace_back(std::move(s));
 
 		anim_tick = 0;
 		status = STATE_SHOOT;

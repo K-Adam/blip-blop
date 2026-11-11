@@ -6,7 +6,7 @@
 
 // Created on first use so the renderer needs no setup call after the window opens
 SDL::Surface* ScrollRenderer::buffer() {
-	if (!buffer_) buffer_.reset(graphics.CreateSurface(WIDTH, 480));
+	if (!buffer_) buffer_ = graphics.CreateSurface(WIDTH, 480);
 	return buffer_.get();
 }
 

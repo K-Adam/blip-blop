@@ -13,7 +13,7 @@ class Graphics {
 	void SetGfxMode(int width, int height, bool fullscreen, bool vsync);
 	void ToggleFullscreen();
 	void SetVSync(bool on);
-	SDL::Surface* CreateSurface(int width, int height);
+	std::unique_ptr<SDL::Surface> CreateSurface(int width, int height);
 	void CreateScreens(int width, int height);
 	// The frame being drawn
 	SDL::Surface* back() const { return back_.get(); }

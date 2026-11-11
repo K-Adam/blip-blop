@@ -43,25 +43,25 @@ void BackgroundPokeSwitch::update() {
 
 	if (!wait_msg && level().rules.flags[2] == 0 && level().rules.flags[6] <= 80) {
 		wait_msg = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 104;
-		level().entities.cool_texts.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 
 	if (!elevator_msg && wait_msg && level().rules.flags[2] == 1) {
 		elevator_msg = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 105;
-		level().entities.cool_texts.emplace_back(txt);
-		txt = new CoolText();
+		level().entities.cool_texts.emplace_back(std::move(txt));
+		txt = std::make_unique<CoolText>();
 		txt->ntxt = 106;
-		level().entities.cool_texts.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 
 	if (!bravo && elevator_msg && level().rules.flags[0] == 1) {
 		bravo = true;
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 		txt->ntxt = 107;
-		level().entities.cool_texts.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	}
 };

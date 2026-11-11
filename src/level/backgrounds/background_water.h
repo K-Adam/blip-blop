@@ -27,7 +27,7 @@ class BackgroundWater : public Sprite {
 		bool b = false;
 
 		for (int i = 0; i < static_cast<int>(level().terrain.width) / assets().pics.level.anim("water")[0]->xSize() + 1; i++) {
-			Sprite* ptr = new BackgroundWaterTile(b ? 0 : 5);
+			auto ptr = std::make_unique<BackgroundWaterTile>(b ? 0 : 5);
 
 			ptr->x = x;
 			ptr->y = 454;
@@ -35,7 +35,7 @@ class BackgroundWater : public Sprite {
 			x += 376;
 			b = !b;
 
-			level().entities.animated_bgs.emplace_back(ptr);
+			level().entities.animated_bgs.emplace_back(std::move(ptr));
 		}
 	};
 

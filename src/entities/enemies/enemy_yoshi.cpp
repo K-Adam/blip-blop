@@ -169,7 +169,7 @@ void EnemyYoshi::onShoot() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step >= 2) {
-		ShotShell* shot = new ShotShell();
+		auto shot = std::make_unique<ShotShell>();
 
 		shot->setDir(dir);
 
@@ -180,7 +180,7 @@ void EnemyYoshi::onShoot() {
 
 		shot->y = y - 23;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		status = STATE_WALK;
 		anim_step = 0;

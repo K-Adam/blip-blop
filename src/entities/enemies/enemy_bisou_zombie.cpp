@@ -217,13 +217,13 @@ void EnemyBisouZombie::onSevered() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisou* feet = new GoreFeetBisou("zombie_feet_right", "zombie_feet_left");
+		auto feet = std::make_unique<GoreFeetBisou>("zombie_feet_right", "zombie_feet_left");
 
 		feet->x = x;
 		feet->dir = dir;
 		feet->y = y;
 
-		level().entities.gore.emplace_back(feet);
+		level().entities.gore.emplace_back(std::move(feet));
 
 		y -= 19;
 		dy = 0;

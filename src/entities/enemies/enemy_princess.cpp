@@ -32,23 +32,23 @@ void EnemyPrincess::update() {
 void EnemyPrincess::onWalk() {
 	if (level().rules.flags[1]) {
 		if (x > level().camera.offset + 820) {
-			CoolText* txt = new CoolText();
+			auto txt = std::make_unique<CoolText>();
 			txt->ntxt = 517;
-			level().entities.cool_texts.emplace_back(txt);
+			level().entities.cool_texts.emplace_back(std::move(txt));
 
 			destroyed = true;
 		}
 		if (!guards_called) {
 			guards_called = true;
-			Enemy* guard;
+			std::unique_ptr<Enemy> guard;
 			int i;
 			for (i = 1; i < 4; i++) {
-				guard = new EnemyPrincessGuard(this, 40 + i * 40);
+				guard = std::make_unique<EnemyPrincessGuard>(this, 40 + i * 40);
 
 				guard->x = level().camera.offset + 720 - i * 20;
 				guard->y = y - 20;
 				guard->dir = FACING_LEFT;
-				level().entities.enemies.emplace_back(guard);
+				level().entities.enemies.emplace_back(std::move(guard));
 			}
 			session().enemies_created += 3;
 		}
@@ -94,18 +94,18 @@ void EnemyPrincess::onDie() {
 
 		if (yy != 0 && yy != level().terrain.platforms[4][x]) {
 			engrave(x, y, pic);
-			CoolText* txt = new CoolText();
+			auto txt = std::make_unique<CoolText>();
 			txt->ntxt = 519;
-			level().entities.cool_texts.emplace_back(txt);
+			level().entities.cool_texts.emplace_back(std::move(txt));
 			destroyed = true;
 			if (level().rules.flags[3] > 0) {
 				level().rules.flags[2] = 1;
 			}
 
-			Bonus* bonus = new BonusCow();
+			auto bonus = std::make_unique<BonusCow>();
 			bonus->x = x;
 			bonus->y = y;
-			level().entities.bonus.emplace_back(bonus);
+			level().entities.bonus.emplace_back(std::move(bonus));
 		}
 	} else {
 		pic = assets().pics.enemies.anim("princess_die")[anim_step];

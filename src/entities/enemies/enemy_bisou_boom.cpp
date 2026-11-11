@@ -63,7 +63,7 @@ void EnemyBisouBoom::onDie() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 7 && anim_tick == 0) {
-		Sprite* s = new GoreBisouBoom("boom_feet_right", "boom_feet_left", -2);
+		auto s = std::make_unique<GoreBisouBoom>("boom_feet_right", "boom_feet_left", -2);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x - 60;
@@ -77,9 +77,9 @@ void EnemyBisouBoom::onDie() {
 			s->dy = -(rnd() % 4);
 		}
 
-		level().entities.gore.emplace_back(s);
+		level().entities.gore.emplace_back(std::move(s));
 
-		s = new GoreBisouBoom("boom_head_right", "boom_head_left", 2);
+		s = std::make_unique<GoreBisouBoom>("boom_head_right", "boom_head_left", 2);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x + 46;
@@ -93,9 +93,9 @@ void EnemyBisouBoom::onDie() {
 			s->dy = -1;
 		}
 
-		level().entities.gore.emplace_back(s);
+		level().entities.gore.emplace_back(std::move(s));
 	} else if (anim_step == 8 && anim_tick == 0) {
-		Sprite* s = new GoreBisouBoom("boom_belly_right", "boom_belly_left", 1);
+		auto s = std::make_unique<GoreBisouBoom>("boom_belly_right", "boom_belly_left", 1);
 
 		if (dir == FACING_RIGHT) {
 			s->x = x + 59;
@@ -109,7 +109,7 @@ void EnemyBisouBoom::onDie() {
 			s->dy = 0;
 		}
 
-		level().entities.gore.emplace_back(s);
+		level().entities.gore.emplace_back(std::move(s));
 	} else if (anim_step >= 10) {
 		destroyed = true;
 	} else {

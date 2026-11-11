@@ -153,20 +153,20 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), 6, vy);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snorky2_shot"), 6, vy);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 
 			} else {
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), 6, 1);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snorky2_shot"), 6, 1);
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			}
 			pic = assets().pics.enemies.anim("snorky2_shoot_right")[0];
 		} else {
@@ -176,20 +176,20 @@ void EnemySnorkyBase2::onShoot() {
 
 				if (vy < -3) vy = -3;
 
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), -6, -vy);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snorky2_shot"), -6, -vy);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 
 			} else {
-				ShotThorn* shot = new ShotThorn(assets().pics.enemies.pic("snorky2_shot"), -6, 1);
+				auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("snorky2_shot"), -6, 1);
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			}
 			pic = assets().pics.enemies.anim("snorky2_shoot_left")[0];
 		}

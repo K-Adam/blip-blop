@@ -50,7 +50,7 @@ void EnemyBisouJedi::onWalk() {
 	}
 
 	if (shoot_step > wait_shoot && session().targeted_player != nullptr) {
-		ShotLaserSword* t = new ShotLaserSword;
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
@@ -59,7 +59,7 @@ void EnemyBisouJedi::onWalk() {
 		t->thrower = this;
 		t->target = session().targeted_player;
 
-		level().entities.enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
 		wait_shoot = 200 + rnd() % 250;
@@ -71,7 +71,7 @@ void EnemyBisouJedi::onWalk() {
 
 void EnemyBisouJedi::onDie() {
 	if (has_sword) {
-		ShotLaserSword* t = new ShotLaserSword;
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
@@ -84,7 +84,7 @@ void EnemyBisouJedi::onDie() {
 		else
 			t->target = session().targeted_player;
 
-		level().entities.enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
 		wait_shoot = 200 + rnd() % 250;
@@ -121,7 +121,7 @@ void EnemyBisouJedi::takeHit(Shot* shot) {
 
 void EnemyBisouJedi::onCharred() {
 	if (has_sword) {
-		ShotLaserSword* t = new ShotLaserSword;
+		auto t = std::make_unique<ShotLaserSword>();
 
 		t->x = x;
 		t->y = y - 40;
@@ -134,7 +134,7 @@ void EnemyBisouJedi::onCharred() {
 		else
 			t->target = session().targeted_player;
 
-		level().entities.enemy_shots.emplace_back(t);
+		level().entities.enemy_shots.emplace_back(std::move(t));
 
 		shoot_step = 0;
 		wait_shoot = 200 + rnd() % 250;

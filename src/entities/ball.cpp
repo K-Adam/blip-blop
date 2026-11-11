@@ -190,13 +190,13 @@ void Ball::update() {
 	if (wait_cow_bomb < 100) wait_cow_bomb += 1;
 
 	if (ctrl->super() && wait_cow_bomb == 100 && nb_cow_bomb >= 1) {
-		ShotBBCow* ptr;
+		std::unique_ptr<ShotBBCow> ptr;
 
 		for (int i = 0; i < 11; i++) {
 			int xCow = level().camera.offset + i * 64 + rnd() % 20;
 
 			if (!level().terrain.solid_wall(xCow, 0)) {
-				ptr = new ShotBBCow();
+				ptr = std::make_unique<ShotBBCow>();
 
 				ptr->x = xCow;
 				ptr->y = rnd() % 180 - 200;
@@ -204,7 +204,7 @@ void Ball::update() {
 				ptr->anim_step = rnd() % 8;
 				ptr->hero = this;
 
-				level().entities.cows.push_back(std::unique_ptr<ShotBBCow>(ptr));
+				level().entities.cows.push_back(std::move(ptr));
 			}
 		}
 

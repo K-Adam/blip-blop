@@ -167,21 +167,21 @@ void EnemySnorkyMage::onShoot() {
 		}
 		if ((anim_step == 2) && (anim_tick == 0)) {
 			if (dir == FACING_RIGHT) {
-				ShotSnorkyMage* shot = new ShotSnorkyMage();
+				auto shot = std::make_unique<ShotSnorkyMage>();
 
 				shot->setDir(dir);
 				shot->x = x + 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			} else {
-				ShotSnorkyMage* shot = new ShotSnorkyMage();
+				auto shot = std::make_unique<ShotSnorkyMage>();
 
 				shot->setDir(dir);
 				shot->x = x - 35;
 				shot->y = y - 42;
 
-				level().entities.enemy_shots.emplace_back(shot);
+				level().entities.enemy_shots.emplace_back(std::move(shot));
 			}
 
 			assets().sounds.level.play(12);

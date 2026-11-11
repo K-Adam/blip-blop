@@ -54,53 +54,53 @@ void EnemyWeight::onDie() {
 		if (level().terrain.solid_wall(x, y + dy * 10)) {
 			pic = assets().pics.enemies.anim("weight_crush")[2];
 			int i;
-			Sprite* s;
+			std::unique_ptr<Sprite> s;
 			for (i = 0; i < 8; i++) {
-				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s = std::make_unique<GoreSplatter>(rnd() % 15 - 7, -1 - rnd() % 10);
 				s->x = x + rnd() % 80 - 40;
 				s->y = y - rnd() % 30 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 15)) {
 			pic = assets().pics.enemies.anim("weight_crush")[1];
 			int i;
-			Sprite* s;
+			std::unique_ptr<Sprite> s;
 			for (i = 0; i < 6; i++) {
-				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s = std::make_unique<GoreSplatter>(rnd() % 15 - 7, -1 - rnd() % 10);
 				s->x = x + rnd() % 80 - 40;
 				s->y = y - rnd() % 30 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 20)) {
 			pic = assets().pics.enemies.anim("weight_crush")[1];
 			int i;
-			Sprite* s;
+			std::unique_ptr<Sprite> s;
 			for (i = 0; i < 5; i++) {
-				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s = std::make_unique<GoreSplatter>(rnd() % 15 - 7, -1 - rnd() % 10);
 				s->x = x + rnd() % 80 - 40;
 				s->y = y - rnd() % 30 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 25)) {
 			level().rules.flags[0] = 6;
 			pic = assets().pics.enemies.anim("weight_crush")[0];
 			int i;
-			Sprite* s;
+			std::unique_ptr<Sprite> s;
 			for (i = 0; i < 4; i++) {
-				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s = std::make_unique<GoreSplatter>(rnd() % 15 - 7, -1 - rnd() % 10);
 				s->x = x + rnd() % 80 - 40;
 				s->y = y - rnd() % 30 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		} else if (level().terrain.solid_wall(x, y + dy * 30)) {
 			pic = assets().pics.enemies.anim("weight_crush")[0];
 			int i;
-			Sprite* s;
+			std::unique_ptr<Sprite> s;
 			for (i = 0; i < 3; i++) {
-				s = new GoreSplatter(rnd() % 15 - 7, -1 - rnd() % 10);
+				s = std::make_unique<GoreSplatter>(rnd() % 15 - 7, -1 - rnd() % 10);
 				s->x = x + rnd() % 80 - 40;
 				s->y = y - rnd() % 30 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		} else {
 			pic = assets().pics.enemies.pic("weight_dropped");

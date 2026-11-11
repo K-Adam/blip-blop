@@ -100,11 +100,11 @@ void EnemyLemmings::onDie() {
 		destroyed = true;
 
 		if (suicide && level().rules.flags[0] == 0) {
-			Bonus* bonus = new BonusCow();
+			auto bonus = std::make_unique<BonusCow>();
 			bonus->x = 1500;
 			bonus->y = -50;
 
-			level().entities.bonus.emplace_back(bonus);
+			level().entities.bonus.emplace_back(std::move(bonus));
 			level().rules.flags[0] = 1;
 		}
 	} else {

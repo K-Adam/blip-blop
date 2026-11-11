@@ -124,26 +124,26 @@ static const PokemonSpec PIKACHU{.name = "pikachu", .speed = 3, .die_delay = 4, 
 static const PokemonSpec BULBASAUR{.name = "bulbasaur", .speed = 1, .die_delay = 5, .die_frames = 8};
 
 template <class T>
-static Enemy* make() {
-	return new T();
+static std::unique_ptr<Enemy> make() {
+	return std::make_unique<T>();
 }
 
-static const std::unordered_map<int, Enemy* (*)()> ENEMIES = {
+static const std::unordered_map<int, std::unique_ptr<Enemy> (*)()> ENEMIES = {
 	{ENEMYID_SMURF,
-	 []() -> Enemy* {
+	 []() -> std::unique_ptr<Enemy> {
 		 switch (rnd() % 6) {
 			 case 0:
-				 return new EnemySmurf();
+				 return std::make_unique<EnemySmurf>();
 			 case 1:
-				 return new EnemySmurfGlasses();
+				 return std::make_unique<EnemySmurfGlasses>();
 			 case 2:
-				 return new EnemySmurfVain();
+				 return std::make_unique<EnemySmurfVain>();
 			 case 3:
-				 return new EnemySmurfChilly();
+				 return std::make_unique<EnemySmurfChilly>();
 			 case 4:
-				 return new EnemySmurfLazy();
+				 return std::make_unique<EnemySmurfLazy>();
 			 default:
-				 return new EnemySmurfPeon();
+				 return std::make_unique<EnemySmurfPeon>();
 		 }
 	 }},
 	{ENEMYID_SMURF_GREEDY, make<EnemySmurfGreedy>},
@@ -154,8 +154,8 @@ static const std::unordered_map<int, Enemy* (*)()> ENEMIES = {
 	{ENEMYID_SMURFETTE, make<EnemySmurfette>},
 	{ENEMYID_PAPA_SMURF, make<EnemyPapaSmurf>},
 	{ENEMYID_SMURF_STORK, make<EnemySmurfStork>},
-	{ENEMYID_PIKACHU, []() -> Enemy* { return new EnemyPokemon(PIKACHU); }},
-	{ENEMYID_BULBASAUR, []() -> Enemy* { return new EnemyPokemon(BULBASAUR); }},
+	{ENEMYID_PIKACHU, []() -> std::unique_ptr<Enemy> { return std::make_unique<EnemyPokemon>(PIKACHU); }},
+	{ENEMYID_BULBASAUR, []() -> std::unique_ptr<Enemy> { return std::make_unique<EnemyPokemon>(BULBASAUR); }},
 	{ENEMYID_EMBER, make<EnemyEmber>},
 	{ENEMYID_COM, make<EnemyCOM>},
 	{ENEMYID_BISOU_SKY, make<EnemyBisouSky>},
@@ -186,7 +186,7 @@ static const std::unordered_map<int, Enemy* (*)()> ENEMIES = {
 	{ENEMYID_TAILS, make<EnemyTails>},
 	{ENEMYID_KNUCKLES, make<EnemyKnuckles>},
 	{ENEMYID_RAYMAN, make<EnemyRayman>},
-	{ENEMYID_TAILS_FLYING, []() -> Enemy* { return new EnemyTails(true); }},
+	{ENEMYID_TAILS_FLYING, []() -> std::unique_ptr<Enemy> { return std::make_unique<EnemyTails>(true); }},
 	{ENEMYID_LUIGI, make<EnemyLuigi>},
 	{ENEMYID_SONIC, make<EnemySonic>},
 	{ENEMYID_MARIO_SWATTER, make<EnemyMarioSwatter>},
@@ -203,12 +203,11 @@ void EventEnemy::doEvent() {
 		return;
 	}
 
-	Enemy* new_enemy = it->second();
+	auto new_enemy = it->second();
 	new_enemy->x = x;
 	new_enemy->y = y;
 	new_enemy->dir = facing;
 
-	level().entities.enemies.emplace_back(new_enemy);
-
 	if (new_enemy->count()) session().enemies_created += 1;
+	level().entities.enemies.emplace_back(std::move(new_enemy));
 }

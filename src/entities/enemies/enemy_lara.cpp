@@ -38,11 +38,11 @@ void EnemyLara::update() {
 
 void EnemyLara::onWalk() {
 	if (!pics) {
-		Enemy* spike;
+		std::unique_ptr<Enemy> spike;
 		int i, j;
 		for (i = 2; i >= 0; i--) {
 			for (j = 0; j < 6; j++) {
-				spike = new EnemySpikes();
+				spike = std::make_unique<EnemySpikes>();
 
 				if (i != 1) {
 					spike->x = 515 + j * 65 - i * 20;
@@ -64,7 +64,7 @@ void EnemyLara::onWalk() {
 				}
 
 				spike->dir = FACING_LEFT;
-				level().entities.enemies.emplace_back(spike);
+				level().entities.enemies.emplace_back(std::move(spike));
 			}
 		}
 
@@ -73,12 +73,12 @@ void EnemyLara::onWalk() {
 	if (level().rules.flags[0] == 1) {
 		if (!rayman_head) {
 			if (session().targeted_player != nullptr) {
-				Enemy* head = new EnemyRaymanHead();
+				auto head = std::make_unique<EnemyRaymanHead>();
 				head->x = session().targeted_player->x + 10;
 				head->y = session().targeted_player->y - 30;
 				head->dy = -8;
 				head->dir = FACING_LEFT;
-				level().entities.enemies.emplace_back(head);
+				level().entities.enemies.emplace_back(std::move(head));
 				rayman_head = true;
 			}
 		}
@@ -124,11 +124,11 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					std::unique_ptr<ShotThorn> shot;
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 					shot->x = x - 60;
 					shot->y = y - 144;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 
 					bust_pic_num = 27;
 					anim_tick = 0;
@@ -146,13 +146,13 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
+					std::unique_ptr<ShotThorn> shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 58;
 					shot->y = y - 154;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 					anim_tick = 0;
 					anim_step = 1;
 					status = STATE_SHOOT;
@@ -168,13 +168,13 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
+					std::unique_ptr<ShotThorn> shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 57;
 					shot->y = y - 165;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 					bust_pic_num = 15;
 					anim_tick = 0;
 					anim_step = 1;
@@ -191,12 +191,12 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
+					std::unique_ptr<ShotThorn> shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 					shot->x = x - 53;
 					shot->y = y - 175;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 					anim_tick = 0;
 					anim_step = 1;
 					status = STATE_SHOOT;
@@ -215,13 +215,13 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
+					std::unique_ptr<ShotThorn> shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 59;
 					shot->y = y - 129;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 					// Frame aimed at -10 degrees
 					bust_pic_num = 33;
 
@@ -239,13 +239,13 @@ void EnemyLara::onWalk() {
 					aim_x = (aim_x * LARA_SHOT_SPEED) / dist;
 					aim_y = (aim_y * LARA_SHOT_SPEED) / dist;
 
-					ShotThorn* shot;
+					std::unique_ptr<ShotThorn> shot;
 
-					shot = new ShotThorn(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
+					shot = std::make_unique<ShotThorn>(assets().pics.enemies.pic("lara_bullet"), aim_x, aim_y + rnd() % 3 - 1, true);
 
 					shot->x = x - 60;
 					shot->y = y - 144;
-					level().entities.enemy_shots.emplace_back(shot);
+					level().entities.enemy_shots.emplace_back(std::move(shot));
 					bust_pic_num = 27;
 					anim_tick = 0;
 					anim_step = 1;

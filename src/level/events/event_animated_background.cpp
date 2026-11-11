@@ -99,63 +99,65 @@ static const NeonLetter SIGN_LEVEL2[] = {{"sign_l", 0, 155}, {"sign_e", 12, 300}
 static const NeonLetter SIGN_LEVEL3[] = {{"sign_e", 12, 120}, {"sign_v", 23, 180}, {"sign_e", 36, 290}, {"sign_l", 47, 190}};
 
 template <class T>
-static Sprite* make() {
-	return new T();
+static std::unique_ptr<Sprite> make() {
+	return std::make_unique<T>();
 }
 
 struct BackgroundKind {
-	Sprite* (*make)();
+	std::unique_ptr<Sprite> (*make)();
 	bool moving_platform;
 };
 
 static const std::unordered_map<int, BackgroundKind> BACKGROUNDS = {
 	{BGID_FAN, {make<BackgroundFan>, false}},
-	{BGID_LIGHT, {[]() -> Sprite* { return new BackgroundLight("light_blink"); }, false}},
+	{BGID_LIGHT, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundLight>("light_blink"); }, false}},
 	{BGID_WATER, {make<BackgroundWater>, false}},
-	{BGID_LIGHT2, {[]() -> Sprite* { return new BackgroundLight("light2_blink"); }, false}},
-	{BGID_POKE_ALARM1, {[]() -> Sprite* { return new BackgroundAnimated("alarm_1", 3, true); }, false}},
-	{BGID_POKE_ALARM2, {[]() -> Sprite* { return new BackgroundAnimated("alarm_2", 3, true); }, false}},
-	{BGID_POKE_ALARM3, {[]() -> Sprite* { return new BackgroundAnimated("alarm_3", 3, true); }, false}},
-	{BGID_POKE_ARROW, {[]() -> Sprite* { return new BackgroundSequence("arrow_cargo_storage", ANIM_ARROW, 3); }, false}},
+	{BGID_LIGHT2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundLight>("light2_blink"); }, false}},
+	{BGID_POKE_ALARM1, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("alarm_1", 3, true); }, false}},
+	{BGID_POKE_ALARM2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("alarm_2", 3, true); }, false}},
+	{BGID_POKE_ALARM3, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("alarm_3", 3, true); }, false}},
+	{BGID_POKE_ARROW, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundSequence>("arrow_cargo_storage", ANIM_ARROW, 3); }, false}},
 	{BGID_POKE_SKY, {make<BackgroundPokeSky>, false}},
-	{BGID_POKE_ELEVATOR, {[]() -> Sprite* { return new BackgroundPokeElevator(0, false); }, true}},
+	{BGID_POKE_ELEVATOR, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundPokeElevator>(0, false); }, true}},
 	{BGID_POKE_SWITCH, {make<BackgroundPokeSwitch>, true}},
 	{BGID_POKE_CRATE_FALLING, {make<BackgroundPokeCrateFalling>, true}},
-	{BGID_POKE_ELEVATOR2, {[]() -> Sprite* { return new BackgroundPokeElevator(1, true); }, true}},
+	{BGID_POKE_ELEVATOR2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundPokeElevator>(1, true); }, true}},
 	{BGID_BOMB, {make<BackgroundBomb>, true}},
-	{BGID_POKE_LEVEL2, {[]() -> Sprite* { return new BackgroundNeonSign("sign_2", 560, SIGN_LEVEL2); }, false}},
-	{BGID_POKE_LEVEL3, {[]() -> Sprite* { return new BackgroundNeonSign("sign_3", 460, SIGN_LEVEL3); }, false}},
+	{BGID_POKE_LEVEL2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundNeonSign>("sign_2", 560, SIGN_LEVEL2); }, false}},
+	{BGID_POKE_LEVEL3, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundNeonSign>("sign_3", 460, SIGN_LEVEL3); }, false}},
 	{BGID_SNORK_AIRLOCK1, {make<BackgroundSnorkAirlock1>, true}},
 	{BGID_SNORK_AIRLOCK2, {make<BackgroundSnorkAirlock2>, true}},
-	{BGID_FISH_RED, {[]() -> Sprite* { return new BackgroundFish("fish_red_right", "fish_red_left"); }, false}},
-	{BGID_FISH_PURPLE, {[]() -> Sprite* { return new BackgroundFish("fish_purple_right", "fish_purple_left"); }, false}},
-	{BGID_FISH_RED_CAMOUFLAGED, {[]() -> Sprite* { return new BackgroundFish("fish_red_camouflaged_right", "fish_red_camouflaged_left"); }, false}},
-	{BGID_FISH_PURPLE_CAMOUFLAGED, {[]() -> Sprite* { return new BackgroundFish("fish_purple_camouflaged_right", "fish_purple_camouflaged_left"); }, false}},
+	{BGID_FISH_RED, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundFish>("fish_red_right", "fish_red_left"); }, false}},
+	{BGID_FISH_PURPLE, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundFish>("fish_purple_right", "fish_purple_left"); }, false}},
+	{BGID_FISH_RED_CAMOUFLAGED,
+	 {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundFish>("fish_red_camouflaged_right", "fish_red_camouflaged_left"); }, false}},
+	{BGID_FISH_PURPLE_CAMOUFLAGED,
+	 {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundFish>("fish_purple_camouflaged_right", "fish_purple_camouflaged_left"); }, false}},
 	{BGID_CUBE, {make<BackgroundCube>, false}},
 	{BGID_COIN, {make<BackgroundCoin>, false}},
 	{BGID_RING, {make<BackgroundRing>, false}},
-	{BGID_SUNFLOWER1, {[]() -> Sprite* { return new BackgroundAnimated("sunflower_1", 10, false); }, false}},
-	{BGID_SUNFLOWER2, {[]() -> Sprite* { return new BackgroundAnimated("sunflower_2", 10, false); }, false}},
-	{BGID_SUNFLOWER3, {[]() -> Sprite* { return new BackgroundAnimated("sunflower_3", 10, false); }, false}},
-	{BGID_SUNFLOWER4, {[]() -> Sprite* { return new BackgroundAnimated("sunflower_4", 10, false); }, false}},
-	{BGID_FLAG, {[]() -> Sprite* { return new BackgroundAnimated("flag_wave", 5, false); }, false}},
-	{BGID_LCD, {[]() -> Sprite* { return new BackgroundSequence("lcd_specs", ANIM_LCD, 4); }, false}},
-	{BGID_WORLDMAP, {[]() -> Sprite* { return new BackgroundSequence("worldmap", ANIM_WORLDMAP, 10); }, false}},
-	{BGID_ELECTRONIC1, {[]() -> Sprite* { return new BackgroundElectronic("electronic1_overlay"); }, false}},
-	{BGID_ELECTRONIC2, {[]() -> Sprite* { return new BackgroundElectronic("electronic2_overlay"); }, false}},
-	{BGID_ELECTRONIC3, {[]() -> Sprite* { return new BackgroundElectronic("electronic3_overlay"); }, false}},
+	{BGID_SUNFLOWER1, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("sunflower_1", 10, false); }, false}},
+	{BGID_SUNFLOWER2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("sunflower_2", 10, false); }, false}},
+	{BGID_SUNFLOWER3, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("sunflower_3", 10, false); }, false}},
+	{BGID_SUNFLOWER4, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("sunflower_4", 10, false); }, false}},
+	{BGID_FLAG, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("flag_wave", 5, false); }, false}},
+	{BGID_LCD, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundSequence>("lcd_specs", ANIM_LCD, 4); }, false}},
+	{BGID_WORLDMAP, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundSequence>("worldmap", ANIM_WORLDMAP, 10); }, false}},
+	{BGID_ELECTRONIC1, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundElectronic>("electronic1_overlay"); }, false}},
+	{BGID_ELECTRONIC2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundElectronic>("electronic2_overlay"); }, false}},
+	{BGID_ELECTRONIC3, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundElectronic>("electronic3_overlay"); }, false}},
 	{BGID_ELECTRONIC4, {make<BackgroundElectronic>, false}},
-	{BGID_SNOW_SCREEN, {[]() -> Sprite* { return new BackgroundAnimated("snow_screen", 4, true); }, false}},
+	{BGID_SNOW_SCREEN, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("snow_screen", 4, true); }, false}},
 	{BGID_CAMERA_SCREEN, {make<BackgroundCameraScreen>, false}},
 	{BGID_ASSEMBLER, {make<BackgroundAssembler>, false}},
 	{BGID_WINDOWS, {make<BackgroundWindows>, false}},
-	{BGID_DOS, {[]() -> Sprite* { return new BackgroundAnimated("dos_prompt", 40, true); }, false}},
-	{BGID_BOSS_FAN, {[]() -> Sprite* { return new BackgroundAnimated("boss_fan", 3, true); }, false}},
+	{BGID_DOS, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("dos_prompt", 40, true); }, false}},
+	{BGID_BOSS_FAN, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundAnimated>("boss_fan", 3, true); }, false}},
 	{BGID_BATTLECRUISER, {make<BackgroundBattleCruiser>, false}},
 	{BGID_ROCK_HYPERSPACE, {make<BackgroundRockHyperspace>, false}},
 	{BGID_MONOLITH, {make<BackgroundMonolith>, true}},
-	{BGID_ROCK1, {[]() -> Sprite* { return new BackgroundRock(ROCK1); }, true}},
-	{BGID_ROCK2, {[]() -> Sprite* { return new BackgroundRock(ROCK2); }, true}},
+	{BGID_ROCK1, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundRock>(ROCK1); }, true}},
+	{BGID_ROCK2, {[]() -> std::unique_ptr<Sprite> { return std::make_unique<BackgroundRock>(ROCK2); }, true}},
 	{BGID_STAR, {make<BackgroundStar>, false}},
 	{BGID_BOMB_FIXED, {make<BackgroundBomb>, false}},
 };
@@ -167,12 +169,12 @@ void EventAnimatedBackground::doEvent() {
 		return;
 	}
 
-	Sprite* s = it->second.make();
+	auto s = it->second.make();
 	s->x = x;
 	s->y = y;
 
 	if (it->second.moving_platform)
-		level().entities.moving_platforms.emplace_back(s);
+		level().entities.moving_platforms.emplace_back(std::move(s));
 	else
-		level().entities.animated_bgs.emplace_back(s);
+		level().entities.animated_bgs.emplace_back(std::move(s));
 }

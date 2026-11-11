@@ -64,7 +64,7 @@ void Enemy::takeHit(Shot* shot) {
 void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 	if (blood > 0 || shot->enflame()) return;
 
-	Splatter* splatter = new Splatter();
+	auto splatter = std::make_unique<Splatter>();
 
 	splatter->parent = this;
 	int d = splatter->dir = shot->getSplatterDir();
@@ -73,7 +73,7 @@ void Enemy::splatter(const Shot* shot, const int* dxg, const int* dyg) {
 
 	blood = 20;
 
-	level().entities.splatters.emplace_back(splatter);
+	level().entities.splatters.emplace_back(std::move(splatter));
 }
 
 void Enemy::lobShot(int xshot, int yshot, int xdest, int ydest, int& xspeed, int& yspeed) const {

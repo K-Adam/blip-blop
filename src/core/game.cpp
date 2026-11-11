@@ -1475,7 +1475,7 @@ void Game::spawnBubble(Sprite* s) {
 	s->wait_bubble += rnd() % 10;
 
 	if (s->wait_bubble > 300) {
-		Bubble* b = new Bubble();
+		auto b = std::make_unique<Bubble>();
 
 		b->xbase = s->x;
 		b->y = s->y - 10;
@@ -1483,7 +1483,7 @@ void Game::spawnBubble(Sprite* s) {
 		b->dphi = 5 + rnd() % 3;
 		b->dy = -(2 + rnd() % 2);
 
-		list_bubbles.emplace_back(b);
+		list_bubbles.emplace_back(std::move(b));
 
 		s->wait_bubble = 0;
 	}

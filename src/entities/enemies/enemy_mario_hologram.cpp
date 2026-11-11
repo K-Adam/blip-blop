@@ -265,7 +265,7 @@ void EnemyMarioHologram::onShootVertical() {
 	attack_step++;
 	if (attack_step == 40) {
 		fireball = 0;
-		ShotMarioFireballVertical* shot = new ShotMarioFireballVertical(0, x_target);
+		auto shot = std::make_unique<ShotMarioFireballVertical>(0, x_target);
 
 		shot->setDir(dir);
 		if (dir == FACING_RIGHT) {
@@ -275,7 +275,7 @@ void EnemyMarioHologram::onShootVertical() {
 		}
 		shot->y = y - 38;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	} else if (attack_step == 80) {
 		status = STATE_WALK;
 		anim_step = 0;
@@ -289,21 +289,21 @@ void EnemyMarioHologram::onShootVertical() {
 
 inline void EnemyMarioHologram::shoot_fireball() {
 	if (dir == FACING_RIGHT) {
-		ShotMarioFireball* shot = new ShotMarioFireball(1);
+		auto shot = std::make_unique<ShotMarioFireball>(1);
 
 		shot->setDir(dir);
 		shot->x = x + 38;
 		shot->y = y - 31;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	} else {
-		ShotMarioFireball* shot = new ShotMarioFireball(-1);
+		auto shot = std::make_unique<ShotMarioFireball>(-1);
 
 		shot->setDir(dir);
 		shot->x = x - 38;
 		shot->y = y - 31;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	}
 }
 

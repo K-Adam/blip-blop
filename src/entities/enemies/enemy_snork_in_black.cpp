@@ -142,24 +142,24 @@ void EnemySnorkInBlack::onShoot() {
 			int vx = 5 + rnd() % 2;
 			int vy = rnd() % 5 - 2;
 
-			ShotThorn* shot = new ShotThorn(assets().pics.enemies.anim("snork_in_black_thorn")[0], vx, vy);
+			auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_in_black_thorn")[0], vx, vy);
 
 			shot->setDir(dir);
 			shot->x = x + 49;
 			shot->y = y - 15;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		} else {
 			int vx = -5 - rnd() % 2;
 			int vy = rnd() % 5 - 2;
 
-			ShotThorn* shot = new ShotThorn(assets().pics.enemies.anim("snork_in_black_thorn")[1], vx, vy);
+			auto shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("snork_in_black_thorn")[1], vx, vy);
 
 			shot->setDir(dir);
 			shot->x = x - 49;
 			shot->y = y - 15;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 		}
 
 		assets().sounds.level.play(24);

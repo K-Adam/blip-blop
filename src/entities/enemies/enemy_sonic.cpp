@@ -539,12 +539,12 @@ void EnemySonic::onAttackLightning() {
 	}
 
 	if ((anim_step == 0) && (anim_tick == 1) && (session().targeted_player != nullptr)) {
-		ShotSonicLightning* shot;
-		shot = new ShotSonicLightning();
+		std::unique_ptr<ShotSonicLightning> shot;
+		shot = std::make_unique<ShotSonicLightning>();
 		shot->setDir(dir);
 		shot->x = session().targeted_player->x;
 		shot->y = 0;
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 		nb_shots += 1;
 	}
 
@@ -560,7 +560,7 @@ void EnemySonic::onAttackLightning() {
 }
 
 void EnemySonic::onThrowRings() {
-	Sprite* s;
+	std::unique_ptr<Sprite> s;
 	int i, mx = 1, my = 1;
 
 	for (i = 0; i < 4; i++) {
@@ -577,177 +577,177 @@ void EnemySonic::onThrowRings() {
 				mx = 1;
 				break;
 		}
-		s = new PieceSonicRing(1 * mx, 10 * my);
+		s = std::make_unique<PieceSonicRing>(1 * mx, 10 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(3 * mx, 9 * my);
+		s = std::make_unique<PieceSonicRing>(3 * mx, 9 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(4 * mx, 7 * my);
+		s = std::make_unique<PieceSonicRing>(4 * mx, 7 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(5 * mx, 6 * my);
+		s = std::make_unique<PieceSonicRing>(5 * mx, 6 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(6 * mx, 5 * my);
+		s = std::make_unique<PieceSonicRing>(6 * mx, 5 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(7 * mx, 4 * my);
+		s = std::make_unique<PieceSonicRing>(7 * mx, 4 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(9 * mx, 3 * my);
+		s = std::make_unique<PieceSonicRing>(9 * mx, 3 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
-		s = new PieceSonicRing(10 * mx, 1 * my);
+		s = std::make_unique<PieceSonicRing>(10 * mx, 1 * my);
 		s->x = x;
 		s->y = y - 40;
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 	}
 }
 
 void EnemySonic::throw_thorns() {
-	ShotThorn* shot;
+	std::unique_ptr<ShotThorn> shot;
 	switch (attack_frame) {
 		case 0:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[0], 12, 0);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[0], 12, 0);
 			shot->setDir(dir);
 			shot->x = x + 23;
 			shot->y = y - 13;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 1:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[1], 9, -2);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[1], 9, -2);
 			shot->setDir(dir);
 			shot->x = x + 23;
 			shot->y = y - 18;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 2:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[2], 8, -8);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[2], 8, -8);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 23;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 3:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[3], 2, -9);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[3], 2, -9);
 			shot->setDir(dir);
 			shot->x = x + 13;
 			shot->y = y - 23;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 4:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[4], 0, -12);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[4], 0, -12);
 			shot->setDir(dir);
 			shot->x = x + 0;
 			shot->y = y - 23;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 5:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[5], -2, -9);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[5], -2, -9);
 			shot->setDir(dir);
 			shot->x = x - 13;
 			shot->y = y - 23;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 6:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[6], -8, -8);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[6], -8, -8);
 			shot->setDir(dir);
 			shot->x = x - 18;
 			shot->y = y - 23;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 7:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[7], -9, -2);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[7], -9, -2);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 18;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 8:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[8], -12, 0);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[8], -12, 0);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 13;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 9:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[9], -9, 2);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[9], -9, 2);
 			shot->setDir(dir);
 			shot->x = x - 23;
 			shot->y = y - 8;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 10:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[10], -8, 8);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[10], -8, 8);
 			shot->setDir(dir);
 			shot->x = x - 18;
 			shot->y = y - 3;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 11:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[11], -2, 9);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[11], -2, 9);
 			shot->setDir(dir);
 			shot->x = x - 13;
 			shot->y = y - 3;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 12:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[12], 0, 12);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[12], 0, 12);
 			shot->setDir(dir);
 			shot->x = x - 0;
 			shot->y = y - 0;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 13:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[13], 2, 9);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[13], 2, 9);
 			shot->setDir(dir);
 			shot->x = x + 13;
 			shot->y = y - 3;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 14:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[14], 8, 8);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[14], 8, 8);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 8;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 
 		case 15:
-			shot = new ShotThorn(assets().pics.enemies.anim("sonic_thorn")[15], 9, 2);
+			shot = std::make_unique<ShotThorn>(assets().pics.enemies.anim("sonic_thorn")[15], 9, 2);
 			shot->setDir(dir);
 			shot->x = x + 18;
 			shot->y = y - 13;
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			break;
 	}
 }

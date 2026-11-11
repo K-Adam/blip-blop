@@ -19,17 +19,17 @@ void BackgroundPokeCrateFalling::update() {
 			}
 
 			if ((anim_step == 0) && (anim_tick == 1)) {
-				BackgroundPokeCratePlatform* s2 = new BackgroundPokeCratePlatform(180);
+				auto s2 = std::make_unique<BackgroundPokeCratePlatform>(180);
 				s2->x = x - 250;
 				s2->y = -150;
 
-				level().entities.moving_platforms.emplace_back(s2);
+				level().entities.moving_platforms.emplace_back(std::move(s2));
 
-				s2 = new BackgroundPokeCratePlatform(180);
+				s2 = std::make_unique<BackgroundPokeCratePlatform>(180);
 				s2->x = x - 470;
 				s2->y = -150;
 
-				level().entities.moving_platforms.emplace_back(s2);
+				level().entities.moving_platforms.emplace_back(std::move(s2));
 			}
 
 			if (anim_step > UNLOCK_DELAY + 4) {
@@ -41,17 +41,17 @@ void BackgroundPokeCrateFalling::update() {
 				if ((anim_step == UNLOCK_DELAY + 5) && (anim_tick == 0)) {
 					pic = assets().pics.level.pic("crate_hoist_empty");
 
-					BackgroundPokeCrate* s = new BackgroundPokeCrate();
+					auto s = std::make_unique<BackgroundPokeCrate>();
 					s->x = x;
 					s->y = y + 150;
 
-					level().entities.animated_bgs.emplace_back(s);
+					level().entities.animated_bgs.emplace_back(std::move(s));
 
-					BackgroundPokeCratePlatform2* s3 = new BackgroundPokeCratePlatform2();
+					auto s3 = std::make_unique<BackgroundPokeCratePlatform2>();
 					s3->x = x;
 					s3->y = -150;
 
-					level().entities.moving_platforms.emplace_back(s3);
+					level().entities.moving_platforms.emplace_back(std::move(s3));
 				}
 			}
 		}

@@ -206,14 +206,14 @@ void EnemyMarioSwatter::onDie() {
 		level().rules.flags[3] = 1;
 		helping_luigi = 1;
 		dir = FACING_RIGHT;
-		Enemy* luigi = new EnemyLuigi();
+		auto luigi = std::make_unique<EnemyLuigi>();
 
 		session().enemies_created++;
 
 		luigi->x = 1960;
 		luigi->y = y;
 		luigi->dir = FACING_LEFT;
-		level().entities.enemies.emplace_back(luigi);
+		level().entities.enemies.emplace_back(std::move(luigi));
 
 		EventHoldFire e;
 
@@ -407,18 +407,18 @@ void EnemyMarioSwatter::fall_mario() {
 
 void EnemyMarioSwatter::takeHit(Shot* shot) {
 	for (int i = 0; i < 4; i++) {
-		GoreSplatter* s;
+		std::unique_ptr<GoreSplatter> s;
 		if ((shot->dir >= 2) && (shot->dir <= 6)) {
-			s = new GoreSplatter(rnd() % 6, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(rnd() % 6, -2 - rnd() % 6);
 		} else if ((shot->dir >= 10) && (shot->dir <= 14)) {
-			s = new GoreSplatter(-rnd() % 5 - 1, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(-rnd() % 5 - 1, -2 - rnd() % 6);
 		} else {
-			s = new GoreSplatter(rnd() % 11 - 5, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(rnd() % 11 - 5, -2 - rnd() % 6);
 		}
 		s->x = x + rnd() % 11 - 5;
 		s->y = y - rnd() % 30 - 10;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 	}
 
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {

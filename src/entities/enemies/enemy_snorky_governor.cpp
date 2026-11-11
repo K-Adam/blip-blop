@@ -126,13 +126,13 @@ void EnemySnorkyGovernor::onShoot() {
 
 	if (anim_step == 6 && anim_tick == 0) {
 		if (session().targeted_player != nullptr) {
-			ShotSnorkyGovernor* shot = new ShotSnorkyGovernor(session().targeted_player, rnd() % 6 - 2, -5 - rnd() % 5);
+			auto shot = std::make_unique<ShotSnorkyGovernor>(session().targeted_player, rnd() % 6 - 2, -5 - rnd() % 5);
 
 			shot->setDir(dir);
 			shot->x = x;
 			shot->y = y - 71;
 
-			level().entities.enemy_shots.emplace_back(shot);
+			level().entities.enemy_shots.emplace_back(std::move(shot));
 			nb_shots++;
 		}
 

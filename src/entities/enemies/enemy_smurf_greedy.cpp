@@ -77,7 +77,7 @@ void EnemySmurfGreedy::onShoot() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step >= 5) {
-		ShotCake* shot = new ShotCake();
+		auto shot = std::make_unique<ShotCake>();
 
 		shot->setDir(dir);
 
@@ -90,7 +90,7 @@ void EnemySmurfGreedy::onShoot() {
 
 		lobShot(shot->x, shot->y, xtarget, ytarget, shot->dx, shot->dy);
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		anim_step = 0;
 		status = STATE_HOLD;

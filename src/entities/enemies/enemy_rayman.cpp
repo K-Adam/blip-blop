@@ -54,12 +54,12 @@ void EnemyRayman::update() {
 void EnemyRayman::onWalk() {
 	if ((level().rules.flags[1] <= dorkemon) && (level().rules.flags[0] == 2) && (level().rules.flags[1] > 0)) {
 		if (level().rules.flags[1] == 4) {
-			EnemyPokemonHero* bulbasaur = new EnemyPokemonHero(BULBASAUR);
+			auto bulbasaur = std::make_unique<EnemyPokemonHero>(BULBASAUR);
 
 			bulbasaur->x = x - 10;
 			bulbasaur->y = y - 25;
 			bulbasaur->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(bulbasaur);
+			level().entities.enemies.emplace_back(std::move(bulbasaur));
 
 			session().enemies_created++;
 
@@ -68,33 +68,33 @@ void EnemyRayman::onWalk() {
 
 			dorkemon--;
 		} else if (level().rules.flags[1] == 3) {
-			EnemyPokemonHero* ember = new EnemyPokemonHero(EMBER);
+			auto ember = std::make_unique<EnemyPokemonHero>(EMBER);
 
 			ember->x = x - 10;
 			ember->y = y - 25;
 			ember->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(ember);
+			level().entities.enemies.emplace_back(std::move(ember));
 
 			session().enemies_created++;
 
-			EnemyCOMHero* Com = new EnemyCOMHero();
+			auto Com = std::make_unique<EnemyCOMHero>();
 
 			Com->x = x - 10;
 			Com->y = y - 25;
 			Com->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(Com);
+			level().entities.enemies.emplace_back(std::move(Com));
 
 			dorkemon -= 2;
 
 		} else if (level().rules.flags[1] == 1) {
-			EnemyPokemonHero* pika = new EnemyPokemonHero(PIKACHU);
+			auto pika = std::make_unique<EnemyPokemonHero>(PIKACHU);
 
 			session().enemies_created++;
 
 			pika->x = x - 10;
 			pika->y = y - 25;
 			pika->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(pika);
+			level().entities.enemies.emplace_back(std::move(pika));
 			dorkemon--;
 		}
 	} else if ((level().rules.flags[0] <= 2) && (level().rules.flags[1] == 0)) {
@@ -142,18 +142,18 @@ void EnemyRayman::onWalk() {
 				}
 			} else if ((hp > HP_CRITICAL) && (x - level().camera.offset >= 80) && (x - level().camera.offset <= 600)) {
 				if (fist1) {
-					Sprite* s;
+					std::unique_ptr<Sprite> s;
 					if (x - level().camera.offset > 320) {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, -1 - rnd() % 3, -3 - rnd() % 3);
+						s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_fist_right"), 1, -1 - rnd() % 3, -3 - rnd() % 3);
 					} else {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_right"), 1, 1 + rnd() % 3, -3 - rnd() % 3);
+						s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_fist_right"), 1, 1 + rnd() % 3, -3 - rnd() % 3);
 					}
 
 					s->dir = dir;
 					s->y = y - 22;
 					s->x = x;
 
-					level().entities.splatters.emplace_back(s);
+					level().entities.splatters.emplace_back(std::move(s));
 
 					level().rules.flags[0] = 1;
 					fist1 = 0;
@@ -187,18 +187,18 @@ void EnemyRayman::onWalk() {
 				}
 			} else if ((hp > HP_SUPERCRITICAL)) {
 				if (fist2) {
-					Sprite* s;
+					std::unique_ptr<Sprite> s;
 					if (x - level().camera.offset > 320) {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, -1 - rnd() % 3, -3 - rnd() % 3);
+						s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_fist_left"), 2, -1 - rnd() % 3, -3 - rnd() % 3);
 					} else {
-						s = new PieceRayman(assets().pics.enemies.pic("rayman_fist_left"), 2, 1 + rnd() % 3, -3 - rnd() % 3);
+						s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_fist_left"), 2, 1 + rnd() % 3, -3 - rnd() % 3);
 					}
 
 					s->dir = dir;
 					s->y = y - 22;
 					s->x = x;
 
-					level().entities.splatters.emplace_back(s);
+					level().entities.splatters.emplace_back(std::move(s));
 					level().rules.flags[0] = 1;
 					fist2 = 0;
 				}
@@ -234,21 +234,21 @@ void EnemyRayman::onWalk() {
 				if (feet) {
 					int vy = -3 - rnd() % 3;
 
-					Sprite* s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_right"), 3, 1 + rnd() % 3, vy);
+					auto s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_foot_right"), 3, 1 + rnd() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
 					s->x = x + 10;
 
-					level().entities.splatters.emplace_back(s);
+					level().entities.splatters.emplace_back(std::move(s));
 
-					s = new PieceRayman(assets().pics.enemies.pic("rayman_foot_left"), 3, -1 - rnd() % 3, vy);
+					s = std::make_unique<PieceRayman>(assets().pics.enemies.pic("rayman_foot_left"), 3, -1 - rnd() % 3, vy);
 
 					s->dir = dir;
 					s->y = y - 22;
 					s->x = x - 10;
 
-					level().entities.splatters.emplace_back(s);
+					level().entities.splatters.emplace_back(std::move(s));
 
 					level().rules.flags[0] = 1;
 					feet = 0;
@@ -288,15 +288,15 @@ void EnemyRayman::onDie() {
 	anim_tick %= 6;
 
 	if ((anim_step == 0) && (anim_tick == 1)) {
-		Sprite* head;
+		std::unique_ptr<Sprite> head;
 		if (x - level().camera.offset > 320) {
-			head = new PieceRaymanHead(-1 - rnd() % 3, -3 - rnd() % 3);
+			head = std::make_unique<PieceRaymanHead>(-1 - rnd() % 3, -3 - rnd() % 3);
 		} else {
-			head = new PieceRaymanHead(1 + rnd() % 3, -3 - rnd() % 3);
+			head = std::make_unique<PieceRaymanHead>(1 + rnd() % 3, -3 - rnd() % 3);
 		}
 		head->x = x;
 		head->y = y - 60;
-		level().entities.splatters.emplace_back(head);
+		level().entities.splatters.emplace_back(std::move(head));
 		level().rules.flags[3] = 2;
 	}
 
@@ -324,21 +324,23 @@ void EnemyRayman::onShoot() {
 				anim_step %= 6;
 				fist_range += 30;
 				if ((dir == FACING_RIGHT) && (x_target - x < fist_range)) {
-					fist_shot = new ShotRaymanFist(RAYMAN_FIST1_SPEED, x_target);
+					auto fist = std::make_unique<ShotRaymanFist>(RAYMAN_FIST1_SPEED, x_target);
+					fist_shot = fist.get();
 					fist_shot->setDir(dir);
 					fist_shot->x = x + 13;
 					fist_shot->y = y - 13;
-					level().entities.enemy_shots.emplace_back(fist_shot);
+					level().entities.enemy_shots.emplace_back(std::move(fist));
 
 					attack_step = 1;
 					anim_tick = 0;
 					anim_step = 6;
 				} else if ((dir == FACING_LEFT) && (x - x_target < fist_range)) {
-					fist_shot = new ShotRaymanFist(-RAYMAN_FIST1_SPEED, x_target);
+					auto fist = std::make_unique<ShotRaymanFist>(-RAYMAN_FIST1_SPEED, x_target);
+					fist_shot = fist.get();
 					fist_shot->setDir(dir);
 					fist_shot->x = x - 13;
 					fist_shot->y = y - 13;
-					level().entities.enemy_shots.emplace_back(fist_shot);
+					level().entities.enemy_shots.emplace_back(std::move(fist));
 
 					attack_step = 1;
 					anim_tick = 0;
@@ -387,21 +389,23 @@ void EnemyRayman::onShoot() {
 				anim_step %= 7;
 				fist_range += 30;
 				if ((dir == FACING_RIGHT) && (x_target - x < fist_range)) {
-					fist_shot = new ShotRaymanFist(RAYMAN_FIST2_SPEED, x_target);
+					auto fist = std::make_unique<ShotRaymanFist>(RAYMAN_FIST2_SPEED, x_target);
+					fist_shot = fist.get();
 					fist_shot->setDir(dir);
 					fist_shot->x = x + 13;
 					fist_shot->y = y - 13;
-					level().entities.enemy_shots.emplace_back(fist_shot);
+					level().entities.enemy_shots.emplace_back(std::move(fist));
 
 					attack_step = 1;
 					anim_tick = 0;
 					anim_step = 7;
 				} else if ((dir == FACING_LEFT) && (x - x_target < fist_range)) {
-					fist_shot = new ShotRaymanFist(-RAYMAN_FIST2_SPEED, x_target);
+					auto fist = std::make_unique<ShotRaymanFist>(-RAYMAN_FIST2_SPEED, x_target);
+					fist_shot = fist.get();
 					fist_shot->setDir(dir);
 					fist_shot->x = x - 13;
 					fist_shot->y = y - 13;
-					level().entities.enemy_shots.emplace_back(fist_shot);
+					level().entities.enemy_shots.emplace_back(std::move(fist));
 
 					attack_step = 1;
 					anim_tick = 0;

@@ -242,30 +242,30 @@ void EnemyLuigi::onDie() {
 	} else if (level().rules.flags[1] == 3) {
 		attack_delay++;
 		if (attack_delay >= NB_SPLATTERS) {
-			Enemy* sonic = new EnemyPacmanCar();
+			std::unique_ptr<Enemy> sonic = std::make_unique<EnemyPacmanCar>();
 
 			sonic->x = 1960;
 			sonic->y = y;
 			sonic->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(sonic);
+			level().entities.enemies.emplace_back(std::move(sonic));
 
 			session().enemies_created++;
 
-			sonic = new EnemySonic();
+			sonic = std::make_unique<EnemySonic>();
 
 			sonic->x = 1960;
 			sonic->y = y;
 			sonic->dir = FACING_LEFT;
-			level().entities.enemies.emplace_back(sonic);
+			level().entities.enemies.emplace_back(std::move(sonic));
 			destroyed = true;
 
 		} else {
 			int i;
 			for (i = 0; i < 16; i++) {
-				Sprite* s = new GoreSplatter(-rnd() % 10 - 2, -1 - rnd() % 10);
+				auto s = std::make_unique<GoreSplatter>(-rnd() % 10 - 2, -1 - rnd() % 10);
 				s->x = x + rnd() % 20 - 10;
 				s->y = y - rnd() % 60 - 10;
-				level().entities.splatters.emplace_back(s);
+				level().entities.splatters.emplace_back(std::move(s));
 			}
 		}
 	}
@@ -298,13 +298,13 @@ void EnemyLuigi::onAttack() {
 		if (attack_frame_tick == 0) {
 			attack_frame += 1;
 			attack_frame %= 6;
-			ShotThorn* shot1;
-			ShotThorn* shot2;
+			std::unique_ptr<ShotThorn> shot1;
+			std::unique_ptr<ShotThorn> shot2;
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[3], 12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -314,13 +314,13 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 
 					break;
 				case 1:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -330,12 +330,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 2:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -345,12 +345,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 3:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[0], 9, 3, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[6], 9, -3, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[0], 9, 3, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[6], 9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -360,12 +360,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 4:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[1], 10, 2, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[5], 10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -375,12 +375,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 5:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[2], 11, 1, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_right")[4], 11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x + 23;
@@ -390,8 +390,8 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x + 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 			}
 
@@ -406,13 +406,13 @@ void EnemyLuigi::onAttack() {
 		if (attack_frame_tick == 0) {
 			attack_frame += 1;
 			attack_frame %= 6;
-			ShotThorn* shot1;
-			ShotThorn* shot2;
+			std::unique_ptr<ShotThorn> shot1;
+			std::unique_ptr<ShotThorn> shot2;
 
 			switch (attack_frame) {
 				case 0:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[3], -12, 0, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -422,13 +422,13 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 
 					break;
 				case 1:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -438,12 +438,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 2:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -453,12 +453,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 3:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[0], -9, 3, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[6], -9, -3, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[0], -9, 3, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[6], -9, -3, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -468,12 +468,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 4:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[1], -10, 2, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[5], -10, -2, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -483,12 +483,12 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 				case 5:
-					shot1 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
-					shot2 = new ShotThorn(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
+					shot1 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[2], -11, 1, true);
+					shot2 = std::make_unique<ShotThorn>(assets().pics.enemies.anim("luigi_plunger_left")[4], -11, -1, true);
 
 					shot1->setDir(dir);
 					shot1->x = x - 23;
@@ -498,8 +498,8 @@ void EnemyLuigi::onAttack() {
 					shot2->x = x - 23;
 					shot2->y = y - 33;
 
-					level().entities.enemy_shots.emplace_back(shot1);
-					level().entities.enemy_shots.emplace_back(shot2);
+					level().entities.enemy_shots.emplace_back(std::move(shot1));
+					level().entities.enemy_shots.emplace_back(std::move(shot2));
 					break;
 			}
 
@@ -627,20 +627,20 @@ void EnemyLuigi::fall_luigi() {
 }
 
 void EnemyLuigi::takeHit(Shot* shot) {
-	Sprite* s;
+	std::unique_ptr<Sprite> s;
 
 	for (int i = 0; i < 4; i++) {
 		if ((shot->dir >= 2) && (shot->dir <= 6)) {
-			s = new GoreSplatter(rnd() % 6, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(rnd() % 6, -2 - rnd() % 6);
 		} else if ((shot->dir >= 10) && (shot->dir <= 14)) {
-			s = new GoreSplatter(-rnd() % 5 - 1, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(-rnd() % 5 - 1, -2 - rnd() % 6);
 		} else {
-			s = new GoreSplatter(rnd() % 11 - 5, -2 - rnd() % 6);
+			s = std::make_unique<GoreSplatter>(rnd() % 11 - 5, -2 - rnd() % 6);
 		}
 		s->x = x + rnd() % 11 - 5;
 		s->y = y - rnd() % 30 - 10;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 	}
 
 	if ((shot->dir >= 2) && (shot->dir <= 6)) {

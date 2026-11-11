@@ -238,7 +238,7 @@ void EnemyBisouShaman::onShoot() {
 				}
 
 				if (use_fireball) {
-					ShotShamanBall* s = new ShotShamanBall();
+					auto s = std::make_unique<ShotShamanBall>();
 
 					s->y = y - 72;
 
@@ -250,9 +250,9 @@ void EnemyBisouShaman::onShoot() {
 					s->dx = (ddx * 4) / 3;
 					s->dy = (ddy * 4) / 3;
 
-					level().entities.enemy_shots.emplace_back(s);
+					level().entities.enemy_shots.emplace_back(std::move(s));
 				} else {
-					ShotShamanColumn* s = new ShotShamanColumn();
+					auto s = std::make_unique<ShotShamanColumn>();
 
 					s->y = y - 72;
 
@@ -263,7 +263,7 @@ void EnemyBisouShaman::onShoot() {
 
 					s->setDir(dir);
 
-					level().entities.enemy_shots.emplace_back(s);
+					level().entities.enemy_shots.emplace_back(std::move(s));
 				}
 
 				anim_step = anim_tick = 0;

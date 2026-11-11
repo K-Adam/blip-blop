@@ -80,18 +80,18 @@ void EnemySnorkyHyporider::onDie() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 7 && anim_tick == 0) {
-		Sprite* s;
+		std::unique_ptr<Sprite> s;
 		if (dir == FACING_RIGHT) {
-			s = new PieceSnorkyHyporiderBody(-1);
+			s = std::make_unique<PieceSnorkyHyporiderBody>(-1);
 		} else {
-			s = new PieceSnorkyHyporiderBody(1);
+			s = std::make_unique<PieceSnorkyHyporiderBody>(1);
 		}
 
 		s->dir = dir;
 		s->y = y;
 		s->x = x;
 
-		level().entities.splatters.emplace_back(s);
+		level().entities.splatters.emplace_back(std::move(s));
 
 		assets().sounds.level.play(8);
 		dy = 0;

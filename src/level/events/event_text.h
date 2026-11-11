@@ -21,10 +21,10 @@ class EventText : public Event {
 	};
 
 	void doEvent() override {
-		CoolText* txt = new CoolText();
+		auto txt = std::make_unique<CoolText>();
 
 		txt->ntxt = ntxt;
 
-		level().entities.cool_texts.emplace_back(txt);
+		level().entities.cool_texts.emplace_back(std::move(txt));
 	};
 };

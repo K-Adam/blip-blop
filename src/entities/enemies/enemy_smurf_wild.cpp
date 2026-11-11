@@ -176,12 +176,12 @@ void EnemySmurfWild::onShoot() {
 	shoot_step %= 10;
 
 	if (shoot_step == 0) {
-		ShotSmurfWild* shot = new ShotSmurfWild();
+		auto shot = std::make_unique<ShotSmurfWild>();
 		shot->x = x + shot_start_x[shoot_direction];
 		shot->y = y + shot_start_y[shoot_direction];
 		shot->dx = shot_dx[shoot_direction];
 		shot->dy = shot_dy[shoot_direction];
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 
 		if (nb_shoot == 0) assets().sounds.level.play(18);
 		nb_shoot += 1;

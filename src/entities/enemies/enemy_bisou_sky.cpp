@@ -48,13 +48,13 @@ void EnemyBisouSky::onDieWhole() {
 	if (anim_tick == 0) anim_step += 1;
 
 	if (anim_step == 4) {
-		GoreFeetBisou* feet = new GoreFeetBisou("sky_feet_right", "sky_feet_left");
+		auto feet = std::make_unique<GoreFeetBisou>("sky_feet_right", "sky_feet_left");
 
 		feet->x = x;
 		feet->dir = dir;
 		feet->y = y;
 
-		level().entities.gore.emplace_back(feet);
+		level().entities.gore.emplace_back(std::move(feet));
 
 		y -= 19;
 		dy = 0;
@@ -149,12 +149,12 @@ void EnemyBisouSky::onWalk() {
 				if (dir == FACING_LEFT) {
 					if (ddx > 0 && ddx < 90) {
 						assets().sounds.level.play(9);
-						ShotRainbow* s = new ShotRainbow();
+						auto s = std::make_unique<ShotRainbow>();
 						s->x = x - 15;
 						s->y = y - 25;
 						s->dir = FACING_LEFT;
 
-						level().entities.enemy_shots.emplace_back(s);
+						level().entities.enemy_shots.emplace_back(std::move(s));
 
 						anim_tick = 0;
 						status = STATE_SHOOT;
@@ -162,12 +162,12 @@ void EnemyBisouSky::onWalk() {
 				} else {
 					if (ddx < 0 && ddx > -90) {
 						assets().sounds.level.play(9);
-						ShotRainbow* s = new ShotRainbow();
+						auto s = std::make_unique<ShotRainbow>();
 						s->x = x + 15;
 						s->y = y - 25;
 						s->dir = FACING_RIGHT;
 
-						level().entities.enemy_shots.emplace_back(s);
+						level().entities.enemy_shots.emplace_back(std::move(s));
 
 						anim_tick = 0;
 						status = STATE_SHOOT;

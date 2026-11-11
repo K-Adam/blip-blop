@@ -49,7 +49,7 @@ void EnemyBisouHeart::onWalk() {
 	}
 
 	if (anim_step == 3 && anim_tick == 0) {
-		ShotBisouHeart* shot = new ShotBisouHeart();
+		auto shot = std::make_unique<ShotBisouHeart>();
 
 		if (dir == FACING_RIGHT)
 			shot->xbase = x + 10;
@@ -58,7 +58,7 @@ void EnemyBisouHeart::onWalk() {
 
 		shot->y = y;
 
-		level().entities.enemy_shots.emplace_back(shot);
+		level().entities.enemy_shots.emplace_back(std::move(shot));
 	}
 
 	colFromPic();
@@ -79,7 +79,7 @@ void EnemyBisouHeart::onDie() {
 		}
 
 		if (anim_step == 4) {
-			GoreHeadBisouHeart* head = new GoreHeadBisouHeart();
+			auto head = std::make_unique<GoreHeadBisouHeart>();
 
 			head->y = y - 20;
 			head->dir = dir;
@@ -89,7 +89,7 @@ void EnemyBisouHeart::onDie() {
 			else
 				head->x = x - 11;
 
-			level().entities.gore.emplace_back(head);
+			level().entities.gore.emplace_back(std::move(head));
 		}
 	}
 

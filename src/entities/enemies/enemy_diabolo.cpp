@@ -228,19 +228,19 @@ void EnemyDiabolo::onTornado() {
 	}
 
 	if ((anim_step == 6) && (anim_tick == 0)) {
-		Shot* tornado;
+		std::unique_ptr<Shot> tornado;
 
 		if (dir == FACING_RIGHT) {
-			tornado = new ShotTornado(1);
+			tornado = std::make_unique<ShotTornado>(1);
 			tornado->x = x + 30;
 		} else {
-			tornado = new ShotTornado(-1);
+			tornado = std::make_unique<ShotTornado>(-1);
 			tornado->x = x - 30;
 		}
 
 		tornado->setDir(dir);
 		tornado->y = y;
-		level().entities.enemy_shots.emplace_back(tornado);
+		level().entities.enemy_shots.emplace_back(std::move(tornado));
 	}
 
 	if (dir == FACING_RIGHT) {

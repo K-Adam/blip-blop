@@ -3,12 +3,12 @@
 #include "level/enemy_generator.h"
 
 void EventEnemyGenerator::doEvent() {
-	EnemyGenerator* gen;
+	std::unique_ptr<EnemyGenerator> gen;
 
 	if (tmp)
-		gen = new EnemyGeneratorTMP();
+		gen = std::make_unique<EnemyGeneratorTMP>();
 	else
-		gen = new EnemyGenerator();
+		gen = std::make_unique<EnemyGenerator>();
 
 	gen->enemy_id = enemy_id;
 	gen->x = x;
@@ -17,5 +17,5 @@ void EventEnemyGenerator::doEvent() {
 	gen->period = period;
 	gen->capacity = capacity;
 
-	level().entities.enemy_gens.emplace_back(gen);
+	level().entities.enemy_gens.emplace_back(std::move(gen));
 }

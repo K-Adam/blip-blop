@@ -26,18 +26,18 @@ void BackgroundBomb::update() {
 				(session().targeted_player->y < y + 51)) {
 				level().rules.flags[0]++;
 				armed = false;
-				Bonus* bonus = nullptr;
+				std::unique_ptr<Bonus> bonus;
 				switch (level().rules.flags[0]) {
 					case 1:
-						bonus = new BonusShotgun();
+						bonus = std::make_unique<BonusShotgun>();
 						break;
 
 					case 2:
-						bonus = new BonusPM();
+						bonus = std::make_unique<BonusPM>();
 						break;
 
 					case 3:
-						bonus = new BonusCow();
+						bonus = std::make_unique<BonusCow>();
 						level().shared<BombTimer>().saved = level().rules.flags[FLAG_TIMER];
 						level().rules.flags[FLAG_GEN_OFF] = 1;
 						break;
@@ -46,7 +46,7 @@ void BackgroundBomb::update() {
 				if (bonus) {
 					bonus->x = x;
 					bonus->y = 0;
-					level().entities.bonus.emplace_back(bonus);
+					level().entities.bonus.emplace_back(std::move(bonus));
 				}
 
 				assets().sounds.level.play(1);
